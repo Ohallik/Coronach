@@ -24,6 +24,7 @@ namespace Lattice.EditorTools
         public static readonly Vector3[] SelaExit={new Vector3(-11.3f,0,-4.4f),new Vector3(-12.3f,0,-3.4f),new Vector3(-16,0,-3.2f),new Vector3(-19.5f,0,-2.4f),new Vector3(-23,0,-1)};
         public static readonly Vector3 MiraAtStall=new Vector3(-9.4f,0,-3.5f);
 
+        [Restage.Step("chapter1.market","Hub_Decks",After="chapter1.staging-final",Chapter=1,Leaves=new[]{"Hub_Decks: Market walkway service job <OpeningMarketSequence> #1","Hub_Decks: Walkway service opening #1"})]
         public static void Refresh()=>BatchTools.Run(()=>
         {
             foreach(string kit in new[]{"DeckWall","DeckFloor","DressMarketStall"})
@@ -44,7 +45,7 @@ namespace Lattice.EditorTools
             guard.transform.position=new Vector3(-13.6f,.5f,-3);guard.GetComponent<BoxCollider>().size=new Vector3(1.6f,1,1.6f);
             // A raised collar round the opening, striped like the gates: from the camera's height a hole flush with the deck was a black plate lying on it,
             // where the collar's far inside face, lit, shows it goes down (E2-title-decks-06). It stays after the job, as a service hatch's rim does, and the lid closes onto it.
-            var steel=Flat("market-gate-steel",new Color(.24f,.26f,.3f));var kick=Striped();
+            var steel=Steel();var kick=Striped();
             var collar=new GameObject("Service hatch collar").transform;collar.SetParent(root.transform,false);
             foreach(var (x,z,sx,sz) in new[]{(-13.6f,-3.81f,1.74f,.12f),(-13.6f,-2.19f,1.74f,.12f),(-14.41f,-3f,.12f,1.5f),(-12.79f,-3f,.12f,1.5f)})
                 Bar(collar,"Hatch collar",new Vector3(x,CollarHeight*.5f,z),new Vector3(sx,CollarHeight,sz),kick);
@@ -62,8 +63,8 @@ namespace Lattice.EditorTools
                 post.transform.position=new Vector3(GateX,0,wall);
                 var leaf=new GameObject("Safety gate leaf",typeof(BoxCollider)).transform;leaf.SetParent(post.transform,false);
                 var block=leaf.GetComponent<BoxCollider>();block.center=new Vector3(0,.55f,sign*1.35f);block.size=new Vector3(.14f,1.1f,2.7f);
-                Bar(leaf,"Gate hinge post",new Vector3(0,.62f,sign*.07f),new Vector3(.13f,1.24f,.13f),steel,true);
-                Bar(leaf,"Gate latch post",new Vector3(0,.56f,sign*2.64f),new Vector3(.1f,1.12f,.1f),steel,true);
+                Post(leaf,"Gate hinge post",new Vector3(0,0,sign*.07f),1.24f,.13f,steel);
+                Post(leaf,"Gate latch post",new Vector3(0,0,sign*2.64f),1.12f,.1f,steel);
                 foreach(float y in new[]{1.05f,.66f})Bar(leaf,"Gate rail",new Vector3(0,y,sign*1.36f),new Vector3(.08f,.08f,2.52f),amber,true);
                 Bar(leaf,"Safety gate panel",new Vector3(0,.29f,sign*1.36f),new Vector3(.05f,.4f,2.52f),kick,true);
                 gates[index]=post.transform;
@@ -145,6 +146,33 @@ namespace Lattice.EditorTools
             var bar=GameObject.CreatePrimitive(PrimitiveType.Cube);bar.name=name;Object.DestroyImmediate(bar.GetComponent<Collider>());bar.transform.SetParent(parent,false);
             if(local)bar.transform.localPosition=at;else bar.transform.position=at;bar.transform.localScale=size;
             bar.GetComponent<Renderer>().sharedMaterial=material;return bar;
+        }
+        /// <summary>A gate's post: an eight-sided steel column on a foot plate, with a cap, in a mesh of its own. Since the gates were built (November 10) their posts had been Unity's
+        /// cube under one flat colour, the only thing on the bridge that was neither kit nor painted (QaPlanWorldTests.NoPlaceholderIsDrawnInAnyZone: "a bare Cube").</summary>
+        static GameObject Post(Transform parent,string name,Vector3 foot,float height,float girth,Material material)
+        {
+            const int Sides=8;var points=new System.Collections.Generic.List<Vector3>();var uv=new System.Collections.Generic.List<Vector2>();var faces=new System.Collections.Generic.List<int>();
+            // From the deck up: the foot plate's edge and top, the shaft, the cap's underside, edge and top.
+            var profile=new (float y,float r)[]{(0,girth*.95f),(.05f,girth*.95f),(.05f,girth*.5f),(height-.07f,girth*.5f),(height-.07f,girth*.7f),(height,girth*.7f),(height,0)};
+            for(int k=0;k<profile.Length;k++)for(int i=0;i<=Sides;i++)
+            {
+                float a=(i+.5f)*Mathf.PI*2/Sides;points.Add(new Vector3(Mathf.Cos(a)*profile[k].r,profile[k].y,Mathf.Sin(a)*profile[k].r));
+                uv.Add(new Vector2(i/(float)Sides*.5f,profile[k].y*.4f+profile[k].r));
+            }
+            for(int k=0;k+1<profile.Length;k++)for(int i=0;i<Sides;i++){int a=k*(Sides+1)+i,b=a+1,c=a+Sides+1,d=c+1;faces.AddRange(new[]{a,c,b,b,c,d});}
+            var mesh=new Mesh{name="Gate post"};mesh.SetVertices(points);mesh.SetUVs(0,uv);mesh.SetTriangles(faces,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
+            var post=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer));post.transform.SetParent(parent,false);post.transform.localPosition=foot;
+            post.GetComponent<MeshFilter>().sharedMesh=mesh;post.GetComponent<MeshRenderer>().sharedMaterial=material;return post;
+        }
+        /// <summary>The gates' steel: the deck plating's own generated paint, darker, so a post is the station's metal and not a flat grey.</summary>
+        static Material Steel()
+        {
+            const string path="Assets/_Project/Resources/WorldMaterials/market-gate-steel.mat";
+            var plating=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/deck-floor-muted.mat")??throw new System.InvalidOperationException("Deck plating material missing");
+            var material=new Material(plating){name="market-gate-steel"};material.SetColor("_BaseColor",new Color(.3f,.33f,.38f));material.SetColor("_EmissionColor",Color.black);
+            var kept=AssetDatabase.LoadAssetAtPath<Material>(path);
+            if(kept==null){AssetDatabase.CreateAsset(material,path);return material;}
+            EditorUtility.CopySerialized(material,kept);Object.DestroyImmediate(material);EditorUtility.SetDirty(kept);return kept;
         }
         /// <summary>Opaque construction stripes, laid at 45 degrees across a kick plate's long face.</summary>
         static Material Striped()

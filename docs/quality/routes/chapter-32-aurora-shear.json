@@ -1,0 +1,2033 @@
+{
+  "name": "chapter-32-aurora-shear",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 6: the chart for Hoarfell, the hull's warp, the first current, Idra's hail and tow, her lane, the fast lane, the descent, the way down",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter5.complete",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 1/11",
+      "seconds": 4.85,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": 0.0,
+        "z": -59.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 2/11",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": -59.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 3/11",
+      "seconds": 6.35,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 4/11",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 5/11",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 6/11",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 7/11",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 8/11",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 9/11",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 10/11",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 11/11",
+      "seconds": 4.35,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 45.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read the chart for Hoarfell",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read read the chart for Hoarfell line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next read the chart for Hoarfell line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release read the chart for Hoarfell line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish read the chart for Hoarfell",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.charted",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after read the chart for Hoarfell",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 1/11",
+      "seconds": 4.35,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 2/11",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 3/11",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 4/11",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 5/11",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 6/11",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 7/11",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 8/11",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 9/11",
+      "seconds": 2.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 10/11",
+      "seconds": 3.9,
+      "navigate": true,
+      "point": {
+        "x": 5.2,
+        "y": 0.0,
+        "z": -58.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 11/11",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0.0,
+        "z": -61
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "launch to the hull",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "south off the stern dock",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -148
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "toward the warp to the Shear",
+      "seconds": 11.02,
+      "navigate": true,
+      "point": {
+        "x": -84,
+        "y": 1,
+        "z": -170
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "settle at the warp to the Shear",
+      "seconds": 5.85,
+      "navigate": true,
+      "point": {
+        "x": -87.4,
+        "y": 1,
+        "z": -173.4
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "take the warp to the Aurora Shear",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "up the first current at 30",
+      "seconds": 5.76,
+      "navigate": true,
+      "point": {
+        "x": -7.67,
+        "y": 1,
+        "z": 30.68
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "up the first current at 70",
+      "seconds": 7.82,
+      "navigate": true,
+      "point": {
+        "x": -4.6,
+        "y": 1,
+        "z": 70.56
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "up the first current at 120",
+      "seconds": 9.27,
+      "navigate": true,
+      "point": {
+        "x": -0.77,
+        "y": 1,
+        "z": 120.41
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "up the first current at 170",
+      "seconds": 9.28,
+      "navigate": true,
+      "point": {
+        "x": 2.17,
+        "y": 1,
+        "z": 170.34
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on up the first current until Idra hails",
+      "seconds": 9.27,
+      "navigate": true,
+      "point": {
+        "x": 5.11,
+        "y": 1,
+        "z": 220.26
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Idra's hail",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra's hail line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra's hail line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra's hail line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "finish Idra's hail",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.idraHailed",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release after Idra's hail",
+      "seconds": 0.5,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Idra's cutter tows the party across to her lane",
+      "seconds": 25,
+      "until": "flag:hoar.towed",
+      "expectedFlag": "hoar.towed",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "where the tow lets go",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 43.8,
+        "y": 1,
+        "z": 324.02
+      },
+      "tolerance": 4,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "across to the short lane at 345",
+      "seconds": 7.04,
+      "navigate": true,
+      "point": {
+        "x": 16.02,
+        "y": 1,
+        "z": 344.73
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "across to the short lane at 370",
+      "seconds": 6.57,
+      "navigate": true,
+      "point": {
+        "x": -6.84,
+        "y": 1,
+        "z": 366.27
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "down the short lane at 420",
+      "seconds": 9.27,
+      "navigate": true,
+      "point": {
+        "x": -14.86,
+        "y": 1,
+        "z": 415.62
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "down the short lane at 470",
+      "seconds": 9.28,
+      "navigate": true,
+      "point": {
+        "x": -20.81,
+        "y": 1,
+        "z": 465.32
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "down the short lane at 510",
+      "seconds": 7.82,
+      "navigate": true,
+      "point": {
+        "x": -26.4,
+        "y": 1,
+        "z": 504.94
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on down the short lane until Idra calls it",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": -29.62,
+        "y": 1,
+        "z": 526.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Idra calls the short lane",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra calls the short lane line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra calls the short lane line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra calls the short lane line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra calls the short lane line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra calls the short lane line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra calls the short lane line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra calls the short lane line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra calls the short lane line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra calls the short lane line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra calls the short lane line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra calls the short lane line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra calls the short lane line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "read Idra calls the short lane line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "next Idra calls the short lane line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release Idra calls the short lane line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "finish Idra calls the short lane",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.tenderSeen",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release after Idra calls the short lane",
+      "seconds": 0.5,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "toward the tender",
+      "seconds": 7.24,
+      "navigate": true,
+      "point": {
+        "x": -31.73,
+        "y": 1,
+        "z": 540.55
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on into Shear_Tender",
+      "seconds": 2.14,
+      "navigate": true,
+      "point": {
+        "x": -31.9,
+        "y": 1,
+        "z": 541.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "lock Shear_Tender",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release lock Shear_Tender",
+      "seconds": 0.3,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Shear_Tender round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Shear_Tender round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Shear_Tender round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Shear_Tender round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Shear_Tender round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Shear_Tender round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Shear_Tender round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Shear_Tender round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Shear_Tender round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Shear_Tender round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Shear_Tender round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Shear_Tender",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Shear_Tender round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Shear_Tender cleared",
+      "seconds": 3,
+      "until": "flag:clear.Shear_Tender",
+      "expectedFlag": "clear.Shear_Tender",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on to the fast lane",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 17.67,
+        "y": 1,
+        "z": 780.02
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "down the fast lane at 815",
+      "seconds": 5.64,
+      "navigate": true,
+      "point": {
+        "x": 23.56,
+        "y": 1,
+        "z": 804.33
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on into Fast_0",
+      "seconds": 6.65,
+      "navigate": true,
+      "point": {
+        "x": 29.8,
+        "y": 1,
+        "z": 835.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "lock Fast_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release lock Fast_0",
+      "seconds": 0.3,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_0 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_0 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_0 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_0 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_0 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_0 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_0 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_0 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_0 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Fast_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Fast_0",
+      "expectedFlag": "clear.Fast_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on down the lane into Fast_1",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 18.3,
+        "y": 1,
+        "z": 1057.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "flag:clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "lock Fast_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release lock Fast_1",
+      "seconds": 0.3,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Fast_1 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Fast_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Fast_1 round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Fast_1 round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Fast_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Fast_1",
+      "expectedFlag": "clear.Fast_1",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on down the lane into Descent_0",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": -15.5,
+        "y": 1,
+        "z": 1335.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "flag:clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "lock Descent_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release lock Descent_0",
+      "seconds": 0.3,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Descent_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Descent_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Descent_0 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Descent_0 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Descent_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Descent_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Descent_0 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Descent_0 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Descent_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Descent_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Descent_0 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Descent_0 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Descent_0 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Descent_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Descent_0 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Descent_0 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pursue Descent_0 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Descent_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "pulse Descent_0 round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "release pulse Descent_0 round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "Descent_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Descent_0",
+      "expectedFlag": "clear.Descent_0",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "on to the way down",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": -40.0,
+        "y": 1,
+        "z": 1442.89
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "over the way down",
+      "seconds": 10.0,
+      "navigate": true,
+      "point": {
+        "x": -40.0,
+        "y": 1,
+        "z": 1452.89
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "AuroraShear"
+    },
+    {
+      "name": "land at Lastlight",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release landing",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "first look at the ribs",
+      "seconds": 2,
+      "expectedFlag": "hoar.idraHailed",
+      "expectedScene": "Lastlight"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

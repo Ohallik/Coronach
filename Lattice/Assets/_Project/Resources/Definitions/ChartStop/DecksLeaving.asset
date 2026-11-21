@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ed15e2c7d9408b94f8057e0fbda480, type: 3}
+  m_Name: DecksLeaving
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ChartStop
+  id: DecksLeaving
+  displayName: Cinder Halo
+  region: Home
+  blurb: 'The Decks on separation day: crates on the promenade, chalk on the joints,
+    Mira''s stall and Hal''s workshop, and the way under the promenade.'
+  zone: DecksLeaving
+  spawn: Arrival
+  unlockFlag: home.treadRecovered
+  lockedFlag: home.launched
+  lockedReason: 'Cinder Halo came apart on purpose: its districts fly with the convoy
+    now.'
+  position: {x: 0.03, y: 0.98}
+  routes:
+  - MeridianCrawl
+  shop: 1
+  bench: 1
+  repair: 1
+  chapter: 9
+  reaches:
+  - SeparationWorks
+  - BrokenRing

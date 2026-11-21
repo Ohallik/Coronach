@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: Homecomings
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: Homecomings
+  title: Homecomings
+  description: Nine communities came through the passage. Ruva is chairing motion
+    nine and would like somebody else to go and see where they have all settled.
+  steps:
+  - kind: 4
+    target: Homecoming
+    count: 9
+  rewardXp: 200
+  rewardScrip: 600
+  rewards:
+  - id: EmittersT5
+    count: 1
+  - id: HaloRivet
+    count: 6
+  flagsOnComplete: []
+  stepText:
+  - Find where each of the nine has settled in the neighbourhood
+  rewardsRolled: 1
+  main: 0
+  chapter: 10
+  stepTargets:
+  - scene: NeighbourhoodAfloat
+    via: []
+    speaker: 
+    report: Homecoming
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Call on all nine
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

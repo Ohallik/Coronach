@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: CageMakers
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: CageMakers
+  title: The Cage Makers
+  description: The Muster left Hoarfell with the plans for a cage. Ishen says they
+    were first drawn on Oriel, and that the way to open one is there if it is anywhere.
+  steps:
+  - kind: 1
+    target: Orrery
+    count: 1
+  - kind: 4
+    target: FarGate
+    count: 1
+  - kind: 5
+    target: oriel.ruleSeen
+    count: 1
+  - kind: 1
+    target: GlassChoir
+    count: 1
+  - kind: 5
+    target: oriel.choirSeen
+    count: 1
+  - kind: 5
+    target: oriel.releaseLearned
+    count: 1
+  - kind: 4
+    target: Clamp
+    count: 4
+  - kind: 5
+    target: oriel.wardenStoodDown
+    count: 1
+  - kind: 5
+    target: oriel.coronachHeard
+    count: 1
+  - kind: 5
+    target: oriel.meretHeard
+    count: 1
+  - kind: 5
+    target: oriel.brekkHeard
+    count: 1
+  rewardXp: 1800
+  rewardScrip: 1000
+  rewards:
+  - id: FramesT4
+    count: 1
+  - id: RepairSalve
+    count: 2
+  flagsOnComplete: []
+  stepText:
+  - Take the lane to Oriel
+  - 'Cross the Orrery on its own time: wait in a moon''s lee, go on green'
+  - Land at Ishen's camp
+  - Cross the Skyfields by lift node and junction
+  - Walk the nave
+  - Follow the body down to the first clamp
+  - 'Open the four clamps in the engine hall: take the weight, wait for the slack'
+  - Answer the Warden
+  - Hear Ishen read the court's record
+  - Go back to the camp
+  - Read the lantern with Lume
+  rewardsRolled: 1
+  main: 1
+  chapter: 7
+  stepTargets:
+  - scene: Orrery
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Orrery
+    via: []
+    speaker: 
+    report: FarGate
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: OrielSkyfields
+    via:
+    - Orrery
+    speaker: 
+    report: Landing
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: GlassChoir
+    via:
+    - OrielSkyfields
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: GlassChoir
+    via:
+    - OrielSkyfields
+    speaker: 
+    report: Nave
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: GlassChoir
+    via:
+    - OrielSkyfields
+    speaker: 
+    report: FirstClamp
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: GlassChoir
+    via:
+    - OrielSkyfields
+    speaker: 
+    report: Clamp
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: GlassChoir
+    via:
+    - OrielSkyfields
+    speaker: Warden
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: GlassChoir
+    via:
+    - OrielSkyfields
+    speaker: 
+    report: RecordWall
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: OrielSkyfields
+    via:
+    - GlassChoir
+    speaker: 
+    report: CampReturn
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: OrielSkyfields
+    via:
+    - GlassChoir
+    speaker: Lume
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: 'Chapter 7 complete. The first Bridle is open. Brekk has word from
+    Scoria: he''s on Many Hands'' dock.'
+  next:
+    scene: ManyHands
+    via:
+    - ManyHandsHull
+    - Orrery
+    - OrielSkyfields
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 1
+    point: {x: 0, y: 0, z: -44.4}
+    brief: 
+  storyFlags:
+  - oriel.charted
+  - oriel.podHailed
+  - oriel.lightsRead
+  - oriel.crossed
+  - oriel.landed
+  - met.Lume
+  - oriel.gardenSeen
+  - oriel.junctionRead
+  - oriel.junction1
+  - oriel.followerSeen
+  - oriel.junction2
+  - oriel.junction3
+  - oriel.doorReached
+  - oriel.stay1
+  - oriel.stay2
+  - oriel.stay3
+  - oriel.wardenMet
+  - oriel.clamp1
+  - oriel.clamp2
+  - oriel.clamp3
+  - oriel.clamp4
+  - bossdown.LastWarden
+  - oriel.coronachHeard
+  - oriel.meretHeard
+  - oriel.brekkHeard
+  - chapter7.complete
+  cardFlag: chapter7.complete
+  cardBody: 'Take its weight, wait for the slack, let go together: the first Bridle
+    is open, a thousand years late, and the Last Warden has stood down. On Scoria
+    the Muster''s cage is nearly built.'
+  letGoAt: 

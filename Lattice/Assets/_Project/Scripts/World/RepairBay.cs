@@ -37,8 +37,11 @@ namespace Lattice.World
             if(!damaged)fee=0; // Saving costs nothing; only a repair does.
             if(state.scrip<fee)
             {
+                // The purse can't cover the repair, and the game is saved all the same. Refused outright, a hurt party without the fee had nowhere to save at all:
+                // "saving costs nothing" was true only of a party that wasn't hurt.
+                GameServices.Current.Saves.Save("autosave",state);
                 AudioManager.Play("forceField_000",.05f);
-                Notices.Post("NOT ENOUGH SCRIP",$"A repair costs {fee} scrip. You have {state.scrip}.");return false;
+                Notices.Post("SAVED, NOT REPAIRED",$"A repair costs {fee} scrip. You have {state.scrip}.");return true;
             }
             state.scrip-=fee;
             foreach(var m in state.party){m.integrity=Levels.MaxIntegrity(m.level);m.charge=100;}

@@ -47,6 +47,7 @@ Taren: Did anyone come about the lamps? #emotion:Amused
 Pell: No! They named the ship after it, and nobody came about the lamps. I've forty corridors now. I used to have one stair. #emotion:Worried
 Sela: I need three of your lamps, Pell. The chart table's lost its marks, and yours are the only lights aboard I'd trust. #emotion:Determined
 Pell: The gallery three. I trim those myself. Sight them from the table and I'll hold each one steady. I'm good at steady. #emotion:Determined
+<<setFlag hands.pellAboard>>
 ===
 title: PellHandsRepeat
 ---
@@ -547,7 +548,7 @@ Meret: Somebody has turned the mat in that vent. Rough side to the smoke. That's
 Taren: It was in backwards. #emotion:Amused
 Meret: It always is. And your corridor lamp is burning amber. How many are breathing through those mats? #emotion:Amused
 Keeper: More than this morning. It's always more than this morning. #emotion:Worried
-Meret: Driftreed weave. I tried to buy it for the corridor for three years. They wouldn't sell a mat without its weaver. You came home with the weavers. #emotion:Tender
+Meret: Driftreed weaving. I tried to buy it for the corridor for three years. They wouldn't sell a mat without its weaver. You came home with the weavers. #emotion:Tender
 Meret: It's well done. It holds four hundred people, and that lamp says it only just holds them. I have three hundred thousand. That is all I'll say against it. #emotion:Neutral
 <<setFlag hands.dinnerSat>>
 ===

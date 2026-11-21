@@ -35,6 +35,11 @@ namespace Lattice.Tests.PlayMode
                 float until=Time.unscaledTime+.25f;
                 while(Time.unscaledTime<until){motor.Move(Vector2.up,false,false);yield return null;}
                 Assert.Greater(motor.Velocity.z,6,"starting must promptly reach ordinary pace");
+                // The release is taken on an ordinary frame, as the start is above: braking is 80 m/s2, so a frame of
+                // 84 ms or longer brings 6.7 m/s to rest in the one step whatever the motor does, and the check below
+                // reads 0 (suite part 4, November 11: one frame of about 100 ms here on a shared machine). A second
+                // of nothing but long frames still falls through to the check.
+                for(float patience=Time.unscaledTime+1;Time.deltaTime>=.05f&&Time.unscaledTime<patience;){motor.Move(Vector2.up,false,false);yield return null;}
                 Vector3 before=body.transform.position;
                 motor.Move(Vector2.zero,false,false);
                 Assert.Greater(motor.Velocity.z,.1f,"release should complete a short braking step");

@@ -11,6 +11,7 @@ Reusable code and tooling adapted from Nathan's FrostboundUnity project. No Fros
 - Yarn Spinner 3.2.4: Yarn Spinner contributors, MIT licence (package licence included by Package Manager).
 
 - Kenney Sci-Fi Sounds, CC0: eight OGG effects/ambiences staged from the owned SpaceRPG archive through `PackStaging`. Source: https://kenney.nl/assets/sci-fi-sounds . Licence: `Lattice/Assets/_Project/Audio/Licenses/Kenney-SciFiSounds.txt`.
+- Kenney Impact Sounds, Interface Sounds and RPG Audio, CC0: with Sci-Fi Sounds, the sources of the short layered derivatives in `Resources/Audio/Palette` (footsteps, impacts, swings, deaths, menu cues and, from November 11, the accents a hit's weight adds: thump, crit, break, kill, guard, hull, boss down, Flash Move, tag-in strike and level up). Prepared from Nathan's owned copies by `tools/prepare_audio_palette.py`; recipes and hashes are in `Lattice/Assets/_Project/Audio/Palettes`. Sources: https://kenney.nl/assets/impact-sounds , https://kenney.nl/assets/interface-sounds , https://kenney.nl/assets/rpg-audio . Licences: `Kenney-ImpactSounds.txt`, `Kenney-InterfaceSounds.txt` and `Kenney-RpgAudio.txt` in `Lattice/Assets/_Project/Audio/Licenses`.
 - Kenney Particle Pack, CC0: `flare_01`, `circle_02`, `slash_01` only, used for shaping, hits, trails, boost and bursts. Licence: `Lattice/Assets/_Project/Art/Particles/License.txt`. Source: https://kenney.nl/assets/particle-pack . This is the particle-texture exception explicitly allowed by the slice prompt.
 - Real-ESRGAN NCNN Vulkan (portrait, sky and planet-map production tool only): Xintao Wang and contributors, BSD-3-Clause; uses the existing read-only tool/model installation in Frostbound's `art-src/realesrgan`. No demonstration images are imported into LATTICE.
 - Quaternius Universal Animation Library, CC0: skeleton and Idle, Walk, Sword Attack, Roll and Hit Chest animation clips only. Source archive: Frostbound's owned `Quaternius_UniversalAnimationLibrary`; staged licence `Lattice/Assets/_Project/Art/Animation/UAL-License.txt`. The donor export contains zero mesh renderers.
@@ -20,4 +21,10 @@ Reusable code and tooling adapted from Nathan's FrostboundUnity project. No Fros
 
 No downloaded model, portrait, environment image, panel or inventory icon is final LATTICE art. All 50 generated production models and the paid task costs are indexed in `docs/art/gen-manifest.json`; image sources and processing are indexed in `docs/art/image-manifest.json`, `docs/art/portrait-catalog.json` and `docs/art/world-upscale.json`.
 
+- Cinzel SemiBold and Nunito SemiBold: The Cinzel Project Authors and The Nunito Project Authors, SIL Open Font License 1.1; the game's display and text faces, copied from Frostbound. Licences: `Lattice/Assets/_Project/Art/UI/Fonts/Cinzel-OFL.txt`, `Nunito-OFL.txt`.
+- Sonniss GDC game audio bundles, royalty-free: the five ambience beds copied from Frostbound (`AMB_DesertWind`, `AMB_Drips`, `AMB_City`, `AMB_AshWind`, `AMB_Hollow`; docs/ASSET_SOURCES.md, November 6). Every later bed is synthesised by this project's own tools.
+- Staggart Creations, Stylized Water 3 and Stylized Grass Shader: paid, owned, Unity Asset Store licence; installed locally for builds made on Nathan's machine and never published in the repository.
+
 - CoronachGpuClock: owned, opt-in D3D12 diagnostic. Compiled with Zig 0.17.0 and its MinGW Windows runtime; notices are in `tools/native_gpu/THIRD-PARTY-NOTICES.txt` and copied beside each rebuilt player as `CoronachGpuClock-NOTICES.txt`. Installed Unity plugin headers are consumed in place under their Unity Companion License.
+
+The credits roll at the end of chapter 10 (`Lattice/Assets/_Project/Scripts/UI/CreditsRoll.cs`) carries every line here: a line added here is added there.

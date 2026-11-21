@@ -16,6 +16,12 @@ MonoBehaviour:
   - id: ScrapAlloy
     count: 4
     chance: 1
+    partTier: 0
+    partSlot: 0
+    anySlot: 0
   - id: RepairGel
     count: 1
     chance: 0.35
+    partTier: 0
+    partSlot: 0
+    anySlot: 0

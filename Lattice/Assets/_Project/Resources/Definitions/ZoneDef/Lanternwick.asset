@@ -19,10 +19,17 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 1f86d50c6acdd1f4a946e30ed6befe71, type: 2}
   ambientAudio: {fileID: 8300000, guid: 9b7ff7abb62e7c8438b324b3a46229ee, type: 3}
   ambientVolume: 0.219
-  musicId: 
+  musicId: Old Village
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
   enemyThreat: 1
   cameraClearsScenery: 1
   skybox: {fileID: 2100000, guid: 3dfa06876a929784fbe9c19c6d1f9114, type: 2}
+  displayName: Lanternwick
+  brightFloor: 1
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 2
+  quietArrival: 0

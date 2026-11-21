@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: StillwaterWeldArm
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: StillwaterWeldArm
+  prefab: {fileID: 2992280412975023593, guid: 38211e9aead0ef54da7d66d09a8361c7, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1550
+  breakThreshold: 310
+  speed: 0
+  attacks:
+  - {fileID: 11400000, guid: b4307c4d6eaacde4c84002beeed6f015, type: 2}
+  weakness: 2
+  resistance: 1
+  archetype: 2
+  lootTable: {fileID: 11400000, guid: a6aedbacfa372f8439ec8007e413be1f, type: 2}
+  xp: 140
+  boss: 0
+  scrip: 26
+  scrap: 3
+  displayName: Weld Arm
+  bossMusicId: 
+  capsuleRadius: 0.9
+  capsuleHeight: 2.4
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 12
+  tune:
+    reach: 11
+    width: 2.4
+    speed: 0
+    recover: 0
+    linger: 3
+    area: 0
+    pace: 0
+    effect: 1
+    tick: 44
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 3
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 1

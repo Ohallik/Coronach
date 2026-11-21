@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: KettleTrade
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: KettleTrade
+  title: Somebody Has to Sell a Kettle
+  description: Corra Vey has three kettles paid for and nobody to carry them the
+    length of the ship.
+  steps:
+  - kind: 5
+    target: kettle.garden
+    count: 1
+  - kind: 5
+    target: kettle.bay
+    count: 1
+  - kind: 5
+    target: kettle.cabins
+    count: 1
+  - kind: 5
+    target: kettle.reported
+    count: 1
+  rewardXp: 220
+  rewardScrip: 120
+  rewards:
+  - id: ModulesReservoir
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Take a kettle to Marrow-1's crew on the garden deck
+  - Take a kettle to the weaving bench in the raft bay
+  - Take cabin nine's kettle to Keeper Abri's desk
+  - Tell Corra all three are delivered
+  rewardsRolled: 0
+  main: 0
+  chapter: 5
+  stepTargets:
+  - scene: ManyHands
+    via: []
+    speaker: Garo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Kettle for the garden deck
+  - scene: ManyHands
+    via: []
+    speaker: Ona
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Kettle for the weaving bench
+  - scene: ManyHands
+    via: []
+    speaker: Keeper
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Kettle for cabin nine
+  - scene: ManyHands
+    via: []
+    speaker: Corra
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Corra they're delivered
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

@@ -24,6 +24,15 @@ namespace Lattice.Core
         public List<PartInstance> parts=new();
         public int scrip=120;
         public float playtime;
+        /// <summary>The draught and the meal the party is under (consumable ids) and the seconds each has left. One of each at a time; they ride through a zone change and a save.</summary>
+        public string draught,meal;
+        public float draughtLeft,mealLeft;
+        /// <summary>How hard enemies hit and how much they take (<see cref="Difficulty"/>). A save written before the setting has no value and reads Standard, which is how it was played;
+        /// so does a new game and every fixture's state, since nothing outside the save remembers a choice.</summary>
+        public DifficultySetting difficulty;
+        /// <summary>The ids of the two heroes out on the field once the party is three (<see cref="Deployment"/>, which is the only thing that reads or writes it). A save from
+        /// before the third hero has no value, and a party of two is never asked: both are out, as they always were.</summary>
+        public List<string> deployed;
     }
     [Serializable]
     public sealed class MemberState
@@ -40,5 +49,7 @@ namespace Lattice.Core
         public List<string> skillLoadout;
         /// <summary>Releases per skill id: mastery rises with use, Ys style.</summary>
         public Dictionary<string,int> skillUses;
+        /// <summary>The EXTRA gauge, 0 to 100 (ExtraGauge): it never runs down, so it's saved with the hero.</summary>
+        public float extra;
     }
 }

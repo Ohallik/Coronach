@@ -1,0 +1,1445 @@
+{
+  "name": "chapter-62-one-plan",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: Idra's plan at the chart table, Orrin's roll, the hull pad, the warp to Sorrel's second sky, the valley's two pairs",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter9.complete",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up off the pads",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 1/7",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 2/7",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 3/7",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 4/7",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 5/7",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 6/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 7/7",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Idra's plan at the chart table",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 44.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before hear Idra's plan",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "hear Idra's plan",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish hear Idra's plan",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.planHeard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after hear Idra's plan",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Orrin's roll begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 12",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 12",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 12",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Orrin's roll line 13",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Orrin's roll line 13",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Orrin's roll line 13",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Orrin's roll",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.planSaid",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Orrin's roll",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "chapter ten begins",
+      "seconds": 3,
+      "expectedFlag": "end.planSaid",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 1/7",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 2/7",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 3/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 4/7",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 5/7",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 6/7",
+      "seconds": 10.53,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 7/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Corra's stall",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Corra's stall",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's stall line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's stall line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's stall line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Corra's stall",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "look over the stock after Corra's stall",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "find the Choirwrought Edge",
+      "seconds": 8,
+      "pickRow": "Choirwrought Edge",
+      "until": "row:Choirwrought Edge",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "buy the Choirwrought Edge up to 2",
+      "seconds": 20,
+      "pickRow": "Choirwrought Edge",
+      "buttons": [
+        "South"
+      ],
+      "stock": "2",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "find the Choirwrought Module",
+      "seconds": 8,
+      "pickRow": "Choirwrought Module",
+      "until": "row:Choirwrought Module",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "buy the Choirwrought Module up to 2",
+      "seconds": 20,
+      "pickRow": "Choirwrought Module",
+      "buttons": [
+        "South"
+      ],
+      "stock": "2",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "leave the stock after Corra's stall",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the stall after Corra's stall",
+      "seconds": 0.3,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 1/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 2/7",
+      "seconds": 10.53,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 3/7",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 4/7",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 5/7",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 6/7",
+      "seconds": 2.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 7/7",
+      "seconds": 3.9,
+      "navigate": true,
+      "point": {
+        "x": 5.2,
+        "y": 0.0,
+        "z": -58.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the hull pad",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0.0,
+        "z": -61
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "launch to the hull",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:ManyHandsHull",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release launch to the hull",
+      "seconds": 0.5,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "south off the stern dock",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -148
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "toward the warp to Sorrel",
+      "seconds": 5.39,
+      "navigate": true,
+      "point": {
+        "x": -14,
+        "y": 1,
+        "z": -168
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "settle at the warp to Sorrel's Second Sky",
+      "seconds": 9.16,
+      "navigate": true,
+      "point": {
+        "x": -10.0,
+        "y": 1,
+        "z": -176.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "take the warp to Sorrel's Second Sky",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:SorrelSecondSky",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release take the warp to Sorrel's Second Sky",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "first look at Sorrel from its sky",
+      "seconds": 2,
+      "expectedFlag": "end.planSaid",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "north up the haul road",
+      "seconds": 10.73,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 60
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on into Sorrel_Lane1",
+      "seconds": 5.64,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 85.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "lock Sorrel_Lane1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release lock Sorrel_Lane1",
+      "seconds": 0.3,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Sorrel_Lane1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sorrel_Lane1",
+      "expectedFlag": "clear.Sorrel_Lane1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on north up the valley",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 140
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on into Sorrel_Lane2",
+      "seconds": 5.64,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 165.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "lock Sorrel_Lane2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release lock Sorrel_Lane2",
+      "seconds": 0.3,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Lane2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Lane2 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Lane2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Lane2 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Sorrel_Lane2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sorrel_Lane2",
+      "expectedFlag": "clear.Sorrel_Lane2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "the valley is clear",
+      "seconds": 2,
+      "expectedFlag": "clear.Sorrel_Lane2",
+      "expectedScene": "SorrelSecondSky"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

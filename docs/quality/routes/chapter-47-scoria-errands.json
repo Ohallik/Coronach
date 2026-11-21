@@ -1,0 +1,1729 @@
+{
+  "name": "chapter-47-scoria-errands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 8: Tovra's cages and her offer, the pike-head, the three kettle stones and the gate garrison, Tovra told, a save at the camp",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "vask.unswornMet",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "round the camp fire's south side 1/2",
+      "seconds": 2.76,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": 0,
+        "z": 203.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "round the camp fire's south side 2/2",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 46.8,
+        "y": 0,
+        "z": 203.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to Tovra",
+      "seconds": 3.17,
+      "navigate": true,
+      "point": {
+        "x": 46.0,
+        "y": 0,
+        "z": 208.3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "start how well the cages work",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release start how well the cages work",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read how well the cages work line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next how well the cages work line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release how well the cages work line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read how well the cages work line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next how well the cages work line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release how well the cages work line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read how well the cages work line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next how well the cages work line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release how well the cages work line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read how well the cages work line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next how well the cages work line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release how well the cages work line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "finish how well the cages work",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "tovra.cagesHeard",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release after how well the cages work",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "start Tovra's quiet hands",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release start Tovra's quiet hands",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read Tovra's quiet hands line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next Tovra's quiet hands line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release Tovra's quiet hands line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read Tovra's quiet hands line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next Tovra's quiet hands line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release Tovra's quiet hands line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read Tovra's quiet hands line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next Tovra's quiet hands line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release Tovra's quiet hands line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read Tovra's quiet hands line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next Tovra's quiet hands line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release Tovra's quiet hands line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "finish Tovra's quiet hands",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release after Tovra's quiet hands",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the pike-head",
+      "seconds": 3.63,
+      "navigate": true,
+      "point": {
+        "x": 52.6,
+        "y": 0,
+        "z": 207.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "look at the pike-head",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release look at the pike-head",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read look at the pike-head line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next look at the pike-head line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release look at the pike-head line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read look at the pike-head line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next look at the pike-head line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release look at the pike-head line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read look at the pike-head line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next look at the pike-head line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release look at the pike-head line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read look at the pike-head line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next look at the pike-head line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release look at the pike-head line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read look at the pike-head line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next look at the pike-head line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release look at the pike-head line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "finish look at the pike-head",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "brekk.pikeDressed",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release after look at the pike-head",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 1/8",
+      "seconds": 3.44,
+      "navigate": true,
+      "point": {
+        "x": 46.8,
+        "y": 0,
+        "z": 206.8
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 2/8",
+      "seconds": 2.79,
+      "navigate": true,
+      "point": {
+        "x": 46.8,
+        "y": 0,
+        "z": 203.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 3/8",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": 0,
+        "z": 203.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 4/8",
+      "seconds": 3.76,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 204.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 5/8",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 30,
+        "y": 0,
+        "z": 206.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 6/8",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": 208
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 7/8",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 209
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back across the camp 8/8",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 4.0,
+        "y": 0,
+        "z": 210.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the last tongue's south bank",
+      "seconds": 3.01,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 214
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the last tongue",
+      "seconds": 40,
+      "until": "clear:1,222;0,232",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the last tongue 1/2",
+      "seconds": 4.03,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 222
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the last tongue 2/2",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 232
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the Foundry road",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 236
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "lock Scoria_Gate",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release lock Scoria_Gate",
+      "seconds": 0.3,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 1a",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 1b",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "fight Scoria_Gate round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 2a",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 2b",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "fight Scoria_Gate round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 3a",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 3b",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "fight Scoria_Gate round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 4a",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 4b",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "fight Scoria_Gate round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 5a",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "skill Scoria_Gate 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release skill Scoria_Gate 5b",
+      "seconds": 0.45,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "fight Scoria_Gate round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Scoria_Gate",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "Scoria_Gate cleared",
+      "seconds": 3,
+      "until": "flag:clear.Scoria_Gate",
+      "expectedFlag": "clear.Scoria_Gate",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "reach the fallen hero after Scoria_Gate",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "both heroes ready after Scoria_Gate",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the third kettle stone",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 8.200000000000001,
+        "y": 0,
+        "z": 246.18
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "settle before leave the third message under the kettle stone",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "leave the third message under the kettle stone",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.kettle3",
+      "expectedFlag": "vask.kettle3",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release leave the third message under the kettle stone",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back to the Foundry road 1/1",
+      "seconds": 4.43,
+      "navigate": true,
+      "point": {
+        "x": 0.5,
+        "y": 0,
+        "z": 240
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the last tongue's north bank",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 0.5,
+        "y": 0,
+        "z": 229
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the last tongue back",
+      "seconds": 40,
+      "until": "clear:4,210",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the last tongue back 1/1",
+      "seconds": 6.76,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 210
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "down to the battery terrace 1/3",
+      "seconds": 5.04,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 198
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "down to the battery terrace 2/3",
+      "seconds": 2.55,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 196
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "down to the battery terrace 3/3",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 197
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the second kettle stone",
+      "seconds": 2.35,
+      "navigate": true,
+      "point": {
+        "x": -10.82,
+        "y": 0,
+        "z": 197.78
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "settle before leave the second message under the kettle stone",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "leave the second message under the kettle stone",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.kettle2",
+      "expectedFlag": "vask.kettle2",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release leave the second message under the kettle stone",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back along the terrace to the ramp 1/3",
+      "seconds": 2.35,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 197
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back along the terrace to the ramp 2/3",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 196
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back along the terrace to the ramp 3/3",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 189.5
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the battery's field southward",
+      "seconds": 75,
+      "until": "clear:1.8,185;1.8,169;1.2,166",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the battery's field southward 1/3",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 1.8,
+        "y": 0,
+        "z": 185
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the battery's field southward 2/3",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 1.8,
+        "y": 0,
+        "z": 169
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the battery's field southward 3/3",
+      "seconds": 2.75,
+      "navigate": true,
+      "point": {
+        "x": 1.2,
+        "y": 0,
+        "z": 166
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "over the north shelf 1/2",
+      "seconds": 3.49,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 160
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "over the north shelf 2/2",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 152
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the delta to island B",
+      "seconds": 40,
+      "until": "clear:4,136.5",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the delta to island B 1/1",
+      "seconds": 5.85,
+      "navigate": true,
+      "point": {
+        "x": 4.0,
+        "y": 0,
+        "z": 136.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the delta to island A",
+      "seconds": 40,
+      "until": "clear:-5,121",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the delta to island A 1/1",
+      "seconds": 6.41,
+      "navigate": true,
+      "point": {
+        "x": -5.0,
+        "y": 0,
+        "z": 121.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the delta to its south shelf",
+      "seconds": 40,
+      "until": "clear:-1,104",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the delta to its south shelf 1/1",
+      "seconds": 6.3,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0,
+        "z": 104
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the causeway garrison's fire",
+      "seconds": 3.98,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 96
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the first kettle stone",
+      "seconds": 3.39,
+      "navigate": true,
+      "point": {
+        "x": 5.630000000000001,
+        "y": 0,
+        "z": 96.44
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "settle before leave the first message under the kettle stone",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "leave the first message under the kettle stone",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.kettle1",
+      "expectedFlag": "vask.kettle1",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release leave the first message under the kettle stone",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back to the delta's bank 1/2",
+      "seconds": 3.39,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 96
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "back to the delta's bank 2/2",
+      "seconds": 3.98,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0,
+        "z": 104
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the delta north to island A",
+      "seconds": 40,
+      "until": "clear:-5,121",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the delta north to island A 1/1",
+      "seconds": 6.3,
+      "navigate": true,
+      "point": {
+        "x": -5.0,
+        "y": 0,
+        "z": 121.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the delta north to island B",
+      "seconds": 40,
+      "until": "clear:4,136.5",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the delta north to island B 1/1",
+      "seconds": 6.41,
+      "navigate": true,
+      "point": {
+        "x": 4.0,
+        "y": 0,
+        "z": 136.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the delta to the north shelf again",
+      "seconds": 40,
+      "until": "clear:2,152",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the delta to the north shelf again 1/1",
+      "seconds": 5.85,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 152
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "over the north shelf again 1/2",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 160
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "over the north shelf again 2/2",
+      "seconds": 3.49,
+      "navigate": true,
+      "point": {
+        "x": 1.2,
+        "y": 0,
+        "z": 166
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the battery's field northward",
+      "seconds": 75,
+      "until": "clear:-1,169;-1,185;0,189",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the battery's field northward 1/3",
+      "seconds": 2.92,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0,
+        "z": 169
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the battery's field northward 2/3",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0,
+        "z": 185
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the battery's field northward 3/3",
+      "seconds": 3.01,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 189
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 1/9",
+      "seconds": 4.23,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 198
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 2/9",
+      "seconds": 5.04,
+      "navigate": true,
+      "point": {
+        "x": 4.0,
+        "y": 0,
+        "z": 210.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 3/9",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 209
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 4/9",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": 208
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 5/9",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 30,
+        "y": 0,
+        "z": 206.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 6/9",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 204.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 7/9",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 39.0,
+        "y": 0,
+        "z": 204.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 8/9",
+      "seconds": 2.76,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": 0,
+        "z": 203.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "up the terrace and on to the camp 9/9",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 46.8,
+        "y": 0,
+        "z": 203.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to Tovra again",
+      "seconds": 3.17,
+      "navigate": true,
+      "point": {
+        "x": 46.0,
+        "y": 0,
+        "z": 208.3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "start the messages are left",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release start the messages are left",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read the messages are left line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next the messages are left line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the messages are left line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read the messages are left line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next the messages are left line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the messages are left line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "finish the messages are left",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "tovra.messagesLeft",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release after the messages are left",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp cradle 1/2",
+      "seconds": 3.17,
+      "navigate": true,
+      "point": {
+        "x": 46.8,
+        "y": 0,
+        "z": 203.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp cradle 2/2",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": 0,
+        "z": 203.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp cradle",
+      "seconds": 3.26,
+      "navigate": true,
+      "point": {
+        "x": 37.6,
+        "y": 0,
+        "z": 200.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "repair and save at the camp cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "ScoriaFlows"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

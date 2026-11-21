@@ -14,6 +14,8 @@ param(
     [Parameter(Mandatory)][string]$Method,
     [Parameter(Mandatory)][string]$Marker,
     [switch]$Graphics,
+    # A method that works on the editor's update loop (ArtReview.Render, PresentationReview.Render) needs Unity left open: exec.ps1 -Async.
+    [switch]$Async,
     [int]$TimeoutSec = 1500,
     [string[]]$ExtraArgs = @(),
     [int]$Attempts = 110,
@@ -43,6 +45,7 @@ for ($i = 1; $i -le $Attempts; $i++) {
     }
     $params = @{ Method = $Method; Marker = $Marker; TimeoutSec = $TimeoutSec }
     if ($Graphics) { $params.Graphics = $true }
+    if ($Async) { $params.Async = $true }
     if ($ExtraArgs.Count) { $params.ExtraArgs = $ExtraArgs }
     # One launch at a time, machine-wide: two waiters that both saw Unity free started it in the same second, and the
     # loser died resolving packages (November 11). The mutex is held for the whole run, so it is also the queue.

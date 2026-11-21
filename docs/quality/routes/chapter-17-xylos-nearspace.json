@@ -1,0 +1,2829 @@
+{
+  "name": "chapter-17-xylos-nearspace",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 3: Abri and Pell aboard Tallow, the Xylos warp, Teo's hail, three barges cut free, the patrol, the claim drones, the delta beacon",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter2.complete",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "through the pressure cabin",
+      "seconds": 5.91,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "stand beside Keeper Abri",
+      "seconds": 2.36,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Abri's last word on the lanterns",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Abri's last word on the lanterns",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's last word on the lanterns line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's last word on the lanterns line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's last word on the lanterns line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Abri's last word on the lanterns",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter2.afterword",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri's last word on the lanterns",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Abri's dinner problem",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Abri's dinner problem",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's dinner problem line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's dinner problem line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's dinner problem line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Abri's dinner problem",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri's dinner problem",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to Pell at her lamp",
+      "seconds": 3.82,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": -1.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Pell teaches her lantern the lane",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Pell teaches her lantern the lane",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell teaches her lantern the lane line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell teaches her lantern the lane line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell teaches her lantern the lane line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Pell teaches her lantern the lane",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.charted",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Pell teaches her lantern the lane",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "back past Abri",
+      "seconds": 3.82,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to the pressure lift",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "launch from Tallow",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "toward the Xylos warp",
+      "seconds": 4.88,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 1,
+        "z": -27
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "settle at the Xylos warp",
+      "seconds": 7.57,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 1,
+        "z": -33.5
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "take the Xylos warp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "fly on until Teo's hail from the first barge",
+      "seconds": 11.47,
+      "navigate": true,
+      "point": {
+        "x": 8.8,
+        "y": 1,
+        "z": 70.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Teo's hail from the first barge on the radio",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's hail from the first barge line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's hail from the first barge line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's hail from the first barge line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "finish Teo's hail from the first barge",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.teoHailed",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release after Teo's hail from the first barge",
+      "seconds": 0.5,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "toward the first swarm",
+      "seconds": 16.85,
+      "navigate": true,
+      "point": {
+        "x": 13.4,
+        "y": 1,
+        "z": 107.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "into the first swarm",
+      "seconds": 4.32,
+      "navigate": true,
+      "point": {
+        "x": 15.4,
+        "y": 1,
+        "z": 123.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Lane_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Lane_0",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_0 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_0",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_0 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_0 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_0",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_0 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_0 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_0",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_0 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Lane_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Lane_0",
+      "expectedFlag": "clear.Lane_0",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "toward barge one",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 30.8,
+        "y": 1,
+        "z": 197.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "into barge one's skimmers",
+      "seconds": 8.24,
+      "navigate": true,
+      "point": {
+        "x": 41.4,
+        "y": 1,
+        "z": 239.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Barge1_Skimmers",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Barge1_Skimmers",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge1_Skimmers round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge1_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge1_Skimmers round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge1_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge1_Skimmers round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge1_Skimmers round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge1_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge1_Skimmers round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge1_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge1_Skimmers round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge1_Skimmers round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge1_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge1_Skimmers round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge1_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge1_Skimmers round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Barge1_Skimmers cleared",
+      "seconds": 3,
+      "until": "flag:clear.Barge1_Skimmers",
+      "expectedFlag": "clear.Barge1_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "beside barge one's flank knot",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 49.1,
+        "y": 1,
+        "z": 247.3
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Barge1_Knots",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Barge1_Knots",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge1_Knots round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge1_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge1_Knots round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge1_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge1_Knots round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge1_Knots round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge1_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge1_Knots round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge1_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge1_Knots round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge1_Knots round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge1_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge1_Knots round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge1_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge1_Knots round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Barge1_Knots cleared",
+      "seconds": 3,
+      "until": "flag:clear.Barge1_Knots",
+      "expectedFlag": "clear.Barge1_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "barge one comes free",
+      "seconds": 2,
+      "expectedFlag": "xylos.barge1",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "clear of barge one's drift",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 46.5,
+        "y": 1,
+        "z": 327.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "fly on until the patrol's hail",
+      "seconds": 26.08,
+      "navigate": true,
+      "point": {
+        "x": 115.1,
+        "y": 1,
+        "z": 478.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "the patrol's hail on the radio",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read the patrol's hail line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next the patrol's hail line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release the patrol's hail line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "finish the patrol's hail",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.patrolHeard",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release after the patrol's hail",
+      "seconds": 0.5,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "toward the second swarm",
+      "seconds": 55.18,
+      "navigate": true,
+      "point": {
+        "x": 211.4,
+        "y": 1,
+        "z": 654.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "into the second swarm",
+      "seconds": 4.62,
+      "navigate": true,
+      "point": {
+        "x": 220.7,
+        "y": 1,
+        "z": 669.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Lane_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Lane_1",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_1",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_1",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_1",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_1",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Lane_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Lane_1",
+      "expectedFlag": "clear.Lane_1",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "over the weather mirror",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 327.3,
+        "y": 1,
+        "z": 819.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "into barge two's skimmers",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": 331.9,
+        "y": 1,
+        "z": 854.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Barge2_Skimmers",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Barge2_Skimmers",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge2_Skimmers round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge2_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge2_Skimmers round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge2_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge2_Skimmers round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge2_Skimmers round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge2_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge2_Skimmers round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge2_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge2_Skimmers round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge2_Skimmers round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge2_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge2_Skimmers round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge2_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge2_Skimmers round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Barge2_Skimmers cleared",
+      "seconds": 3,
+      "until": "flag:clear.Barge2_Skimmers",
+      "expectedFlag": "clear.Barge2_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "beside barge two's flank knot",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 337.5,
+        "y": 1,
+        "z": 870.7
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Barge2_Knots",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Barge2_Knots",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge2_Knots round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge2_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge2_Knots round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge2_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge2_Knots round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge2_Knots round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge2_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge2_Knots round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge2_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge2_Knots round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge2_Knots round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge2_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge2_Knots round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge2_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge2_Knots round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Barge2_Knots cleared",
+      "seconds": 3,
+      "until": "flag:clear.Barge2_Knots",
+      "expectedFlag": "clear.Barge2_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "barge two comes free",
+      "seconds": 2,
+      "expectedFlag": "xylos.barge2",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "back to the lane past the panes",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 385.3,
+        "y": 1,
+        "z": 847.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "past barge two's rest",
+      "seconds": 13.4,
+      "navigate": true,
+      "point": {
+        "x": 437.6,
+        "y": 1,
+        "z": 906.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "toward the third swarm",
+      "seconds": 18.13,
+      "navigate": true,
+      "point": {
+        "x": 509.6,
+        "y": 1,
+        "z": 990.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "into the third swarm",
+      "seconds": 5.17,
+      "navigate": true,
+      "point": {
+        "x": 527.1,
+        "y": 1,
+        "z": 1003.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Lane_2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Lane_2",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_2",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_2",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_2",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Lane_2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Lane_2 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_2",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Lane_2 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Lane_2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Lane_2",
+      "expectedFlag": "clear.Lane_2",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "fly on until Teo's sight of the claim drones",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 717.6,
+        "y": 1,
+        "z": 1098.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Teo's sight of the claim drones on the radio",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's sight of the claim drones line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's sight of the claim drones line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's sight of the claim drones line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's sight of the claim drones line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's sight of the claim drones line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's sight of the claim drones line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's sight of the claim drones line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's sight of the claim drones line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's sight of the claim drones line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's sight of the claim drones line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's sight of the claim drones line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's sight of the claim drones line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's sight of the claim drones line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's sight of the claim drones line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's sight of the claim drones line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "read Teo's sight of the claim drones line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "next Teo's sight of the claim drones line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release Teo's sight of the claim drones line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "finish Teo's sight of the claim drones",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.claimSeen",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release after Teo's sight of the claim drones",
+      "seconds": 0.5,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "into barge three's skimmers",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 762.2,
+        "y": 1,
+        "z": 1137.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Barge3_Skimmers",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Barge3_Skimmers",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge3_Skimmers round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge3_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge3_Skimmers round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge3_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge3_Skimmers round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge3_Skimmers round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge3_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge3_Skimmers round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge3_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge3_Skimmers round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge3_Skimmers round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge3_Skimmers",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge3_Skimmers round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge3_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge3_Skimmers round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Barge3_Skimmers cleared",
+      "seconds": 3,
+      "until": "flag:clear.Barge3_Skimmers",
+      "expectedFlag": "clear.Barge3_Skimmers",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "beside barge three's flank knot",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 766.3,
+        "y": 1,
+        "z": 1147.3
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "lock Barge3_Knots",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release lock Barge3_Knots",
+      "seconds": 0.3,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge3_Knots round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge3_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge3_Knots round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge3_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge3_Knots round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge3_Knots round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge3_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge3_Knots round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge3_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge3_Knots round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pursue Barge3_Knots round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Barge3_Knots",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "pulse Barge3_Knots round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Barge3_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release pulse Barge3_Knots round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "Barge3_Knots cleared",
+      "seconds": 3,
+      "until": "flag:clear.Barge3_Knots",
+      "expectedFlag": "clear.Barge3_Knots",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "barge three comes free",
+      "seconds": 2,
+      "expectedFlag": "xylos.barge3",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "the delta beacon lights",
+      "seconds": 2,
+      "expectedFlag": "xylos.bargesFree",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "ahead of barge three, to port of where it rests",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 821.5,
+        "y": 1,
+        "z": 1151.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "toward the delta beacon",
+      "seconds": 18.86,
+      "navigate": true,
+      "point": {
+        "x": 936.2,
+        "y": 1,
+        "z": 1168.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "settle at the delta beacon",
+      "seconds": 25.97,
+      "navigate": true,
+      "point": {
+        "x": 965.1,
+        "y": 1,
+        "z": 1175.9
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "land at Rootmarket",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release landing",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "first look at the landing",
+      "seconds": 2,
+      "expectedFlag": "xylos.landed",
+      "expectedScene": "Rootmarket"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

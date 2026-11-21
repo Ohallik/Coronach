@@ -13,6 +13,16 @@ namespace Lattice.Combat
     /// </summary>
     public sealed partial class BossController
     {
+        static readonly Kit BellowsKit=Register(new Kit
+        {
+            id="BellowsBelow",title="THE BELLOWS BELOW",epithet="The breath at the bottom of Hushwell",thresholds=new[]{.5f,.3f},
+            choose=(boss,hero)=>boss.ChooseBellows(hero),
+            moves={["Breath"]=boss=>boss.BellowsBreath(),["RibStar"]=boss=>boss.RibStar(),["Bubbles"]=boss=>boss.Bubbles(),["Crossing"]=boss=>boss.BellowsCrossing()},
+            signature=phase=>phase==2?"Bubbles":phase>=3?"Crossing":null,
+            status=boss=>PressureOrgan.AnyPumping?"BRACED ON ITS ORGANS  ·  BREAK THEM":"",
+            fightGoal=(boss,label)=>PressureOrgan.AnyPumping?"Break the pressure organs bracing the Bellows":"Bring down the Bellows",
+            occlusion=true,
+        });
         float BellowsRest=>Phase>=3?3.2f:Phase>=2?3.8f:4.6f;
         /// <summary>The colour of the markings they burst in. In hot orange, against the ribs, they read as a fireball or a weak spot on the boss.</summary>
         static readonly Color BubbleColour=new(.72f,.4f,1f,.95f);

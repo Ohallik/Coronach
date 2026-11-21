@@ -27,7 +27,7 @@ namespace Lattice.Combat
             if(pending)
             {
                 age+=Time.deltaTime;float anticipation=kind==Release.Pulse?.18f:kind==Release.Net?.15f:.12f;
-                var color=actor.character=="Taren"?GroundRing.Friendly:new Color(.1f,.8f,1);
+                var color=actor.Warm?GroundRing.Friendly:new Color(.1f,.8f,1);
                 color.a=.25f+.6f*Mathf.Clamp01(age/anticipation);
                 Show(direction,kind==Release.Cleave?65:180,color);
                 if(age<anticipation)return;

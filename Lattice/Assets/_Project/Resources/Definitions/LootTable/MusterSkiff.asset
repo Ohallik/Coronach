@@ -16,3 +16,6 @@ MonoBehaviour:
   - id: ScrapAlloy
     count: 2
     chance: 0.45
+    partTier: 0
+    partSlot: 0
+    anySlot: 0

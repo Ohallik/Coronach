@@ -107,10 +107,42 @@ namespace Lattice.EditorTools
                 bloomThreshold=.85f,bloomIntensity=.7f,vignette=.24f},
         };
 
+        /// <summary>On a static method with no parameters in a region's builder: it calls <see cref="Register"/> for each of the region's zones, so a region's light
+        /// lives in the region's own file and eight chapters don't all edit the table above. Found by attribute, whichever entry point is running:
+        /// <c>[ZoneLook.Source] static void Looks(){ZoneLook.Register("Rootmarket",new ZoneLook.Spec{...});}</c></summary>
+        [System.AttributeUsage(System.AttributeTargets.Method)] public sealed class SourceAttribute:System.Attribute{}
+        static bool gathered;
+        public static void Register(string zone,Spec spec)
+        {
+            if(spec==null)throw new System.ArgumentNullException(nameof(spec),zone+" registers no ZoneLook spec");
+            if(Specs.TryGetValue(zone,out var known)&&!ReferenceEquals(known,spec))throw new System.InvalidOperationException(zone+" already has a ZoneLook spec: two builders (or ZoneLook.Specs itself) both light it");
+            Specs[zone]=spec;
+        }
+        /// <summary>Runs every builder's <see cref="SourceAttribute"/> method once, in a fixed order, after the table above: the first thirteen stay first and as they were.</summary>
+        static void Gather()
+        {
+            if(gathered)return;gathered=true;
+            foreach(var source in TypeCache.GetMethodsWithAttribute<SourceAttribute>().OrderBy(m=>m.DeclaringType.FullName+"."+m.Name,System.StringComparer.Ordinal))
+            {
+                if(!source.IsStatic||source.GetParameters().Length!=0)throw new System.InvalidOperationException(source.DeclaringType.Name+"."+source.Name+" is marked [ZoneLook.Source] and must be static with no parameters");
+                try{source.Invoke(null,null);}
+                catch(System.Reflection.TargetInvocationException e){throw new System.InvalidOperationException(source.DeclaringType.Name+"."+source.Name+" failed to register its looks: "+e.InnerException?.Message,e.InnerException);}
+            }
+        }
+        public static bool Has(string zone){Gather();return Specs.ContainsKey(zone);}
+        /// <summary>Every zone with a look, the table's first.</summary>
+        public static string[] Zones{get{Gather();return Specs.Keys.ToArray();}}
+        /// <summary>A zone saved with no look ships with the builder's flat white light and an ungraded volume, and nothing said so until someone saw it.</summary>
+        public static void Require(string zone)
+        {
+            if(!Has(zone))throw new System.InvalidOperationException(zone+" has no ZoneLook spec, so its scene would be saved with flat light and no grade. Register one from its builder: "+
+                "[ZoneLook.Source] static void Looks(){ZoneLook.Register(\""+zone+"\",new ZoneLook.Spec{...});}");
+        }
+
         /// <summary>Applies a spec to the open scene. Writes into <paramref name="profile"/>, which may be a temporary clone.</summary>
         public static void Configure(string zone,VolumeProfile profile)
         {
-            var s=Specs[zone];
+            Require(zone);var s=Specs[zone];
             var sun=Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(l=>l.type==LightType.Directional).ToArray();
             if(sun.Length!=1)throw new System.InvalidOperationException(zone+" needs exactly one directional light, found "+sun.Length);
             sun[0].color=s.sun;sun[0].intensity=s.sunIntensity;sun[0].shadowStrength=s.shadowStrength;
@@ -181,7 +213,7 @@ namespace Lattice.EditorTools
         /// <summary>Temporary preview for LookDev: clone the profile so no asset changes.</summary>
         public static void Preview(string zone)
         {
-            if(!Specs.ContainsKey(zone))return;
+            if(!Has(zone))return;
             var volume=SceneVolume(zone);var clone=Object.Instantiate(volume.sharedProfile);
             clone.components=volume.sharedProfile.components.Select(Object.Instantiate).ToList();
             volume.sharedProfile=clone;Configure(zone,clone);
@@ -191,9 +223,17 @@ namespace Lattice.EditorTools
         public static void Apply()=>BatchTools.Run(()=>
         {
             string only=Lattice.Core.DevArgs.Value("-look-zones");
-            foreach(var zone in Specs.Keys)
+            // A zone asked for by name that has no look is a mistake to hear about, not a zone to skip.
+            if(!string.IsNullOrEmpty(only))foreach(string asked in only.Split(','))Require(asked.Trim());
+            foreach(var zone in Zones)
             {
                 if(!string.IsNullOrEmpty(only)&&!only.Split(',').Contains(zone))continue;
+                // Registered ahead of its first build: nothing to light yet, unless it was asked for by name.
+                if(!System.IO.File.Exists("Assets/_Project/Scenes/"+zone+".unity"))
+                {
+                    if(!string.IsNullOrEmpty(only))throw new System.InvalidOperationException(zone+" has a look and no scene: build the zone before lighting it");
+                    Debug.LogWarning("ZONE_LOOK_UNBUILT "+zone);continue;
+                }
                 var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
                 var volume=SceneVolume(zone);
                 if(!EditorUtility.IsPersistent(volume.sharedProfile))throw new System.InvalidOperationException(zone+" volume profile is not an asset");

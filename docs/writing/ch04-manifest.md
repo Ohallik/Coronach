@@ -148,7 +148,7 @@ Description: `The convoy is running out of air, and Driftreed's weavers won't se
 | 6 | Flag | `wend.lureLearned` | Follow Maru's lamp across the mire: two short, one long | DrownedWaystation (via Driftreed), the lure lesson's point |
 | 7 | Interact x2 | `Pump` | Run the pumps that drain the hall and the lower gallery | DrownedWaystation, report `Pump` |
 | 8 | Flag | `wend.pimFound` | Find Ona's apprentice in the lower gallery | DrownedWaystation, speaker `Pim` |
-| 9 | Interact | `Pump` | Run the last pump, at the great hall's door | DrownedWaystation, report `Pump` |
+| 9 | Interact | `LastPump` | Run the last pump, at the great hall's door | DrownedWaystation, report `LastPump` (not `Pump`: one report on two steps lets the first pumps' work do the last's) |
 | 10 | Kill | `Rotbloom` | Kill the Rotbloom | DrownedWaystation, encounter `Rotbloom` |
 | 11 | Flag | `wend.decided` | Go back to Ona Sedge and hear what Driftreed decides | Driftreed (via DrownedWaystation), speaker `Ona` |
 
@@ -304,7 +304,7 @@ In `ObjectiveHud`'s style. Where a zone takes its line from the main quest's cur
 | DrownedWaystation | fight, phase two | Kill the Rotbloom |
 | DrownedWaystation | `bossdown.Rotbloom` | Walk out to Maru's lamp at the portico |
 | DrownedWaystation | `wend.rotbloomDead`, at the portico and beyond | Carry the lamp back to Driftreed |
-| any | `chapter4.complete` | Chapter 4 complete. Many Hands is waiting, and so is a tug with a ledger. |
+| any | `chapter4.complete` | Chapter 4 complete. Many Hands has a dock off Tallow Drift, and a tug waiting with a ledger: launch for it. |
 
 Chapter-end card (`QuestToast`): heading `CHAPTER 4 COMPLETE`, title `BREATHING ROOM`, body `Driftreed's weavers are coming up on their own rafts, tied to nobody, and the mire has only its own lamps again. The convoy has a name now, Many Hands, and a salvage tug off its stern asking where it is moored. Until then nothing closes behind you, so keep exploring.`
 

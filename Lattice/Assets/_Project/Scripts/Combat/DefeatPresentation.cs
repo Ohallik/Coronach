@@ -33,6 +33,7 @@ namespace Lattice.Combat
         Transform[] sections;Vector3[] sectionOrigins;Quaternion[] sectionRotations;
         FlightFailurePresentation flightFailure;
         CantorRelease cantorRelease;
+        BossDeparture departure;
         void Awake()
         {
             health=GetComponent<Health>();actor=GetComponent<CombatActor>();enemy=GetComponent<EnemyBrain>();
@@ -87,6 +88,8 @@ namespace Lattice.Combat
                 cantorRelease=GetComponent<CantorRelease>()??gameObject.AddComponent<CantorRelease>();
                 cantorRelease.Begin(visual,GetComponent<SerpentSegments>().Parts);return;
             }
+            // Driven off, it leaves on its own feet: no body lies down here.
+            if(enemy!=null&&visual!=null&&TryGetComponent(out departure)){departure.Begin(visual,packet);return;}
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
             if(visualScale==Vector3.zero)visualScale=visual.localScale;
@@ -189,6 +192,12 @@ namespace Lattice.Combat
         {
             if(!down)return;
             float elapsed=GameTime.Now-started;
+            if(departure!=null)
+            {
+                if(!GameTime.Paused)departure.Advance(elapsed);
+                if(elapsed>=departure.Duration)Destroy(gameObject);
+                return;
+            }
             if(cantorRelease!=null)
             {
                 if(recovering)

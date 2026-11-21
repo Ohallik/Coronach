@@ -25,8 +25,48 @@ MonoBehaviour:
     fortune: 6
   affixPool:
   - {fileID: 11400000, guid: ff1dbd026ccd9864e80ff094f61cec35, type: 2}
+  - {fileID: 11400000, guid: 0679d5eeba4245c47bca6b6e9b561c01, type: 2}
+  - {fileID: 11400000, guid: 9d1cdda247c8960428b0d2b2e56c73ed, type: 2}
+  - {fileID: 11400000, guid: 66e26f026a5612e438703cb6c1c7c98d, type: 2}
+  - {fileID: 11400000, guid: 219c280d044c03046af9804b8e260699, type: 2}
   model: {fileID: 0}
   icon: {fileID: 0}
   salvage:
   - id: ScrapAlloy
     count: 4
+  mods:
+    critChance: 0
+    critDamage: 0
+    breakPower: 0
+    ownType: 0
+    beam: 0
+    plasma: 0
+    kinetic: 0
+    pulse: 0
+    chargeGain: 0
+    lifeOnKill: 0
+    skillCost: 0
+    cooldown: 0
+    guardCost: 0
+    mashCost: 0
+    thrustRegen: 0
+    flashWindow: 0
+    flashCharge: 0
+    brokenDamage: 0
+    executeDamage: 0
+    dropLuck: 0
+    luckCap: 0
+    damageDealt: 0
+    damageTaken: 0
+    partnerDamage: 0
+    chargeHold: 0
+    chargeFloor: 0
+    brokenTime: 0
+    flashDamage: 0
+    sharedHeal: 0
+    mastery: 0
+    secondWind: 0
+    regen: 0
+  upgradeMaterial: 
+  upgradeRare: 
+  drops: 1

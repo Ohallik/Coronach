@@ -2,6 +2,8 @@
   "name": "chapter-06-burrower",
   "scene": "Title",
   "starterParty": false,
+  "wearBest": true,
+  "autoHeal": true,
   "settleSeconds": 5,
   "frameCap": 60,
   "screenshotInterval": 0,
@@ -200,6 +202,7 @@
     {
       "name": "enter Burrower excavation",
       "expectedScene": "Sorrel_Ridges",
+      "bossDoor": "Burrower",
       "seconds": 7.0,
       "navigate": true,
       "point": {
@@ -268,18 +271,6 @@
       ]
     },
     {
-      "name": "repair gel boss round 1",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 1",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
-    },
-    {
       "name": "Cleave boss round 2",
       "expectedScene": "Sorrel_Ridges",
       "stopWhen": "flag:bossdown.Burrower",
@@ -323,18 +314,6 @@
       "buttons": [
         "South"
       ]
-    },
-    {
-      "name": "repair gel boss round 2",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 2",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
     },
     {
       "name": "Cleave boss round 3",
@@ -382,18 +361,6 @@
       ]
     },
     {
-      "name": "repair gel boss round 3",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 3",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
-    },
-    {
       "name": "Cleave boss round 4",
       "expectedScene": "Sorrel_Ridges",
       "stopWhen": "flag:bossdown.Burrower",
@@ -437,18 +404,6 @@
       "buttons": [
         "South"
       ]
-    },
-    {
-      "name": "repair gel boss round 4",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 4",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
     },
     {
       "name": "Cleave boss round 5",
@@ -496,18 +451,6 @@
       ]
     },
     {
-      "name": "repair gel boss round 5",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 5",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
-    },
-    {
       "name": "Cleave boss round 6",
       "expectedScene": "Sorrel_Ridges",
       "stopWhen": "flag:bossdown.Burrower",
@@ -551,18 +494,6 @@
       "buttons": [
         "South"
       ]
-    },
-    {
-      "name": "repair gel boss round 6",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 6",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
     },
     {
       "name": "Cleave boss round 7",
@@ -610,18 +541,6 @@
       ]
     },
     {
-      "name": "repair gel boss round 7",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 7",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
-    },
-    {
       "name": "Cleave boss round 8",
       "expectedScene": "Sorrel_Ridges",
       "stopWhen": "flag:bossdown.Burrower",
@@ -665,18 +584,6 @@
       "buttons": [
         "South"
       ]
-    },
-    {
-      "name": "repair gel boss round 8",
-      "expectedScene": "Sorrel_Ridges",
-      "stopWhen": "flag:bossdown.Burrower",
-      "seconds": 0.2,
-      "leftTrigger": 1.0
-    },
-    {
-      "name": "release boss gel 8",
-      "expectedScene": "Sorrel_Ridges",
-      "seconds": 0.4
     },
     {
       "name": "Burrower defeated",

@@ -242,6 +242,47 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(failures,string.Join("\n",failures));
             boss.Passive=true;Object.Destroy(boss.gameObject);
         }
+        /// <summary>Every state line a boss from chapter 3 on can put under its bar that is longer than the Bellows' (the longest the test above knew). A boss with a new one adds it.</summary>
+        static readonly string[] LongStates=
+        {
+            "CLAMPED TO THE HULL  ·  WAIT FOR A FOOT TO PLANT","THE ARMS HOLD IT  ·  RELEASE AN ARM AT THE SHOULDER","THE RIG IS ON ITS BACK  ·  CLIMB THE FALLEN ARMS",
+            "THE CUSTOM IS BROKEN  ·  THE MUSTER SAW IT","ITS MOUTHS ARE SHUT  ·  BURN A LURE-STALK","THE RANKS ARE WAKING  ·  BREAK A COUPLING","ITS ARMS HOLD IT  ·  BREAK THE POUR-ARMS",
+            "THE SUIT KNEELS  ·  STRIKE THE COCKPIT","THE FLOOD HOLDS IT  ·  BREAK THE GATES",
+            "ITS ARMS ARE DOWN  ·  RELEASE A COLLAR","ITS TRACTOR POD IS VENTING  ·  STRIKE IT","ITS MINE-LAYER IS VENTING  ·  STRIKE IT","ITS BEAM POD IS VENTING  ·  STRIKE IT",
+            "THE TRACTOR POD IS PULLING  ·  STRIKE",
+            "SHE IS FRIGHTENED  ·  OPEN A CLAMP","SHE GOES SLACK  ·  EASE THE CLAMP",
+            "THE CAGE IS BRACED  ·  BREAK A CAGE BRACE","THE ARM IS DOCKED  ·  STOP THE GATE MOTOR","A CLAMP TENDER HOLDS THE MOTOR  ·  STOP IT","THE ARM IS COMING OUT  ·  WAIT FOR IT",
+            "HER SHIELD IS UP  ·  HOLD YOUR FIRE","HER SHIELD IS DOWN  ·  STRIKE A PROJECTOR","AN ARM IS OVERREACHED  ·  TAKE ITS COLLAR","BOTH COUPLINGS OPEN  ·  STRIKE THE FRAME",
+            "HER SHIELD IS UP  ·  SHOOT A RELAY","HER ARMS BRACE THE FRAME  ·  STRIKE WHEN IT OPENS","THE FRAME IS OPEN  ·  STRIKE","HER SHIELD IS COMING BACK",
+        };
+        [UnityTest] public IEnumerator ABossStateTooLongForItsRoomStandsAsTwoLinesClearOfTheSkillRowAndTheHints()
+        {
+            // The salvage frame's 'CLAMPED TO THE HULL  ·  WAIT FOR A FOOT TO PLANT' ran under the Cleave icon, its last word unreadable (first player run, November 14).
+            var hero=Hero;Guard();
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),hero.transform.position+Vector3.forward*14);boss.Passive=false;
+            yield return new WaitForSecondsRealtime(.4f);
+            var hud=Object.FindFirstObjectByType<GameHud>();var state=Text("BossState");var name=Text("BossName");Assert.IsTrue(state.isActiveAndEnabled,"fixture: the bar is up");
+            var icon=Box(Picture("Skill0").rectTransform);float units=state.rectTransform.lossyScale.x;var bar=Box(Picture("BossIntegrityBack").rectTransform);
+            var under=Box(Picture("BossBreakBack").rectTransform);var hints=Box(Picture("SkillsPlate").rectTransform);
+            var failures=new List<string>();int stacked=0;
+            // Stood and read in the same frame: the bar stands its own state again on its next refresh.
+            foreach(string words in LongStates.Concat(new[]{"BRACED ON ITS ORGANS  ·  BREAK THEM","OPENING  ·  STRIKE NOW"}))
+            {
+                string stood=hud.StandState(words);state.text=stood;var ink=Ink(state);var band=Box(Picture("BossBand").rectTransform);
+                if(stood.Contains("\n"))stacked++;
+                if(stood.Replace("\n",GameHud.StateDot)!=words)failures.Add($"'{words}' was stood as '{stood}': words lost");
+                if(icon.xMin-ink.xMax<20*units)failures.Add($"'{words}' ends {(icon.xMin-ink.xMax)/units:0} units short of the Cleave icon");
+                if(Mathf.Abs(ink.center.x-bar.center.x)>4*units)failures.Add($"'{words}' isn't centred under the bar");
+                if(state.fontSize<=name.fontSize)failures.Add($"'{words}' shrank to {state.fontSize}, no bigger than the boss's name");
+                if(ink.yMax>under.yMin)failures.Add($"'{words}' stands {(ink.yMax-under.yMin)/units:0} units up into the break meter");
+                if(ink.yMin-hints.yMax<4*units)failures.Add($"'{words}' comes down to {(ink.yMin-hints.yMax)/units:0} units over the hint bar");
+                if(ink.yMin<band.yMin)failures.Add($"'{words}' hangs {(band.yMin-ink.yMin)/units:0} units out under the band behind the bar's words");
+            }
+            Assert.GreaterOrEqual(stacked,1,"fixture: none of the long lines needed two lines, so nothing here was tried");
+            hud.StandState("OPENING  ·  STRIKE NOW");
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+            boss.Passive=true;Object.Destroy(boss.gameObject);
+        }
 
         // ------------------------------------------------------------------ what the partner keeps out of
         [UnityTest] public IEnumerator TheHudSaysWhereItsPlatesStand()

@@ -43,6 +43,7 @@ namespace Lattice.EditorTools
             Define();foreach(var zone in zones)BuildZone(zone.Trim());
             BatchTools.RegisterScenes();AssetDatabase.SaveAssets();Debug.Log("LANTERN_ZONES_OK "+string.Join(",",zones));
         });
+        [Restage.Step("chapter2.tallow-warp","TallowApproach",Chapter=2,Leaves=new[]{"TallowApproach: Warp — The Wick Reach <WarpBeacon> #1","TallowApproach: Spawn_Wick #1"})]
         public static void StageApproach()=>BatchTools.Run(()=>{StageTallowApproach();AssetDatabase.SaveAssets();Debug.Log("LANTERN_APPROACH_OK");});
         /// <summary>Copies docs/writing/*.yarn into Resources and recompiles the Yarn project: a new .yarn file is not in
         /// the compiled program until the project reimports, and a missing node fails silently at runtime.</summary>
@@ -171,14 +172,10 @@ namespace Lattice.EditorTools
             Person("Corra","Corra",true,"CorraBody","Characters","Mira");
             Person("Brekk","Brekk",false,"BrekkBody","Characters","Orrin");
             Person("Hessa","Hessa Korl",true,"HessaKorl","Enemies","SentinelHusk");
-            ArenaBuilder.Asset<ShopInventory>("Lanternwick",s=>
-            {
-                s.title="ARCH MARKET";
-                s.parts=new[]{"EdgesT2","EmittersT2","FramesT2","DrivesT2","ModulesT2"}.Select(Find<TechPartDef>).Where(p=>p!=null).ToArray();
-                s.consumables=new[]{"RepairGel","ChargeCell"}.Select(Find<ConsumableDef>).Where(c=>c!=null).ToArray();
-                s.materials=new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal"}.Select(Find<MaterialDef>).Where(m=>m!=null).ToArray();
-                s.prices=new[]{240,240,260,220,280,22,26,14,16,30};
-            });
+            // What the code knows about this chapter's zones, enemies and quests by id, written onto them as later chapters write their own (ContentScaffold).
+            ContentScaffold.Stamp();
+            // Corra's stall is written where every stall is (ProgressionBuilder): each offer with its own price, not a list of prices read by position.
+            ProgressionBuilder.Lanternwick();
         }
 
         // ---------------------------------------------------------------- shared helpers
@@ -272,69 +269,14 @@ namespace Lattice.EditorTools
             if(prior==null){AssetDatabase.CreateAsset(mesh,path);return mesh;}
             EditorUtility.CopySerialized(mesh,prior);UnityEngine.Object.DestroyImmediate(mesh);EditorUtility.SetDirty(prior);return prior;
         }
-        /// <summary>The toon ramp bands the sun, and a floor lit near a step of the ramp changes band on the slightest bump: Lanternwick's low sun meets level ground at .53 against a
-        /// step at .5, so a rise two degrees off the sun dropped a whole band and left a hard, stair-stepped dark shape on the floor with nothing casting it. Ground this gentle is lit as level.</summary>
-        const float LevelFloorY=.97f;
-        static void LevelFloor(Mesh floor){var normals=floor.normals;for(int i=0;i<normals.Length;i++)if(normals[i].y>=LevelFloorY)normals[i]=Vector3.up;floor.normals=normals;}
-        const float FootDark=.62f,FootReach=2.6f;
-        /// <summary>Floor and strata meet along a line of single triangles, each chosen by how steep it is, and at full contrast that saw edge was the hardest thing on the screen. Both darken
-        /// toward it, as ground does where a wall rises out of it, so the line sits in shade. Worked out per point of the grid, so the two meshes agree exactly where they meet.</summary>
-        static float[] FootShading(Vector3[] grid,int nx,int nz,float cell)
-        {
-            var shade=new float[grid.Length];int reach=Mathf.Max(1,Mathf.RoundToInt(FootReach/cell));
-            for(int z=0;z<nz;z++)for(int x=0;x<nx;x++)
-            {
-                float y=grid[z*nx+x].y,low=y,high=y;
-                for(int dz=-1;dz<=1;dz++)for(int dx=-1;dx<=1;dx++)
-                {
-                    float other=grid[Mathf.Clamp(z+dz*reach,0,nz-1)*nx+Mathf.Clamp(x+dx*reach,0,nx-1)].y;
-                    low=Mathf.Min(low,other);high=Mathf.Max(high,other);
-                }
-                shade[z*nx+x]=Mathf.Lerp(1,FootDark,Mathf.InverseLerp(.5f,2.4f,high-y)*(1-Mathf.InverseLerp(.2f,2.4f,y-low)));
-            }
-            return shade;
-        }
-        static Color Shaded(Color tone,float by)=>new(tone.r*by,tone.g*by,tone.b*by,tone.a);
         /// <summary>A heightfield landform in three parts: an invisible full-resolution collider (walls stop bodies and
         /// navigation reads it), the walkable floor drawn with the ground texture, and the cliff faces drawn with the
         /// strata texture mapped along each wall so its bands stay horizontal. A tone colours the floor's vertices, and a wall top darkens the walls toward their tops from a wall foot, white unless it's given.</summary>
-        static GameObject Terrain(string zone,string label,float xMin,float xMax,float zMin,float zMax,float cell,Material material,Func<Vector2,Color> floorTone=null,Color? wallTop=null,Color? wallFoot=null)
+        static GameObject Terrain(string zone,string label,float xMin,float xMax,float zMin,float zMax,float cell,Material material,Func<Vector2,Color> floorTone=null,Color? wallTop=null,Color? wallFoot=null,bool landformShadow=true)
         {
-            int nx=Mathf.CeilToInt((xMax-xMin)/cell)+1,nz=Mathf.CeilToInt((zMax-zMin)/cell)+1;
-            var vertices=new Vector3[nx*nz];var uv=new Vector2[vertices.Length];var triangles=new int[(nx-1)*(nz-1)*6];int ti=0;
-            for(int z=0;z<nz;z++)for(int x=0;x<nx;x++)
-            {
-                int i=z*nx+x;var p=new Vector2(xMin+x*cell,zMin+z*cell);vertices[i]=new Vector3(p.x,height(p),p.y);uv[i]=p/8;
-            }
-            // Each cell's diagonal runs between its two nearest heights, along the ground's contour. With one fixed diagonal, a wall running across it broke at its foot into single triangles, each floor or wall by how steep it came out: hard teeth along the floor's edge.
-            for(int z=0;z<nz-1;z++)for(int x=0;x<nx-1;x++)
-            {
-                int i=z*nx+x;
-                if(Mathf.Abs(vertices[i].y-vertices[i+nx+1].y)<Mathf.Abs(vertices[i+1].y-vertices[i+nx].y)){triangles[ti++]=i;triangles[ti++]=i+nx;triangles[ti++]=i+nx+1;triangles[ti++]=i;triangles[ti++]=i+nx+1;triangles[ti++]=i+1;}
-                else{triangles[ti++]=i;triangles[ti++]=i+nx;triangles[ti++]=i+1;triangles[ti++]=i+1;triangles[ti++]=i+nx;triangles[ti++]=i+nx+1;}
-            }
-            var full=new Mesh{name=label+" collision",indexFormat=IndexFormat.UInt32};full.vertices=vertices;full.triangles=triangles;full.RecalculateNormals();full.RecalculateBounds();
-            var floor=new List<int>();var cliffVerts=new List<Vector3>();var cliffUv=new List<Vector2>();var cliffTris=new List<int>();var cliffTone=new List<Color>();
-            var foot=FootShading(vertices,nx,nz,cell);
-            for(int t=0;t<triangles.Length;t+=3)
-            {
-                Vector3 a=vertices[triangles[t]],b=vertices[triangles[t+1]],c=vertices[triangles[t+2]];
-                var n=Vector3.Cross(b-a,c-a).normalized;float h=(a.y+b.y+c.y)/3;
-                if(Mathf.Abs(n.y)>=.78f&&h<=CliffTop){floor.Add(triangles[t]);floor.Add(triangles[t+1]);floor.Add(triangles[t+2]);continue;}
-                bool facesX=Mathf.Abs(n.x)>Mathf.Abs(n.z);
-                for(int k=0;k<3;k++)
-                {
-                    var v=vertices[triangles[t+k]];
-                    cliffTris.Add(cliffVerts.Count);cliffVerts.Add(v);
-                    cliffUv.Add(Mathf.Abs(n.y)>=.78f?new Vector2(v.x,v.z)/8:new Vector2((facesX?v.z:v.x)/7,v.y/5));
-                    var wall=wallTop is Color top?Color.Lerp(wallFoot??Color.white,top,Mathf.Abs(n.y)>=.78f?1:Mathf.InverseLerp(.5f,5,v.y)):Color.white;
-                    cliffTone.Add(Shaded(wall,foot[triangles[t+k]]));
-                }
-            }
-            var ground=new Mesh{name=label,indexFormat=IndexFormat.UInt32};ground.vertices=vertices;ground.uv=uv;ground.triangles=floor.ToArray();ground.RecalculateNormals();ground.RecalculateBounds();
-            LevelFloor(ground);
-            var tones=new Color[vertices.Length];for(int v=0;v<tones.Length;v++)tones[v]=Shaded(floorTone!=null?floorTone(new Vector2(vertices[v].x,vertices[v].z)):Color.white,foot[v]);ground.colors=tones;
-            var cliffs=new Mesh{name=label+" cliffs",indexFormat=IndexFormat.UInt32};cliffs.SetVertices(cliffVerts);cliffs.SetUVs(0,cliffUv);cliffs.SetTriangles(cliffTris,0);cliffs.SetColors(cliffTone);cliffs.RecalculateNormals();cliffs.RecalculateBounds();
+            // Floor and rock are cut apart along the line where the ground itself turns too steep to stand on, not along the grid's cells (GroundTerrain): the cliff foot is one smooth line.
+            var land=GroundTerrain.Build(label,xMin,xMax,zMin,zMax,cell,height,CliffTop,floorTone,wallTop,wallFoot);
+            Mesh full=land.collision,ground=land.floor,cliffs=land.cliffs;
             full=SaveMesh(full,"Assets/_Project/Scenes/"+zone+"-Terrain.asset");
             ground=SaveMesh(ground,"Assets/_Project/Scenes/"+zone+"-Ground.asset");
             cliffs=SaveMesh(cliffs,"Assets/_Project/Scenes/"+zone+"-Cliffs.asset");
@@ -352,6 +294,9 @@ namespace Lattice.EditorTools
             cliffView.GetComponent<MeshFilter>().sharedMesh=cliffs;cliffView.GetComponent<Renderer>().sharedMaterial=Canyon(true);
             // From their lit side only, the default. Two-sided, a wall with no lit side on the mesh (the gorge's south end, whose lit side is past z -24) laid a shadow over the whole arrival, and every wall triangle having its own vertices, the shadow pass's normal bias opened that shadow into straight rows of pale dashes.
             // So the landform's shadow comes from one welded caster, the collision heightfield itself, whose shared vertices give the bias nothing to open (E3-lanternwick-08); the drawn floor and walls only receive.
+            // Underground there's no sun to cast one: the relay's key light is too weak for a shadow to read, and its floor and walls cast for themselves as they always did.
+            // A caster there was a box the size of the whole dungeon to everything that asks what stands near a plate or in front of a person.
+            if(!landformShadow)return terrain;
             floorView.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;cliffView.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
             var caster=new GameObject(label+" shadow",typeof(MeshFilter),typeof(MeshRenderer));caster.transform.SetParent(terrain.transform,false);
             caster.GetComponent<MeshFilter>().sharedMesh=full;var casts=caster.GetComponent<MeshRenderer>();casts.sharedMaterial=Canyon(true);casts.shadowCastingMode=ShadowCastingMode.ShadowsOnly;casts.receiveShadows=false;
@@ -708,9 +653,10 @@ namespace Lattice.EditorTools
         static readonly (string body,float x,float z,float yaw,Color tint)[] Townsfolk=
         {
             ("Neve",10.2f,14.2f,-90,new(.84f,.74f,.66f)),("SurvivorNatural",11,23.2f,-100,new(.7f,.78f,.72f)),("Hal",-11,22,80,new(.78f,.7f,.74f)),
-            ("Mira",10.6f,4.6f,-90,new(.72f,.74f,.84f)),("Orrin",-10.8f,3.6f,85,new(.86f,.76f,.62f)),
+            // Two who wore Mira's body, the shopkeeper a player has just met by name on the Decks, wear Ilo's and Oda's (November 12, town life): same spots, same dyes.
+            ("IloBody",10.6f,4.6f,-90,new(.72f,.74f,.84f)),("Orrin",-10.8f,3.6f,85,new(.86f,.76f,.62f)),
             ("Neve",-9.4f,-7.2f,120,new(.66f,.74f,.8f)),("SurvivorNatural",7.5f,-8.4f,-100,new(.82f,.7f,.6f)),
-            ("Hal",-7.6f,62.8f,100,new(.74f,.8f,.7f)),("Mira",25,46,-120,new(.86f,.72f,.72f)),("Orrin",-7.6f,88.4f,60,new(.68f,.72f,.8f)),
+            ("Hal",-7.6f,62.8f,100,new(.74f,.8f,.7f)),("OdaBody",25,46,-120,new(.86f,.72f,.72f)),("Orrin",-7.6f,88.4f,60,new(.68f,.72f,.8f)),
         };
         static void Townsperson(string body,Vector3 at,float yaw,Color tint)
         {
@@ -892,8 +838,11 @@ namespace Lattice.EditorTools
             WorldBuilder.Boundary("East town limit",new Vector3(37,8,40),new Vector3(2,20,170));
             WorldBuilder.Boundary("North town limit",new Vector3(0,8,110),new Vector3(90,20,2));
             WorldBuilder.Boundary("South town limit",new Vector3(0,8,-34),new Vector3(90,20,2));
+            // The town's people with somewhere to be, and the story's say on where (TownLife): held to every route, prompt and named person before the bake, and the bake to the routes' paths after it.
+            TownLife.Lanternwick(TownHeight,Townsfolk);
             BakeNavigation("Lanternwick",new Bounds(new Vector3(0,6,40),new Vector3(96,30,160)),new Vector3(0,0,-14),
                 new[]{new Vector3(-6,0,17),new Vector3(22,3,50),new Vector3(6,0,34),new Vector3(4,0,90),new Vector3(-30,1.4f,60),new Vector3(-33,1.4f,80),new Vector3(-11,0,28),new Vector3(13,0,15)});
+            TownLife.LanternwickBaked();
             WorldBuilder.Save(scene,"Lanternwick");Debug.Log("LANTERNWICK_OK");
         }
 
@@ -923,14 +872,21 @@ namespace Lattice.EditorTools
         }
 
         // ---------------------------------------------------------------- Lantern Gorge (open ground combat)
-        static readonly Vector2[] GorgePath={new(0,-6),new(2,30),new(8,62),new(2,95),new(-8,120),new(0,150),new(8,180),new(4,205),new(1,221)};
-        static readonly Vector2 DenEntry=new(-8,92),Den=new(-26,100);
-        static float GorgeDistance(Vector2 p){float d=float.PositiveInfinity;for(int i=1;i<GorgePath.Length;i++)d=Mathf.Min(d,Segment(p,GorgePath[i-1],GorgePath[i]));return Mathf.Min(d,Segment(p,DenEntry,Den)+3);}
+        internal static readonly Vector2[] GorgePath={new(0,-6),new(2,30),new(8,62),new(2,95),new(-8,120),new(0,150),new(8,180),new(4,205),new(1,221)};
+        internal static readonly Vector2 DenEntry=new(-8,92),Den=new(-26,100);
+        internal static float GorgeDistance(Vector2 p){float d=float.PositiveInfinity;for(int i=1;i<GorgePath.Length;i++)d=Mathf.Min(d,Segment(p,GorgePath[i-1],GorgePath[i]));return Mathf.Min(d,Segment(p,DenEntry,Den)+3);}
+        /// <summary>Centimetres of relief (GroundRelief): the way through is worn a little hollow, and sand lies banked along the verge. Too gentle for the toon ramp to light, so
+        /// GroundStaging paints it in shade; feet, props, collision and navigation stand on it because it's part of the height.</summary>
+        internal static float GorgeRelief(Vector2 p)
+        {
+            float d=GorgeDistance(p);
+            return GroundRelief.Rut(p,GorgePath,0,3.6f,.05f)+GroundRelief.Mounds(p,5,.1f,.4f,2)*Smooth(6,9,d)*(1-Smooth(11.5f,13,d));
+        }
         static float GorgeHeight(Vector2 p)
         {
             // A winding canyon floor about 26 m wide; walls rise steeply beyond. Low lip toward the camera side.
             float d=GorgeDistance(p);
-            float floor=.35f*Mathf.PerlinNoise(p.x*.1f,p.y*.1f);
+            float floor=.35f*Mathf.PerlinNoise(p.x*.1f,p.y*.1f)+GorgeRelief(p);
             float wall=Smooth(13,19,d)*(9+7*Mathf.PerlinNoise(p.x*.04f+7,p.y*.03f))+Smooth(26,34,d)*8;
             float camera=Mathf.Clamp01(Mathf.InverseLerp(10,-30,p.x))*.45f;   // the west wall is the fixed camera's foreground
             return floor+wall*(1-camera)+Smooth(-12,-18,p.y)*10+Smooth(234,240,p.y)*12;
@@ -985,6 +941,7 @@ namespace Lattice.EditorTools
         static void Gorge()
         {
             height=GorgeHeight;CliffTop=2.5f;fadeTall=true;
+            if(GroundRelief.Check(GorgeRelief,-36,36,-14,238) is string fault)throw new InvalidOperationException("GROUND_PROBLEM LanternGorge: "+fault);
             var scene=WorldBuilder.Begin("LanternGorge");
             Terrain("LanternGorge","Lantern Gorge",-60,60,-24,250,.5f,Canyon(false),GorgeTone);
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,0));WorldBuilder.Spawn("Relay",new Vector3(0,0,220));
@@ -1174,7 +1131,7 @@ namespace Lattice.EditorTools
             height=RelayFloor;CliffTop=1.2f;fadeTall=true;
             var scene=WorldBuilder.Begin("SunkenRelay");
             // The strata's orange, muted at the foot too: it's a buried wall, however well lit.
-            Terrain("SunkenRelay","Relay halls",-36,36,-14,180,.5f,Canyon(false),RelayTone,new Color(.4f,.4f,.5f),new Color(.76f,.7f,.72f));
+            Terrain("SunkenRelay","Relay halls",-36,36,-14,180,.5f,Canyon(false),RelayTone,new Color(.4f,.4f,.5f),new Color(.76f,.7f,.72f),false);
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,3));
             foreach(var (centre,size,label) in RelayHalls)WorldBuilder.Label(label,new Vector3(centre.x,.1f,Mathf.Max(8,centre.y-size.y*.5f+2.5f)),1.6f);
             // The way up is a scaffold against the wall, as at Hushwell's bore, beside the way in rather than between the camera and the party as it arrives.

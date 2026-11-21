@@ -1,0 +1,3195 @@
+{
+  "name": "chapter-31-many-hands-errands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 5: the dock door, the kettles, the claims ledger, the stowaway's fare, a save at the riggers' cradle",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter5.complete",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the dock door 1/3",
+      "seconds": 4.85,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": 0.0,
+        "z": -59.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the dock door 2/3",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": -59.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the dock door 3/3",
+      "seconds": 2.81,
+      "navigate": true,
+      "point": {
+        "x": 10.6,
+        "y": 0.0,
+        "z": -57.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "look at the dock door",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look at the dock door",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look at the dock door line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look at the dock door line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look at the dock door line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look at the dock door line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look at the dock door line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look at the dock door line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look at the dock door line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look at the dock door line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look at the dock door line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish look at the dock door",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.doorRead",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after look at the dock door",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 1/7",
+      "seconds": 2.81,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": -59.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 2/7",
+      "seconds": 6.35,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 3/7",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 4/7",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 5/7",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 6/7",
+      "seconds": 10.53,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine to Corra 7/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Corra's kettles",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Corra's kettles",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's kettles line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's kettles line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's kettles line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's kettles line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's kettles line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's kettles line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's kettles line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's kettles line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's kettles line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's kettles line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's kettles line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's kettles line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Corra's kettles",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "look over the stock after Corra's kettles",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "leave the stock after Corra's kettles",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the stall after Corra's kettles",
+      "seconds": 0.3,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 1/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 2/9",
+      "seconds": 10.53,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 3/9",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 4/9",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 5/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 6/9",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 7/9",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 3.6,
+        "z": 40.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 8/9",
+      "seconds": 5.95,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 3.6,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to Ilo's desk 9/9",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": -17.4,
+        "y": 3.6,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Ilo's ledger",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Ilo's ledger",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo's ledger line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo's ledger line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo's ledger line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo's ledger line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo's ledger line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo's ledger line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo's ledger line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo's ledger line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo's ledger line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo's ledger line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo's ledger line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo's ledger line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo's ledger line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo's ledger line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo's ledger line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Ilo's ledger",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Ilo's ledger",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Abri's desk",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 3.6,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Abri and Tallow's line in the ledger",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Abri and Tallow's line in the ledger",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri and Tallow's line in the ledger line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri and Tallow's line in the ledger line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri and Tallow's line in the ledger line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri and Tallow's line in the ledger line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri and Tallow's line in the ledger line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri and Tallow's line in the ledger line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Abri and Tallow's line in the ledger",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "ledger.abri",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Abri and Tallow's line in the ledger",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Abri takes cabin nine's kettle",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Abri takes cabin nine's kettle",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri takes cabin nine's kettle line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri takes cabin nine's kettle line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri takes cabin nine's kettle line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri takes cabin nine's kettle line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri takes cabin nine's kettle line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri takes cabin nine's kettle line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Abri takes cabin nine's kettle",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "kettle.cabins",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Abri takes cabin nine's kettle",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 1/14",
+      "seconds": 5.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 3.6,
+        "z": 40.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 2/14",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 3/14",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 4/14",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 5/14",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0.0,
+        "z": 20.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 6/14",
+      "seconds": 6.14,
+      "navigate": true,
+      "point": {
+        "x": 27,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 7/14",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 33.5,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 8/14",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 38.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 9/14",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 39.4,
+        "y": 0.0,
+        "z": 25.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 10/14",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 11/14",
+      "seconds": 3.7,
+      "navigate": true,
+      "point": {
+        "x": 48.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 12/14",
+      "seconds": 4.42,
+      "navigate": true,
+      "point": {
+        "x": 55.4,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 13/14",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 59.8,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the garden deck 14/14",
+      "seconds": 2.82,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Garo's kettle",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Garo's kettle",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Garo's kettle line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Garo's kettle line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Garo's kettle line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Garo's kettle",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "kettle.garden",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Garo's kettle",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Teo 1/2",
+      "seconds": 5.98,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 37.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Teo 2/2",
+      "seconds": 2.69,
+      "navigate": true,
+      "point": {
+        "x": 59.4,
+        "y": 0.0,
+        "z": 39.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Teo and the barges in the ledger",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Teo and the barges in the ledger",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Teo and the barges in the ledger line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Teo and the barges in the ledger line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Teo and the barges in the ledger line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Teo and the barges in the ledger",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "ledger.teo",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Teo and the barges in the ledger",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the east aisle to the seed racks 1/6",
+      "seconds": 2.69,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 37.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the east aisle to the seed racks 2/6",
+      "seconds": 5.98,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the east aisle to the seed racks 3/6",
+      "seconds": 2.99,
+      "navigate": true,
+      "point": {
+        "x": 62.2,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the east aisle to the seed racks 4/6",
+      "seconds": 5.63,
+      "navigate": true,
+      "point": {
+        "x": 72.4,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the east aisle to the seed racks 5/6",
+      "seconds": 2.81,
+      "navigate": true,
+      "point": {
+        "x": 73,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the east aisle to the seed racks 6/6",
+      "seconds": 9.64,
+      "navigate": true,
+      "point": {
+        "x": 73.1,
+        "y": 0.0,
+        "z": 47.9
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "look behind the seed racks",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read look behind the seed racks line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next look behind the seed racks line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release look behind the seed racks line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish look behind the seed racks",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.jaskFound",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after look behind the seed racks",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back down to Teo 1/6",
+      "seconds": 9.64,
+      "navigate": true,
+      "point": {
+        "x": 73,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back down to Teo 2/6",
+      "seconds": 2.81,
+      "navigate": true,
+      "point": {
+        "x": 72.4,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back down to Teo 3/6",
+      "seconds": 5.63,
+      "navigate": true,
+      "point": {
+        "x": 62.2,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back down to Teo 4/6",
+      "seconds": 2.99,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back down to Teo 5/6",
+      "seconds": 5.98,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 37.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back down to Teo 6/6",
+      "seconds": 2.69,
+      "navigate": true,
+      "point": {
+        "x": 59.4,
+        "y": 0.0,
+        "z": 39.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Teo and the stowaway",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Teo and the stowaway",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Teo and the stowaway line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Teo and the stowaway line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Teo and the stowaway line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Teo and the stowaway line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Teo and the stowaway line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Teo and the stowaway line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Teo and the stowaway line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Teo and the stowaway line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Teo and the stowaway line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Teo and the stowaway line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Teo and the stowaway line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Teo and the stowaway line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Teo and the stowaway",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Teo and the stowaway",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 1/7",
+      "seconds": 2.69,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 37.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 2/7",
+      "seconds": 5.98,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 3/7",
+      "seconds": 2.82,
+      "navigate": true,
+      "point": {
+        "x": 59.8,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 4/7",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 55.4,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 5/7",
+      "seconds": 4.42,
+      "navigate": true,
+      "point": {
+        "x": 48.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 6/7",
+      "seconds": 3.7,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Ruva 7/7",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 29.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Ruva on Jask",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Ruva on Jask",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva on Jask line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva on Jask line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva on Jask line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva on Jask line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva on Jask line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva on Jask line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva on Jask line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva on Jask line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva on Jask line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva on Jask line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva on Jask line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva on Jask line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Ruva on Jask",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.ruvaOnJask",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Ruva on Jask",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 1/7",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 2/7",
+      "seconds": 3.7,
+      "navigate": true,
+      "point": {
+        "x": 48.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 3/7",
+      "seconds": 4.42,
+      "navigate": true,
+      "point": {
+        "x": 55.4,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 4/7",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 59.8,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 5/7",
+      "seconds": 2.82,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 6/7",
+      "seconds": 5.98,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 37.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back to Teo 7/7",
+      "seconds": 2.69,
+      "navigate": true,
+      "point": {
+        "x": 59.4,
+        "y": 0.0,
+        "z": 39.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start where Jask works",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start where Jask works",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read where Jask works line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next where Jask works line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release where Jask works line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read where Jask works line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next where Jask works line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release where Jask works line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read where Jask works line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next where Jask works line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release where Jask works line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read where Jask works line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next where Jask works line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release where Jask works line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read where Jask works line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next where Jask works line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release where Jask works line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish where Jask works",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.jaskPlaced",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after where Jask works",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 1/7",
+      "seconds": 2.69,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 37.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 2/7",
+      "seconds": 5.98,
+      "navigate": true,
+      "point": {
+        "x": 60.5,
+        "y": 0.0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 3/7",
+      "seconds": 2.82,
+      "navigate": true,
+      "point": {
+        "x": 59.8,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 4/7",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 55.4,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 5/7",
+      "seconds": 4.42,
+      "navigate": true,
+      "point": {
+        "x": 48.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 6/7",
+      "seconds": 3.7,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Jask in Marrow-1's aisle 7/7",
+      "seconds": 9.64,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 47
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Jask's thanks",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Jask's thanks",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Jask's thanks line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Jask's thanks line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Jask's thanks line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Jask's thanks",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "jask.thanked",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Jask's thanks",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 1/14",
+      "seconds": 9.64,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 2/14",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": 39.4,
+        "y": 0.0,
+        "z": 25.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 3/14",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 38.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 4/14",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 33.5,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 5/14",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 27,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 6/14",
+      "seconds": 6.14,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0.0,
+        "z": 20.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 7/14",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 8/14",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 9/14",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 10/14",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 11/14",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 12/14",
+      "seconds": 7.16,
+      "navigate": true,
+      "point": {
+        "x": -14.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 13/14",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -19.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 14/14",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Maru and her raft in the ledger",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Maru and her raft in the ledger",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru and her raft in the ledger line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru and her raft in the ledger line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru and her raft in the ledger line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru and her raft in the ledger line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru and her raft in the ledger line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru and her raft in the ledger line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Maru and her raft in the ledger",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "ledger.maru",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Maru and her raft in the ledger",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "over the weavers' walk to Ona 1/5",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": -29,
+        "y": 0.0,
+        "z": -29
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "over the weavers' walk to Ona 2/5",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": -42.5,
+        "y": 0.0,
+        "z": -32
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "over the weavers' walk to Ona 3/5",
+      "seconds": 2.26,
+      "navigate": true,
+      "point": {
+        "x": -43.1,
+        "y": 0.0,
+        "z": -32.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "over the weavers' walk to Ona 4/5",
+      "seconds": 2.93,
+      "navigate": true,
+      "point": {
+        "x": -43,
+        "y": 0.0,
+        "z": -35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "over the weavers' walk to Ona 5/5",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -48,
+        "y": 0.0,
+        "z": -35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Ona's kettle",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Ona's kettle",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ona's kettle line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ona's kettle line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ona's kettle line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ona's kettle line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ona's kettle line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ona's kettle line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Ona's kettle",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "kettle.bay",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Ona's kettle",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 1/17",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -43,
+        "y": 0.0,
+        "z": -35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 2/17",
+      "seconds": 2.93,
+      "navigate": true,
+      "point": {
+        "x": -43.1,
+        "y": 0.0,
+        "z": -32.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 3/17",
+      "seconds": 2.26,
+      "navigate": true,
+      "point": {
+        "x": -42.5,
+        "y": 0.0,
+        "z": -32
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 4/17",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": -29,
+        "y": 0.0,
+        "z": -29
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 5/17",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 6/17",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -19.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 7/17",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -14.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 8/17",
+      "seconds": 7.16,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 9/17",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 10/17",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 11/17",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 12/17",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 13/17",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 14/17",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 15/17",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 3.6,
+        "z": 40.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 16/17",
+      "seconds": 5.95,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 3.6,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back up to Ilo 17/17",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": -17.4,
+        "y": 3.6,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start the three statements",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start the three statements",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read the three statements line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next the three statements line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the three statements line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read the three statements line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next the three statements line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the three statements line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish the three statements",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "ledger.returned",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after the three statements",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 1/9",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 3.6,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 2/9",
+      "seconds": 5.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 3.6,
+        "z": 40.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 3/9",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 4/9",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 5/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 6/9",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 7/9",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 8/9",
+      "seconds": 10.53,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to Corra 9/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start the kettles delivered",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start the kettles delivered",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read the kettles delivered line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next the kettles delivered line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the kettles delivered line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read the kettles delivered line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next the kettles delivered line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the kettles delivered line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish the kettles delivered",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "look over the stock after the kettles delivered",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "leave the stock after the kettles delivered",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the stall after the kettles delivered",
+      "seconds": 0.3,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "the kettles are paid for",
+      "seconds": 0.5,
+      "expectedFlag": "kettle.reported",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down the spine to the riggers' cradle 1/6",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down the spine to the riggers' cradle 2/6",
+      "seconds": 10.53,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down the spine to the riggers' cradle 3/6",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down the spine to the riggers' cradle 4/6",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down the spine to the riggers' cradle 5/6",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -45
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down the spine to the riggers' cradle 6/6",
+      "seconds": 5.06,
+      "navigate": true,
+      "point": {
+        "x": -8.6,
+        "y": 0.0,
+        "z": -45
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "repair and save at the riggers' cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "ManyHands"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

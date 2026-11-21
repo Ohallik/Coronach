@@ -1,0 +1,949 @@
+{
+  "name": "chapter-64-last-mooring",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: the lane east, Last Mooring's chains, the first pair, Many Hands struck and held, the west island's cradle, the guns at chain C, the second pair",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "end.motherFreed",
+      "expectedForm": "Flight",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "east across the crater to the notch",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 1,
+        "z": 322.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "east along the lane to the warp on",
+      "seconds": 15.96,
+      "navigate": true,
+      "point": {
+        "x": 146.0,
+        "y": 1,
+        "z": 322.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "settle at the warp to Last Mooring",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": 154.0,
+        "y": 1,
+        "z": 322.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "take the warp to Last Mooring",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:LastMooring",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take the warp to Last Mooring",
+      "seconds": 0.5,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "first look at the anchorage",
+      "seconds": 2,
+      "expectedFlag": "end.motherFreed",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "north through chain A's gap",
+      "seconds": 12.91,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 75.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "on into Mooring_Lane1",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 92.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "lock Mooring_Lane1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release lock Mooring_Lane1",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Mooring_Lane1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mooring_Lane1",
+      "expectedFlag": "clear.Mooring_Lane1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to chain B's gap",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 21.0,
+        "y": 1,
+        "z": 148.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "through chain B's gap and over Many Hands",
+      "seconds": 6.65,
+      "navigate": true,
+      "point": {
+        "x": 21.0,
+        "y": 1,
+        "z": 180.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Many Hands is struck and Maru's weavers hold it begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "read Many Hands is struck and Maru's weavers hold it line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "next Many Hands is struck and Maru's weavers hold it line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release Many Hands is struck and Maru's weavers hold it line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "read Many Hands is struck and Maru's weavers hold it line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "next Many Hands is struck and Maru's weavers hold it line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release Many Hands is struck and Maru's weavers hold it line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "read Many Hands is struck and Maru's weavers hold it line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "next Many Hands is struck and Maru's weavers hold it line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release Many Hands is struck and Maru's weavers hold it line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "finish Many Hands is struck and Maru's weavers hold it",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.sectionHeld",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release after Many Hands is struck and Maru's weavers hold it",
+      "seconds": 0.5,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "dock at the west maintenance island",
+      "seconds": 22.47,
+      "navigate": true,
+      "point": {
+        "x": -47.0,
+        "y": 1,
+        "z": 228.0
+      },
+      "tolerance": 1.2,
+      "until": "docked:Island1",
+      "stopWhen": "docked:Island1",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stand on the west maintenance island",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the island's cradle",
+      "seconds": 3.74,
+      "navigate": true,
+      "point": {
+        "x": -44.0,
+        "y": -2.0,
+        "z": 230.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "repair and save at the island's cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the launch of the west maintenance island",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": -53.8,
+        "y": -2.0,
+        "z": 223.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Island1",
+      "evadeTelegraphs": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "settle before the launch of the west maintenance island",
+      "seconds": 0.5,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "launch from the west maintenance island",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Island1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release the launch of the west maintenance island",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "on into Mooring_Gap",
+      "seconds": 7.93,
+      "navigate": true,
+      "point": {
+        "x": -39.0,
+        "y": 1,
+        "z": 256.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "lock Mooring_Gap",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release lock Mooring_Gap",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Gap round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Gap round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Gap round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Gap round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Gap round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Gap round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Gap round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Gap round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Gap round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Gap round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Gap round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Gap",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Gap round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Mooring_Gap cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mooring_Gap",
+      "expectedFlag": "clear.Mooring_Gap",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to chain C's gap",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": -21.0,
+        "y": 1,
+        "z": 260.0
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "through chain C's gap",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": -21.0,
+        "y": 1,
+        "z": 282.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "on into Mooring_Lane2",
+      "seconds": 5.78,
+      "navigate": true,
+      "point": {
+        "x": -21.0,
+        "y": 1,
+        "z": 308.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "lock Mooring_Lane2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release lock Mooring_Lane2",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pursue Mooring_Lane2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse Mooring_Lane2 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Mooring_Lane2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse Mooring_Lane2 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Mooring_Lane2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mooring_Lane2",
+      "expectedFlag": "clear.Mooring_Lane2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "the moorings are clear to the gate",
+      "seconds": 2,
+      "expectedFlag": "clear.Mooring_Lane2",
+      "expectedScene": "LastMooring"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

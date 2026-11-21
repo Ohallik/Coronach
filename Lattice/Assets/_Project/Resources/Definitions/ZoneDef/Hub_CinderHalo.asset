@@ -18,8 +18,17 @@ MonoBehaviour:
   cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
   hd2dProfile: {fileID: 11400000, guid: fced38a8d8e88ab4ea2d45d5a8f64019, type: 2}
   ambientAudio: {fileID: 0}
-  musicId: 
+  ambientVolume: 0.055
+  musicId: Hub Town Groove
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
   skybox: {fileID: 2100000, guid: 788961950675a154a8665d4fa5b6ca96, type: 2}
+  displayName: Cinder Halo
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 1

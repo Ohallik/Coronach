@@ -704,12 +704,17 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(Box(card.rectTransform).yMax,Box(Text("Target").rectTransform).yMin,"the card stacks on the target plate's place");
             Assert.IsTrue(string.IsNullOrEmpty(Text("BossEpithet").text),"the same epithet shows twice, on the card and on the bar under it");
             // The words fit it, for every boss.
-            foreach(string id in new[]{"Burrower","BellowsBelow","Cantor","HessaKorl"})
+            foreach(string id in ContentRegistry.Bosses)
             {
                 var other=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),hero.transform.position+Vector3.forward*200);other.Passive=true;yield return null;yield return null;
                 var controller=other.GetComponent<BossController>();
+                // At the size the card would set this name: its own 58, or smaller for a long one, and never under the least a title may be read at.
+                var hud=Object.FindFirstObjectByType<GameHud>();float fits=hud.CardSizeFor(controller.DisplayName),was=card.fontSize,spaced=card.characterSpacing;
+                Assert.That(fits,Is.InRange(GameHud.CardNameLeast,GameHud.CardNameSize),id+"'s name is set at a size the card doesn't allow");
+                card.fontSize=fits;card.characterSpacing=GameHud.CardNameSpacing;
                 var name=card.GetPreferredValues(controller.DisplayName,card.rectTransform.rect.width,0);var says=line.GetPreferredValues(controller.Epithet,line.rectTransform.rect.width,0);
-                Assert.LessOrEqual(name.x,card.rectTransform.rect.width+1,id+"'s name runs off its card");Assert.LessOrEqual(says.y,line.rectTransform.rect.height+1,id+"'s epithet doesn't fit one line of its card");
+                card.fontSize=was;card.characterSpacing=spaced;
+                Assert.LessOrEqual(name.x,card.rectTransform.rect.width+1,id+$"'s name runs off its card even at {fits:F0}, the smallest the card may set it");Assert.LessOrEqual(says.y,line.rectTransform.rect.height+1,id+"'s epithet doesn't fit one line of its card");
                 Object.Destroy(other.gameObject);
             }
             // Its moment over, the bar carries the epithet.

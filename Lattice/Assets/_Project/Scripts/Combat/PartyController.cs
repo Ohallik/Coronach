@@ -39,7 +39,10 @@ namespace Lattice.Combat
         /// stun-locked bosses, and swaps in a paused menu queued strikes that all landed on resume (QA).</summary>
         public const float SwapStrikeCooldown=4;
         float nextSwapStrike,nextSwapBanter;
-        void Awake(){Current=this;}
+        void Awake(){Current=this;ItemUse.Reset();}
+        /// <summary>The partner's share of a hit: 60%, and what the party's gear adds (Twin Thread), never past the lead's own.</summary>
+        public const float PartnerDamage=.6f;
+        public float PartnerShare{get{float share=PartnerDamage;if(members!=null)foreach(var m in members)if(m!=null)share+=m.mods.partnerDamage;return Mathf.Clamp(share,.1f,1);}}
         void Start(){Apply();ZoneController.Current.Changed+=Apply;}
         public void Apply()
         {
@@ -48,22 +51,23 @@ namespace Lattice.Combat
             RefreshStats();
             for(int i=0;i<members.Length;i++)
             {
-                var m=members[i];m.flight=zone.Flight;m.damageScale=i==index?1:.6f;
+                var m=members[i];m.flight=zone.Flight;m.damageScale=i==index?1:PartnerShare;
                 m.GetComponent<HeroCollision>().SetFlight(zone.Flight);
                 if(!zone.Combat)m.TargetLocked=false;
                 m.GetComponent<PlayerBrain>().enabled=i==index;m.GetComponent<PartnerBrain>().enabled=i!=index;
                 var ground=m.GetComponent<GroundMotor>();var flight=m.GetComponent<FlightMotor>();ground.enabled=!zone.Flight;flight.enabled=zone.Flight;
-                flight.plane=zone.definition.flightPlane;m.motor=zone.Flight?(IMotor)flight:ground;
+                flight.plane=zone.FlightPlane;m.motor=zone.Flight?(IMotor)flight:ground;
                 m.GetComponent<FormController>().Set(zone.Form);
             }
-            if(cameraRig==null)cameraRig=FindFirstObjectByType<CameraRig>();if(cameraRig!=null)cameraRig.Apply(Active.transform,zone.definition.cameraProfile);
+            if(cameraRig==null)cameraRig=FindFirstObjectByType<CameraRig>();if(cameraRig!=null)cameraRig.Apply(Active.transform,zone.CameraProfile);
         }
         /// <param name="forced">The active hero went down; the partner covers instead of joking.</param>
         public bool Swap(bool forced=false)
         {
             int next=(index+1)%members.Length;if(next==index||!members[next].Health.Alive)return false;
             Health target=Active.target;bool locked=Active.TargetLocked;index=next;Active.target=target;Apply();Active.TargetLocked=locked&&target!=null&&target.Alive;
-            GameServices.Current.State.activeMember=index;SwapCount++;
+            // The save's lead is a place in the party. With a hero resting that isn't the place on the field: written as it was, a reload led with the rester.
+            var saved=GameServices.Current.State;int place=Deployment.PartyIndex(saved,Active.character);saved.activeMember=place>=0?place:index;SwapCount++;
             bool strike=ZoneController.Current.Combat&&!GameTime.Paused&&GameTime.Now>=nextSwapStrike;
             if(strike){nextSwapStrike=GameTime.Now+SwapStrikeCooldown;CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35)).ThroughWalls=false;CombatAudio.SwapStrike(Active);}
             bool banter=!forced&&Time.unscaledTime>=nextSwapBanter;if(banter)nextSwapBanter=Time.unscaledTime+SwapStrikeCooldown;
@@ -77,8 +81,18 @@ namespace Lattice.Combat
             if(SceneFlow.Current!=null&&SceneFlow.Current.Loading)return;
             var state=GameServices.Current.State;
             PromptService.FindInteraction(Active.transform.position);
+            // A draught and a meal run on the fight's clock: a menu or a conversation doesn't spend them.
+            if(!GameTime.CombatHeld)PartyBuffs.Tick(state,Time.deltaTime);
             if(Time.unscaledTime>=nextStats){RefreshStats();nextStats=Time.unscaledTime+.5f;}
-            for(int i=0;i<members.Length&&i<state.party.Count;i++){state.party[i].integrity=members[i].Health.integrity;state.party[i].charge=members[i].charge;}
+            for(int i=0;i<members.Length;i++)
+            {
+                // By who they are. Taken by place, the second hero out wrote their Integrity over the second hero in the party, who with three may be the one resting.
+                // A party the field holds whole keeps the old reading for a body the save doesn't know (a fixture's): its place.
+                var kept=i<state.party.Count&&state.party[i].id==members[i].character?state.party[i]:null;
+                for(int j=0;kept==null&&j<state.party.Count;j++)if(state.party[j].id==members[i].character)kept=state.party[j];
+                if(kept==null&&i<state.party.Count&&!Deployment.Choosing(state))kept=state.party[i];
+                if(kept!=null){kept.integrity=members[i].Health.integrity;kept.charge=members[i].charge;}
+            }
             CombatActor nearbyDown=null;
             if(Active.Health.Alive&&!Active.Recovering&&!GameServices.Current.Input.Blocked)
                 foreach(var m in members)
@@ -209,11 +223,13 @@ namespace Lattice.Combat
         }
         public void RefreshStats()
         {
-            var state=GameServices.Current.State;
+            var state=GameServices.Current.State;var lent=PartyBuffs.Current(state);
             foreach(var actor in members)
             {
                 var member=state.party.Find(m=>m.id==actor.character);var def=GameCatalog.Find<CharacterDef>(actor.character);
                 if(member==null||def==null)continue;
+                // What the parts do beyond the stats, and what the party's draught and meal lend on top: one sum, read where each thing happens (CombatActor.mods).
+                actor.mods=Gear.Modifiers(state,member,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>)+lent;
                 var melee=Gear.Calculate(state,member,def,GearSlot.Edge,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
                 var ranged=Gear.Calculate(state,member,def,GearSlot.Emitter,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
                 actor.damage=melee.output;actor.rangedDamage=ranged.output;actor.plating=melee.plating;actor.resonance=melee.resonance;actor.response=melee.response;actor.fortune=melee.fortune;
@@ -223,7 +239,28 @@ namespace Lattice.Combat
                 actor.GetComponent<GroundMotor>().speed=6.7f+Mathf.Max(0,melee.response-10)*.03f;
                 actor.GetComponent<FlightMotor>().maxSpeed=12+Mathf.Max(0,melee.response-10)*.08f;
             }
+            // A Twin Thread put on or taken off changes the partner's share at once, not at the next swap. Only when it changes: nothing else is written over here.
+            float share=PartnerShare;if(Mathf.Approximately(share,appliedShare))return;
+            appliedShare=share;for(int i=0;i<members.Length;i++)if(members[i]!=null)members[i].damageScale=i==index?1:share;
         }
+        float appliedShare=PartnerDamage;
         void OnDestroy(){CombatActor.ResetTime();if(Current==this)Current=null;}
+        /// <summary>The hero out beside the lead, by what they are and not by where they stand in the array (which was read as members[1-index], and is -1 for a lead in
+        /// a third place). With two it's the other one. Were there ever more, whoever is down comes first: that's who the lead has to reach. Null for a hero alone.</summary>
+        public CombatActor Partner
+        {
+            get
+            {
+                if(members==null||index<0||index>=members.Length)return null;
+                CombatActor beside=null;
+                for(int i=1;i<members.Length;i++)
+                {
+                    var member=members[(index+i)%members.Length];if(member==null)continue;
+                    if(!member.Health.Alive)return member;
+                    beside??=member;
+                }
+                return beside;
+            }
+        }
     }
 }

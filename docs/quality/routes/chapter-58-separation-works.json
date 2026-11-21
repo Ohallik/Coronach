@@ -1,0 +1,1996 @@
+{
+  "name": "chapter-58-separation-works",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: Dorrow under the promenade, joints 1 to 3 and the rigs and crews between them, the press hall's cradle",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.meetingHeld",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "north up the tug's middle",
+      "seconds": 5.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 10
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "on until Dorrow speaks",
+      "seconds": 7.17,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 31
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Dorrow under the promenade begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Dorrow under the promenade line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Dorrow under the promenade line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Dorrow under the promenade line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Dorrow under the promenade line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Dorrow under the promenade line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Dorrow under the promenade line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Dorrow under the promenade line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Dorrow under the promenade line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Dorrow under the promenade line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Dorrow under the promenade line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Dorrow under the promenade line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Dorrow under the promenade line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Dorrow under the promenade line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Dorrow under the promenade line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Dorrow under the promenade line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Dorrow under the promenade line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Dorrow under the promenade line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Dorrow under the promenade line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "finish Dorrow under the promenade",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.worksRead",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release after Dorrow under the promenade",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "on up the tug",
+      "seconds": 7.66,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 33
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "to joint 1's jack",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": 3.0000000000000004,
+        "y": 0.0,
+        "z": 34.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "settle before take joint 1's weight",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "take joint 1's weight",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:home.joint1",
+      "expectedFlag": "home.joint1",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release take joint 1's weight",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "joint 1 gives",
+      "seconds": 5,
+      "useItem": "none",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back to the way and up into the throat 1/3",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 34
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back to the way and up into the throat 2/3",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 40
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back to the way and up into the throat 3/3",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 56
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "lock Works_Throat",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release lock Works_Throat",
+      "seconds": 0.3,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 1a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 1b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Throat round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Throat",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 2a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 2b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Throat round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Throat",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 3a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 3b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Throat round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Throat",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 4a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Throat 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Throat 4b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Throat round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Throat",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Works_Throat cleared",
+      "seconds": 3,
+      "until": "flag:clear.Works_Throat",
+      "expectedFlag": "clear.Works_Throat",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "reach the fallen hero after Works_Throat",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "both heroes ready after Works_Throat",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "through the press bays",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 72
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "up the stair to the control room 1/4",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 84
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "up the stair to the control room 2/4",
+      "seconds": 4.99,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": 82
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "up the stair to the control room 3/4",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0.0,
+        "z": 82
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "up the stair to the control room 4/4",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": 0.0,
+        "z": 84
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "lock Works_ControlRig",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release lock Works_ControlRig",
+      "seconds": 0.3,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 1a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 1b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_ControlRig round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 2a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 2b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_ControlRig round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 3a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 3b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_ControlRig round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 4a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_ControlRig 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_ControlRig 4b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_ControlRig round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_ControlRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Works_ControlRig cleared",
+      "seconds": 3,
+      "until": "flag:clear.Works_ControlRig",
+      "expectedFlag": "clear.Works_ControlRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "reach the fallen hero after Works_ControlRig",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "both heroes ready after Works_ControlRig",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "on into Works_Control",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 24.6,
+        "y": 0.0,
+        "z": 84.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "flag:clear.Works_Control",
+      "findWay": true,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "lock Works_Control",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release lock Works_Control",
+      "seconds": 0.3,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 1a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 1b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Control round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Control",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 2a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 2b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Control round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Control",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 3a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 3b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Control round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Control",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 4a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Control 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Control 4b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Control round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Control",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Works_Control cleared",
+      "seconds": 3,
+      "until": "flag:clear.Works_Control",
+      "expectedFlag": "clear.Works_Control",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "reach the fallen hero after Works_Control",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "both heroes ready after Works_Control",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back down from the control room 1/6",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": 0.0,
+        "z": 84
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back down from the control room 2/6",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0.0,
+        "z": 82
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back down from the control room 3/6",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": 82
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back down from the control room 4/6",
+      "seconds": 4.99,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 84
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back down from the control room 5/6",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 94
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "back down from the control room 6/6",
+      "seconds": 2.49,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 96
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "to joint 2's jack",
+      "seconds": 2.7,
+      "navigate": true,
+      "point": {
+        "x": 2.8000000000000003,
+        "y": -1.5,
+        "z": 95.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "settle before take joint 2's weight",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "take joint 2's weight",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:home.joint2",
+      "expectedFlag": "home.joint2",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release take joint 2's weight",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "joint 2 gives",
+      "seconds": 5,
+      "useItem": "none",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "north into the gallery 1/2",
+      "seconds": 2.7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -1.5,
+        "z": 96
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "north into the gallery 2/2",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 104
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "on into Works_GalleryRig",
+      "seconds": 2.2,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -3.0,
+        "z": 104.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "lock Works_GalleryRig",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release lock Works_GalleryRig",
+      "seconds": 0.3,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 1a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 1b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_GalleryRig round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 2a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 2b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_GalleryRig round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 3a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 3b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_GalleryRig round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 4a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_GalleryRig 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_GalleryRig 4b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_GalleryRig round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_GalleryRig",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Works_GalleryRig cleared",
+      "seconds": 3,
+      "until": "flag:clear.Works_GalleryRig",
+      "expectedFlag": "clear.Works_GalleryRig",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "reach the fallen hero after Works_GalleryRig",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "both heroes ready after Works_GalleryRig",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "on into Works_Gallery",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -3.0,
+        "z": 123.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "flag:clear.Works_Gallery",
+      "findWay": true,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "lock Works_Gallery",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release lock Works_Gallery",
+      "seconds": 0.3,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 1a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 1b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Gallery round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Gallery",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 2a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 2b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Gallery round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Gallery",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 3a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 3b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Gallery round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Gallery",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 4a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 4b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Gallery round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Gallery",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 5a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill Works_Gallery 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill Works_Gallery 5b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight Works_Gallery round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Works_Gallery",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Works_Gallery cleared",
+      "seconds": 3,
+      "until": "flag:clear.Works_Gallery",
+      "expectedFlag": "clear.Works_Gallery",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "reach the fallen hero after Works_Gallery",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "both heroes ready after Works_Gallery",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "on up the gallery",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 144
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "to joint 3's jack",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 3.0000000000000004,
+        "y": -3.0,
+        "z": 144.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "settle before take joint 3's weight",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "take joint 3's weight",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:home.joint3",
+      "expectedFlag": "home.joint3",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release take joint 3's weight",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "joint 3 gives",
+      "seconds": 5,
+      "useItem": "none",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "down the stair to the landing 1/3",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 144
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "down the stair to the landing 2/3",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 152
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "down the stair to the landing 3/3",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -6.0,
+        "z": 162
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "to the press hall's cradle",
+      "seconds": 3.43,
+      "navigate": true,
+      "point": {
+        "x": 4.994252599999999,
+        "y": -6.0,
+        "z": 164.98276
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "repair and save at the press hall's cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "SeparationWorks"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

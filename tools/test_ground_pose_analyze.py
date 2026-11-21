@@ -39,5 +39,26 @@ class GroundPoseContract(unittest.TestCase):
     def test_unfinished_producer(self):self.report['complete']=False;self.assertFalse(self.result()['valid'])
     def test_transition_rows_are_kept(self):
         self.rows[0]['transitioning']='True';r=self.result();self.assertTrue(r['valid']);self.assertEqual(1,r['actors']['Taren Shaped']['transitions'])
+    # A third body on the field: its row follows the pair's in each sample, and a run of two reads exactly as it did.
+    def third(self,hero='Idra'):
+        rows=[]
+        for i in range(0,len(self.rows),2):
+            other=copy.deepcopy(self.rows[i+1]);other['role']='other';other['hero']=hero;other['state']='Guard'
+            rows+=[self.rows[i],self.rows[i+1],other]
+        self.rows=rows;self.report['rows']=len(rows)
+    def test_a_third_body_follows_the_pair(self):
+        two=self.result();self.third();r=self.result();self.assertTrue(r['valid'],r['failures'])
+        self.assertEqual(9,r['rows']);self.assertEqual(3,r['actors']['Idra Shaped']['samples'])
+        self.assertEqual(two['actors'],{k:v for k,v in r['actors'].items() if k!='Idra Shaped'})
+        self.assertEqual(list(two['actors']),list(r['actors'])[:2])
+    def test_a_third_body_cannot_stand_in_for_the_partner(self):
+        self.third();del self.rows[1];self.report['rows']=len(self.rows);self.assertFalse(self.result()['valid'])
+    def test_a_third_body_is_somebody_else(self):
+        for hero in ['Taren','Sela']:
+            with self.subTest(hero=hero):
+                saved=(self.rows,self.report['rows']);self.third(hero);self.assertFalse(self.result()['valid']);self.rows,self.report['rows']=saved
+    def test_a_sample_short_of_its_partner_at_the_end(self):
+        self.rows.pop();self.rows.append(copy.deepcopy(self.rows[-1]));self.rows[-1]['role']='other';self.rows[-1]['hero']='Idra'
+        self.assertFalse(self.result()['valid'])
 
 if __name__=='__main__':unittest.main()

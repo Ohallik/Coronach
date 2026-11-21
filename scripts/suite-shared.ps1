@@ -11,8 +11,13 @@
 .EXAMPLE
   .\scripts\suite-shared.ps1 -Label nov12a            # then: python tools/suite_results.py nov12a
   .\scripts\suite-shared.ps1 -Label nov12a -From 5    # resume at part 5 on the same copy (same -Parts as before)
+
+  With the machine to yourself, the parts can run side by side on several mirrors holding the same copy: sync each
+  mirror first (mirror-sync.ps1 -Name A, C, D), then start one run per mirror with its own slice of the parts:
+  .\scripts\suite-shared.ps1 -Label nov13a -To 2                      # mirror S: copy, EditMode, parts 1-2
+  .\scripts\suite-shared.ps1 -Label nov13a -Mirror A -From 3 -To 4    # the others: no copy, no EditMode
 #>
-param([Parameter(Mandatory)][string]$Label, [int]$Parts = 8, [int]$From = 0, [string]$Mirror = 'S', [switch]$Main)
+param([Parameter(Mandatory)][string]$Label, [int]$Parts = 8, [int]$From = 0, [int]$To = 0, [string]$Mirror = 'S', [switch]$Main)
 $ErrorActionPreference = 'Continue'
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
@@ -46,6 +51,7 @@ $n = 0
 foreach ($group in $groups) {
     $n++
     if ($n -lt $From) { continue }
+    if ($To -gt 0 -and $n -gt $To) { continue }
     "== part $n of $($groups.Count): $($group.classes.Count) classes, about $([int]$group.seconds) s, $(Get-Date -Format HH:mm:ss)"
     & (Join-Path $PSScriptRoot 'focused.ps1') -Label "$Label-part$n" -SkipVerify -Classes ($group.classes -join '|') -TimeoutSec 7000 @where | Where-Object { $_ -match '^FOCUSED|^FAIL|^     ' }
     Copy-Item (Join-Path $root "Builds\quality\focused\$Label-part$n-playmode.xml") (Join-Path $out "$Label-part$n-playmode-results.xml") -Force -ErrorAction SilentlyContinue

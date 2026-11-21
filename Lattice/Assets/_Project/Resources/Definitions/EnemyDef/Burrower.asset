@@ -35,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: ca1914e9e28048b44afb2b8250f9126c, type: 2}
   xp: 240
   boss: 1
+  scrip: 150
+  scrap: 12
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 0

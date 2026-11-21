@@ -19,6 +19,7 @@ namespace Lattice.EditorTools
         const string RootName="Side stories";
         /// <summary>West seam (two) and east service branch (two), each nudged outward off the trail centre.</summary>
         public static readonly Vector2[] Beacons={new(-39,58),new(-29,98),new(37,55),new(36,113)};
+        [Restage.Step("chapter1.side-stories","Sorrel_Ridges",After="chapter1.staging-final",Chapter=1,Leaves=new[]{"Sorrel_Ridges: Side stories #1","Sorrel_Ridges: Evacuation beacon 1 <SignalBeacon> #1","Sorrel_Ridges: Evacuation beacon 2 <SignalBeacon> #1","Sorrel_Ridges: Evacuation beacon 3 <SignalBeacon> #1","Sorrel_Ridges: Evacuation beacon 4 <SignalBeacon> #1"})]
         public static void Refresh()=>BatchTools.Run(()=>
         {
             const string kit="Assets/_Project/Prefabs/Environment/DressSurveyBeacon.prefab";

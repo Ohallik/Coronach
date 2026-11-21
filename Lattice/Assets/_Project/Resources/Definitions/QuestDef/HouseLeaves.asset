@@ -1,0 +1,289 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: HouseLeaves
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: HouseLeaves
+  title: The House That Can Leave
+  description: The Nacre berth is gone and Stillwater is closing early. Cinder Halo
+    has been offered a place in the corridor, if it leaves its neighbours outside.
+  steps:
+  - kind: 1
+    target: NacreGrave
+    count: 1
+  - kind: 5
+    target: home.odaFound
+    count: 1
+  - kind: 5
+    target: home.tugFound
+    count: 1
+  - kind: 5
+    target: home.navigatorsFound
+    count: 1
+  - kind: 5
+    target: home.crawlNamed
+    count: 1
+  - kind: 1
+    target: MeridianCrawl
+    count: 1
+  - kind: 5
+    target: home.treadRecovered
+    count: 1
+  - kind: 5
+    target: home.returned
+    count: 1
+  - kind: 5
+    target: home.meetingHeld
+    count: 1
+  - kind: 4
+    target: Joint
+    count: 3
+  - kind: 5
+    target: home.saintReleased
+    count: 1
+  - kind: 5
+    target: home.halChose
+    count: 1
+  - kind: 5
+    target: home.coronachWalked
+    count: 1
+  - kind: 5
+    target: home.cutterDisabled
+    count: 1
+  - kind: 5
+    target: home.chartRead
+    count: 1
+  rewardXp: 1000
+  rewardScrip: 1400
+  rewards:
+  - id: FramesT5
+    count: 1
+  - id: HaloRivet
+    count: 4
+  - id: NacreShard
+    count: 4
+  flagsOnComplete: []
+  stepText:
+  - Take the lane to Nacre
+  - Find the hauler on line nine hundred and four
+  - Find the tug Welcome Back
+  - Bring in the navigators' pod
+  - Go back to Many Hands, and find somebody who has moved a town
+  - Catch up with the Meridian Crawl on Duskline
+  - Re-mate three couplings and bring the tread-hall in ahead of the dawn
+  - Go home
+  - Attend the town meeting
+  - Reopen the separation joints under the promenade
+  - Release the Foundry Saint's arms, and take the override off its back
+  - Hold the lamp for Hal
+  - Walk the town. There is no hurry.
+  - Keep the Debris Cutter off the districts as they lift
+  - See where every road out now runs
+  rewardsRolled: 1
+  main: 1
+  chapter: 9
+  stepTargets:
+  - scene: NacreGrave
+    via:
+    - PicketOfTeeth
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: NacreGrave
+    via:
+    - PicketOfTeeth
+    - ManyHandsHull
+    speaker: 
+    report: OdaHauler
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: NacreGrave
+    via:
+    - PicketOfTeeth
+    - ManyHandsHull
+    speaker: 
+    report: WelcomeBack
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: NacreGrave
+    via:
+    - PicketOfTeeth
+    - ManyHandsHull
+    speaker: 
+    report: NavigatorsPod
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: TownMovers
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: MeridianCrawl
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Terminator
+    via:
+    - MeridianCrawl
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DecksLeaving
+    via: []
+    speaker: Orrin
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DecksLeaving
+    via: []
+    speaker: 
+    report: Meeting
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: SeparationWorks
+    via:
+    - DecksLeaving
+    speaker: 
+    report: Joint
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: SeparationWorks
+    via:
+    - DecksLeaving
+    speaker: 
+    report: 
+    encounter: FoundrySaint
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DecksLeaving
+    via:
+    - SeparationWorks
+    speaker: Hal
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DecksLeaving
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BrokenRing
+    via:
+    - DecksLeaving
+    speaker: 
+    report: 
+    encounter: DebrisCutter
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: FleetChart
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: 'Chapter 9 complete. The Halo is a fleet, and every road out runs
+    past Sorrel: hear Idra''s plan at the chart table.'
+  next:
+    scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: OnePlan
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags:
+  - home.turnedForNacre
+  - home.nacreReached
+  - home.nacreSpoken
+  - home.nacreDone
+  - home.noticeHeard
+  - home.chartLent
+  - home.crawlReached
+  - home.crawlAsked
+  - met.Dorrow
+  - home.coupling1
+  - home.coupling2
+  - home.coupling3
+  - home.rideDone
+  - home.meetingOpened
+  - home.offerMade
+  - home.halAsked
+  - home.manifestShown
+  - home.namesRead
+  - home.odaStood
+  - home.orrinSaid
+  - home.berthRefused
+  - home.worksRead
+  - home.joint1
+  - home.joint2
+  - home.joint3
+  - bossdown.FoundrySaint
+  - home.coronachCalled
+  - coronach.mira
+  - coronach.orrin
+  - coronach.hal
+  - coronach.neve
+  - coronach.oda
+  - coronach.jun
+  - coronach.ilo
+  - coronach.doorsHeard
+  - coronach.taren
+  - coronach.sela
+  - coronach.idra
+  - coronach.lastHeard
+  - home.launched
+  - bossdown.DebrisCutter
+  - chapter9.complete
+  cardFlag: chapter9.complete
+  cardBody: Cinder Halo turned down a berth that left its neighbours in the footnotes.
+    It walked its own streets, said what each door had done, and came apart on purpose.
+    Every road out now runs past Sorrel.
+  letGoAt: 

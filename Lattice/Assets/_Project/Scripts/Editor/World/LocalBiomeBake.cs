@@ -40,20 +40,30 @@ namespace Lattice.EditorTools
             Debug.Log("BIOME_INSPECT_OK");
         });
 
-        public static void Build()=>BatchTools.Run(()=>
+        /// <summary>Every zone that carries BiomePatches: chapter 1's landscapes, and the zones whose ground kit sows tufts (GroundStaging).</summary>
+        static readonly string[] Zones={"Sorrel_Ridges","Arena_Ground","Hushwell","TallowDrift","Lanternwick","LanternGorge","Rootmarket"};
+        public static void Build()=>BatchTools.Run(()=>Bake(true,Zones));
+        /// <summary>The patches of some zones only, after their ground was restaged (<c>-biome-zones a,b</c>). The local render settings are left as they are.</summary>
+        [Restage.Step("local-biomes","Sorrel_Ridges,Arena_Ground,Hushwell,TallowDrift,Lanternwick,LanternGorge,Rootmarket",After="ground,chapter1.surfaces",Chapter=2,ScenesArg="-biome-zones",Needs="Packages/xyz.staggart-creations.stylized-grass",Check="LocalBiomesBaked")]
+        public static void BuildPatches()=>BatchTools.Run(()=>
+        {
+            string only=Lattice.Core.DevArgs.Value("-biome-zones");
+            Bake(false,string.IsNullOrEmpty(only)?Zones:only.Split(','));
+        });
+        static void Bake(bool pipeline,string[] zones)
         {
             var grass=AssetDatabase.LoadAssetAtPath<GameObject>(GrassRoot+"Prefabs/GrassThin.prefab");
             var grassBase=AssetDatabase.LoadAssetAtPath<Material>(GrassRoot+"Materials/StylizedGrass.mat");
             var waterBase=AssetDatabase.LoadAssetAtPath<Material>(WaterRoot+"Materials/StylizedWater3_Toon.mat");
             if(grass==null||grassBase==null||waterBase==null)throw new InvalidOperationException("Install your licensed Staggart packages with tools/install_staggart.py first. Public fallback builds do not require them.");
             Directory.CreateDirectory(ResourcesRoot);AssetDatabase.Refresh();
-            Pipeline();
+            if(pipeline)Pipeline();
             // At the fixed gameplay camera, the smaller supplied LOD retains the blade silhouette.
             var source=grass.GetComponentsInChildren<MeshFilter>().OrderBy(f=>f.sharedMesh.vertexCount).First();
             var bounds=source.sharedMesh.bounds;
             Debug.Log("BIOME_GRASS_SOURCE vertices="+source.sharedMesh.vertexCount+" bounds="+bounds);
             int patches=0,sprouts=0;
-            foreach(var zone in new[]{"Sorrel_Ridges","Arena_Ground","Hushwell","TallowDrift"})
+            foreach(var zone in zones)
             {
                 var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
                 foreach(var patch in scene.GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<BiomePatch>(true)))
@@ -79,7 +89,7 @@ namespace Lattice.EditorTools
                 }
             }
             AssetDatabase.SaveAssets();Debug.Log("LOCAL_BIOMES_OK patches="+patches+" sprouts="+sprouts);
-        });
+        }
 
         static T Save<T>(T incoming,string path) where T:Object
         {
@@ -129,10 +139,13 @@ namespace Lattice.EditorTools
                 Float(material,"_SpecularReflectionsOn",1);material.DisableKeyword("_SPECULARHIGHLIGHTS_OFF");
                 Float(material,"_SunReflectionStrength",.12f);Float(material,"_PointSpotLightReflectionStrength",.3f);
                 Float(material,"_SparkleIntensity",.015f);Float(material,"_CausticsOn",0);
+                // Water draws before danger markings, as WaterKit's does: at its shader's own transparent queue it lay over any marking on it (November 12).
+                material.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent-30;
             }
             else
             {
-                material.SetColor("_BaseColor",palette=="Sorrel"?new Color(.68f,.63f,.37f):palette=="Nursery"?new Color(.25f,.52f,.46f):new Color(.49f,.63f,.42f));
+                // Canyon: the Lantern Road's dry grass, straw gone rose in the dusk.
+                material.SetColor("_BaseColor",palette=="Sorrel"?new Color(.68f,.63f,.37f):palette=="Canyon"?new Color(.74f,.6f,.42f):palette=="Nursery"?new Color(.25f,.52f,.46f):new Color(.49f,.63f,.42f));
                 material.SetColor("_HueVariationColor",new Color(.8f,.71f,.48f,.12f));
                 Float(material,"_WindAmbientStrength",.08f);Float(material,"_WindGustStrength",.06f);Float(material,"_WindStrength",.08f);
                 Float(material,"_WindSpeed",.7f);Float(material,"_WindSwinging",.08f);Float(material,"_WindFlutter",.08f);

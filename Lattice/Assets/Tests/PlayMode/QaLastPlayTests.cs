@@ -74,11 +74,13 @@ namespace Lattice.Tests.PlayMode
             foreach(string id in new[]{"RepairGel","ChargeCell"})
             {
                 var recipe=GameCatalog.Find<RecipeDef>(id);Assert.IsNotNull(recipe,"fixture: "+id+"'s recipe");Assert.IsNull(recipe.output,"fixture: "+id+" isn't a part");
-                foreach(var input in recipe.inputs)State.materials[input.id]=input.count*12;
-                State.craftingXp.Clear();State.consumables.TryGetValue(id,out int held);
-                for(int made=0;made<12;made++)Assert.IsTrue(bench.Craft(recipe,false,1,out _),$"fixture: {id} {made+1} can be made anywhere");
-                Assert.AreEqual(held+12,State.consumables[id],"fixture: the gels are in the bag");
-                foreach(var ladder in ladders)Assert.AreEqual(0,bench.Xp(ladder),$"twelve of {id} trained {ladder}: a healing item has no link to a gear ladder, and it's a cheap way up one");
+                // It was twelve of each. The pouch holds only so many now (prog159: 9 gels, 5 cells), so it's filled from empty: still several crafts' worth of XP if a consumable trained anything.
+                int room=Mathf.Min(12,Inventory.Cap(GameCatalog.Find<ConsumableDef>(id)));Assert.GreaterOrEqual(room,3,"fixture: the pouch holds enough of "+id+" to show a ladder moving");
+                foreach(var input in recipe.inputs)State.materials[input.id]=input.count*room;
+                State.craftingXp.Clear();State.consumables[id]=0;
+                for(int made=0;made<room;made++)Assert.IsTrue(bench.Craft(recipe,false,1,out _),$"fixture: {id} {made+1} can be made anywhere");
+                Assert.AreEqual(room,State.consumables[id],"fixture: the gels are in the bag");
+                foreach(var ladder in ladders)Assert.AreEqual(0,bench.Xp(ladder),$"{room} of {id} trained {ladder}: a healing item has no link to a gear ladder, and it's a cheap way up one");
             }
             // A part still trains its own ladder, and only that.
             var part=GameCatalog.Find<RecipeDef>("EdgesT1");foreach(var input in part.inputs)State.materials[input.id]=input.count;

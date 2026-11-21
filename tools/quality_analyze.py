@@ -32,7 +32,10 @@ def stability_windows(frames):
 
 def analyze(run, frames, route, performance=False):
     errors = list(run.get('failures', []))
-    if not run.get('valid'): errors.append('runtime validation rejected')
+    # A reconnaissance run (D290) is played behind other windows and is never valid: what it found is in reconnaissancePassed,
+    # and the main block below writes "valid": false whatever this returns.
+    scouting = run.get('reconnaissance') is True
+    if not (run.get('reconnaissancePassed') is True if scouting else run.get('valid')): errors.append('runtime validation rejected')
     if (run.get('width'), run.get('height')) != (1920,1080): errors.append('wrong resolution')
     # Steps that may end early (a condition, or a fight its outcome cuts short) do not count toward the length.
     duration = sum(s['seconds'] for s in route['steps'] if not s.get('until') and not s.get('stopWhen'))
@@ -43,11 +46,14 @@ def analyze(run, frames, route, performance=False):
     if elapsed[-1] < duration - .15: errors.append('route truncated')
     if any(b <= a for a,b in zip(elapsed,elapsed[1:])): errors.append('nonmonotonic trace')
     if abs(sum(times)/1000-elapsed[-1])>.05: errors.append('unaccounted frame intervals')
-    if any(f['focus']!='True' for f in frames): errors.append('lost focus')
+    if not scouting and any(f['focus']!='True' for f in frames): errors.append('lost focus')
     def expected_menu_pause(frame):
         index = int(frame['step'])
         if not 0 <= index < len(route['steps']): return False
         observed = frame.get('ui')
+        # The driver retrying a boss from its door (a step's "bossDoor") takes the defeat screen's own pause and marks each of its frames; run.json's bossAttempts
+        # say which fight it was. Only on a route that has a door: nothing else may claim the mark.
+        if observed == 'defeat' and frame.get('retry') == 'True' and any(s.get('bossDoor') for s in route['steps']): return True
         return observed in ('bench', 'pause', 'defeat') and route['steps'][index].get('pauseUi') == observed
     # A workshop may intentionally inspect a bench/menu or a defeat screen.
     # Retain its frames and require the actual UI observation to match the step.
@@ -71,8 +77,12 @@ def analyze(run, frames, route, performance=False):
         if rows[-1]['scene'] != expected: errors.append(step['name']+': wrong scene')
         if step.get('expectedCharacter') and rows[-1]['hero']!=step['expectedCharacter']:errors.append(step['name']+': wrong hero')
         if step.get('expectedForm') and rows[-1]['form']!=step['expectedForm']:errors.append(step['name']+': wrong body form')
-        # Partner and target approaches have moving goals; the runtime records their arrival.
-        if step.get('navigate') and not step.get('approachPartner') and not step.get('approachTarget'):
+        # Partner and target approaches have moving goals; the runtime records their arrival. A leg that names a stopWhen is finished by whichever comes first
+        # (flown on until a radio call opens, it never reaches the point it flew toward): the runtime fails it if neither happened.
+        # A wait for a moon's lee (until "lee:n", the Orrery) holds at its waiting place only if the lee has not come yet: when the lee is already there as the ship
+        # comes up, the wait is over short of the place, as the runtime's ValidateStep has it (ContinuousReview.Oriel.cs WaitedOut; route 38, November 14).
+        waited_out=str(step.get('until') or '').startswith('lee:')
+        if step.get('navigate') and not step.get('approachPartner') and not step.get('approachTarget') and not step.get('stopWhen') and not waited_out:
             target=(step['point']['x'],step['point']['z'])
             if min(math.dist((float(f['x']),float(f['z'])),target) for f in rows)>step.get('tolerance',.65)+.1:
                 errors.append(step['name']+': checkpoint not reached')
@@ -346,6 +356,11 @@ if __name__=='__main__':
     include_release_geometry(result,args.folder,run.get('releaseTraceVersion',0),frames,run)
     if (args.performance or args.headroom) and (run.get('releaseTraceVersion') or (args.folder/'release-geometry.json').exists()):
         result['failures'].append('evaluated release geometry overhead disqualifies clean timing/headroom');result['valid']=False
+    scouted=False
+    if run.get('reconnaissance') is True:
+        if args.performance or args.headroom: result['failures'].append('reconnaissance is not timing evidence')
+        scouted=not result['failures']
+        result.update(reconnaissance=True,reconnaissancePassed=scouted,unfocusedFrames=sum(f['focus']!='True' for f in frames),valid=False)
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
-    raise SystemExit(0 if result['valid'] else 1)
+    raise SystemExit(0 if result['valid'] or scouted else 1)

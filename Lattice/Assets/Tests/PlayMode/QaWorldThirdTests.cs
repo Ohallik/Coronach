@@ -259,17 +259,30 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ---------------------------------------------------------------- item 8: the curtain
+        /// <summary>Written for the curtain before D229 (November 10): every strand fading evenly over 2.6 s, the view on the 13 m either side of the ship, and more than half of that
+        /// middle stretch to be standing two seconds on, judged from the arrival, 254 m south, where no view shows the curtain at all. D229 has each strand hold for a third of its
+        /// 1.9 s and the parting run out from the middle over 2.3 s, framed from the middle to the ship, so the middle strands' whole time is over at the old two-second mark by its
+        /// own numbers (2 of those 9 stood) and the old check could not pass; it wasn't run between that change and November 11. What it protects is unchanged: two seconds on,
+        /// with Sela's line still up, the stretch in view has not gone. It is judged now on the stretch D229 puts in view, from where the gate is opened: the middle, which goes
+        /// first, out to 9 m past the ship (LightCurtain.Frame). More than a third of it stands, and the ship's own end stands well: the opening is still coming toward the player.</summary>
         [UnityTest] public IEnumerator TheCurtainTakesItsTimeWhereTheViewIs()
         {
             yield return Zone("WickReach");
             var strands=All<LineRenderer>().Where(l=>l.name=="Curtain strand").ToArray();var full=strands.ToDictionary(s=>s,s=>s.startColor.a);
-            // The view shows the stretch nearest the ship, about 13 m either side.
-            var near=strands.Where(s=>Mathf.Abs(s.transform.TransformPoint(s.GetPosition(0)).x)<13).ToArray();Assert.Greater(near.Length,5,"fixture: the curtain's middle");
-            Flag("wick.relay1");Flag("wick.relay2");
+            // Where the second relay is lit, 32 m from the curtain and 21 m off its middle.
+            Put(Lead,new Vector3(21,1,228));float ship=Lead.transform.position.x;
+            float X(LineRenderer strand)=>strand.transform.TransformPoint(strand.GetPosition(0)).x;
+            var near=strands.Where(s=>X(s)>-9&&X(s)<ship+9).ToArray();Assert.Greater(near.Length,9,"fixture: the stretch from the curtain's middle to the ship");
+            var own=near.Where(s=>X(s)>=ship).ToArray();Assert.Greater(own.Length,1,"fixture: the curtain at the ship's own end");
+            Flag("wick.relay1");yield return new WaitForSecondsRealtime(.6f);Flag("wick.relay2");
             float deadline=Time.unscaledTime+3;while(!Has("wick.gateOpen")&&Time.unscaledTime<deadline)yield return null;
             Assert.IsTrue(Has("wick.gateOpen"),"fixture: two relays open the gate");
             yield return new WaitForSecondsRealtime(2);
-            Assert.Greater(near.Count(s=>s.gameObject.activeInHierarchy&&s.startColor.a/full[s]>.12f),near.Length/2,"two seconds on, the stretch in view has gone while Sela's line about it is still up: the player can miss the payoff of lighting both relays");
+            float Left(LineRenderer strand)=>strand.gameObject.activeInHierarchy?strand.startColor.a/full[strand]:0;
+            TestContext.WriteLine($"CURTAIN_STRETCH standing={near.Count(s=>Left(s)>.12f)} of {near.Length} ownEnd={string.Join(" ",own.Select(s=>Left(s).ToString("0.00")))}");
+            Assert.Greater(near.Count(s=>Left(s)>.12f),near.Length/3,"two seconds on, the stretch in view has gone while Sela's line about it is still up: the player can miss the payoff of lighting both relays");
+            Assert.IsTrue(own.All(s=>Left(s)>.3f),"two seconds on, the curtain at the ship's own end is nearly out: the opening has already passed the player, with Sela's line about it still up");
+            Assert.IsTrue(Inside(Camera.main.WorldToViewportPoint(Lead.transform.position)),"showing the curtain lost the ship");
         }
 
         // ---------------------------------------------------------------- item 9: the first look at the town

@@ -2,6 +2,7 @@
   "name": "chapter-11-tallow-moving-refuge",
   "scene": "Title",
   "starterParty": false,
+  "wearBest": true,
   "settleSeconds": 5,
   "frameCap": 60,
   "screenshotInterval": 0,

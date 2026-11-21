@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: SporePod
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: SporePod
+  prefab: {fileID: 3327112358898695148, guid: a589d1085a099364a92bc6300b1b6864, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 60
+  breakThreshold: 100000
+  speed: 0.6
+  attacks:
+  - {fileID: 11400000, guid: cb3139ac5c4a6dc4985e8e6c2a7b9950, type: 2}
+  weakness: 1
+  resistance: 2
+  archetype: 4
+  lootTable: {fileID: 11400000, guid: 42b790f2a4eac534a8189e70bcbf4b0a, type: 2}
+  xp: 10
+  boss: 0
+  scrip: 2
+  scrap: 0
+  displayName: Spore Pod
+  bossMusicId: 
+  capsuleRadius: 1.1
+  capsuleHeight: 2.2
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 0
+  behaviour: 10
+  tune:
+    reach: 1.5
+    width: 0
+    speed: 0
+    recover: 0
+    linger: 3.5
+    area: 4.5
+    pace: 0
+    effect: 2
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 4.5
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0.85, g: 1, b: 0.72, a: 0.85}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

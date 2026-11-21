@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: BellowsBelow
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
   id: BellowsBelow
   prefab: {fileID: 3683809354662544641, guid: 9595976d290e1d24ba6e08ec56bad25e, type: 3}
   bodySegment: {fileID: 0}
@@ -22,7 +24,7 @@ MonoBehaviour:
     response: 0
     resonance: 0
     fortune: 0
-  integrity: 35000
+  integrity: 33500
   breakThreshold: 600
   speed: 2.2
   attacks:
@@ -33,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: cdfca47e58576df438931b9b30e95379, type: 2}
   xp: 260
   boss: 1
+  scrip: 150
+  scrap: 12
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 0

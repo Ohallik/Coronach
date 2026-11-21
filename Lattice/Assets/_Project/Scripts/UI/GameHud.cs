@@ -29,7 +29,7 @@ namespace Lattice.UI
         const float ReticleReach=45;
         readonly PanelFade[] panels=new PanelFade[8];
         readonly BodyAim aim=new(),bossAim=new();
-        TMP_Text status,partner,target,prompt,skills,zone,probe,hpLabel,chargeLabel,thrustLabel;
+        TMP_Text status,partner,target,prompt,skills,zone,probe,hpLabel,chargeLabel,thrustLabel,resting;
         Image hp,charge,thrust,reticle;
         readonly Image[] skillIcons=new Image[4];
         // The boss bar (D198): name, integrity with a lagging chip, phase notches, break gauge and the fight's state.
@@ -73,10 +73,12 @@ namespace Lattice.UI
             hpLabel=Text("IntegrityLabel",TopLeft,new(297,976),new(470,30),24,TextAlignmentOptions.Left);
             chargeLabel=Text("ChargeLabel",TopLeft,new(297,933),new(470,30),24,TextAlignmentOptions.Left);
             thrustLabel=Text("ThrustLabel",TopLeft,new(297,890),new(470,30),24,TextAlignmentOptions.Left);
-            hp=Bar("Integrity",new(262,955),new Color(.23f,.88f,.72f));
+            hp=Bar("Integrity",new(262,955),IntegrityColor);
             charge=Bar("Charge",new(262,912),new Color(.18f,.66f,1));
             thrust=Bar("Thrust",new(262,869),new Color(1,.65f,.2f));
             partner=Text("Partner",TopLeft,new(279,833),new(435,32),24,TextAlignmentOptions.Left);
+            // With three in the party, who is resting, under the partner and inside the frame (PartyPairUi.RestingLine). With two it isn't there at all.
+            resting=Text("Resting",TopLeft,new(279,797),new(435,30),24,TextAlignmentOptions.Left);resting.gameObject.SetActive(false);
             target=Text("Target",TopCentre,new(960,972),new(700,80),25);
             // Centred between the objective frame's top edge (987.5) and the top of the screen: at 1000 its words sat on that edge.
             zone=Text("Zone",TopRight,new(1635,1034),new(500,60),26,TextAlignmentOptions.Right);
@@ -84,12 +86,12 @@ namespace Lattice.UI
             prompt=Text("Interaction",BottomCentre,new(960,205),new(1200,60),28);
             UiKit.Legible(skills);UiKit.Legible(prompt);UiKit.Legible(target);UiKit.Legible(zone).color=UiKit.LooseTextColor;
             // Only a panel's plate steps aside, so what it says has to hold on the floor without it.
-            foreach(var word in new[]{status,hpLabel,chargeLabel,thrustLabel,partner})UiKit.Legible(word).color=UiKit.LooseTextColor;
+            foreach(var word in new[]{status,hpLabel,chargeLabel,thrustLabel,partner,resting})UiKit.Legible(word).color=UiKit.LooseTextColor;
             promptPlate=TextPlate.Attach(prompt,"InteractionPlate");promptFrame=promptPlate.Frame.rectTransform;skillsPlate=TextPlate.Attach(skills,"SkillsPlate",34);targetPlate=TextPlate.Attach(target,"TargetPlate",34);
             // The zone's name had nothing behind it, and a strut or a neon strip ran straight through its letters.
             var zonePlate=TextPlate.Attach(zone,"ZonePlate",24);
             // With a plate stepped aside its words keep a backing of their own, so they never read as painted on the floor.
-            panels[0]=new PanelFade(vitals,frame).Backs(status,hpLabel,chargeLabel,thrustLabel,partner);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame).Backs(target);
+            panels[0]=new PanelFade(vitals,frame).Backs(status,hpLabel,chargeLabel,thrustLabel,partner,resting);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame).Backs(target);
             panels[2]=new PanelFade(promptPlate.Frame.rectTransform,promptPlate.Frame).Backs(prompt);
             panels[7]=new PanelFade(zonePlate.Frame.rectTransform,zonePlate.Frame).Backs(zone);
             // First in the canvas, so under every plate: drawn over them, its brackets cut through their words ('LO..KED').
@@ -109,14 +111,21 @@ namespace Lattice.UI
             probe=Text("InputProbe",BottomRight,new(1630,280),new(500,180),16,TextAlignmentOptions.Right);
 #endif
             BuildBossBar();gameObject.AddComponent<BossEdgeMark>().Build(canvas.transform);
+            // A place where light hunts the ship (the Spore Veil) shows its glow under the vitals; anywhere else the gauge stays hidden.
+            gameObject.AddComponent<GlowGauge>().Build(canvas.transform);
+            // A place of currents (the Aurora Shear) shows what the current is doing to the lead ship in the same spot; anywhere else that gauge stays hidden too.
+            gameObject.AddComponent<CurrentGauge>().Build(canvas.transform);
+            // A place with a picket (the Picket of Teeth) shows how much it has heard and what its stage brings, in the same spot; anywhere else that gauge stays hidden.
+            gameObject.AddComponent<PicketGauge>().Build(canvas.transform);
             Health.DamageNumber+=Damage;PlayerBrain.QuickItemRefused+=OnItemRefused;PlayerBrain.SwapRefused+=OnSwapRefused;
+            Health.Impacted+=Struck;Impact.LeadHurt+=OnLeadHurt;
         }
         void BuildBossBar()
         {
             bossRoot=new GameObject("BossBar",typeof(RectTransform));bossRoot.transform.SetParent(canvas.transform,false);
             var root=(RectTransform)bossRoot.transform;root.anchorMin=root.anchorMax=BottomCentre;root.pivot=Vector2.zero;root.anchoredPosition=Vector2.zero;root.sizeDelta=Vector2.zero;
             // The words have no frame and lie over the fullest markings and the brightest floors.
-            var band=UiKit.SoftBand(bossRoot.transform,"BossBand",new Color(.01f,.02f,.04f,.6f));UiKit.Rect(band.gameObject,Vector2.zero,Vector2.zero,new(0,178),new(1060,132));
+            var band=UiKit.SoftBand(bossRoot.transform,"BossBand",new Color(.01f,.02f,.04f,.6f));bossBand=UiKit.Rect(band.gameObject,Vector2.zero,Vector2.zero,BandAt,BandSize);
             panels[3]=new PanelFade(band.rectTransform,band,.55f);
             bossName=BossText("BossName",new(0,216),28,TextAlignmentOptions.Left);
             bossEpithet=BossText("BossEpithet",new(0,216),24,TextAlignmentOptions.Right);
@@ -158,11 +167,22 @@ namespace Lattice.UI
             var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(BossBarWidth,height));rect.pivot=new(0,.5f);return fill;
         }
         /// <summary>Shows the boss bar for the fighting boss nearest the active hero; returns whether it is up.</summary>
+        /// <summary>The size a boss's name is set at on its card, and the least it may be: the card's own 58, or as much smaller as brings the name inside the card's
+        /// width at its settled spacing. DIRECTOR MERET VENN is 796 wide at 58 on a card of 740, and a name is not shortened to suit a card (chapter 10).</summary>
+        public const float CardNameSize=58,CardNameLeast=46,CardNameSpacing=6;
+        public float CardSizeFor(string name)
+        {
+            float size=bossCard.fontSize,spacing=bossCard.characterSpacing;
+            bossCard.fontSize=CardNameSize;bossCard.characterSpacing=CardNameSpacing;
+            float wide=bossCard.GetPreferredValues(name).x,room=bossCard.rectTransform.rect.width;
+            bossCard.fontSize=size;bossCard.characterSpacing=spacing;
+            return wide<=room?CardNameSize:Mathf.Max(CardNameLeast,Mathf.Floor(CardNameSize*room/wide));
+        }
         bool RefreshBossBar(CombatActor active)
         {
             var boss=BossController.Focus(active.transform.position);bool show=boss!=null;
             if(bossRoot.activeSelf!=show)bossRoot.SetActive(show);
-            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;cardSeated=false;}
+            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.fontSize=CardSizeFor(boss.DisplayName);bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;cardSeated=false;}
             // A conversation can open the fight, with the camera framed for the talk: the card waits for the bar to be seen, as its clock does.
             if(show&&!cardSeated&&!GameInput.Current.Blocked){cardSeated=true;SeatBossCard(boss,active);}
             AdvanceBossCard();
@@ -186,9 +206,32 @@ namespace Lattice.UI
             // The Bellows sags open after every breath, and that lifts its brace, so an opening over its organs is real. But with the plate on an organ and the objective saying break them it told a hero in the middle of the fight's one lesson to go and hit something else. Only a hero whose own target is the boss is told to strike it.
             bool opening=health.Broken&&(active.target==health||boss.StatusText.Length==0);
             string state=boss.Shifting?boss.ShiftText:opening?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:boss.StatusText;
-            FitBossState();if(bossState.text!=state)bossState.text=state;
+            FitBossState();string stood=StandState(state);if(bossState.text!=stood)bossState.text=stood;
             bossState.color=boss.Shifting?ShiftingWords:opening?OpeningWords:UiKit.LooseTextColor;
             return true;
+        }
+        /// <summary>The state as it stands under the bar. A line too long for the room left of the skill row even at its least size stands as two, broken at its dot: what the
+        /// boss is doing, and under it what to do. The salvage frame's 'CLAMPED TO THE HULL  ·  WAIT FOR A FOOT TO PLANT' ran under the Cleave icon as one (first player run,
+        /// November 14), and eight later bosses' lines are as long. Two lines hang from where one stands, and the band behind the words comes down with them.</summary>
+        public const string StateDot="  ·  ";
+        static readonly Vector2 BandAt=new(0,178),BandSize=new(1060,132);
+        const float StackDrop=30;
+        RectTransform bossBand;string stateAsked,stateStood="";
+        public string StandState(string state)
+        {
+            if(state==stateAsked)return stateStood;
+            stateAsked=state;stateStood=state??"";bool stacked=false;
+            int dot=stateStood.IndexOf(StateDot,System.StringComparison.Ordinal);
+            if(dot>0)
+            {
+                // Measured as it would be drawn: the words shrink to their least size before they overflow, so ink wider than the room is a line that can't fit.
+                bossState.alignment=TextAlignmentOptions.Center;bossState.text=stateStood;bossState.ForceMeshUpdate();
+                float room=BossBarWidth-bossState.margin.x-bossState.margin.z;
+                if(bossState.textBounds.size.x>room+.5f){stateStood=stateStood.Substring(0,dot)+"\n"+stateStood.Substring(dot+StateDot.Length);stacked=true;}
+            }
+            bossState.alignment=stacked?TextAlignmentOptions.Top:TextAlignmentOptions.Center;
+            bossBand.sizeDelta=new Vector2(BandSize.x,BandSize.y+(stacked?StackDrop:0));bossBand.anchoredPosition=new Vector2(BandAt.x,BandAt.y-(stacked?StackDrop*.5f:0));
+            return stateStood;
         }
         /// <summary>The fight's state stands centred under the bar, which is wider than the room left of the skill row: 'BRACED ON ITS ORGANS  ·  BREAK THEM' ran to within a few
         /// pixels of the Cleave icon. Its words keep this far off the first icon, by margins on both sides so they stay centred, and shrink a little to fit, never to the name's size or under it.</summary>
@@ -196,7 +239,7 @@ namespace Lattice.UI
         float stateFitWidth=-1;
         void FitBossState()
         {
-            float width=((RectTransform)canvas.transform).rect.width;if(width==stateFitWidth)return;stateFitWidth=width;
+            float width=((RectTransform)canvas.transform).rect.width;if(width==stateFitWidth)return;stateFitWidth=width;stateAsked=null;
             // The first icon's left edge, held from the bottom-right corner, against the bar's middle.
             float room=(width-(1920-(1340-37)))-width*.5f-StateAir,margin=Mathf.Max(0,BossBarWidth*.5f-room);
             bossState.margin=new Vector4(margin,0,margin,0);
@@ -291,6 +334,8 @@ namespace Lattice.UI
             canvas.enabled=!GameInput.Current.Blocked;
             var a=party.Active;
             hp.rectTransform.sizeDelta=new Vector2(BarWidth*a.Health.integrity/a.Health.maximum,14);
+            // The bar answers a hit as the screen's edge does, and under three tenths it is the colour of the warning.
+            hp.color=Time.unscaledTime-hurtAt<.18f?new Color(1,.93f,.86f):a.Health.integrity<a.Health.maximum*Impact.Tune.LowIntegrity?new Color(1,.45f,.32f):IntegrityColor;
             charge.rectTransform.sizeDelta=new Vector2(BarWidth*a.charge/100,14);thrust.rectTransform.sizeDelta=new Vector2(BarWidth*a.thrust/100,14);
             var state=GameServices.Current.State;int level=state.party.Find(m=>m.id==a.character)?.level??1;
             status.text=$"{DisplayNames.Speaker(a.character).ToUpperInvariant()}   ·   SYNC {level}";
@@ -302,15 +347,16 @@ namespace Lattice.UI
             thrust.color=rollRefused?new Color(1,.3f,.25f):new Color(1,.65f,.2f);
             if(rollRefused&&a.RollRefusedAt>refusedHeard){refusedHeard=a.RollRefusedAt;UiSounds.Error();}
             // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
-            if(party.members.Length>1){var p=party.members[1-party.index];string line=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");partner.text=Time.unscaledTime-swapRefusedAt<.25f?"<color=#FF4D40>"+line+"</color>":line;}
+            if(party.members.Length>1){var p=party.Partner;string line=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");partner.text=Time.unscaledTime-swapRefusedAt<.25f?"<color=#FF4D40>"+line+"</color>":line;}
+            bool waiting=Deployment.Choosing(state);if(resting.gameObject.activeSelf!=waiting)resting.gameObject.SetActive(waiting);if(waiting)resting.text=PartyPairUi.RestingLine(state);
             zone.text=DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
             string card;
             if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
                 // The bar has a boss's name and gauge. The Cantor's lock is the one thing on its body the objective names, so the plate names it too, with its progress.
-                card=shownCollar!=null?(a.TargetLocked?"LOCKED  ·  ":"")+$"COLLAR LOCK   {a.target.integrity:0}/{a.target.maximum:0}\n"+TargetKeys(a):(a.TargetLocked?"LOCKED    ":"")+TargetKeys(a);
+                card=shownCollar!=null?(a.TargetLocked?"LOCKED  ·  ":"")+$"COLLAR LOCK   {a.target.integrity:0}/{a.target.maximum:0}{Branded(a.target)}\n"+TargetKeys(a):(a.TargetLocked?"LOCKED    ":"")+(a.target.Branded?"BRANDED    ":"")+TargetKeys(a);
             else if(a.target!=null&&a.target.Alive)
-                card=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
+                card=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}{Branded(a.target)}\n"+
                     (a.target.Broken?"BROKEN    ":a.target.breakThreshold>=Unbreakable?"":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0")+"    ")+
                     TargetKeys(a);
             else card="";
@@ -325,13 +371,13 @@ namespace Lattice.UI
                 float brackets=ReticleReach*canvas.scaleFactor;foreach(var panel in panels)if(panel!=null&&panel.Touches(screen,brackets)){mark.a*=.4f;break;}
                 reticle.color=mark;
             }
-            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp&&!QuestToast.CardUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
+            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&(!bossUp||interaction.InFight)&&!QuestToast.CardUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
             SlidePrompt(camera,party);
             bool combat=ZoneController.Current.Combat;
             for(int i=0;i<4;i++)
             {
                 var skill=SkillBook.Equipped(a.character,i);
-                float cost=SkillBook.Cost(a.character,skill);
+                float cost=a.CostOf(skill);
                 skillIcons[i].enabled=combat&&skill!=null;skillLabels[i].enabled=combat&&skill!=null;skillBands[i].enabled=combat&&skill!=null;if(skill==null)continue;
                 skillIcons[i].sprite=UiSkin.Skill(skill);
                 // A refused press answers: the icon flashes, and the press itself gets a sound below.
@@ -348,7 +394,7 @@ namespace Lattice.UI
             // Only where it's one button, since a keyboard's E and J each still do what they say. INTERACT is 22 units on ATTACK, and the strip's widest would stand 1113 of its 1190 with it.
             string press=a.flight?"Fire":"Attack",strike=combat?interaction!=null&&!bossUp&&PromptService.Tag("Interact")==PromptService.Tag(press)?Hint("Interact","INTERACT"):Hint(press,a.flight?"FIRE":"ATTACK"):"";
             skills.text=!combat?Hint("Interact","INTERACT")+(party.members.Length>1?"    "+Hint("Swap","SWAP"):"")+"    "+Hint(a.flight?"Boost":"Sprint",a.flight?"BOOST":"SPRINT")+(a.flight?"    "+Hint("Brake","BRAKE"):"")+"    "+Hint("Log","QUESTS")+"    "+Hint("Pause","MENU"):
-                a.flight?strike+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+swap+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
+                a.flight?strike+"    "+Hint("Lunge",a.Style.flightGuard?"BRACE":"LUNGE")+"    "+Hint("Roll","ROLL")+"    "+swap+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
                 strike+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+swap+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
             StepAside(party,a);
@@ -393,6 +439,15 @@ namespace Lattice.UI
             if(panels[2]!=null&&panels[2].Showing)PanelFade.AddHeadroom(promptFrame,PromptHeadroom*canvas.scaleFactor);
             Watch(camera,a,now);
             if(a.target!=null&&a.target.Alive)Look(camera.WorldToScreenPoint(aim.Centre(a.target)),now);
+            // The card is never solid over a body it keeps off (D226's own last line: with nowhere clear it stays and fades). It keeps off boxes and the fade looks at
+            // points, so a card with no seat stood solid on a locked target's head while the target's aim point, lower down, was behind nothing: November 11's suite found
+            // its plate at full strength over the hound it named. Whatever the card would slide off, its plate fades for while it is still over it: stuck, or on its way.
+            var card=panels[1];
+            if(card!=null&&card.Showing)
+            {
+                var over=Scaled(card.Box,canvas.scaleFactor);
+                foreach(var body in watched)if(body.Overlaps(over)){var middle=card.Box.center;card.Near(new Vector3(middle.x,middle.y,1),0,now);break;}
+            }
             bool fight=shownBoss!=null;
             if(fight&&shownBoss.Health!=a.target)Look(camera.WorldToScreenPoint(bossAim.Centre(shownBoss.Health)),now);
             foreach(var body in Health.All)
@@ -406,7 +461,7 @@ namespace Lattice.UI
                 fight|=near;
                 if(behind){Look(low,now);Look(high,now);}
             }
-            if(fight&&party.members.Length>1)Watch(camera,party.members[1-party.index],now);
+            if(fight&&party.members.Length>1)Watch(camera,party.Partner,now);
             // Where the objective sends the party counts as well: it hid half of the launch pad it named. A goal behind the camera is behind nothing.
             if(objective!=null&&objective.Goal.HasValue){var goal=camera.WorldToScreenPoint(objective.Goal.Value);float round=GoalRound*canvas.scaleFactor;foreach(var panel in panels)panel?.Near(goal,round,now);}
             // The prompt is a bar across the low middle of the screen, where the party and what it's reaching for stand, and only its plate goes, so on a calm walk too: it cut Sela's wing, and lay on a warp under the warp's own sign.
@@ -461,7 +516,7 @@ namespace Lattice.UI
                 if(PanelFade.ScreenBody(camera,body,out var seen))watched.Add(Scaled(seen,scale));
             }
             if(HeroBox(camera,a,scale,out var lead))watched.Add(lead);
-            if(fight&&party.members.Length>1&&HeroBox(camera,party.members[1-party.index],scale,out var other))watched.Add(other);
+            if(fight&&party.members.Length>1&&HeroBox(camera,party.Partner,scale,out var other))watched.Add(other);
         }
         /// <summary>A hero on the screen: feet to head on foot (a body lying down is low), and the hull's width each way for a ship.</summary>
         static bool HeroBox(Camera camera,CombatActor hero,float scale,out Rect box)
@@ -488,15 +543,16 @@ namespace Lattice.UI
         /// <summary>The target card keeps the top edge and slides along it off who stands in that band: Hessa's head sat behind 'LB LOCK D-pad left/right SWITCH', two scavengers had
         /// their heads and chests behind a Gloomgrazer's card, a locked Shellmine sat behind its own name. D222 put the card back at the top after stepping it into the playfield
         /// made things worse, so it doesn't leave the top: it slides between the vitals and the objective, and where the band is too full for the whole card, it keeps only its
-        /// first line (the name and integrity; on a boss, whose bar has the name, the key hint simply goes) and stands higher, against the screen's top edge, over the heads.
-        /// With nowhere clear even then it stays where it is and fades, as every plate does.</summary>
+        /// first line (the name and integrity) and stands higher, against the screen's top edge, over the heads. A boss's card is one line already, the lock and the way to
+        /// the targets round it (its bar has the name), and keeps that line as another keeps its name: it went altogether once, and a boss standing ahead, which is most of a
+        /// boss fight, left nothing on screen saying how to reach a mite or a link. With nowhere clear even then it stays where it is and fades, as every plate does.</summary>
         void SlideCard(string full)
         {
             if(string.IsNullOrEmpty(full)){cardSlide=0;cardShort=false;if(target.text.Length>0)target.text="";Move(target,targetPlate,CardHome);return;}
             if(full!=cardMeasured)
             {
                 cardMeasured=full;cardFullSize=PlateSize(target,full,CardWidth,CardPadX,CardPadY);int cut=full.IndexOf('\n');
-                string first=cut<0?"":full.Substring(0,cut);if(first!=cardShortWords){cardShortWords=first;cardShortSize=PlateSize(target,first,CardWidth,CardPadX,CardPadY);}
+                string first=cut<0?full:full.Substring(0,cut);if(first!=cardShortWords){cardShortWords=first;cardShortSize=PlateSize(target,first,CardWidth,CardPadX,CardPadY);}
             }
             var root=((RectTransform)canvas.transform).rect;float homeX=root.width*.5f,homeY=root.height+CardHome.y;
             // Back to the whole card only with room to spare, so a head at the band's edge doesn't flick it between the two.
@@ -559,13 +615,17 @@ namespace Lattice.UI
             if(feed!=null&&feed.Band!=null)HudKeepOut.Add(PanelFade.ScreenBox(feed.Band));
             if(bossCard.alpha>0){HudKeepOut.Add(PanelFade.ScreenBox(bossCard.rectTransform));HudKeepOut.Add(PanelFade.ScreenBox(bossCardEpithet.rectTransform));}
         }
+        /// <summary>A Cinder Brand on the target (S3), on the card's first line, which is the one it keeps when the band is too full for both: the body wears the mark, and the card says what it's worth.</summary>
+        static string Branded(Health target)=>target.Branded?"  ·  BRANDED":"";
         static string TargetKeys(CombatActor a)=>PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK")+"    "+DeviceHints.CycleTarget()+"  SWITCH";
         /// <summary>The quick item and how many are left. None left reads as out of reach; a refused press flashes, as a refused skill's icon does.</summary>
         string QuickItem(GameState state)
         {
             state.consumables.TryGetValue(state.quickItem??"",out int count);
-            string hint=PromptService.Tag("QuickItem")+"  "+DisplayNames.Item(state.quickItem).ToUpperInvariant()+" ×"+count;
-            return Time.unscaledTime-itemRefusedAt<.25f?"<color=#FF4D40>"+hint+"</color>":count<=0?"<color=#7D8894>"+hint+"</color>":hint;
+            // One item, then a wait before the next, whichever item (prog159). While it runs its seconds stand after the count, greyed as an empty stack is: a press would be refused, and this is why.
+            float wait=count>0&&PartyController.Current!=null?ItemUse.Wait(PartyController.Current.Active):0;
+            string hint=PromptService.Tag("QuickItem")+"  "+DisplayNames.Item(state.quickItem).ToUpperInvariant()+" ×"+count+(wait>0?" "+Mathf.CeilToInt(wait)+"s":"");
+            return Time.unscaledTime-itemRefusedAt<.25f?"<color=#FF4D40>"+hint+"</color>":count<=0||wait>0?"<color=#7D8894>"+hint+"</color>":hint;
         }
         void OnItemRefused(string why){itemRefusedAt=Time.unscaledTime;UiSounds.Error();}
         void OnSwapRefused(){swapRefusedAt=Time.unscaledTime;UiSounds.Error();}
@@ -588,7 +648,7 @@ namespace Lattice.UI
         static readonly Vector2 FanRoom=new(220,120);
         /// <summary>How much of the lock reticle's middle a number leaves clear when it lands, and how far under it it won't land, since all numbers rise.</summary>
         const float ReticleMiddle=34,ReticleRise=70;
-        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public HitKind kind;public string mark;public float amount,born,lastHit,age,quiet;public Vector3 world;public Vector2 offset,size;public bool rises;}
+        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public HitKind kind;public string mark;public float amount,born,lastHit,age,quiet;public Vector3 world;public Vector2 offset,size;public bool rises,crit;}
         readonly System.Collections.Generic.List<Floater> floaters=new();
         /// <summary>Where to try a new number, in its own widths and heights from its body: beside it first, then over and under.</summary>
         static readonly Vector2[] Slots={new(0,0),new(1,0),new(-1,0),new(0,1),new(1,1),new(-1,1),new(2,0),new(-2,0),new(0,-1),new(1,-1),new(-1,-1),new(2,1),new(-2,1),new(0,2),new(1,2),new(-1,2),new(2,-1),new(-2,-1),new(2,2),new(-2,2)};
@@ -605,6 +665,26 @@ namespace Lattice.UI
             var floater=new Floater{text=t,rect=rect,from=health,kind=kind,mark=mark,amount=amount,born=now,lastHit=now,world=health.transform.position+Vector3.up*1.9f,size=t.GetPreferredValues(t.text,160,60)+NumberGap};
             Seat(floater);floaters.Add(floater);
         }
+        /// <summary>How much larger a crit's number is, and what a plain one's colour becomes: a weak hit's keeps its own orange or yellow and its marks.</summary>
+        const float CritLarger=7;
+        static readonly Color CritColor=new(1,.97f,.7f);
+        /// <summary>A crit's number says so: it leans, it's heavier and a size up, and a plain one goes pale gold. It was the same white digits as any hit, only a larger sum. The number
+        /// is the one this hit has just made or added to, found by its body in this frame (<see cref="Health.Impacted"/> follows the number's own event in the same call).</summary>
+        void Struck(Health health,DamagePacket packet,float amount,HitKind kind,bool broke,bool killed)
+        {
+            if(!packet.isCrit||amount<=0||health==null||health.friendly||kind==HitKind.Resisted)return;
+            float now=Time.unscaledTime;
+            foreach(var open in floaters)
+            {
+                if(open.crit||open.from!=health||open.kind!=kind||open.lastHit!=now)continue;
+                open.crit=true;open.text.fontStyle|=FontStyles.Bold|FontStyles.Italic;open.text.fontSize+=CritLarger;
+                if(kind==HitKind.Normal)open.text.color=CritColor;
+                open.size=open.text.GetPreferredValues(open.text.text,160,60)+NumberGap;return;
+            }
+        }
+        static readonly Color IntegrityColor=new(.23f,.88f,.72f);
+        float hurtAt=-99;
+        void OnLeadHurt(float share,bool down)=>hurtAt=Time.unscaledTime;
         /// <summary>The first slot clear of every number still up, on anyone: two bodies side by side smeared just as one did.</summary>
         void Seat(Floater floater)
         {
@@ -678,6 +758,6 @@ namespace Lattice.UI
             }
             return point;
         }
-        void OnDestroy(){Health.DamageNumber-=Damage;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
+        void OnDestroy(){Health.DamageNumber-=Damage;Health.Impacted-=Struck;Impact.LeadHurt-=OnLeadHurt;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
     }
 }

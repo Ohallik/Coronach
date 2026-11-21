@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: BridleFragment
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: BridleFragment
+  prefab: {fileID: 7859370668431614360, guid: 968e5f66f82ee9e439c6d105b78548d9, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 2000
+  breakThreshold: 380
+  speed: 0
+  attacks:
+  - {fileID: 11400000, guid: f512f1ac5b237504cb78468b7807610f, type: 2}
+  weakness: 2
+  resistance: 1
+  archetype: 4
+  lootTable: {fileID: 11400000, guid: e643eb40a8b960342a7288a81038fb9c, type: 2}
+  xp: 120
+  boss: 0
+  scrip: 30
+  scrap: 3
+  displayName: Bridle Fragment
+  bossMusicId: 
+  capsuleRadius: 1.6
+  capsuleHeight: 4.4
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 6
+  tune:
+    reach: 0
+    width: 0
+    speed: 0
+    recover: 0
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 90
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 1
+    givesGround: 0
+    standsDown: 0

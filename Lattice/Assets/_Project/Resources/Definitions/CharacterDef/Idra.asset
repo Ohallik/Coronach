@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baa42b3aabba774c8e80324e65c4799, type: 3}
+  m_Name: Idra
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
+  id: Idra
+  displayName: Idra Sorn
+  speakerId: Idra
+  female: 1
+  baseStats:
+    output: 50
+    plating: 16
+    response: 8
+    resonance: 10
+    fortune: 5
+  growthPerLevel:
+    output: 5
+    plating: 3
+    response: 0.5
+    resonance: 2
+    fortune: 1
+  natural: {fileID: 7311017473443369042, guid: 8121394e2ecac4448a0ff0acae8d0783, type: 3}
+  shaped: {fileID: 6613448602070658444, guid: 17016d78c8532c54bb3693f7eacc2327, type: 3}
+  flight: {fileID: 115615832862808568, guid: 28be51a2962bf0c44bcfcfc61c8e0a00, type: 3}
+  portraitNatural: {fileID: 11400000, guid: a71b6235ee31f1f4d8347daaf45fed2d, type: 2}
+  portraitShaped: {fileID: 11400000, guid: fad32213b990c7e4f86ce49a9051bbb7, type: 2}
+  skills:
+  - {fileID: 11400000, guid: 33c7e24eaef0bc64c99fac984ec35044, type: 2}
+  - {fileID: 11400000, guid: 436f7e7b55a805740bcdd8faafa327b1, type: 2}
+  - {fileID: 11400000, guid: c04a83a8285ed5149bdade7a54caa201, type: 2}
+  - {fileID: 11400000, guid: 53d4b8624e94f1b4fa740734b74f1022, type: 2}
+  learnable:
+  - {fileID: 11400000, guid: 4f33f95d06e4e3349a523f3fb37ab565, type: 2}
+  - {fileID: 11400000, guid: 7b935e0d86da0794da088dda8e167f73, type: 2}
+  - {fileID: 11400000, guid: cbe195a86f476324ca43e481283df658, type: 2}
+  - {fileID: 11400000, guid: 76109ae8f1f5b1c4a81f9cd271b58302, type: 2}
+  - {fileID: 11400000, guid: 38078554f349beb46bd7e27b6aec50a7, type: 2}
+  - {fileID: 11400000, guid: 8e956f94597f1ef41831120f735e1cf3, type: 2}
+  - {fileID: 11400000, guid: e542018492c46c648a7a66bc95cb5fc4, type: 2}
+  startingGear:
+  - {fileID: 11400000, guid: 67e74632a57b6be46b955ec130a077ce, type: 2}
+  - {fileID: 11400000, guid: 24f81a316e1cea947b1e76326bb053f6, type: 2}
+  - {fileID: 11400000, guid: ecec1b85e32f3b34588feb560d7fbd16, type: 2}
+  syncHue: {r: 1, g: 0.38, b: 0.1, a: 1}
+  extra: {fileID: 11400000, guid: 69b77229f950d2540a715b9d0de6ec89, type: 2}
+  style:
+    attack: 1
+    guardTakes: 0.15
+    guardCost: 150
+    flightGuard: 1
+    prowArc: 120
+    counter: 2
+    counterBreak: 70
+    counterReach: 4
+    hop: 2.2
+    hopSeconds: 0.22
+    hopSafe: 0.12
+    roll: 2.8
+    rollSeconds: 0.3
+    rollSafe: 0.14
+    chainWindow: 1.1
+    partnerGuards: 1
+    warm: 1
+    bodiesFrom: Taren
+    bodyTint: {r: 1, g: 0.66, b: 0.5, a: 1}

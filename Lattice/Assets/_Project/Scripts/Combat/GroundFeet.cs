@@ -21,6 +21,16 @@ namespace Lattice.Combat
             public float weight;
             public Collider ground;
             public Vector3 surfacePoint,surfaceNormal;
+            /// <summary>Where the toe was drawn last frame: a climbing heel hands its foot to the toe hold there (UprightClimb).</summary>
+            public Vector3 lastToe;
+            /// <summary>This step holds its heel to the handover and its toe from it, decided once at its landing: a climbing step
+            /// (UprightClimb), or any step of a body whose profile asks for it (GroundStrideProfile.holdsHandover).</summary>
+            public bool climbing;
+            /// <summary>The phase the current hold began: the heel lift eases in from it.</summary>
+            public float holdStart;
+            /// <summary>Climbing, a hold dropped by a stop or a gait blend lets go of where the foot stood over 0.2 s (1 to 0), not at once.</summary>
+            public float letGo;
+            public Vector3 letGoFrom,lastAnkle;
         }
         Animator animator;
         Transform heading,pelvis;
@@ -51,8 +61,20 @@ namespace Lattice.Combat
         float idleBalanceLift;
         Vector3 balanceUp=Vector3.up;
         Vector3 previousVelocity;float previousYaw,leanPitch,leanRoll;
+        /// <summary>UprightClimb: how far an uphill walk stands in the gravity frame (0 on the flat, downhill and in every other gait),
+        /// the part of the support tilt the feet carry on their own, and the ground's rise per metre along x and z.</summary>
+        float uprightWeight,stepDelta,walkKneeRoom;Quaternion footTilt=Quaternion.identity;Vector2 slopeGrade;
+        public float UprightWeight=>uprightWeight;
+        /// <summary>How far a climbing trailing heel may peel up off the slope (HeelLift), degrees.</summary>
+        public const float ClimbHeelLift=60;
+        /// <summary>The fastest a climbing run's legs lift the upright hips, metres a second (UprightClimb): at 2.5 the stance knee of a
+        /// 6.7 m/s run up 39 degrees straightens at about 2,300 deg/s and the hips hold 88 to 95% of the flat run's height.</summary>
+        public const float ClimbLift=2.5f;
         public float LeanPitch=>leanPitch;
         public float LeanRoll=>leanRoll;
+        /// <summary>Diagnostics for the step audits: which part of a sole is holding (-1 none, 0 heel, 1 toe) and how firmly.</summary>
+        public int ContactOf(bool isLeft)=>(isLeft?left:right)?.contact??-1;
+        public float ContactWeightOf(bool isLeft)=>(isLeft?left:right)?.weight??0;
         void OnEnable(){ResetContacts();}
 
         public void Initialize(Animator rig,Transform root,GroundStrideProfile calibration)
@@ -83,7 +105,7 @@ namespace Lattice.Combat
             if(!locomotion){ResetContacts();return;}
             var info=animator.GetCurrentAnimatorStateInfo(0);
             Correct(actor.motor.Velocity,driver.LocomotionAnimation,info.normalizedTime,driver.StrideScale,
-                animator.IsInTransition(0),GameTime.Paused,driver.ReverseLocomotion,actor.TargetLocked);
+                animator.IsInTransition(0),GameTime.Paused||GameTime.Stopped,driver.ReverseLocomotion,actor.TargetLocked);
         }
         public void ResetContacts(){if(left!=null){left.contact=right.contact=-1;left.soundReady=right.soundReady=false;}previousClip=null;previousDirection=Vector3.forward;}
         public void Correct(Vector3 velocity,string clip,float phase,float stride,bool transitioning,bool paused=false,bool reverse=false,bool targetFacing=true,float deltaTime=-1)
@@ -93,7 +115,17 @@ namespace Lattice.Combat
             float correctionDelta=Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime);
             if(reset)turnRecovery=0;
             else if(!paused)turnRecovery=Quaternion.Angle(previousRotation,heading.rotation)>.5f?.2f:Mathf.Max(0,turnRecovery-correctionDelta);
-            if(reset||previousClip!=clip||transitioning)left.contact=right.contact=-1;
+            // A hold picked up again after a gait blend or a reset is not a landing: it plants where the foot is, with the loose
+            // handover, and its heel lift eases in from there (a stale climbing latch once planted it at full weight in one frame).
+            if(reset||previousClip!=clip||transitioning)
+            {
+                // Upright, the take's path is not where a climbing foot was planted (the tilted frame's was): dropped at once by a
+                // stop, a planted foot jumped to it, 9 m/s at the knee. It lets go of where it stood instead (Apply).
+                if(!reset&&!paused&&uprightWeight>0)foreach(var leg in new[]{left,right})if(leg.contact>=0&&leg.weight>.5f){leg.letGo=1;leg.letGoFrom=leg.lastAnkle;}
+                left.contact=right.contact=-1;left.climbing=right.climbing=false;
+            }
+            if(reset)left.letGo=right.letGo=0;
+            stepDelta=paused?0:correctionDelta;
             if(reset)left.soundReady=right.soundReady=false;
             if(reset)smoothedStride=stride;
             else if(!paused)smoothedStride=Mathf.Lerp(smoothedStride,stride,1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/.04f));
@@ -138,6 +170,22 @@ namespace Lattice.Combat
             TerrainGrade=Mathf.Abs(Vector3.Dot(terrainNormal,heading.TransformDirection(previousDirection)))/Mathf.Max(.2f,terrainNormal.y);
             float terrainBlend=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,slope));
             terrainWeight=terrainBlend;
+            float climb=-Vector3.Dot(terrainNormal,heading.TransformDirection(previousDirection))/Mathf.Max(.2f,terrainNormal.y);
+            // Walking, running and sprinting up a slope are posed in the gravity frame (UprightClimb). The tilted frame folded a
+            // climbing run harder than a walk: at 39 degrees the combat run's knees came up to its chest and its hips sank to 62%.
+            float climbing=clip=="Walk"||clip=="Run"||clip=="Sprint"?Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,climb)):0;
+            // Upright, a planted leg has to lift the hips as fast as the climb rises under them, and a stance leg straightens from bent
+            // to full reach in the time that takes. A run lifts them only as fast as ClimbLift; faster than that (6.7 m/s up 39 degrees
+            // rises 5.4 m/s, and the knee straightened at 3,200 deg/s) the stride leans back toward the slope's frame. A walk never
+            // rises that fast. Backpedalling up a slope keeps the slope's frame.
+            if(clip!="Walk"&&climbing>0)
+            {
+                var planar=velocity;planar.y=0;float rising=planar.magnitude*Mathf.Max(0,climb);
+                climbing=reverse?0:climbing*Mathf.Clamp01(ClimbLift/Mathf.Max(.01f,rising));
+            }
+            if(reset)uprightWeight=climbing;
+            else if(!paused)uprightWeight=Mathf.Lerp(uprightWeight,climbing,1-Mathf.Exp(-correctionDelta/.2f));
+            if(uprightWeight<.0005f&&climbing==0)uprightWeight=0;
             // Warp the whole leg chain into the support frame. Moving only
             // the ankle uphill leaves the hips inside the other leg's swing.
             // Counter-rotate the spine so the torso remains upright.
@@ -150,6 +198,16 @@ namespace Lattice.Combat
             terrainRight.y=-Vector3.Dot(supportUp,terrainRight)/Mathf.Max(.2f,supportUp.y);
             terrainRight.Normalize();
             terrainRotation=Quaternion.LookRotation(Vector3.Cross(terrainRight,supportUp),supportUp)*Quaternion.Inverse(lowerRotation);
+            // UprightClimb: the support frame tilts a climbing body back off the slope with its hips behind both feet, and every
+            // repair of that (the balance shift, the support drop) folded the legs. A climb stands the hips and torso up in the
+            // gravity frame instead; only the feet keep the support frame (footTilt), and their targets follow the ground (Apply).
+            footTilt=Quaternion.identity;slopeGrade=Vector2.zero;
+            if(uprightWeight>0)
+            {
+                var standing=Quaternion.Slerp(terrainRotation,Quaternion.identity,uprightWeight);
+                footTilt=terrainRotation*Quaternion.Inverse(standing);terrainRotation=standing;supportUp=terrainRotation*Vector3.up;
+                slopeGrade=new Vector2(-terrainNormal.x,-terrainNormal.z)/Mathf.Max(.2f,terrainNormal.y);
+            }
             // The new terrain basis must still carry the foot path along the
             // actual slope trajectory, including diagonal reverse steps.
             var slopeTravel=heading.TransformDirection(gaitDirection);
@@ -177,7 +235,15 @@ namespace Lattice.Combat
             // Steep support already keeps four extra centimetres of bend in the
             // solver, so the reserve fades out with the terrain blend.
             float bendReserve=WalkBendReserve*(1-terrainBlend);
-            if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp(bendReserve+(stride-1)*.18f,bendReserve,.08f);
+            // Climbing, that knee room eases out over 0.06 s when the walk ends: switched off in one frame at a stop, the hips sprang
+            // up to 5 cm (31 m/s at the knee in a 0.7 ms frame). On the flat and downhill it switches as it always did.
+            float kneeRoom=clip=="Walk"?Mathf.Clamp(bendReserve+(stride-1)*.18f,bendReserve,.08f):0;
+            if(reset||uprightWeight<=0)walkKneeRoom=kneeRoom;
+            else if(!paused)walkKneeRoom=kneeRoom>walkKneeRoom?kneeRoom:Mathf.Lerp(walkKneeRoom,kneeRoom,1-Mathf.Exp(-correctionDelta/.06f));
+            pelvis.position-=supportUp*walkKneeRoom;
+            // The profile's stride covers the distance along the slope. Upright, the feet travel the level distance the
+            // body does, so the step is shorter by that same factor: the climb shortens the step, as a climber's does.
+            float footStride=stride*Mathf.Lerp(1,1/GroundStrideProfile.TerrainTravel(TerrainGrade),uprightWeight);
             MaximumReachCorrection=0;
             float directional=targetFacing?Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0):0;
             // A slow uphill step has room to support the hips vertically.
@@ -186,13 +252,12 @@ namespace Lattice.Combat
             // correction as an extended walk exhausts the donor's reach.
             // Idle has no travelling anchor to exhaust; retain gravity-based
             // support there so a stopped companion does not sit downhill.
-            float climb=-Vector3.Dot(terrainNormal,heading.TransformDirection(previousDirection))/Mathf.Max(.2f,terrainNormal.y);
             float balance=clip=="Idle"?.85f*terrainBlend:clip=="Walk"?.65f*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,climb))*
                 (1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(1.12f,1.3f,stride))):0;
             if(reset)balanceWeight=balance;
             else if(!paused)balanceWeight=Mathf.Lerp(balanceWeight,balance,1-Mathf.Exp(-correctionDelta/.2f));
-            Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
-            Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
+            Apply(left,clip,cycle,footStride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
+            Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),footStride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
             pelvis.position+=Vector3.ProjectOnPlane(gravityPelvis-terrainPelvis,Vector3.up)*balanceWeight;
             // Horizontal idle support still left the hips lowered by the
             // terrain rotation, even when neither leg needed a reach drop.
@@ -283,10 +348,13 @@ namespace Lattice.Combat
                 MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,leg.foot.position+Vector3.up*lift,leg.pole));
                 leg.foot.rotation=leg.rotation;
             }
+            leg.lastToe=leg.toe.TransformPoint(leg.toeOffset);leg.lastAnkle=leg.foot.position;
         }
         void Apply(Leg leg,string clip,float phase,float stride,bool canPlant,Vector3 direction,Quaternion lowerRotation,float directional)
         {
             Vector3 originalFoot=leg.foot.position;
+            // Climbing upright, the foot alone keeps the support frame: its roll from heel to toe stays the take's, laid on the slope.
+            if(uprightWeight>0)leg.foot.rotation=footTilt*leg.foot.rotation;
             Quaternion footRotation=leg.foot.rotation;
             Vector3 local=Quaternion.Inverse(lowerRotation)*(originalFoot-bodyOrigin);
             Vector3 warped=local;
@@ -298,6 +366,19 @@ namespace Lattice.Combat
             float side=Mathf.Max(warped.x*leg.side,.14f);
             warped.x=Mathf.Lerp(warped.x,side*leg.side,directional);
             Vector3 target=bodyOrigin+lowerRotation*warped;
+            // Climbing upright, the take's foot path rides on the ground it is over. Behind the hips the slope falls away, and
+            // a foot lifting into its swing keeps the level path, which clears that ground and is still within the leg's reach.
+            // (Following even half that fall behind brought the recovering foot from 30 to 20 cm over a 39 degree slope, but the
+            // hips had to come down to reach it: the walk's bob went to 19 cm and its swing knee to 77 degrees.)
+            if(uprightWeight>0)
+            {
+                float rise=slopeGrade.x*(target.x-bodyOrigin.x)+slopeGrade.y*(target.z-bodyOrigin.z);
+                // Rounded over 4 cm either side of the hips: a sharp corner there jerked the swinging knee as the foot passed under them.
+                const float round=.04f;
+                target.y+=uprightWeight*(rise>=round?rise:rise<=-round?0:(rise+round)*(rise+round)/(4*round));
+            }
+            if(!canPlant&&leg.contact>=0&&leg.weight>.5f&&uprightWeight>0&&stepDelta>0){leg.letGo=1;leg.letGoFrom=leg.lastAnkle;}
+            if(leg.letGo>0){target=Vector3.Lerp(target,leg.letGoFrom,Mathf.SmoothStep(0,1,leg.letGo));leg.letGo=Mathf.Max(0,leg.letGo-stepDelta/.2f);}
             Vector3 heel=leg.foot.TransformPoint(leg.heelOffset),toe=leg.toe.TransformPoint(leg.toeOffset);
             int contact=-1;float weight=0;leg.ground=null;
             if(canPlant)
@@ -308,11 +389,17 @@ namespace Lattice.Combat
                     // Release it gradually before handing support to the toe.
                     // The gravity-balanced hip needs a longer heel landing;
                     // retain the existing release and fully planted toe phase.
-                    if(phase<.135f){contact=0;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min(phase/(.025f+.065f*balanceWeight),(.135f-phase)/.06f)));}
+                    // UprightClimb holds the heel to the handover and the toe from it (hold): between two loosened holds the foot drifted
+                    // back toward the take's path, and the climbing knee straightened in a burst as the toe hold took it again.
+                    if(phase<.135f&&leg.contact<0)leg.climbing=uprightWeight>0||profile.holdsHandover;
+                    float hold=leg.climbing?1:0;
+                    // A held heel lands over the whole landing ramp: at a long climbing stride the balance weight fades and the 0.025
+                    // ramp dropped Idra's landing heel onto its hold at 6.6 m/s at the knee.
+                    if(phase<.135f){contact=0;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min(phase/(.025f+.065f*Mathf.Max(balanceWeight,hold)),Mathf.Lerp((.135f-phase)/.06f,1,hold))));}
                     // Release for the authored toe-off before the opposite
                     // heel lands. Holding through half a cycle overextends
                     // the trailing leg as the root climbs a slope.
-                    else if(phase<.48f){contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-.135f)/(.04f+.025f*balanceWeight),(.48f-phase)/.07f)));}
+                    else if(phase<.48f){contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min(Mathf.Lerp((phase-.135f)/(.04f+.025f*balanceWeight),1,hold),(.48f-phase)/.07f)));}
                 }
                 else if(clip=="Run"||clip=="Sprint")
                 {
@@ -338,6 +425,17 @@ namespace Lattice.Combat
                 leg.ground=ground.collider;leg.surfacePoint=ground.point;leg.surfaceNormal=ground.normal;
                 if(contact>=0)
                 {
+                    // A climbing heel lets its foot roll down flat onto the slope about it before the toe takes over (UprightClimb).
+                    float roll=contact==0&&leg.climbing?Mathf.SmoothStep(0,1,phase/.135f):0;
+                    if(roll>0)
+                    {
+                        Vector3 soleAxis=toe-heel;Vector3 flat=Vector3.ProjectOnPlane(soleAxis,ground.normal);
+                        if(flat.sqrMagnitude>.001f)
+                        {
+                            footRotation=Quaternion.Slerp(Quaternion.identity,Quaternion.FromToRotation(soleAxis,flat),roll)*footRotation;leg.foot.rotation=footRotation;
+                            heel=leg.foot.TransformPoint(leg.heelOffset);toe=leg.toe.TransformPoint(leg.toeOffset);marker=heel;proposed=marker+target-originalFoot;
+                        }
+                    }
                     if(contact==1&&weight>0)
                     {
                         Vector3 soleAxis=toe-heel;
@@ -350,8 +448,15 @@ namespace Lattice.Combat
                             marker=toe;proposed=marker+target-originalFoot;
                         }
                     }
-                    if(leg.contact!=contact)leg.anchor=new Vector3(proposed.x,ground.point.y+.006f,proposed.z);
-                    target=Vector3.Lerp(target,leg.anchor-(marker-originalFoot),weight);
+                    if(leg.contact!=contact)
+                    {
+                        leg.anchor=new Vector3(proposed.x,ground.point.y+.006f,proposed.z);leg.holdStart=phase;
+                        // Handed over from a climbing heel, the toe is held where that rolled-down foot had put it, so the ankle doesn't move.
+                        if(leg.contact==0&&contact==1&&leg.climbing&&TrySupport(leg.lastToe,out var under))leg.anchor=new Vector3(leg.lastToe.x,under.point.y+.006f,leg.lastToe.z);
+                    }
+                    Vector3 planted=leg.anchor-(marker-originalFoot);
+                    if(contact==1&&weight>0&&uprightWeight>0)planted=HeelLift(leg,planted,leg.anchor,toe-heel,ground.normal,weight,phase-leg.holdStart,ref footRotation);
+                    target=Vector3.Lerp(target,planted,weight);
                 }
                 // Each sole needs its own support query: a toe and heel may
                 // straddle the raised pad, where one extrapolated plane fails.
@@ -363,9 +468,41 @@ namespace Lattice.Combat
             leg.target=target;leg.pole=lowerRotation*new Vector3(leg.side*.3f,0,1);
             leg.rotation=footRotation;
         }
+        /// <summary>UprightClimb's push-off. The hips climb away from a planted trailing foot faster than its leg can follow, so its
+        /// heel peels up about the planted toe, which stays exactly where it was set down, by as much as keeps the ankle within the
+        /// leg's reach (up to <see cref="ClimbHeelLift"/> degrees off the slope). Whatever the heel can't give, the support drop still
+        /// takes from the hips. It comes in over the toe hold's first 0.065 of the cycle (held, the 0.135 to 0.2 before the planted window the contact
+        /// checks hold still): at a gentle climb the handed-over leg can already be at full reach, and lifting the heel in one frame
+        /// snapped the knee. The whole boot turns about the toe, not the ball: a boot whose forefoot is skinned to the foot (Idra's)
+        /// otherwise dragged its toe through the slope. Returns the planted ankle target.</summary>
+        Vector3 HeelLift(Leg leg,Vector3 planted,Vector3 pivot,Vector3 soleAxis,Vector3 normal,float weight,float held,ref Quaternion footRotation)
+        {
+            var forward=Vector3.ProjectOnPlane(soleAxis,normal);if(forward.sqrMagnitude<1e-6f)return planted;
+            var axis=Vector3.Cross(normal,forward.normalized).normalized;Vector3 hip=leg.thigh.position;
+            float reach=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-Reserve();
+            float Gap(float degrees)=>Vector3.Distance(pivot+Quaternion.AngleAxis(degrees,axis)*(planted-pivot),hip)-reach;
+            float most=ClimbHeelLift*uprightWeight*Mathf.SmoothStep(0,1,held/.065f),lift=0;
+            if(most>0&&Gap(0)>0)
+            {
+                // The least lift that reaches; if none does, the lift that comes nearest (a heel turned past the hip's line only
+                // carries the ankle away again). Both are continuous as the hips climb, so the heel rises smoothly.
+                float low=0,high=most;
+                for(int i=0;i<24;i++){float a=low+(high-low)/3,b=high-(high-low)/3;if(Gap(a)<Gap(b))high=b;else low=a;}
+                float nearest=(low+high)*.5f;
+                if(Gap(nearest)>0)lift=nearest;
+                else{low=0;high=nearest;for(int i=0;i<16;i++){float mid=(low+high)*.5f;if(Gap(mid)>0)low=mid;else high=mid;}lift=high;}
+            }
+            if(lift<=0)return planted;
+            var turn=Quaternion.AngleAxis(lift,axis);
+            footRotation=Quaternion.Slerp(Quaternion.identity,turn,weight)*footRotation;
+            return pivot+turn*(planted-pivot);
+        }
+        /// <summary>How far short of straight a solved leg stops: a walking knee never locks, and a steep step in the support frame keeps
+        /// four more centimetres. An upright climb (UprightClimb) doesn't tilt the leg chain, so it keeps the flat walk's reserve.</summary>
+        float Reserve()=>.025f+.04f*terrainWeight*(1-uprightWeight);
         float SupportDrop(Leg leg,float margin)
         {
-            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-(.025f+.04f*terrainWeight)-margin;
+            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-Reserve()-margin;
             Vector3 delta=leg.thigh.position-leg.target;
             float altitude=Vector3.Dot(delta,balanceUp);
             float horizontal=Vector3.ProjectOnPlane(delta,balanceUp).sqrMagnitude;
@@ -387,7 +524,7 @@ namespace Lattice.Combat
             Vector3 delta=target-origin;float requested=delta.magnitude;
             if(requested<.001f||upper<.001f||lower<.001f)return 0;
             Vector3 axis=delta/requested;
-            float distance=Mathf.Clamp(requested,Mathf.Abs(upper-lower)+.001f,upper+lower-(.025f+.04f*terrainWeight));
+            float distance=Mathf.Clamp(requested,Mathf.Abs(upper-lower)+.001f,upper+lower-Reserve());
             // The ankle path retains the take's bend/extension and foot roll.
             // A stable anatomical pole keeps the knee facing with the lower
             // body even when Mecanim's almost-straight leg changes bend plane.

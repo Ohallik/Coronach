@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baa42b3aabba774c8e80324e65c4799, type: 3}
+  m_Name: Maru
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
+  id: Maru
+  displayName: Maru Wend
+  speakerId: Maru
+  female: 1
+  baseStats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  growthPerLevel:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  natural: {fileID: 1635348470234450430, guid: e04cc933087621f4a8777c63d7bd8fad, type: 3}
+  shaped: {fileID: 0}
+  flight: {fileID: 0}
+  portraitNatural: {fileID: 11400000, guid: b3255e4f6c337b14593906632d58c6a7, type: 2}
+  portraitShaped: {fileID: 0}
+  skills:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  learnable: []
+  startingGear: []
+  syncHue: {r: 0, g: 1, b: 1, a: 1}
+  extra: {fileID: 0}
+  style:
+    attack: 0
+    guardTakes: 0.35
+    guardCost: 250
+    flightGuard: 0
+    prowArc: 120
+    counter: 0
+    counterBreak: 0
+    counterReach: 0
+    hop: 3.3
+    hopSeconds: 0.25
+    hopSafe: 99
+    roll: 4
+    rollSeconds: 0.3
+    rollSafe: 99
+    chainWindow: 0.9
+    partnerGuards: 0
+    warm: 0
+    bodiesFrom: 
+    bodyTint: {r: 1, g: 1, b: 1, a: 1}

@@ -27,12 +27,17 @@ namespace Lattice.UI
             foreach(string name in VectorColumns.Split(','))foreach(char axis in "XYZ")writer.Write(","+name+axis);
             writer.WriteLine();
         }
-        public void Record(int sample,int frame,double elapsed,int step,CombatActor active,CombatActor partner)
+        // The role of any body out beyond the two: each gets a row of its own, after the pair's.
+        public const string OtherRole="other";
+        public void Record(int sample,int frame,double elapsed,int step,CombatActor active,CombatActor partner,CombatActor[] others=null)
         {
             if(finished)throw new InvalidOperationException("Ground pose capture already finished");
             if(sample!=samples)Failure??="Ground pose sample sequence mismatch";
             RecordActor(sample,frame,elapsed,step,"active",active);
             RecordActor(sample,frame,elapsed,step,"partner",partner);
+            // A run of two writes the two rows it always did, in the order it always did. A third hero on
+            // the field, should one ever stand there, follows them and changes nothing before it.
+            if(others!=null)foreach(var other in others)if(other!=null)RecordActor(sample,frame,elapsed,step,OtherRole,other);
             samples++;
         }
         void RecordActor(int sample,int frame,double elapsed,int step,string role,CombatActor actor)

@@ -131,7 +131,7 @@ namespace Lattice.Tests.PlayMode
                 Assert.Greater(recipe.output.tier,1,$"{recipe.output.displayName} is a tier 1 part, so Mira's stall sells it without the trophy");
                 Assert.AreEqual(1,recipe.unlockLevel,$"{recipe.displayName} needs a rank: the day it drops, a player who never made a {recipe.discipline} part can't use it");
                 Assert.AreEqual(1,recipe.tier,$"{recipe.displayName} needs {recipe.discipline} {recipe.tier}");
-                Assert.IsFalse(GameCatalog.All<ShopInventory>().Any(s=>s.parts!=null&&s.parts.Contains(recipe.output)),$"{recipe.output.displayName} is on sale: the trophy is the only way to it");
+                Assert.IsFalse(GameCatalog.All<ShopInventory>().Any(s=>s.offers!=null&&s.offers.Any(o=>o.id==recipe.output.id)),$"{recipe.output.displayName} is on sale: the trophy is the only way to it");
                 // Made at a bench on a fresh game with just what the recipe asks for.
                 var state=new GameState();foreach(var input in recipe.inputs)state.materials[input.id]=input.count;
                 var bench=new Fabrication(state);

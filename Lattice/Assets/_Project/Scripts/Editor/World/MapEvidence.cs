@@ -46,6 +46,29 @@ namespace Lattice.EditorTools
             finally{UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline=before;QualitySettings.renderPipeline=beforeQuality;}
             Debug.Log("BIOME_EVIDENCE_OK "+folder);
         });
+        /// <summary>Overhead plans of any zone, for its map brief (docs/maps): <c>-map-evidence-run chapter3/rootmarket-01 -map-evidence-zone Rootmarket -map-evidence-shots
+        /// overhead:7:53:66;pool:0:44:30</c>, each shot a name, the plan point it is centred on and half the height it covers in metres. Labels are hidden, as in every review render;
+        /// a zone's own look is previewed so the plan is lit as the zone is. Read-only.</summary>
+        public static void Zone()=>BatchTools.Run(()=>
+        {
+            string zone=Lattice.Core.DevArgs.Value("-map-evidence-zone")??throw new System.ArgumentException("-map-evidence-zone <Zone> is required");
+            string shots=Lattice.Core.DevArgs.Value("-map-evidence-shots")??throw new System.ArgumentException("-map-evidence-shots name:x:z:scale;... is required");
+            string folder=Folder("maps/"+zone);
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
+            foreach(var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+            if(ZoneLook.Has(zone))ZoneLook.Preview(zone);
+            var camera=new GameObject("Evidence camera",typeof(Camera),typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor=new Color(.025f,.035f,.06f);camera.clearFlags=CameraClearFlags.SolidColor;
+            camera.orthographic=true;camera.nearClipPlane=.1f;camera.farClipPlane=2000;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing=false;
+            var invariant=System.Globalization.CultureInfo.InvariantCulture;
+            foreach(string shot in shots.Split(';',System.StringSplitOptions.RemoveEmptyEntries))
+            {
+                var part=shot.Split(':');if(part.Length!=4)throw new System.ArgumentException("A shot is name:x:z:scale, not '"+shot+"'");
+                Shot(camera,folder,zone+"-"+part[0],new Vector3(float.Parse(part[1],invariant),0,float.Parse(part[2],invariant)),Quaternion.Euler(90,0,0),float.Parse(part[3],invariant));
+            }
+            Debug.Log("MAP_EVIDENCE_OK "+folder);
+        });
         public static void Baseline() => BatchTools.Run(() => Capture("C0/maps-before"));
         public static void StationAfter() => BatchTools.Run(() => Capture("station/maps-after"));
         public static void StationBlockout() => BatchTools.Run(() => Capture("station/blockout-03"));

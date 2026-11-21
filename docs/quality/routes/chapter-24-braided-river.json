@@ -1,0 +1,3767 @@
+{
+  "name": "chapter-24-braided-river",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 3: the first arch, Sluice A, Marrow-1 and Garo, Marrow-2 and Dabb, Sluice B, the Seedthane, Teo, the mooring roots",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.termsHeard",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along the north bank",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0.6,
+        "z": 122.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "under the first arch",
+      "seconds": 8.15,
+      "navigate": true,
+      "point": {
+        "x": 45,
+        "y": 0.6,
+        "z": 122.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "the first arch begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the first arch line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the first arch line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the first arch line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the first arch line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the first arch line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the first arch line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the first arch line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the first arch line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the first arch line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish the first arch",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.archSeen",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after the first arch",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "into the first fight",
+      "seconds": 14.31,
+      "navigate": true,
+      "point": {
+        "x": 70,
+        "y": 0.6,
+        "z": 122
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_0",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_0 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_0 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_0 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_0",
+      "expectedFlag": "clear.River_0",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_0",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_0",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "on to the reedstalkers",
+      "seconds": 15.78,
+      "navigate": true,
+      "point": {
+        "x": 126,
+        "y": 0.6,
+        "z": 122
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_1",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_1 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_1 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_1",
+      "expectedFlag": "clear.River_1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_1",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_1",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the middle sluice's wheel 1/2",
+      "seconds": 10.37,
+      "navigate": true,
+      "point": {
+        "x": 160,
+        "y": 0.6,
+        "z": 122.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the middle sluice's wheel 2/2",
+      "seconds": 5.04,
+      "navigate": true,
+      "point": {
+        "x": 170.6,
+        "y": 0.6,
+        "z": 116.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "set a hand to the middle sluice",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the wheel",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the middle sluice line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the middle sluice line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the middle sluice line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the middle sluice line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the middle sluice line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the middle sluice line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the middle sluice line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the middle sluice line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the middle sluice line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the middle sluice line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the middle sluice line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the middle sluice line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish the middle sluice",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.sluiceA",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after the middle sluice",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "the middle channel goes down",
+      "seconds": 4,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "across the drained middle channel 1/5",
+      "seconds": 5.3,
+      "navigate": true,
+      "point": {
+        "x": 160,
+        "y": -0.7,
+        "z": 108
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "across the drained middle channel 2/5",
+      "seconds": 10.9,
+      "navigate": true,
+      "point": {
+        "x": 125,
+        "y": -0.7,
+        "z": 99
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "across the drained middle channel 3/5",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 116.8,
+        "y": -0.7,
+        "z": 99.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "across the drained middle channel 4/5",
+      "seconds": 3.86,
+      "navigate": true,
+      "point": {
+        "x": 110,
+        "y": -0.7,
+        "z": 96
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "across the drained middle channel 5/5",
+      "seconds": 4.87,
+      "navigate": true,
+      "point": {
+        "x": 100,
+        "y": 0.6,
+        "z": 90
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the ferry cradle",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 97.5,
+        "y": 0.6,
+        "z": 84.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "repair and save at the ferry cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "west to Marrow-1 1/2",
+      "seconds": 4.27,
+      "navigate": true,
+      "point": {
+        "x": 90,
+        "y": 0.6,
+        "z": 90
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "west to Marrow-1 2/2",
+      "seconds": 9.38,
+      "navigate": true,
+      "point": {
+        "x": 60,
+        "y": 0.6,
+        "z": 90
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "on into River_Marrow1",
+      "seconds": 2.2,
+      "navigate": true,
+      "point": {
+        "x": 59.2,
+        "y": 0.6,
+        "z": 90.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_Marrow1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_Marrow1",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow1 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow1 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_Marrow1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_Marrow1",
+      "expectedFlag": "clear.River_Marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_Marrow1",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_Marrow1",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to Garo at Marrow-1's hatch",
+      "seconds": 7.51,
+      "navigate": true,
+      "point": {
+        "x": 36.8,
+        "y": 0.6,
+        "z": 90.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "start Garo's relief",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release start Garo's relief",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Garo's relief line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Garo's relief line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Garo's relief line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Garo's relief line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Garo's relief line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Garo's relief line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Garo's relief line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Garo's relief line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Garo's relief line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Garo's relief line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Garo's relief line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Garo's relief line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Garo's relief line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Garo's relief line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Garo's relief line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish Garo's relief",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.marrow1",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after Garo's relief",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along island one 1/4",
+      "seconds": 7.71,
+      "navigate": true,
+      "point": {
+        "x": 60,
+        "y": 0.6,
+        "z": 90
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along island one 2/4",
+      "seconds": 11.85,
+      "navigate": true,
+      "point": {
+        "x": 100,
+        "y": 0.6,
+        "z": 90
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along island one 3/4",
+      "seconds": 7.13,
+      "navigate": true,
+      "point": {
+        "x": 120.8,
+        "y": 0.6,
+        "z": 88.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along island one 4/4",
+      "seconds": 6.73,
+      "navigate": true,
+      "point": {
+        "x": 140,
+        "y": 0.6,
+        "z": 89
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_3",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_3 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_3 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_3 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_3 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_3",
+      "expectedFlag": "clear.River_3",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_3",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_3",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "over the drained cut to island two 1/4",
+      "seconds": 6.49,
+      "navigate": true,
+      "point": {
+        "x": 158,
+        "y": 0.6,
+        "z": 92
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "over the drained cut to island two 2/4",
+      "seconds": 6.21,
+      "navigate": true,
+      "point": {
+        "x": 175,
+        "y": -0.7,
+        "z": 94
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "over the drained cut to island two 3/4",
+      "seconds": 7.05,
+      "navigate": true,
+      "point": {
+        "x": 195,
+        "y": -0.7,
+        "z": 98.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "over the drained cut to island two 4/4",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 206,
+        "y": 0.6,
+        "z": 98.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_Marrow2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_Marrow2",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_Marrow2 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_Marrow2 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_Marrow2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_Marrow2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_Marrow2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_Marrow2",
+      "expectedFlag": "clear.River_Marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_Marrow2",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_Marrow2",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to Dabb at Marrow-2's hatch",
+      "seconds": 3.12,
+      "navigate": true,
+      "point": {
+        "x": 210.4,
+        "y": 0.6,
+        "z": 99.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "start Dabb's relief",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release start Dabb's relief",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Dabb's relief line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Dabb's relief line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Dabb's relief line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Dabb's relief line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Dabb's relief line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Dabb's relief line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Dabb's relief line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Dabb's relief line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Dabb's relief line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Dabb's relief line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Dabb's relief line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Dabb's relief line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Dabb's relief line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Dabb's relief line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Dabb's relief line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish Dabb's relief",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.marrow2",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after Dabb's relief",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along island two 1/2",
+      "seconds": 9.29,
+      "navigate": true,
+      "point": {
+        "x": 240,
+        "y": 0.6,
+        "z": 100
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east along island two 2/2",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 252,
+        "y": 0.6,
+        "z": 99.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_5",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_5",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_5 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_5",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_5 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_5",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_5 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_5",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_5 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_5 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_5 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_5",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_5 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_5",
+      "expectedFlag": "clear.River_5",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_5",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_5",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "on along the north shore",
+      "seconds": 10.86,
+      "navigate": true,
+      "point": {
+        "x": 288,
+        "y": 0.6,
+        "z": 99.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock River_6",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock River_6",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_6 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_6",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_6 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_6",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_6 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_6",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill River_6 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill River_6 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight River_6 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.River_6",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "River_6 cleared",
+      "seconds": 3,
+      "until": "flag:clear.River_6",
+      "expectedFlag": "clear.River_6",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after River_6",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after River_6",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the south sluice's wheel 1/2",
+      "seconds": 8.66,
+      "navigate": true,
+      "point": {
+        "x": 315,
+        "y": 0.6,
+        "z": 101
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the south sluice's wheel 2/2",
+      "seconds": 3.5,
+      "navigate": true,
+      "point": {
+        "x": 321.1,
+        "y": 0.6,
+        "z": 101.3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "set a hand to the south sluice",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the wheel",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the south sluice line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the south sluice line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the south sluice line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the south sluice line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the south sluice line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the south sluice line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the south sluice line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the south sluice line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the south sluice line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish the south sluice",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.sluiceB",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after the south sluice",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "the south channel goes down",
+      "seconds": 4,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "over the south channel's head",
+      "seconds": 5.78,
+      "navigate": true,
+      "point": {
+        "x": 336.3,
+        "y": 0.6,
+        "z": 99
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "onto Seedfall's fan",
+      "seconds": 4.2,
+      "navigate": true,
+      "point": {
+        "x": 345,
+        "y": 0.6,
+        "z": 97
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "what's on Marrow-3 begins",
+      "seconds": 4,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read what's on Marrow-3 line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next what's on Marrow-3 line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release what's on Marrow-3 line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read what's on Marrow-3 line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next what's on Marrow-3 line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release what's on Marrow-3 line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read what's on Marrow-3 line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next what's on Marrow-3 line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release what's on Marrow-3 line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read what's on Marrow-3 line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next what's on Marrow-3 line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release what's on Marrow-3 line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish what's on Marrow-3",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.seedfallSeen",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after what's on Marrow-3",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "onto Seedfall's fan",
+      "seconds": 4.99,
+      "navigate": true,
+      "point": {
+        "x": 355,
+        "y": 0.6,
+        "z": 92
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "lock the Seedthane",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release lock the Seedthane",
+      "seconds": 0.3,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 1a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 1b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 2a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 2b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 3a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 3b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 4a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 4b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 5a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 5b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 6a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 6b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 7a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 7b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 8a",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "skill Seedthane 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release skill Seedthane 8b",
+      "seconds": 0.45,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "fight the Seedthane round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Seedthane",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "the Seedthane is down",
+      "seconds": 4,
+      "until": "flag:bossdown.Seedthane",
+      "expectedFlag": "bossdown.Seedthane",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "reach the fallen hero after Seedthane",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "both heroes ready after Seedthane",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "the Seedthane goes upriver begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the Seedthane goes upriver line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the Seedthane goes upriver line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the Seedthane goes upriver line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the Seedthane goes upriver line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the Seedthane goes upriver line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the Seedthane goes upriver line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read the Seedthane goes upriver line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next the Seedthane goes upriver line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the Seedthane goes upriver line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish the Seedthane goes upriver",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.seedthaneSeenOff",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after the Seedthane goes upriver",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Teo walks up from the bridge",
+      "seconds": 12,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to Teo beside Marrow-3",
+      "seconds": 6.6,
+      "navigate": true,
+      "point": {
+        "x": 355,
+        "y": 0.6,
+        "z": 99.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "start Teo at Seedfall",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release start Teo at Seedfall",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "read Teo at Seedfall line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "next Teo at Seedfall line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release Teo at Seedfall line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "finish Teo at Seedfall",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.seedthaneGone",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release after Teo at Seedfall",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east to the mooring roots 1/2",
+      "seconds": 7.17,
+      "navigate": true,
+      "point": {
+        "x": 375,
+        "y": 0.6,
+        "z": 93
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "east to the mooring roots 2/2",
+      "seconds": 5.52,
+      "navigate": true,
+      "point": {
+        "x": 389,
+        "y": 0.6,
+        "z": 90
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "through the mooring roots",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the mooring roots",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

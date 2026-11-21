@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: SorrelBeacons
   title: Quiet Ridges
-  description: 'The outpost crew''s evacuation beacons still call machinery toward the outpost.'
+  description: The outpost crew's evacuation beacons still call machinery toward
+    the outpost.
   steps:
   - kind: 4
     target: SorrelBeacon
@@ -29,5 +30,11 @@ MonoBehaviour:
     count: 1
   flagsOnComplete: []
   stepText:
-  - 'Silence the evacuation beacons on the west seam and east service branch'
-  - 'Tell Dace the ridges are quiet'
+  - Silence the evacuation beacons on the west seam and east service branch
+  - Tell Dace the ridges are quiet
+  rewardsRolled: 0
+  main: 0
+  chapter: 1
+  stepTargets: []
+  closingLine: 
+  storyFlags: []

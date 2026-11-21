@@ -33,7 +33,9 @@ namespace Lattice.Combat
         {
             this.body=body;presentation=GetComponent<DefeatPresentation>();presentation.Recovered+=CompleteRecovery;
             health=GetComponent<Health>();body.Initialize(definition,health);
-            health.maximum=health.integrity=definition.integrity*HeadShare;health.Damageable=false;
+            // The whole animal's integrity at this difficulty, shared out as ever: the definition's own number on Standard. Asked here because the collar sets head and links itself.
+            float whole=Difficulty.EnemyIntegrity(definition.integrity);
+            health.maximum=health.integrity=whole*HeadShare;health.Damageable=false;
             GetComponent<Hurtbox>().multiplier=2;
             foreach(var part in body.Parts)
             {
@@ -45,7 +47,7 @@ namespace Lattice.Combat
             {
                 var node=new GameObject(names[i]);node.transform.SetParent(body.Parts[i*2],false);
                 var link=node.AddComponent<Health>();link.id="Cantor - "+names[i].ToLowerInvariant();
-                link.maximum=link.integrity=definition.integrity*LinkShare;link.weakness=health.weakness;link.resistance=health.resistance;
+                link.maximum=link.integrity=whole*LinkShare;link.weakness=health.weakness;link.resistance=health.resistance;
                 link.breakThreshold=definition.breakThreshold;
                 link.reactionOwner=health;links[i]=link;
                 var shape=node.AddComponent<CapsuleCollider>();shape.isTrigger=true;shape.radius=1.15f;shape.height=2.3f;

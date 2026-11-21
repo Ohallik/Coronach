@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: PipsOath
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: PipsOath
+  title: The Oath
+  description: Cadet Pip takes the Muster's oath tomorrow, in the third file, by
+    the drain. He is showing you the town because nobody told him not to.
+  steps:
+  - kind: 5
+    target: pip.fieldTalked
+    count: 1
+  - kind: 5
+    target: pip.galleryTalked
+    count: 1
+  - kind: 5
+    target: pip.oathLeft
+    count: 1
+  rewardXp: 200
+  rewardScrip: 160
+  rewards:
+  - id: DrivesT4
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Let Pip show you the muster field
+  - Find Pip in the trophy gallery, by the door
+  - Find Pip after the duel
+  rewardsRolled: 1
+  main: 0
+  chapter: 8
+  stepTargets:
+  - scene: Harrowgate
+    via: []
+    speaker: Pip
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: See the field with Pip
+  - scene: Harrowgate
+    via: []
+    speaker: Pip
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Find Pip in the gallery
+  - scene: Harrowgate
+    via: []
+    speaker: Pip
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Find Pip after the duel
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

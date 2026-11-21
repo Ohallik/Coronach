@@ -146,5 +146,22 @@ namespace Lattice.Tests.EditMode
             // Negative control: a missing chunk (a hole in the cave) is caught.
             Assert.AreNotEqual(total,ChunkCoverage(out _,skip:3),"dropping a chunk went unnoticed");
         }
+
+        /// <summary>A danger marking is never hidden. Everything flat that blends onto a floor (RoomDressing's ground patches, the ground kit's details, lamp pools, puddles) draws
+        /// before a marking's fill and outline. Until November 12 the ground patches were at the plain transparent queue, after both, and could lie over a marking.</summary>
+        [Test] public void FlatFloorDetailsDrawUnderDangerMarkings()
+        {
+            int marking=Mathf.Min(Shader.Find("Lattice/TelegraphFill").renderQueue,Shader.Find("Lattice/Telegraph").renderQueue);
+            var paints=UnityEditor.AssetDatabase.FindAssets("t:Material",new[]{"Assets/_Project/Resources/WorldMaterials"})
+                .Select(g=>UnityEditor.AssetDatabase.LoadAssetAtPath<Material>(UnityEditor.AssetDatabase.GUIDToAssetPath(g)))
+                .Where(m=>m!=null&&(m.name.StartsWith("dress-detail-")||m.name=="ground-decal"||m.name=="ground-lamp-pool"||m.name=="ground-puddle")).ToArray();
+            Assert.Greater(paints.Length,20,"fixture: the floor details' materials");
+            string Over(Material m)=>m.renderQueue>=marking?$"{m.name} draws at {m.renderQueue}, at or after a marking ({marking})":null;
+            var late=paints.Select(Over).Where(s=>s!=null).ToArray();
+            Assert.IsEmpty(late,"floor details that can lie over a danger marking:\n"+string.Join("\n",late));
+            // Negative control: a detail left at the plain transparent queue is caught.
+            var control=new Material(paints[0]){name="dress-detail-control",renderQueue=3000};
+            try{Assert.IsNotNull(Over(control),"a floor detail drawn after the markings went unnoticed");}finally{Object.DestroyImmediate(control);}
+        }
     }
 }

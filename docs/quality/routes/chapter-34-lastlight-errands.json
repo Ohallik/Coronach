@@ -1,0 +1,1171 @@
+{
+  "name": "chapter-34-lastlight-errands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 6: back by the Reach gate, Iru and the skull lamps, the fourth rib's tally, out to the Reach again",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.planTaken",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "back to the Reach gate",
+      "seconds": 4.34,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0,
+        "z": -7.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "home through the Reach gate",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the Reach gate",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 1/11",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": -40,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 2/11",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 3/11",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 4/11",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 5/11",
+      "seconds": 5.83,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 38
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 6/11",
+      "seconds": 5.57,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 37
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 7/11",
+      "seconds": 4.1,
+      "navigate": true,
+      "point": {
+        "x": 23.4,
+        "y": 0,
+        "z": 34.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 8/11",
+      "seconds": 4.88,
+      "navigate": true,
+      "point": {
+        "x": 31.5,
+        "y": 0,
+        "z": 34.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 9/11",
+      "seconds": 4.17,
+      "navigate": true,
+      "point": {
+        "x": 37.2,
+        "y": 0,
+        "z": 36.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 10/11",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 39.6,
+        "y": 0,
+        "z": 41
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "east to the lamp shrine 11/11",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 42.4,
+        "y": 0,
+        "z": 44
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "start Iru at the shrine",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release start Iru at the shrine",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru at the shrine line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru at the shrine line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru at the shrine line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru at the shrine line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru at the shrine line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru at the shrine line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru at the shrine line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru at the shrine line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru at the shrine line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru at the shrine line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru at the shrine line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru at the shrine line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish Iru at the shrine",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after Iru at the shrine",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "start Iru's three lamps",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release start Iru's three lamps",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru's three lamps line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru's three lamps line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru's three lamps line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru's three lamps line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru's three lamps line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru's three lamps line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru's three lamps line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru's three lamps line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru's three lamps line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Iru's three lamps line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Iru's three lamps line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Iru's three lamps line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish Iru's three lamps",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after Iru's three lamps",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the first high lamp 1/3",
+      "seconds": 5.09,
+      "navigate": true,
+      "point": {
+        "x": 38.0,
+        "y": 0.0,
+        "z": 51.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the first high lamp 2/3",
+      "seconds": 3.88,
+      "navigate": true,
+      "point": {
+        "x": 43.0,
+        "y": 1.2,
+        "z": 53.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the first high lamp 3/3",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": 47.5,
+        "y": 2.4,
+        "z": 53.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "settle before light the first high lamp",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "light the first high lamp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hoar.skullLamp1",
+      "expectedFlag": "hoar.skullLamp1",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release light the first high lamp",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the high rib-hall 1/5",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": 52.5,
+        "y": 3.6,
+        "z": 54.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the high rib-hall 2/5",
+      "seconds": 3.63,
+      "navigate": true,
+      "point": {
+        "x": 57.0,
+        "y": 4.8,
+        "z": 55.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the high rib-hall 3/5",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 58.5,
+        "y": 4.8,
+        "z": 57.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the high rib-hall 4/5",
+      "seconds": 3.57,
+      "navigate": true,
+      "point": {
+        "x": 55,
+        "y": 4.8,
+        "z": 60.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up the ledge to the high rib-hall 5/5",
+      "seconds": 3.39,
+      "navigate": true,
+      "point": {
+        "x": 52.0,
+        "y": 4.8,
+        "z": 63.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "settle before light the second high lamp",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "light the second high lamp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hoar.skullLamp2",
+      "expectedFlag": "hoar.skullLamp2",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release light the second high lamp",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "across the high hall to the knoll 1/2",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 56,
+        "y": 5.47,
+        "z": 64.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "across the high hall to the knoll 2/2",
+      "seconds": 3.82,
+      "navigate": true,
+      "point": {
+        "x": 60.0,
+        "y": 6.2,
+        "z": 68.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "settle before light the third high lamp",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "light the third high lamp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hoar.skullLamp3",
+      "expectedFlag": "hoar.skullLamp3",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release light the third high lamp",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 1/7",
+      "seconds": 5.67,
+      "navigate": true,
+      "point": {
+        "x": 58.5,
+        "y": 4.8,
+        "z": 57.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 2/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 57.0,
+        "y": 4.8,
+        "z": 55.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 3/7",
+      "seconds": 3.63,
+      "navigate": true,
+      "point": {
+        "x": 52.5,
+        "y": 3.6,
+        "z": 54.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 4/7",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": 47.5,
+        "y": 2.4,
+        "z": 53.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 5/7",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": 43.0,
+        "y": 1.2,
+        "z": 53.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 6/7",
+      "seconds": 3.88,
+      "navigate": true,
+      "point": {
+        "x": 38.0,
+        "y": 0.0,
+        "z": 51.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down the climb 7/7",
+      "seconds": 5.09,
+      "navigate": true,
+      "point": {
+        "x": 42.4,
+        "y": 0,
+        "z": 44
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "start the shrine is lit",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release start the shrine is lit",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read the shrine is lit line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next the shrine is lit line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the shrine is lit line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read the shrine is lit line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next the shrine is lit line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the shrine is lit line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish the shrine is lit",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "iru.lampsLit",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after the shrine is lit",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 1/11",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 39.6,
+        "y": 0,
+        "z": 41
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 2/11",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 37.2,
+        "y": 0,
+        "z": 36.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 3/11",
+      "seconds": 4.17,
+      "navigate": true,
+      "point": {
+        "x": 31.5,
+        "y": 0,
+        "z": 34.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 4/11",
+      "seconds": 4.88,
+      "navigate": true,
+      "point": {
+        "x": 23.4,
+        "y": 0,
+        "z": 34.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 5/11",
+      "seconds": 4.1,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 37
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 6/11",
+      "seconds": 5.57,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 38
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 7/11",
+      "seconds": 5.83,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 8/11",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 9/11",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 54
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 10/11",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 58.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "to the fourth rib 11/11",
+      "seconds": 2.94,
+      "navigate": true,
+      "point": {
+        "x": 10.6,
+        "y": 0,
+        "z": 58.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "look at the cuts in the rib",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release look at the cuts in the rib",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read look at the cuts in the rib line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next look at the cuts in the rib line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release look at the cuts in the rib line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read look at the cuts in the rib line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next look at the cuts in the rib line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release look at the cuts in the rib line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish look at the cuts in the rib",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.tallySeen",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after look at the cuts in the rib",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 1/9",
+      "seconds": 2.94,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 58.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 2/9",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 54
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 3/9",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 4/9",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 5/9",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 6/9",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 7/9",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -40,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 8/9",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": -57.0,
+        "y": 0,
+        "z": 42.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 9/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -60.0,
+        "y": 0,
+        "z": 42.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back through the Reach gate",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Reach gate",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

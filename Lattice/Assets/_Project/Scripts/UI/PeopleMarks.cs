@@ -11,7 +11,34 @@ namespace Lattice.UI
     public sealed class PeopleMarks:MonoBehaviour
     {
         /// <summary>Beats that stay true after they've been heard: the person is only repeating themselves, and a mark on them would never clear.</summary>
-        static readonly HashSet<string> Repeats=new(){"AbriLanternRepeat","AbriLanternWaiting","AbriLanternAfter","PellLampAfter","AumiRelaysLit","MiraRepeat"};
+        static readonly HashSet<string> Repeats=new(){"AbriLanternRepeat","AbriLanternWaiting","AbriLanternAfter","PellLampAfter","AumiRelaysLit","MiraRepeat",
+            "AbriSeedRoadRepeat","AbriSeedRoadCharted","AbriSeedRoadWaiting","AbriDinnerServed","PellLaneRepeat","PellAfterVote",
+            "AbriReedRoadRepeat","AbriReedRoadCharted","AbriReedRoadWaiting","AbriManyHands","PellVeilRepeat","PellManyHands","OnaPimBack","MaruOnaWaits",
+            // Many Hands (chapter 5): every person's repeat and after-dinner line aboard, the courier pointer, and the dinner's optional talks, which stay true for their window.
+            "AbriHandsRepeat","AbriHandsPost","AbriCourier","AbriDinnerTalk","PellHandsRepeat","PellHandsPost","RuvaHandsRepeat","RuvaHandsPost","MaruHandsRepeat","MaruHandsPost","MaruDinnerTalk",
+            "BinnaHandsRepeat","BinnaHandsPost","BinnaDinnerTalk","TeoHandsRepeat","TeoHandsPost","TeoDinnerTalk","JaskFoundRepeat","JaskGardenHand","JaskFerryHand","JaskLampHand","JaskHandsPost",
+            "JaskDinnerTalk","HaddaHandsRepeat","HaddaHandsPost","CorraHandsRepeat","CorraHandsPost","DovHandsRepeat","DovHandsPost","OnaHandsRepeat","OnaHandsPost","PimHandsRepeat","PimHandsPost",
+            "GaroHandsRepeat","GaroHandsPost","DabbHandsRepeat","DabbHandsPost","IloHandsRepeat","IloHandsPost","PatrolRepeat",
+            // The Long Sleep (chapter 6): the lines that hold for the chapter's window aboard, Hask's count while the strays are out, and the herders' words aboard after it.
+            "AbriThirtySix","IloLastlightEntry","HaskStraysWaiting","AbriCutters","HaskAboard","IruAboard",
+            // The Cage Makers (chapter 7, manifest section 8): Abri's line while the party is away, Ishen's and Lume's lines at the camp and aboard, Ruva's and Pell's for good once their side story is done.
+            "AbriTooManyBooks","IshenCamp","IshenOrielPost","LumePost","IshenAboard","RuvaGardener","PellOrielLantern",
+            // Harrowgate (chapter 8, manifest section 8.2): the lines that hold for their window at the camp, the gate, the kitchen and in town, and the words aboard after it.
+            "AbriTwentySeven","AbriThreeWords","TovraRepeat","BrekkCampRepeat","HessaGateRepeat","OdrunRepeat","OdrunShop","BrekkKitchen","PipOathDay","PipPost",
+            "TovraAboard","BrekkAboard","AbriSmiths","DraskAboard","PellAumiAnswers",
+            // The House That Can Leave (chapter 9, manifest section 8.2): the lines that hold aboard, on the Crawl and on the Decks for their window.
+            "OdaAboard","AbriNamesOnTheWall","DorrowRepeat","TamFirst","JunRepeat","MiraCratedRepeat","HalCrated","NeveFlyingAStreet","SurvivorDecks","OdaDecks","IloDecks","DorrowListens",
+            // A Route With Room To Turn Back (chapter 10, manifest section 8.2): the lines that hold aboard and in the epilogue, the four messages, and every visit and extra in the
+            // neighbourhood (each is said again when asked again).
+            "AbriFortiethDay","DraskBeforeTheField","MeretAccount","DraskWatches","JaskNewSky","PipRota","TamSkyGarden",
+            "IruTernsMessage","PellAumisMessage","RuvaSennsMessage","PimQuillsMessage",
+            "AbriHomecoming","TeoHomecoming","MaruHomecoming","HaskHomecoming","PellHomecoming","TovraHomecoming","OdaHomecoming","DorrowHomecoming","MiraHomecoming",
+            "MiraHomeCrystals","NeveHomeParcels","OdaHomeStamp","SurvivorHomeLamps","PellHomeMothersLamp","IshenHomeShelves","BrekkHomeAwning","BinnaHomeBaskets","RuvaHomePost",
+            "JaskHomeThree","TeoHomeTags","MaruHomeHarbourLamp","DovHomeSmokehouse","DovHomeBell","PimHomeKey","CorraHomeKettles","JaskHomeFare","IloHomeBook","HaskHomeStrays",
+            "IruHomeLamps","IdraHomeCrew","RuvaHomeShoot","IshenHomeMoons","PellHomeOriel","TovraHomePikes","AbriHomeGlass","BrekkHomeKettle","PipHomeFile","MiraHomeTable",
+            "HalHomeBenches","NeveHomeSocks","TamHomeFrame",
+            // Ruva's motion nine, her line in the square every time: news until heard once (SideStories.HeardFlagFor).
+            "RuvaPassageRules"};
         /// <summary>How tall a name stands on a 1080p screen, and how tall when it's marked; and how far over the head it hangs, in metres.</summary>
         const float NamePixels=26,MarkPixels=32,OverHead=.32f;
         /// <summary>A heavy mark, not a tick: thin Cinzel's '!' read as a stray stroke before the name.</summary>
@@ -25,7 +52,8 @@ namespace Lattice.UI
             var service=GameServices.Current;
             if(npc==null||service==null||!string.IsNullOrEmpty(npc.holdNode))return false;
             string node=SideStories.NodeFor(npc.speaker,service.State);
-            return node!=null&&!Repeats.Contains(node);
+            // A repeat the story waits behind is news until it has been heard once: without the mark nothing says Abri's last word of chapter 2 leads to chapter 3.
+            return node!=null&&(!Repeats.Contains(node)||SideStories.HeardFlagFor(node) is string heard&&!service.Flags.GetBool(heard));
         }
         /// <summary>What the prompt adds up close. A hail reaches the same person as a talk.</summary>
         public static string PromptNote(InteractionPrompt prompt)

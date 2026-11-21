@@ -18,8 +18,17 @@ MonoBehaviour:
   cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
   hd2dProfile: {fileID: 11400000, guid: a2360d045852b864db338e4b91cd320d, type: 2}
   ambientAudio: {fileID: 0}
-  musicId: 
+  ambientVolume: 0.055
+  musicId: Starfight
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
   skybox: {fileID: 0}
+  displayName: Proving Berth
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 0

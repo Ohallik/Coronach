@@ -44,13 +44,29 @@ namespace Lattice.Core
                 throw new ArgumentException("Unknown save slot",nameof(slot));
             return Path.Combine(directory,slot+".json");
         }
+        /// <summary>How many saves have been taken this session (not refused): what a replay step waits on to know a cradle answered.</summary>
+        public static int Asked{get;private set;}
+        /// <summary>The spawn a save may name, given the one the state holds: World's Berth answers while the party stands on a berth of the other form (its own spawn beside
+        /// the pad, or a boss door's). Null, or answering null: the spawn as it is.</summary>
+        public static Func<string,string> SafeSpawn;
+        /// <summary>What a fight's part has done is kept the moment it is done (a clamp opened, a brace broken: ch10-wiring 6.1 rule 3, D285), without moving where a defeat
+        /// returns: the autosave written with the flags as they stand and <c>state.spawn</c> untouched (on a berth, the berth's rule for it still holds).</summary>
+        public static void KeepCheckpoint()
+        {
+            var services=GameServices.Current;if(services==null||services.State==null)return;
+            services.Saves.Save("autosave",services.State);UnityEngine.Debug.Log("CHECKPOINT_KEPT "+services.State.spawn);
+        }
         public void Save(string slot,GameState state)
         {
             var path=SlotFile(slot);
-            // A save with nobody standing would make every retry an instant defeat (QA: the conversation that outlived a wipe).
-            if(slot=="autosave"&&state.party!=null&&state.party.Count>0&&state.party.TrueForAll(m=>m.integrity<=0))
+            // A save with nobody standing would make every retry an instant defeat (QA: the conversation that outlived a wipe). Standing is standing on the field (Deployment.Of,
+            // the whole party for two): with three, the hero resting doesn't hold the defeat screen back, so their Integrity mustn't let a wipe through either.
+            var field=Deployment.Of(state);
+            if(slot=="autosave"&&field.Count>0&&field.TrueForAll(m=>m.integrity<=0))
             {UnityEngine.Debug.Log($"SAVE_REFUSED party down zone={state.zone}");return;}
-            state.savedAtUtc=DateTime.UtcNow.ToString("o");
+            // A save never stands on the other form's ground (chapter 10's berth, ch10-wiring 6.1 rule 2): loaded, it would set a ship down on a shelf.
+            if(SafeSpawn!=null){var safe=SafeSpawn(state.spawn);if(!string.IsNullOrEmpty(safe))state.spawn=safe;}
+            state.savedAtUtc=DateTime.UtcNow.ToString("o");Asked++;
             string json=JsonConvert.SerializeObject(state,Formatting.Indented),zone=state.zone,folder=directory;
             if(!WriteBehind)
             {

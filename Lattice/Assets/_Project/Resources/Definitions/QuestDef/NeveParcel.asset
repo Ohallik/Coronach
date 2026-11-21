@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: NeveParcel
   title: An Overdue Parcel
-  description: 'Neve has held one of Sorrel''s missed deliveries since the courier refused to land.'
+  description: Neve has held one of Sorrel's missed deliveries since the courier
+    refused to land.
   steps:
   - kind: 5
     target: neve.parcelDelivered
@@ -29,5 +30,14 @@ MonoBehaviour:
     count: 2
   flagsOnComplete: []
   stepText:
-  - 'Deliver Neve''s parcel to Dace at Sorrel''s outpost'
-  - 'Bring Dace''s reply back to Neve at the Halo'
+  - Deliver Neve's parcel to Dace at Sorrel's outpost
+  - Bring Dace's reply back to Neve at the Halo
+  rewardsRolled: 0
+  main: 0
+  chapter: 1
+  stepTargets: []
+  closingLine: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: home.launched

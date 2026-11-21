@@ -13,7 +13,21 @@ from pathlib import Path
 
 QA = Path(__file__).resolve().parent.parent / "Builds" / "quality" / "QA"
 LOW, HIGH = 120, 300
-BOSSES = ("Burrower", "BellowsBelow", "Cantor", "HessaKorl")
+FIRST = ("Burrower", "BellowsBelow", "Cantor", "HessaKorl")
+
+
+def bosses():
+    """The first four in story order, then every other boss a BossController.<Name>.cs registers (Register(new Kit{id="..."): nobody adds one here."""
+    found = list(FIRST)
+    combat = Path(__file__).resolve().parent.parent / "Lattice" / "Assets" / "_Project" / "Scripts" / "Combat"
+    for source in sorted(combat.glob("BossController.*.cs")):
+        for name in re.findall(r'Register\(new Kit\s*\{\s*id="([A-Za-z0-9_]+)"', source.read_text(encoding="utf-8")):
+            if name not in found:
+                found.append(name)
+    return tuple(found)
+
+
+BOSSES = bosses()
 LINE = re.compile(r"^BOSS_DURATION (\S+) seconds=([\d.]+)")
 
 

@@ -1,0 +1,260 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: ManyHands
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: ManyHands
+  title: Many Hands
+  description: The convoy has become one ship with a name on its dock door, and nobody
+    has yet made it a town.
+  steps:
+  - kind: 5
+    target: hands.aboard
+    count: 1
+  - kind: 5
+    target: hands.mooringSettled
+    count: 1
+  - kind: 5
+    target: hands.ventFixed
+    count: 1
+  - kind: 5
+    target: hands.chartOpen
+    count: 1
+  - kind: 5
+    target: hands.iloAboard
+    count: 1
+  - kind: 2
+    target: Hulljack
+    count: 1
+  - kind: 2
+    target: DessikVarn
+    count: 1
+  - kind: 5
+    target: hands.breachSealed
+    count: 1
+  - kind: 5
+    target: hands.meretMet
+    count: 1
+  - kind: 5
+    target: hands.dinnerSat
+    count: 1
+  - kind: 5
+    target: hands.stillwaterHeard
+    count: 1
+  - kind: 5
+    target: hands.numberHeard
+    count: 1
+  - kind: 5
+    target: hands.footnotesTabled
+    count: 1
+  - kind: 5
+    target: hands.sorrelNamed
+    count: 1
+  - kind: 5
+    target: hands.dinnerDone
+    count: 1
+  - kind: 5
+    target: hands.chartRead
+    count: 1
+  rewardXp: 1100
+  rewardScrip: 700
+  rewards:
+  - id: FramesT3
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Dock at Many Hands
+  - 'Settle where the rafts hold on: hear Ruva and Maru out'
+  - Fix the galley vent for Binna
+  - Set the chart table by Pell's lamps on the lamp gallery
+  - Meet the courier asking for you at the dock
+  - Cut the salvage frame's four feet off the hull
+  - Stop Dessik Varn in the freight hall
+  - Get to the breached cabins
+  - Hear what Director Venn has come for
+  - Find Director Venn something to eat
+  - Let her explain Stillwater
+  - Hear the number
+  - Let Ilo answer Ruva
+  - Ask what the anchor costs
+  - See Director Venn to the galley door
+  - Read the chart on the lamp gallery
+  rewardsRolled: 1
+  main: 1
+  chapter: 5
+  stepTargets:
+  - scene: ManyHands
+    via: []
+    speaker: Keeper
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Ruva
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Binna
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Pell
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Ilo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHandsHull
+    via:
+    - ManyHands
+    speaker: 
+    report: 
+    encounter: Hulljack
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: DessikVarn
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: Patrol
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Meret
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Binna
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Meret
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Ruva
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Ilo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Meret
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: Meret
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via: []
+    speaker: 
+    report: ChartTable
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: 'Chapter 5 complete. The nursery''s only way out runs cold: read the
+    chart for Hoarfell at the chart table.'
+  next:
+    scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 1
+    point: {x: 0, y: 0, z: 45.2}
+    brief: 
+  storyFlags:
+  - hands.ruvaHeard
+  - hands.maruHeard
+  - hands.lampsSighted
+  - hands.claimRead
+  - hands.feet1
+  - hands.feet2
+  - hands.feet3
+  - hands.feet4
+  - hands.hullCleared
+  - bossdown.Hulljack
+  - hands.hallEntered
+  - bossdown.DessikVarn
+  - hands.dessikYielded
+  - met.Meret
+  - met.Ilo
+  - met.Dessik
+  - chapter5.complete
+  cardFlag: chapter5.complete
+  cardBody: Many Hands is a town, with a chart that can take it anywhere it has been.
+    Director Venn's anchor will be braced on Sorrel, and she has given you forty
+    days and her own drawings to find something better.
+  letGoAt: 

@@ -10,9 +10,26 @@ namespace Lattice.Combat
         public Health Health{get;private set;}
         public ActorState State{get;private set;}
         public float charge,thrust=100,damage=50,rangedDamage=50,damageScale=1,plating,resonance=10,response=10,fortune=5;
+        /// <summary>What the hero's parts, and the party's draught and meal, do beyond the stats (Gear.Modifiers, PartyBuffs): set with the stats, read where each thing happens.</summary>
+        public Mods mods;
+        /// <summary>Gear's own clocks (GearEffects): how long a Flash Coil runs, whether this fight's Second Wind is spent, and whether a fight is on at all.</summary>
+        internal float flashDamageUntil,nextCalmCheck;internal bool secondWindSpent,calm;
+        /// <summary>A skill as this hero's gear leaves it: a Mastery Lens's level, Overcharged's Charge, Quickcycle's cooldown. What the release, the HUD and the partner all go by.</summary>
+        public int MasteryOf(SkillDef skill)=>skill==null?1:Mathf.Min(SkillBook.MaxMastery,SkillBook.Mastery(character,skill.id)+Mathf.RoundToInt(Mathf.Max(0,mods.mastery)));
+        public float CostOf(SkillDef skill)=>CostOf(skill,MasteryOf(skill));
+        public float CostOf(SkillDef skill,int mastery)=>skill==null?SkillBook.Cost(skill,mastery):Mathf.Max(SkillBook.MinimumCost,SkillBook.Cost(skill,mastery)+mods.skillCost);
+        public float CooldownOf(SkillDef skill)=>skill==null?0:skill.cooldown*Mathf.Max(.2f,1+mods.cooldown);
+        /// <summary>What a roll out of rhythm costs this hero.</summary>
+        public float MashPrice=>MashCost*Mathf.Max(0,1+mods.mashCost);
         public DamageType edgeType=DamageType.Kinetic;
         public DamageType emitterType=DamageType.Beam;
         public string character="Taren";
+        /// <summary>Where this hero's guard, dodge and plain attack differ from the first two heroes' (S6a): data on their CharacterDef, read once. A hero with no definition, or one that says nothing, has theirs;
+        /// and so has one whose style came off the disk empty (a dodge of no seconds is no style at all).</summary>
+        public HeroStyle Style{get{if(style==null){var hero=GameCatalog.Find<CharacterDef>(character);style=hero!=null&&hero.style!=null&&hero.style.hopSeconds>0&&hero.style.rollSeconds>0?hero.style:PlainStyle;}return style;}}
+        HeroStyle style;static readonly HeroStyle PlainStyle=new();
+        /// <summary>Whether this hero's own effects wear the warm palette or the cool one: Taren's always did, and a third hero's style says which (S6a).</summary>
+        public bool Warm=>character=="Taren"||Style.warm;
         public bool flight;
         public Health target;
         // Assisted attack selection and deliberate target-facing locomotion
@@ -75,15 +92,42 @@ namespace Lattice.Combat
         internal void ArmOverdrive()=>overdriveUntil=GameTime.Now+10;
         internal void ArmRefract()=>refractUntil=GameTime.Now+1.4f;
         public bool Recovering=>Health.Alive&&GameTime.Now<recoverUntil;
-        public float GuardDamageMultiplier=>guarding?GuardTakes:1;
+        // S3: what a late skill or an EXTRA move holds a hero to. Armoured (Bulwark Rush): hits land at a guard's strength, cost no Thrust and stagger nobody.
+        // Rooted (Long Exposure, an EXTRA): the motor's clock stands still, so no stick, drift or shove of the hero's own carries them, until their next action.
+        // Committed (an EXTRA): no roll, guard or stagger cuts the move short.
+        internal float armoredUntil,rootedUntil,committedUntil;int rootedSequence;
+        public bool Armored=>Health.Alive&&GameTime.Now<armoredUntil;
+        public bool Rooted=>Health.Alive&&GameTime.Now<rootedUntil&&AttackSequence==rootedSequence;
+        public bool Committed=>Health.Alive&&GameTime.Now<committedUntil;
+        internal void Root(float seconds){rootedUntil=GameTime.Now+seconds;rootedSequence=AttackSequence;}
+        // S6a: what the guard hero's kit hangs on. A Flash Guard, and a hit a held guard stopped, each say so (BraceKit answers them with a shockwave); Plating can be
+        // raised for a while (Hold the Line) without the stats' own refresh writing over it; and a kit with a plain attack of its own (the hammer) begins it here.
+        public static event System.Action<CombatActor,DamagePacket> FlashGuarded;
+        public static event System.Action<CombatActor> GuardHeld;
+        internal float platingBoost,platingBoostUntil;
+        public float Plating=>plating+(GameTime.Now<platingBoostUntil?platingBoost:0);
+        public bool Guarding=>guarding;
+        internal void BeginAttack(string clip,float duration,float recovery){State=ActorState.Attack;nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+recovery;BeginVisual(clip,duration);}
+        internal void FaceFor(Vector3 aim)=>StartCoroutine(TurnTo(aim));
+        /// <summary>Whether the guard that's up covers a hit from there: on foot all round, as ever. A ship's guard is its prow, and covers what comes from ahead of it.</summary>
+        bool Braces(Health from)
+        {
+            if(!guarding)return false;if(!flight||from==null)return true;
+            var to=from.transform.position-transform.position;to.y=0;
+            return to.sqrMagnitude<.01f||Vector3.Angle(motor.Facing,to)<=Style.prowArc*.5f;
+        }
+        bool braced;
+        public float GuardDamageMultiplier=>guarding?Style.guardTakes:Armored?GuardTakes:1;
         public bool GuardBroken=>guardBroken;
         /// <summary>What a hit leaves of itself after a guard, which pays for the rest in Thrust (boss269). Short of the price the guard breaks: the hit lands whole,
         /// the bar empties and flashes as a refused roll's does, and the hero staggers.</summary>
         public float Guarded(float damage)
         {
-            if(!guarding||damage<=0)return damage;
-            float cost=GuardCost*damage*(1-GuardTakes)/Mathf.Max(1,Health.maximum);
-            if(thrust>=cost){thrust-=cost;return damage*GuardTakes;}
+            if(Armored&&damage>0)return damage*GuardTakes;
+            // A prow covers only what's ahead of it (Deflect has just said which this was); on foot a guard is a guard.
+            if(!guarding||flight&&!braced||damage<=0)return damage;
+            float takes=Style.guardTakes,cost=Style.guardCost*damage*(1-takes)/Mathf.Max(1,Health.maximum)*Mathf.Max(.1f,1+mods.guardCost);
+            if(thrust>=cost){thrust-=cost;GuardHeld?.Invoke(this);return damage*takes;}
             thrust=0;guardBroken=true;GuardBrokenAt=GameTime.Now;
             if(PartyController.Current==null||PartyController.Current.Active==this)RollRefusedAt=GameTime.Now;
             Stagger(GuardBreak);
@@ -93,10 +137,10 @@ namespace Lattice.Combat
         }
         public bool ChangingForm=>TryGetComponent<FormController>(out var form)&&form.Shaping;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&!ChangingForm&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
-        public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
+        public float MotorDelta=>GameTime.Paused||Rooted?0:GameTime.Now<Health.InvulnerableUntil?GameTime.Delta:Time.deltaTime;
         /// <summary>The clock a hero's own pose runs on, the same real time as its recovery and animation: through someone else's Flash a
         /// release counted on the slowed clock came four times late, or was cancelled by the next attack with its Charge spent.</summary>
-        public float ActionDelta=>GameTime.Paused?0:Time.unscaledDeltaTime;
+        public float ActionDelta=>GameTime.Delta;
         void Awake(){Health=GetComponent<Health>();Health.Died+=OnDown;Health.Revived+=OnRevive;SkillBook.LoadoutChanged+=OnLoadout;}
         void OnDestroy(){Health.Died-=OnDown;Health.Revived-=OnRevive;SkillBook.LoadoutChanged-=OnLoadout;}
         /// <summary>A cooldown belongs to the skill, not its slot: a trip to the menu used to reset a skill's timer and hand the
@@ -126,34 +170,38 @@ namespace Lattice.Combat
             if(GameTime.Now>=actionUntil&&State!=ActorState.Guard)State=motor!=null&&motor.Velocity.sqrMagnitude>.1f?ActorState.Move:ActorState.Idle;
             // A conversation holds the fight, and its clocks with it: a cooldown used to run out during the lines.
             if(GameTime.CombatHeld)return;
-            charge=Mathf.Max(0,charge-Time.deltaTime*.4f);thrust=Mathf.Min(100,thrust+Time.deltaTime*(guarding?GuardedRest:ThrustRest));
+            if(mods.chargeHold<=0)charge=Mathf.Max(0,charge-Time.deltaTime*.4f);
+            thrust=Mathf.Min(100,thrust+Time.deltaTime*(guarding?GuardedRest:ThrustRest)*Mathf.Max(0,1+mods.thrustRegen));
+            GearEffects.Tick(this);
             for(int i=0;i<4;i++)cooldowns[i]=Mathf.Max(0,cooldowns[i]-Time.deltaTime);
         }
         public void Guard(bool held)
         {
-            if(!Health.Alive||Recovering||ChangingForm){guarding=false;return;}
+            if(!Health.Alive||Recovering||ChangingForm||Committed){guarding=false;return;}
             if(guardBroken){if(held){guarding=false;if(State==ActorState.Guard)State=ActorState.Idle;return;}guardBroken=false;}
             // A roll wins: it keeps its i-frames, its Flash and its clip, and a guard still held takes up where it ends. Pressed with X down, Guard wrote over it in the same frame,
             // so the hero glid in the guard pose and a hit landed at guard damage.
             bool rolling=State==ActorState.Dodge&&GameTime.Now<actionUntil;
             if(held&&!guarding){refractUntil=0;guardEarned=GameTime.Now-guardPressAt>=FlashRhythm;guardPressAt=guardAt=GameTime.Now;if(!rolling){VisualAttackUntil=0;AttackSequence++;}}
-            guarding=held&&!flight; if(guarding){if(!rolling)State=ActorState.Guard;}else if(State==ActorState.Guard)State=ActorState.Idle;
+            guarding=held&&(!flight||Style.flightGuard); if(guarding){if(!rolling)State=ActorState.Guard;}else if(State==ActorState.Guard)State=ActorState.Idle;
         }
-        public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
+        public void Stagger(float seconds){if(!Health.Alive||Recovering||Armored||Committed)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
         {
-            if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger||GameTime.Now<nextDodge)return false;
+            if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||Committed||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger||GameTime.Now<nextDodge)return false;
             flashEarned=GameTime.Now-dodgeAt>=FlashRhythm;
             if(!flashEarned)
             {
                 // Refused, the press still restarts the clock: otherwise an empty bar only spaces a mash out into free rolls that earn their Flash.
-                if(thrust<MashCost){dodgeAt=GameTime.Now;if(PartyController.Current==null||PartyController.Current.Active==this)RollRefusedAt=GameTime.Now;return false;}
-                thrust-=MashCost;
+                if(thrust<MashPrice){dodgeAt=GameTime.Now;if(PartyController.Current==null||PartyController.Current.Active==this)RollRefusedAt=GameTime.Now;return false;}
+                thrust-=MashPrice;
             }
-            refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;nextDodge=GameTime.Now+(flight?.3f:.25f)+DodgeGap;
-            BeginVisual("Dodge",flight?.3f:.25f);
+            // How long and how far are the hero's own (Style): .25 s and 3.3 m on foot, .3 s and 4 m in flight, unless their definition says otherwise.
+            float seconds=flight?Style.rollSeconds:Style.hopSeconds;
+            refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;nextDodge=GameTime.Now+seconds+DodgeGap;
+            BeginVisual("Dodge",seconds);
             CombatAudio.Dodge(this);
-            actionUntil=GameTime.Now+(flight?.3f:.25f);motor.Dash(direction.sqrMagnitude>.01f?direction:motor.Facing,flight?4:3.3f);
+            actionUntil=GameTime.Now+seconds;motor.Dash(direction.sqrMagnitude>.01f?direction:motor.Facing,flight?Style.roll:Style.hop);
             return true;
         }
         public bool Deflect(DamagePacket packet)
@@ -177,28 +225,31 @@ namespace Lattice.Combat
                 }
                 return true;
             }
-            if(State==ActorState.Dodge&&GameTime.Now<actionUntil)
+            // Untouchable for the whole of a roll, unless the hero's own dodge is shorter on that than it is long (the guard hero's hop).
+            if(State==ActorState.Dodge&&GameTime.Now<actionUntil&&GameTime.Now-dodgeAt<=(flight?Style.rollSafe:Style.hopSafe))
             {
-                if(!flashConsumed&&flashEarned&&GameTime.Now-dodgeAt<=Mathf.Clamp(.2f+Mathf.Max(0,response-10)*.001f,.2f,.27f))
+                if(!flashConsumed&&flashEarned&&GameTime.Now-dodgeAt<=Mathf.Clamp(.2f+Mathf.Max(0,response-10)*.001f,.2f,.27f)+mods.flashWindow)
                 {
                     flashConsumed=true;FlashMoves++;Health.InvulnerableUntil=GameTime.Now+1.5f;
                     // Slowing the world is the player's reward: the AI partner dodges by design, and it used to put the
                     // player's own hero in slow motion, unearned, in every marked fight.
                     bool controlled=PartyController.Current==null||PartyController.Current.Active==this;
-                    if(controlled){StartCoroutine(FlashTime());AudioManager.Play("forceField_000",.3f);}
+                    if(controlled){Impact.FlashMove(this,packet);StartCoroutine(FlashTime());AudioManager.Play("forceField_000",.3f);}
                     Debug.Log("FLASH_MOVE_OK");BarkService.Play(character,"flash");
                     if(flight){EarnCrit();charge=Mathf.Min(100,charge+25);}
+                    GearEffects.Flashed(this);
                 }
                 return true;
             }
-            if(guarding)
+            braced=Braces(packet.source);
+            if(braced)
             {
-                if(guardEarned&&GameTime.Now-guardAt<=.2f)
+                if(guardEarned&&GameTime.Now-guardAt<=.2f+mods.flashWindow)
                 {
-                    FlashGuards++;EarnCrit();charge=Mathf.Min(100,charge+25);guardAt=-99;Debug.Log("FLASH_GUARD_OK");
+                    FlashGuards++;EarnCrit();charge=Mathf.Min(100,charge+25);GearEffects.Flashed(this);guardAt=-99;Debug.Log("FLASH_GUARD_OK");
                     // A perfect guard has to show itself: it used to be silent and invisible but for the Charge bar.
-                    FlashGuardShownAt=GameTime.Now;CombatAudio.Deflect(this);
-                    CombatVfx.Burst(transform.position+Vector3.up*1.2f+motor.Facing*.5f,new Color(1.5f,1.2f,.5f),"hit");
+                    FlashGuardShownAt=GameTime.Now;CombatAudio.Deflect(this);Impact.FlashGuard(this,packet);
+                    CombatVfx.Burst(transform.position+Vector3.up*1.2f+motor.Facing*.5f,new Color(1.5f,1.2f,.5f),"hit");FlashGuarded?.Invoke(this,packet);
                     BarkService.Play(character,"flash");
                     return true;
                 }
@@ -210,15 +261,19 @@ namespace Lattice.Combat
         {
             GameTime.BeginFlash();
             float remaining=1.5f;
-            while(remaining>0){if(!GameTime.Paused)remaining-=Time.unscaledDeltaTime;yield return null;}
+            // Real time that a pause or a hit-stop holds: the stops of the hits it lets the player land don't come out of the reward.
+            while(remaining>0){remaining-=GameTime.Delta;yield return null;}
             GameTime.EndFlash();
         }
-        public DamagePacket Packet(float amount,DamageType type,float breakPower,string tag=null)
+        /// <param name="weight">How hard it lands (Impact). Left at None it goes by its break power, so a skill written without a thought for it still lands as hard as it
+        /// breaks: 35 and over is a heavy blow, 25 a medium one. A finisher, and a needle that's one of a stream, say so themselves.</param>
+        public DamagePacket Packet(float amount,DamageType type,float breakPower,string tag=null,HitWeight weight=HitWeight.None)
         {
+            if(weight==HitWeight.None)weight=breakPower>=35?HitWeight.Heavy:breakPower>=25?HitWeight.Medium:HitWeight.Light;
             // An earned crit belongs to the next hit that lands. Cleared here, at the swing's start, a swing that cut air threw it away.
             bool earned=critical&&GameTime.Now>=critCarriedUntil;if(earned)critCarriedUntil=GameTime.Now+CritCarried;
-            bool crit=earned||UnityEngine.Random.value<Mathf.Clamp(.04f+Mathf.Max(0,response-10)*.003f,.04f,.25f);
-            return new DamagePacket{source=Health,amount=amount*damageScale*(GameTime.Now<overdriveUntil?overdriveBoost:1)*(crit?1+Mathf.Max(0,fortune)*.01f:1),type=type,breakPower=breakPower,isCrit=crit,earnedCrit=earned,tag=tag};
+            bool crit=earned||UnityEngine.Random.value<Mathf.Clamp(.04f+Mathf.Max(0,response-10)*.003f,.04f,.25f)+mods.critChance;
+            return new DamagePacket{source=Health,amount=amount*damageScale*(GameTime.Now<overdriveUntil?overdriveBoost:1)*(crit?1+Mathf.Max(0,fortune)*.01f+mods.critDamage:1),type=type,breakPower=breakPower,isCrit=crit,earnedCrit=earned,tag=tag,weight=weight};
         }
         Vector3 Aim()
         {
@@ -235,7 +290,9 @@ namespace Lattice.Combat
         public bool Attack()
         {
             if(!CanAct||GameTime.Now<nextAttack)return false;
-            if(GameTime.Now-lastComboAt>.9f)combo=0;int stage=combo;combo=(combo+1)%3;lastComboAt=GameTime.Now;
+            if(GameTime.Now-lastComboAt>Style.chainWindow)combo=0;int stage=combo;combo=(combo+1)%3;lastComboAt=GameTime.Now;
+            // A hero whose plain attack isn't the first two's (S6a: the hammer) swings it from her own kit.
+            if(Style.attack==AttackStyle.Hammer)return GetComponent<HeroSkills>().Hammer(stage,Aim());
             var cut=GroundMove.Cut(stage);
             State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?GroundMove.Needle.duration:cut.duration;
             nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:character=="Taren"?cut.recoveryEnd:GroundMove.Needle.recoveryEnd);
@@ -248,10 +305,11 @@ namespace Lattice.Combat
             }
             if(flight)
             {
-                GetComponent<FlightEmitter>().Queue(aim,Packet(rangedDamage*.38f,emitterType,12));
+                GetComponent<FlightEmitter>().Queue(aim,Packet(rangedDamage*.38f,emitterType,12,null,HitWeight.Tick));
             }
-            else if(character=="Taren")GetComponent<MeleeContact>().Begin(cut,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20));
-            else GetComponent<RangedContact>().Begin(GroundMove.Needle,aim,Packet(rangedDamage*.7f,emitterType,12));
+            // The third cut is the finisher: it used to differ from the first two by a number.
+            else if(character=="Taren")GetComponent<MeleeContact>().Begin(cut,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20,null,stage==2?HitWeight.Finisher:HitWeight.Light));
+            else GetComponent<RangedContact>().Begin(GroundMove.Needle,aim,Packet(rangedDamage*.7f,emitterType,12,null,HitWeight.Tick));
             return true;
         }
         void BeginVisual(string action,float duration)
@@ -265,7 +323,7 @@ namespace Lattice.Combat
             BeginVisual("Dash",.42f);
             var direction=target!=null&&target.Alive?(target.transform.position-transform.position).normalized:motor.Facing;
             direction.y=0;motor.Dash(direction,8);CombatAudio.Launch(this);
-            GetComponent<FlightDashContact>().Begin(Packet(damage,edgeType,28,"lunge"));return true;
+            GetComponent<FlightDashContact>().Begin(Packet(damage,edgeType,28,"lunge",HitWeight.Heavy));return true;
         }
         /// <summary>Single-target burst skills (Arc Cleave, Ember Dash, Lance) in multiples of the actor's output. At 1.7-1.8
         /// a skill cost three landed hits of charge and a cooldown for less than two hits of damage, so skills barely
@@ -275,11 +333,11 @@ namespace Lattice.Combat
         {
             if(slot<0||slot>3)return false;
             var skill=SkillBook.Equipped(character,slot);if(skill==null)return false;
-            int mastery=SkillBook.Mastery(character,skill.id);
-            float cost=SkillBook.Cost(skill,mastery);
+            int mastery=MasteryOf(skill);
+            float cost=CostOf(skill,mastery);
             if(!CanAct)return false;
             if(cooldowns[slot]>0||charge<cost){SkillRefusedAt[slot]=GameTime.Now;return false;}
-            charge-=cost;cooldowns[slot]=skill.cooldown;State=ActorState.Skill;
+            charge-=cost;cooldowns[slot]=CooldownOf(skill);State=ActorState.Skill;
             float power=(1+Mathf.Max(0,resonance-10)*.025f)*SkillBook.Power(mastery);Vector3 direction=Aim();
             var kind=skill.kind;
             if(kind==SkillKind.Overdrive)overdriveBoost=1+.2f*SkillBook.Power(mastery);else if(kind==SkillKind.Refract)refractPower=power;
@@ -379,8 +437,8 @@ namespace Lattice.Combat
         public const float HitCharge=4,KillCharge=6,MultiHitCut=.6f;
         /// <summary>A fan's five pellets all land point blank: at .6 a mastered Scatter Bloom (cost 12) paid 12.4 back at Sync 12. At .7 it pays 9.3, and keeps the promise until a Charge gain of 2.</summary>
         public const float FanCut=.7f;
-        float ChargeGain=>1+Mathf.Max(0,resonance-10)*.025f;
-        internal static DamagePacket MultiHit(DamagePacket packet,bool multi=true,float cut=MultiHitCut){if(multi)packet.chargeCut=cut;return packet;}
+        float ChargeGain=>(1+Mathf.Max(0,resonance-10)*.025f)*Mathf.Max(0,1+mods.chargeGain);
+        internal static DamagePacket MultiHit(DamagePacket packet,bool multi=true,float cut=MultiHitCut){if(multi){packet.chargeCut=cut;packet.weight=HitWeight.Tick;}return packet;}
         /// <summary>What a landed hit pays whoever struck it, on anything that counts as a target: an enemy, or an organ the bar says to break. A weak spot or a break hits harder
         /// but pays no more: on a x2 collar link plain shots used to out-earn a full loadout. A resisted hit still pays less. It's also where an earned crit is spent.</summary>
         public static void PayHit(DamagePacket packet,float amount)
@@ -388,9 +446,14 @@ namespace Lattice.Combat
             if(packet.source==null||!packet.source.TryGetComponent<CombatActor>(out var actor))return;
             actor.AwardHit(Mathf.Min(amount,packet.amount)/Mathf.Max(1,actor.character=="Sela"?actor.rangedDamage:actor.damage),packet.chargeCut);
             if(packet.earnedCrit&&amount>0){actor.critical=false;actor.critCarriedUntil=0;}
+            ExtraFill.Dealt(actor,packet,amount);
         }
         public void AwardHit(float weight=1,float cut=0){charge=Mathf.Min(100,charge+HitCharge*Mathf.Clamp01(weight)*(1-Mathf.Clamp01(cut))*ChargeGain);}
         // The defeated body now voices its own death at its position.
-        public void AwardKill(bool remark=true){Kills++;charge=Mathf.Min(100,charge+KillCharge*ChargeGain);if(remark)BarkService.Play(character,"kill");}
+        public void AwardKill(bool remark=true)
+        {
+            Kills++;charge=Mathf.Min(100,charge+KillCharge*ChargeGain);if(remark)BarkService.Play(character,"kill");
+            if(mods.lifeOnKill>0&&Health.Alive)Health.Heal(Health.maximum*mods.lifeOnKill);
+        }
     }
 }

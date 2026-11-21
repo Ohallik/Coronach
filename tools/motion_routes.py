@@ -9,6 +9,14 @@ def centre(hero,x,z,seconds=9):
     return dict(name=hero+' return to clear circulation',seconds=seconds,navigate=True,
                 point=dict(x=x,y=0,z=z),expectedCharacter=hero)
 
+def lead(hero,resting=False):
+    """Who leads, for a loop written from chapter 6 on. The loops below press Swap once and take whoever answers for Sela: true of two heroes with both
+    standing, which is all there was, and their JSON stays as written. With three in the party say it instead: the driver presses Swap until this hero
+    leads and fails the step at once, with its reason, if they can't. resting=True, in a safe zone, also brings them out through the Party page first
+    (the step holds the pause menu's pause and ends as soon as they lead). Nothing below calls this."""
+    if resting:return dict(name=hero+' comes out and leads',seconds=14,ensureCharacter=hero,pauseUi='pause',until='lead:'+hero,expectedCharacter=hero,expectedUi='world')
+    return dict(name=hero+' leads',seconds=1.2,ensureCharacter=hero,expectedCharacter=hero)
+
 for form,scene,point in [('natural','Hub_Decks',(-28,-11)),('shaped','Sorrel_Ridges',(14,-20))]:
     steps=[]
     for hero in ['Taren','Sela']:

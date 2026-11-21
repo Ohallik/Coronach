@@ -1,0 +1,1280 @@
+{
+  "name": "chapter-41-last-warden",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 7: the Warden's office, the Last Warden (its door retried), the four clamps, it stands down, the court's record read",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.stay3",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "to the stair's head",
+      "seconds": 3.62,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -6.6,
+        "z": 264
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the stair until the Warden speaks",
+      "seconds": 4.39,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -9.63,
+        "z": 273.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "the Warden's office begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden's office line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden's office line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden's office line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden's office line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden's office line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden's office line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden's office line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden's office line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden's office line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden's office line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden's office line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden's office line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden's office line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden's office line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden's office line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "finish the Warden's office",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.wardenMet",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release after the Warden's office",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "onto the engine hall's floor",
+      "seconds": 8.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 284.0
+      },
+      "tolerance": 1.0,
+      "until": "arrived",
+      "bossDoor": "LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "lock the Last Warden",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release lock the Last Warden",
+      "seconds": 0.3,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 1a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 1b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 2a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 2b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 3a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 3b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 4a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 4b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 5a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 5b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 6a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 6b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 7a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 7b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 8a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 8b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 9a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 9b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 10a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 10b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 11a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 11a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 11b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 11b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 11",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 12a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 12a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill LastWarden 12b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill LastWarden 12b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight LastWarden round 12",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.LastWarden",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "the four let go together",
+      "seconds": 4,
+      "until": "flag:bossdown.LastWarden",
+      "expectedFlag": "bossdown.LastWarden",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "the Warden stands down begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden stands down line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden stands down line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden stands down line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden stands down line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden stands down line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden stands down line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden stands down line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden stands down line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden stands down line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden stands down line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden stands down line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden stands down line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden stands down line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden stands down line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden stands down line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the Warden stands down line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the Warden stands down line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Warden stands down line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "finish the Warden stands down",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.wardenStoodDown",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release after the Warden stands down",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "reach the fallen hero after the Warden",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "both heroes ready after the Warden",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "to the record wall",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -12.6,
+        "y": -10.0,
+        "z": 301.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "look at the record wall",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read look at the record wall line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next look at the record wall line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release look at the record wall line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "finish look at the record wall",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.coronachHeard",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release after look at the record wall",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Ishen has read the record",
+      "seconds": 1.5,
+      "expectedFlag": "oriel.wardenStoodDown",
+      "expectedScene": "GlassChoir"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

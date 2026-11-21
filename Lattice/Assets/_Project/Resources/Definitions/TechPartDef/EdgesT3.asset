@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8534ae47bea2d10409d7fc4790c7330d, type: 3}
+  m_Name: EdgesT3
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.TechPartDef
+  id: EdgesT3
+  displayName: Prime Edge
+  slot: 1
+  damageType: 2
+  tier: 3
+  baseStats:
+    output: 50
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  affixPool:
+  - {fileID: 11400000, guid: c5e77f59e9e3a4e43b1c0afe0aa30b72, type: 2}
+  - {fileID: 11400000, guid: df378b22a6ce1a647962b9fa2ccdbc3b, type: 2}
+  - {fileID: 11400000, guid: f8d9fce9767bb2641ade9c62f8403e5b, type: 2}
+  - {fileID: 11400000, guid: b37d43c4968dbff42a8e736c1447278f, type: 2}
+  - {fileID: 11400000, guid: dabe6f2cce7f4744ca138363e64c0eb0, type: 2}
+  - {fileID: 11400000, guid: 256220875be25594495065796b570ad4, type: 2}
+  - {fileID: 11400000, guid: e6d97deaa4acced40802b70bb758a77b, type: 2}
+  - {fileID: 11400000, guid: 421849354c9da7a43bf8ef07822d923e, type: 2}
+  model: {fileID: 0}
+  icon: {fileID: 0}
+  salvage:
+  - id: ScrapAlloy
+    count: 6
+  - id: Rootfibre
+    count: 1
+  mods:
+    critChance: 0
+    critDamage: 0
+    breakPower: 0
+    ownType: 0
+    beam: 0
+    plasma: 0
+    kinetic: 0
+    pulse: 0
+    chargeGain: 0
+    lifeOnKill: 0
+    skillCost: 0
+    cooldown: 0
+    guardCost: 0
+    mashCost: 0
+    thrustRegen: 0
+    flashWindow: 0
+    flashCharge: 0
+    brokenDamage: 0
+    executeDamage: 0
+    dropLuck: 0
+    luckCap: 0
+    damageDealt: 0
+    damageTaken: 0
+    partnerDamage: 0
+    chargeHold: 0
+    chargeFloor: 0
+    brokenTime: 0
+    flashDamage: 0
+    sharedHeal: 0
+    mastery: 0
+    secondWind: 0
+    regen: 0
+  upgradeMaterial: Rootfibre
+  upgradeRare: HeartwoodNode
+  drops: 1

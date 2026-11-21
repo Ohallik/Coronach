@@ -233,7 +233,8 @@ namespace Lattice.Tests.PlayMode
         // ------------------------------------------------------------------ what you get
         [UnityTest] public IEnumerator EverythingGoesWhereItsKindLives()
         {
-            var state=State;state.consumables.TryGetValue("RepairGel",out int gels);int parts=state.parts.Count;
+            // From a pouch with room: the fixture's 8 gels are one short of the most a party carries (prog159), and what's found over that is sold, not kept.
+            var state=State;state.consumables["RepairGel"]=1;int gels=1;int parts=state.parts.Count;
             RpgServices.Inventory.Grant("RepairGel",2);RpgServices.Inventory.Grant("EdgesT2",1);RpgServices.Inventory.Grant("ScrapAlloy",3);
             Assert.AreEqual(gels+2,state.consumables["RepairGel"],"a gel landed where it can't be used");
             Assert.IsFalse(state.materials.ContainsKey("RepairGel"));Assert.AreEqual(parts+1,state.parts.Count,"a part landed in materials");
@@ -245,7 +246,8 @@ namespace Lattice.Tests.PlayMode
             var table=ScriptableObject.CreateInstance<LootTable>();table.entries=new[]{new LootEntry{id="RepairGel",count=2,chance=1}};
             var def=Object.Instantiate(GameCatalog.Find<EnemyDef>("Scrapmite"));def.id="Scrapmite";def.lootTable=table;
             var enemy=ActorFactory.Enemy(def,new Vector3(30,0,30));enemy.Passive=true;yield return null;yield return null;
-            State.consumables.TryGetValue("RepairGel",out int gels);
+            // From a pouch with room for both (the carry cap is 9, and the fixture starts at 8).
+            State.consumables["RepairGel"]=1;int gels=1;
             enemy.Health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=100000,type=DamageType.Pulse});yield return null;
             Assert.AreEqual(gels+2,State.consumables["RepairGel"],"Hessa's guaranteed gels never reach the bag");
             Assert.IsFalse(State.materials.ContainsKey("RepairGel"));
@@ -304,8 +306,12 @@ namespace Lattice.Tests.PlayMode
                 state.scrip=fee-1;string spawn=state.spawn;Hurt(PartyController.Current.Active,10);
                 yield return null;yield return null; // The party's wounds reach the saved state on its next update.
                 bay.Interact();
-                Assert.AreEqual(1,cards.Count,"a refused repair said nothing");StringAssert.Contains(fee.ToString(),cards[0]);
-                Assert.AreEqual(spawn,state.spawn,"a refused repair moved the checkpoint");
+                // The purse can't cover it, and the game is saved here all the same (November 13: a hurt party without the fee had nowhere to save at all). The card says it was
+                // saved and not repaired and what a repair costs; the checkpoint is this bay; the purse is as it was.
+                Assert.AreNotEqual("Wherever",spawn,"fixture: the party must start with its checkpoint somewhere else");
+                Assert.AreEqual(1,cards.Count,"a repair the purse couldn't cover said nothing");StringAssert.Contains(fee.ToString(),cards[0]);StringAssert.Contains("NOT REPAIRED",cards[0]);
+                Assert.AreEqual("Wherever",state.spawn,"saved at a bay, and the checkpoint is still somewhere else");
+                Assert.AreEqual(fee-1,state.scrip,"a repair it couldn't pay for took scrip");
                 state.scrip=fee+5;cards.Clear();bay.Interact();
                 Assert.AreEqual(5,state.scrip,"fee");Assert.AreEqual(1,cards.Count,"a repair said nothing");StringAssert.Contains(fee.ToString(),cards[0]);
                 Assert.AreEqual("Wherever",state.spawn);

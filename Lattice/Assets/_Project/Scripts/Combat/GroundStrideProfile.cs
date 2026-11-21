@@ -8,6 +8,10 @@ namespace Lattice.Combat
     {
         public Vector3 leftHeel, leftToe, rightHeel, rightToe;
         public float walkSpeed=1.1f, runSpeed=6.38f, sprintSpeed=9.6f;
+        /// <summary>A walking step holds its heel until its toe takes over where the rolled-down foot put it, on any ground (GroundFeet), as
+        /// every climbing step does. Idra's take pulls the foot further from its holds at the loose handover than Taren's and Sela's do:
+        /// on the flat her knee straightened at 1326 deg/s there. Off for the first two heroes, whose flat walk is unchanged.</summary>
+        public bool holdsHandover;
         public float NativeSpeed(string clip)=>clip=="Sprint"?sprintSpeed:clip=="Run"?runSpeed:walkSpeed;
         // Planar motor speed omits the climb. Account for distance along the
         // support surface; walking shares the adjustment with stride length
@@ -30,6 +34,6 @@ namespace Lattice.Combat
             return Mathf.Clamp(ratio/stride,.35f,1.6f);
         }
         public const float ShortestRunStride=.58f;
-        static float TerrainTravel(float grade)=>Mathf.Lerp(1,Mathf.Sqrt(1+grade*grade),Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,grade)));
+        internal static float TerrainTravel(float grade)=>Mathf.Lerp(1,Mathf.Sqrt(1+grade*grade),Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,grade)));
     }
 }

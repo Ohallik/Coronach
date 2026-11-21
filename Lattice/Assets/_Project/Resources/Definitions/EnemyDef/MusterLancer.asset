@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: MusterLancer
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: MusterLancer
+  prefab: {fileID: 7800005795629273299, guid: 7cbdde91e4d268445971fef545e9b8b5, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 950
+  breakThreshold: 230
+  speed: 11
+  attacks:
+  - {fileID: 11400000, guid: f5bb9b195b486e34c8d8baa1807d7329, type: 2}
+  weakness: 1
+  resistance: 2
+  archetype: 0
+  lootTable: {fileID: 11400000, guid: 1557e694df8759545aa0bbbfdd9823ac, type: 2}
+  xp: 60
+  boss: 0
+  scrip: 14
+  scrap: 2
+  displayName: Muster Lancer
+  bossMusicId: 
+  capsuleRadius: 1.1
+  capsuleHeight: 2.4
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 8
+  tune:
+    reach: 26
+    width: 2.6
+    speed: 26
+    recover: 1.8
+    linger: 2
+    area: 0
+    pace: 0.35
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

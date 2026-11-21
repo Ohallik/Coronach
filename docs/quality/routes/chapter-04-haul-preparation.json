@@ -2,6 +2,7 @@
   "name": "chapter-04-haul-preparation",
   "scene": "Title",
   "starterParty": false,
+  "autoHeal": true,
   "settleSeconds": 5,
   "frameCap": 60,
   "screenshotInterval": 3,
@@ -163,17 +164,6 @@
       "expectedScene": "Sorrel_Ridges"
     },
     {
-      "name": "carried repair gel after encounter 4",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "release gel",
-      "seconds": 0.45,
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
       "name": "regroup at lower haul bend",
       "seconds": 10,
       "navigate": true,
@@ -287,17 +277,6 @@
       "expectedScene": "Sorrel_Ridges"
     },
     {
-      "name": "carried repair gel after encounter 5",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "release gel",
-      "seconds": 0.45,
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
       "name": "regroup at western haul bend",
       "seconds": 10,
       "navigate": true,
@@ -396,17 +375,6 @@
       "name": "encounter 6 opens",
       "seconds": 0.3,
       "expectedFlag": "clear.Sorrel_6",
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "carried repair gel after encounter 6",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "release gel",
-      "seconds": 0.45,
       "expectedScene": "Sorrel_Ridges"
     },
     {
@@ -520,17 +488,6 @@
       "name": "encounter 7 opens",
       "seconds": 0.3,
       "expectedFlag": "clear.Sorrel_7",
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "carried repair gel after encounter 7",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "release gel",
-      "seconds": 0.45,
       "expectedScene": "Sorrel_Ridges"
     },
     {

@@ -5,6 +5,7 @@
   "settleSeconds": 5,
   "frameCap": 60,
   "starterParty": false,
+  "wearBest": true,
   "screenshotInterval": 0,
   "steps": [
     {
@@ -1156,6 +1157,7 @@
     },
     {
       "name": "engage the Cantor inside its coil",
+      "bossDoor": "Cantor",
       "seconds": 19,
       "navigate": true,
       "point": {

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: Pruner
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: Pruner
+  prefab: {fileID: 1940629353427172812, guid: 5211a4431c8870d49a3f0addc982ebd5, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1150
+  breakThreshold: 260
+  speed: 2.8
+  attacks:
+  - {fileID: 11400000, guid: e73c5fe3d6054ba49a840295bdeaa6de, type: 2}
+  weakness: 2
+  resistance: 3
+  archetype: 0
+  lootTable: {fileID: 11400000, guid: 2c885aaa5353eca46992dddd6190c04d, type: 2}
+  xp: 230
+  boss: 0
+  scrip: 26
+  scrap: 2
+  displayName: Pruner
+  bossMusicId: 
+  capsuleRadius: 0.55
+  capsuleHeight: 2.2
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 13
+  tune:
+    reach: 0
+    width: 1.7
+    speed: 0
+    recover: 1.6
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 12
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

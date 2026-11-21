@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: SlagColossus
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: SlagColossus
+  prefab: {fileID: 6999274661124200499, guid: 9339e7897693e3b4dac6ca652ec5834c, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 94000
+  breakThreshold: 900
+  speed: 1.4
+  attacks:
+  - {fileID: 11400000, guid: d45876806fb25974586bdae77b00fb7d, type: 2}
+  weakness: 3
+  resistance: 1
+  archetype: 2
+  lootTable: {fileID: 11400000, guid: d98dc0b439fb41447a4b7788d900c687, type: 2}
+  xp: 1800
+  boss: 1
+  scrip: 480
+  scrap: 24
+  displayName: THE SLAG COLOSSUS
+  bossMusicId: Glitch Boss
+  capsuleRadius: 0
+  capsuleHeight: 7
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 0
+  tune:
+    reach: 0
+    width: 0
+    speed: 0
+    recover: 0
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

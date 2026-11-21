@@ -1,0 +1,280 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: TurnBack
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: TurnBack
+  title: A Route With Room To Turn Back
+  description: Every road out runs through one passage. Stillwater's anchor is closing
+    on it at Sorrel, over the nursery, and the whole convoy is going through together
+    or not at all.
+  steps:
+  - kind: 5
+    target: end.planSaid
+    count: 1
+  - kind: 1
+    target: SorrelSecondSky
+    count: 1
+  - kind: 5
+    target: end.motherFreed
+    count: 1
+  - kind: 1
+    target: LastMooring
+    count: 1
+  - kind: 5
+    target: end.gateOpen
+    count: 1
+  - kind: 5
+    target: end.boarded
+    count: 1
+  - kind: 5
+    target: end.meretShip
+    count: 1
+  - kind: 5
+    target: end.meretGantry
+    count: 1
+  - kind: 5
+    target: end.crewsOrdered
+    count: 1
+  - kind: 5
+    target: end.anchorReleased
+    count: 1
+  - kind: 5
+    target: end.passageRun
+    count: 1
+  - kind: 5
+    target: end.tugFetched
+    count: 1
+  - kind: 5
+    target: end.rendezvous
+    count: 1
+  - kind: 5
+    target: end.handrail
+    count: 1
+  - kind: 5
+    target: game.complete
+    count: 1
+  rewardXp: 0
+  rewardScrip: 0
+  rewards: []
+  flagsOnComplete: []
+  stepText:
+  - Hear the plan, and who is doing which part of it
+  - Go back to the first moon
+  - 'Open the four clamps on Mother of Doors: take the weight, wait for the slack'
+  - Bring the convoy up to Last Mooring
+  - Break the Tollkeeper's braces, and stop its gate motor on foot
+  - Go up the Continuance's boarding spine
+  - Put out the three shield projectors on the director's craft
+  - Open the two arm couplings on her frame
+  - Answer her in the control well
+  - 'Take the last collar: one hold, on Idra''s call'
+  - Run the passage with the convoy
+  - Go back up the lane for the tug Welcome Back
+  - Bring her through to the rendezvous
+  - See the new neighbourhood, and then Orrin
+  - Mend the handrail on the garden stair, and repaint the line
+  rewardsRolled: 0
+  main: 1
+  chapter: 10
+  stepTargets:
+  - scene: ManyHands
+    via: []
+    speaker: Orrin
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: SorrelSecondSky
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: SorrelSecondSky
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: Clamp
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: LastMooring
+    via:
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: LastMooring
+    via:
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: Tollkeeper
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Continuance
+    via:
+    - LastMooring
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: Spine
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Continuance
+    via:
+    - LastMooring
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: MeretShip
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: StillwaterChamber
+    via:
+    - Continuance
+    - LastMooring
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: MeretGantry
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: StillwaterChamber
+    via:
+    - Continuance
+    - LastMooring
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: MeretWell
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: StillwaterChamber
+    via:
+    - Continuance
+    - LastMooring
+    - SorrelSecondSky
+    - ManyHandsHull
+    speaker: 
+    report: LastCollar
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ReturningPassage
+    via: []
+    speaker: 
+    report: FarEnd
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ReturningPassage
+    via: []
+    speaker: 
+    report: TugLine
+    encounter: Passage_Tug
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ReturningPassage
+    via: []
+    speaker: 
+    report: FarMouth
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: NeighbourhoodAfloat
+    via: []
+    speaker: Orrin
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: NeighbourhoodAfloat
+    via: []
+    speaker: 
+    report: Handrail
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: The convoy is through, and everyone who came is here. There is no
+    hurry.
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags:
+  - end.planHeard
+  - end.sorrelSeen
+  - end.clamp1
+  - end.clamp2
+  - end.clamp3
+  - end.clamp4
+  - bossdown.MotherOfDoors
+  - end.sectionStruck
+  - end.sectionHeld
+  - end.brace1
+  - end.brace2
+  - end.brace3
+  - bossdown.Tollkeeper
+  - end.spineTop
+  - end.captainPassed
+  - clear.Continuance_Works
+  - end.meretHailed
+  - bossdown.MeretShip
+  - bossdown.MeretGantry
+  - bossdown.MeretWell
+  - end.meretYielded
+  - end.sequenceRead
+  - end.collarTaken
+  - end.custody
+  - end.namesBegun
+  - end.farEnd
+  - end.turnedBack
+  - clear.Passage_Tug
+  - end.lineOn
+  - end.mouthReached
+  - end.epilogue
+  - game.complete
+  cardFlag: game.complete
+  cardBody: 
+  letGoAt: 

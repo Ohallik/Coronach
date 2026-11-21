@@ -1,0 +1,1696 @@
+{
+  "name": "chapter-65-the-tollkeeper",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: chain D, the Tollkeeper (its door retried): three braces in flight, three docks on its arm and the gate motor stopped a stage at a time, the gate open, the dock to the Continuance",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "clear.Mooring_Lane2",
+      "expectedForm": "Flight",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "back to chain C's gap",
+      "seconds": 9.46,
+      "navigate": true,
+      "point": {
+        "x": -21.0,
+        "y": 1,
+        "z": 260.0
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "north through chain C's gap",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": -21.0,
+        "y": 1,
+        "z": 282.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "north to the gate checkpoint",
+      "seconds": 15.44,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 372.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "through chain D's gap into its lane",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 400.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "bossDoor": "Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "up the middle lane past the dividing chains",
+      "seconds": 4.91,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 420
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "toward a brace on the west outrigger",
+      "seconds": 5.31,
+      "navigate": true,
+      "point": {
+        "x": -21.6,
+        "y": 1,
+        "z": 427.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "take aim at a brace 1",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take aim at a brace 1",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 1 round 1",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 1 round 2",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 1 round 3",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 1 round 4",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "brace 1 is broken",
+      "seconds": 4,
+      "until": "flag:end.brace1",
+      "expectedFlag": "end.brace1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "dock at the Tollkeeper's arm",
+      "seconds": 30,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 450.0
+      },
+      "tolerance": 1.2,
+      "until": "docked:Arm",
+      "stopWhen": "docked:Arm",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stand on the Tollkeeper's arm",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the gate motor",
+      "seconds": 4.0,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -2.0,
+        "z": 453.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "take aim at the gate motor 1",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take aim at the gate motor 1",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 1a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 1b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 1 round 1",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 2a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 2b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 1 round 2",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 3a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 3b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 1 round 3",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 4a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 1 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 1 4b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 1 round 4",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stage 1 is stopped",
+      "seconds": 3,
+      "until": "flag:end.motor1",
+      "expectedFlag": "end.motor1",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the launch of the Tollkeeper's arm",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -1.6,
+        "y": -2.0,
+        "z": 449.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Arm",
+      "evadeTelegraphs": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "settle before the launch of the Tollkeeper's arm",
+      "seconds": 0.5,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "launch from the Tollkeeper's arm",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Arm",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release the launch of the Tollkeeper's arm",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "back south of the cage",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 420
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "toward a brace on the east outrigger",
+      "seconds": 5.31,
+      "navigate": true,
+      "point": {
+        "x": 21.6,
+        "y": 1,
+        "z": 427.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "take aim at a brace 2",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take aim at a brace 2",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 2 round 1",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 2 round 2",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 2 round 3",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 2 round 4",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 2 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 2 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "brace 2 is broken",
+      "seconds": 4,
+      "until": "flag:end.brace2",
+      "expectedFlag": "end.brace2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "dock at the Tollkeeper's arm",
+      "seconds": 30,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 450.0
+      },
+      "tolerance": 1.2,
+      "until": "docked:Arm",
+      "stopWhen": "docked:Arm",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stand on the Tollkeeper's arm",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the gate motor",
+      "seconds": 4.0,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -2.0,
+        "z": 453.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "take aim at the gate motor 2",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take aim at the gate motor 2",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 1a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 1b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 2 round 1",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 2a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 2b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 2 round 2",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 3a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 3b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 2 round 3",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 4a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 2 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 2 4b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 2 round 4",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.motor2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stage 2 is stopped",
+      "seconds": 3,
+      "until": "flag:end.motor2",
+      "expectedFlag": "end.motor2",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the launch of the Tollkeeper's arm",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -1.6,
+        "y": -2.0,
+        "z": 449.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Arm",
+      "evadeTelegraphs": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "settle before the launch of the Tollkeeper's arm",
+      "seconds": 0.5,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "launch from the Tollkeeper's arm",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Arm",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release the launch of the Tollkeeper's arm",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "back south of the cage",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 420
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "toward a brace on the west outrigger",
+      "seconds": 6.28,
+      "navigate": true,
+      "point": {
+        "x": -24.3,
+        "y": 1,
+        "z": 436.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "take aim at a brace 3",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take aim at a brace 3",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 3 round 1",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 3 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace3",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 3 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 3 round 2",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 3 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace3",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 3 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 3 round 3",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 3 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace3",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 3 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "break brace 3 round 4",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.brace3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "pulse brace 3 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:end.brace3",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release pulse brace 3 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "brace 3 is broken",
+      "seconds": 4,
+      "until": "flag:end.brace3",
+      "expectedFlag": "end.brace3",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "dock at the Tollkeeper's arm",
+      "seconds": 30,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 450.0
+      },
+      "tolerance": 1.2,
+      "until": "docked:Arm",
+      "stopWhen": "docked:Arm",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stand on the Tollkeeper's arm",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "to the gate motor",
+      "seconds": 4.0,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -2.0,
+        "z": 453.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "take aim at the gate motor 3",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release take aim at the gate motor 3",
+      "seconds": 0.3,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 1a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 1b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 3 round 1",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 2a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 2b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 3 round 2",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 3a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 3b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 3 round 3",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 4a",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "skill motor 3 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release skill motor 3 4b",
+      "seconds": 0.45,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stop the gate motor's stage 3 round 4",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Tollkeeper",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "stage 3 is stopped",
+      "seconds": 3,
+      "until": "flag:bossdown.Tollkeeper",
+      "expectedFlag": "bossdown.Tollkeeper",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "put off the arm as the gate opens",
+      "seconds": 10,
+      "until": "launched:Arm",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "in flight over the open gate",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "Orrin: the gate's hanging open begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "read Orrin: the gate's hanging open line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "next Orrin: the gate's hanging open line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release Orrin: the gate's hanging open line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "read Orrin: the gate's hanging open line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "next Orrin: the gate's hanging open line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release Orrin: the gate's hanging open line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "finish Orrin: the gate's hanging open",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.gateOpen",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "release after Orrin: the gate's hanging open",
+      "seconds": 0.5,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "north over the carrier",
+      "seconds": 11.42,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 504.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "settle at the dock on the Continuance's spine",
+      "seconds": 14.8,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 520.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "LastMooring"
+    },
+    {
+      "name": "dock at the Continuance",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:Continuance",
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release dock at the Continuance",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "at the spine's foot",
+      "seconds": 2,
+      "expectedFlag": "end.gateOpen",
+      "expectedScene": "Continuance"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

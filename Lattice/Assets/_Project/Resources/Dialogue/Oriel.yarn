@@ -1,0 +1,269 @@
+// Chapter 7 - The Cage Makers (Oriel). Brief: docs/chapters/ch07-the-cage-makers.md. Wiring: docs/writing/pending/ch07-manifest.md.
+title: IshenArrives
+---
+Ishen: Ah. There you are. I've brought fifty-two books and one change of clothes, and I'm told there is a herd in the freight hall. #emotion:Happy
+Sela: Ishen. The crate that left Hoarfell. Carved, not painted, in the hand from your archive wall. #emotion:Determined
+Ishen: Then the plans were drawn on Oriel. Nobody else ever wrote in that hand. They made the first Bridle. #emotion:Worried
+Idra: Say what a Bridle is. In one breath. #emotion:Neutral
+Ishen: A cage for a young road. It holds the creature still, and whoever holds the cage is the only one who can fly it. #emotion:Sad
+Taren: And the Muster has the plans. #emotion:Worried
+Ishen: The Muster has the plans to make one. If the way to unmake one is written anywhere, it's on Oriel, cut into something too heavy to steal. #emotion:Determined
+Idra: A dead world with a record on it. I've been to those. The record is always that everybody died. #emotion:Neutral
+Ishen: Very probably. I should still like to read it. I have wanted to since I was nine. Thirty-three days, your keeper tells me. Shall we? #emotion:Happy
+<<startQuest CageMakers>>
+<<setFlag oriel.charted>>
+===
+title: AbriTooManyBooks
+---
+Keeper: Fifty-two books. He asked where the archive was. I said we hadn't one. He looked at me as if I'd said we hadn't a floor. #emotion:Flustered
+===
+title: IshenMoonNames
+---
+Ishen: Oh, look at it. It's still running. Every moon on its rail, every gate in its turn. A thousand years, and it hasn't dropped a beat. #emotion:Happy
+Ishen: That one is the Steward. Behind it, the Weigher. The broken one is the Clerk of Roads, and I'm sorry to see it so. #emotion:Tender
+Sela: They named their moons after jobs. #emotion:Curious
+Ishen: They named everything after jobs. Next the Lamplighter, and the Reeve, and the Second Gardener, and. #emotion:Happy
+Idra: Archivist. Stop. #emotion:Neutral
+Ishen: There are nine. #emotion:Flustered
+Idra: I'll learn them when they aren't trying to hit me. What do the lights mean? #emotion:Determined
+Ishen: They run ahead of each moon, along its rail. Amber and standing, the gate is shut. Green and running, it's open. Wait in a moon's lee, and go on green. #emotion:Determined
+Ishen: It's a clock. Keep its time, and nothing in it will mind you. #emotion:Neutral
+===
+title: IshenLanding
+---
+Ishen: I have read about this place my whole life. I'd like to sit down for a moment, and then I'd like to see all of it. #emotion:Tender
+Taren: Mind your book. It's sliding. #emotion:Curious
+Ishen: Oh. It's fallen sideways. #emotion:Shocked
+Idra: It fell at the wall. Not at the ground. I don't like that. #emotion:Worried
+Ishen: That bright thread in the air is a fibre of the old road. Where one still runs, weight follows it, and so does light. Down is wherever the thread goes. #emotion:Happy
+Taren: Sela? #emotion:Curious
+Sela: I'm looking. #emotion:Neutral
+Idra: We're being watched. By the wall. It has a rake, and it hasn't moved since we landed. #emotion:Neutral
+Ishen: A gardener. They were made to keep the gardens. I never thought one would still be at it. Oh. It has turned its head. #emotion:Happy
+<<setFlag oriel.ruleSeen>>
+===
+title: IshenCamp
+---
+Ishen: I'm coming with you. Lume has tied a line to my belt. I'm told the other end is tied to the camp. Neither of us knows how long it is. #emotion:Happy
+===
+title: IshenMoonsOffer
+---
+Ishen: She stopped me at six. There are nine, and three of the rail-gates have their moon's name cut on the keystone, where a ship can read it in passing. #emotion:Flustered
+Ishen: I can't fly. You can. Pass each of those three on green, slowly, and I'll read it off the pod's glass. I brought a pencil for exactly this. #emotion:Happy
+Idra: You want us to fly slowly through a gate that shuts. #emotion:Neutral
+Ishen: On green. I did say on green. #emotion:Happy
+<<startQuest MoonNames>>
+===
+title: IshenMoonsReturn
+---
+Ishen: The Steward, the Weigher and the Lamplighter. All three, in the old hand, and under each name its hour. #emotion:Happy
+Ishen: It's a timetable. I can give you every gate's turn for the next thousand years. #emotion:Happy
+Ishen: Take this. It came off the pod's drive. Lume says I'm not to mend the pod any further. #emotion:Flustered
+<<setFlag ishen.moonsRead>>
+===
+title: LumeFirst
+---
+Lume: You're the Shapers. Good. Count him for me. He was by the kettle a moment ago. #emotion:Neutral
+Taren: He's sitting on a crate, reading a wall. #emotion:Amused
+Lume: Then he's safe for an hour. I'm Lume. Aumi sent me to keep the chain's last lantern lit, and him alive. She said the lantern would be the hard one. #emotion:Amused
+Lume: I've a stall. Repair Gel, Charge Cells, a few parts from the chain's stores. Everything else here is glass, and I'm not selling him. #emotion:Neutral
+-> See the stall.
+    <<shop>>
+-> Later.
+    Lume: Later. If he walks off an island, shout. He has read about falling. He hasn't practised it. #emotion:Amused
+===
+title: LumeRepeat
+---
+Lume: The lantern's lit and the archivist's counted. One of those took effort. What do you need? #emotion:Amused
+<<shop>>
+===
+title: LumeLanternOffer
+---
+Lume: The chain ends here. It shouldn't. Aumi's notes say the old last lantern stood on the highest island of the Skyfields, where every other could see it. #emotion:Determined
+Lume: I can't leave this one. You can climb. Carry its twin up and set it in the old seat. It's lit from mine. That's the whole point of it. #emotion:Neutral
+Taren: And then? #emotion:Curious
+Lume: Then Lanternwick can see Oriel, for the first time since the roads left. Aumi will say it's nothing. Pell will cry. #emotion:Amused
+<<startQuest LumesLantern>>
+<<shop>>
+===
+title: IdraFarLantern
+---
+Taren: The old seat. Worn round, where a lantern stood. It fits. #emotion:Curious
+Idra: It's caught. And there's an answer, a long way up. And one past that. They're lighting, all down the chain. #emotion:Neutral
+Idra: A lamp line. That, I trust. It means somebody at the other end is awake. #emotion:Tender
+===
+title: LumeLanternReturn
+---
+Lume: It's lit. I saw the answer come back up the chain before you had climbed down. #emotion:Happy
+Lume: He has four thousand and twelve lanterns in his count. He'll want to make it thirteen on the wall at home, and I shall have to hold the ladder. #emotion:Amused
+Lume: Take this. And there'll be a lantern on your ship's gallery lit from this one, if Pell can keep it. Tell her it's the same flame. She'll know what that means. #emotion:Tender
+<<setFlag lume.lanternLit>>
+<<shop>>
+===
+title: LumePost
+---
+Lume: He's read it. He's been quiet since. I have never seen him quiet. I've made him tea, and I'm not counting him tonight. #emotion:Tender
+<<shop>>
+===
+title: IdraGlassForest
+---
+Taren: It rings. Tap one and the whole stand answers. Listen to that. #emotion:Happy
+Idra: Don't touch it again. #emotion:Neutral
+Ishen: The forests grew where a fibre frayed. It's a scar, in a manner of speaking. A very handsome one. #emotion:Happy
+Idra: Everything here is handsome. That's what I don't like. Nothing this old should be this clean. #emotion:Worried
+===
+title: IdraEmptyGarden
+---
+Idra: Two of them, in that walled bed. One's raking. One's on its knees, weeding. #emotion:Neutral
+Taren: There's nothing in the bed. It's bare stone. #emotion:Curious
+Idra: I can see that. It's weeding nothing, and it's being careful about it. Look at its hands. #emotion:Worried
+Ishen: They were told to keep the gardens. Nobody has told them the gardens are gone. #emotion:Sad
+Idra: Nobody's left to. Keep walking. #emotion:Neutral
+===
+title: IshenJunction
+---
+Taren: A junction. Two fibres meet in a collar, and the island hangs off the join. Cut it, and the island drops. Seat it properly, and it rises. #emotion:Curious
+Ishen: You can tell that by looking? #emotion:Curious
+Taren: It's a joint. I've been looking at joints since I was twelve. #emotion:Amused
+Idra: Cutting's quicker. #emotion:Neutral
+Taren: It is. Seating keeps whatever is on top of it. Either one gets us across. #emotion:Neutral
+Idra: Your joint. Your call. #emotion:Neutral
+===
+title: IdraGardenerFollows
+---
+Idra: The one from the landing. Twelve paces behind us. It stops when we stop. #emotion:Neutral
+Taren: It isn't armed. That's a rake. #emotion:Neutral
+Idra: I know what it is. I've counted its paces since the first island. Twelve. It hasn't gained one or lost one. #emotion:Worried
+Ishen: Perhaps it's curious. #emotion:Happy
+Idra: Machines that old aren't curious. They're waiting for something. I'd like to know what, before it happens. #emotion:Worried
+===
+title: IdraGardenerWaits
+---
+Idra: It's stopped. Ahead of us, for once. At that junction, the frayed one, under the garden that's sagging. #emotion:Worried
+Taren: It's put its rake down. It's holding its hands open at the collar. Like that. #emotion:Curious
+Sela: It's asking. #emotion:Neutral
+Ishen: Its light has gone low and steady. I've read about that. It means. Oh. She's right. They couldn't give an order. They could only ask. #emotion:Flustered
+Idra: It can rake and it can prune. It hasn't the hands to seat a joint. It wants ours. #emotion:Neutral
+Taren: Then we seat it. No cutting. And there'll be more than one. #emotion:Determined
+<<startQuest EmptyGardens>>
+===
+title: IdraSweptStair
+---
+Idra: That one's sweeping a stair. The stair ends in air, four steps up. It sweeps all four. #emotion:Neutral
+Idra: I've pulled people out of a collapse who went on sweeping the floor. You let them. It's the last thing they're sure of. #emotion:Tender
+Idra: I never thought I'd watch a machine do it. For a thousand years. #emotion:Worried
+Idra: And Irun said two words at the landing. I counted. #emotion:Neutral
+Taren: She's looking. Let her. #emotion:Tender
+===
+title: IdraSealedGarden
+---
+Idra: It walked the whole way here in front. It didn't once look back to see if we'd come. #emotion:Neutral
+Ishen: A sealed garden. The door has been waxed shut from outside, and the wax is new. It has kept this closed itself. #emotion:Curious
+Taren: Shelves. Jars, hundreds of them, all stoppered. And one bed, raked, with nothing in it. #emotion:Curious
+Ishen: Seed. Put up for a planting that never came. It's a thousand years old. It won't grow. #emotion:Sad
+Idra: It's holding a jar out. To you, Vosk. #emotion:Neutral
+Taren: Ruva will try it anyway. #emotion:Tender
+Idra: It's picked up its rake. It's following the jar. Twelve paces. #emotion:Neutral
+===
+title: IdraChoirDoor
+---
+Idra: It's stopped. Twelve paces, all day, and it won't cross this doorstep. #emotion:Neutral
+Ishen: They keep gardens. Nothing in there grows. #emotion:Sad
+===
+title: SelaGlassChoir
+---
+Sela: This is what a held road looks like. #emotion:Sad
+<<setFlag oriel.choirSeen>>
+===
+title: IshenFirstClamp
+---
+Taren: It's a lock. A very good one. Somebody was proud of this. #emotion:Tender
+Ishen: There's a line cut on the housing. The maker's own hand, not the court's. Give me a moment. #emotion:Curious
+Taren: You needn't read it. There's a seat for a hand here, and here. Nobody cuts those into a thing they mean to keep shut. It was built to open. #emotion:Determined
+Ishen: "Take its weight. Wait for the slack. Let go together." And under that, smaller. "Then give it room." #emotion:Shocked
+Idra: That's a drill. Somebody cut a release drill into the side of a cage. #emotion:Amused
+Taren: You lean on a loaded clamp till it's carrying nothing. It pulls and it eases, so you open it on the ease. #emotion:Determined
+Taren: And all four let go at once. Open one corner first, and the other three tear what they're holding. #emotion:Determined
+Ishen: Whoever made the cage wrote down how to undo it. And nobody ever did. #emotion:Sad
+<<setFlag oriel.releaseLearned>>
+===
+title: WardenFirst
+---
+Warden: The road is held. The road has always been held. State your office. #emotion:Neutral
+Ishen: That's the court speech. I have only ever read it. It says the road is held. It asks your office. What you are for. #emotion:Shocked
+Sela: We've come to open it. #emotion:Determined
+Warden: That is no office. The hall is to be cleared. Regret is recorded. #emotion:Neutral
+Ishen: It says that isn't a job. It says the hall is to be cleared, and that it's sorry. Oh. The hall. That's us. #emotion:Worried
+===
+title: WardenAsks
+---
+Warden: Four clamps are opened. Nothing is broken. State your office. #emotion:Neutral
+Taren: Repairs. #emotion:Neutral
+Ishen: It's asking your office again. It says nothing broke. Oh. He's answered. #emotion:Flustered
+Warden: Repairs. That office is known. The road is given into repair. #emotion:Neutral
+Warden: Let it be written that no clamp failed. They were opened. The watch was long. This warden stands down. #emotion:Tender
+Ishen: It wants it on the record that nothing failed. That they were opened. And that it was a long watch. I'll write it. I'll write it first. #emotion:Tender
+<<setFlag oriel.wardenStoodDown>>
+===
+title: IshenReads
+---
+Ishen: It's the court's own record, cut where the Warden could read it. The clerks kept it up to the last day. I'll put it plainly. They did. #emotion:Tender
+Ishen: When the roads last left, the rulers here would not go. They had built too well beside one. So they held it. You've walked through what they got. #emotion:Sad
+Ishen: Most of the towns went. And the clerks note, with some irritation, that before a town left, its people walked it. Every street. It cost a working day. #emotion:Amused
+Ishen: At each door somebody said what the place had done for them. Aloud, to the door. The clerks took a few down. #emotion:Neutral
+Ishen: "This is where I learned to weld." "This stair kept my mother honest about her knees." #emotion:Tender
+Ishen: Then they took the town apart, and went. Their descendants still do it. Lanternwick calls it the Coronach. #emotion:Neutral
+Taren: So does the Halo. When a deck's struck, everybody walks it first. I thought it was only what you did. #emotion:Curious
+Ishen: It is only what you do. Nobody ever made it a law. I think that's why it has lasted. #emotion:Happy
+Ishen: Oriel never held one. Nothing here was taken apart. It was held until it broke. #emotion:Sad
+<<setFlag oriel.coronachHeard>>
+===
+title: IshenOrielPost
+---
+Ishen: I have read about this place my whole life. Nobody wrote down that it was quiet. #emotion:Tender
+===
+title: MeretOrielCall
+---
+Meret: Surveyor Irun. Vosk. Forgive the hour. I'm told you have been to Oriel. #emotion:Neutral
+Sela: We're standing in it. You knew what was here. #emotion:Neutral
+Meret: Before I drew a line of the anchor. They held it badly. I've read the failure reports. I've had longer to prepare than they did. #emotion:Neutral
+Taren: There's a release cut on every clamp. In the maker's own hand. #emotion:Determined
+Meret: I know. Mine has one as well. I would not draw a lock I couldn't open. #emotion:Tender
+Sela: Neither did they. #emotion:Neutral
+Meret: No. They didn't. That is the page I reread. #emotion:Sad
+Meret: I didn't call to argue it. The Muster's foundry on Scoria is running. #emotion:Neutral
+Meret: They build from the plans that left Hoarfell, and I doubt they have read past the first sheet. #emotion:Neutral
+Meret: Thirty days are left of the forty. I would not plan on all of them. Good night. #emotion:Neutral
+<<setFlag oriel.meretHeard>>
+===
+title: LumeBrekksWord
+---
+Lume: The chain's talking. It's Lanternwick, on Aumi's lamp, and whoever is working it isn't a keeper. He's slow. #emotion:Curious
+Lume: It's Brekk. The smith who walked out of the Muster's cage works. He'd know one when he heard of it. #emotion:Neutral
+Lume: "Word from the Unsworn on Scoria. The cage is nearly built." #emotion:Neutral
+Lume: He has stopped and started twice. "There is something alive in it." #emotion:Worried
+Idra: Then that's where we go. #emotion:Determined
+Taren: Take its weight. Wait for the slack. Let go together. #emotion:Determined
+Ishen: I've written it down. I'd like it noted that he has it by heart already. #emotion:Tender
+<<setFlag oriel.brekkHeard>>
+<<setFlag chapter7.complete>>
+===
+title: IshenAboard
+---
+Ishen: Your keeper has given me a corridor. I've called it the archive, and nobody has objected. #emotion:Happy
+Ishen: I have the release in four copies. One is in the galley, where people will actually read it. #emotion:Determined
+===
+title: RuvaGardener
+---
+Ruva: It doesn't talk and it doesn't vote, and it weeds a straight row. I'd take fifty of it. #emotion:Amused
+Ruva: I've planted one jar. Nothing yet. It stands by that bed all night with its light low. I've stopped telling it to go in. #emotion:Tender
+===
+title: IdraGardenerAboard
+---
+Idra: It's weeding. #emotion:Neutral
+Idra: There's something in the bed, this time. #emotion:Tender
+===
+title: PellOrielLantern
+---
+Pell: It's lit from Oriel! The same flame, all the way down the chain. Lume wrote two words about it. I've read them forty times. #emotion:Happy
+===

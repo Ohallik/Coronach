@@ -75,6 +75,8 @@ def main():
                    help="orbit elevation; a negative value exposes the underside")
     p.add_argument("--texture", help="bind this albedo to every mesh (stripped or re-exported FBX "
                                      "files no longer carry their own texture)")
+    p.add_argument("--ground", help="linear R,G,B for the ground plane, to judge a model against its zone's floor "
+                                    "instead of the neutral dark grey")
     args = p.parse_args(cli_args())
 
     reset()
@@ -131,9 +133,10 @@ def main():
     mat = bpy.data.materials.new("Ground")
     mat.use_nodes = True
     principled = mat.node_tree.nodes.get("Principled BSDF")
-    principled.inputs["Base Color"].default_value = (.16, .18, .21, 1)
+    floor = (*(float(v) for v in args.ground.split(",")), 1) if args.ground else (.16, .18, .21, 1)
+    principled.inputs["Base Color"].default_value = floor
     principled.inputs["Roughness"].default_value = 1.0
-    mat.diffuse_color = (.16, .18, .21, 1)   # viewport only; the render reads the nodes
+    mat.diffuse_color = floor   # viewport only; the render reads the nodes
     ground.data.materials.append(mat)
     build_lights(center)
 

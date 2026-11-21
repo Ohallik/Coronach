@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ee7d15f31656c49a3ee207d49cfc05, type: 3}
+  m_Name: IdraBraced
+  m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GroundStrideProfile
+  leftHeel: {x: 0.09227626, y: 0.12093624, z: 0.052794825}
+  leftToe: {x: -0.059513383, y: 0.0851031, z: -0.050714143}
+  rightHeel: {x: -0.02014441, y: 0.11680946, z: 0.1260046}
+  rightToe: {x: 0.03255497, y: 0.068210326, z: -0.043435846}
+  walkSpeed: 1.05
+  runSpeed: 6.02
+  sprintSpeed: 9.04
+  holdsHandover: 1

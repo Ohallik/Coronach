@@ -22,11 +22,15 @@ namespace Lattice.Combat
         Vector3 travelVelocity;
         int movedFrame=-2;
         public Vector3 DesiredVelocity{get;private set;}
+        /// <summary>What the stick asks of the body, while something is moving it (this frame or the last); zero once nothing is.</summary>
+        public Vector3 Asked=>enabled&&Time.frameCount<=movedFrame+1?DesiredVelocity:Vector3.zero;
         public Vector3 Velocity=>enabled&&!GameTime.Paused&&(actor==null||actor.Health.Alive)&&Time.frameCount<=movedFrame+1?measuredVelocity:Vector3.zero;
         Vector3 dash;float dashTime;
+        /// <summary>The last step met a wall or a body side on.</summary>
+        bool against;
         void Awake(){controller=GetComponent<CharacterController>();controller.minMoveDistance=0;actor=GetComponent<CombatActor>();}
-        void OnEnable(){measuredVelocity=DesiredVelocity=travelVelocity=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;}
-        public void Halt(){measuredVelocity=DesiredVelocity=travelVelocity=dash=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;}
+        void OnEnable(){measuredVelocity=DesiredVelocity=travelVelocity=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;against=false;}
+        public void Halt(){measuredVelocity=DesiredVelocity=travelVelocity=dash=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;against=false;}
         public void Move(Vector2 input,bool boost,bool brake)
         {
             if(actor!=null&&(!actor.Health.Alive||actor.Recovering||actor.ChangingForm)){Halt();return;}
@@ -47,6 +51,8 @@ namespace Lattice.Combat
             float pace=natural?(tilt<WalkTilt?NaturalWalk/WalkTilt:(boost?NaturalSprint:NaturalJog)/Mathf.Max(tilt,.001f)):speed*(boost?1.55f:1);
             if(actor!=null&&(actor.State==Lattice.Data.ActorState.Attack||actor.State==Lattice.Data.ActorState.Skill))pace*=.35f;
             if(actor!=null&&actor.State==Lattice.Data.ActorState.Guard)pace*=.5f;
+            // Water to the knee, a spore cloud, a puddle (Health.Hinder): the stride shortens, and a dash below is untouched.
+            if(actor!=null)pace*=actor.Health.Pace;
             DesiredVelocity=direction*pace;
             if(Time.frameCount>movedFrame+1)travelVelocity=Vector3.zero;
             measuredVelocity=Vector3.zero;movedFrame=Time.frameCount;
@@ -57,7 +63,10 @@ namespace Lattice.Combat
             // Short, physical start/braking steps keep first-frame response while
             // avoiding an instantaneous full-speed stride or a long release slide.
             float acceleration=natural?(stopping?36:32):(stopping?80:65);
-            travelVelocity=Steer(travelVelocity,DesiredVelocity,acceleration*dt,(natural?CivilTurnRate:CombatTurnRate)*dt);
+            // Against a wall or a body the plain blend, as before D197: a heading swung by a step a frame there grew a frame's speed back that the wall then trimmed, and slid
+            // a fifth faster than the stick's share along it. In the open the swing keeps a turning sprint's pace.
+            travelVelocity=against?Vector3.MoveTowards(travelVelocity,DesiredVelocity,acceleration*dt):
+                Steer(travelVelocity,DesiredVelocity,acceleration*dt,(natural?CivilTurnRate:CombatTurnRate)*dt);
             Phase=stopping?(travelVelocity.sqrMagnitude>.0025f?TravelPhase.Stopping:TravelPhase.Idle):
                 Vector3.Angle(transform.forward,direction)>12?TravelPhase.Turning:
                 (travelVelocity-DesiredVelocity).sqrMagnitude>.04f?TravelPhase.Starting:TravelPhase.Travelling;
@@ -69,8 +78,9 @@ namespace Lattice.Combat
             // Retain sub-pixel acceleration between very short frames. Replacing
             // it with a quantized zero displacement could prevent a start at all.
             // On a wall, remove the blocked component so it cannot store momentum.
-            if(!dashing&&(collisions&CollisionFlags.Sides)!=0)
-                travelVelocity=Vector3.ClampMagnitude(displacement/dt,travelVelocity.magnitude);
+            // And of what slides along it only the stick's own share carries on (SlideAlong).
+            against=!dashing&&(collisions&CollisionFlags.Sides)!=0;
+            if(against)travelVelocity=SlideAlong(displacement/dt,travelVelocity,DesiredVelocity);
             // Humanoid presentation uses the unscaled clock. Measure real planar
             // displacement after collision, so walls, slopes and Flash have the
             // same visual stride clock. Teleports outside Move do not become speed.
@@ -87,6 +97,17 @@ namespace Lattice.Combat
             if(have<.5f||want<.01f||Vector3.Angle(current,desired)>ReversalAngle)return Vector3.MoveTowards(current,desired,maxSpeedChange);
             var heading=Vector3.RotateTowards(current/have,desired/want,maxTurnDegrees*Mathf.Deg2Rad,0);
             return heading*Mathf.MoveTowards(have,want,maxSpeedChange);
+        }
+        /// <summary>What carries on after a wall or a body has taken part of a step: the way it slid, at no more than the stick's own share along that way (none if the stick
+        /// leans the other way), and never faster than it went. Kept whole (D197's heading swing), the heading the wall had turned stayed: the turn swung it back a step a frame,
+        /// the wall took that step off again every frame, and a hero slid along whatever he touched at full pace in a fixed direction up to 150 degrees from his stick. Three
+        /// walks of the November 15 replay went off so along Idra, off the highest island's edge and round and round the Terminator's point (GivingWayTests). A stick a little
+        /// into a wall keeps nearly the whole pace along it, as before.</summary>
+        public static Vector3 SlideAlong(Vector3 slid,Vector3 travel,Vector3 desired)
+        {
+            float along=slid.magnitude;if(along<.0001f)return Vector3.zero;
+            var way=slid/along;
+            return way*Mathf.Clamp(Vector3.Dot(desired,way),0,Mathf.Min(along,travel.magnitude));
         }
         public void Dash(Vector3 direction,float distance){dash=direction.normalized*distance/.16f;dashTime=.16f;Facing=direction.normalized;}
         /// <summary>For a dash that doesn't turn the hero: the aim stays on what she was looking at.</summary>

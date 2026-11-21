@@ -19,9 +19,16 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: d6dbd57ebebb0bd458e48e685f334acb, type: 2}
   ambientAudio: {fileID: 8300000, guid: 84c461f5376a63a4fb98c0edea35b9eb, type: 3}
   ambientVolume: 0.151
-  musicId: 
+  musicId: Adventure Awaits
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
-  skybox: {fileID: 2100000, guid: 788961950675a154a8665d4fa5b6ca96, type: 2}
+  enemyThreat: 1
   cameraClearsScenery: 1
+  skybox: {fileID: 2100000, guid: 788961950675a154a8665d4fa5b6ca96, type: 2}
+  displayName: Sorrel Ridges
+  brightFloor: 1
+  fightMusicId: 
+  pocketMusicId: Hub Town Groove
+  shopMusicId: 
+  chapter: 1

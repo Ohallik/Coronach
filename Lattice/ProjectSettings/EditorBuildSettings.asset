@@ -50,4 +50,100 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/SunkenRelay.unity
     guid: 3f5d2071949abbd4bb01a4aac5083ae9
+  - enabled: 1
+    path: Assets/_Project/Scenes/BraidedRiver.unity
+    guid: d9ca2aecaf5d2d343bb188d7f323034b
+  - enabled: 1
+    path: Assets/_Project/Scenes/Rootmarket.unity
+    guid: 1eaffa88c9f7b604984616b4ce23b0a0
+  - enabled: 1
+    path: Assets/_Project/Scenes/WalkingCanopy.unity
+    guid: 56854169476f7f2498bcd1e3bb152a08
+  - enabled: 1
+    path: Assets/_Project/Scenes/XylosNearspace.unity
+    guid: 7a70fa8313da7824ab6d679283b325f7
+  - enabled: 1
+    path: Assets/_Project/Scenes/Driftreed.unity
+    guid: 6e60b20c0d184664d9ae4136af0ffcd3
+  - enabled: 1
+    path: Assets/_Project/Scenes/DrownedWaystation.unity
+    guid: 9050e9e91f91fb744bcaa0522fb9e20c
+  - enabled: 1
+    path: Assets/_Project/Scenes/SporeVeil.unity
+    guid: c38cb69893ad8ce46b6d9f4c4b08a2db
+  - enabled: 1
+    path: Assets/_Project/Scenes/ManyHands.unity
+    guid: b194f5a88a65863479f513a34fad150d
+  - enabled: 1
+    path: Assets/_Project/Scenes/ManyHandsHull.unity
+    guid: 52ea0ca227c912a43aac893b633fddd0
+  - enabled: 1
+    path: Assets/_Project/Scenes/AuroraShear.unity
+    guid: edb038016d6aedf4c902342c89c4ac3e
+  - enabled: 1
+    path: Assets/_Project/Scenes/FrozenHost.unity
+    guid: 952ac0a077535fe4089d0b3284b534df
+  - enabled: 1
+    path: Assets/_Project/Scenes/Lastlight.unity
+    guid: 1ae6b43df54641c4e8085106d8b500e7
+  - enabled: 1
+    path: Assets/_Project/Scenes/GlassChoir.unity
+    guid: d852a1c847921d341a2ff949ab734001
+  - enabled: 1
+    path: Assets/_Project/Scenes/OrielSkyfields.unity
+    guid: e98aafc31c1ac2b498b6f351ab06deb8
+  - enabled: 1
+    path: Assets/_Project/Scenes/Orrery.unity
+    guid: 89dc09f0b820683418ee9eeb4c9e0a9b
+  - enabled: 1
+    path: Assets/_Project/Scenes/BridleFoundry.unity
+    guid: 42af1147482ffd24c8608e6fdfaceebf
+  - enabled: 1
+    path: Assets/_Project/Scenes/Harrowgate.unity
+    guid: 516e15a034a6aae43a6512cafcd2c0e4
+  - enabled: 1
+    path: Assets/_Project/Scenes/HarrowgateHarbour.unity
+    guid: 9c88e041b757e2143bab88edbb172085
+  - enabled: 1
+    path: Assets/_Project/Scenes/PicketOfTeeth.unity
+    guid: 626ad976dd6cfb94f960d86fecba6899
+  - enabled: 1
+    path: Assets/_Project/Scenes/ScoriaFlows.unity
+    guid: ed423f2552a28f5488f85dcf524bd655
+  - enabled: 1
+    path: Assets/_Project/Scenes/BrokenRing.unity
+    guid: 89b32b51d47484f4d985da55a7e47b10
+  - enabled: 1
+    path: Assets/_Project/Scenes/DecksLeaving.unity
+    guid: c84394f127070194ea83cea74fce98ec
+  - enabled: 1
+    path: Assets/_Project/Scenes/MeridianCrawl.unity
+    guid: f021b4f6657342e41a64ba5d75684056
+  - enabled: 1
+    path: Assets/_Project/Scenes/NacreGrave.unity
+    guid: 55d911666027c144a9cdb8fc40808bd9
+  - enabled: 1
+    path: Assets/_Project/Scenes/SeparationWorks.unity
+    guid: 2ff930afec0bb434c98fe4cd62649c7f
+  - enabled: 1
+    path: Assets/_Project/Scenes/Terminator.unity
+    guid: 496baaa362be76e469cbcde3c112c11c
+  - enabled: 1
+    path: Assets/_Project/Scenes/Continuance.unity
+    guid: 2ec883c982f9f954da409bb13361dff9
+  - enabled: 1
+    path: Assets/_Project/Scenes/LastMooring.unity
+    guid: 448e2c0a3b51acf4bb531854eccd1aaa
+  - enabled: 1
+    path: Assets/_Project/Scenes/NeighbourhoodAfloat.unity
+    guid: eb9ff6da77050e04bb11815bdc0afd34
+  - enabled: 1
+    path: Assets/_Project/Scenes/ReturningPassage.unity
+    guid: 347be82559077fe4f9af7315c374bc9c
+  - enabled: 1
+    path: Assets/_Project/Scenes/SorrelSecondSky.unity
+    guid: 139a76b87e341b946b64882178be4f5b
+  - enabled: 1
+    path: Assets/_Project/Scenes/StillwaterChamber.unity
+    guid: 276914bc724c05c4f97f9ecb56a0b9e9
   m_configObjects: {}

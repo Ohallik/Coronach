@@ -9,12 +9,18 @@ namespace Lattice.Combat
         public float radius=3;
         /// <summary>Stand as this spawner faces, for a body on show before its fight (Hessa at her work, turning to the door).</summary>
         public bool faceAsPlaced;
-        EnemyBrain[] prepared;
+        EnemyBrain[] prepared;Vector3 shownFrom;float shownWithin;
         public void Prepare(Vector3 viewpoint,float viewRadius)
         {
-            if(prepared!=null)return;prepared=Create();
+            if(prepared!=null)return;prepared=Create();shownFrom=viewpoint;shownWithin=viewRadius;
             foreach(var enemy in prepared)enemy.gameObject.AddComponent<DormantEnemy>().Hold(viewpoint,viewRadius);
         }
+        /// <summary>A body on show before its fight was made as the zone loaded, at the difficulty of that moment. Turned down at the door after a defeat, the boss inside still had the
+        /// integrity of the setting that had just beaten the party, until another defeat reloaded the zone. Nothing has touched it and its bar isn't up, so it is made again where it
+        /// stands, as an encounter switched off and on makes it again. Once awake it is left alone.</summary>
+        void Remake(){if(prepared==null)return;CancelPreview();Prepare(shownFrom,shownWithin);}
+        void OnEnable(){Lattice.Core.Difficulty.Changed+=Remake;}
+        void OnDisable(){Lattice.Core.Difficulty.Changed-=Remake;}
         public void CancelPreview()
         {
             if(prepared==null)return;

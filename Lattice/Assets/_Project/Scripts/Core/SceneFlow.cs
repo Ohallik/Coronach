@@ -10,6 +10,8 @@ namespace Lattice.Core
         public bool DockArrival {get;private set;}
         public string Zone {get;private set;}
         public event System.Action<float> FadeChanged;
+        /// <summary>The screen's fade for a change made inside a zone (chapter 10's berth docking and launching): the same overlay a load draws, with no load.</summary>
+        public void Fade(float amount){if(!Loading)FadeChanged?.Invoke(amount);}
         int preparations;
         public System.IDisposable HoldPreparation()=>new Preparation(this);
         sealed class Preparation:System.IDisposable
@@ -37,7 +39,7 @@ namespace Lattice.Core
         }
         IEnumerator Load(string scene,string spawn,bool docking=false,System.Func<bool> departureReady=null)
         {
-            Loading=true;
+            Loading=true;scene=StandIns.Resolve(scene);
             if(GameServices.Current!=null)GameServices.Current.Input.Blocked=true;
             while(departureReady!=null&&!departureReady())yield return null;
             for(float t=0;t<0.3f;t+=Time.unscaledDeltaTime){FadeChanged?.Invoke(t/0.3f);yield return null;}

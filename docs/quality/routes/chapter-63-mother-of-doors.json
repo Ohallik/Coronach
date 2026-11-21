@@ -1,0 +1,1903 @@
+{
+  "name": "chapter-63-mother-of-doors",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: the valley, Dace over his ridge, Mother of Doors' four clamps (her door retried), Dace as she goes",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "clear.Sorrel_Lane2",
+      "expectedForm": "Flight",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "north up the valley, z 60",
+      "seconds": 10.73,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 60
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "north up the valley, z 140",
+      "seconds": 13.64,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 140
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "north up the valley, z 200",
+      "seconds": 10.73,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 200
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "to the valley's head",
+      "seconds": 6.65,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 232.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "to the east aperture's mouth",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 1,
+        "z": 240.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "into the aperture until Dace speaks",
+      "seconds": 10.8,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 1,
+        "z": 251.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Dace over his ridge begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "read Dace over his ridge line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "next Dace over his ridge line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release Dace over his ridge line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "read Dace over his ridge line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "next Dace over his ridge line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release Dace over his ridge line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "read Dace over his ridge line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "next Dace over his ridge line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release Dace over his ridge line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "read Dace over his ridge line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "next Dace over his ridge line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release Dace over his ridge line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "finish Dace over his ridge",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.sorrelSeen",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release after Dace over his ridge",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "up the east aperture to her door",
+      "seconds": 3.06,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 1,
+        "z": 252.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "bossDoor": "MotherOfDoors",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "through the aperture into her crater",
+      "seconds": 5.78,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 1,
+        "z": 266.0
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "west round her ring, outside the cover",
+      "seconds": 10.03,
+      "navigate": true,
+      "point": {
+        "x": -34,
+        "y": 1,
+        "z": 300
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on into Sorrel_Clamp1",
+      "seconds": 3.57,
+      "navigate": true,
+      "point": {
+        "x": -28.9,
+        "y": 1,
+        "z": 309.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "lock Sorrel_Clamp1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release lock Sorrel_Clamp1",
+      "seconds": 0.3,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Sorrel_Clamp1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sorrel_Clamp1",
+      "expectedFlag": "clear.Sorrel_Clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "dock at the west clamp's works",
+      "seconds": 27.82,
+      "navigate": true,
+      "point": {
+        "x": -23.38,
+        "y": 1,
+        "z": 316.5
+      },
+      "tolerance": 1.2,
+      "until": "docked:Clamp1",
+      "stopWhen": "docked:Clamp1",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "stand on the west clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 1 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "clamp 1 is open",
+      "seconds": 4,
+      "until": "flag:end.clamp1",
+      "expectedFlag": "end.clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "reach the fallen hero after clamp 1",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "both heroes ready after clamp 1",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "to the launch of the west clamp's works",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": -27.8,
+        "y": -2.0,
+        "z": 319.15
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Clamp1",
+      "evadeTelegraphs": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "settle before the launch of the west clamp's works",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "launch from the west clamp's works",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Clamp1",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release the launch of the west clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on into Sorrel_Clamp2",
+      "seconds": 3.06,
+      "navigate": true,
+      "point": {
+        "x": -18.7,
+        "y": 1,
+        "z": 315.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "lock Sorrel_Clamp2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release lock Sorrel_Clamp2",
+      "seconds": 0.3,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp2 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp2 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Sorrel_Clamp2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sorrel_Clamp2",
+      "expectedFlag": "clear.Sorrel_Clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "dock at the south-west clamp's works",
+      "seconds": 27.82,
+      "navigate": true,
+      "point": {
+        "x": -11.41,
+        "y": 1,
+        "z": 305.53
+      },
+      "tolerance": 1.2,
+      "until": "docked:Clamp2",
+      "stopWhen": "docked:Clamp2",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "stand on the south-west clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 2 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "clamp 2 is open",
+      "seconds": 4,
+      "until": "flag:end.clamp2",
+      "expectedFlag": "end.clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "reach the fallen hero after clamp 2",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "both heroes ready after clamp 2",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "to the launch of the south-west clamp's works",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": -16.55,
+        "y": -2.0,
+        "z": 305.17
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Clamp2",
+      "evadeTelegraphs": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "settle before the launch of the south-west clamp's works",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "launch from the south-west clamp's works",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Clamp2",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release the launch of the south-west clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "south round the middle rock",
+      "seconds": 3.98,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 1,
+        "z": 290
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "east under the middle rock",
+      "seconds": 4.33,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 1,
+        "z": 290
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on into Sorrel_Clamp3",
+      "seconds": 3.47,
+      "navigate": true,
+      "point": {
+        "x": 8.0,
+        "y": 1,
+        "z": 300.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "lock Sorrel_Clamp3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release lock Sorrel_Clamp3",
+      "seconds": 0.3,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp3 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp3 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp3 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp3 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp3 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp3 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp3 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp3 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp3 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Sorrel_Clamp3 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sorrel_Clamp3",
+      "expectedFlag": "clear.Sorrel_Clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "dock at the south-east clamp's works",
+      "seconds": 27.82,
+      "navigate": true,
+      "point": {
+        "x": 11.41,
+        "y": 1,
+        "z": 305.53
+      },
+      "tolerance": 1.2,
+      "until": "docked:Clamp3",
+      "stopWhen": "docked:Clamp3",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "stand on the south-east clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 3 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 3 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "clamp 3 is open",
+      "seconds": 4,
+      "until": "flag:end.clamp3",
+      "expectedFlag": "end.clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "reach the fallen hero after clamp 3",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "both heroes ready after clamp 3",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "to the launch of the south-east clamp's works",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 8.39,
+        "y": -2.0,
+        "z": 301.36
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Clamp3",
+      "evadeTelegraphs": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "settle before the launch of the south-east clamp's works",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "launch from the south-east clamp's works",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Clamp3",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release the launch of the south-east clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "on into Sorrel_Clamp4",
+      "seconds": 2.97,
+      "navigate": true,
+      "point": {
+        "x": 12.7,
+        "y": 1,
+        "z": 309.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "lock Sorrel_Clamp4",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release lock Sorrel_Clamp4",
+      "seconds": 0.3,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp4 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp4 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp4 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp4 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp4 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp4 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp4 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp4 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp4 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pursue Sorrel_Clamp4 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "pulse Sorrel_Clamp4 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Sorrel_Clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release pulse Sorrel_Clamp4 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Sorrel_Clamp4 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sorrel_Clamp4",
+      "expectedFlag": "clear.Sorrel_Clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "dock at the east clamp's works",
+      "seconds": 27.82,
+      "navigate": true,
+      "point": {
+        "x": 23.38,
+        "y": 1,
+        "z": 316.5
+      },
+      "tolerance": 1.2,
+      "until": "docked:Clamp4",
+      "stopWhen": "docked:Clamp4",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.3,
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "stand on the east clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 4 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 4 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 4 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 4 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "work clamp 4 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:end.clamp4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "clamp 4 is open",
+      "seconds": 4,
+      "until": "flag:end.clamp4",
+      "expectedFlag": "end.clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "she lets go",
+      "seconds": 2,
+      "expectedFlag": "bossdown.MotherOfDoors",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Dace as she goes begins",
+      "seconds": 20,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "read Dace as she goes line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "next Dace as she goes line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release Dace as she goes line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "finish Dace as she goes",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.motherFreed",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release after Dace as she goes",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "reach the fallen hero after her release",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "both heroes ready after her release",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "to the launch of the east clamp's works",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 23.3,
+        "y": -2.0,
+        "z": 311.35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "stopWhen": "launched:Clamp4",
+      "evadeTelegraphs": true,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "settle before the launch of the east clamp's works",
+      "seconds": 0.5,
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "launch from the east clamp's works",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:Clamp4",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "release the launch of the east clamp's works",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "SorrelSecondSky"
+    },
+    {
+      "name": "over her empty crater",
+      "seconds": 2,
+      "expectedFlag": "end.motherFreed",
+      "expectedScene": "SorrelSecondSky"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

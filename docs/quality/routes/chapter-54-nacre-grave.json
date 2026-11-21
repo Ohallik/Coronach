@@ -1,0 +1,1119 @@
+{
+  "name": "chapter-54-nacre-grave",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: the long way round from the arrival, the inner tows, the inner pass, Oda's hauler, the basin, the berth ring, the navigators' pod, the chart to Many Hands",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.tugFound",
+      "expectedForm": "Flight",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "east past the outer marker",
+      "seconds": 9.62,
+      "navigate": true,
+      "point": {
+        "x": 37.49,
+        "y": 1,
+        "z": 150.37
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 20",
+      "seconds": 4.63,
+      "navigate": true,
+      "point": {
+        "x": 55.45,
+        "y": 1,
+        "z": 152.33
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 50",
+      "seconds": 14.06,
+      "navigate": true,
+      "point": {
+        "x": 120.86,
+        "y": 1,
+        "z": 101.42
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 80",
+      "seconds": 13.73,
+      "navigate": true,
+      "point": {
+        "x": 151.11,
+        "y": 1,
+        "z": 26.65
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "into the outer tows",
+      "seconds": 7.79,
+      "navigate": true,
+      "point": {
+        "x": 150.7,
+        "y": 1,
+        "z": -13.18
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 110",
+      "seconds": 7.71,
+      "navigate": true,
+      "point": {
+        "x": 140.12,
+        "y": 1,
+        "z": -51.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 140",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 93.06,
+        "y": 1,
+        "z": -110.91
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "out round the tug's raft",
+      "seconds": 10.46,
+      "navigate": true,
+      "point": {
+        "x": 42.97,
+        "y": 1,
+        "z": -140.53
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "past the tug by her hail",
+      "seconds": 6.82,
+      "navigate": true,
+      "point": {
+        "x": 10.14,
+        "y": 1,
+        "z": -145.02
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "on past the raft",
+      "seconds": 4.58,
+      "navigate": true,
+      "point": {
+        "x": -7.56,
+        "y": 1,
+        "z": -144.17
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "on along the outer edge",
+      "seconds": 4.56,
+      "navigate": true,
+      "point": {
+        "x": -24.88,
+        "y": 1,
+        "z": -141.08
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "back to the quiet side",
+      "seconds": 4.94,
+      "navigate": true,
+      "point": {
+        "x": -42.77,
+        "y": 1,
+        "z": -131.63
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 200",
+      "seconds": 2.77,
+      "navigate": true,
+      "point": {
+        "x": -46.55,
+        "y": 1,
+        "z": -127.9
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 230",
+      "seconds": 12.1,
+      "navigate": true,
+      "point": {
+        "x": -100.95,
+        "y": 1,
+        "z": -84.71
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "into the inner tows",
+      "seconds": 10.2,
+      "navigate": true,
+      "point": {
+        "x": -123.8,
+        "y": 1,
+        "z": -33.17
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "on into Nacre_TowsInner",
+      "seconds": 2.75,
+      "navigate": true,
+      "point": {
+        "x": -123.8,
+        "y": 1,
+        "z": -28.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "lock Nacre_TowsInner",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release lock Nacre_TowsInner",
+      "seconds": 0.3,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsInner round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsInner round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsInner round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsInner round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsInner round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsInner round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsInner round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsInner round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsInner round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsInner round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsInner round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsInner",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsInner round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "Nacre_TowsInner cleared",
+      "seconds": 3,
+      "until": "flag:clear.Nacre_TowsInner",
+      "expectedFlag": "clear.Nacre_TowsInner",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the inner pass, turn 290",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": -115.69,
+        "y": 1,
+        "z": 42.11
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the inner pass, turn 320",
+      "seconds": 11.13,
+      "navigate": true,
+      "point": {
+        "x": -76.35,
+        "y": 1,
+        "z": 90.99
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the inner pass, turn 350",
+      "seconds": 10.8,
+      "navigate": true,
+      "point": {
+        "x": -19.87,
+        "y": 1,
+        "z": 112.71
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the inner pass, turn 380",
+      "seconds": 10.48,
+      "navigate": true,
+      "point": {
+        "x": 37.66,
+        "y": 1,
+        "z": 103.47
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the inner pass, turn 410",
+      "seconds": 10.15,
+      "navigate": true,
+      "point": {
+        "x": 81.03,
+        "y": 1,
+        "z": 67.99
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the inner pass, turn 425",
+      "seconds": 6.04,
+      "navigate": true,
+      "point": {
+        "x": 88.47,
+        "y": 1,
+        "z": 41.25
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle on the inner pass short of the tow line",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 88.47,
+        "y": 1,
+        "z": 41.25
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "wait for the tow line to be clear",
+      "seconds": 40,
+      "until": "clear:60.57,32.21",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle at Oda's hauler",
+      "seconds": 25.46,
+      "navigate": true,
+      "point": {
+        "x": 60.57,
+        "y": 1,
+        "z": 32.21
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle before hail line nine hundred and four",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "hail line nine hundred and four",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail line nine hundred and four line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail line nine hundred and four line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail line nine hundred and four line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "finish hail line nine hundred and four",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.odaFound",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release after hail line nine hundred and four",
+      "seconds": 0.5,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the basin, turn 50",
+      "seconds": 4.07,
+      "navigate": true,
+      "point": {
+        "x": 51.71,
+        "y": 1,
+        "z": 43.39
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the basin, turn 35",
+      "seconds": 4.61,
+      "navigate": true,
+      "point": {
+        "x": 34.99,
+        "y": 1,
+        "z": 49.97
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the basin, turn 10",
+      "seconds": 5.81,
+      "navigate": true,
+      "point": {
+        "x": 10.42,
+        "y": 1,
+        "z": 59.09
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the basin, turn 340",
+      "seconds": 6.52,
+      "navigate": true,
+      "point": {
+        "x": -20.52,
+        "y": 1,
+        "z": 56.38
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "round the basin, turn 310",
+      "seconds": 6.45,
+      "navigate": true,
+      "point": {
+        "x": -44.43,
+        "y": 1,
+        "z": 37.28
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "to the berth ring's edge",
+      "seconds": 3.47,
+      "navigate": true,
+      "point": {
+        "x": -48.5,
+        "y": 1,
+        "z": 28.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle at the berth ring's edge",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -48.5,
+        "y": 1,
+        "z": 28.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "wait for the berth ring to be clear",
+      "seconds": 40,
+      "until": "clear:-41.57,24;-34.64,20",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "across the berth ring",
+      "seconds": 3.16,
+      "navigate": true,
+      "point": {
+        "x": -41.57,
+        "y": 1,
+        "z": 24.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "inside the berth ring",
+      "seconds": 3.16,
+      "navigate": true,
+      "point": {
+        "x": -34.64,
+        "y": 1,
+        "z": 20.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle at the navigators' pod",
+      "seconds": 12.11,
+      "navigate": true,
+      "point": {
+        "x": -27.23,
+        "y": 1,
+        "z": 30.24
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle before hail the navigators' pod",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "hail the navigators' pod",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the navigators' pod",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the navigators' pod line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the navigators' pod line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the navigators' pod line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the navigators' pod line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the navigators' pod line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the navigators' pod line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the navigators' pod line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the navigators' pod line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the navigators' pod line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the navigators' pod line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the navigators' pod line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the navigators' pod line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "finish hail the navigators' pod",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.navigatorsFound",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release after hail the navigators' pod",
+      "seconds": 0.5,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "all three lamps are found",
+      "seconds": 1,
+      "expectedFlag": "home.nacreDone",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "open the quest log",
+      "seconds": 0.6,
+      "buttons": [
+        "Select"
+      ],
+      "until": "ui:pause",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release the quest log",
+      "seconds": 0.3,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "turn to the chart",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder"
+      ],
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release the turn",
+      "seconds": 0.4,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "find ManyHands on the chart",
+      "seconds": 8,
+      "pickRow": "Stop_ManyHands",
+      "buttons": [
+        "South"
+      ],
+      "until": "row:Travel",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read the question for ManyHands",
+      "seconds": 0.6,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "travel to ManyHands",
+      "seconds": 25,
+      "pickRow": "Travel",
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:ManyHands",
+      "pauseUi": "pause",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after travelling to ManyHands",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "first look at the dock",
+      "seconds": 2,
+      "expectedFlag": "home.nacreDone",
+      "expectedScene": "ManyHands"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

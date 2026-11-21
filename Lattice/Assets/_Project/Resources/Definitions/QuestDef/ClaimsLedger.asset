@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: ClaimsLedger
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: ClaimsLedger
+  title: The Claims Ledger
+  description: Three hulls in Dessik Varn's ledger belong to people standing aboard
+    Many Hands.
+  steps:
+  - kind: 5
+    target: ledger.teo
+    count: 1
+  - kind: 5
+    target: ledger.maru
+    count: 1
+  - kind: 5
+    target: ledger.abri
+    count: 1
+  - kind: 5
+    target: ledger.returned
+    count: 1
+  rewardXp: 240
+  rewardScrip: 320
+  rewards: []
+  flagsOnComplete: []
+  stepText:
+  - Tell Teo his seed barges are in the ledger
+  - Tell Maru her raft is in the ledger
+  - Tell Keeper Abri that Tallow is in the ledger
+  - Bring the three statements back to Ilo
+  rewardsRolled: 0
+  main: 0
+  chapter: 5
+  stepTargets:
+  - scene: ManyHands
+    via: []
+    speaker: Teo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Teo
+  - scene: ManyHands
+    via: []
+    speaker: Maru
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Maru
+  - scene: ManyHands
+    via: []
+    speaker: Keeper
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Keeper Abri
+  - scene: ManyHands
+    via: []
+    speaker: Ilo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Bring the statements to Ilo
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

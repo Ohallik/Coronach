@@ -7,6 +7,14 @@ namespace Lattice.Data
     {
         ArcCleave,EmberStep,PulseBurst,Overdrive,ThreadLance,ScatterBloom,StaticNet,Refract,
         AnchorSlam,TetherHook,ForgeSpiral,Faultline,SurveyDrone,WaypointBlink,GravityFold,Starfall,
+        // S3: learned at Sync 16, 20 and 24 (three a hero), then each hero's EXTRA move, which is no loadout skill: it hangs off CharacterDef.extra and its own gauge.
+        BulwarkRush,CinderBrand,Severance,MendLattice,PrismRelay,LongExposure,
+        AnvilChorus,LatticeAria,
+        // S6a: Idra Sorn's eight, in the order she learns them (the first four known as she joins), and her EXTRA.
+        Breach,TowLine,Shelter,SlagHammer,RescueFlare,Counterweight,Avalanche,HoldTheLine,
+        LastOneOut,
+        // S6a: Idra's three learned at Sync 16, 20 and 24, as the first two heroes' are.
+        TakeTheWeight,CuttingTorch,Bulkhead,
     }
 
     [CreateAssetMenu(menuName="Lattice/SkillDef")]

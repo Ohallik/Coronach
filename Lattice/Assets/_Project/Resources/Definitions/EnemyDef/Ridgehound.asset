@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: Ridgehound
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
   id: Ridgehound
   prefab: {fileID: 5718324515046120352, guid: 27ff65b11c9880943a9658f399148545, type: 3}
   bodySegment: {fileID: 0}
@@ -33,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: 34ddb4fee8cd63741b89317fdd68f46e, type: 2}
   xp: 24
   boss: 0
+  scrip: 8
+  scrap: 2
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 0

@@ -10,7 +10,7 @@ namespace Lattice.Combat
     {
         const float RearBack=-12,FollowThrough=7,TurnRate=120,MineSwell=.22f;
         EnemyBrain brain;BossController boss;Transform visual;
-        Quaternion rest;Vector3 restScale;float pitch,swell;bool posed,skitters;
+        Quaternion rest;Vector3 restScale;float pitch,swell,roll;bool posed,skitters;
         void Awake(){GetComponent<Health>().Died+=OnDown;}
         void OnDestroy(){if(TryGetComponent<Health>(out var health))health.Died-=OnDown;}
         void OnDown(Health _,DamagePacket __)
@@ -33,18 +33,21 @@ namespace Lattice.Combat
             if(GameTime.CombatHeld)return;
             if(!brain.Health.Alive||boss!=null&&(boss.Busy||boss.Burrowed)){Settle();return;}
             bool mine=brain.Mine;
-            float goal=mine?0:brain.Telegraphing?RearBack*brain.TellProgress:brain.Striking?FollowThrough:0;
+            // A behaviour's own move says its own pose (nose down in a charge, banked in a break, swollen with a throw); otherwise it rears and follows through as every body does.
+            var own=brain.Behaviour;bool told=own!=null&&own.Posing;
+            float goal=mine?0:told?own.Pitch:brain.Telegraphing?RearBack*brain.TellProgress:brain.Striking?FollowThrough:0;
             pitch=Mathf.MoveTowards(pitch,goal,TurnRate*Time.deltaTime);
-            swell=Mathf.MoveTowards(swell,mine?MineSwell*brain.TellProgress:0,2*Time.deltaTime);
-            if(pitch==0&&swell==0){Settle();return;}
+            swell=Mathf.MoveTowards(swell,mine?MineSwell*brain.TellProgress:told?own.Swell:0,2*Time.deltaTime);
+            roll=Mathf.MoveTowards(roll,told&&!mine?own.Roll:0,TurnRate*Time.deltaTime);
+            if(pitch==0&&swell==0&&roll==0){Settle();return;}
             posed=true;
-            if(mine)visual.localScale=restScale*(1+swell);
-            else visual.localRotation=(skitters?visual.localRotation:rest)*Quaternion.Euler(pitch,0,0);
+            if(mine||own!=null)visual.localScale=restScale*(1+swell);
+            if(!mine)visual.localRotation=(skitters?visual.localRotation:rest)*Quaternion.Euler(pitch,0,roll);
         }
         /// <summary>Hands the body back as it was: called in the same frame a boss's move or a death takes it over.</summary>
         void Settle()
         {
-            pitch=swell=0;if(!posed||visual==null)return;posed=false;
+            pitch=swell=roll=0;if(!posed||visual==null)return;posed=false;
             visual.localRotation=rest;visual.localScale=restScale;
         }
     }

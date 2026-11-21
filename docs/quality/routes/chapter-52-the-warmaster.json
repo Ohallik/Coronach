@@ -1,0 +1,3271 @@
+{
+  "name": "chapter-52-the-warmaster",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 8: Drask's table, the duel, his yield, the pursuit, the verdict, Pip, the armoury gate, the cells, every radio, Meret, Abri turns for Nacre",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "odrun.kitchenStocked",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 1/10",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 19,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 2/10",
+      "seconds": 5.91,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 3/10",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 4/10",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 52
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 5/10",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 56
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 6/10",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 7/10",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 72.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 8/10",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 9/10",
+      "seconds": 6.62,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 98
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the oath hall 10/10",
+      "seconds": 5.48,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 7.2,
+        "z": 107.80000000000001
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "start the Warmaster receives them",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release start the Warmaster receives them",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 12",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 12",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 12",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 13",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 13",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 13",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 14",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 14",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 14",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster receives them line 15",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster receives them line 15",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster receives them line 15",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish the Warmaster receives them",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.draskMet",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after the Warmaster receives them",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down the hall steps until he speaks",
+      "seconds": 6.91,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 94
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "the Warmaster on the muster field begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster on the muster field line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster on the muster field line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster on the muster field line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster on the muster field line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster on the muster field line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster on the muster field line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster on the muster field line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster on the muster field line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster on the muster field line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish the Warmaster on the muster field",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.fieldTaken",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after the Warmaster on the muster field",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "out onto the muster field",
+      "seconds": 8.52,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 4.8,
+        "z": 90
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "lock DraskVaal",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release lock DraskVaal",
+      "seconds": 0.3,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 1a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 1b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 2a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 2b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 3a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 3b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 4a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 4b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 5a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 5b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 6a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 6b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 7a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 7b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 8a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 8b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 9a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 9b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 10a",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "skill DraskVaal 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release skill DraskVaal 10b",
+      "seconds": 0.45,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "fight DraskVaal round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskVaal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "DraskVaal is down",
+      "seconds": 4,
+      "until": "flag:bossdown.DraskVaal",
+      "expectedFlag": "bossdown.DraskVaal",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "reach the fallen hero after the duel",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "both heroes ready after the duel",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "the Warmaster yields begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster yields line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster yields line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster yields line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster yields line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster yields line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster yields line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster yields line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster yields line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster yields line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster yields line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster yields line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster yields line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish the Warmaster yields",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.duelWon",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after the Warmaster yields",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field by its south opening",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 74
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "onto the forecourt and west of the ramp's parapet 1/2",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "onto the forecourt and west of the ramp's parapet 2/2",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the forecourt's pad",
+      "seconds": 2.65,
+      "navigate": true,
+      "point": {
+        "x": -8.4,
+        "y": 4.8,
+        "z": 63.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "lift off after him",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release lift-off",
+      "seconds": 0.5,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "out over the harbour after the skiff",
+      "seconds": 4.62,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 14
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "bossDoor": "DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "lock DraskSkiff",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release lock DraskSkiff",
+      "seconds": 0.3,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 1",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 2",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 3",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 4",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 5",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 6",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 6",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 7",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 7",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 8",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 8",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 9",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 9",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 10",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 10",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 11",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 11",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pursue DraskSkiff round 12",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "pulse DraskSkiff round 12",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "release pulse DraskSkiff round 12",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "DraskSkiff is down",
+      "seconds": 4,
+      "until": "flag:bossdown.DraskSkiff",
+      "expectedFlag": "bossdown.DraskSkiff",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "the skiff goes down toward the field",
+      "seconds": 5,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "back toward the way to the field",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": -12.0,
+        "y": 1,
+        "z": 6.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "settle over the way back to the field",
+      "seconds": 9.84,
+      "navigate": true,
+      "point": {
+        "x": -14.0,
+        "y": 1,
+        "z": -3.5999999999999996
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "HarrowgateHarbour"
+    },
+    {
+      "name": "land on the muster field",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:Harrowgate",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release landing",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Harrowgate answers begins",
+      "seconds": 10,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Harrowgate answers line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Harrowgate answers line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Harrowgate answers line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Harrowgate answers",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.deposed",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Harrowgate answers",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down to the lower terrace 1/6",
+      "seconds": 5.02,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 72.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down to the lower terrace 2/6",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down to the lower terrace 3/6",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 56
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down to the lower terrace 4/6",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 52
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down to the lower terrace 5/6",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down to the lower terrace 6/6",
+      "seconds": 9.75,
+      "navigate": true,
+      "point": {
+        "x": -21.8,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to Pip at Odrun's door",
+      "seconds": 2.5,
+      "navigate": true,
+      "point": {
+        "x": -21.6,
+        "y": 2.4,
+        "z": 36.4
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "start Pip after the duel",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release start Pip after the duel",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip after the duel line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip after the duel line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip after the duel line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip after the duel line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip after the duel line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip after the duel line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip after the duel line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip after the duel line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip after the duel line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip after the duel line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip after the duel line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip after the duel line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip after the duel line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip after the duel line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip after the duel line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip after the duel line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip after the duel line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip after the duel line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Pip after the duel",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "pip.oathLeft",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Pip after the duel",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "east along the terrace and up the quartermaster's stair 1/5",
+      "seconds": 2.5,
+      "navigate": true,
+      "point": {
+        "x": -21.8,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "east along the terrace and up the quartermaster's stair 2/5",
+      "seconds": 24.86,
+      "navigate": true,
+      "point": {
+        "x": 42.5,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "east along the terrace and up the quartermaster's stair 3/5",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 42.5,
+        "y": 2.4,
+        "z": 52
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "east along the terrace and up the quartermaster's stair 4/5",
+      "seconds": 6.98,
+      "navigate": true,
+      "point": {
+        "x": 42.5,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "east along the terrace and up the quartermaster's stair 5/5",
+      "seconds": 2.39,
+      "navigate": true,
+      "point": {
+        "x": 43.6,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "along the wall walk to the armoury gate",
+      "seconds": 7.07,
+      "navigate": true,
+      "point": {
+        "x": 43.6,
+        "y": 4.8,
+        "z": 80.25
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "in at the armoury gate until Hessa speaks",
+      "seconds": 3.71,
+      "navigate": true,
+      "point": {
+        "x": 48.4,
+        "y": 4.8,
+        "z": 80.25
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Hessa at the armoury gate begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa at the armoury gate line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa at the armoury gate line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa at the armoury gate line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa at the armoury gate line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa at the armoury gate line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa at the armoury gate line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa at the armoury gate line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa at the armoury gate line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa at the armoury gate line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa at the armoury gate line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa at the armoury gate line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa at the armoury gate line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Hessa at the armoury gate",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.gateDenied",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Hessa at the armoury gate",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "through the armoury gate",
+      "seconds": 3.71,
+      "navigate": true,
+      "point": {
+        "x": 48.4,
+        "y": 4.8,
+        "z": 80.25
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the stair's head",
+      "seconds": 2.95,
+      "navigate": true,
+      "point": {
+        "x": 50.8,
+        "y": 4.8,
+        "z": 81.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down the stair until Idra speaks",
+      "seconds": 5.77,
+      "navigate": true,
+      "point": {
+        "x": 50.8,
+        "y": 1.63,
+        "z": 92
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Idra on the stair down begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Idra on the stair down line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Idra on the stair down line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Idra on the stair down line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Idra on the stair down line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Idra on the stair down line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Idra on the stair down line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Idra on the stair down line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Idra on the stair down line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Idra on the stair down line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Idra on the stair down line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Idra on the stair down line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Idra on the stair down line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Idra on the stair down",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "idra.lockCounted",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Idra on the stair down",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down to the cells' landing 1/2",
+      "seconds": 6.84,
+      "navigate": true,
+      "point": {
+        "x": 50.8,
+        "y": 1.0,
+        "z": 95.0
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down to the cells' landing 2/2",
+      "seconds": 6.98,
+      "navigate": true,
+      "point": {
+        "x": 56.0,
+        "y": 1.0,
+        "z": 108.0
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "start the Warmaster in his cell",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release start the Warmaster in his cell",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster in his cell line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster in his cell line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster in his cell line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster in his cell line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster in his cell line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster in his cell line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster in his cell line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster in his cell line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster in his cell line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster in his cell line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster in his cell line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster in his cell line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the Warmaster in his cell line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the Warmaster in his cell line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the Warmaster in his cell line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish the Warmaster in his cell",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.orderSaid",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after the Warmaster in his cell",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "every radio in the harbour begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read every radio in the harbour line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next every radio in the harbour line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release every radio in the harbour line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish every radio in the harbour",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.nacreHeard",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after every radio in the harbour",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "all stations begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read all stations line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next all stations line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release all stations line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read all stations line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next all stations line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release all stations line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read all stations line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next all stations line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release all stations line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read all stations line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next all stations line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release all stations line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read all stations line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next all stations line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release all stations line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish all stations",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter8.complete",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after all stations",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Abri turns the convoy for Nacre begins",
+      "seconds": 30,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Abri turns the convoy for Nacre line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Abri turns the convoy for Nacre line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Abri turns the convoy for Nacre line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Abri turns the convoy for Nacre line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Abri turns the convoy for Nacre line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Abri turns the convoy for Nacre line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Abri turns the convoy for Nacre line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Abri turns the convoy for Nacre line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Abri turns the convoy for Nacre line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Abri turns the convoy for Nacre line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Abri turns the convoy for Nacre line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Abri turns the convoy for Nacre line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Abri turns the convoy for Nacre",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.turnedForNacre",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Abri turns the convoy for Nacre",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "chapter eight closes and nine begins",
+      "seconds": 3,
+      "expectedFlag": "home.turnedForNacre",
+      "expectedScene": "Harrowgate"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

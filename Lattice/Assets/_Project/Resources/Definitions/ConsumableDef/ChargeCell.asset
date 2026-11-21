@@ -15,6 +15,46 @@ MonoBehaviour:
   id: ChargeCell
   displayName: Charge Cell
   icon: {fileID: 0}
-  stack: 99
+  stack: 5
   heal: 0
   charge: 50
+  healPercent: 0
+  revive: 0
+  party: 0
+  buff:
+    critChance: 0
+    critDamage: 0
+    breakPower: 0
+    ownType: 0
+    beam: 0
+    plasma: 0
+    kinetic: 0
+    pulse: 0
+    chargeGain: 0
+    lifeOnKill: 0
+    skillCost: 0
+    cooldown: 0
+    guardCost: 0
+    mashCost: 0
+    thrustRegen: 0
+    flashWindow: 0
+    flashCharge: 0
+    brokenDamage: 0
+    executeDamage: 0
+    dropLuck: 0
+    luckCap: 0
+    damageDealt: 0
+    damageTaken: 0
+    partnerDamage: 0
+    chargeHold: 0
+    chargeFloor: 0
+    brokenTime: 0
+    flashDamage: 0
+    sharedHeal: 0
+    mastery: 0
+    secondWind: 0
+    regen: 0
+  seconds: 0
+  meal: 0
+  value: 12
+  mark: 

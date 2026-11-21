@@ -7,7 +7,8 @@ namespace Lattice.Core
     /// (QA-031): both dumps fault in the same engine release path on the main thread, both were captured runs, and both quit about 4 s after the relay lift's load,
     /// on the frame the capture released its render target. So the last work is done first: queued saves reach the disk, readbacks finish, and a few frames pass
     /// so the device retires what was released before Unity starts releasing everything itself. The cameras keep drawing: switched off, Camera.main goes null
-    /// under scripts that don't expect it. It makes the engine's fault less likely; it can't remove it, and if it recurs the next Unity 6000.4 patch is the cure to try.</summary>
+    /// under scripts that don't expect it. It did not cure the fault, which recurred on November 13 and was then traced to the pipeline library the device serialises
+    /// in its destructor (PipelineCacheGuard is the cure). The order kept here is still the right one for saves and readbacks.</summary>
     public sealed class OrderlyQuit:MonoBehaviour
     {
         /// <summary>Enough frames for D3D12's frames in flight to retire, plus margin, at any frame rate the game runs.</summary>

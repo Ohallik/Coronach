@@ -18,8 +18,17 @@ MonoBehaviour:
   cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
   hd2dProfile: {fileID: 11400000, guid: 8371dd7732fb4cf4584e33c0553febf0, type: 2}
   ambientAudio: {fileID: 0}
-  musicId: 
+  ambientVolume: 0.055
+  musicId: Hub Town Groove
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
   skybox: {fileID: 2100000, guid: 3dfa06876a929784fbe9c19c6d1f9114, type: 2}
+  displayName: Tallow Drift
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 1

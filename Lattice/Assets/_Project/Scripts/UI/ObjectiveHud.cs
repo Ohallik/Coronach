@@ -84,16 +84,57 @@ namespace Lattice.UI
         static CombatActor Downed(PartyController party)
         {
             if(party.members.Length<2)return null;
-            var other=party.members[1-party.index];if(other.Health.Alive)return null;
+            var other=party.Partner;if(other==null||other.Health.Alive)return null;
             var lead=party.Active;return EnemyBrain.AwakeNear(lead.transform.position,lead.flight?GameHud.FlightFightRange:GameHud.FightRange)?null:other;
         }
         /// <summary>With the bar up the boss is the objective, not the fixed spot the walk there pointed at. The Cantor's lines and Hessa's already name the fight.</summary>
-        static string FightGoal(BossController boss,string label)=>boss.Health.id switch
+        static string FightGoal(BossController boss,string label)=>boss.FightGoal(label);
+        /// <summary>The nearest way out of here that leads to a scene.</summary>
+        static InteractionPrompt WayTo(string scene,Vector3 from)=>Nearest(InteractionPrompt.Active.Where(p=>p is DockingPad pad&&pad.scene==scene||p is WarpBeacon warp&&warp.scene==scene),from);
+        static InteractionPrompt Nearest(System.Collections.Generic.IEnumerable<InteractionPrompt> among,Vector3 from)=>among.OrderBy(p=>(p.transform.position-from).sqrMagnitude).FirstOrDefault();
+        EncounterVolume[] fights;string fightsIn;
+        /// <summary>Where a story step sends the arrow from here, by its data (QuestDef.stepTargets) or, unsaid, by the step itself: the way out to a Reach's scene,
+        /// a TalkTo's speaker, the nearest discovery still to make with an Interact's report, a Kill's boss or the fight that holds it. In another zone than the step's
+        /// it is the way out toward it. Nothing found is no arrow, and the words still stand.</summary>
+        void Aim(QuestDef quest,int step,GameState state,Vector3 hero,ref InteractionPrompt target,ref Vector3? goal)
         {
-            "Burrower"=>"Stop the Burrower",
-            "BellowsBelow"=>PressureOrgan.AnyPumping?"Break the pressure organs bracing the Bellows":"Bring down the Bellows",
-            _=>label,
-        };
+            var aim=quest.stepTargets!=null&&step<quest.stepTargets.Length?quest.stepTargets[step]:default;var asked=quest.steps[step];
+            if(string.IsNullOrEmpty(aim.scene)&&asked.kind==ObjectiveKind.Reach)aim.scene=asked.target;
+            if(string.IsNullOrEmpty(aim.speaker)&&asked.kind==ObjectiveKind.TalkTo)aim.speaker=asked.target;
+            if(string.IsNullOrEmpty(aim.report)&&asked.kind==ObjectiveKind.Interact)aim.report=asked.target;
+            Aim(aim,asked.kind==ObjectiveKind.Kill?asked.target:null,state,hero,ref target,ref goal);
+        }
+        /// <summary>Where a target sends the arrow from here: a story step's (above), or between chapters the told chapter's <see cref="QuestDef.next"/>.</summary>
+        void Aim(QuestTarget aim,string enemy,GameState state,Vector3 hero,ref InteractionPrompt target,ref Vector3? goal)
+        {
+            if(!string.IsNullOrEmpty(aim.scene)&&aim.scene!=state.zone)
+            {
+                target=WayTo(aim.scene,hero);
+                // No door straight there: the way to the nearest scene between that this zone does lead to. Past our own place in the list is the way back.
+                if(target==null&&aim.via!=null)foreach(string between in aim.via){if(between==state.zone)break;target=WayTo(between,hero);if(target!=null)break;}
+                return;
+            }
+            if(!string.IsNullOrEmpty(aim.speaker))target=Nearest(InteractionPrompt.Active.Where(p=>p is Npc npc&&npc.speaker==aim.speaker),hero);
+            if(target==null&&!string.IsNullOrEmpty(aim.report))target=Nearest(InteractionPrompt.Active.Where(p=>p is DiscoveryPoint point&&point.report==aim.report&&point.Wanted),hero);
+            if(target!=null)return;
+            if(!string.IsNullOrEmpty(aim.encounter)||enemy!=null)
+            {
+                // The boss itself once it's up, as the Relay's line follows Hessa; before that, the fight's own ground.
+                var boss=BossController.Focus(hero,200);
+                if(boss!=null&&(enemy==null||boss.Health.id==enemy)){goal=boss.transform.position;return;}
+                if(fightsIn!=state.zone||fights==null||System.Array.Exists(fights,f=>f==null)){fights=FindObjectsByType<EncounterVolume>(FindObjectsSortMode.None);fightsIn=state.zone;}
+                var flags=GameServices.Current.Flags;float best=float.MaxValue;
+                foreach(var fight in fights)
+                {
+                    if(string.IsNullOrEmpty(fight.encounterId)||flags.GetBool("clear."+fight.encounterId))continue;
+                    bool named=!string.IsNullOrEmpty(aim.encounter)?fight.encounterId==aim.encounter:fight.spawners!=null&&System.Array.Exists(fight.spawners,s=>s!=null&&s.definition!=null&&s.definition.id==enemy);
+                    if(!named)continue;
+                    float gap=(fight.transform.position-hero).sqrMagnitude;if(gap<best){best=gap;goal=fight.transform.position;}
+                }
+                if(goal.HasValue)return;
+            }
+            if(aim.hasPoint)goal=aim.point;
+        }
         void LateUpdate()
         {
             canvas.enabled=!GameInput.Current.Blocked;
@@ -106,7 +147,10 @@ namespace Lattice.UI
             var state=GameServices.Current.State;var flags=GameServices.Current.Flags;Vector3? goal=null;string label="";
             var prompts=InteractionPrompt.Active;
             InteractionPrompt target=null;
-            switch(state.zone)
+            // From chapter 3 on the story's own quest is the line, wherever the party stands: its step's words, and its data for the arrow (QuestDef.stepTargets).
+            // Once one of those has begun, the first two chapters' lines below have had their say, in their own zones too.
+            var story=StoryQuests.Open(state,out int storyStep,true);bool written=story==null&&!StoryQuests.BegunPastTheFirst(state);
+            switch(written?state.zone:"")
             {
                 case "Hub_CinderHalo":
                     if(!flags.GetBool("met.Orrin")){label="Dock at Orrin's office: Sorrel has gone quiet";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Office");}
@@ -167,6 +211,9 @@ namespace Lattice.UI
                     else if(!flags.GetBool("compact.hailHeard")){label="The beacon band is crackling: see Keeper Abri";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(Lantern(state)<0&&!flags.GetBool("lanternwick.chartGiven")){label="Ask Keeper Abri about a route that waits";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(flags.GetBool("lanternwick.chartGiven")&&!flags.GetBool("chapter2.homecoming")){label="Bring Lanternwick's chart to Keeper Abri";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
+                    // Chapter 2 is told and chapter 3 hasn't begun: Abri's last word on the lanterns, then her next talk is the Seed Road (SideStories). Until that quest opens
+                    // and takes the line, this one sent the party back out to the Wick Reach, away from the one person who had something to say (first player run, November 13).
+                    else if(flags.GetBool("chapter2.homecoming")){label=flags.GetBool(Lattice.World.SideStories.AfterwordHeard)?"Ask Keeper Abri about the cabins' dinner":"Hear what Keeper Abri says next";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else{label="Launch for the Wick Reach warp";target=prompts.OfType<DockingPad>().FirstOrDefault();}
                     break;
                 case "WickReach":
@@ -203,11 +250,32 @@ namespace Lattice.UI
                     else if(flags.GetBool("relay.hessaConfronted")){label="Stop Hessa Korl before she strips the relay";var boss=BossController.Focus(PartyController.Current.Active.transform.position,200);goal=boss!=null?boss.transform.position:new Vector3(3,0,129);}
                     else{label="Find who is stripping the relay";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag=="relay.hessaConfronted");}
                     break;
-                default:label="Practice attacks, dodges and swaps";break;
+                case "Arena_Ground":case "Arena_Flight":label="Practice attacks, dodges and swaps";break;
+                default:
+                    // A zone with no lines written for it: the open story quest's step (the latest chapter's), or with none open, the last one's closing word,
+                    // or the place's name. It used to say the yard's 'Practice attacks, dodges and swaps' anywhere nobody had written a case for.
+                    written=false;if(story==null)story=StoryQuests.Open(state,out storyStep);
+                    if(story!=null){label=QuestText.Step(story,storyStep,state);Aim(story,storyStep,state,hero,ref target,ref goal);}
+                    else
+                    {
+                        label=StoryQuests.Closing(state)??DisplayNames.Zone(state.zone);
+                        // Between chapters the told chapter says where the next begins (QuestDef.next): the way toward it from here, and there the one to see or the place to stand.
+                        // The first player run read "Chapter 4 complete. Many Hands is waiting" on a bridge in Driftreed with no arrow, two zones and a launch from where chapter 5 starts.
+                        if(StoryQuests.Between(state,out var next))Aim(next,null,state,hero,ref target,ref goal);
+                        // Keeper Abri has the next word aboard Tallow (her last on the chapter told, then her offer), so the arrow finds her where she stands in this zone.
+                        if(target==null&&!goal.HasValue&&Lattice.World.SideStories.KeeperOpensAChapter(state))target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");
+                    }
+                    // A zone's own mechanism, while it says something the steps can't (World's ZoneLine: chapter 9's dawn line), and where its arrow points.
+                    if(Lattice.World.ZoneLine.Read(out var said,out var there)){if(!string.IsNullOrEmpty(said))label=said;if(there.HasValue){target=null;goal=there;}}
+                    break;
             }
             if(target!=null)goal=target.transform.position;
+            // What the arrow points at is what a press beside it should answer (PromptService.Wanted): the plan at Many Hands' chart table stands on the very spot of the
+            // table's own chart, and which of the two a press opened was down to the order the scene happened to hold them in.
+            PromptService.Wanted=target;
             if(fight!=null){label=FightGoal(fight,label);goal=null;}
-            if(flags.GetBool("chapter2.homecoming")){label="Chapter 2 complete. Xylos's river towns are next, but their route isn't charted yet.";goal=null;}
+            // Chapter 2's homecoming used to end every line here with 'Xylos's river towns are next, but their route isn't charted yet' and no arrow: true while chapter 2
+            // was the last one built, and a dead end once chapter 3 stood behind Abri's next talk. Each zone's own line now leads home to her (Tallow Drift's above).
             // No 'Here' for them: the arrow holds until the revive has started, or it stops a step short of the reach and nothing happens.
             var down=fight==null?Downed(party):null;GoalIsHero=down!=null;hereAt=down!=null?0:Here;
             if(down!=null){label=$"Get {DisplayNames.Speaker(down.character)} back up";goal=party.ReviveTarget==down?null:down.transform.position;}

@@ -6,19 +6,46 @@ virtual pad follows ground a body can cross. Each route resumes from the autosav
   python tools/lantern_routes.py
 """
 import json
+import math
 from pathlib import Path
 
 ROUTES = Path(__file__).resolve().parent.parent / "docs" / "quality" / "routes"
+_ENCOUNTERS = None
+
+
+def encounters():
+    """Every fight's volume in the built zones, by zone (docs/quality/encounters.json; RouteFacts.Encounters writes it from the scenes)."""
+    global _ENCOUNTERS
+    if _ENCOUNTERS is None:
+        path = ROUTES.parent / "encounters.json"
+        _ENCOUNTERS = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    return _ENCOUNTERS
 FLIGHT_SPEED, BRAKED_FLIGHT, CIVIL_SPEED, COMBAT_SPEED = 11.0, 2.0, 4.5, 6.5
 
 
 class Route:
-    def __init__(self, name, note):
+    def __init__(self, name, note, chapter=2):
         self.name, self.note, self.steps = name, note, []
         self.scene = "Title"
         self.at = None
+        self.height = 0
         self.speed = CIVIL_SPEED
         self.brake = False
+        self.drifted = False  # a fight on foot has been fought since the last walk: the party is somewhere near self.at, not on it
+        self.cut = False  # the last walk had a stop condition: it began at self.cut_from and may have ended anywhere between there and self.at
+        self.cut_from = None
+        self.difficulty = None  # "Gentle" or "Demanding" for a route that is about the setting; unset, the driver holds Standard
+        # The driver's own hands (QualityRoute.autoHeal, useExtra). It mends, tops up and raises the partner as a player does, so no fight here presses a gel
+        # on a clock; a route about a defeat sets auto_heal = False. The EXTRA gauge is chapter 3's: from there the driver spends it, unless a route says not.
+        self.chapter = chapter
+        self.auto_heal = True
+        self.use_extra = chapter >= 3
+        # The two heroes this route is played with, once the party is three (QualityRoute.deployed): ("Taren", "Idra"). The driver rejects the run at its first
+        # step if the save it continues has another pair out, instead of failing twenty steps later behind the wrong partner. Unset, nothing is asked.
+        self.deployed = None
+        # The driver wears the best spare part for each slot, as a player does, between fights and talks (QualityRoute.wearBest, ContinuousReview.Gear.cs).
+        # Every route this writes comes after chapter-05-drill-equipment, which teaches the Gear page with the pad and stays without it.
+        self.wear_best = True
 
     def add(self, name, seconds, **fields):
         fields = {k: v for k, v in fields.items() if v is not None}
@@ -37,12 +64,32 @@ class Route:
         self.at, self.speed, self.brake = spawn, speed, brake
 
     def walk(self, name, x, y, z, tolerance=0.8, seconds=None, stop=None, buttons=None):
-        distance = 20.0 if self.at is None else ((x - self.at[0]) ** 2 + (z - self.at[1]) ** 2) ** 0.5
+        # Unknown start (a fight's chase left the party wherever it ended): on foot a fight ends near its ground, in flight a chase can end a lane's width or a
+        # barge's length away, and 20 m of budget timed out the first leg after every dogfight (first player run of chapter 3, November 13). The step ends on
+        # arriving, so a generous limit costs nothing when the leg goes well.
+        # Braked, a ship covers two metres a second, and the leg after a dogfight began 40 m from its beacon with 18 s to do it in (chapter-20, November 13): 60 m.
+        # On foot from chapter 3 on, a walk from an unknown start finds its way over the baked floor (findWay): a fight in a hall with a drained floor ends below a
+        # ledge as often as not, and the straight push to the next waypoint stood against it (the Drowned Waystation). The way round is longer than the gap: 45 m.
+        flying = self.speed >= FLIGHT_SPEED or self.brake
+        find = self.at is None and not flying and self.chapter >= 3
+        # And from chapter 4 on, every first walk after a fight on foot does the same: the fight is left wherever it ended (the far side of the hall, below the
+        # ledge the route came in over), a fight's width further from the waypoint than where it began. Chapter 3's routes were played and passed without it.
+        drift = self.drifted and self.at is not None and not flying and self.chapter >= 4
+        find = find or drift
+        self.drifted = False
+        unknown = 150.0 if self.speed >= FLIGHT_SPEED and not self.brake else 60.0 if self.brake else 45.0 if find else 20.0
+        distance = unknown if self.at is None else ((x - self.at[0]) ** 2 + (z - self.at[1]) ** 2) ** 0.5 + (45.0 if drift else 0.0)
+        # A walk that a stop condition ended (a talk begun on a crossing) stopped somewhere between where it began and where it was going, so the next leg is
+        # budgeted from the further of the two. Lastlight's first leg after Sela's line at the landing was given the two seconds of a walk already made, and began
+        # 14 m from its point (first player run of chapter 6, November 14). Budgets only: the step still ends on arriving.
+        if self.cut and self.at is not None:
+            distance = max(distance, unknown if self.cut_from is None else ((x - self.cut_from[0]) ** 2 + (z - self.cut_from[1]) ** 2) ** 0.5)
         pace = BRAKED_FLIGHT if self.brake else self.speed
         limit = seconds if seconds else min(170.0, max(2.0, distance / pace * 1.6 + 2))
         self.add(name, limit, navigate=True, point=dict(x=x, y=y, z=z), tolerance=tolerance, until="arrived", stopWhen=stop,
-                 leftTrigger=1 if self.brake else None, buttons=buttons)
-        self.at = (x, z)
+                 leftTrigger=1 if self.brake else None, buttons=buttons, findWay=True if find else None)
+        self.cut, self.cut_from = bool(stop), self.at
+        self.at, self.height = (x, z), y
 
     def path(self, name, points, **kw):
         for i, (x, y, z) in enumerate(points):
@@ -51,6 +98,23 @@ class Route:
     def press(self, name, button="South", seconds=0.2, **kw):
         self.add(name, seconds, buttons=[button], **kw)
         self.add("release " + name, 0.3)
+
+    def press_for(self, name, flag, seconds=4):
+        """Press a prompt that sets a flag at once (a beacon retuned, a cache opened, a lamp picked up) and hold the route to the flag. A press is an edge:
+        made as the body arrives, it can land a moment before the prompt is offered, and in flight the same button then fires a shot at nothing (chapter-20's
+        second slipped beacon: the prompt came up three tenths of a second after the press). So: a beat to settle, then the press, again every six tenths
+        until the flag is set."""
+        self.add("settle before " + name, 0.5)
+        self.add(name, seconds, buttons=["South"], pulseSeconds=0.6, until="flag:" + flag, expectedFlag=flag)
+        self.add("release " + name, 0.5)
+
+    def save_at(self, name, release="release cradle"):
+        """Press a cradle (repair and save) and hold the route to the save. The press is an edge: made on the frame the party stops, it can land before the
+        cradle's prompt is in reach, and then nothing is saved and nothing says so (chapter-18 ended that way, and chapter-19 loaded a save from before Ruva's
+        terms). So: a beat to stand, then the press, again each second until a save has been taken ("saved": the driver counts them)."""
+        self.add("stand a moment before the press", 0.6)
+        self.add(name, 4, buttons=["South"], pulseSeconds=1.0, until="saved")
+        self.add(release, 1)
 
     def talk(self, name, lines, flag=None, capture=True):
         """Start a conversation with the confirm button and read it. Each line is held long enough to read, as a person would."""
@@ -69,8 +133,9 @@ class Route:
         self.add(f"finish {name}", 40, buttons=["South"], pulseSeconds=1.0, until=closed, expectedUi="world", expectedFlag=flag)
         self.add(f"release after {name}", 0.5)
 
-    def talk_to_shop(self, name, lines):
-        """A conversation that ends at a stall: read it as talk() does, stop pressing the moment the stock opens (there the confirm button buys), then leave."""
+    def talk_to_shop(self, name, lines, buys=()):
+        """A conversation that ends at a stall: read it as talk() does, stop pressing the moment the stock opens (there the confirm button buys), then leave.
+        `buys`: (row, count) parts bought there before leaving (stock_part)."""
         opened = "ui:shop"
         self.add("start " + name, 0.2, buttons=["South"], expectedUi="dialogue")
         self.add("release start " + name, 0.3, expectedUi="dialogue")
@@ -80,44 +145,133 @@ class Route:
             self.add(f"release {name} line {i + 1}", 0.2, stopWhen=opened)
         self.add(f"finish {name}", 40, buttons=["South"], pulseSeconds=1.0, until=opened, expectedUi="shop")
         self.add(f"look over the stock after {name}", 1, expectedUi="shop")
+        for row, count in buys:
+            self.stock_part(row, count)
         self.add(f"leave the stock after {name}", 0.5, buttons=["East"], expectedUi="world")
         self.add(f"release the stall after {name}", 0.3)
 
     def wait(self, name, seconds, **kw):
         self.add(name, seconds, **kw)
 
+    def chart(self, stop, scene, spawn=None, form=None):
+        """Travel by Sela's chart to a stop, by its ChartStop id: the quest-log button and one turn of RB open the chart, the d-pad
+        finds the stop (the driver asks the chart which way to press), and the answer to its question is the travel. Every step
+        on it holds the pause menu's pause. Needs xylos.charted set, a stop the party has stood in, and nothing awake nearby."""
+        held = dict(pauseUi="pause", expectedUi="pause")
+        self.add("open the quest log", 0.6, buttons=["Select"], until="ui:pause", **held)
+        self.add("release the quest log", 0.3, **held)
+        self.add("turn to the chart", 0.3, buttons=["RightShoulder"], **held)
+        self.add("release the turn", 0.4, **held)
+        self.add(f"find {stop} on the chart", 8, pickRow="Stop_" + stop, buttons=["South"], until="row:Travel", **held)
+        self.add(f"read the question for {stop}", 0.6, **held)  # longer than the page waits before it takes an answer
+        self.scene = scene
+        self.add(f"travel to {stop}", 25, pickRow="Travel", buttons=["South"], until="scene:" + scene, pauseUi="pause", expectedUi="world", expectedForm=form)
+        self.add(f"release after travelling to {stop}", 0.5)
+        self.at = spawn
+
     def lead(self, hero):
         self.add(f"{hero} leads", 1.2, ensureCharacter=hero)
 
-    def gel(self, label, stop):
-        self.add("repair gel " + label, 0.2, leftTrigger=1, stopWhen=stop)
-        self.add("release gel " + label, 0.4)
+    def deploy(self, hero, seconds=14):
+        """Bring a hero who is resting out and into the lead, in a safe zone: the driver opens the pause menu on its Party page, finds the hero's row
+        (Hero_<id>), presses it, closes the menu and presses Swap until they lead. They come out in the partner's place, so lead() the hero who should stay
+        first. The step holds the pause menu's pause and ends as soon as they lead; in the open, or for a name the party hasn't got, the driver fails it at
+        once and says why. lead() alone is enough for a hero already out."""
+        self.add(f"{hero} comes out and leads", seconds, ensureCharacter=hero, pauseUi="pause", until="lead:" + hero, expectedCharacter=hero, expectedUi="world")
+        self.add(f"release after {hero} comes out", 0.4)
+
+    def use_item(self, label, item="RepairGel", seconds=2.5, **kw):
+        """A step's own press of one consumable, by its id, for a step that teaches it: the driver cycles the quick item round to it and presses it once, hurt or
+        not, and the game answers as it would a person. Healing in a fight is not written this way: that is the route's auto_heal."""
+        self.add("use " + label, seconds, useItem=item, **kw)
+
+    def hands_off(self, name, seconds, **kw):
+        """A step the driver leaves the pouch alone in, whatever auto_heal wants: a hero who has to stay hurt for what comes next."""
+        self.add(name, seconds, useItem="none", **kw)
+
+    def stock(self, name, row, to="cap", seconds=20, ui="shop", **kw):
+        """Fill the pouch at a stall (or, with ui="bench" and pauseUi="bench", a bench) with the consumable whose row this is: to the most the party may carry, or to
+        a count. The driver presses until the pouch holds it or a press buys nothing, and the step ends there; what went in is written to the run's evidence."""
+        self.add(name, seconds, pickRow=row, buttons=["South"], stock=str(to), until="stocked", expectedUi=ui, **kw)
+
+    def stock_part(self, row, count):
+        """At an open stall, buy a part by its row (its displayName) until the pair out holds `count` of it: the same stock step as the pouch's, on a part's row
+        (ContinuousReview.BeginPartStock). What the pair already holds of it counts, a drop of it included; a resting hero's doesn't. Short of its count (no scrip)
+        the step fails and says what was in hand. Buy gels first: the parts are bought with what is left. The driver puts them on as the stall closes (wearBest)."""
+        # Eight seconds: a stall's parts can be two pages down its counter (Lume's Tempered Module is its fourteenth row), and three ran out on the way (PartPurchaseTests).
+        self.add(f"find the {row}", 8, pickRow=row, until=f"row:{row}", expectedUi="shop")
+        self.stock(f"buy the {row} up to {count}", row, to=count)
+
+    def door(self, boss, name, x, y, z, spawn, tolerance=0.8):
+        """The first step of a boss's approach: where a retry from its door picks the route up (the driver takes the defeat screen's Retry itself, up to twice).
+        A walk that has to be good from where the route stands and from the door's checkpoint spawn, (x, z) of the SpawnPoint its EncounterVolume names: the
+        seconds are for the longer of the two. Everything from here to the boss's fall is played again on a retry, so nothing after it may wait on a
+        conversation or a pick-up that only happens once."""
+        here = self.at if self.at is not None else spawn
+        far = max(((x - sx) ** 2 + (z - sz) ** 2) ** 0.5 for sx, sz in (here, spawn))
+        pace = BRAKED_FLIGHT if self.brake else self.speed
+        self.add(name, min(170.0, max(2.0, far / pace * 1.6 + 2)), navigate=True, point=dict(x=x, y=y, z=z), tolerance=tolerance, until="arrived",
+                 leftTrigger=1 if self.brake else None, bossDoor=boss)
+        self.at = (x, z)
+
+    def rotation(self, label, stop, skills=("South", "West"), release=0.45):
+        """One pass of the skill rotation: RB and a face button for each slot named, in order (South, East, West, North are slots 1 to 4). It presses slots, not
+        skills: whatever the Skills page has put in a slot is what goes, a skill learned at Sync 16 like any other, and a slot short of Charge or still cooling
+        down just says so on the HUD. The default is the two slots every route has pressed since chapter 1. `release` is the wait after each press: the first
+        eight skills recover within .78 s, and a press made while an earlier one still waits on a long pose replaces it, so a skill that holds the hero longer
+        wants more."""
+        for letter, face in zip("abcd", skills):
+            self.add(f"skill {label}{letter}", 0.18, buttons=["RightShoulder", face], stopWhen=stop)
+            self.add(f"release skill {label}{letter}", release)
+
+    def enter(self, id_):
+        """Walk on into a fight's volume before locking: a fight begins when the party is inside its box, and a route that stops short of it presses lock at
+        nothing (two of three barges and seven other fights, first player run of chapter 3 on). The boxes are the built zones' own (docs/quality/encounters.json,
+        written by RouteFacts.Encounters); the point is the one inside the box nearest where the party stands, far enough in that the step's tolerance can't
+        leave it outside. Nothing is added when the party already stands there, when it stands nowhere known, or for a fight the file doesn't hold (a boss)."""
+        if self.chapter < 3 or self.at is None:
+            return
+        box = next((b for b in encounters().get(self.scene, []) if b["id"] == id_), None)
+        if box is None:
+            return
+        flying = self.speed >= FLIGHT_SPEED
+        tolerance = 3 if flying else 0.8
+        turn = math.radians(box["yaw"])
+        right, fore = (math.cos(turn), -math.sin(turn)), (math.sin(turn), math.cos(turn))
+        dx, dz = self.at[0] - box["x"], self.at[1] - box["z"]
+        a, b = dx * right[0] + dz * right[1], dx * fore[0] + dz * fore[1]
+        half_a, half_b = max(0.0, box["width"] / 2 - tolerance - 1), max(0.0, box["depth"] / 2 - tolerance - 1)
+        inside_a, inside_b = max(-half_a, min(half_a, a)), max(-half_b, min(half_b, b))
+        if abs(inside_a - a) < 0.05 and abs(inside_b - b) < 0.05:
+            return
+        x = round(box["x"] + right[0] * inside_a + fore[0] * inside_b, 1)
+        z = round(box["z"] + right[1] * inside_a + fore[1] * inside_b, 1)
+        self.walk(f"on into {id_}", x, self.height, z, tolerance=tolerance)
 
     def fight_ground(self, id_, rounds=4, seconds=30, skills=True):
-        """An ordinary fight: lock, burst with what's equipped, chase and strike, dodge what's marked, gel between rounds."""
+        """An ordinary fight: lock, burst with what's equipped, chase and strike, dodge what's marked. `skills` is True for the usual two slots, or the face
+        buttons of the slots to press each round. Nobody presses a gel here: the driver mends when the lead is hurt (auto_heal)."""
+        self.enter(id_)
         stop = f"flag:clear.{id_}"
         self.press(f"lock {id_}", "LeftShoulder", 0.18)
         for r in range(rounds):
             if skills:
-                self.add(f"skill {id_} {r + 1}a", 0.18, buttons=["RightShoulder", "South"], stopWhen=stop)
-                self.add(f"release skill {id_} {r + 1}a", 0.45)
-                self.add(f"skill {id_} {r + 1}b", 0.18, buttons=["RightShoulder", "West"], stopWhen=stop)
-                self.add(f"release skill {id_} {r + 1}b", 0.45)
+                self.rotation(f"{id_} {r + 1}", stop, ("South", "West") if skills is True else skills)
             self.add(f"fight {id_} round {r + 1}", seconds, buttons=["South"], pulseSeconds=0.46, navigate=True, approachTarget=True,
                      tolerance=2.3, rangedTolerance=12, evadeTelegraphs=True, stopWhen=stop, point=dict(x=0, y=0, z=0))
-            self.gel(f"{id_} {r + 1}", stop)
         self.add(f"{id_} cleared", 3, until=stop, expectedFlag=f"clear.{id_}")
         self.recover(id_)
+        self.drifted = True
 
     def recover(self, label):
-        """What a player does between fights: revive the partner, take the lead back, top up with a gel."""
+        """What a player does between fights: revive the partner and take the lead back. The top-up is the driver's (auto_heal): it mends on the walk to the next
+        thing, and only when an item fits what's missing."""
         self.add(f"reach the fallen hero after {label}", 16, navigate=True, approachPartner=True, tolerance=1.2, stopWhen="partyAlive", point=dict(x=0, y=0, z=0))
         self.add(f"both heroes ready after {label}", 6, until="partyAlive")
         self.lead("Taren")
-        self.add(f"repair gel after {label}", 0.2, leftTrigger=1)
-        self.add(f"release gel after {label}", 0.4)
 
     def fight_flight(self, id_, rounds=3, seconds=30):
+        self.enter(id_)
         stop = f"flag:clear.{id_}"
         self.press(f"lock {id_}", "LeftShoulder", 0.18, leftTrigger=1)
         for r in range(rounds):
@@ -130,6 +284,17 @@ class Route:
     def write(self):
         data = dict(name=self.name, scene="Title", starterParty=False, settleSeconds=5, frameCap=60, screenshotInterval=0,
                     sourceRevision=self.note, steps=self.steps)
+        if self.difficulty:
+            data["difficulty"] = self.difficulty
+        if self.auto_heal:
+            data["autoHeal"] = True
+        # From chapter 3 a route says it either way (tools/route_lint.py asks); before it there is no gauge to say anything about.
+        if self.use_extra or self.chapter >= 3:
+            data["useExtra"] = bool(self.use_extra)
+        if self.deployed:
+            data["deployed"] = list(self.deployed)
+        # Said either way after the drill (tools/route_lint.py asks): a route about the Gear page itself sets wear_best = False.
+        data["wearBest"] = bool(self.wear_best)
         path = ROUTES / (self.name + ".json")
         path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
         print(path.name, len(self.steps), "steps")
@@ -210,10 +375,11 @@ def lanternwick():
     r.wait("read the Refined parts", 1.2, pickRow="Refined Emitter", expectedUi="shop")
     r.press("buy a Refined part", "South", 0.3, pickRow="Refined Emitter", expectedUi="shop")
     r.wait("read the receipt", 1.2, expectedUi="shop")
-    # What a player with scrip to spare does before the gorge. Hessa is a long fight, and the route used to reach her on one gel.
+    # What a player with scrip to spare does before the gorge. Hessa is a long fight, and the route used to reach her on one gel. To the pouch's cap, whatever
+    # that is: twelve presses bought nine and were refused three times.
     r.add("find the repair gel", 3, pickRow="Repair Gel", until="row:Repair Gel", expectedUi="shop")
-    for i in range(12):
-        r.press(f"buy repair gel {i + 1}", "South", 0.2, pickRow="Repair Gel", expectedUi="shop")
+    r.stock("buy repair gel up to the cap", "Repair Gel")
+    r.wait("read the last receipt", 0.8, expectedUi="shop")
     r.add("leave the stall", 0.5, buttons=["East"], expectedUi="world")
     r.add("release leave stall", 0.3)
     r.walk("up to Pell", 4, 0, 33)
@@ -307,7 +473,9 @@ def relay():
     r.add("she speaks", 3, until="ui:dialogue", expectedUi="dialogue")
     r.read("the captain", 6, flag="relay.hessaConfronted")
     r.lead("Taren")
-    r.walk("onto the Great Lantern's floor", 1, 0.1, 125.5, tolerance=1.5)
+    # Her door: stepping onto the floor starts the duel and writes its checkpoint (the Vault spawn, at 4,108). Lost, the fight is taken again from this step,
+    # with the conversation already had: the walk is straight through the open seal, which is the whole mouth, 23 m wide.
+    r.door("HessaKorl", "onto the Great Lantern's floor", 1, 0.1, 125.5, spawn=(4, 108), tolerance=1.5)
     r.press("lock Hessa", "LeftShoulder", 0.2)
     stop = "flag:bossdown.HessaKorl"
     for i in range(10):
@@ -317,7 +485,6 @@ def relay():
         r.add(f"release Pulse Hessa round {i + 1}", 0.4)
         r.add(f"fight Hessa round {i + 1}", 35, buttons=["South"], pulseSeconds=0.46, navigate=True, approachTarget=True, tolerance=2.3, rangedTolerance=12,
               evadeTelegraphs=True, stopWhen=stop, point=dict(x=0, y=0, z=0))
-        r.gel(f"Hessa {i + 1}", stop)
     r.add("Hessa yields", 4, until=stop, expectedFlag="bossdown.HessaKorl")
     # She waits for the party to get up, then says her piece unasked: the same body, where she stopped fighting.
     r.add("reach the fallen hero after Hessa", 16, navigate=True, approachPartner=True, tolerance=1.2, stopWhen="partyAlive", point=dict(x=0, y=0, z=0))
@@ -325,8 +492,6 @@ def relay():
     r.add("Hessa speaks", 10, until="ui:dialogue", expectedUi="dialogue")
     r.read("Hessa under guard", 4, flag="relay.hessaYielded")
     r.lead("Taren")
-    r.add("repair gel after Hessa", 0.2, leftTrigger=1)
-    r.add("release gel after Hessa", 0.4)
     r.at = None
     r.path("to the relay lift", [(-2.4, 0.1, 155.1), (-5, 0.1, 158)], tolerance=1)
     r.scene = "Lanternwick"
@@ -353,6 +518,11 @@ def home():
     r.add("read Corra's thanks", 1.9, stopWhen="ui:shop")
     r.add("her shop opens", 12, buttons=["South"], pulseSeconds=1.0, until="ui:shop", expectedUi="shop")
     r.add("look over her stock", 1, expectedUi="shop")
+    # Chapter 3 is sized on the Refined set (DevLoadout: Refined on leaving chapter 2), and this is the last stall that sells it. The weapons are Refined already
+    # (route 13); neither hero has a Refined Frame or any Drive, and only one Refined Module comes free (Abri's homecoming, after this). About 2,100 scrip in hand
+    # here (the chain's saves: 1,734 after the relay, and the three errands' 370), 1,240 for the five; the next gels (route 19) want 216 at most.
+    for row, count in (("Refined Frame", 2), ("Refined Drive", 2), ("Refined Module", 1)):
+        r.stock_part(row, count)
     r.add("leave her stall", 0.5, buttons=["East"], expectedUi="world")
     r.add("release her stall", 0.3)
     r.walk("to the courier pad", 0, 0.4, -19, tolerance=1)

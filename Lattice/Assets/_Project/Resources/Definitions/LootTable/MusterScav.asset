@@ -16,6 +16,12 @@ MonoBehaviour:
   - id: ScrapAlloy
     count: 2
     chance: 0.5
+    partTier: 0
+    partSlot: 0
+    anySlot: 0
   - id: ChargeCell
     count: 1
     chance: 0.08
+    partTier: 0
+    partSlot: 0
+    anySlot: 0

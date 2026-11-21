@@ -1,0 +1,567 @@
+{
+  "name": "chapter-69-neighbourhood-afloat",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: seven weeks on, Orrin at the new board, the handrail, the line, Jun's last line, the credits, the town after them",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "end.rendezvous",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "up the quay and the gangways to the square 1/5",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "up the quay and the gangways to the square 2/5",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "up the quay and the gangways to the square 3/5",
+      "seconds": 6.15,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 30
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "up the quay and the gangways to the square 4/5",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 50
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "up the quay and the gangways to the square 5/5",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "to Orrin at the new board",
+      "seconds": 18.0,
+      "navigate": true,
+      "point": {
+        "x": -11.98,
+        "y": 0,
+        "z": 68.04
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "settle before Orrin's directorship",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "Orrin's directorship",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Orrin's directorship",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Orrin's directorship line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Orrin's directorship line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Orrin's directorship line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Orrin's directorship line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Orrin's directorship line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Orrin's directorship line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Orrin's directorship line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Orrin's directorship line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Orrin's directorship line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Orrin's directorship line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Orrin's directorship line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Orrin's directorship line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Orrin's directorship line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Orrin's directorship line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Orrin's directorship line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "finish Orrin's directorship",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.handrail",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release after Orrin's directorship",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "back down to the garden stair 1/4",
+      "seconds": 18.0,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "back down to the garden stair 2/4",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "back down to the garden stair 3/4",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 30
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "back down to the garden stair 4/4",
+      "seconds": 4.19,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 28.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "to the loose handrail",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": -20.6,
+        "y": 0,
+        "z": 26.1
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "settle before mend the handrail",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "mend the handrail",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:end.railMended",
+      "expectedFlag": "end.railMended",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release mend the handrail",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "to the old yellow line",
+      "seconds": 18.0,
+      "navigate": true,
+      "point": {
+        "x": -14.3,
+        "y": 0,
+        "z": 23.4
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "settle before repaint the line",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "repaint the line",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:end.linePainted",
+      "expectedFlag": "end.linePainted",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release repaint the line",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "look at the pears past the line",
+      "seconds": 2.5,
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "Jun's last line begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Jun's last line line 1",
+      "seconds": 1.9,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Jun's last line line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Jun's last line line 1",
+      "seconds": 0.2,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Jun's last line line 2",
+      "seconds": 1.9,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Jun's last line line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Jun's last line line 2",
+      "seconds": 0.2,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Jun's last line line 3",
+      "seconds": 1.9,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Jun's last line line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Jun's last line line 3",
+      "seconds": 0.2,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "read Jun's last line line 4",
+      "seconds": 1.9,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "next Jun's last line line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release Jun's last line line 4",
+      "seconds": 0.2,
+      "stopWhen": "flag:game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the last word",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "flag:game.complete",
+      "expectedFlag": "game.complete",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "let the last word go",
+      "seconds": 1.5,
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, held to hurry 1",
+      "seconds": 170,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, held to hurry 2",
+      "seconds": 170,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, held to hurry 3",
+      "seconds": 170,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits end",
+      "seconds": 30,
+      "until": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedFlag": "credits.rolled",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "back in the town under the new sky",
+      "seconds": 4,
+      "expectedFlag": "game.complete",
+      "expectedUi": "world",
+      "expectedScene": "NeighbourhoodAfloat"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

@@ -142,6 +142,9 @@ namespace Lattice.Core
             Current.ambient.volume=bed!=null?bedVolume:HumVolume;
             if(Current.ambient.clip==clip&&Current.ambient.isPlaying)return;Current.ambient.clip=clip;if(clip!=null)Current.ambient.Play();
         }
+        /// <summary>The zone's bed at another level, its clip left playing where it is (a swap cuts it and starts it again): the anchor chamber's steel eased down once its load is gone.</summary>
+        public static void BedLevel(float volume){if(Current!=null&&Current.ambient!=null)Current.ambient.volume=Mathf.Clamp01(volume);}
+        public static float BedVolume=>Current!=null&&Current.ambient!=null?Current.ambient.volume:0;
         void OnDestroy()
         {GameTime.PauseChanged-=Pause;SceneManager.sceneUnloaded-=Unloaded;foreach(var voice in voices)Release(voice);if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(false);if(Current==this)Current=null;}
     }

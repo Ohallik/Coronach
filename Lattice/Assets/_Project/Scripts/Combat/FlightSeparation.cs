@@ -223,6 +223,9 @@ namespace Lattice.Combat
             }
             return first==firingTarget;
         }
+        /// <summary>Whether a hull can go straight from one point to another without coming inside the margin her travel keeps from the animal (outward from inside it is allowed, as for travel).
+        /// A dash in flight goes its full length with nothing steering it: Taren's Ember Step went ten metres at a collar link, through the body and out of its other side.</summary>
+        public bool PathClear(Vector3 from,Vector3 to){Measure();return Clear(Flat(from),Flat(to));}
         public Vector3 Dodge(Vector3 position,Vector3 wanted)
         {
             Measure();position=Flat(position);wanted=Flat(wanted).normalized;

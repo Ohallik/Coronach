@@ -40,7 +40,17 @@ namespace Lattice.Core
             items[id]=name;return name;
         }
 
-        public static string Zone(string id)=>string.IsNullOrEmpty(id)?"":zones.TryGetValue(id,out var name)?name:Readable(id);
+        /// <summary>The table above, then the zone's own definition (ZoneDef.displayName, where every zone since chapter 3 keeps it), then the id in words.</summary>
+        public static string Zone(string id)
+        {
+            if(string.IsNullOrEmpty(id))return "";
+            if(zones.TryGetValue(id,out var name)||named.TryGetValue("zone/"+id,out name))return name;
+            name=GameCatalog.Find<ZoneDef>(id)?.displayName;
+            if(string.IsNullOrWhiteSpace(name))name=Readable(id);
+            named["zone/"+id]=name;return name;
+        }
+        /// <summary>Names read from a definition once, by kind and id: a miss costs a load, and the target card asks every frame.</summary>
+        static readonly Dictionary<string,string> named=new();
 
         /// <summary>When a save was made, on the player's own clock ("Nov 5, 9:41 PM"). Empty for a save too old to say.</summary>
         public static string SavedAt(string savedAtUtc)
@@ -61,6 +71,14 @@ namespace Lattice.Core
         }
 
         /// <summary>A combat target's id ("SentinelHusk", "Cantor - sweep link") as a label.</summary>
-        public static string Target(string id)=>id!=null&&targets.TryGetValue(id,out var name)?name:Readable((id??"").Replace(" - "," — "));
+        public static string Target(string id)
+        {
+            if(id==null)return "";
+            if(targets.TryGetValue(id,out var name)||named.TryGetValue("target/"+id,out name))return name;
+            // An enemy says its own name on its definition (EnemyDef.displayName); a part of one ("Cantor - sweep link") has none to ask.
+            name=id.Contains(" - ")?null:GameCatalog.Find<EnemyDef>(id)?.displayName;
+            if(string.IsNullOrWhiteSpace(name))name=Readable(id.Replace(" - "," — "));
+            named["target/"+id]=name;return name;
+        }
     }
 }

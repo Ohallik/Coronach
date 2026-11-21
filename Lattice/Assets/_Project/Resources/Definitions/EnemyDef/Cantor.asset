@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: Cantor
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
   collarPlate: {fileID: 5152817444086548733, guid: d3f2f1bfaec71e2489dd9dc2f2407e82, type: 3}
   id: Cantor
   prefab: {fileID: 7763395953902798841, guid: 54bf7c0f6e2cf7a4b9b84e350df23d9e, type: 3}
@@ -34,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: 24ba12ab4e06cb1428044e31e17ced13, type: 2}
   xp: 240
   boss: 1
+  scrip: 150
+  scrap: 12
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 0

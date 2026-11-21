@@ -1,0 +1,3131 @@
+{
+  "name": "chapter-25-walking-canopy",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 3: the root hall, anchor A, the flooding gallery and anchor B, the vault, anchor C, the basin, the Floodcrown",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.seedthaneGone",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "into the root hall",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": -2.8,
+        "z": 10
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the root hall begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the root hall line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the root hall line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the root hall line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the root hall line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the root hall line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the root hall line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the root hall line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the root hall line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the root hall line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "finish the root hall",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.canopyEntered",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release after the root hall",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "among the swarms",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": -2.8,
+        "z": 12
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock Canopy_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock Canopy_0",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_0 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_0 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_0 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Canopy_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Canopy_0",
+      "expectedFlag": "clear.Canopy_0",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Canopy_0",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Canopy_0",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to anchor root A",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": 8.6,
+        "y": -2.8,
+        "z": 13
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "cut anchor root A",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "xylos.anchor1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the root",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the island lurches",
+      "seconds": 3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the doors have changed begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the doors have changed line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the doors have changed line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the doors have changed line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the doors have changed line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the doors have changed line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the doors have changed line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the doors have changed line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the doors have changed line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the doors have changed line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "finish the doors have changed",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.anchorHeard",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release after the doors have changed",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the gallery door 1/3",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": -2.8,
+        "z": 10
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the gallery door 2/3",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": -22,
+        "y": -4.5,
+        "z": 10
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the gallery door 3/3",
+      "seconds": 5.89,
+      "navigate": true,
+      "point": {
+        "x": -37,
+        "y": -6.8,
+        "z": 15
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "up the gallery to the swarms",
+      "seconds": 3.73,
+      "navigate": true,
+      "point": {
+        "x": -37.5,
+        "y": -6,
+        "z": 22
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock Canopy_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock Canopy_1",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_1 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_1 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Canopy_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Canopy_1",
+      "expectedFlag": "clear.Canopy_1",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Canopy_1",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Canopy_1",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "on up the gallery",
+      "seconds": 5.45,
+      "navigate": true,
+      "point": {
+        "x": -37.5,
+        "y": -4.8,
+        "z": 36
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "on into Canopy_2",
+      "seconds": 2.2,
+      "navigate": true,
+      "point": {
+        "x": -37.5,
+        "y": -4.8,
+        "z": 36.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock Canopy_2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock Canopy_2",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_2 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_2 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Canopy_2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Canopy_2",
+      "expectedFlag": "clear.Canopy_2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Canopy_2",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Canopy_2",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to anchor root B's platform",
+      "seconds": 5.26,
+      "navigate": true,
+      "point": {
+        "x": -36.5,
+        "y": -3.8,
+        "z": 50
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "on into Canopy_3",
+      "seconds": 2.94,
+      "navigate": true,
+      "point": {
+        "x": -36.5,
+        "y": -3.8,
+        "z": 53.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock Canopy_3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock Canopy_3",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_3 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_3 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_3 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Canopy_3 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Canopy_3",
+      "expectedFlag": "clear.Canopy_3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Canopy_3",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Canopy_3",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to anchor root B",
+      "seconds": 2.79,
+      "navigate": true,
+      "point": {
+        "x": -36.4,
+        "y": -3.6,
+        "z": 57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "cut anchor root B",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "xylos.anchor2",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the root",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the flood drains and the vault opens",
+      "seconds": 4,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 1/7",
+      "seconds": 3.58,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": -3.6,
+        "z": 57.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 2/7",
+      "seconds": 3.92,
+      "navigate": true,
+      "point": {
+        "x": -22.2,
+        "y": 0,
+        "z": 57.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 3/7",
+      "seconds": 2.44,
+      "navigate": true,
+      "point": {
+        "x": -21,
+        "y": 0,
+        "z": 58.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 4/7",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": -14.4,
+        "y": 0,
+        "z": 59.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 5/7",
+      "seconds": 2.22,
+      "navigate": true,
+      "point": {
+        "x": -14,
+        "y": 0,
+        "z": 60.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 6/7",
+      "seconds": 2.3,
+      "navigate": true,
+      "point": {
+        "x": -14,
+        "y": 0,
+        "z": 61.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "through the vault to the anchor chamber 7/7",
+      "seconds": 3.65,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 68
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock Canopy_4",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock Canopy_4",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_4 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_4 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_4 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_4 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_4 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_4 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Canopy_4 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Canopy_4",
+      "expectedFlag": "clear.Canopy_4",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Canopy_4",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Canopy_4",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to anchor root C",
+      "seconds": 4.1,
+      "navigate": true,
+      "point": {
+        "x": -10.6,
+        "y": 0,
+        "z": 76.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "cut anchor root C",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "xylos.anchor3",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the root",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the basin door opens",
+      "seconds": 3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 1/9",
+      "seconds": 3.58,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": 70
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 2/9",
+      "seconds": 4.79,
+      "navigate": true,
+      "point": {
+        "x": -2.7,
+        "y": 0,
+        "z": 62.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 3/9",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": -2.7,
+        "y": 0,
+        "z": 59.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 4/9",
+      "seconds": 6.02,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 0,
+        "z": 45
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 5/9",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": -9.6,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 6/9",
+      "seconds": 2.43,
+      "navigate": true,
+      "point": {
+        "x": -11.2,
+        "y": 0,
+        "z": 38.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 7/9",
+      "seconds": 4.05,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": -1.4,
+        "z": 30
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 8/9",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": -2.8,
+        "z": 22
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down past the porch to the hall 9/9",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": -2.8,
+        "z": 16
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock Canopy_Return",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock Canopy_Return",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_Return round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_Return",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_Return round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_Return",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_Return round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_Return",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Canopy_Return 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Canopy_Return 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight Canopy_Return round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Canopy_Return",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Canopy_Return cleared",
+      "seconds": 3,
+      "until": "flag:clear.Canopy_Return",
+      "expectedFlag": "clear.Canopy_Return",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Canopy_Return",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Canopy_Return",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to the root cradle 1/2",
+      "seconds": 5.48,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": -2.8,
+        "z": 18
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to the root cradle 2/2",
+      "seconds": 3.76,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": -2.8,
+        "z": 21.9
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "repair and save at the root cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to the basin door 1/3",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 14.3,
+        "y": -2.8,
+        "z": 21.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to the basin door 2/3",
+      "seconds": 3.91,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": -2.8,
+        "z": 21
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "to the basin door 3/3",
+      "seconds": 3.23,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": -3.4,
+        "z": 26
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "into the passage to the basin",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": -4.2,
+        "z": 30
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "what holds the basin begins",
+      "seconds": 4,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read what holds the basin line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next what holds the basin line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release what holds the basin line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read what holds the basin line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next what holds the basin line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release what holds the basin line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read what holds the basin line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next what holds the basin line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release what holds the basin line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read what holds the basin line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next what holds the basin line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release what holds the basin line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "finish what holds the basin",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.basinSeen",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release after what holds the basin",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "down into the basin",
+      "seconds": 7.41,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": -5.2,
+        "z": 40
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "lock the Floodcrown",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release lock the Floodcrown",
+      "seconds": 0.3,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 1a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 1b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 2a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 2b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 3a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 3b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 4a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 4b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 5a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 5b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 6a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 6b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 7a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 7b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 8a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 8b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 9a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 9b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 10a",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "skill Floodcrown 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release skill Floodcrown 10b",
+      "seconds": 0.45,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "fight the Floodcrown round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Floodcrown",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the Floodcrown is down",
+      "seconds": 4,
+      "until": "flag:bossdown.Floodcrown",
+      "expectedFlag": "bossdown.Floodcrown",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "reach the fallen hero after Floodcrown",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "both heroes ready after Floodcrown",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "the Floodcrown leaves with the water begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the Floodcrown leaves with the water line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the Floodcrown leaves with the water line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the Floodcrown leaves with the water line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the Floodcrown leaves with the water line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the Floodcrown leaves with the water line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the Floodcrown leaves with the water line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the Floodcrown leaves with the water line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the Floodcrown leaves with the water line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the Floodcrown leaves with the water line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the Floodcrown leaves with the water line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the Floodcrown leaves with the water line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the Floodcrown leaves with the water line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "read the Floodcrown leaves with the water line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "next the Floodcrown leaves with the water line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release the Floodcrown leaves with the water line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "finish the Floodcrown leaves with the water",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.floodcrownGone",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "release after the Floodcrown leaves with the water",
+      "seconds": 0.5,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "back up through the hall 1/5",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": -5.2,
+        "z": 40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "back up through the hall 2/5",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": -4.2,
+        "z": 30
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "back up through the hall 3/5",
+      "seconds": 4.22,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": -2.8,
+        "z": 21
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "back up through the hall 4/5",
+      "seconds": 4.66,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": -2.8,
+        "z": 12
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "back up through the hall 5/5",
+      "seconds": 4.74,
+      "navigate": true,
+      "point": {
+        "x": 11.5,
+        "y": -2.8,
+        "z": 1.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "WalkingCanopy"
+    },
+    {
+      "name": "out by the mooring roots",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the mooring roots",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

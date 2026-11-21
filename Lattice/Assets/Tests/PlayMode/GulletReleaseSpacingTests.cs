@@ -33,7 +33,8 @@ namespace Lattice.Tests.PlayMode
         public void Write(string label)
         {
             var path=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality/C8/cantor-composition/regroup-"+label+"-"+System.Guid.NewGuid().ToString("N")+".csv"));
-            File.WriteAllLines(path,rows);Debug.Log("GULLET_REGROUP_TRACE "+path);
+            // The folder is made here, as the release trace's is: it existed only in the main project's Builds (git ignores it), so a test mirror or a fresh clone threw DirectoryNotFoundException.
+            Directory.CreateDirectory(Path.GetDirectoryName(path));File.WriteAllLines(path,rows);Debug.Log("GULLET_REGROUP_TRACE "+path);
         }
         void OnDestroy(){if(actor!=null&&ReferenceEquals(actor.motor,motor))actor.motor=original;}
     }

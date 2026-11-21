@@ -24,4 +24,10 @@ MonoBehaviour:
   rewards: []
   flagsOnComplete: []
   stepText:
-  - 'Mine six Ridge Crystals from Sorrel''s bright seams'
+  - Mine six Ridge Crystals from Sorrel's bright seams
+  rewardsRolled: 0
+  main: 0
+  chapter: 1
+  stepTargets: []
+  closingLine: 
+  storyFlags: []

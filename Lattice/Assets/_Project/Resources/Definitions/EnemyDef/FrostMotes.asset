@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: FrostMotes
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: FrostMotes
+  prefab: {fileID: 0}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 240
+  breakThreshold: 50
+  speed: 5.5
+  attacks:
+  - {fileID: 11400000, guid: 75668b302acfbb04cbedd6ec64b0b014, type: 2}
+  - {fileID: 11400000, guid: ee067815d923e42408992be7539d243a, type: 2}
+  weakness: 3
+  resistance: 2
+  archetype: 1
+  lootTable: {fileID: 11400000, guid: 28bbabc95e8d78743911f398229e9e30, type: 2}
+  xp: 30
+  boss: 0
+  scrip: 4
+  scrap: 0
+  displayName: Frost Motes
+  bossMusicId: 
+  capsuleRadius: 0.7
+  capsuleHeight: 1.4
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 0
+  behaviour: 4
+  tune:
+    reach: 0
+    width: 0
+    speed: 0
+    recover: 1.3
+    linger: 2.4
+    area: 0
+    pace: 0.5
+    effect: 0
+    tick: 0
+    count: 20
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0.78, g: 0.94, b: 1.3, a: 1}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

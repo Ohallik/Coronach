@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: StowawayFare
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: StowawayFare
+  title: The Stowaway's Fare
+  description: Jask rode up from Rootmarket in Marrow-3's seed racks, and a passage
+    has a price.
+  steps:
+  - kind: 5
+    target: hands.ruvaOnJask
+    count: 1
+  - kind: 5
+    target: hands.jaskPlaced
+    count: 1
+  - kind: 5
+    target: jask.thanked
+    count: 1
+  rewardXp: 200
+  rewardScrip: 90
+  rewards:
+  - id: ModulesTwinThread
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Hear what Ruva has to say about Jask
+  - Settle with Teo where Jask works off his passage
+  - See how Jask is getting on
+  rewardsRolled: 0
+  main: 0
+  chapter: 5
+  stepTargets:
+  - scene: ManyHands
+    via: []
+    speaker: Ruva
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Hear Ruva on Jask
+  - scene: ManyHands
+    via: []
+    speaker: Teo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Settle it with Teo
+  - scene: ManyHands
+    via: []
+    speaker: Jask
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: See how Jask is doing
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

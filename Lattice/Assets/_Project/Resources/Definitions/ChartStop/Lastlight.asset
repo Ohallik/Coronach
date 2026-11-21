@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ed15e2c7d9408b94f8057e0fbda480, type: 3}
+  m_Name: Lastlight
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ChartStop
+  id: Lastlight
+  displayName: Lastlight
+  region: Hoarfell
+  blurb: 'The herders'' town inside a frozen road''s ribs: Hask''s pens and counter,
+    the vent bath-house and the carving yard.'
+  zone: Lastlight
+  spawn: Arrival
+  unlockFlag: 
+  lockedFlag: 
+  lockedReason: 
+  position: {x: 0.76, y: 0.92}
+  routes:
+  - ManyHands
+  shop: 1
+  bench: 1
+  repair: 1
+  chapter: 6
+  reaches:
+  - AuroraShear
+  - FrozenHost

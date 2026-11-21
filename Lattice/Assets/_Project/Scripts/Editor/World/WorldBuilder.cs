@@ -65,8 +65,9 @@ namespace Lattice.EditorTools
             EditorUtility.SetDirty(bloom);EditorUtility.SetDirty(vignette);EditorUtility.SetDirty(profile);volume.sharedProfile=profile;
             return scene;
         }
-        public static void Save(Scene scene)=>EditorSceneManager.SaveScene(scene,"Assets/_Project/Scenes/"+scene.name+".unity");
-        public static void Save(Scene scene,string name)=>EditorSceneManager.SaveScene(scene,"Assets/_Project/Scenes/"+name+".unity");
+        public static void Save(Scene scene)=>Save(scene,scene.name);
+        /// <summary>A zone with no authored light isn't saved: it stops here, by name, instead of shipping flat (ZoneLook.Require).</summary>
+        public static void Save(Scene scene,string name){ZoneLook.Require(name);EditorSceneManager.SaveScene(scene,"Assets/_Project/Scenes/"+name+".unity");}
         public static GameObject Piece(string key,Vector3 pos,Vector3 size,string material="Rock",bool solid=true)
         {
             if(key=="DeckFloor"&&(size.x>9||size.z>9))return FloorTiles(pos,size,solid);

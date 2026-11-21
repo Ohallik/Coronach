@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: SlagGull
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: SlagGull
+  prefab: {fileID: 22053690780488611, guid: e2494799b74468040bf5002a615e3a36, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1050
+  breakThreshold: 220
+  speed: 3.4
+  attacks:
+  - {fileID: 11400000, guid: b154ca4c0da9a8f438429d984a111cae, type: 2}
+  weakness: 3
+  resistance: 0
+  archetype: 3
+  lootTable: {fileID: 11400000, guid: cb0d80e8e7a3fc0418f05d4334c79b83, type: 2}
+  xp: 50
+  boss: 0
+  scrip: 16
+  scrap: 2
+  displayName: Slag Gull
+  bossMusicId: 
+  capsuleRadius: 0.8
+  capsuleHeight: 1.8
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 0
+  behaviour: 2
+  tune:
+    reach: 0
+    width: 0
+    speed: 0
+    recover: 0
+    linger: 3.5
+    area: 2.4
+    pace: 0
+    effect: 1
+    tick: 38
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

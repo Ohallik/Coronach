@@ -9,8 +9,8 @@ namespace Lattice.UI
     public sealed class WorldUiBridge:MonoBehaviour
     {
         void Awake()=>gameObject.AddComponent<ConversationFraming>();
-        void OnEnable(){Npc.TalkRequested+=Talk;DiscoveryPoint.DialogueRequested+=Discover;Lattice.World.Bench.Requested+=Bench;Lattice.World.Shop.Requested+=Shop;DialogueSystem.UiRequested+=Request;DialogueSystem.MemberJoined+=Join;DialogueSystem.Settled+=Keep;}
-        void OnDisable(){Npc.TalkRequested-=Talk;DiscoveryPoint.DialogueRequested-=Discover;Lattice.World.Bench.Requested-=Bench;Lattice.World.Shop.Requested-=Shop;DialogueSystem.UiRequested-=Request;DialogueSystem.MemberJoined-=Join;DialogueSystem.Settled-=Keep;}
+        void OnEnable(){Npc.TalkRequested+=Talk;Npc.FollowRequested+=Follow;DiscoveryPoint.DialogueRequested+=Discover;Lattice.World.Bench.Requested+=Bench;Lattice.World.Shop.Requested+=Shop;DialogueSystem.UiRequested+=Request;DialogueSystem.MemberJoined+=Join;DialogueSystem.Settled+=Keep;}
+        void OnDisable(){Npc.TalkRequested-=Talk;Npc.FollowRequested-=Follow;DiscoveryPoint.DialogueRequested-=Discover;Lattice.World.Bench.Requested-=Bench;Lattice.World.Shop.Requested-=Shop;DialogueSystem.UiRequested-=Request;DialogueSystem.MemberJoined-=Join;DialogueSystem.Settled-=Keep;}
         GameState keep;
         void Keep()=>keep=GameServices.Current.State;
         /// <summary>QUEST COMPLETE or a chapter's card on screen has to survive a quit: nothing else writes the save until the next dock. It's written in a safe place only, as a dock
@@ -31,6 +31,11 @@ namespace Lattice.UI
             var dialogue=DialogueSystem.Current;
             if(dialogue==null||!dialogue.StartNode(node,speaker,completed))completed?.Invoke(false);
         }
+        void Follow(string node,string speaker,System.Action<bool> completed)
+        {
+            var dialogue=DialogueSystem.Current;
+            if(dialogue==null||!dialogue.Follow(node,speaker,completed))completed?.Invoke(false);
+        }
         void Discover(DiscoveryPoint point)
         {
             var dialogue=DialogueSystem.Current;
@@ -39,10 +44,13 @@ namespace Lattice.UI
         }
         void Bench()=>GetComponent<PauseMenu>().Open(PauseMenu.FabricatePage,true);
         void Shop(ShopInventory inventory)=>GetComponent<ShopUi>().Open(inventory);
-        void Request(string action){if(action=="bench")Bench();else if(action=="shop")GetComponent<ShopUi>().Open(ZoneController.Current!=null?GameCatalog.Find<ShopInventory>(ZoneController.Current.definition.id):null,DialogueSystem.Current!=null?DialogueSystem.Current.Speaker:null);else if(action=="repair")RepairBay.Repair();}
+        void Request(string action){if(action=="bench")Bench();else if(action=="shop"){string seller=DialogueSystem.Current!=null?DialogueSystem.Current.Speaker:null;GetComponent<ShopUi>().Open(ShopUi.For(ZoneController.Current!=null?ZoneController.Current.definition.id:null,seller),seller);}else if(action=="repair")RepairBay.Repair();}
         void Join(string id)
         {
             var party=PartyController.Current;float spacing=party.Active.flight?HeroCollision.ArrivalSpacing:2;
+            // The field holds two. A third hero who joins comes out in the partner's place, who rests with what they had (PartyField.Join): added as a third body,
+            // a swap could put the lead in a third place, where everything that reads "the other hero" read past the party's end.
+            if(party.members.Length>=Deployment.Size){PartyField.Join(party,id);return;}
             var actor=ActorFactory.Hero(id,party.Active.transform.position+Vector3.right*spacing);actor.transform.SetParent(party.transform);
             var members=new System.Collections.Generic.List<CombatActor>(party.members){actor};party.members=members.ToArray();party.Apply();
         }

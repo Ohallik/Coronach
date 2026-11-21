@@ -43,7 +43,7 @@ namespace Lattice.Tests.PlayMode
 #endif
             GameTime.Reset();PromptService.ForceDevice(null);SceneManager.LoadScene("_Boot");yield return null;
             yield return new WaitForSecondsRealtime(.5f);
-            savedBindings=PlayerPrefs.GetString("keyboardBindings","");GameInput.Current.Asset.RemoveAllBindingOverrides();
+            savedBindings=KeyBindingStore.Load();GameInput.Current.Asset.RemoveAllBindingOverrides();
             ClearSaves();DevLoadout.Apply("starter");
         }
         [UnityTearDown] public IEnumerator Cleanup()
@@ -54,7 +54,7 @@ namespace Lattice.Tests.PlayMode
             var shop=ShopPanel;if(shop!=null&&shop.IsOpen)shop.Close();
             if(pad!=null&&pad.added)InputSystem.RemoveDevice(pad);pad=null;
             if(GameInput.Current!=null)GameInput.Current.Asset.RemoveAllBindingOverrides();
-            if(string.IsNullOrEmpty(savedBindings))PlayerPrefs.DeleteKey("keyboardBindings");else PlayerPrefs.SetString("keyboardBindings",savedBindings);
+            KeyBindingStore.Save(savedBindings);
             PromptService.HoldOffInteract(0);PromptService.ForceDevice(PromptDevice.Keyboard);PromptService.ForceDevice(null);InputSystem.settings.backgroundBehavior=priorBackground;
 #if UNITY_EDITOR
             InputSystem.settings.editorInputBehaviorInPlayMode=priorEditor;
@@ -127,8 +127,15 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Arena_Ground");
             var inventory=RpgServices.Inventory;var def=Part("EdgesT2");var edge=inventory.GivePart(def);inventory.GivePart(Part("ModulesT1"));
-            State.materials["ScrapAlloy"]=200;
+            // Upgrades are bench work and cost scrip as well as Scrap Alloy now (prog160: 25 scrip and 3 Scrap a level, times the part's tier), so the page is opened as a bench opens it,
+            // with a purse that covers a Refined part to +5 (750). In the field the same press is refused and spends nothing.
+            State.materials["ScrapAlloy"]=200;State.scrip=5000;
             var menu=Menu;menu.Open(PauseMenu.GearPage);yield return null;
+            yield return Action(2);StringAssert.Contains("Action: Upgrade",Words(Row("Row_1")),"fixture: the Action row reads Upgrade in the field too");
+            With("Refined Edge").onClick.Invoke();yield return null;
+            Assert.AreEqual(0,edge.upgrade,"a part was upgraded from the pause menu, away from any bench");Assert.AreEqual(200,inventory.Count("ScrapAlloy"),"a refused upgrade spent Scrap Alloy");Assert.AreEqual(5000,State.scrip,"a refused upgrade spent scrip");
+            StringAssert.Contains("bench",Feedback(),"the refusal doesn't say where an upgrade is done");
+            menu.Close();yield return null;menu.Open(PauseMenu.GearPage,true);yield return null;
             yield return Action(2);StringAssert.Contains("Action: Upgrade",Words(Row("Row_1")),"fixture: the Action row reads Upgrade");
             StringAssert.Contains("Refined Edge  T2 +0  ·  Output +30 to +32.4",Words(With("Refined Edge")),"the row shows only what the part has now, so what the upgrade buys is seen after paying");
             // Rounded, this one read "+3 to +3": a quarter of a point, and it looked like paying for nothing.
@@ -137,9 +144,10 @@ namespace Lattice.Tests.PlayMode
             {
                 var promise=Regex.Match(Words(With("Refined Edge")),@"T2 \+"+level+@"  ·  Output \+([\d.]+) to \+([\d.]+)");
                 Assert.IsTrue(promise.Success,$"at +{level} the row doesn't say where Output goes: "+Words(With("Refined Edge")));
-                int alloy=inventory.Count("ScrapAlloy");
+                int alloy=inventory.Count("ScrapAlloy"),purse=State.scrip;
                 With("Refined Edge").onClick.Invoke();yield return null;
                 Assert.AreEqual(level+1,edge.upgrade,"fixture: the press pays for the upgrade");Assert.Less(inventory.Count("ScrapAlloy"),alloy,"fixture: the upgrade costs Scrap Alloy");
+                Assert.AreEqual(purse-25*(level+1)*def.tier,State.scrip,$"level {level+1} of a tier {def.tier} part didn't take its scrip");
                 float paid=Levels.PartStats(def,edge).output;
                 Assert.AreEqual(float.Parse(promise.Groups[2].Value,System.Globalization.CultureInfo.InvariantCulture),paid,.051f,$"the row promised {promise.Groups[2].Value} and the upgrade paid {paid}");
                 StringAssert.Contains($"Upgraded Refined Edge to +{edge.upgrade}: Output +{promise.Groups[2].Value}.",Feedback(),"the line under the row doesn't give the number the row just promised");
@@ -358,7 +366,8 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheChooserGoesByTheHeroOnThePage()
         {
             AddPad();PromptService.ForceDevice(PromptDevice.Gamepad);yield return Zone("Arena_Ground");
-            Member("Taren").level=12;Member("Sela").level=1;
+            // Sync 24, where it was 12: S3 teaches three more at Sync 16, 20 and 24, and the last line below needs a Taren with nothing left to learn.
+            Member("Taren").level=24;Member("Sela").level=1;
             var party=PartyController.Current;int swaps=party.SwapCount;
             var locked=SkillBook.All("Sela").First(s=>s.unlockLevel>1);var worn=SkillBook.Equipped("Sela",1);
             var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return Frames(2);
@@ -372,7 +381,7 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(Buttons().Any(b=>Words(b).StartsWith("Back to")),"Swap left the chooser up, for the other hero's slot");
             Assert.AreEqual("Row_2",Selected().name,"Swap from the chooser forgets which slot");
             Row("Row_2").onClick.Invoke();yield return null;
-            Assert.IsFalse(Buttons().Any(b=>Words(b).StartsWith("Locked")),"at Sync 12 Taren has nothing locked: his chooser reads her level");
+            Assert.IsFalse(Buttons().Any(b=>Words(b).StartsWith("Locked")),"at Sync 24 Taren has nothing locked: his chooser reads her level");
             Assert.AreEqual(swaps,party.SwapCount,"going through the chooser by Swap really swapped the party");
             menu.Close();
         }

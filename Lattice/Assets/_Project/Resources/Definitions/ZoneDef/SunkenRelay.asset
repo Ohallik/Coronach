@@ -19,10 +19,17 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 0b2f6bcfe3838df4f86105e3897558fe, type: 2}
   ambientAudio: {fileID: 8300000, guid: 85f8c2e6c6d39f14aa484cecee0943b9, type: 3}
   ambientVolume: 0.288
-  musicId: 
+  musicId: Moon Caverns
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
   enemyThreat: 1.7
   cameraClearsScenery: 1
   skybox: {fileID: 0}
+  displayName: The Sunken Relay
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 2
+  quietArrival: 0

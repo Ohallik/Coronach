@@ -63,6 +63,15 @@ class TraversalContract(unittest.TestCase):
         # A chase follows its moving target; the runtime records its arrival.
         self.route['steps'][1].update(approachTarget=True,point=dict(x=500,z=500))
         self.assertTrue(self.result()['valid'],self.result()['failures'])
+    def test_leg_cut_short_by_its_stop_is_not_held_to_its_point(self):
+        # 'Fly on until the hail': the talk opens on the way and the leg ends there; the runtime rejects it if neither the stop nor the arrival came.
+        self.route['steps'].append(dict(name='fly on',seconds=10,navigate=True,stopWhen='ui:dialogue',point=dict(x=500,z=500)))
+        last=dict(self.frames[-1])
+        for i in range(60): self.frames.append(dict(last,elapsed=str(120+(i+1)/60),step='2'))
+        self.assertTrue(self.result()['valid'],self.result()['failures'])
+        # The same leg with no stop named is held to its point.
+        del self.route['steps'][2]['stopWhen']
+        self.assertIn('fly on: checkpoint not reached',self.result()['failures'])
     def test_fixed_point_on_a_plain_step_is_still_checked(self):
         self.route['steps'][1]['point']=dict(x=500,z=500)
         self.assertIn('return: checkpoint not reached',self.result()['failures'])

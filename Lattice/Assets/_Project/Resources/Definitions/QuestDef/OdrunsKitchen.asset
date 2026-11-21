@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: OdrunsKitchen
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: OdrunsKitchen
+  title: Odrun's Kitchen
+  description: A kitchen that doesn't exist can't draw rations. Mother Odrun wants
+    three things she can't buy with her own face.
+  steps:
+  - kind: 4
+    target: KitchenWant
+    count: 3
+  - kind: 5
+    target: odrun.kitchenStocked
+    count: 1
+  rewardXp: 180
+  rewardScrip: 150
+  rewards:
+  - id: ScoriaGlass
+    count: 3
+  - id: BridleWire
+    count: 3
+  flagsOnComplete: []
+  stepText:
+  - Find garrison salt, ash-root flour and a regulation mess kettle
+  - Take them to Mother Odrun
+  rewardsRolled: 0
+  main: 0
+  chapter: 8
+  stepTargets:
+  - scene: Harrowgate
+    via: []
+    speaker: 
+    report: KitchenWant
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Find Odrun's things
+  - scene: Harrowgate
+    via: []
+    speaker: Odrun
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Take them to Odrun
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

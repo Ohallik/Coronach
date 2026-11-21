@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: Orrery
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: Orrery
+  scene: Orrery
+  kind: 3
+  cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 67e9b55b846f6a14a8e377cc9f06f614, type: 2}
+  ambientAudio: {fileID: 8300000, guid: 5d4f5aa7f206f8e4c8df7bbf19cdcc8d, type: 3}
+  ambientVolume: 0.331
+  musicId: Starfield Frontier
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
+  skybox: {fileID: 2100000, guid: 46487642469a380498662e582bbccd50, type: 2}
+  displayName: The Orrery
+  brightFloor: 0
+  fightMusicId: Starfight
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 7
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

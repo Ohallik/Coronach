@@ -61,10 +61,25 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(partner.Health.Alive,"fixture automatically revived the distant downed companion");
             Check(hero,"active hero beside downed companion");Check(partner,"nearby disabled craft");
         }
+        /// <summary>Past the hold, until the view hasn't moved for half a second.</summary>
+        static IEnumerator Still()
+        {
+            yield return new WaitForSecondsRealtime(CameraRig.ComeInHold+.1f);
+            var last=Camera.main.transform.position;float since=Time.unscaledTime,deadline=Time.unscaledTime+8;
+            while(Time.unscaledTime-since<.5f&&Time.unscaledTime<deadline)
+            {
+                yield return null;var now=Camera.main.transform.position;
+                if(Vector3.Distance(last,now)>.0005f){last=now;since=Time.unscaledTime;}
+            }
+            Assert.Less(Time.unscaledTime,deadline,"fixture: the view never came to rest with the companion gone");
+        }
         [UnityTest] public IEnumerator DistantCompanionDoesNotStretchTheEncounterFrame()
         {
             enemy.GetComponent<SerpentSegments>().enabled=false;
-            partner.gameObject.SetActive(false);yield return new WaitForSecondsRealtime(2);
+            // With the nearby companion gone the view has less to hold. Since November 10 it stays as far back as it was for CameraRig.ComeInHold and only then comes in, at a
+            // limited pace (the Gullet's pumping), so two seconds on it was still half way in: the rest of that, 5.7 m, was measured here as the remote companion's doing.
+            // The view is judged once it stands still (Builds/quality/S1/companion-framing-trace.txt), and the remote companion may still not move it a quarter metre.
+            partner.gameObject.SetActive(false);yield return Still();
             var expected=Camera.main.transform.position;
             Place(partner,new Vector3(230,1,-23));partner.gameObject.SetActive(true);
             yield return new WaitForSecondsRealtime(2);

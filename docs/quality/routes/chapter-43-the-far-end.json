@@ -1,0 +1,624 @@
+{
+  "name": "chapter-43-the-far-end",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 7's close: Meret's call coming into the camp, Lume reads Brekk's word up the chain, a save at the camp cradle",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "ishen.moonsRead",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east through the camp 1/3",
+      "seconds": 3.33,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east through the camp 2/3",
+      "seconds": 5.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east through the camp 3/3",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "on east until Meret calls",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": 0.0,
+        "z": 13.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Meret on the radio begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Meret on the radio line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Meret on the radio line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Meret on the radio line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish Meret on the radio",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.meretHeard",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after Meret on the radio",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the last lantern",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to Lume",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 9.0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "start Brekk's word up the chain",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release start Brekk's word up the chain",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Brekk's word up the chain line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Brekk's word up the chain line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Brekk's word up the chain line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish Brekk's word up the chain",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter7.complete",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after Brekk's word up the chain",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "chapter seven closes",
+      "seconds": 9.5,
+      "expectedFlag": "oriel.brekkHeard",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the camp cradle 1/3",
+      "seconds": 4.22,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the camp cradle 2/3",
+      "seconds": 5.69,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the camp cradle 3/3",
+      "seconds": 4.33,
+      "navigate": true,
+      "point": {
+        "x": -23.4,
+        "y": 0.0,
+        "z": 9.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "repair and save at the camp cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "OrielSkyfields"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: ReturnAddress
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: ReturnAddress
+  title: Neve's Return Address
+  description: Neve is still a courier, with three parcels and no lanes left to run
+    them down. The third is her own.
+  steps:
+  - kind: 4
+    target: TugParcel
+    count: 1
+  - kind: 4
+    target: CrawlParcel
+    count: 1
+  - kind: 5
+    target: dace.letterRead
+    count: 1
+  - kind: 5
+    target: neve.letterAnswered
+    count: 1
+  rewardXp: 200
+  rewardScrip: 160
+  rewards:
+  - id: DrivesT5
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Take the first parcel to the tug Welcome Back
+  - Take the second to the town that walks
+  - Find where the third one's address has gone
+  - Tell Neve it arrived
+  rewardsRolled: 1
+  main: 0
+  chapter: 9
+  stepTargets:
+  - scene: NacreGrave
+    via: []
+    speaker: 
+    report: TugParcel
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Parcel for the tug
+  - scene: MeridianCrawl
+    via: []
+    speaker: 
+    report: CrawlParcel
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Parcel for the Crawl
+  - scene: DecksLeaving
+    via: []
+    speaker: Survivor
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Find who the third is for
+  - scene: DecksLeaving
+    via: []
+    speaker: Neve
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Neve
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

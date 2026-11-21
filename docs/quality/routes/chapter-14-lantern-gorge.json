@@ -133,18 +133,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_0 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_0",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_0 1",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_0 2a",
       "seconds": 0.18,
       "buttons": [
@@ -192,18 +180,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel Gorge_0 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_0",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_0 2",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -257,18 +233,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_0 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_0",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_0 3",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_0 4a",
       "seconds": 0.18,
       "buttons": [
@@ -319,18 +283,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_0 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_0",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_0 4",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "Gorge_0 cleared",
       "seconds": 3,
       "until": "flag:clear.Gorge_0",
@@ -361,17 +313,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel after Gorge_0",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel after Gorge_0",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -559,18 +500,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_1 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_1",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_1 1",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_1 2a",
       "seconds": 0.18,
       "buttons": [
@@ -618,18 +547,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel Gorge_1 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_1",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_1 2",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -683,18 +600,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_1 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_1",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_1 3",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_1 4a",
       "seconds": 0.18,
       "buttons": [
@@ -745,18 +650,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_1 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_1",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_1 4",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "Gorge_1 cleared",
       "seconds": 3,
       "until": "flag:clear.Gorge_1",
@@ -787,17 +680,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel after Gorge_1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel after Gorge_1",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -890,18 +772,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_Den 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Den",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Den 1",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_Den 2a",
       "seconds": 0.18,
       "buttons": [
@@ -949,18 +819,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel Gorge_Den 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Den",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Den 2",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -1014,18 +872,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_Den 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Den",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Den 3",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "Gorge_Den cleared",
       "seconds": 3,
       "until": "flag:clear.Gorge_Den",
@@ -1056,17 +902,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel after Gorge_Den",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel after Gorge_Den",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -1173,18 +1008,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_Camp 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Camp",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Camp 1",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_Camp 2a",
       "seconds": 0.18,
       "buttons": [
@@ -1232,18 +1055,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel Gorge_Camp 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Camp",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Camp 2",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -1297,18 +1108,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_Camp 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Camp",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Camp 3",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_Camp 4a",
       "seconds": 0.18,
       "buttons": [
@@ -1359,18 +1158,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_Camp 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_Camp",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_Camp 4",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "Gorge_Camp cleared",
       "seconds": 3,
       "until": "flag:clear.Gorge_Camp",
@@ -1401,17 +1188,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel after Gorge_Camp",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel after Gorge_Camp",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -1571,18 +1347,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_3 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_3",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_3 1",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_3 2a",
       "seconds": 0.18,
       "buttons": [
@@ -1630,18 +1394,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel Gorge_3 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_3",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_3 2",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -1695,18 +1447,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_3 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_3",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_3 3",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_3 4a",
       "seconds": 0.18,
       "buttons": [
@@ -1757,18 +1497,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_3 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_3",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_3 4",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "Gorge_3 cleared",
       "seconds": 3,
       "until": "flag:clear.Gorge_3",
@@ -1799,17 +1527,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel after Gorge_3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel after Gorge_3",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -1916,18 +1633,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_4 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_4",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_4 1",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_4 2a",
       "seconds": 0.18,
       "buttons": [
@@ -1975,18 +1680,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "repair gel Gorge_4 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_4",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_4 2",
-      "seconds": 0.4,
       "expectedScene": "LanternGorge"
     },
     {
@@ -2040,18 +1733,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_4 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_4",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_4 3",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "skill Gorge_4 4a",
       "seconds": 0.18,
       "buttons": [
@@ -2102,18 +1783,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel Gorge_4 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Gorge_4",
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel Gorge_4 4",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "Gorge_4 cleared",
       "seconds": 3,
       "until": "flag:clear.Gorge_4",
@@ -2147,17 +1816,6 @@
       "expectedScene": "LanternGorge"
     },
     {
-      "name": "repair gel after Gorge_4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "LanternGorge"
-    },
-    {
-      "name": "release gel after Gorge_4",
-      "seconds": 0.4,
-      "expectedScene": "LanternGorge"
-    },
-    {
       "name": "to the buried door",
       "seconds": 8.76,
       "navigate": true,
@@ -2185,5 +1843,7 @@
       "seconds": 0.5,
       "expectedScene": "SunkenRelay"
     }
-  ]
+  ],
+  "autoHeal": true,
+  "wearBest": true
 }

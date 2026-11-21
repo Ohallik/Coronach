@@ -1,0 +1,1075 @@
+{
+  "name": "chapter-38-orrery",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 7: Ishen on the dock, the launch, the warp to the Orrery, Lume's hail, Ishen's lesson, the nine rails in their moons' lee, the far gate, the landing",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter6.complete",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up off the pads",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the spine until Ishen speaks",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -45
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Ishen arrives begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ishen arrives line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ishen arrives line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ishen arrives line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Ishen arrives",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.charted",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Ishen arrives",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 1/4",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 2/4",
+      "seconds": 2.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 3/4",
+      "seconds": 3.9,
+      "navigate": true,
+      "point": {
+        "x": 5.2,
+        "y": 0.0,
+        "z": -58.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 4/4",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0.0,
+        "z": -61
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "launch to the hull",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "south off the stern dock",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -148
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "west past Hoarfell's warp",
+      "seconds": 14.15,
+      "navigate": true,
+      "point": {
+        "x": -108,
+        "y": 1,
+        "z": -164
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "settle at the warp to the Orrery",
+      "seconds": 13.54,
+      "navigate": true,
+      "point": {
+        "x": -120.0,
+        "y": 1,
+        "z": -172.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "take the warp to the Orrery",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up the lane past Lume's hail",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 50
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "on until Ishen names the moons",
+      "seconds": 9.27,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 100.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "Ishen names the moons begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "read Ishen names the moons line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "next Ishen names the moons line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release Ishen names the moons line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "finish Ishen names the moons",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.lightsRead",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release after Ishen names the moons",
+      "seconds": 0.5,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 1, The Steward",
+      "seconds": 14.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 134.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Steward's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 146.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:1",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Steward's middle gate on green",
+      "seconds": 7.41,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 171.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 2, The Weigher",
+      "seconds": 9.68,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 224.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Weigher's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 236.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:2",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Weigher's middle gate on green",
+      "seconds": 7.41,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 261.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 3, The Clerk of Roads",
+      "seconds": 9.76,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 314.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Clerk of Roads' lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 326.86
+      },
+      "tolerance": 1.5,
+      "until": "lee:3",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Clerk of Roads' middle gate on green",
+      "seconds": 7.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 351.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 4, The Lamplighter",
+      "seconds": 9.75,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 404.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Lamplighter's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 416.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:4",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Lamplighter's middle gate on green",
+      "seconds": 7.41,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 441.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 5, The Reeve",
+      "seconds": 9.76,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 494.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Reeve's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 506.86
+      },
+      "tolerance": 1.5,
+      "until": "lee:5",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Reeve's middle gate on green",
+      "seconds": 7.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 531.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 6, The Second Gardener",
+      "seconds": 2.6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 526.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Second Gardener's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 538.86
+      },
+      "tolerance": 1.5,
+      "until": "lee:6",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Second Gardener's middle gate on green",
+      "seconds": 7.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 563.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 7, The Bellfounder",
+      "seconds": 9.38,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 613.73
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Bellfounder's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 625.73
+      },
+      "tolerance": 1.5,
+      "until": "lee:7",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Bellfounder's middle gate on green",
+      "seconds": 7.57,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 652.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 8, The Almoner",
+      "seconds": 9.61,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 704.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Almoner's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 716.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:8",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Almoner's middle gate on green",
+      "seconds": 7.41,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 741.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 9, The Warden",
+      "seconds": 9.43,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 792.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Warden's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 804.6
+      },
+      "tolerance": 1.5,
+      "until": "lee:9",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Warden's middle gate on green",
+      "seconds": 7.88,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 833.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through the far gate",
+      "seconds": 5.93,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 860.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "settle over the landing",
+      "seconds": 14.8,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 876.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "land at the Skyfields",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release landing",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "first look at the camp",
+      "seconds": 2,
+      "expectedFlag": "oriel.crossed",
+      "expectedScene": "OrielSkyfields"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

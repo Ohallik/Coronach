@@ -69,6 +69,7 @@ namespace Lattice.EditorTools
         static List<(Vector2 a,Vector2 b,float half,string route)> corridors;
         static HashSet<InteractionPrompt> baseline;
 
+        [Restage.Step("chapter1.dressing","Hub_Decks,TallowDrift,Sorrel_Ridges,Hushwell,Gullet_Tunnel,Hub_CinderHalo,TallowApproach",After="chapter1.staging",Chapter=1,Args="-dress-final",ScenesArg="-dress-zones",OnlyWhereMissing=true,Leaves=new[]{"Hub_Decks: Room dressing #1","TallowDrift: Room dressing #1","Sorrel_Ridges: Room dressing #1","Hushwell: Room dressing #1","Hushwell: Lit render chunks #1","Gullet_Tunnel: Room dressing #1","Hub_CinderHalo: Room dressing #1","TallowApproach: Room dressing #1"})]
         public static void Apply()=>BatchTools.Run(()=>
         {
             final=DevArgs.Has("-dress-final");

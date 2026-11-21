@@ -8,7 +8,7 @@ for folder in sys.argv[1:]:
     ms=sorted(float(r['ms']) for r in rows)
     ex=json.loads((f/'process-exit.json').read_text(encoding='utf-8-sig'))['exitCode']
     log=(f/'player.log').read_text(encoding='utf-8',errors='ignore')
-    end=[l for l in log.splitlines() if re.search(r'QUALITY_REPLAY_(OK|FAILED|REJECT)|QUALITY_.*FAIL',l)]
+    end=[l for l in log.splitlines() if re.search(r'QUALITY_REPLAY_(OK|FAILED|REJECT)|QUALITY_RECONNAISSANCE_OK|QUALITY_.*FAIL',l)]
     st=json.loads((f/'final-state.json').read_text(encoding='utf-8-sig')) if (f/'final-state.json').exists() else {}
-    print(f.name,'exit',ex,'valid',run['valid'],'s',round(run['seconds'],1),'samples',run['samples'],'unfocused',sum(r['focus']!='True' for r in rows),
+    print(f.name,'exit',ex,*(('RECONNAISSANCE, not evidence: found no fault',run.get('reconnaissancePassed')) if run.get('reconnaissance') else ('valid',run['valid'])),'s',round(run['seconds'],1),'samples',run['samples'],'unfocused',sum(r['focus']!='True' for r in rows),
           'p95',round(ms[int(.95*len(ms))],2),'max',round(ms[-1],1),'zone',st.get('zone'),'|',end[-1][:140] if end else 'no end marker')

@@ -1,0 +1,2565 @@
+{
+  "name": "chapter-39-skyfields",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 7: the camp, Lume's stall and her lantern, the first lift, the terrace, the first junction, the fibre fields, the second lift, the sagging gardens, the stair gardens, the forecourt, the Choir's door",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.crossed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east from the pad until Ishen speaks",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Ishen at the landing begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen at the landing line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen at the landing line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen at the landing line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish Ishen at the landing",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.ruleSeen",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after Ishen at the landing",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "on to Lume's stall",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 9.0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "greet Lume",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release greet Lume",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "hear Lume out",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:options",
+      "expectedUi": "options",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release before her choices",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "see her stall",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "find the repair gel",
+      "seconds": 3,
+      "pickRow": "Repair Gel",
+      "until": "row:Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "buy repair gel up to the cap",
+      "seconds": 20,
+      "pickRow": "Repair Gel",
+      "buttons": [
+        "South"
+      ],
+      "stock": "cap",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "find the Tempered Module",
+      "seconds": 8,
+      "pickRow": "Tempered Module",
+      "until": "row:Tempered Module",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "buy the Tempered Module up to 2",
+      "seconds": 20,
+      "pickRow": "Tempered Module",
+      "buttons": [
+        "South"
+      ],
+      "stock": "2",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "leave Lume's stall",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Lume's stall",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "start Lume's lantern",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release start Lume's lantern",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Lume's lantern line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Lume's lantern line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Lume's lantern line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Lume's lantern line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Lume's lantern line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Lume's lantern line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Lume's lantern line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Lume's lantern line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Lume's lantern line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Lume's lantern line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Lume's lantern line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Lume's lantern line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish Lume's lantern",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "look over the stock after Lume's lantern",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "leave the stock after Lume's lantern",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the stall after Lume's lantern",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the first lift 1/3",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the first lift 2/3",
+      "seconds": 3.98,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0.0,
+        "z": 13
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the first lift 3/3",
+      "seconds": 3.85,
+      "navigate": true,
+      "point": {
+        "x": 26.0,
+        "y": 0.0,
+        "z": 17.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle on the first lift's node",
+      "seconds": 0.6,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "ride the first lift",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release and ride the first lift",
+      "seconds": 4.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "step off the first lift",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 26.0,
+        "y": 6.0,
+        "z": 39.5
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "onto the terrace's open stone",
+      "seconds": 4.15,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 6.0,
+        "z": 43
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "lock Sky_Glassback",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release lock Sky_Glassback",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 1a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 1b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Glassback round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 2a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 2b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Glassback round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 3a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 3b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Glassback round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 4a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Glassback 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Glassback 4b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Glassback round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Glassback",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Sky_Glassback cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sky_Glassback",
+      "expectedFlag": "clear.Sky_Glassback",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "reach the fallen hero after Sky_Glassback",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "both heroes ready after Sky_Glassback",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the terrace until Idra speaks",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 6.0,
+        "z": 43
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "two gardeners in a walled bed begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read two gardeners in a walled bed line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next two gardeners in a walled bed line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release two gardeners in a walled bed line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read two gardeners in a walled bed line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next two gardeners in a walled bed line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release two gardeners in a walled bed line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read two gardeners in a walled bed line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next two gardeners in a walled bed line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release two gardeners in a walled bed line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read two gardeners in a walled bed line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next two gardeners in a walled bed line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release two gardeners in a walled bed line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read two gardeners in a walled bed line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next two gardeners in a walled bed line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release two gardeners in a walled bed line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish two gardeners in a walled bed",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.gardenSeen",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after two gardeners in a walled bed",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "on until Taren reads the junction",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 6.0,
+        "z": 43
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "the first junction begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the first junction line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the first junction line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the first junction line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the first junction line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the first junction line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the first junction line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the first junction line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the first junction line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the first junction line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the first junction line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the first junction line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the first junction line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the first junction line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the first junction line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the first junction line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the first junction line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the first junction line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the first junction line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish the first junction",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.junctionRead",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after the first junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to the first junction's collar 1/2",
+      "seconds": 7.02,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 6.0,
+        "z": 47
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to the first junction's collar 2/2",
+      "seconds": 2.97,
+      "navigate": true,
+      "point": {
+        "x": -33.5,
+        "y": 6.0,
+        "z": 48.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle before seat the first junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "seat the first junction",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.junction1",
+      "expectedFlag": "oriel.junction1",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release seat the first junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "the island rises flush",
+      "seconds": 4,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the first junction 1/2",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": -30.0,
+        "y": 6.0,
+        "z": 49.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the first junction 2/2",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -30.0,
+        "y": 6.0,
+        "z": 65.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "onto the fibre fields",
+      "seconds": 4.87,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 6.0,
+        "z": 71
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "onto the wisps' floor between two fibres",
+      "seconds": 6.06,
+      "navigate": true,
+      "point": {
+        "x": -3.5,
+        "y": 6.0,
+        "z": 71
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "lock Sky_Wisps",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release lock Sky_Wisps",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 1a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 1b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Wisps round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 2a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 2b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Wisps round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 3a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 3b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Wisps round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 4a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Wisps 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Wisps 4b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Wisps round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Wisps",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Sky_Wisps cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sky_Wisps",
+      "expectedFlag": "clear.Sky_Wisps",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "reach the fallen hero after Sky_Wisps",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "both heroes ready after Sky_Wisps",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the second lift 1/2",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 6.0,
+        "z": 71
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the second lift 2/2",
+      "seconds": 5.08,
+      "navigate": true,
+      "point": {
+        "x": 32.0,
+        "y": 6.0,
+        "z": 74.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle on the second lift's node",
+      "seconds": 0.6,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "ride the second lift",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release and ride the second lift",
+      "seconds": 4.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "step off the second lift",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 32.0,
+        "y": 12.0,
+        "z": 97.5
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west until Idra counts the paces",
+      "seconds": 4.61,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": 12.0,
+        "z": 101
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "twelve paces behind begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read twelve paces behind line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next twelve paces behind line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release twelve paces behind line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read twelve paces behind line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next twelve paces behind line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release twelve paces behind line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read twelve paces behind line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next twelve paces behind line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release twelve paces behind line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read twelve paces behind line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next twelve paces behind line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release twelve paces behind line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read twelve paces behind line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next twelve paces behind line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release twelve paces behind line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish twelve paces behind",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.followerSeen",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after twelve paces behind",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "onto the sagging gardens' fight floor",
+      "seconds": 6.51,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 12.0,
+        "z": 101
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "lock Sky_Mixed",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release lock Sky_Mixed",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 1a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 1b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Mixed round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 2a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 2b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Mixed round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 3a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 3b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Mixed round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 4a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Mixed 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Mixed 4b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Mixed round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Mixed",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Sky_Mixed cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sky_Mixed",
+      "expectedFlag": "clear.Sky_Mixed",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "reach the fallen hero after Sky_Mixed",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "both heroes ready after Sky_Mixed",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the sagging gardens 1/3",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 12.0,
+        "z": 103
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the sagging gardens 2/3",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 104
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the sagging gardens 3/3",
+      "seconds": 4.91,
+      "navigate": true,
+      "point": {
+        "x": -41.5,
+        "y": 12.0,
+        "z": 106.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle before seat the second junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "seat the second junction",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.junction2",
+      "expectedFlag": "oriel.junction2",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release seat the second junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "the garden rises flush",
+      "seconds": 4,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the second junction 1/2",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 107.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the second junction 2/2",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east along the stair gardens 1/5",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -31.5,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east along the stair gardens 2/5",
+      "seconds": 3.52,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 129
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east along the stair gardens 3/5",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 12.0,
+        "z": 130
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east along the stair gardens 4/5",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 12.0,
+        "z": 131
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east along the stair gardens 5/5",
+      "seconds": 3.85,
+      "navigate": true,
+      "point": {
+        "x": 16.5,
+        "y": 12.0,
+        "z": 134.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle before seat the third junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "seat the third junction",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.junction3",
+      "expectedFlag": "oriel.junction3",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release seat the third junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "the chest's island rises flush",
+      "seconds": 4,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the third junction 1/2",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 12.0,
+        "z": 135.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the third junction 2/2",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 12.0,
+        "z": 151.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "onto the forecourt",
+      "seconds": 4.3,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 12.0,
+        "z": 155.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "lock Sky_Door",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release lock Sky_Door",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 1a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 1b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Door round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Door",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 2a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 2b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Door round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Door",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 3a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 3b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Door round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Door",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 4a",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "skill Sky_Door 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release skill Sky_Door 4b",
+      "seconds": 0.45,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "fight Sky_Door round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Sky_Door",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Sky_Door cleared",
+      "seconds": 3,
+      "until": "flag:clear.Sky_Door",
+      "expectedFlag": "clear.Sky_Door",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "reach the fallen hero after Sky_Door",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "both heroes ready after Sky_Door",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "up to the Choir's step until Idra speaks",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 12.0,
+        "z": 163.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "the Choir's doorstep begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the Choir's doorstep line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the Choir's doorstep line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the Choir's doorstep line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the Choir's doorstep line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the Choir's doorstep line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the Choir's doorstep line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish the Choir's doorstep",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.doorReached",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after the Choir's doorstep",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to the Choir's door",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": 4.0,
+        "y": 12.0,
+        "z": 166.39999999999998
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "into the Glass Choir",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Choir's door",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "inside the great door",
+      "seconds": 1.5,
+      "expectedFlag": "oriel.doorReached",
+      "expectedScene": "GlassChoir"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

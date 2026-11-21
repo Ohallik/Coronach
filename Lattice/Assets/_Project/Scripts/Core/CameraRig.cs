@@ -150,11 +150,62 @@ namespace Lattice.Core
             flight=new GameObject("FlightFollow",typeof(CinemachineCamera)).GetComponent<CinemachineCamera>();
             ground.transform.SetParent(transform);flight.transform.SetParent(transform);
         }
-        float tremorAge=1,tremorLength=1,tremorAmplitude;
+        float tremorAge=1,tremorLength=1,tremorAmplitude,tremorClock;
         /// <summary>A brief deck tremor (the station shifting under the opening scene): a presentation offset that decays
-        /// over its length and never moves the gameplay framing target.</summary>
-        public void Tremor(float seconds,float amplitude){tremorLength=Mathf.Max(.05f,seconds);tremorAmplitude=Mathf.Max(0,amplitude);tremorAge=0;}
+        /// over its length and never moves the gameplay framing target. Its amplitude is metres at the profile's own distance, and it keeps that size on screen however far
+        /// back the view stands. A lighter tremor doesn't cut a heavier one short: a hit's shudder used to end a boss's slam.</summary>
+        public void Tremor(float seconds,float amplitude)
+        {
+            seconds=Mathf.Max(.05f,seconds);amplitude=Mathf.Max(0,amplitude);
+            if(tremorAge<tremorLength){float fade=1-tremorAge/tremorLength;if(tremorAmplitude*fade*fade>amplitude)return;}
+            tremorLength=seconds;tremorAmplitude=amplitude;tremorAge=0;
+        }
         public bool Trembling=>tremorAge<tremorLength;
+        struct Kick{public Vector2 along;public float share,age,life;}
+        readonly Kick[] kicks=new Kick[4];int kickTurn;
+        /// <summary>The most the view is ever moved off its framing, as a share of its height (about 22 px at 1080p), and how fast a kick rings.</summary>
+        public const float MostShake=.02f,KickHz=14;
+        /// <summary>Where the last frame's shake put the camera off its framing: in its own right and up as a share of the view's height, and in the world.</summary>
+        public Vector2 ShakeShare{get;private set;}
+        public Vector3 ShakeOffset{get;private set;}
+        Vector3 posedAt;Quaternion posedRotation;bool posed;
+        /// <summary>A hit's kick: the view jumps along the blow and rings back over its length. Like a tremor it is laid over the framing and moves only in the camera's own plane:
+        /// the angle and the lens never change. Its size is a share of the view's height, so it reads the same at 19 m on foot and at 90 m in flight.</summary>
+        public void Impulse(Vector3 worldDirection,float share,float seconds=.14f)
+        {
+            if(share<=0||seconds<=0||profile==null)return;
+            var local=Quaternion.Inverse(Quaternion.Euler(profile.pitch,profile.yaw,0))*worldDirection;var along=new Vector2(local.x,local.y);
+            // Straight down the lens there's nothing to kick along: a diagonal, to one side and then the other.
+            if(along.sqrMagnitude<.0001f)along=(kickTurn++&1)==0?new Vector2(.6f,.8f):new Vector2(-.6f,.8f);
+            int slot=0;float least=float.PositiveInfinity;
+            for(int i=0;i<kicks.Length;i++){float left=Left(kicks[i]);if(left<least){least=left;slot=i;}}
+            // Four already ringing harder than this one.
+            if(least>share)return;
+            kicks[slot]=new Kick{along=along.normalized,share=share,age=0,life=seconds};
+        }
+        static float Left(in Kick kick){if(kick.age>=kick.life)return 0;float fade=1-kick.age/kick.life;return kick.share*fade*fade;}
+        /// <summary>Kicks and the tremor together, as one offset in the camera's plane. Their clocks are real time, so a kick rings through the hit-stop it comes with, and they
+        /// hold for a pause: the tremor used to run on behind the menu.</summary>
+        Vector3 Shake(Quaternion rotation)
+        {
+            float dt=GameTime.Paused?0:Time.unscaledDeltaTime;var sum=Vector2.zero;
+            for(int i=0;i<kicks.Length;i++)
+            {
+                if(kicks[i].age>=kicks[i].life)continue;
+                float fade=1-kicks[i].age/kicks[i].life;
+                sum+=kicks[i].along*(kicks[i].share*fade*fade*Mathf.Cos(kicks[i].age*KickHz*2*Mathf.PI));kicks[i].age+=dt;
+            }
+            float view=2*cameraDistance*Mathf.Tan(profile.fov*.5f*Mathf.Deg2Rad);var metres=sum*view;
+            if(tremorAge<tremorLength)
+            {
+                float fade=1-Mathf.Clamp01(tremorAge/tremorLength),t=tremorClock*23;
+                metres+=new Vector2(Mathf.PerlinNoise(t,.3f)-.5f,Mathf.PerlinNoise(.7f,t)-.5f)*(2*tremorAmplitude*fade*fade*cameraDistance/Mathf.Max(1,profile.distance));
+                tremorAge+=dt;tremorClock+=dt;
+            }
+            metres=Vector2.ClampMagnitude(metres*ImpactSettings.ShakeScale,MostShake*view);
+            ShakeShare=view>0?metres/view:Vector2.zero;ShakeOffset=rotation*new Vector3(metres.x,metres.y,0);
+            return ShakeOffset;
+        }
         public void Apply(Transform follow,CameraProfile settings)
         {
             bool preserve=initialized&&follow!=null&&profile==settings&&(encounterBounds.HasValue||returning||HasSceneInterest)&&
@@ -216,7 +267,9 @@ namespace Lattice.Core
             bool groundFramed=!isFlight&&GroundFramed;
             Bounds? framedBounds=encounterBounds??(sceneFraming?sceneInterestBounds:null);
             var active=isFlight?flight:ground;ground.Priority=isFlight?0:20;flight.Priority=isFlight?20:0;
-            if(!initialized){center=lastTarget=target.position;velocity=Vector3.zero;cameraDistance=profile.distance;initialized=true;}
+            if(!initialized){center=lastTarget=target.position;velocity=Vector3.zero;cameraDistance=profile.distance;initialized=true;posed=false;}
+            // A hit-stop holds the view where it stood: nobody in frame moves, and a solver running on real time would drift in toward them and back. Only the kick moves it.
+            if(posed&&GameTime.Stopped){active.transform.SetPositionAndRotation(posedAt+Shake(posedRotation),posedRotation);return;}
             if(!isFlight)returning=false;
             float dt=(returning||sceneFraming||groundFramed)&&GameTime.Paused?0:Time.unscaledDeltaTime;
             velocity=Vector3.Lerp(velocity,(target.position-lastTarget)/Mathf.Max(.001f,dt),1-Mathf.Exp(-9.75f*dt));lastTarget=target.position;
@@ -323,13 +376,8 @@ namespace Lattice.Core
                 requestedOffset=rotation*new Vector3(tan*aspect*(sceneInterestViewport.xMin+sceneInterestViewport.xMax-1),tan*(sceneInterestViewport.yMin+sceneInterestViewport.yMax-1),0)*cameraDistance;
             }
             viewOffset=Vector3.Lerp(viewOffset,requestedOffset,1-Mathf.Exp(-(isFlight?10:3.5f)*dt));
-            Vector3 tremor=Vector3.zero;
-            if(tremorAge<tremorLength)
-            {
-                tremorAge+=Time.unscaledDeltaTime;float fade=1-Mathf.Clamp01(tremorAge/tremorLength),t=Time.unscaledTime*23;
-                tremor=new Vector3(Mathf.PerlinNoise(t,.3f)-.5f,Mathf.PerlinNoise(.7f,t)-.5f,0)*2*tremorAmplitude*fade*fade;
-            }
-            active.transform.SetPositionAndRotation(center-viewOffset-rotation*Vector3.forward*cameraDistance+rotation*tremor,rotation);
+            posedAt=center-viewOffset-rotation*Vector3.forward*cameraDistance;posedRotation=rotation;posed=true;
+            active.transform.SetPositionAndRotation(posedAt+Shake(rotation),rotation);
             var lens=active.Lens;lens.FieldOfView=profile.fov;lens.NearClipPlane=.1f;lens.FarClipPlane=1600;active.Lens=lens;
         }
     }

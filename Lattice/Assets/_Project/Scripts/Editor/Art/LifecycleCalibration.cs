@@ -12,7 +12,19 @@ namespace Lattice.EditorTools
     public static class LifecycleCalibration
     {
         /// <summary>The Sentinel Husk's rig and its reskins (the Muster's soldiers, D202) share one lifecycle, and so does their captain: her own body has the same Meshy skeleton and the same five states.</summary>
-        internal static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.enemy=="HessaKorl"||row.model!=null&&row.model.Contains("P3-SentinelHusk/");
+        internal static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.enemy=="HessaKorl"||row.model!=null&&(row.model.Contains("P3-SentinelHusk/")
+            // The Ancelane guard and its coats (the Drowned Sentry first): another Meshy skeleton with the same five states.
+            ||row.model.Contains("/AncelaneGuard_clean")
+            // The Host Marshal (chapter 6): its own mesh at 4.8 m on the same Meshy skeleton, so it gets the five states and the recoil layer, not the heroes' Revive clip alone.
+            ||row.model.Contains("/HostMarshal_clean")
+            // Chapter 7: the Last Warden's own mesh, and the gardener's when it is an enemy (the Pruner). The gardener who only keeps the gardens is a person, not an enemy, and keeps its feet.
+            ||row.model.Contains("/LastWarden_clean")||!string.IsNullOrEmpty(row.enemy)&&row.model.Contains("/Gardener_clean")
+            // Chapter 8: the Warmaster's war-frame, and his pikeguards, who wear the same mesh in the Muster's gunmetal (tools/c15_intake.py).
+            ||row.model.Contains("/DraskVaal_clean")
+            // Chapter 8's elite, Vessa Korl: her sister's mesh in chapter 6's coat. Only as an enemy: Vessa the person, and Pip, keep their feet on it.
+            ||!string.IsNullOrEmpty(row.enemy)&&row.model.Contains("QA-Hessa/HessaBody_clean")
+            // Chapter 9's Compact Wardens: their own mesh (made with chapter 10's batch, its riot shield cut away), rigged on the same Meshy skeleton.
+            ||!string.IsNullOrEmpty(row.enemy)&&row.model.Contains("/CompactWarden_clean"));
         internal static void Install(GenIntake.Row row)
         {
             string path="Assets/_Project/Prefabs/"+row.folder+"/"+row.id+".prefab";

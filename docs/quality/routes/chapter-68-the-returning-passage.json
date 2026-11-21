@@ -1,0 +1,1112 @@
+{
+  "name": "chapter-68-the-returning-passage",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: the run north with Ilo's names, Bryn falls behind, Sela turns back, the tug's drones, the line, the tow to the far mouth, the rendezvous, the cut",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "end.custody",
+      "expectedForm": "Flight",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "north along the road until Ilo reads",
+      "seconds": 23.09,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 145.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Ilo reads the first name begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Ilo reads the first name line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Ilo reads the first name line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Ilo reads the first name line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Ilo reads the first name line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Ilo reads the first name line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Ilo reads the first name line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Ilo reads the first name line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Ilo reads the first name line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Ilo reads the first name line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Ilo reads the first name line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Ilo reads the first name line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Ilo reads the first name line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "finish Ilo reads the first name",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.namesBegun",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release after Ilo reads the first name",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 330 m in",
+      "seconds": 44.1,
+      "navigate": true,
+      "point": {
+        "x": -15.3,
+        "y": 1,
+        "z": 289.02
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 492 m in",
+      "seconds": 25.56,
+      "navigate": true,
+      "point": {
+        "x": -35.96,
+        "y": 1,
+        "z": 449.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 640 m in",
+      "seconds": 23.52,
+      "navigate": true,
+      "point": {
+        "x": -9.74,
+        "y": 1,
+        "z": 595.34
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 720 m in",
+      "seconds": 13.77,
+      "navigate": true,
+      "point": {
+        "x": -7.33,
+        "y": 1,
+        "z": 676.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 800 m in",
+      "seconds": 13.64,
+      "navigate": true,
+      "point": {
+        "x": 6.89,
+        "y": 1,
+        "z": 754.93
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 900 m in",
+      "seconds": 16.22,
+      "navigate": true,
+      "point": {
+        "x": 13.62,
+        "y": 1,
+        "z": 852.46
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "along the road, 1000 m in",
+      "seconds": 16.55,
+      "navigate": true,
+      "point": {
+        "x": 6.74,
+        "y": 1,
+        "z": 952.22
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "to the far end until Bryn falls behind",
+      "seconds": 14.8,
+      "navigate": true,
+      "point": {
+        "x": 0.69,
+        "y": 1,
+        "z": 1040.01
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Bryn falls behind begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn falls behind line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn falls behind line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn falls behind line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "finish Bryn falls behind",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.passageRun",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release after Bryn falls behind",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Sela turns back",
+      "seconds": 40,
+      "until": "flag:end.turnedBack",
+      "expectedFlag": "end.turnedBack",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "facing back down the road",
+      "seconds": 2,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "back south down the road",
+      "seconds": 28.18,
+      "navigate": true,
+      "point": {
+        "x": 15.0,
+        "y": 1,
+        "z": 832.51
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "on into Passage_Tug",
+      "seconds": 17.68,
+      "navigate": true,
+      "point": {
+        "x": -4.2,
+        "y": 1,
+        "z": 726.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "lock Passage_Tug",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release lock Passage_Tug",
+      "seconds": 0.3,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pursue Passage_Tug round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pulse Passage_Tug round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release pulse Passage_Tug round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pursue Passage_Tug round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pulse Passage_Tug round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release pulse Passage_Tug round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pursue Passage_Tug round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pulse Passage_Tug round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release pulse Passage_Tug round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pursue Passage_Tug round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pulse Passage_Tug round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release pulse Passage_Tug round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pursue Passage_Tug round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "pulse Passage_Tug round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Passage_Tug",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release pulse Passage_Tug round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Passage_Tug cleared",
+      "seconds": 3,
+      "until": "flag:clear.Passage_Tug",
+      "expectedFlag": "clear.Passage_Tug",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "settle at the tug's bow",
+      "seconds": 50.0,
+      "navigate": true,
+      "point": {
+        "x": 13.1875305,
+        "y": 1,
+        "z": 726.2881
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "settle before take the tug's line",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "take the tug's line",
+      "seconds": 8,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:end.lineOn",
+      "expectedFlag": "end.lineOn",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release take the tug's line",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "Bryn on the line begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn on the line line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn on the line line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn on the line line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn on the line line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn on the line line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn on the line line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn on the line line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn on the line line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn on the line line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read Bryn on the line line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next Bryn on the line line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release Bryn on the line line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "finish Bryn on the line",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.tugFetched",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release after Bryn on the line",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "towing north, 860 m in",
+      "seconds": 14.56,
+      "navigate": true,
+      "point": {
+        "x": 16.38,
+        "y": 1,
+        "z": 812.55
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "towing north, 960 m in",
+      "seconds": 16.55,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 1,
+        "z": 912.32
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "towing north, 1060 m in",
+      "seconds": 16.55,
+      "navigate": true,
+      "point": {
+        "x": 2.62,
+        "y": 1,
+        "z": 1012.08
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "towing north, 1160 m in",
+      "seconds": 16.54,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 1111.99
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "towing north, 1240 m in",
+      "seconds": 13.64,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 1191.99
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "to the far mouth until Orrin speaks",
+      "seconds": 10.15,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 1247.99
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "The rendezvous begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read The rendezvous line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next The rendezvous line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release The rendezvous line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read The rendezvous line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next The rendezvous line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release The rendezvous line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read The rendezvous line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next The rendezvous line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release The rendezvous line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "read The rendezvous line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "next The rendezvous line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release The rendezvous line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "finish The rendezvous",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.rendezvous",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release after The rendezvous",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "seven weeks on",
+      "seconds": 40,
+      "until": "scene:NeighbourhoodAfloat",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "release after the cut",
+      "seconds": 0.5,
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the new sky",
+      "seconds": 2,
+      "expectedFlag": "end.rendezvous",
+      "expectedScene": "NeighbourhoodAfloat"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

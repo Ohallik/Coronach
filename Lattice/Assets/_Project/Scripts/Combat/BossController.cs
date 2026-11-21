@@ -45,25 +45,30 @@ namespace Lattice.Combat
         public bool Engaged=>engaged>=0;
         /// <summary>Alive, awake and in the fight: the boss bar shows while the party is near.</summary>
         public bool Fighting=>isActiveAndEnabled&&health!=null&&health.Alive&&brain!=null&&brain.enabled&&!brain.Passive;
-        public string DisplayName=>health==null?"":health.id switch{"Burrower"=>"THE BURROWER","BellowsBelow"=>"THE BELLOWS BELOW","Cantor"=>"THE CANTOR","HessaKorl"=>"HESSA KORL",var id=>id.ToUpperInvariant()};
-        public string Epithet=>health==null?"":health.id switch
-        {
-            "Burrower"=>"Sorrel's drill rig, chasing an evacuation signal",
-            "BellowsBelow"=>"The breath at the bottom of Hushwell",
-            "Cantor"=>"A route-singer collared to the old survey line",
-            "HessaKorl"=>"Muster scavenger captain, stripping the relay's glass",
-            _=>""
-        };
+        // Each boss's name, phases and moves are its own file's to say (BossController.Registry.cs): nothing below names a boss to ask.
+        public string DisplayName=>health==null?"":Own.title;
+        public string Epithet=>health==null?"":Own.epithet;
         /// <summary>What the boss bar says while this boss can't be hurt: the thing the player has to deal with.</summary>
         /// <summary>The fight's state beyond integrity: what the player should know right now.</summary>
-        public string StatusText=>health==null?"":health.id=="BellowsBelow"&&PressureOrgan.AnyPumping?"BRACED ON ITS ORGANS  ·  BREAK THEM":"";
-        public string ShiftText=>health!=null&&health.id=="HessaKorl"?"SHE'S SHIFTING  ·  BRACE":"SHIFTING  ·  BRACE";
-        public string GuardedText=>collar!=null&&collar.Remaining>0?"THE COLLAR HOLDS  ·  CUT THE LINKS":burrowed?"BELOW GROUND":"PROTECTED";
+        public string StatusText=>health==null||Own.status==null?"":Own.status(this);
+        public string ShiftText=>health!=null?Own.shiftText:"SHIFTING  ·  BRACE";
+        public string GuardedText=>health!=null&&Own.guarded!=null?Own.guarded(this):collar!=null&&collar.Remaining>0?"THE COLLAR HOLDS  ·  CUT THE LINKS":burrowed?"BELOW GROUND":"PROTECTED";
         /// <summary>Integrity fractions at which the next phase begins (boss bar notches).</summary>
-        public float[] Thresholds=>health==null?System.Array.Empty<float>():health.id switch
+        public float[] Thresholds=>health==null?System.Array.Empty<float>():Own.thresholds;
+        /// <summary>How low one EXTRA move may take this boss (S3): across the next phase line and no further, so a burst of twelve hits' worth can't carry the fight over a
+        /// line whose shift then never plays. With one line left that's 1 Integrity, the last shift being still to come; in the last phase there's no floor, unless its
+        /// shift is owed or playing. The shift's own invulnerability needs no help: an EXTRA lands through <see cref="Health.Receive"/> like anything else.
+        /// The floor stands 1 Integrity over the line it keeps: on the line itself, rounding decides which side the boss is on.</summary>
+        public float ExtraFloor
         {
-            "Burrower"=>new[]{.6f,.3f},"BellowsBelow"=>new[]{.5f,.3f},"Cantor"=>new[]{.75f,.4f},"HessaKorl"=>new[]{.66f,.33f},_=>new[]{.5f}
-        };
+            get
+            {
+                if(health==null||!health.Alive)return 0;
+                float ratio=health.integrity/Mathf.Max(1,health.maximum),second=0;int ahead=0;var thresholds=Thresholds;
+                for(int i=0;i<thresholds.Length;i++)if(ratio>=thresholds[i]&&++ahead==2)second=thresholds[i];
+                return ahead>=2?second*health.maximum+1:ahead==1||shiftPending||shifting?1:0;
+            }
+        }
 
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
         void OnDisable(){All.Remove(this);}
@@ -77,8 +82,8 @@ namespace Lattice.Combat
                 foreach(var boss in All)
                 {
                     if(boss==null||!boss.Fighting||!boss.Engaged)continue;
-                    var offset=boss.transform.position-party.Active.transform.position;offset.y=0;
-                    if(offset.sqrMagnitude<45*45)return true;
+                    var offset=boss.FightCentre-party.Active.transform.position;offset.y=0;
+                    if(offset.magnitude-boss.FightReach<45)return true;
                 }
                 return false;
             }
@@ -86,15 +91,18 @@ namespace Lattice.Combat
         /// <summary>The fighting boss nearest a point, within range.</summary>
         public static BossController Focus(Vector3 from,float range=34)
         {
-            BossController best=null;float score=range*range;
+            BossController best=null;float score=range;
             foreach(var boss in All)
             {
                 if(boss==null||!boss.Fighting)continue;
-                var offset=boss.transform.position-from;offset.y=0;
-                if(offset.sqrMagnitude<score){score=offset.sqrMagnitude;best=boss;}
+                var offset=boss.FightCentre-from;offset.y=0;float gap=offset.magnitude-boss.FightReach;
+                if(gap<score){score=gap;best=boss;}
             }
             return best;
         }
+        /// <summary>Where this boss's fight is measured from, and how much farther than an asker's range it reaches: its Kit's (<see cref="Kit.centre"/>), else its root and no farther.</summary>
+        public Vector3 FightCentre=>health!=null&&Own.centre!=null?Own.centre(this):transform.position;
+        public float FightReach=>health!=null&&Own.reach!=null?Mathf.Max(0,Own.reach(this)):0;
 
         void Start()
         {
@@ -102,18 +110,18 @@ namespace Lattice.Combat
             collar=GetComponent<CantorCollar>();
             // Dormant previews delay Start until activation. The combat cue
             // then lasts until resolution or removal.
-            MusicDirector.Encounter(this,"Alien Boss Battle",true);
+            MusicDirector.Encounter(this,Track,true);
             nextSpecial=Time.time+5;health.Damaged+=OnDamaged;
             var presentation=GetComponent<DefeatPresentation>();
             visual=presentation!=null?presentation.visual:null;if(visual!=null){visualRest=visual.localPosition;visualRestRotation=visual.localRotation;}
             // The Bellows has no rig: its breathing is its animation.
             if(health.id=="BellowsBelow"){body=visual;if(body!=null)bodyRest=body.localScale;}
             // Sized for a rig's 1.4 m body. On Hessa's .8 m the outer two hung in the air beside her, and a shot past her shoulder landed for double with the !! of a weak spot.
-            float spots=Mathf.Min(1,GetComponent<CharacterController>().radius/1.4f);
-            for(int i=0;i<(collar!=null?0:3);i++)
+            float girth=GetComponent<CharacterController>().radius,spots=Mathf.Min(1,girth/1.4f);var placed=Own.weakSpots;
+            for(int i=0;i<(collar!=null?0:placed!=null?placed.Length:3);i++)
             {
                 var weak=new GameObject("WeakPoint_"+i,typeof(SphereCollider),typeof(Hurtbox));weak.transform.SetParent(transform,false);
-                weak.transform.localPosition=new Vector3((i-1)*1.2f*spots,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f*spots;weak.GetComponent<SphereCollider>().isTrigger=true;
+                weak.transform.localPosition=placed!=null?placed[i]:WeakSpotAt(i,girth,spots);weak.GetComponent<SphereCollider>().radius=WeakSpotRadius*spots;weak.GetComponent<SphereCollider>().isTrigger=true;
                 weak.GetComponent<Hurtbox>().owner=health;weak.GetComponent<Hurtbox>().multiplier=2;
             }
             health.Died+=(_,__)=>
@@ -122,9 +130,27 @@ namespace Lattice.Combat
                 ClearTheField();DismissSummons();
                 GameServices.Current.Flags.SetBool("bossdown."+health.id,true);
                 if(health.id=="BellowsBelow")PressureOrgan.SettleAll();
-                BarkService.Play(PartyController.Current.Active.character,health.id=="Cantor"?"release":"boss",true);
+                Own.down?.Invoke(this);
+                BarkService.Play(PartyController.Current.Active.character,Own.downBark,true);
                 Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");
             };
+            Own.start?.Invoke(this);
+            // Last, so a boss nobody registered still has a body, a bar and an end: it says so, and has no specials.
+            Require(health.id);
+        }
+        /// <summary>A weak spot's radius on a body 1.4 m wide or more, its height, and how far it stands proud of the body's capsule on a wider one.</summary>
+        public const float WeakSpotRadius=.5f,WeakSpotHeight=1.4f,WeakSpotProud=.2f;
+        /// <summary>What each phase past the first adds to everything a boss deals.</summary>
+        public const float PhaseStep=.18f;
+        /// <summary>Where weak spot <paramref name="i"/> of three sits when the boss's kit doesn't say. A blade hits the first hurtbox of a body it touches, so a spot inside the
+        /// body's capsule is never reached: a body up to 1.4 m wide keeps the places chapters 1 and 2's four always had (one on each flank 1.2 m out, scaled with the body, which stand
+        /// proud of it, and one at its middle); a wider one has one on each flank and one at its front, each standing <see cref="WeakSpotProud"/> out of its skin. Laid out for 1.4 m
+        /// they were inside every wider boss: the Rotbloom's 2 m under its own.</summary>
+        public static Vector3 WeakSpotAt(int i,float girth,float spots)
+        {
+            if(girth<=1.4f)return new Vector3((i-1)*1.2f*spots,WeakSpotHeight,0);
+            float outward=girth+WeakSpotProud-WeakSpotRadius;
+            return i==1?new Vector3(0,WeakSpotHeight,outward):new Vector3((i-1)*outward,WeakSpotHeight,0);
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
@@ -142,12 +168,12 @@ namespace Lattice.Combat
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;engaged=-1;
             Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;queuedMove=null;openingUntil=0;bracedSaid=stallSaid=false;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
             DismissSummons();
-            MusicDirector.Encounter(this,"Alien Boss Battle",true);
+            MusicDirector.Encounter(this,Track,true);
         }
         /// <summary>Everything an interrupted special left behind: markings, thrown things, a sunken or swollen body.</summary>
         void Interrupt()
         {
-            Collide(true);Telegraph.CancelAll(this);ClearTemporary();Deflate();RestoreBody();shifting=false;CurrentMove="";
+            Collide(true);Telegraph.CancelAll(this);ClearTemporary();Deflate();RestoreBody();shifting=false;CurrentMove="";MeretInterrupted();
         }
         void RestoreBody()
         {
@@ -198,12 +224,13 @@ namespace Lattice.Combat
             int phase=healthPhase;
             if(collar!=null)phase=Mathf.Max(phase,Mathf.Min(3,4-collar.Remaining));
             if(phase!=Phase){Phase=phase;Debug.Log($"BOSS_PHASE {health.id} {Phase}");}
-            brain.DamageScale=1+(Phase-1)*.18f;
+            brain.DamageScale=1+(Phase-1)*PhaseStep;
             // The Bellows braces against the cave while any pressure organ pumps.
             if(health.id=="BellowsBelow"&&PressureOrgan.AnyPumping)health.ShieldUntil=Time.time+.25f;
+            Own.update?.Invoke(this);
             // A Flash slows the shift and not the clock its brace is timed on, so what the world's clock loses goes on the limit: untouchable for as long as the bar says so.
             // Run out early, a break could stop the routine with its promised move and its summons still to come.
-            if(shifting)health.InvulnerableUntil+=Time.unscaledDeltaTime-Time.deltaTime;
+            if(shifting)health.InvulnerableUntil+=GameTime.Delta-Time.deltaTime;
             // A breath held through a spit's tell is the dome's wind-up.
             if(body!=null&&inflated==null){float tell=brain.TellProgress;body.localScale=bodyRest*(1+.035f*Mathf.Sin(Time.time*2.1f)*(1-tell)+.12f*tell);}
             if(brain.Passive||busy||health.Broken||GameServices.Current.Input.Blocked||PartyController.Current==null)return;
@@ -212,28 +239,16 @@ namespace Lattice.Combat
             if(shiftPending){shiftPending=false;Begin("PhaseShift",PhaseShift());return;}
             if(Time.time<nextSpecial)return;
             if(queuedMove!=null){var promised=queuedMove;queuedMove=null;if(Perform(promised))return;}
-            var (move,routine)=health.id switch
-            {
-                "Burrower"=>ChooseBurrower(hero),
-                "BellowsBelow"=>ChooseBellows(hero),
-                "Cantor"=>ChooseCantor(hero),
-                "HessaKorl"=>ChooseHessa(hero),
-                _=>("DrillCharge",DrillCharge(1))
-            };
+            // A boss with no chooser has no specials: it used to take the Burrower's charge.
+            if(Own.choose==null)return;
+            var (move,routine)=Own.choose(this,hero);
             if(routine!=null)Begin(move,routine);
         }
         /// <summary>Start a named special now, if the boss is free to (tests and review captures; the fight never calls it).</summary>
         public bool Perform(string move)
         {
             if(busy||health==null||!health.Alive||health.Broken)return false;
-            IEnumerator routine=move switch
-            {
-                "DrillCharge"=>DrillCharge(Phase>=2?2:1),"SpoilToss"=>SpoilToss(),"TailSweep"=>TailSweep(),"Burrow"=>Burrow(),"SeismicRings"=>SeismicRings(),
-                "Breath"=>BellowsBreath(),"RibStar"=>RibStar(),"Bubbles"=>Bubbles(),"Crossing"=>BellowsCrossing(),
-                "Choir"=>ChoirAttack(),"SongSpiral"=>SongSpiral(),"CoilLash"=>CoilLash(),"PhaseShift"=>PhaseShift(),
-                "HookLance"=>HookLance(Phase>=3?4:3),"Advance"=>Advance(),"GrappleChain"=>GrappleChain(),"Sidearm"=>Sidearm(),"SweepingCut"=>SweepingCut(),"Lampbreaker"=>Lampbreaker(),
-                _=>null
-            };
+            IEnumerator routine=Routine(move);
             if(routine==null)return false;
             Begin(move,routine);return true;
         }
@@ -259,18 +274,11 @@ namespace Lattice.Combat
             string own=situation+"."+health.id;
             return BarkService.Line(PartyController.Current.Active.character,own)!=null?own:situation;
         }
-        string SignatureMove(int phase)=>(health.id,phase) switch
-        {
-            ("Burrower",2)=>"Burrow",("Burrower",>=3)=>"SeismicRings",
-            ("BellowsBelow",2)=>"Bubbles",("BellowsBelow",>=3)=>"Crossing",
-            ("Cantor",2)=>"SongSpiral",("Cantor",>=3)=>"CoilLash",
-            ("HessaKorl",2)=>"SweepingCut",("HessaKorl",>=3)=>"Lampbreaker",
-            _=>null
-        };
+        string SignatureMove(int phase)=>Own.signature?.Invoke(phase);
 
         // ---------- shared pieces ----------
         Telegraph Mark(Telegraph marking){marking.owner=this;return marking;}
-        DamagePacket Packet(float amount,DamageType type)=>new DamagePacket{source=health,amount=amount*brain.DamageScale,type=type};
+        DamagePacket Packet(float amount,DamageType type)=>new DamagePacket{source=health,amount=amount*brain.DamageScale,type=type,weight=HitWeight.Heavy};
         static Vector3 Flat(Vector3 v){v.y=0;return v;}
         Vector3 Toward(Vector3 point){var d=Flat(point-transform.position);return d.sqrMagnitude>.0001f?d.normalized:transform.forward;}
         bool Interrupted=>!health.Alive||health.Broken;
@@ -385,8 +393,7 @@ namespace Lattice.Combat
             wave.Release();strikeAt=0;
             foreach(var actor in PartyController.Current.members)
                 if(actor.Health.Alive&&wave.Contains(actor.transform.position))StartCoroutine(Shove(actor,Flat(actor.transform.position-transform.position),3.2f));
-            if(health.id=="Burrower")SummonMites(HealthPhase>=3?2:2);
-            if(health.id=="HessaKorl")CallCrew(2);
+            Own.shift?.Invoke(this);
             Debug.Log($"BOSS_SHIFT {health.id} {HealthPhase}");
             queuedMove=SignatureMove(HealthPhase);
             yield return new WaitForSeconds(.7f);

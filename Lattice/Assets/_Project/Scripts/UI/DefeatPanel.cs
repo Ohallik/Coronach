@@ -29,8 +29,11 @@ namespace Lattice.UI
                 var saves=GameServices.Current.Saves;var state=saves.Load(saves.RetrySlot)??GameServices.Current.State;
                 // A retry starts the party whole: an autosave can hold wounds taken mid-fight, or a partner still down.
                 foreach(var m in state.party)m.integrity=Lattice.Rpg.Levels.MaxIntegrity(m.level);
+                // The difficulty is the player's as it stands, not as the checkpoint was written: turned down after a third defeat at a boss, it is still down for the fourth try.
+                // The next save writes it: at once on arriving back at an autosave, at the next dock or cleared fight after a slot.
+                state.difficulty=GameServices.Current.State.difficulty;
                 // A slot picked from the title is only armed in memory until the next autosave writes it: read back, it needs it again.
-                GameServices.ArmAnEmptyParty(state);GameServices.Current.State=state;GameTime.Reset();
+                GameServices.ArmAnEmptyParty(state);Lattice.Rpg.PartyFloor.OnLoad(state);GameServices.Current.State=state;GameTime.Reset();
                 if(saves.RetrySlot=="autosave")SceneFlow.Current.LoadZone(state.zone,state.spawn);else SceneFlow.Current.LoadSavedZone(state.zone,state.spawn);
             });UiKit.Rect(retry.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-10),new(650,70));
             var quit=UiKit.Button(panel.transform,"Title","Return to title",()=>{if(SceneFlow.Current.Loading)return;GameTime.Reset();GameServices.Current.Input.Blocked=false;SceneFlow.Current.LoadZone("Title");});UiKit.Rect(quit.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-110),new(650,70));

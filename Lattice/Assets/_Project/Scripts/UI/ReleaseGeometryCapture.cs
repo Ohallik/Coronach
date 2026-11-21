@@ -76,7 +76,9 @@ namespace Lattice.UI
                 if(renderer is MeshRenderer||renderer is SkinnedMeshRenderer)result.Add(renderer);
             return result.ToArray();
         }
-        public void Record(int sample,int frame,double elapsed,int step,CombatActor active,CombatActor partner,Camera camera)
+        // The role of any hull out beyond the two: each follows the pair in a frame's heroes.
+        public const string OtherRole="other";
+        public void Record(int sample,int frame,double elapsed,int step,CombatActor active,CombatActor partner,Camera camera,CombatActor[] others=null)
         {
             if(finished)throw new InvalidOperationException("Release geometry already finished");
             if(sample!=samples||frame<=lastFrame||!double.IsFinite(elapsed)||elapsed<0||elapsed<=lastElapsed)
@@ -110,9 +112,11 @@ namespace Lattice.UI
                     source=body.span.source,episode=body.span.episode,gameTime=GameTime.Now,paused=GameTime.Paused,releaseAge=body.release.Elapsed,
                     sourcePosition=body.release.transform.position,sourceRotation=body.release.transform.rotation,
                     cameraPosition=camera.transform.position,cameraRotation=camera.transform.rotation,
-                    viewProjection=Matrix(camera),anatomy=new Shape[8],heroes=new Shape[2]};
+                    viewProjection=Matrix(camera),anatomy=new Shape[8],heroes=new Shape[2+(others!=null?others.Length:0)]};
                 for(int i=0;i<8;i++)record.anatomy[i]=Measure(i==0?"head":"part"+i,"",body.parts[i],body.meshes[i],camera,Vector3.zero,0);
                 record.heroes[0]=Hero("active",active,camera);record.heroes[1]=Hero("partner",partner,camera);
+                // Two hulls are the two entries they always were. A third, should one ever fly, follows them.
+                for(int i=2;i<record.heroes.Length;i++)record.heroes[i]=Hero(OtherRole,others[i-2],camera);
                 writer.WriteLine(JsonUtility.ToJson(record));frames++;body.span.frames++;body.span.lastSample=sample;
             }
         }

@@ -17,6 +17,9 @@ namespace Lattice.Tests.EditMode
         [TestCase("Taren",false,GroundMotor.NaturalSprint)][TestCase("Sela",false,GroundMotor.NaturalSprint)]
         [TestCase("Taren",true,6.7f)][TestCase("Sela",true,6.7f)]
         [TestCase("Taren",true,10.385f)][TestCase("Sela",true,10.385f)]
+        // Idra walks on her own measured stride (StrideCalibration.BuildIdra), in her own body and her braced one.
+        [TestCase("Idra",false,GroundMotor.NaturalWalk)][TestCase("Idra",false,GroundMotor.NaturalJog)][TestCase("Idra",false,GroundMotor.NaturalSprint)]
+        [TestCase("Idra",true,6.7f)][TestCase("Idra",true,10.385f)]
         public void WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(string hero,bool shaped,float speed)
             =>Measure(hero,shaped,speed,0);
 
@@ -30,6 +33,8 @@ namespace Lattice.Tests.EditMode
         [TestCase("Taren",false,GroundMotor.NaturalSprint,-39f)][TestCase("Sela",false,GroundMotor.NaturalSprint,-39f)]
         [TestCase("Taren",true,6.7f,-39f)][TestCase("Sela",true,6.7f,-39f)]
         [TestCase("Taren",true,10.385f,-39f)][TestCase("Sela",true,10.385f,-39f)]
+        [TestCase("Idra",false,GroundMotor.NaturalWalk,39f)][TestCase("Idra",false,GroundMotor.NaturalJog,39f)][TestCase("Idra",true,6.7f,39f)]
+        [TestCase("Idra",false,GroundMotor.NaturalWalk,-39f)][TestCase("Idra",false,GroundMotor.NaturalJog,-39f)][TestCase("Idra",true,6.7f,-39f)]
         public void SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(string hero,bool shaped,float speed,float slope)
         {
             Measure(hero,shaped,speed,slope);
@@ -46,6 +51,7 @@ namespace Lattice.Tests.EditMode
 
         [TestCase("Taren",false)][TestCase("Sela",false)]
         [TestCase("Taren",true)][TestCase("Sela",true)]
+        [TestCase("Idra",false)][TestCase("Idra",true)]
         public void SlowAndExtendedUphillWalksKeepTheWholeStepContinuous(string hero,bool shaped)
         {
             foreach(float speed in new[]{1.2f,1.7f,2f,2.3f})
@@ -95,8 +101,11 @@ namespace Lattice.Tests.EditMode
                     if(changingSpeed)
                     {
                         // Repeated acceleration/deceleration traverses the
-                        // short and extended walk, without resetting phase.
-                        speed=1.2f+1.4f*(.5f-.5f*Mathf.Cos(time*Mathf.PI*.5f));
+                        // short and extended walk, without resetting phase,
+                        // up to the fastest walk the game plays: above
+                        // GeneratedAnimator.RunAbove a hero runs (it was a
+                        // literal 2.6, a walk the game can't produce).
+                        speed=1.2f+(GeneratedAnimator.RunAbove-1.2f)*(.5f-.5f*Mathf.Cos(time*Mathf.PI*.5f));
                         cadence=profile.Cadence(state,speed,grade);stride=profile.Stride(state,speed,cadence,grade);
                         accumulatedPhase+=dt*cadence/clip.length;distance+=speed*dt;cycles=phase=accumulatedPhase;
                         position=travel*distance;position.y=Vector3.Dot(normal,surface-position)/normal.y+clearance;

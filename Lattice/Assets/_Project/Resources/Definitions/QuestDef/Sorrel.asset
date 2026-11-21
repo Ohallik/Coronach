@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: Sorrel
   title: The Silent Outpost
-  description: Sorrel stopped answering three deliveries ago, but its drill is still running. Orrin wants to know why.
+  description: Sorrel stopped answering three deliveries ago, but its drill is still
+    running. Orrin wants to know why.
   steps:
   - kind: 1
     target: Sorrel_Ridges
@@ -34,7 +35,13 @@ MonoBehaviour:
   flagsOnComplete:
   - warpkey
   stepText:
-  - 'Land on Sorrel and find out why it went quiet'
-  - 'Find the outpost crew'
-  - 'Stop the Burrower at the drill site'
-  - 'Recover the survey key from the drill''s control cradle'
+  - Land on Sorrel and find out why it went quiet
+  - Find the outpost crew
+  - Stop the Burrower at the drill site
+  - Recover the survey key from the drill's control cradle
+  rewardsRolled: 0
+  main: 1
+  chapter: 1
+  stepTargets: []
+  closingLine: 
+  storyFlags: []

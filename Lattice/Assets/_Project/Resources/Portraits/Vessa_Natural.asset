@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134dc5376489b594494991946c1918cc, type: 3}
+  m_Name: Vessa_Natural
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.PortraitSet
+  characterName: Vessa
+  entries:
+  - emotion: 0
+    sprite: {fileID: -7238791335765347396, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 1
+    sprite: {fileID: 2701529101106674797, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 2
+    sprite: {fileID: -7463701733339339035, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 3
+    sprite: {fileID: 6712997362747902473, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 4
+    sprite: {fileID: -7565881331525508017, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 5
+    sprite: {fileID: -609829630564799605, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 6
+    sprite: {fileID: 1971537960318045701, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 7
+    sprite: {fileID: 8136306466822932866, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 8
+    sprite: {fileID: -7202548449704344545, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 9
+    sprite: {fileID: 5102803573087021523, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 10
+    sprite: {fileID: -8471977823583416780, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 11
+    sprite: {fileID: 9518669239482840, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 12
+    sprite: {fileID: 1981993021309215162, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 13
+    sprite: {fileID: 6940508018449112225, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 14
+    sprite: {fileID: 7229939844266502002, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}
+  - emotion: 15
+    sprite: {fileID: -2806637280047975534, guid: 19ac64095d34ad74495ef39eef5feb7d, type: 3}

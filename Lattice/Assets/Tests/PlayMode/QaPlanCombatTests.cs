@@ -138,7 +138,9 @@ namespace Lattice.Tests.PlayMode
             Sync(12);float y=flight?1:0;var failures=new List<string>();int turn=0;string form=flight?"in flight":"on the ground";
             foreach(var hero in PartyController.Current.members)
             {
-                foreach(var skill in SkillBook.All(hero.character))
+                // What a hero knows at Sync 12, where this read every skill there is: S3 adds three a hero at Sync 16, 20 and 24, which can't be equipped here.
+                // Those six have this same check at their own level (SkillsLateTests).
+                foreach(var skill in SkillBook.Learned(hero.character))
                 {
                     int slot=turn++%SkillBook.Slots;
                     yield return UntilFree(hero);ClearEffects();yield return Frames(2);
@@ -328,7 +330,8 @@ namespace Lattice.Tests.PlayMode
             yield return Zone(flight?"Arena_Flight":"Arena_Ground");if(!flight)Arena();Sync(12);
             float y=flight?1:0;string form=flight?"in flight":"on the ground";var hero=PartyController.Current.members.First(m=>m.character==who);
             Place(Other(hero),new Vector3(260,y,0));var failures=new List<string>();
-            foreach(var skill in SkillBook.All(who).Where(s=>s.kind!=SkillKind.Overdrive))
+            // The skills known at Sync 12, where this took every skill there is: the three S3 adds at Sync 16, 20 and 24 meet their wall in SkillsLateTests.
+            foreach(var skill in SkillBook.Learned(who).Where(s=>s.kind!=SkillKind.Overdrive))
             {
                 var (wallAt,bodyAt,wait)=Cover(skill.kind,flight);var from=new Vector3(200,y,0);var spot=new Vector3(200,y,bodyAt);
                 yield return UntilFree(hero);Place(hero,from);
@@ -449,8 +452,10 @@ namespace Lattice.Tests.PlayMode
             log.Clear();partner.GetComponent<PartnerBrain>().enabled=true;
             for(float end=Time.unscaledTime+10;Time.unscaledTime<end;){partner.charge=100;lead.target=body.Health;yield return null;}
             Assert.IsFalse(log.Any(l=>l.line.StartsWith("SKILL_KIND "+companion)),"the companion spent Charge on a skill with its target 40 m away: "+string.Join(",",log.Select(l=>l.line)));
-            // The same brain with the target in reach: it was only holding back.
-            PlaceBody(body,partner.transform.position+partner.motor.Facing*4);
+            // The same brain with the target in reach: it was only holding back. In reach and in sight (D227, November 10: a companion acts only on what the lead's
+            // screen shows, from where it shows her). Ten seconds after a target 60 m off she is 18 m up the yard and off the top of the screen, and a body stood 4 m
+            // beyond her was off it too, so nothing was cast: she comes back beside the lead and the body stands six metres ahead of him, where both are seen.
+            Place(partner,lead.transform.position+Vector3.right*3);PlaceBody(body,lead.transform.position+Vector3.forward*6);
             for(float end=Time.unscaledTime+9.5f;Time.unscaledTime<end&&!log.Any(l=>l.line.StartsWith("SKILL_KIND "+companion));){partner.charge=100;lead.target=body.Health;yield return null;}
             partner.GetComponent<PartnerBrain>().enabled=false;
             Assert.IsTrue(log.Any(l=>l.line.StartsWith("SKILL_KIND "+companion)),"fixture: with the target in reach the companion casts");
@@ -458,7 +463,9 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheCompanionDoesNotSwingACleaveFromWhereItCannotReach()
         {
             yield return Zone("Arena_Ground");Arena();Sync(8);
-            var lead=Lead("Sela");var taren=Other(lead);Place(lead,new Vector3(200,0,-14));
+            // The lead stands six metres from the body, so her screen shows it: from fourteen it was off the top edge, and a companion holds its skills at what the
+            // player can't see (D227, November 10). The companion is still held fourteen metres out.
+            var lead=Lead("Sela");var taren=Other(lead);Place(lead,new Vector3(200,0,-6));
             var body=Dummy("Ridgehound",new Vector3(200,0,0));yield return Frames(3);lead.target=body.Health;
             float landed=0;body.Health.Damaged+=(_,packet,amount)=>{if(packet.source==taren.Health)landed+=amount;};
             // Everything but the Cleave is on cooldown, and its first try waits three seconds: held well out till then, then let run in.
@@ -478,12 +485,27 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ every enemy's tell
+        /// <summary>Before each body's turn in a table: nothing the turn before left is alive (a body, an area on the floor, a shot in the air, a marking, a pin or a slow), and the hero
+        /// stands up whole and leads again. So one body that leaves something behind, or downs a starter hero, fails by its own name instead of taking every body after it in the
+        /// table with it (chapter 8's Forge Hound's scorch did, November 12: everything from the Frost Motes on was "never told" at a hero who was down).</summary>
+        static IEnumerator Whole(CombatActor hero)
+        {
+            foreach(var left in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None)){left.Passive=true;Projectile.Fizzle(left.Health);Object.Destroy(left.gameObject);}
+            LingeringArea.DismissAll();
+            foreach(var shot in Projectile.Live.ToArray())if(shot!=null&&shot.Threatens(true))shot.gameObject.SetActive(false);
+            foreach(var mark in Telegraph.Live.ToArray())if(mark!=null)Object.Destroy(mark.gameObject);
+            if(!hero.Health.Alive)hero.Health.Heal(hero.Health.maximum);
+            for(float end=Time.unscaledTime+3;(hero.Recovering||hero.Health.Pace<1)&&Time.unscaledTime<end;){hero.motor.Move(Vector2.zero,false,false);yield return null;}
+            var party=PartyController.Current;for(int i=0;i<3&&party.Active!=hero;i++)party.Swap(true);Quiet();
+            yield return Frames(2);
+        }
         /// <summary>The eye's test: an attack starts, its marking is on the ground under the hero, the body winds up, and only then is anyone hurt.</summary>
         IEnumerator EveryBodyTells((string id,float distance)[] table,float y)
         {
             var failures=new List<string>();var hero=Taren;Place(Sela,new Vector3(260,y,0));
             foreach(var (id,distance) in table)
             {
+                yield return Whole(hero);
                 Place(hero,new Vector3(200,y,distance));hero.Health.integrity=hero.Health.maximum;hero.Health.InvulnerableUntil=0;
                 var body=Enemy(id,new Vector3(200,y,0));yield return Frames(2);
                 var show=body.GetComponent<DefeatPresentation>().visual;var rig=body.GetComponentInChildren<GeneratedAnimator>();
@@ -525,12 +547,16 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator EveryGroundEnemyTellsBeforeItLands()
         {
             yield return Zone("Arena_Ground");Arena();
-            yield return EveryBodyTells(new[]{("Ridgehound",3f),("Scrapmite",1.8f),("SentinelHusk",2f),("Gloomgrazer",3f),("MusterScav",8f),("MusterSergeant",2f)},0);
+            yield return EveryBodyTells(new[]{("Ridgehound",3f),("Scrapmite",1.8f),("SentinelHusk",2f),("Gloomgrazer",3f),("MusterScav",8f),("MusterSergeant",2f)}.Concat(LaterTells(false)).ToArray(),0);
         }
+        /// <summary>Where to stand for each ordinary enemy defined since chapter 2, on foot or flying, from its chapter's own expectations (ContentRegistry.Book.Tell).
+        /// One with no entry fails by name: an enemy left off these two tables was simply never asked to tell.</summary>
+        static (string id,float distance)[] LaterTells(bool flight)=>ContentRegistry.OrdinaryEnemies.Where(id=>System.Array.IndexOf(ContentRegistry.FirstEnemies,id)<0)
+            .Select(id=>(id,tell:ContentRegistry.Tell(id))).Where(e=>e.tell.flight==flight).Select(e=>(e.id,e.tell.distance)).ToArray();
         [UnityTest] public IEnumerator EveryFlyingEnemyTellsBeforeItLands()
         {
             yield return Zone("Arena_Flight");
-            yield return EveryBodyTells(new[]{("ChoristerDart",3.5f),("ChoristerDrifter",8f),("MusterSkiff",8f),("Shellmine",2.5f)},1);
+            yield return EveryBodyTells(new[]{("ChoristerDart",3.5f),("ChoristerDrifter",8f),("MusterSkiff",8f),("Shellmine",2.5f)}.Concat(LaterTells(true)).ToArray(),1);
         }
         [UnityTest] public IEnumerator ABiteStopsAtTheEdgeOfItsPaint()
         {
@@ -584,7 +610,8 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ every enemy's weakness and resistance
-        static readonly string[] AllFourteen={"Ridgehound","Scrapmite","SentinelHusk","Burrower","ChoristerDart","ChoristerDrifter","Shellmine","Cantor","BellowsBelow","Gloomgrazer","MusterScav","MusterSergeant","MusterSkiff","HessaKorl"};
+        /// <summary>The fourteen of chapters 1 and 2 in the order this always walked them (ContentRegistry.FirstEnemies), then every enemy defined since: none is left out by not being listed.</summary>
+        static string[] EveryEnemy=>ContentRegistry.Enemies;
         static (Color color,float size,string text) NewestNumber()
         {
             var text=Object.FindFirstObjectByType<GameHud>().GetComponentsInChildren<TMP_Text>(true).Last(t=>t.name=="Damage");
@@ -602,7 +629,7 @@ namespace Lattice.Tests.PlayMode
                 ["Shellmine"]=(DamageType.Kinetic,DamageType.Plasma),["Cantor"]=(DamageType.Plasma,DamageType.Kinetic),
             };
             var failures=new List<string>();
-            foreach(string id in AllFourteen)
+            foreach(string id in EveryEnemy)
             {
                 var enemy=Enemy(id,new Vector3(200,.1f,0));yield return Frames(3);
                 var carrier=enemy.Health;var collar=enemy.GetComponent<CantorCollar>();var body=collar!=null?collar.Links[0]:carrier;
@@ -615,13 +642,19 @@ namespace Lattice.Tests.PlayMode
                 if(!weakNumber.text.Contains("!")||weakNumber.color==cleanNumber.color)failures.Add($"a hit on a {id}'s weakness looks like any other: \"{weakNumber.text}\"");
                 if(carrier.GetComponent<BossController>()!=null)
                 {
+                    // A boss whose weak spot is there only at a moment of its fight (BossController.Kit.showWeakSpot: Dessik Varn's cockpit, while his suit kneels) has none standing, is
+                    // looked at in that moment, and is let out of it before its resistance is tried.
+                    var keeper=carrier.GetComponent<BossController>();bool gated=BossController.WeakSpotGated(id);
+                    if(gated&&enemy.GetComponentsInChildren<Hurtbox>().Any(h=>h.multiplier>1&&h.owner==body))failures.Add($"a {id}'s weak spot is said to come at a moment of its fight, and it stands from the start");
+                    if(gated)keeper.ShowWeakSpot(true);
                     var spot=enemy.GetComponentsInChildren<Hurtbox>().FirstOrDefault(h=>h.multiplier>1&&h.owner==body);
-                    if(spot==null)failures.Add($"a {id} has no weak spot to find");
+                    if(spot==null)failures.Add(gated?$"a {id}'s weak spot isn't there in the moment its fight brings it":$"a {id} has no weak spot to find");
                     else
                     {
                         spot.Hit(Hit(Neutral(body)));var spotNumber=NewestNumber();
                         if(!spotNumber.text.Contains("!!")||spotNumber.color==weakNumber.color)failures.Add($"a hit on a {id}'s weak spot says nothing of it: \"{spotNumber.text}\"");
                     }
+                    if(gated)keeper.ShowWeakSpot(false);
                 }
                 // Resistance last: a Sentinel's shield goes up on a resisted hit, and everything after it reads as resisted.
                 float resisted=body.Receive(Hit(body.resistance));var resistedNumber=NewestNumber();
@@ -632,6 +665,58 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
 
+        // ------------------------------------------------------------------ weak spots a blade can reach
+        /// <summary>How far a cut reaches from a hero's chest, a hero's own girth, and the chest's height: what "a hero standing at the edge of its body can reach" is measured with.</summary>
+        const float BladeReach=1.3f,HeroGirth=.35f,ChestHeight=1;
+        /// <summary>A blade hits the first hurtbox of a body it touches, so a spot is reached only if it stands proud of the body's capsule, at a height a cut swings through, within
+        /// a blade's length of the chest of a hero standing against the body on that side.</summary>
+        static bool Reachable(Transform body,float girth,SphereCollider spot)
+        {
+            var centre=spot.transform.TransformPoint(spot.center);float size=spot.radius*spot.transform.lossyScale.x;
+            var off=centre-body.position;var flat=new Vector3(off.x,0,off.z);float outward=flat.magnitude;
+            if(outward+size<=girth+.05f)return false;
+            float up=centre.y-body.position.y;if(up<.4f||up>2.4f)return false;
+            var stand=body.position+(outward>.01f?flat/outward:body.forward)*(girth+HeroGirth)+Vector3.up*ChestHeight;
+            return Vector3.Distance(stand,centre)-size<=BladeReach;
+        }
+        /// <summary>A weak spot inside the body is a spot nobody reaches: placed for a 1.4 m body, all three were inside every wider boss (the Rotbloom's 2 m under its own skin).
+        /// Every boss with weak spots has one a hero standing at the edge of its body can reach with a cut, and every boss since chapter 2 has nothing but those. Chapters 1 and 2's
+        /// four keep their places as they always were: two on the flanks, which stand proud, and one at the middle, inside them. A boss whose kit takes its spots away (the Cantor's
+        /// collar) has none to reach. The check is shown first to tell a buried spot from a proud one.</summary>
+        [UnityTest] public IEnumerator EveryBossHasAWeakSpotABladeCanReachFromTheEdgeOfItsBody()
+        {
+            // Every boss there is wakes here, and one whose chapter hasn't staged its track logs MUSIC_MISSING as it does: that is the music tests' to say. Anything thrown still fails this.
+            LogAssert.ignoreFailingMessages=true;
+            yield return Zone("Arena_Ground");Arena();var at=new Vector3(200,.1f,0);
+            var probe=new GameObject("Weak spot probe").transform;probe.position=at;
+            SphereCollider Probe(Vector3 local){var go=new GameObject("Probe spot",typeof(SphereCollider));go.transform.SetParent(probe,false);go.transform.localPosition=local;var s=go.GetComponent<SphereCollider>();s.radius=.5f;s.isTrigger=true;return s;}
+            Assert.IsFalse(Reachable(probe,1.4f,Probe(new Vector3(0,1.4f,0))),"fixture: the check takes a spot at a body's middle for one a blade reaches");
+            Assert.IsFalse(Reachable(probe,3.4f,Probe(new Vector3(1.2f,1.4f,0))),"fixture: the check takes a spot buried in a 3.4 m body for one a blade reaches");
+            Assert.IsTrue(Reachable(probe,3.4f,Probe(new Vector3(3.1f,1.4f,0))),"fixture: the check takes a spot proud of a 3.4 m body's side for a buried one");
+            Object.Destroy(probe.gameObject);
+            var failures=new List<string>();int checkedBosses=0;
+            foreach(string id in ContentRegistry.Bosses)
+            {
+                if(!BossController.Registered(id))continue;
+                var enemy=Enemy(id,at);yield return Frames(3);
+                float girth=enemy.GetComponent<CharacterController>().radius;
+                // A boss whose weak spot is there only at a moment of its fight (BossController.Kit.showWeakSpot) is measured in that moment: Dessik Varn's cockpit, pitched out past the front of
+                // its capsule while the suit kneels. Standing it is flush with the capsule and no target at all.
+                bool gated=BossController.WeakSpotGated(id);if(gated){enemy.GetComponent<BossController>().ShowWeakSpot(true);yield return null;}
+                var spots=enemy.GetComponentsInChildren<Hurtbox>().Where(h=>h.multiplier>1&&h.owner==enemy.Health).Select(h=>h.GetComponent<SphereCollider>()).Where(s=>s!=null).ToArray();
+                if(gated&&spots.Length==0)failures.Add($"{id}'s weak spot is said to come at a moment of its fight, and isn't there when that moment is brought about");
+                if(spots.Length>0)
+                {
+                    checkedBosses++;int reached=spots.Count(s=>Reachable(enemy.transform,girth,s));
+                    TestContext.WriteLine($"WEAK_SPOTS {id} girth={girth:0.00} spots={spots.Length} reached={reached}{(gated?" (in its moment)":"")}");
+                    if(reached==0)failures.Add($"none of {id}'s {spots.Length} weak spots stands where a cut from the edge of its {girth:0.0} m body reaches");
+                    else if(System.Array.IndexOf(ContentRegistry.FirstBosses,id)<0&&reached<spots.Length)failures.Add($"{spots.Length-reached} of {id}'s {spots.Length} weak spots are inside its {girth:0.0} m body");
+                }
+                enemy.Passive=true;Object.Destroy(enemy.gameObject);yield return Frames(2);
+            }
+            Assert.GreaterOrEqual(checkedBosses,5,"fixture: the bosses with weak spots");
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
         [UnityTest] public IEnumerator AShotThatPassesBesideHessaMisses()
         {
             yield return Zone("Arena_Ground");Arena();var sela=Sela;Place(sela,new Vector3(260,0,0));Place(Taren,new Vector3(263,0,0));
@@ -807,9 +892,10 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator EveryBossOpensOnItsTitleCardAndABarWithItsNameEpithetAndNotches()
         {
             yield return Zone("Arena_Ground");Arena();
-            foreach(string id in new[]{"Burrower","BellowsBelow","HessaKorl"})yield return BossCard(id,0);
+            // Every boss there is, by where its sheet says it's fought: the three on foot and the Cantor flying, then any defined since.
+            foreach(string id in ContentRegistry.Bosses.Where(b=>!ContentRegistry.Boss(b).flight))yield return BossCard(id,0);
             yield return Zone("Arena_Flight");
-            yield return BossCard("Cantor",1);
+            foreach(string id in ContentRegistry.Bosses.Where(b=>ContentRegistry.Boss(b).flight))yield return BossCard(id,1);
         }
 
         // ------------------------------------------------------------------ the boss table: every special is marked and dodgeable
@@ -833,15 +919,29 @@ namespace Lattice.Tests.PlayMode
         }
         /// <summary>Each special, with the lead in its marking and the partner just outside it. Unrolled: what lands was marked at least .3 s
         /// and lands inside the marking. Rolled: a roll timed to the tell takes nothing. A released marking destroys itself and still knows its shape.</summary>
+        /// <summary>The first four's table above; a boss since says its own on its sheet (ContentRegistry.BossSheet.specials), and has to account for every move it registers:
+        /// stood in here, or named as covered by a test of its own. A boss with no sheet fails by name. It used to be tested against Hessa's moves.</summary>
+        static (string move,Vector3 stand)[] SpecialsOf(string id)
+        {
+            if(Specials.TryGetValue(id,out var first))return first;
+            var sheet=ContentRegistry.Boss(id);
+            if(sheet.specials==null||sheet.specials.Length==0)throw new System.InvalidOperationException($"{id}'s boss sheet lists no specials: each marked move, and where the lead stands to be in its marking");
+            var untold=BossController.MovesOf(id).Where(m=>!sheet.specials.Any(s=>s.move==m)&&!sheet.testedApart.Contains(m)).ToArray();
+            if(untold.Length>0)throw new System.InvalidOperationException($"{id} registers {string.Join(", ",untold)}, and its boss sheet neither stands a hero in them (specials) nor says a test of their own covers them (testedApart)");
+            return sheet.specials;
+        }
         IEnumerator RunSpecials(string id,bool roll)
         {
-            bool flight=id=="Cantor";float y=flight?1:.1f;var at=new Vector3(200,y,0);
+            bool flight=ContentRegistry.Boss(id).flight;float y=flight?1:.1f;var at=new Vector3(200,y,0);
+            var specials=SpecialsOf(id);
             yield return Zone(flight?"Arena_Flight":"Arena_Ground");if(!flight)Arena();
             var lead=PartyController.Current.Active;var partner=Other(lead);var failures=new List<string>();
             var enemy=Enemy(id,at);yield return Frames(3);var boss=enemy.GetComponent<BossController>();
-            foreach(var (move,stand) in Specials[id])
+            foreach(var (move,stand) in specials)
             {
                 for(float end=Time.unscaledTime+7;(boss.Busy||boss.Health.Broken||Time.timeScale<1)&&Time.unscaledTime<end;)yield return null;
+                // What the move before left burning on the floor isn't this move's: a strip still under where the lead now stands would strike him with no marking of this move's.
+                LingeringArea.DismissAll();
                 PlaceBody(enemy,at);enemy.transform.rotation=Quaternion.identity;
                 Place(lead,at+stand);Place(partner,new Vector3(260,y,0));Fresh(lead);Fresh(partner);lead.thrust=100;yield return Frames(2);
                 float before=lead.Health.integrity;int struck=0;var seen=new List<Telegraph>();
@@ -904,8 +1004,8 @@ namespace Lattice.Tests.PlayMode
             }
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
-        [UnityTest] public IEnumerator WhatABossLandsWasMarkedAndLandsInsideIt([Values("Burrower","BellowsBelow","Cantor","HessaKorl")] string id)=>RunSpecials(id,false);
-        [UnityTest] public IEnumerator ARollTimedToTheTellClearsEverySpecial([Values("Burrower","BellowsBelow","Cantor","HessaKorl")] string id)=>RunSpecials(id,true);
+        [UnityTest] public IEnumerator WhatABossLandsWasMarkedAndLandsInsideIt([ValueSource(typeof(ContentRegistry),nameof(ContentRegistry.Bosses))] string id)=>RunSpecials(id,false);
+        [UnityTest] public IEnumerator ARollTimedToTheTellClearsEverySpecial([ValueSource(typeof(ContentRegistry),nameof(ContentRegistry.Bosses))] string id)=>RunSpecials(id,true);
         [UnityTest] public IEnumerator TheBellowsChamberBlastsOnlyTheHalfItMarksAndItsCrossingStaysInItsLane()
         {
             yield return Zone("Hushwell");
@@ -954,30 +1054,35 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ the boss table: openings
-        [UnityTest] public IEnumerator EveryPhaseOfEveryBossLeavesAWindowToPunish([Values("Burrower","BellowsBelow","Cantor","HessaKorl")] string id)
+        [UnityTest] public IEnumerator EveryPhaseOfEveryBossLeavesAWindowToPunish([ValueSource(typeof(ContentRegistry),nameof(ContentRegistry.Bosses))] string id)
         {
-            bool flight=id=="Cantor";float y=flight?1:.1f;var at=new Vector3(200,y,0);
-            yield return Zone(flight?"Arena_Flight":"Arena_Ground");if(!flight)Arena();
-            var lead=PartyController.Current.Active;Place(Other(lead),new Vector3(260,y,0));var failures=new List<string>();
-            var enemy=Enemy(id,at);yield return Frames(3);var boss=enemy.GetComponent<BossController>();var body=enemy.Health;var collar=enemy.GetComponent<CantorCollar>();
+            bool flight=ContentRegistry.Boss(id).flight;float y=flight?1:.1f;var at=new Vector3(200,y,0);
+            // The first four's are written here as they always were. A boss since says its own on its sheet, one for each phase, and one with none fails by name:
+            // the last arm used to be Hessa's chain for anybody.
             var moves=id switch
             {
                 "Burrower"=>new[]{("DrillCharge",new Vector3(0,0,9)),("Burrow",new Vector3(4,0,-6)),("Burrow",new Vector3(4,0,-6))},
                 "BellowsBelow"=>new[]{("Breath",new Vector3(0,0,7)),("Breath",new Vector3(0,0,7)),("Crossing",new Vector3(0,0,7))},
                 "Cantor"=>new[]{("Choir",new Vector3(0,0,5)),("SongSpiral",new Vector3(0,0,8)),("CoilLash",new Vector3(0,0,10))},
-                _=>new[]{("GrappleChain",new Vector3(0,0,9)),("GrappleChain",new Vector3(0,0,9)),("GrappleChain",new Vector3(0,0,9))},
+                "HessaKorl"=>new[]{("GrappleChain",new Vector3(0,0,9)),("GrappleChain",new Vector3(0,0,9)),("GrappleChain",new Vector3(0,0,9))},
+                _=>ContentRegistry.Boss(id).windows??throw new System.InvalidOperationException($"{id}'s boss sheet names no windows: the move that leaves an opening in each phase, and where the lead stands for it"),
             };
+            yield return Zone(flight?"Arena_Flight":"Arena_Ground");if(!flight)Arena();
+            var lead=PartyController.Current.Active;Place(Other(lead),new Vector3(260,y,0));var failures=new List<string>();
+            var enemy=Enemy(id,at);yield return Frames(3);var boss=enemy.GetComponent<BossController>();var body=enemy.Health;var collar=enemy.GetComponent<CantorCollar>();
             // A wall to wedge the first charge in: the player's bait, and every other move doesn't care.
             if(id=="Burrower")Wall(new Vector3(200,2,14),new Vector3(30,6,1));
-            var turns=boss.Thresholds;
-            for(int phase=1;phase<=3;phase++)
+            var turns=boss.Thresholds;int phases=turns.Length+1;
+            Assert.AreEqual(phases,moves.Length,$"fixture: {id} has {phases} phases and {moves.Length} windows named for them");
+            for(int phase=1;phase<=phases;phase++)
             {
                 var (move,stand)=moves[phase-1];
                 for(float end=Time.unscaledTime+7;(boss.Busy||body.Broken)&&Time.unscaledTime<end;)yield return null;
                 // Its head can't be hurt until the collar is off: past phase 1 the real fight has cut it.
                 if(phase==2&&collar!=null)foreach(var link in collar.Links)link.Receive(new DamagePacket{source=lead.Health,amount=link.maximum*100,type=DamageType.Beam});
                 PlaceBody(enemy,at);enemy.transform.rotation=Quaternion.identity;Place(lead,at+stand);Fresh(lead);
-                body.integrity=body.maximum*(phase==1?1:phase==2?(turns[0]+turns[1])*.5f:turns[1]*.6f);yield return Frames(2);
+                // Whole, then midway between its two lines, then well under its last: with the first four's two lines, the same three places as ever.
+                body.integrity=body.maximum*(phase==1?1:phase<phases?(turns[phase-2]+turns[phase-1])*.5f:turns[phases-2]*.6f);yield return Frames(2);
                 if(boss.HealthPhase!=phase){failures.Add($"fixture: {id} isn't in phase {phase}");continue;}
                 if(!boss.Perform(move)){failures.Add($"fixture: {move} would not start in phase {phase}");continue;}
                 // Her chain is the dodged one: he steps out of its lane while it is told.
@@ -1027,10 +1132,16 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ the boss table: phase shifts
-        [UnityTest] public IEnumerator EveryThresholdBracesShovesAndBringsTheMoveItPromised([Values("Burrower","BellowsBelow","Cantor","HessaKorl")] string id)
+        [UnityTest] public IEnumerator EveryThresholdBracesShovesAndBringsTheMoveItPromised([ValueSource(typeof(ContentRegistry),nameof(ContentRegistry.Bosses))] string id)
         {
-            bool flight=id=="Cantor";float y=flight?1:.1f;var at=new Vector3(200,y,0);
-            var promised=id switch{"Burrower"=>new[]{"Burrow","SeismicRings"},"BellowsBelow"=>new[]{"Bubbles","Crossing"},"Cantor"=>new[]{"SongSpiral","CoilLash"},_=>new[]{"SweepingCut","Lampbreaker"}};
+            bool flight=ContentRegistry.Boss(id).flight;float y=flight?1:.1f;var at=new Vector3(200,y,0);
+            // The first four's promises are pinned here by name. A boss since is held to what its own registration promises for each phase (BossController.Kit.signature),
+            // and to promising something: the last arm used to be Hessa's two for anybody.
+            var promised=id switch
+            {
+                "Burrower"=>new[]{"Burrow","SeismicRings"},"BellowsBelow"=>new[]{"Bubbles","Crossing"},"Cantor"=>new[]{"SongSpiral","CoilLash"},"HessaKorl"=>new[]{"SweepingCut","Lampbreaker"},
+                _=>Enumerable.Range(2,BossController.ThresholdsOf(id).Length).Select(phase=>BossController.PromisedMove(id,phase)??throw new System.InvalidOperationException($"{id}'s shift into phase {phase} promises no move: its Kit's signature returns none")).ToArray(),
+            };
             yield return Zone(flight?"Arena_Flight":"Arena_Ground");if(!flight)Arena();
             var lead=PartyController.Current.Active;var partner=Other(lead);Place(partner,new Vector3(260,y,0));Place(lead,at+Vector3.back*(flight?6:4));
             lead.Health.InvulnerableUntil=GameTime.Now+60;partner.Health.InvulnerableUntil=GameTime.Now+60;
@@ -1066,13 +1177,27 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ the boss table: duration
-        const float FlatOutSeconds=20;
+        // Sixty seconds, not twenty: a boss that breaks, or opens, takes a good deal more while it does, and twenty seconds held one such window or two as chance had it.
+        // The Rotbloom read 830, 876, 900, 1,047 and 1,076 a second on one day (November 14), wider than the room between its floor and its ceiling.
+        const float FlatOutSeconds=60;
+        /// <summary>How far apart two readings of the same party on the same boss have stood (ABossLastsTwoToFiveMinutesAtItsExpectedSync reads a second time inside this of a bound).</summary>
+        const float Scatter=1.08f;
         float flatOutRate;
+        /// <summary>The frames a second the measure ran at. A hero acts on a frame, so a machine too busy to draw sixty reads every party slow: on November 14, with a
+        /// dozen Unitys at work, the Floodcrown read 1,074 a second where it had read 1,208 and failed a ceiling it sits well inside. Under <see cref="FlatOutFrames"/>
+        /// the length test says it could not measure, which is neither a pass nor a failure.</summary>
+        float flatOutFrames;
+        const float FlatOutFrames=50;
+        /// <summary>The party a boss is measured against. Chapters 1 and 2's four as they always were, in Refined weapons ("moon", the best the road had by then); a boss since, against
+        /// the party its chapter's loadout arrives with (DevLoadout chapter&lt;N&gt;, N its zone's chapter), which is what a player has in hand there. The Refined weapons alone understated
+        /// chapter 4's party by about 40% (588 to 611 a second on the Rotbloom against 900 to 1,047), so the ceiling held the later bosses' integrity under what their fights need.</summary>
+        static string MeasuredIn(string id)=>System.Array.IndexOf(ContentRegistry.FirstBosses,id)>=0?"moon":
+            "chapter"+Mathf.Clamp(ContentRegistry.Zone(ContentRegistry.Boss(id).zone).chapter,DevLoadout.FirstChapter,DevLoadout.LastChapter);
         /// <summary>Flat out, the boss never moving, both heroes attacking and every skill as soon as it's ready: the upper bound on how fast the party can go. With free Charge only the cooldowns hold them back.</summary>
         IEnumerator FlatOut(string id,int sync,bool freeCharge)
         {
-            bool flight=id=="Cantor";float y=flight?1:.1f;var at=new Vector3(200,y,0);
-            DevLoadout.Apply("moon");// Refined parts, the best the road has by then.
+            bool flight=ContentRegistry.Boss(id).flight;float y=flight?1:.1f;var at=new Vector3(200,y,0);
+            DevLoadout.Apply(MeasuredIn(id));
             yield return Zone(flight?"Arena_Flight":"Arena_Ground");if(!flight)Arena();Sync(sync);
             var taren=Lead("Taren");var sela=Other(taren);
             var enemy=Enemy(id,at);yield return Frames(3);var body=enemy.Health;
@@ -1080,7 +1205,12 @@ namespace Lattice.Tests.PlayMode
             if(collar!=null)foreach(var link in collar.Links)link.Receive(new DamagePacket{source=taren.Health,amount=link.maximum*100,type=DamageType.Beam});
             body.maximum=body.integrity=10000000;
             float reach=enemy.GetComponent<CharacterController>().radius+.9f;
-            var tarenAt=flight?at+new Vector3(-2,0,-6):at+Vector3.back*reach;var selaAt=flight?at+new Vector3(2,0,-6):at+Vector3.back*8+Vector3.right*2;
+            // The second hero stands where her weapon works from: an emitter eight metres back, an edge at the body, round its side from Taren. Until November 14 she stood
+            // eight metres back whoever she was, and from chapter 7 on she is Idra with a hammer (DevLoadout's arrival pair): she never landed a blow, and every boss since
+            // was measured at about half of what the pair deals (two engineers found it from their own bosses' numbers).
+            bool blade=!flight&&DevLoadout.Weapon(sela.character)==GearSlot.Edge;
+            var tarenAt=flight?at+new Vector3(-2,0,-6):at+Vector3.back*reach;
+            var selaAt=flight?at+new Vector3(2,0,-6):blade?at+Quaternion.Euler(0,-70,0)*Vector3.back*reach:at+Vector3.back*8+Vector3.right*2;
             Place(taren,tarenAt);Place(sela,selaAt);taren.target=sela.target=body;taren.charge=sela.charge=100;yield return null;
             float landed=0;body.Damaged+=(_,packet,amount)=>{if(packet.source==taren.Health||packet.source==sela.Health)landed+=amount;};
             bool Act(CombatActor hero)
@@ -1094,8 +1224,8 @@ namespace Lattice.Tests.PlayMode
                 }
                 return hero.Attack();
             }
-            log.Clear();
-            for(float end=Time.unscaledTime+FlatOutSeconds;Time.unscaledTime<end;)
+            log.Clear();int drawn=0;
+            for(float end=Time.unscaledTime+FlatOutSeconds;Time.unscaledTime<end;drawn++)
             {
                 foreach(var hero in new[]{taren,sela})
                 {
@@ -1107,31 +1237,59 @@ namespace Lattice.Tests.PlayMode
                 yield return null;
             }
             Assert.Greater(landed,0,"fixture: the party is hitting it");
-            flatOutRate=landed/FlatOutSeconds;
+            flatOutRate=landed/FlatOutSeconds;flatOutFrames=drawn/FlatOutSeconds;
             ClearEffects();enemy.Passive=true;Object.Destroy(enemy.gameObject);yield return Frames(3);
         }
         /// <summary>What the replay driver really got of flat out, BOSS_DURATION against BOSS_RATE on the v2 chains (300 of 720, 200 to 237 of 533, 382 of 1334, 310 to 465 of 1037), the lower where it ranged.</summary>
-        static float DriverShare(string id)=>id switch{"Burrower"=>.42f,"BellowsBelow"=>.40f,"Cantor"=>.29f,_=>.30f};
+        /// The first four's are on their sheets in ContentRegistry (.42, .40, .29 and Hessa's .30); a boss since writes its own, and one with none fails by name, where it used to be given Hessa's.
+        static float DriverShare(string id)
+        {
+            float share=ContentRegistry.Boss(id).driverShare;
+            if(share<=0||share>1)throw new System.InvalidOperationException($"{id}'s boss sheet gives no driverShare: what the replay driver gets of flat out, measured off a chain (.3 until there is one)");
+            return share;
+        }
         /// <summary>The plan's bar is 2 to 5 minutes, and tools/boss_durations.py reads it off a chain's real fights. This is the guard between chains, with nothing assumed:
         /// the flat-out rate on today's build, at the share of it the driver was measured to get, has to land inside the bar. Nathan's own time is the real test (TEST_PLAN section 6).</summary>
-        [UnityTest] public IEnumerator ABossLastsTwoToFiveMinutesAtItsExpectedSync([Values("Burrower","BellowsBelow","Cantor","HessaKorl")] string id)
+        [UnityTest] public IEnumerator ABossLastsTwoToFiveMinutesAtItsExpectedSync([ValueSource(typeof(ContentRegistry),nameof(ContentRegistry.Bosses))] string id)
         {
-            int sync=id=="Burrower"?4:id=="BellowsBelow"?5:id=="Cantor"?7:9;
+            // 4, 5, 7 and Hessa's 9, from their sheets; a boss since says its own.
+            int sync=ContentRegistry.Boss(id).sync;Assert.Greater(sync,0,$"fixture: {id}'s boss sheet gives the Sync a party meets it at");
             yield return FlatOut(id,sync,false);
-            float integrity=GameCatalog.Find<EnemyDef>(id).integrity,rate=flatOutRate,share=DriverShare(id),seconds=integrity/(rate*share);
-            TestContext.WriteLine($"BOSS_RATE {id} sync={sync} rate={rate:0}/s flatOut={integrity/rate:0}s atDriverShare={seconds:0}s");
-            Assert.GreaterOrEqual(integrity,rate*share*120,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out and the replay party gets {share:P0} of that: {integrity:0} integrity lasts {seconds:0} s, and the bar is two minutes");
+            float integrity=GameCatalog.Find<EnemyDef>(id).integrity,rate=flatOutRate,share=DriverShare(id);
+            // Two to five minutes, unless its sheet says another bar (a mini-boss).
+            float least=ContentRegistry.Boss(id).minSeconds,most=ContentRegistry.Boss(id).maxSeconds;
+            // One minute of a party's blows is not one number: over the whole suites of November 14, 15 and 20 the same boss on the same bar read 5 to 9% apart (the Rotbloom 1,082
+            // and 982, the Host Marshal 1,915 and 1,772, the Bellows 515, 487 and 465, the last of which put a bar that sits 7% inside its ceiling .8 s over it). A reading within
+            // that scatter of either bound is taken a second time and the two averaged: the bounds are the same, the measure near them is twice as long.
+            string readings=$"{rate:0}";
+            if(flatOutFrames>=FlatOutFrames&&(integrity/(rate*share)<least*Scatter||integrity/(rate*.25f)>most/Scatter))
+            {
+                float first=rate,frames=flatOutFrames;yield return FlatOut(id,sync,false);
+                rate=(first+flatOutRate)*.5f;readings=$"{first:0} and {flatOutRate:0}";flatOutFrames=Mathf.Min(frames,flatOutFrames);
+            }
+            float seconds=integrity/(rate*share);
+            TestContext.WriteLine($"BOSS_RATE {id} sync={sync} loadout={MeasuredIn(id)} rate={rate:0}/s flatOut={integrity/rate:0}s atDriverShare={seconds:0}s frames={flatOutFrames:0}/s read={readings} bar={least:0}-{most:0}s quarter={integrity/(rate*.25f):0}s");
+            if(flatOutFrames<FlatOutFrames)Assert.Inconclusive($"{id}: the measure ran at {flatOutFrames:0} frames a second (under {FlatOutFrames:0}), on a machine too busy to say how fast a party is: {rate:0} a second read then is not a rate to size or judge a bar by. Run it again with the machine quieter.");
+            Assert.GreaterOrEqual(integrity,rate*share*least,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out and the replay party gets {share:P0} of that: {integrity:0} integrity lasts {seconds:0} s, and the bar is {least:0} s");
             // The old ceiling stays: a person who spends most of the fight dodging is who the five minutes are for, and the driver's share is no measure of them.
-            Assert.LessOrEqual(integrity/(rate*.25f),300,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out, so {integrity/(rate*.25f):0} s at a quarter of that: the bar is five minutes");
+            Assert.LessOrEqual(integrity/(rate*.25f),most,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out, so {integrity/(rate*.25f):0} s at a quarter of that: the bar is {most:0} s");
         }
 
         // ------------------------------------------------------------------ the boss table: retry
-        [UnityTest] public IEnumerator ALostBossFightComesBackAtItsDoorWholeAndShorter([Values("Burrower","BellowsBelow","Cantor","HessaKorl")] string id)
+        [UnityTest] public IEnumerator ALostBossFightComesBackAtItsDoorWholeAndShorter([ValueSource(typeof(ContentRegistry),nameof(ContentRegistry.Bosses))] string id)
         {
-            var (zone,doorId)=id switch{"Burrower"=>("Sorrel_Ridges","Sorrel_Burrower"),"BellowsBelow"=>("Hushwell","Hushwell_Bellows"),"Cantor"=>("Gullet_Tunnel","Gullet_Cantor"),_=>("SunkenRelay","Relay_Hessa")};
-            if(id=="HessaKorl")Flag("relay.hessaConfronted");
+            // Each boss's door is on its sheet (ContentRegistry): the zone, the encounter, and what its door waits on (Hessa's, that she has been confronted).
+            var sheet=ContentRegistry.Boss(id);string zone=sheet.zone,doorId=sheet.door;
+            Assert.IsFalse(string.IsNullOrEmpty(zone)||string.IsNullOrEmpty(doorId),$"fixture: {id}'s boss sheet names its zone and its door");
+            foreach(string waited in sheet.doorFlags)Flag(waited);
             yield return Zone(zone,false);
-            EncounterVolume Door()=>All<EncounterVolume>().Single(e=>e.encounterId==doorId);
+            // A door the sheet names and the zone doesn't have says so, by boss and zone, in place of 'Sequence contains no matching element'.
+            EncounterVolume Door()
+            {
+                var found=All<EncounterVolume>().Where(e=>e.encounterId==doorId).ToArray();
+                Assert.AreEqual(1,found.Length,$"{id}'s sheet names the door {doorId} in {zone}, which should have exactly one encounter by that id: found {found.Length}");
+                return found[0];
+            }
             var door=Door();string checkpoint=door.checkpointSpawn;Assert.IsFalse(string.IsNullOrEmpty(checkpoint),"fixture: "+doorId+" is a checkpoint");
             door.Begin();yield return null;
             foreach(var brain in All<EnemyBrain>())brain.Passive=true;

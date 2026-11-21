@@ -16,6 +16,12 @@ MonoBehaviour:
   - id: ChoirResin
     count: 3
     chance: 1
+    partTier: 0
+    partSlot: 0
+    anySlot: 0
   - id: RepairGel
     count: 2
     chance: 1
+    partTier: 0
+    partSlot: 0
+    anySlot: 0

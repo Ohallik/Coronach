@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: ChoristerDart
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
   id: ChoristerDart
   prefab: {fileID: 8003105858995159329, guid: 6b65438dde9fe1849bb74ef896d38c35, type: 3}
   bodySegment: {fileID: 0}
@@ -33,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: 5073368fe38c5fa4d8fdabe51bcbf35f, type: 2}
   xp: 24
   boss: 0
+  scrip: 8
+  scrap: 2
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 1
+  drawnScale: 1.5
+  heavyDeath: 0

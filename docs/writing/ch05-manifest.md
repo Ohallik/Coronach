@@ -1,10 +1,10 @@
 # Chapter 5 script manifest - Many Hands
 
-For the engineers wiring chapter 5. Script: [ManyHands.yarn](ManyHands.yarn). Barks: [barks.json](../barks.json). Brief: [ch05-many-hands.md](../../chapters/ch05-many-hands.md). Earlier manifests, in the same shape: [chapter 3](../ch03-manifest.md), [chapter 4](ch04-manifest.md).
+For the engineers wiring chapter 5. Script: [ManyHands.yarn](ManyHands.yarn). Barks: [barks.json](barks.json). Brief: [ch05-many-hands.md](../chapters/ch05-many-hands.md). Earlier manifests, in the same shape: [chapter 3](ch03-manifest.md), [chapter 4](ch04-manifest.md).
 
 **What is here:** 91 nodes, 305 dialogue lines, 18 option labels (323 strings). Compiled clean with the project's own compiler (Yarn Spinner 3.2.4, the nine live files and the three pending ones together: 0 errors, 310 nodes, no duplicate titles). No new Yarn commands: only `setFlag`, `startQuest`, `shop`, `bench`, `repair`.
 
-**This file waits in `pending/`.** It moves up one folder with its script when the chapter's people and quests are defined: two new portrait sets (Meret, Dessik), four `QuestDef`s and the test lists in section 8.
+**Live since November 12** (moved up from `pending/` with its script once `ManyHandsBuilder.Define()` had the chapter's people and quests: Meret, Dessik and Ilo's `CharacterDef`s, the four `QuestDef`s; the test lists of section 8 are `ManyHandsWorldTests`' expectations). Where the build departs from this file, `docs/maps/ManyHands.md` says so.
 
 ## 1. Conventions this file follows
 
@@ -325,7 +325,7 @@ Where the panel takes its line from the main quest's current step, section 4's s
 | Part two, once the alarm sounds | Stop Dessik Varn: the cabins are open and you can't reach them |
 | `hands.dessikYielded`, not `hands.breachSealed` | Get to the cabins |
 | Between `hands.sorrelNamed` and `hands.dinnerDone` | She is at the galley door |
-| `chapter5.complete` | Chapter 5 complete. The nursery's only way out runs cold, and nobody alive knows how to cross it. |
+| `chapter5.complete` | Chapter 5 complete. The nursery's only way out runs cold: read the chart for Hoarfell at the chart table. |
 
 Chapter-end card (`QuestToast`): heading `CHAPTER 5 COMPLETE`, title `MANY HANDS`, body `Many Hands is a town, with a chart that can take it anywhere it has been. Director Venn's anchor will be braced on Sorrel, and she has given you forty days and her own drawings to find something better. Until then nothing closes behind you, so keep exploring.`
 

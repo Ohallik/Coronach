@@ -341,7 +341,7 @@ Where the panel takes its line from the main quest's current step, section 4's s
 | GlassChoir | the fight, clamps left | Open a clamp while the staff is down (1/4) |
 | GlassChoir | a hand on a clamp | Take its weight: hold until the slack |
 | GlassChoir | a Clamp Tender at an open clamp | Stop the Clamp Tender: it is closing the clamp |
-| any | `chapter7.complete` | Chapter 7 complete. The first Bridle is open, and there is something alive in the Muster's. |
+| any | `chapter7.complete` | Chapter 7 complete. The first Bridle is open. Brekk has word from Scoria: he's on Many Hands' dock. |
 
 Chapter-end card (`QuestToast`): heading `CHAPTER 7 COMPLETE`, title `THE CAGE MAKERS`, body `Take its weight, wait for the slack, let go together: the first Bridle is open, a thousand years late, and the Last Warden has stood down. Ishen has read where the Coronach comes from. On Scoria the Muster's cage is nearly built, and there is something alive in it. Until then nothing closes behind you, so keep exploring.`
 

@@ -1,0 +1,1474 @@
+{
+  "name": "chapter-40-glass-choir",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 7: the nave in silence, Sela's line, the first clamp's release, the three stays and their fights, the heart cradle",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.doorReached",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the nave in silence 1/2",
+      "seconds": 4.72,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the nave in silence 2/2",
+      "seconds": 12.83,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": 0.0,
+        "z": 58
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "on down the nave until Sela speaks",
+      "seconds": 12.34,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": -1.2,
+        "z": 100
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "a held road begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read a held road line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next a held road line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release a held road line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "finish a held road",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.choirSeen",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release after a held road",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down to the first clamp 1/2",
+      "seconds": 16.77,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": -2.4,
+        "z": 118
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down to the first clamp 2/2",
+      "seconds": 4.73,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": -2.4,
+        "z": 129
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "on until Taren reads the lock",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": -2.4,
+        "z": 141
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "the first clamp begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the first clamp line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "next the first clamp line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the first clamp line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "finish the first clamp",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.releaseLearned",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release after the first clamp",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the stair to the rib walk 1/3",
+      "seconds": 7.67,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -2.98,
+        "z": 152
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the stair to the rib walk 2/3",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.4,
+        "z": 158
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the stair to the rib walk 3/3",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": -5.32,
+        "y": -4.4,
+        "z": 161.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "settle before take the first stay's weight",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "take the first stay's weight",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.stay1",
+      "expectedFlag": "oriel.stay1",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release take the first stay's weight",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "the stay pulls, then eases, and rib 1 lifts",
+      "seconds": 4.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "under rib 1 into the sentinel bay 1/4",
+      "seconds": 2.82,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.4,
+        "z": 161.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "under rib 1 into the sentinel bay 2/4",
+      "seconds": 4.09,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.4,
+        "z": 170
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "under rib 1 into the sentinel bay 3/4",
+      "seconds": 6.95,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": -4.4,
+        "z": 190
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "under rib 1 into the sentinel bay 4/4",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": -8.68,
+        "y": -4.4,
+        "z": 201.04
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "settle before take the second stay's weight",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "take the second stay's weight",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.stay2",
+      "expectedFlag": "oriel.stay2",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release take the second stay's weight",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "lock Choir_Sentinels",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release lock Choir_Sentinels",
+      "seconds": 0.3,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 1a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 1b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Sentinels round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 2a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 2b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Sentinels round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 3a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 3b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Sentinels round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 4a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 4b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Sentinels round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 5a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Sentinels 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Sentinels 5b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Sentinels round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Sentinels",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Choir_Sentinels cleared",
+      "seconds": 3,
+      "until": "flag:clear.Choir_Sentinels",
+      "expectedFlag": "clear.Choir_Sentinels",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "reach the fallen hero after Choir_Sentinels",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "both heroes ready after Choir_Sentinels",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the stair to the fibre gallery 1/2",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.9,
+        "z": 208
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "down the stair to the fibre gallery 2/2",
+      "seconds": 5.95,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": -6.6,
+        "z": 224
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "lock Choir_Fibres",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release lock Choir_Fibres",
+      "seconds": 0.3,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 1a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 1b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Fibres round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 2a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 2b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Fibres round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 3a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 3b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Fibres round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 4a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 4b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Fibres round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 5a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Fibres 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Fibres 5b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Fibres round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Fibres",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Choir_Fibres cleared",
+      "seconds": 3,
+      "until": "flag:clear.Choir_Fibres",
+      "expectedFlag": "clear.Choir_Fibres",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "reach the fallen hero after Choir_Fibres",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "both heroes ready after Choir_Fibres",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "to the third stay's seat",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -7.8,
+        "y": -6.6,
+        "z": 244.59
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "settle before take the third stay's weight",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "take the third stay's weight",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.stay3",
+      "expectedFlag": "oriel.stay3",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release take the third stay's weight",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "lock Choir_Tenders",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release lock Choir_Tenders",
+      "seconds": 0.3,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 1a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 1b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Tenders round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 2a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 2b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Tenders round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 3a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 3b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Tenders round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 4a",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "skill Choir_Tenders 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release skill Choir_Tenders 4b",
+      "seconds": 0.45,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "fight Choir_Tenders round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Choir_Tenders",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Choir_Tenders cleared",
+      "seconds": 3,
+      "until": "flag:clear.Choir_Tenders",
+      "expectedFlag": "clear.Choir_Tenders",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "reach the fallen hero after Choir_Tenders",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "both heroes ready after Choir_Tenders",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "with its tenders stopped, the third stay eases again",
+      "seconds": 5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "through rib 3's pass to the heart landing 1/2",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -6.6,
+        "z": 252
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "through rib 3's pass to the heart landing 2/2",
+      "seconds": 3.37,
+      "navigate": true,
+      "point": {
+        "x": -6.3999999999999995,
+        "y": -6.6,
+        "z": 255.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "repair and save at the heart cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "GlassChoir"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

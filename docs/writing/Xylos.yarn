@@ -392,7 +392,7 @@ Taren: That old mooring ring. It's a stride under water. I could reset it at the
 Hadda: We've reset it four times. Now we tie to whatever's dry and call that the ring. You're a tidy one, aren't you? #emotion:Amused
 Sela: He's been thinking about that ring since we landed. #emotion:Playful
 Taren: What can't you mend? #emotion:Curious
-Hadda: The mats the seed house breathes through. Driftreed weaves them, on Wendmire. I've picked one apart twice. I still can't see how it lets air in and keeps wet out. #emotion:Flustered
+Hadda: The mats the seed house breathes through. The weavers at Driftreed make them, on Wendmire. I've picked one apart twice. I still can't see how it lets air in and keeps wet out. #emotion:Flustered
 -> Use the press.
     <<bench>>
 -> Repair and save (8 scrip per Sync level).

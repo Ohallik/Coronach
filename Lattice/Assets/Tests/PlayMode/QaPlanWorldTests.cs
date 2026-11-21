@@ -26,7 +26,25 @@ namespace Lattice.Tests.PlayMode
     /// player would see rather than from the code. A failure here is a finding until someone has looked at it.</summary>
     public sealed class QaPlanWorldTests
     {
-        static readonly string[] Zones={"Hub_Decks","Hub_CinderHalo","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","WickReach","Lanternwick","LanternGorge","SunkenRelay"};
+        /// <summary>Every zone a player visits: chapters 1 and 2's eleven in the order these checks always walked them, then each zone defined since (ContentRegistry).
+        /// It was a list written here, and a zone nobody added to it was never loaded by any of them.</summary>
+        static string[] Zones=>ContentRegistry.Zones;
+        // The zone-by-zone checks below each ran on a list of chapter 1 and 2 zones written into its [Values]. Each keeps exactly that list, and adds every zone of its kind
+        // defined since (ContentRegistry.With), so a new zone is checked without anyone adding it. One a check truly can't apply to is left out by name, with the reason,
+        // in its chapter's own expectations (ContentRegistry.Book.Exempt).
+        static readonly string[] FirstOnFoot={"Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay"};
+        static string[] FloatOrSinkZones=>ContentRegistry.With(nameof(NothingFloatsOrSinksIn),FirstOnFoot,ContentRegistry.OnFoot);
+        static string[] CliffZones=>ContentRegistry.With(nameof(CliffBandsRunLevelAndTheCanyonIsNotStretched),new[]{"Lanternwick","LanternGorge","SunkenRelay"},ContentRegistry.OnFoot);
+        static string[] PromptOnFootZones=>ContentRegistry.With(nameof(EveryPromptCanBeReachedOnFoot),FirstOnFoot,ContentRegistry.OnFoot);
+        static string[] PromptInFlightZones=>ContentRegistry.With(nameof(EveryFlightPromptHasRoomForAHullWithinItsReach),new[]{"Hub_CinderHalo","Gullet_Tunnel","TallowApproach","WickReach"},ContentRegistry.InFlight);
+        static string[] EdgeZones=>ContentRegistry.With(nameof(NoWalkableEdgeDropsIntoNothing),FirstOnFoot,ContentRegistry.OnFoot);
+        static string[] InvisibleWallZones=>ContentRegistry.With(nameof(NoInvisibleWallStandsInTheOpen),FirstOnFoot,ContentRegistry.OnFoot);
+        static string[] StickingZones=>ContentRegistry.With(nameof(TheBodyNeverSticksAtAWallFootOrAProp),FirstOnFoot,ContentRegistry.OnFoot);
+        static string[] CompanionZones=>ContentRegistry.With(nameof(TheCompanionKeepsUpOnFoot),new[]{"Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay"},ContentRegistry.OnFoot);
+        static string[] InsideAPropZones=>ContentRegistry.With(nameof(NobodyStandsInsideAProp),new[]{"Hub_Decks","Sorrel_Ridges","TallowDrift","Lanternwick","SunkenRelay"},ContentRegistry.OnFoot);
+        static string[] ArrivalZones=>ContentRegistry.With(nameof(NoGroundArrivalOpensOnACloseUp),FirstOnFoot,ContentRegistry.OnFoot);
+        // The checks that walked every zone in one case are one case per zone too (ZoneWalk): a zone that can't load, or logs an error of its own, fails its own case and
+        // nobody else's. What compares zones with each other is its own test, ...AcrossZones, which reads what each zone's case kept and visits the rest itself.
         string heard;readonly List<string> problems=new(),log=new();
         void Listen(string node,string speaker,System.Action<bool> done)=>heard=node;
         void Logged(string text,string stack,LogType type){if(text.StartsWith("RELAY_LIT"))log.Add(text);}
@@ -42,6 +60,8 @@ namespace Lattice.Tests.PlayMode
             var dialogue=DialogueSystem.Current;if(dialogue!=null&&dialogue.Running){dialogue.Cancel();yield return null;yield return null;}
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.3f);
         }
+        /// <summary>The game as a case starts it, with these flags set: where a walk across zones (ZoneWalk) picks up after a zone it couldn't read.</summary>
+        IEnumerator Rebooted(params string[] flags){yield return Cleanup();yield return Boot();foreach(var flag in flags)Flag(flag);}
 
         // ---------------------------------------------------------------- helpers
         static GameState State=>GameServices.Current.State;
@@ -92,7 +112,10 @@ namespace Lattice.Tests.PlayMode
         static WarpBeacon WarpTo(string scene)=>All<WarpBeacon>().Single(w=>w.scene==scene);
         static string ObjectiveText()=>Object.FindFirstObjectByType<ObjectiveHud>().GetComponentsInChildren<TMP_Text>(true).Single(t=>t.name=="Objective").text;
         static void ClearFights(){foreach(var fight in All<EncounterVolume>())Flag("clear."+fight.encounterId);}
-        static void OpenSeals(){foreach(var seal in All<Membrane>())seal.SetOpen(true);}
+        /// <summary>Every seal open, and held open. Hushwell's two vent membranes belong to the nursery's breath (PressurePulse, six seconds round on the game clock): opened here, they
+        /// shut again if the breath turned to its inhale in the moments before a check read the floor, and the cache and the crystal seam behind them came out "cut off from the arrival"
+        /// about one run in ten, with the scene and its navigation exactly as they were. A vent's breath is stopped, so open means open for as long as the check takes.</summary>
+        static void OpenSeals(){foreach(var pulse in All<PressurePulse>())if(pulse.vent!=null)pulse.enabled=false;foreach(var seal in All<Membrane>())seal.SetOpen(true);}
         static bool IsBody(Collider c)=>c is CharacterController||c.GetComponentInParent<CombatActor>()!=null||c.GetComponentInParent<EnemyBrain>()!=null;
         void Verdict(string heading)
         {
@@ -315,21 +338,18 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("Lanternwick");yield return new WaitForSecondsRealtime(.35f);
             StringAssert.DoesNotContain("relays lit",ObjectiveText(),"all three relays burn and, back in town, the objective still says Aumi wants them lit");
         }
-        [UnityTest] public IEnumerator NoGroundArrivalOpensOnACloseUp()
+        [UnityTest] public IEnumerator NoGroundArrivalOpensOnACloseUp([ValueSource(nameof(ArrivalZones))] string zone)
         {
             Flag("relay.hessaConfronted");
-            foreach(var zone in new[]{"Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay"})
+            yield return Zone(zone);ClearFights();
+            var rig=Object.FindFirstObjectByType<CameraRig>();var lead=PartyController.Current.Active;
+            foreach(var spawn in All<SpawnPoint>().GroupBy(s=>s.id).Select(g=>g.First()).ToArray())
             {
-                yield return Zone(zone);ClearFights();
-                var rig=Object.FindFirstObjectByType<CameraRig>();var lead=PartyController.Current.Active;
-                foreach(var spawn in All<SpawnPoint>().GroupBy(s=>s.id).Select(g=>g.First()).ToArray())
-                {
-                    Put(lead,spawn.transform.position+Vector3.up*.1f);
-                    yield return new WaitForSecondsRealtime(1.2f);
-                    if(rig.GroundCameraDistance<=14)problems.Add($"{zone}, arriving at {spawn.id}: the camera opens {rig.GroundCameraDistance:0.0} m from the hero, jammed against the scenery");
-                    var view=Camera.main.WorldToViewportPoint(lead.transform.position+Vector3.up);
-                    if(view.z<=0||view.x<0||view.x>1||view.y<0||view.y>1)problems.Add($"{zone}, arriving at {spawn.id}: the hero isn't on screen ({view})");
-                }
+                Put(lead,spawn.transform.position+Vector3.up*.1f);
+                yield return new WaitForSecondsRealtime(1.2f);
+                if(rig.GroundCameraDistance<=14)problems.Add($"{zone}, arriving at {spawn.id}: the camera opens {rig.GroundCameraDistance:0.0} m from the hero, jammed against the scenery");
+                var view=Camera.main.WorldToViewportPoint(lead.transform.position+Vector3.up);
+                if(view.z<=0||view.x<0||view.x>1||view.y<0||view.y>1)problems.Add($"{zone}, arriving at {spawn.id}: the hero isn't on screen ({view})");
             }
             Verdict("Arrivals that open badly");
         }
@@ -342,7 +362,8 @@ namespace Lattice.Tests.PlayMode
             "Sorrel_Ridges"=>label.Contains("Sorrel"),"Hushwell"=>label.Contains("Hushwell"),"Gullet_Tunnel"=>label.Contains("Gullet"),
             "TallowApproach"=>label.Contains("Tallow"),"TallowDrift"=>label.Contains("Tallow Drift"),"WickReach"=>label.Contains("Wick Reach"),
             "Lanternwick"=>label.Contains("Lanternwick"),"LanternGorge"=>label.Contains("Lantern Gorge"),"SunkenRelay"=>label.Contains("Sunken Relay"),
-            _=>false,
+            // A zone since chapter 2 needs no arm here: the way to it has to say its name as a player reads it ("The Wick Reach" is "Wick Reach" on a sign). The yards have no way in.
+            _=>!ContentRegistry.IsFirst(scene)&&label.Contains(ContentRegistry.NameOnASign(scene)),
         };
         static bool FloorUnder(Vector3 at,float above,float below,out float floor)
         {
@@ -376,39 +397,66 @@ namespace Lattice.Tests.PlayMode
             if(!BodyFits(new Vector3(at.x,floor,at.z),who=="the companion"?.2f:.33f))problems.Add($"{zone}: {who} arrives at {spawn} inside something solid");
             if(!NavMesh.SamplePosition(new Vector3(at.x,floor,at.z),out _,1.5f,NavMesh.AllAreas))problems.Add($"{zone}: {who} arrives at {spawn} off the walkable floor, where the companion can't find a path");
         }
-        [UnityTest] public IEnumerator EveryExitNamesWhereItGoesAndItsArrivalIsThere()
+        /// <summary>One zone's ways out and ways in, as a walk across zones needs them.</summary>
+        sealed class Exits
         {
-            var exits=new List<(string from,string label,string scene,string spawn)>();var arrivals=new Dictionary<string,HashSet<string>>();var spawnAt=new Dictionary<string,Vector3>();var warpAt=new Dictionary<string,Vector3>();
-            Flag("bossdown.Cantor");
-            foreach(var zone in Zones)
+            public readonly List<(string from,string label,string scene,string spawn)> exits=new();public HashSet<string> arrivals;
+            public readonly Dictionary<string,Vector3> spawnAt=new(),warpAt=new();
+        }
+        /// <summary>Loads a zone with every warp's flag set, reads its exits and arrivals, and checks that the party stands at each arrival.</summary>
+        IEnumerator ReadExits(string zone)
+        {
+            yield return Zone(zone);
+            foreach(var warp in All<WarpBeacon>())if(!string.IsNullOrEmpty(warp.requiredFlag))Flag(warp.requiredFlag);
+            yield return null;yield return null;
+            var read=new Exits();
+            foreach(var warp in All<WarpBeacon>()){read.exits.Add((zone,warp.prompt,warp.scene,warp.spawn));read.warpAt[warp.scene]=warp.transform.position;}
+            foreach(var dock in All<DockingPad>())read.exits.Add((zone,dock.prompt,dock.scene,dock.spawn));
+            read.arrivals=new HashSet<string>(All<SpawnPoint>().Select(s=>s.id));
+            bool flight=ZoneController.Current.Flight;
+            foreach(var spawn in All<SpawnPoint>().GroupBy(s=>s.id).Select(g=>g.First()))
             {
-                yield return Zone(zone);
-                foreach(var warp in All<WarpBeacon>())if(!string.IsNullOrEmpty(warp.requiredFlag))Flag(warp.requiredFlag);
-                yield return null;yield return null;
-                foreach(var warp in All<WarpBeacon>()){exits.Add((zone,warp.prompt,warp.scene,warp.spawn));warpAt[zone+">"+warp.scene]=warp.transform.position;}
-                foreach(var dock in All<DockingPad>())exits.Add((zone,dock.prompt,dock.scene,dock.spawn));
-                arrivals[zone]=new HashSet<string>(All<SpawnPoint>().Select(s=>s.id));
-                bool flight=ZoneController.Current.Flight;
-                foreach(var spawn in All<SpawnPoint>().GroupBy(s=>s.id).Select(g=>g.First()))
-                {
-                    spawnAt[zone+"/"+spawn.id]=spawn.transform.position;
-                    CheckStanding(zone,spawn.id,spawn.transform.position,flight,"the lead");
-                    CheckStanding(zone,spawn.id,spawn.transform.position+Vector3.right*(flight?HeroCollision.ArrivalSpacing:2),flight,"the companion");
-                }
-                if(!arrivals[zone].Contains("Arrival"))problems.Add(zone+" has no Arrival for a plain load");
+                read.spawnAt[spawn.id]=spawn.transform.position;
+                CheckStanding(zone,spawn.id,spawn.transform.position,flight,"the lead");
+                CheckStanding(zone,spawn.id,spawn.transform.position+Vector3.right*(flight?HeroCollision.ArrivalSpacing:2),flight,"the companion");
             }
-            Assert.Greater(exits.Count,20,"fixture: the world's exits");
-            foreach(var (from,label,scene,spawn) in exits)
+            if(!read.arrivals.Contains("Arrival"))problems.Add(zone+" has no Arrival for a plain load");
+            ZoneWalk.Keep(nameof(EveryExitNamesWhereItGoesAndItsArrivalIsThere),zone,read);
+        }
+        [UnityTest] public IEnumerator EveryExitNamesWhereItGoesAndItsArrivalIsThere([ValueSource(nameof(Zones))] string zone)
+        {
+            Flag("bossdown.Cantor");
+            yield return ReadExits(zone);
+            var read=ZoneWalk.Kept<Exits>(nameof(EveryExitNamesWhereItGoesAndItsArrivalIsThere),zone);
+            // Whether its arrival is there is the walk's to say (EveryExitNamesWhereItGoesAndItsArrivalIsThereAcrossZones), as is a way out of the zones the game has.
+            var zones=Zones;
+            foreach(var (from,label,scene,spawn) in read.exits)
             {
                 if(!Application.CanStreamedLevelBeLoaded(scene)||GameCatalog.Find<ZoneDef>(scene)==null){problems.Add($"{from}: \"{label}\" leads to {scene}, which isn't in the game");continue;}
-                if(!arrivals.TryGetValue(scene,out var there)){problems.Add($"{from}: \"{label}\" leads out of the eleven zones, to {scene}");continue;}
-                if(!there.Contains(spawn))problems.Add($"{from}: \"{label}\" lands at {scene}/{spawn}, and no such arrival exists: the party is dropped at the world's origin");
+                if(System.Array.IndexOf(zones,scene)<0)continue;
                 if(!LabelNames(label,scene,spawn))problems.Add($"{from}: \"{label}\" leads to {DisplayNames.Zone(scene)} ({spawn})");
             }
             // The two exits that promise one particular spot of the Halo.
-            foreach(var (spawn,warp) in new[]{("Outer","Gullet_Tunnel"),("Moon","Sorrel_Ridges"),("Tallow","TallowApproach")})
-                if(FlatDistance(spawnAt["Hub_CinderHalo/"+spawn],warpAt["Hub_CinderHalo>"+warp])>25)problems.Add($"The Halo's {spawn} arrival is nowhere near the warp it serves");
+            if(zone=="Hub_CinderHalo")foreach(var (spawn,warp) in new[]{("Outer","Gullet_Tunnel"),("Moon","Sorrel_Ridges"),("Tallow","TallowApproach")})
+                if(FlatDistance(read.spawnAt[spawn],read.warpAt[warp])>25)problems.Add($"The Halo's {spawn} arrival is nowhere near the warp it serves");
             Verdict("Exits that don't lead where they say");
+        }
+        [UnityTest] public IEnumerator EveryExitNamesWhereItGoesAndItsArrivalIsThereAcrossZones()
+        {
+            Flag("bossdown.Cantor");
+            var read=new Dictionary<string,Exits>();var unread=new List<string>();var zones=Zones;
+            yield return ZoneWalk.Walk(nameof(EveryExitNamesWhereItGoesAndItsArrivalIsThere),zones,ReadExits,()=>Rebooted("bossdown.Cantor"),read,unread);
+            // What a zone's own exits and arrivals get wrong is that zone's case to say: this is where an exit lands.
+            problems.Clear();
+            var exits=read.Values.SelectMany(r=>r.exits).ToList();
+            Assert.Greater(exits.Count,20,"fixture: the world's exits");
+            foreach(var (from,label,scene,spawn) in exits)
+            {
+                if(!Application.CanStreamedLevelBeLoaded(scene)||GameCatalog.Find<ZoneDef>(scene)==null)continue;
+                if(!read.TryGetValue(scene,out var there)){if(System.Array.IndexOf(zones,scene)<0)problems.Add($"{from}: \"{label}\" leads out of the eleven zones, to {scene}");continue;}
+                if(!there.arrivals.Contains(spawn))problems.Add($"{from}: \"{label}\" lands at {scene}/{spawn}, and no such arrival exists: the party is dropped at the world's origin");
+            }
+            Verdict("Exits that don't lead where they say"+ZoneWalk.Unread(unread));
         }
         [UnityTest] public IEnumerator EveryWarpToTallowCallsItTheSamePlace()
         {
@@ -427,50 +475,64 @@ namespace Lattice.Tests.PlayMode
             {"warpkey",new[]{"survey key"}},{"met.Orrin",new[]{"Orrin"}},{"bossdown.Burrower",new[]{"Burrower"}},{"hushwell.nursery",new[]{"Bellows"}},
             {"bossdown.Cantor",new[]{"Cantor","Gullet"}},{"lantern.routeKnown",new[]{"Abri"}},{"met.Aumi",new[]{"Aumi"}},{"gorge.relaysLit",new[]{"relay"}},{"relay.hessaYielded",new[]{"captain","Hessa"}},
         };
-        [UnityTest] public IEnumerator EveryLockedExitStaysShutAndSaysWhatOpensIt()
+        /// <summary>Presses every locked warp in a zone without its flag, and after; keeps how many locks it has, and whether it holds a way into the Wick Reach anyone can take.</summary>
+        IEnumerator ReadLocks(string zone)
         {
-            int locks=0;bool reachOpenToAnyone=false;
-            foreach(var zone in Zones)
+            int locks=0;bool reachOpen=false;
+            yield return Zone(zone);
+            // The way into the Wick Reach decides whether anyone can ever read its home warp's lock. Lanternwick's pad doesn't count: the only way to Lanternwick is through the Reach.
+            reachOpen|=All<WarpBeacon>().Any(w=>w.scene=="WickReach"&&w.requiredFlag!="lantern.routeKnown")||zone!="Lanternwick"&&All<DockingPad>().Any(d=>d.scene=="WickReach");
+            foreach(var warp in All<WarpBeacon>().Where(w=>!string.IsNullOrEmpty(w.requiredFlag)).ToArray())
             {
-                yield return Zone(zone);
-                // The way into the Wick Reach decides whether anyone can ever read its home warp's lock. Lanternwick's pad doesn't count: the only way to Lanternwick is through the Reach.
-                reachOpenToAnyone|=All<WarpBeacon>().Any(w=>w.scene=="WickReach"&&w.requiredFlag!="lantern.routeKnown")||zone!="Lanternwick"&&All<DockingPad>().Any(d=>d.scene=="WickReach");
-                foreach(var warp in All<WarpBeacon>().Where(w=>!string.IsNullOrEmpty(w.requiredFlag)).ToArray())
+                locks++;string name=warp.name,flag=warp.requiredFlag;
+                // Nobody stands in the Reach without this flag, so nobody can press this warp and be refused: its words can't reach a player (checked across zones).
+                if(zone=="WickReach"&&flag=="lantern.routeKnown")continue;
+                // The table above is chapters 1 and 2's. A lock since names itself when it waits on a person met or a boss down, and anything else is said by its chapter
+                // (ContentRegistry.Book.Lock); a lock nobody has spoken for is a failure here, as it always was.
+                if(!WhatOpensIt.TryGetValue(flag,out var words))words=ContentRegistry.LockWords(flag);
+                if(words==null||words.Length==0){problems.Add($"{zone}: {name} waits on {flag}, a lock this check doesn't know: say what a refused press must name with book.Lock(\"{flag}\",...) in the chapter's [ContentRegistry.Expectations]");continue;}
+                if(Has(flag)){problems.Add($"{zone}: fixture: {flag} is already set");continue;}
+                warp.Interact();yield return null;yield return null;
+                if(SceneFlow.Current.Loading||SceneFlow.Current.Zone!=zone)
                 {
-                    locks++;string name=warp.name,flag=warp.requiredFlag;
-                    // Nobody stands in the Reach without this flag, so nobody can press this warp and be refused: its words can't reach a player (checked below).
-                    if(zone=="WickReach"&&flag=="lantern.routeKnown")continue;
-                    if(!WhatOpensIt.TryGetValue(flag,out var words)){problems.Add($"{zone}: {name} waits on {flag}, a lock this check doesn't know");continue;}
-                    if(Has(flag)){problems.Add($"{zone}: fixture: {flag} is already set");continue;}
-                    warp.Interact();yield return null;yield return null;
-                    if(SceneFlow.Current.Loading||SceneFlow.Current.Zone!=zone)
-                    {
-                        problems.Add($"{zone}: {name} lets the party through without {flag}");
-                        float deadline=Time.unscaledTime+25;while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
-                        break;
-                    }
-                    string said=warp.prompt;
-                    if(!words.Any(said.Contains))problems.Add($"{zone}: {name} is shut on {flag}, and a refused press says \"{said}\", which doesn't name {string.Join(" or ",words)}");
-                    CheckWords(zone+" lock",said,true);
-                    // The route to the Gullet has a second lock: the key alone isn't enough.
-                    if(warp.scene=="Gullet_Tunnel")
-                    {
-                        Flag(flag);warp.Interact();yield return null;yield return null;
-                        if(SceneFlow.Current.Loading)problems.Add($"{zone}: the key alone opens the Gullet, without the nursery");
-                        else if(!warp.prompt.Contains("Hushwell"))problems.Add($"{zone}: with the key and no chart the Gullet warp says \"{warp.prompt}\", which doesn't send the player to Hushwell");
-                        if(SceneFlow.Current.Loading){float deadline=Time.unscaledTime+25;while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;break;}
-                        Flag("hushwell.nursery");
-                    }
-                    else Flag(flag);
-                    yield return null;yield return null;
-                    if(warp.prompt==said)problems.Add($"{zone}: {name} has opened and still says \"{said}\"");
-                    Flag(flag,false);Flag("hushwell.nursery",false);
-                    yield return null;yield return null;
+                    problems.Add($"{zone}: {name} lets the party through without {flag}");
+                    float deadline=Time.unscaledTime+25;while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+                    break;
                 }
+                string said=warp.prompt;
+                if(!words.Any(said.Contains))problems.Add($"{zone}: {name} is shut on {flag}, and a refused press says \"{said}\", which doesn't name {string.Join(" or ",words)}");
+                CheckWords(zone+" lock",said,true);
+                // The route to the Gullet has a second lock: the key alone isn't enough.
+                if(warp.scene=="Gullet_Tunnel")
+                {
+                    Flag(flag);warp.Interact();yield return null;yield return null;
+                    if(SceneFlow.Current.Loading)problems.Add($"{zone}: the key alone opens the Gullet, without the nursery");
+                    else if(!warp.prompt.Contains("Hushwell"))problems.Add($"{zone}: with the key and no chart the Gullet warp says \"{warp.prompt}\", which doesn't send the player to Hushwell");
+                    if(SceneFlow.Current.Loading){float deadline=Time.unscaledTime+25;while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;break;}
+                    Flag("hushwell.nursery");
+                }
+                else Flag(flag);
+                yield return null;yield return null;
+                if(warp.prompt==said)problems.Add($"{zone}: {name} has opened and still says \"{said}\"");
+                Flag(flag,false);Flag("hushwell.nursery",false);
+                yield return null;yield return null;
             }
-            Assert.GreaterOrEqual(locks,9,"fixture: the world's locked warps");
-            if(reachOpenToAnyone)problems.Add("The Wick Reach can now be entered without lantern.routeKnown, so its home warp's lock can be read, and that lock's words were never written: they're the field's default, about Sorrel's survey key");
+            ZoneWalk.Keep(nameof(EveryLockedExitStaysShutAndSaysWhatOpensIt),zone,(locks,reachOpen));
+        }
+        [UnityTest] public IEnumerator EveryLockedExitStaysShutAndSaysWhatOpensIt([ValueSource(nameof(Zones))] string zone)
+        {
+            yield return ReadLocks(zone);
             Verdict("Locks that don't say what opens them");
+        }
+        [UnityTest] public IEnumerator EveryLockedExitStaysShutAndSaysWhatOpensItAcrossZones()
+        {
+            var read=new Dictionary<string,(int locks,bool reachOpen)>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(EveryLockedExitStaysShutAndSaysWhatOpensIt),Zones,ReadLocks,()=>Rebooted(),read,unread);
+            // What a zone's own locks say is that zone's case to report: this counts them, and asks whether any zone lets anyone into the Reach.
+            problems.Clear();
+            Assert.GreaterOrEqual(read.Values.Sum(r=>r.locks),9,"fixture: the world's locked warps");
+            if(read.Values.Any(r=>r.reachOpen))problems.Add("The Wick Reach can now be entered without lantern.routeKnown, so its home warp's lock can be read, and that lock's words were never written: they're the field's default, about Sorrel's survey key");
+            Verdict("Locks that don't say what opens them"+ZoneWalk.Unread(unread));
         }
         IEnumerator Takes(InteractionPrompt exit,string scene,string spawn)
         {
@@ -508,33 +570,42 @@ namespace Lattice.Tests.PlayMode
 
         // ================================================================ 4.5 art: placeholders, floating and sunken props, stretched textures, relay light
         static readonly Regex BuiltIn=new(@"^(Cube|Sphere|Cylinder|Capsule)( Instance)?$");
-        [UnityTest] public IEnumerator NoPlaceholderIsDrawnInAnyZone()
+        [UnityTest] public IEnumerator NoPlaceholderIsDrawnInAnyZone([ValueSource(nameof(Zones))] string zone)
+        {
+            yield return ReadPlaceholders(zone);
+            Verdict("Placeholder art on show");
+        }
+        /// <summary>Everything a zone draws, against the placeholder rules; keeps how much it drew.</summary>
+        IEnumerator ReadPlaceholders(string zone)
         {
             var blockout=new HashSet<Material>(Resources.LoadAll<Material>("Blockout"));int drawn=0;
-            foreach(var zone in Zones)
+            yield return Zone(zone);
+            var view=GeometryUtility.CalculateFrustumPlanes(Camera.main);
+            foreach(var t in All<Transform>())if(t.name.Contains("ART_PENDING")&&t.gameObject.activeInHierarchy)problems.Add($"{zone}: {t.name} is still placeholder art");
+            foreach(var r in All<Renderer>())
             {
-                yield return Zone(zone);
-                var view=GeometryUtility.CalculateFrustumPlanes(Camera.main);
-                foreach(var t in All<Transform>())if(t.name.Contains("ART_PENDING")&&t.gameObject.activeInHierarchy)problems.Add($"{zone}: {t.name} is still placeholder art");
-                foreach(var r in All<Renderer>())
-                {
-                    if(!r.enabled||!r.gameObject.activeInHierarchy||!(r is MeshRenderer||r is SkinnedMeshRenderer||r is LineRenderer)||r.GetComponent<TMP_Text>()!=null)continue;
-                    // _Boot keeps a 1 m cube a kilometre under the world so a build doesn't strip the toon shader. The fixed camera looks forward and down from up here and can't
-                    // frame it. Going by where it is and not by its name, and only while the camera really can't see it.
-                    if(r.bounds.max.y<-500&&!GeometryUtility.TestPlanesAABB(view,r.bounds))continue;
-                    drawn++;
-                    if(r.sharedMaterials.Any(m=>m==null))problems.Add($"{zone}: {r.name} has a missing material and draws magenta");
-                    if(r.sharedMaterials.Any(m=>m!=null&&m.shader!=null&&m.shader.name=="Hidden/InternalErrorShader"))problems.Add($"{zone}: {r.name}'s shader failed and it draws magenta");
-                    if(r.GetComponentInParent<Membrane>()!=null)continue;
-                    if(r.sharedMaterials.Any(blockout.Contains))problems.Add($"{zone}: {r.name} wears a blockout material");
-                    // A builder renames its blocks, so a name proves nothing: the mesh itself is Unity's. A planet is a sphere with a painted map on it.
-                    var filter=r.GetComponent<MeshFilter>();var look=r.sharedMaterial;
-                    bool painted=look!=null&&look.HasProperty("_BaseMap")&&look.GetTexture("_BaseMap")!=null;
-                    if(filter!=null&&filter.sharedMesh!=null&&BuiltIn.IsMatch(filter.sharedMesh.name)&&!painted)problems.Add($"{zone}: {r.name} is a bare {filter.sharedMesh.name}");
-                }
+                if(!r.enabled||!r.gameObject.activeInHierarchy||!(r is MeshRenderer||r is SkinnedMeshRenderer||r is LineRenderer)||r.GetComponent<TMP_Text>()!=null)continue;
+                // _Boot keeps a 1 m cube a kilometre under the world so a build doesn't strip the toon shader. The fixed camera looks forward and down from up here and can't
+                // frame it. Going by where it is and not by its name, and only while the camera really can't see it.
+                if(r.bounds.max.y<-500&&!GeometryUtility.TestPlanesAABB(view,r.bounds))continue;
+                drawn++;
+                if(r.sharedMaterials.Any(m=>m==null))problems.Add($"{zone}: {r.name} has a missing material and draws magenta");
+                if(r.sharedMaterials.Any(m=>m!=null&&m.shader!=null&&m.shader.name=="Hidden/InternalErrorShader"))problems.Add($"{zone}: {r.name}'s shader failed and it draws magenta");
+                if(r.GetComponentInParent<Membrane>()!=null)continue;
+                if(r.sharedMaterials.Any(blockout.Contains))problems.Add($"{zone}: {r.name} wears a blockout material");
+                // A builder renames its blocks, so a name proves nothing: the mesh itself is Unity's. A planet is a sphere with a painted map on it.
+                var filter=r.GetComponent<MeshFilter>();var look=r.sharedMaterial;
+                bool painted=look!=null&&look.HasProperty("_BaseMap")&&look.GetTexture("_BaseMap")!=null;
+                if(filter!=null&&filter.sharedMesh!=null&&BuiltIn.IsMatch(filter.sharedMesh.name)&&!painted)problems.Add($"{zone}: {r.name} is a bare {filter.sharedMesh.name}");
             }
-            Assert.Greater(drawn,1000,"fixture: the eleven zones draw plenty");
-            Verdict("Placeholder art on show");
+            ZoneWalk.Keep(nameof(NoPlaceholderIsDrawnInAnyZone),zone,drawn);
+        }
+        [UnityTest] public IEnumerator NoPlaceholderIsDrawnInAnyZoneAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(NoPlaceholderIsDrawnInAnyZone),Zones,ReadPlaceholders,()=>Rebooted(),read,unread);
+            // What each zone draws wrong is its own case's to report.
+            Assert.Greater(read.Values.Sum(),1000,"fixture: the eleven zones draw plenty"+ZoneWalk.Unread(unread));
         }
 
         static IEnumerable<Transform> Split(Transform t,int depth)
@@ -580,6 +651,18 @@ namespace Lattice.Tests.PlayMode
             }
             return ground;
         }
+        /// <summary>The still water sheets laid in the zone being measured (ZoneKit.Water carries a BiomePatch that says water): where each lies, its top being its surface.</summary>
+        static List<Bounds> waterSheets=new();
+        /// <summary>The surface of water lying over the ground at this point, or NaN where it's dry: a WaterVolume inside its reaches (section 15.2 of the guide), or a still sheet whose level is
+        /// above the ground there.</summary>
+        static float WaterAt(Vector3 at,float ground)
+        {
+            float surface=float.NaN,depth=WaterVolume.DepthAt(new Vector3(at.x,ground,at.z));
+            if(depth>0&&!float.IsInfinity(depth))surface=ground+depth;
+            foreach(var sheet in waterSheets)
+                if(at.x>=sheet.min.x&&at.x<=sheet.max.x&&at.z>=sheet.min.z&&at.z<=sheet.max.z&&sheet.max.y>ground+.05f)surface=float.IsNaN(surface)?sheet.max.y:Mathf.Max(surface,sheet.max.y);
+            return surface;
+        }
         /// <summary>Null when the prop sits right. Floating: under no part of it is there ground within a quarter metre, and nothing beside it holds it up.
         /// Sunk: even where the ground is lowest, half of it is underneath and the rest still shows.</summary>
         static string Measure(Transform prop,Bounds b)
@@ -588,7 +671,10 @@ namespace Lattice.Tests.PlayMode
             foreach(var (x,z) in new[]{(0f,0f),(.6f,.6f),(-.6f,.6f),(.6f,-.6f),(-.6f,-.6f)})
             {
                 var at=b.center+new Vector3(x*b.extents.x,0,z*b.extents.z);
-                smallestGap=Mathf.Min(smallestGap,b.min.y-GroundBelow(at,b.max.y+.05f,prop));
+                // Floating is measured from what holds a thing up: over water that is the surface, not the bed. Rootmarket's canoe rides its pool and was faulted for the riverbed 1.27 m under it.
+                // Sinking is still measured against the ground alone.
+                float ground=GroundBelow(at,b.max.y+.05f,prop),water=float.IsInfinity(ground)?float.NaN:WaterAt(at,ground);
+                smallestGap=Mathf.Min(smallestGap,b.min.y-(float.IsNaN(water)?ground:Mathf.Max(ground,water)));
                 lowestGround=Mathf.Min(lowestGround,GroundBelow(at,b.max.y+.05f,prop,b.center.y));
             }
             if(smallestGap>.25f)
@@ -606,11 +692,12 @@ namespace Lattice.Tests.PlayMode
             }
             return null;
         }
-        [UnityTest] public IEnumerator NothingFloatsOrSinksIn([Values("Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator NothingFloatsOrSinksIn([ValueSource(nameof(FloatOrSinkZones))] string zone)
         {
             if(zone=="LanternGorge"){RoadToAumi();RpgServices.Quests.Start("PellsLamp");RpgServices.Quests.Start("UnswornRations");}
             if(zone=="SunkenRelay")RpgServices.Quests.Start("IshensRecord");
             yield return Zone(zone);yield return null;yield return null;
+            waterSheets=All<BiomePatch>().Where(p=>p.water).SelectMany(p=>p.GetComponentsInChildren<Renderer>()).Select(r=>r.bounds).ToList();
             // The measure has to be able to say both things, and to say nothing.
             var arrival=All<SpawnPoint>().First(s=>s.id=="Arrival").transform.position;
             Assert.IsTrue(FloorUnder(arrival,3,6,out float floor),"fixture: floor at the arrival");
@@ -634,7 +721,7 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine($"{zone}: measured {measured} props");
             Verdict($"{zone}: props off the ground or half under it ({problems.Count} of {measured})");
         }
-        [UnityTest] public IEnumerator CliffBandsRunLevelAndTheCanyonIsNotStretched([Values("Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator CliffBandsRunLevelAndTheCanyonIsNotStretched([ValueSource(nameof(CliffZones))] string zone)
         {
             yield return Zone(zone);
             var cliffs=All<MeshFilter>().Where(f=>f.sharedMesh!=null&&f.sharedMesh.isReadable&&f.GetComponent<MeshRenderer>()!=null&&(f.name+" "+f.sharedMesh.name).ToLowerInvariant().Contains("cliffs")).ToArray();
@@ -661,36 +748,45 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(tilted,faces*.01f,$"{zone}: the strata run off the level on {tilted} of {faces} cliff faces");
             Assert.Less(stretched,faces*.02f,$"{zone}: the strata are smeared on {stretched} of {faces} cliff faces");
         }
-        [UnityTest] public IEnumerator NoKitPieceIsStretchedAcrossItsTexture()
+        [UnityTest] public IEnumerator NoKitPieceIsStretchedAcrossItsTexture([ValueSource(nameof(Zones))] string zone)
+        {
+            yield return ReadKitPieces(zone);
+            Verdict("Kit pieces stretched across their textures");
+        }
+        /// <summary>Every textured piece a zone draws, against how far it is stretched; keeps how many it looked at.</summary>
+        IEnumerator ReadKitPieces(string zone)
         {
             // The lead's call: the station's low walls and hull fascia at 3 to 4.3 pass, as they read fine in captures (v1/s01/009). 5 still catches a wall panel laid on its back (D110) and one fitted to a block's whole depth.
             const float Bar=5;
             int looked=0;var named=new HashSet<string>();
-            foreach(var zone in Zones)
+            yield return Zone(zone);
+            foreach(var filter in All<MeshFilter>())
             {
-                yield return Zone(zone);
-                foreach(var filter in All<MeshFilter>())
-                {
-                    var renderer=filter.GetComponent<MeshRenderer>();var mesh=filter.sharedMesh;
-                    if(renderer==null||!renderer.enabled||renderer.forceRenderingOff||!filter.gameObject.activeInHierarchy||mesh==null)continue;
-                    if(filter.GetComponentInParent<Membrane>()!=null||filter.GetComponent<TMP_Text>()!=null||filter.GetComponentInParent<CombatActor>()!=null||filter.GetComponentInParent<EnemyBrain>()!=null)continue;
-                    // A flat colour has no texture to stretch.
-                    var look=renderer.sharedMaterial;if(look==null||!look.HasProperty("_BaseMap")||look.GetTexture("_BaseMap")==null)continue;
-                    // What shows is a piece's broad face, its two longest sides as it stands. Thickening a thin wall leaves the wall's own face as it was.
-                    var scale=filter.transform.lossyScale;var size=mesh.bounds.size;
-                    var sides=new[]{(s:Mathf.Abs(scale.x),e:size.x),(s:Mathf.Abs(scale.y),e:size.y),(s:Mathf.Abs(scale.z),e:size.z)}.OrderByDescending(a=>a.s*a.e).Take(2).ToArray();
-                    if(sides[1].s<=0||sides[1].s*sides[1].e<.75f)continue;
-                    looked++;
-                    float most=Mathf.Max(sides[0].s,sides[1].s),least=Mathf.Min(sides[0].s,sides[1].s);
-                    if(most/least<Bar)continue;
-                    // Every kit piece's mesh is called Body: say what it's part of, how big it stands and where the first of its kind is.
-                    string what=filter.name=="Body"&&filter.transform.parent!=null?filter.transform.parent.name:filter.name;
-                    string kind=$"{zone}: {what}, {sides[0].s*sides[0].e:0.0} by {sides[1].s*sides[1].e:0.0} m, is scaled {most/least:0.0} times longer one way than the other, across a texture that wasn't";
-                    if(named.Add(kind)){var c=renderer.bounds.center;problems.Add($"{kind} (first at {c.x:0}, {c.y:0}, {c.z:0})");}
-                }
+                var renderer=filter.GetComponent<MeshRenderer>();var mesh=filter.sharedMesh;
+                if(renderer==null||!renderer.enabled||renderer.forceRenderingOff||!filter.gameObject.activeInHierarchy||mesh==null)continue;
+                if(filter.GetComponentInParent<Membrane>()!=null||filter.GetComponent<TMP_Text>()!=null||filter.GetComponentInParent<CombatActor>()!=null||filter.GetComponentInParent<EnemyBrain>()!=null)continue;
+                // A flat colour has no texture to stretch.
+                var look=renderer.sharedMaterial;if(look==null||!look.HasProperty("_BaseMap")||look.GetTexture("_BaseMap")==null)continue;
+                // What shows is a piece's broad face, its two longest sides as it stands. Thickening a thin wall leaves the wall's own face as it was.
+                var scale=filter.transform.lossyScale;var size=mesh.bounds.size;
+                var sides=new[]{(s:Mathf.Abs(scale.x),e:size.x),(s:Mathf.Abs(scale.y),e:size.y),(s:Mathf.Abs(scale.z),e:size.z)}.OrderByDescending(a=>a.s*a.e).Take(2).ToArray();
+                if(sides[1].s<=0||sides[1].s*sides[1].e<.75f)continue;
+                looked++;
+                float most=Mathf.Max(sides[0].s,sides[1].s),least=Mathf.Min(sides[0].s,sides[1].s);
+                if(most/least<Bar)continue;
+                // Every kit piece's mesh is called Body: say what it's part of, how big it stands and where the first of its kind is.
+                string what=filter.name=="Body"&&filter.transform.parent!=null?filter.transform.parent.name:filter.name;
+                string kind=$"{zone}: {what}, {sides[0].s*sides[0].e:0.0} by {sides[1].s*sides[1].e:0.0} m, is scaled {most/least:0.0} times longer one way than the other, across a texture that wasn't";
+                if(named.Add(kind)){var c=renderer.bounds.center;problems.Add($"{kind} (first at {c.x:0}, {c.y:0}, {c.z:0})");}
             }
-            Assert.Greater(looked,300,"fixture: the eleven zones hold plenty of kit pieces");
-            Verdict("Kit pieces stretched across their textures");
+            ZoneWalk.Keep(nameof(NoKitPieceIsStretchedAcrossItsTexture),zone,looked);
+        }
+        [UnityTest] public IEnumerator NoKitPieceIsStretchedAcrossItsTextureAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(NoKitPieceIsStretchedAcrossItsTexture),Zones,ReadKitPieces,()=>Rebooted(),read,unread);
+            // Which pieces each zone stretches is its own case's to report.
+            Assert.Greater(read.Values.Sum(),300,"fixture: the eleven zones hold plenty of kit pieces"+ZoneWalk.Unread(unread));
         }
         static float Glow(RelayLantern relay)
         {
@@ -740,7 +836,39 @@ namespace Lattice.Tests.PlayMode
             return at.position;
         }
         static bool Joined(Vector3 from,Vector3 to,NavMeshPath path)=>NavMesh.CalculatePath(from,to,NavMesh.AllAreas,path)&&path.status==NavMeshPathStatus.PathComplete;
-        [UnityTest] public IEnumerator EveryPromptCanBeReachedOnFoot([Values("Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        /// <summary>The berth of the other form a prompt is pressed in (a flight berth beside a ground zone, or a shelf in a flight zone): its own way out, or anything standing inside it.</summary>
+        static Berth OfTheOtherForm(InteractionPrompt prompt,bool flight)
+        {
+            if(prompt is BerthPrompt way&&way.wayOut&&way.berth!=null)return way.berth.Flight==flight?way.berth:null;
+            foreach(var berth in Berth.All)if(berth!=null&&berth.Flight==flight&&berth.Contains(prompt.transform.position+Vector3.up*(flight?0:.5f)))return berth;
+            return null;
+        }
+        /// <summary>Room for a hull at a flight berth's plane, inside the berth, within the prompt's reach.</summary>
+        static bool BerthHullRoom(Berth berth,InteractionPrompt prompt)
+        {
+            float hull=Mathf.Max(HeroCollision.HullRadius("Taren"),HeroCollision.HullRadius("Sela"));var at=prompt.transform.position;var plane=new Vector3(at.x,berth.flight.position.y,at.z);
+            for(float r=0;r<=prompt.range;r+=.5f)for(int a=0;a<16;a++)
+            {
+                var p=plane+Quaternion.Euler(0,a*22.5f,0)*Vector3.forward*r;
+                if(Vector3.Distance(p,at)>=prompt.range-.1f||!berth.Contains(p))continue;
+                if(!Physics.OverlapSphere(p+Vector3.up*.8f,hull,~0,QueryTriggerInteraction.Ignore).Any(c=>!IsBody(c)))return true;
+            }
+            return false;
+        }
+        /// <summary>A floor of the shelf's bake within the prompt's reach that a walk joins to where the party is set down on the shelf.</summary>
+        static bool BerthFloorReaches(Berth berth,InteractionPrompt prompt)
+        {
+            var at=prompt.transform.position;var path=new NavMeshPath();
+            if(!NavMesh.SamplePosition(berth.foot.position,out var foot,1.5f,NavMesh.AllAreas))return false;
+            for(float r=0;r<=prompt.range;r+=.25f)for(int a=0;a<24;a++)
+            {
+                if(!NavMesh.SamplePosition(at+Quaternion.Euler(0,a*15,0)*Vector3.forward*r,out var near,prompt.range+2,NavMesh.AllAreas))continue;
+                if(Vector3.Distance(near.position,at)>prompt.range+.25f)continue;
+                if(Joined(foot.position,near.position,path))return true;
+            }
+            return false;
+        }
+        [UnityTest] public IEnumerator EveryPromptCanBeReachedOnFoot([ValueSource(nameof(PromptOnFootZones))] string zone)
         {
             Flag("relay.hessaConfronted");
             yield return Zone(zone);ClearFights();OpenSeals();yield return new WaitForSecondsRealtime(.6f);
@@ -749,6 +877,14 @@ namespace Lattice.Tests.PlayMode
             foreach(var prompt in All<InteractionPrompt>())
             {
                 if(prompt.range<=0||prompt is HailPoint)continue;
+                // Chapter 10's berth: a prompt in a flight berth beside this zone (its way out, anything pressed in it) is pressed from a ship at the berth's own plane (ch10-wiring 6.1.1), never from a floor.
+                var lane=OfTheOtherForm(prompt,true);
+                if(lane!=null)
+                {
+                    looked++;
+                    if(!BerthHullRoom(lane,prompt))problems.Add($"\"{prompt.prompt}\" at {prompt.transform.position}: nowhere in the berth {lane.id} at its plane within the {prompt.range:0.0} m its prompt reaches is there room for a hull");
+                    continue;
+                }
                 looked++;var at=prompt.transform.position;bool floor=false,reached=false;
                 // Any spot in reach will do, and the nearest floor needn't be one: the bake also lays walkable patches on top of a solid prop and in the hollow a tall box leaves
                 // inside itself, and no body stands there. Pressing a prompt measures from the feet to the prop's own position, in three dimensions (PromptService.FindInteraction).
@@ -764,13 +900,21 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(looked,0,"fixture: "+zone+" has prompts");
             Verdict(zone+": prompts a walker can't reach");
         }
-        [UnityTest] public IEnumerator EveryFlightPromptHasRoomForAHullWithinItsReach([Values("Hub_CinderHalo","Gullet_Tunnel","TallowApproach","WickReach")] string zone)
+        [UnityTest] public IEnumerator EveryFlightPromptHasRoomForAHullWithinItsReach([ValueSource(nameof(PromptInFlightZones))] string zone)
         {
             yield return Zone(zone);yield return null;
             float hull=Mathf.Max(HeroCollision.HullRadius("Taren"),HeroCollision.HullRadius("Sela"));int looked=0;
             foreach(var prompt in All<InteractionPrompt>())
             {
                 if(prompt.range<=0)continue;
+                // Chapter 10's berth: a prompt on a shelf (its launch, a clamp's hold) is pressed on foot (ch10-wiring 6.1.1): a floor in the shelf's bake within its reach that joins the shelf's foot place.
+                var shelf=OfTheOtherForm(prompt,false);
+                if(shelf!=null)
+                {
+                    looked++;
+                    if(!BerthFloorReaches(shelf,prompt))problems.Add($"\"{prompt.prompt}\" at {prompt.transform.position}: no floor of the shelf {shelf.id} within its {prompt.range:0.0} m reach joins the place the party is set down on it");
+                    continue;
+                }
                 looked++;var at=prompt.transform.position;var plane=new Vector3(at.x,1,at.z);bool room=false;
                 for(float r=0;r<=prompt.range&&!room;r+=.5f)for(int a=0;a<16&&!room;a++)
                 {
@@ -808,7 +952,7 @@ namespace Lattice.Tests.PlayMode
             int stride=Mathf.Max(1,rim.Count/most);
             return rim.Where((_,i)=>i%stride==0).ToList();
         }
-        [UnityTest] public IEnumerator NoWalkableEdgeDropsIntoNothing([Values("Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator NoWalkableEdgeDropsIntoNothing([ValueSource(nameof(EdgeZones))] string zone)
         {
             yield return Zone(zone);OpenSeals();yield return new WaitForSecondsRealtime(.6f);
             var edges=WalkableEdges(1500,WalkableArrival());Assert.Greater(edges.Count,20,"fixture: "+zone+" has a walkable edge");
@@ -829,7 +973,7 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine($"{zone}: {tried} edge points, ledges a body can walk off: {string.Join(", ",ledges.Take(20))}");
             Assert.IsEmpty(holes,$"{zone}: nothing stops a walker here and there is no floor beyond, so the party walks off the world at: "+string.Join(", ",holes.Take(30)));
         }
-        [UnityTest] public IEnumerator NoInvisibleWallStandsInTheOpen([Values("Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator NoInvisibleWallStandsInTheOpen([ValueSource(nameof(InvisibleWallZones))] string zone)
         {
             yield return Zone(zone);OpenSeals();yield return new WaitForSecondsRealtime(.6f);
             int walls=0;var from=WalkableArrival();var path=new NavMeshPath();
@@ -872,7 +1016,7 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine($"{zone}: {walls} invisible boxes looked at");
             Verdict(zone+": invisible walls in the open");
         }
-        [UnityTest] public IEnumerator TheBodyNeverSticksAtAWallFootOrAProp([Values("Hub_Decks","Sorrel_Ridges","Hushwell","TallowDrift","Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator TheBodyNeverSticksAtAWallFootOrAProp([ValueSource(nameof(StickingZones))] string zone)
         {
             Flag("relay.hessaConfronted");
             yield return Zone(zone);ClearFights();OpenSeals();yield return new WaitForSecondsRealtime(.6f);
@@ -922,10 +1066,14 @@ namespace Lattice.Tests.PlayMode
             }
             return best;
         }
-        [UnityTest] public IEnumerator TheCompanionKeepsUpOnFoot([Values("Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator TheCompanionKeepsUpOnFoot([ValueSource(nameof(CompanionZones))] string zone)
         {
-            Flag("relay.hessaConfronted");
-            yield return Zone(zone);ClearFights();OpenSeals();yield return new WaitForSecondsRealtime(.6f);
+            yield return Zone(zone);ClearFights();OpenSeals();
+            // Every talk that starts on a crossing and could start now is had already: walked into, it blocks input and the companion holds still for it, while this lead, moved by its
+            // motor as no player can be mid-talk, walked on (the Canopy's root hall left Sela 57 m behind). One still locked can't start, so its flag is left alone. This was one flag
+            // set by hand for the Sunken Relay's captain, and every later zone's crossings stopped the walk.
+            foreach(var crossing in All<DiscoveryPoint>().Where(p=>p.startsOnCrossing&&(string.IsNullOrEmpty(p.requiredFlag)||Has(p.requiredFlag))))Flag(crossing.flag);
+            yield return new WaitForSecondsRealtime(.6f);
             var party=PartyController.Current;var lead=party.Active;var partner=party.members.First(m=>m!=lead);partner.GetComponent<PartnerBrain>().enabled=true;
             var route=LongestWalk(140);Assert.Greater(route.Length,1,"fixture: "+zone+" has a walk to take");
             int corner=1;float deadline=Time.unscaledTime+45,widest=0;
@@ -970,10 +1118,20 @@ namespace Lattice.Tests.PlayMode
             }
             Verdict("Lanternwick's people");
         }
-        [UnityTest] public IEnumerator NobodyStandsInsideAProp([Values("Hub_Decks","Sorrel_Ridges","TallowDrift","Lanternwick","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator NobodyStandsInsideAProp([ValueSource(nameof(InsideAPropZones))] string zone)
         {
             if(zone=="SunkenRelay"){Flag("relay.hessaConfronted");Flag("bossdown.HessaKorl");Flag("clear.Relay_Hessa");Flag("relay.hessaYielded");Flag("lanternwick.chartGiven");}
             yield return Zone(zone);yield return null;
+            // A later zone nobody lives in (a dungeon: the Walking Canopy) has nobody to stand inside anything. Chapters 1 and 2's five still have to have their people.
+            if(!ContentRegistry.IsFirst(zone)&&All<Npc>().Length==0)Assert.Ignore(zone+" has no people at all, so nobody can stand inside a prop there");
+            // A later zone whose people all come with the story (the Braided River's: Jask once the first arch is seen, the crews once their fights are won, Teo once the Seedthane
+            // has gone) has nobody standing on a fresh load: bring each in by the flag that brings them, and measure them where they will stand.
+            if(!ContentRegistry.IsFirst(zone)&&All<Npc>().All(n=>!n.gameObject.activeInHierarchy))
+            {
+                foreach(var where in All<Whereabouts>())if(!string.IsNullOrEmpty(where.from))Flag(where.from);
+                foreach(var gate in All<FlagGate>())if(gate.showWhenSet&&gate.targets.Any(t=>t!=null&&t.GetComponentInChildren<Npc>(true)!=null))Flag(gate.flag);
+                yield return null;yield return null;
+            }
             var bodies=new List<(Transform prop,Bounds b)>();
             foreach(var prop in Props())
                 if(prop.GetComponentInChildren<Npc>(true)==null&&Drawn(prop,out var b)&&b.size.y>=.25f&&Mathf.Max(b.size.x,b.size.z)<=9)bodies.Add((prop,b));
@@ -1178,22 +1336,31 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(words,300,"fixture: the game has words to read");
             Verdict("Words a player reads");
         }
-        [UnityTest] public IEnumerator NoRawIdOrWrongWordOnAnyPromptOrSign()
+        [UnityTest] public IEnumerator NoRawIdOrWrongWordOnAnyPromptOrSign([ValueSource(nameof(Zones))] string zone)
+        {
+            yield return ReadPromptsAndSigns(zone);
+            Verdict("Words on the world's prompts and signs");
+        }
+        /// <summary>Every prompt and every piece of type in a zone, against the words rules; keeps how many it read.</summary>
+        IEnumerator ReadPromptsAndSigns(string zone)
         {
             int words=0;
-            foreach(var zone in Zones)
+            yield return Zone(zone);yield return new WaitForSecondsRealtime(.35f);
+            foreach(var prompt in All<InteractionPrompt>())
             {
-                yield return Zone(zone);yield return new WaitForSecondsRealtime(.35f);
-                foreach(var prompt in All<InteractionPrompt>())
-                {
-                    words++;CheckWords(zone+" prompt",prompt.prompt,true);
-                    if(prompt is WarpBeacon warp&&!string.IsNullOrEmpty(warp.requiredFlag))
-                    {CheckWords(zone+" lock",warp.lockedPrompt,true);CheckWords(zone+" note",warp.unnamedPrompt,true);CheckWords(zone+" note",warp.oneWayNote,true);}
-                }
-                foreach(var text in All<TMP_Text>()){words++;CheckWords(zone+", "+text.name,text.text,true);}
+                words++;CheckWords(zone+" prompt",prompt.prompt,true);
+                if(prompt is WarpBeacon warp&&!string.IsNullOrEmpty(warp.requiredFlag))
+                {CheckWords(zone+" lock",warp.lockedPrompt,true);CheckWords(zone+" note",warp.unnamedPrompt,true);CheckWords(zone+" note",warp.oneWayNote,true);}
             }
-            Assert.Greater(words,200,"fixture: the zones have words to read");
-            Verdict("Words on the world's prompts and signs");
+            foreach(var text in All<TMP_Text>()){words++;CheckWords(zone+", "+text.name,text.text,true);}
+            ZoneWalk.Keep(nameof(NoRawIdOrWrongWordOnAnyPromptOrSign),zone,words);
+        }
+        [UnityTest] public IEnumerator NoRawIdOrWrongWordOnAnyPromptOrSignAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(NoRawIdOrWrongWordOnAnyPromptOrSign),Zones,ReadPromptsAndSigns,()=>Rebooted(),read,unread);
+            // The words each zone gets wrong are its own case's to report.
+            Assert.Greater(read.Values.Sum(),200,"fixture: the zones have words to read"+ZoneWalk.Unread(unread));
         }
         sealed class Recorder:IDialogueView
         {
@@ -1240,8 +1407,13 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator EveryCompulsoryConversationIsUnderNinetySeconds()
         {
             yield return null;
-            foreach(string node in new[]{"OrrinFirst","SelaWalkwayRepair","SurvivorFirst","SelaNursery","SelaCantorPreview","KeeperFirst","SelaTallowLine","KeeperDriftReturn","CompactHail","AbriLanternTale","SelaWickRelays","AumiFirst","SelaRelayLit","HessaConfront","HessaYields","AumiReturn","AbriLanternHome"})
+            // These seventeen are the conversations of chapters 1 and 2 that a player can't walk past. A script written since has no list to be left off: every one of its
+            // conversations is held to ninety seconds, unless its chapter says it is one nobody has to sit through, and why (ContentRegistry.Book.Optional).
+            var compulsory=new[]{"OrrinFirst","SelaWalkwayRepair","SurvivorFirst","SelaNursery","SelaCantorPreview","KeeperFirst","SelaTallowLine","KeeperDriftReturn","CompactHail","AbriLanternTale","SelaWickRelays","AumiFirst","SelaRelayLit","HessaConfront","HessaYields","AumiReturn","AbriLanternHome"};
+            foreach(string node in compulsory.Concat(ContentRegistry.LaterNodes.Where(n=>ContentRegistry.OptionalTalk(n)==null)))
             {
+                // A later node of commands alone has nothing to time.
+                if(System.Array.IndexOf(compulsory,node)<0&&!LinesOf(node).Any())continue;
                 float seconds=0;int count=0;
                 foreach(var (_,text,_) in LinesOf(node))
                 {
@@ -1286,61 +1458,130 @@ namespace Lattice.Tests.PlayMode
                 foreach(var beat in beats)yield return ((string)beat.GetType().GetField("speaker").GetValue(beat),(string)beat.GetType().GetField("node").GetValue(beat));
             }
         }
-        [UnityTest] public IEnumerator EveryConversationLockAndQuestStepIsWiredToSomethingInTheWorld()
+        /// <summary>What one zone holds that a conversation, a lock or a quest step can answer to.</summary>
+        sealed class Wiring
+        {
+            public readonly HashSet<string> speakers=new(),reports=new(),enemies=new(),gathered=new(),starters=new(),settable=new();
+            public readonly List<(string where,string flag)> locks=new();
+        }
+        /// <summary>Loads a zone, checks that what stands in it asks for conversations and barks that exist and steps it can count toward, and keeps what it holds.</summary>
+        IEnumerator ReadWiring(string zone)
+        {
+            var compiled=new HashSet<string>(Resources.Load<YarnProject>("Dialogue/Lattice").NodeNames);var quests=GameCatalog.All<QuestDef>();
+            var read=new Wiring();var speakers=read.speakers;var reports=read.reports;var enemies=read.enemies;var gathered=read.gathered;var starters=read.starters;var settable=read.settable;var locks=read.locks;
+            yield return Zone(zone);
+            void Asked(string who,string node){if(!string.IsNullOrEmpty(node)&&!compiled.Contains(node))problems.Add($"{zone}: {who} would say {node}, and the compiled script has no such conversation: nothing happens at all");}
+            void Lock(string what,string flag){if(!string.IsNullOrEmpty(flag))locks.Add((zone+" "+what,flag));}
+            foreach(var npc in All<Npc>())
+            {
+                speakers.Add(npc.speaker);
+                foreach(string node in new[]{npc.firstNode,npc.repeatNode,npc.postNode,npc.finalNode,npc.finalRepeatNode,npc.holdNode})Asked(npc.speaker,node);
+                if(!string.IsNullOrEmpty(npc.postNode))Lock(npc.speaker+"'s later lines",npc.postFlag);
+                if(!string.IsNullOrEmpty(npc.finalNode))Lock(npc.speaker+"'s last lines",npc.finalFlag);
+                if(!string.IsNullOrEmpty(npc.finalCompletionFlag))settable.Add(npc.finalCompletionFlag);
+            }
+            foreach(var point in All<DiscoveryPoint>())
+            {
+                Asked(point.name,point.dialogueNode);settable.Add(point.flag);if(!string.IsNullOrEmpty(point.report))reports.Add(point.report);Lock(point.name,point.requiredFlag);
+                if(!string.IsNullOrEmpty(point.situation)&&BarkService.Line(PartyController.Current.Active.character,point.situation)==null)problems.Add($"{zone}: {point.name} calls for a bark nobody has: {point.situation}");
+                if(string.IsNullOrEmpty(point.requiredQuest))continue;
+                var quest=quests.FirstOrDefault(q=>q.id==point.requiredQuest);
+                if(quest==null||point.requiredStep>=quest.steps.Length){problems.Add($"{zone}: {point.name} waits on a step of {point.requiredQuest} that doesn't exist");continue;}
+                var goal=quest.steps[point.requiredStep];
+                if(goal.kind!=ObjectiveKind.Interact||goal.target!=point.report)problems.Add($"{zone}: {point.name} reports {point.report} while {quest.id} step {point.requiredStep} waits for {goal.kind} {goal.target}: it can never count");
+            }
+            foreach(var cache in All<SalvageField>()){Asked(cache.name,cache.dialogueNode);Lock(cache.name,cache.requiredFlag);}
+            foreach(var key in All<KeyPickup>()){gathered.Add(key.item);settable.Add(key.grantFlag);Lock(key.name,key.requiredFlag);}
+            foreach(var node in All<MineNode>())gathered.Add(node.material);
+            foreach(var fight in All<EncounterVolume>()){Lock(fight.name,fight.requiredFlag);foreach(var spawner in fight.spawners??new Spawner[0])if(spawner!=null&&spawner.definition!=null)enemies.Add(spawner.definition.id);}
+            foreach(var starter in All<QuestStarter>())starters.Add(starter.questId);
+            foreach(var all in All<FlagAll>()){settable.Add(all.result);foreach(string flag in all.flags)Lock(all.name,flag);}
+            foreach(var gate in All<FlagGate>())Lock(gate.name,gate.flag);
+            foreach(var warp in All<WarpBeacon>())Lock(warp.name,warp.requiredFlag);
+            foreach(var relay in All<RelayLantern>())Lock(relay.name,relay.flag);
+            foreach(var beacon in All<SignalBeacon>())Lock(beacon.name,beacon.flag);
+            foreach(var hail in All<RadioHail>())
+            {
+                settable.Add(hail.heardFlag);foreach(string need in hail.needs)Lock(hail.name,need);
+                foreach(string line in hail.situations)if(BarkService.Line(hail.speaker,line)==null)problems.Add($"{zone}: {hail.name} calls for a bark nobody has: {line}");
+            }
+            ZoneWalk.Keep(nameof(EveryConversationLockAndQuestStepIsWiredToSomethingInTheWorld),zone,read);
+        }
+        [UnityTest] public IEnumerator EveryConversationLockAndQuestStepIsWiredToSomethingInTheWorld([ValueSource(nameof(Zones))] string zone)
+        {
+            yield return ReadWiring(zone);
+            Verdict("Conversations, locks and steps with nothing behind them");
+        }
+        /// <summary>Every [SetsFlag] in the game's runtime assemblies: the flag (or the start of a family of them), the source file it was written in, and what carries it.</summary>
+        static List<(string flag,bool prefix,string file,string owner)> DeclaredFlags()
+        {
+            var found=new List<(string,bool,string,string)>();
+            const BindingFlags all=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.Static|BindingFlags.DeclaredOnly;
+            foreach(var assembly in System.AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if(!assembly.GetName().Name.StartsWith("Lattice.")||assembly.GetName().Name.Contains("Tests"))continue;
+                System.Type[] types;try{types=assembly.GetTypes();}catch(ReflectionTypeLoadException e){types=e.Types.Where(t=>t!=null).ToArray();}
+                foreach(var type in types)
+                {
+                    foreach(var a in type.GetCustomAttributes<SetsFlagAttribute>(false))found.Add((a.Flag,a.Prefix,a.File,type.FullName));
+                    foreach(var method in type.GetMethods(all))foreach(var a in method.GetCustomAttributes<SetsFlagAttribute>(false))found.Add((a.Flag,a.Prefix,a.File,type.FullName+"."+method.Name));
+                }
+            }
+            return found;
+        }
+        /// <summary>What a set of declarations gets wrong: a file that is gone, or one with no string literal of the flag besides the declaration itself.</summary>
+        static List<string> DeclarationFaults(IEnumerable<(string flag,bool prefix,string file,string owner)> declarations)
+        {
+            var faults=new List<string>();var list=declarations.ToList();
+            foreach(var d in list)
+            {
+                if(string.IsNullOrEmpty(d.flag)){faults.Add($"{d.owner}: a [SetsFlag] with no flag");continue;}
+                if(string.IsNullOrEmpty(d.file)||!File.Exists(d.file)){faults.Add($"{d.owner}: [SetsFlag(\"{d.flag}\")] was written in {d.file}, which does not exist");continue;}
+                string text=File.ReadAllText(d.file);string literal="\""+d.flag+(d.prefix?"":"\"");
+                // The declaration is itself one literal of the flag in that file: the code that really sets it is another.
+                int own=list.Count(o=>o.file==d.file&&o.flag==d.flag&&o.prefix==d.prefix);
+                int seen=0;for(int at=text.IndexOf(literal,System.StringComparison.Ordinal);at>=0;at=text.IndexOf(literal,at+1,System.StringComparison.Ordinal))seen++;
+                if(seen<=own)faults.Add($"{d.owner}: [SetsFlag(\"{d.flag}\")] is declared in {Path.GetFileName(d.file)}, and nothing else in that file names {literal}: the code that sets it has moved or gone");
+            }
+            return faults;
+        }
+        [UnityTest] public IEnumerator EverySetsFlagDeclarationNamesFlagItsOwnFileStillSets()
+        {
+            yield return null;
+            var declared=DeclaredFlags();
+            Assert.Greater(declared.Count,0,"fixture: the game declares flags it sets in code");
+            foreach(var fault in DeclarationFaults(declared))problems.Add(fault);
+            // The check must be able to fail: a declaration for a flag its file never names, one of a file that isn't there, and one that names only itself.
+            string here=SourceHere();
+            var broken=DeclarationFaults(new[]{("test.flag.nothing.sets.this",false,here,"fixture.a"),("test.flag.gone",false,here+".gone.cs",".fixture.b")});
+            Assert.AreEqual(2,broken.Count,"the honesty check let a false declaration through: "+string.Join(" | ",broken));
+            Verdict("[SetsFlag] declarations that no longer match their code");
+        }
+        static string SourceHere([System.Runtime.CompilerServices.CallerFilePath] string file="")=>file;
+        [UnityTest] public IEnumerator EveryConversationLockAndQuestStepIsWiredToSomethingInTheWorldAcrossZones()
         {
             var compiled=new HashSet<string>(Resources.Load<YarnProject>("Dialogue/Lattice").NodeNames);string script=ScriptText();
             var quests=GameCatalog.All<QuestDef>();
-            var speakers=new HashSet<string>();var reports=new HashSet<string>();var enemies=new HashSet<string>();var gathered=new HashSet<string>();var starters=new HashSet<string>();
+            var read=new Dictionary<string,Wiring>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(EveryConversationLockAndQuestStepIsWiredToSomethingInTheWorld),Zones,ReadWiring,()=>Rebooted(),read,unread);
+            // What a zone's own people and points ask for is its own case's to report: this is what the world holds together, and what the script and the quests need of it.
+            problems.Clear();
+            var speakers=new HashSet<string>(read.Values.SelectMany(r=>r.speakers));var reports=new HashSet<string>(read.Values.SelectMany(r=>r.reports));var enemies=new HashSet<string>(read.Values.SelectMany(r=>r.enemies));
+            var gathered=new HashSet<string>(read.Values.SelectMany(r=>r.gathered));var starters=new HashSet<string>(read.Values.SelectMany(r=>r.starters));
             var settable=new HashSet<string>(Regex.Matches(script,@"<<setFlag\s+([^\s>]+)\s*>>").Cast<Match>().Select(m=>m.Groups[1].Value));
             foreach(var quest in quests)foreach(string flag in quest.flagsOnComplete??new string[0])settable.Add(flag);
             settable.Add("sliceComplete");
-            var locks=new List<(string where,string flag)>();
-            foreach(var zone in Zones)
-            {
-                yield return Zone(zone);
-                void Asked(string who,string node){if(!string.IsNullOrEmpty(node)&&!compiled.Contains(node))problems.Add($"{zone}: {who} would say {node}, and the compiled script has no such conversation: nothing happens at all");}
-                void Lock(string what,string flag){if(!string.IsNullOrEmpty(flag))locks.Add((zone+" "+what,flag));}
-                foreach(var npc in All<Npc>())
-                {
-                    speakers.Add(npc.speaker);
-                    foreach(string node in new[]{npc.firstNode,npc.repeatNode,npc.postNode,npc.finalNode,npc.finalRepeatNode,npc.holdNode})Asked(npc.speaker,node);
-                    if(!string.IsNullOrEmpty(npc.postNode))Lock(npc.speaker+"'s later lines",npc.postFlag);
-                    if(!string.IsNullOrEmpty(npc.finalNode))Lock(npc.speaker+"'s last lines",npc.finalFlag);
-                    if(!string.IsNullOrEmpty(npc.finalCompletionFlag))settable.Add(npc.finalCompletionFlag);
-                }
-                foreach(var point in All<DiscoveryPoint>())
-                {
-                    Asked(point.name,point.dialogueNode);settable.Add(point.flag);if(!string.IsNullOrEmpty(point.report))reports.Add(point.report);Lock(point.name,point.requiredFlag);
-                    if(!string.IsNullOrEmpty(point.situation)&&BarkService.Line(PartyController.Current.Active.character,point.situation)==null)problems.Add($"{zone}: {point.name} calls for a bark nobody has: {point.situation}");
-                    if(string.IsNullOrEmpty(point.requiredQuest))continue;
-                    var quest=quests.FirstOrDefault(q=>q.id==point.requiredQuest);
-                    if(quest==null||point.requiredStep>=quest.steps.Length){problems.Add($"{zone}: {point.name} waits on a step of {point.requiredQuest} that doesn't exist");continue;}
-                    var goal=quest.steps[point.requiredStep];
-                    if(goal.kind!=ObjectiveKind.Interact||goal.target!=point.report)problems.Add($"{zone}: {point.name} reports {point.report} while {quest.id} step {point.requiredStep} waits for {goal.kind} {goal.target}: it can never count");
-                }
-                foreach(var cache in All<SalvageField>()){Asked(cache.name,cache.dialogueNode);Lock(cache.name,cache.requiredFlag);}
-                foreach(var key in All<KeyPickup>()){gathered.Add(key.item);settable.Add(key.grantFlag);Lock(key.name,key.requiredFlag);}
-                foreach(var node in All<MineNode>())gathered.Add(node.material);
-                foreach(var fight in All<EncounterVolume>()){Lock(fight.name,fight.requiredFlag);foreach(var spawner in fight.spawners??new Spawner[0])if(spawner!=null&&spawner.definition!=null)enemies.Add(spawner.definition.id);}
-                foreach(var starter in All<QuestStarter>())starters.Add(starter.questId);
-                foreach(var all in All<FlagAll>()){settable.Add(all.result);foreach(string flag in all.flags)Lock(all.name,flag);}
-                foreach(var gate in All<FlagGate>())Lock(gate.name,gate.flag);
-                foreach(var warp in All<WarpBeacon>())Lock(warp.name,warp.requiredFlag);
-                foreach(var relay in All<RelayLantern>())Lock(relay.name,relay.flag);
-                foreach(var beacon in All<SignalBeacon>())Lock(beacon.name,beacon.flag);
-                foreach(var hail in All<RadioHail>())
-                {
-                    settable.Add(hail.heardFlag);foreach(string need in hail.needs)Lock(hail.name,need);
-                    foreach(string line in hail.situations)if(BarkService.Line(hail.speaker,line)==null)problems.Add($"{zone}: {hail.name} calls for a bark nobody has: {line}");
-                }
-            }
+            foreach(var zoneRead in read.Values)settable.UnionWith(zoneRead.settable);
+            var declaredPrefixes=new List<string>();
+            foreach(var d in DeclaredFlags()){if(d.prefix)declaredPrefixes.Add(d.flag);else settable.Add(d.flag);}
+            var locks=read.Values.SelectMany(r=>r.locks).ToList();
             foreach(var (speaker,node) in StoryBeats())
             {
                 if(!compiled.Contains(node))problems.Add($"a side story would have {speaker} say {node}, and the compiled script has no such conversation");
                 if(!speakers.Contains(speaker))problems.Add($"a side story waits on {speaker}, who stands nowhere in the world");
             }
             string[] always={"met.","bossdown.","clear.","quest.","mined.","cache.","opening."};
-            foreach(var (where,flag) in locks)if(!settable.Contains(flag)&&!always.Any(flag.StartsWith))problems.Add($"{where} waits on {flag}, and nothing in the game ever sets it");
+            foreach(var (where,flag) in locks)if(!settable.Contains(flag)&&!always.Any(flag.StartsWith)&&!declaredPrefixes.Any(flag.StartsWith))problems.Add($"{where} waits on {flag}, and nothing in the game ever sets it");
             foreach(var quest in quests)for(int i=0;i<quest.steps.Length;i++)
             {
                 var goal=quest.steps[i];
@@ -1358,14 +1599,24 @@ namespace Lattice.Tests.PlayMode
                 if(Regex.Matches(script,@"<<startQuest\s+"+quest+@"\s*>>").Count!=1)problems.Add($"{quest} starts from more than one conversation");
             }
             if(!starters.Contains("Hushwell"))problems.Add("nothing starts What the Drill Found on entering Hushwell");
+            // The nine above are pinned to their givers. A quest defined since needs no entry: it starts from exactly one conversation, or from a starter standing in the world, and from something.
+            foreach(string quest in ContentRegistry.LaterQuests)
+            {
+                int said=Regex.Matches(script,@"<<startQuest\s+"+quest+@"\s*>>").Count;
+                if(said>1)problems.Add($"{quest} starts from more than one conversation");
+                if(said==0&&!starters.Contains(quest))problems.Add($"nothing starts {quest}: no conversation says <<startQuest {quest}>> and no QuestStarter in the world names it");
+            }
             Assert.Greater(speakers.Count,10,"fixture: the world's people");
-            Verdict("Conversations, locks and steps with nothing behind them");
+            Verdict("Conversations, locks and steps with nothing behind them"+ZoneWalk.Unread(unread));
         }
 
         // ================================================================ 4.7 quests: every step of all ten
         [UnityTest] public IEnumerator EveryQuestsCardsFollowItsStepsAndItsRewardIsPaidOnce()
         {
             yield return Zone("Hub_Decks","Office");yield return new WaitForSecondsRealtime(.3f);
+            // Every reward is counted into the bag below, so the bag starts with room: the quests pay five gels and four cells between them, a party carries 9 and 5 at most (prog159),
+            // and a reward over that is paid in scrip, which would read here as a quest paying the wrong purse.
+            State.consumables["RepairGel"]=1;State.consumables["ChargeCell"]=0;
             var toast=Object.FindFirstObjectByType<QuestToast>();Assert.IsNotNull(toast,"there are no quest cards");
             var timer=typeof(QuestToast).GetField("showing",BindingFlags.NonPublic|BindingFlags.Instance);Assert.IsNotNull(timer,"fixture: the card's own timer has moved");
             var cards=new List<(string heading,string body)>();
@@ -1380,7 +1631,11 @@ namespace Lattice.Tests.PlayMode
                     timer.SetValue(toast,0f);
                 }
             }
-            var quests=GameCatalog.All<QuestDef>();Assert.AreEqual(10,quests.Length,"the plan has ten quests");
+            // This counted ten, which protected two things: none of chapters 1 and 2's quests goes missing, and every quest there is gets walked below. Both still hold,
+            // by id and by walking them all, and a later chapter's quests are walked the same way instead of failing the count.
+            var quests=GameCatalog.All<QuestDef>();
+            foreach(string id in ContentRegistry.FirstQuests)Assert.IsTrue(quests.Any(q=>q.id==id),"the plan's first ten quests have lost "+id);
+            Assert.GreaterOrEqual(quests.Length,ContentRegistry.FirstQuests.Length,"the plan has ten quests, and more as chapters land");
             foreach(var quest in quests)
             {
                 void Expect(string heading,string words)
@@ -1626,6 +1881,8 @@ namespace Lattice.Tests.PlayMode
             den=Point("pell.lampFound");Assert.AreEqual(1,Step("PellsLamp"),"Continue moves the quest");Assert.IsFalse(den.visual.activeSelf,"the lamp is back on the floor on Continue");
             Assert.IsFalse(den.Available,"the lamp can be taken twice");
             yield return Zone("Lanternwick");
+            // From a pouch with room for both cells: a party carries 5 at most, and a reward over that is paid in scrip, which would also throw the purse below (prog159).
+            State.consumables["ChargeCell"]=1;
             int scrip=State.scrip,worth=Worth;State.consumables.TryGetValue("ChargeCell",out int cells);
             yield return Talk(Person("Pell"));Assert.AreEqual("PellLampReturn",heard,"Pell doesn't take her lamp back");
             Assert.IsTrue(Has("quest.PellsLamp.complete"),"the quest doesn't complete");

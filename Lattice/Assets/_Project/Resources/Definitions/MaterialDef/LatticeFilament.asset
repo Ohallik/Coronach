@@ -16,3 +16,6 @@ MonoBehaviour:
   displayName: Lattice Filament
   icon: {fileID: 0}
   stack: 999
+  value: 2
+  rare: 0
+  chapter: 1

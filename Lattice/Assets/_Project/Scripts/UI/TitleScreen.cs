@@ -17,6 +17,8 @@ namespace Lattice.UI
         public bool SettingsOpen=>settings!=null;
         public bool SavesOpen=>savePicker!=null;
         public bool NewGameQuestionOpen=>newGameQuestion!=null;
+        /// <summary>A save here has been played to the end of the game (Credits.Finished).</summary>
+        public bool Finished{get;private set;}
         TMPro.TMP_Text hint;
         void RefreshHint(){if(hint!=null)hint.text=DeviceHints.TitleMenu();}
         void OnDestroy(){PromptService.Changed-=RefreshHint;}
@@ -40,7 +42,11 @@ namespace Lattice.UI
             var buttons=new List<Selectable>();
             playButton=MenuButton("New Game",0,AskNewGame); buttons.Add(playButton);
             var cont=MenuButton("Continue",1,OpenSaves);continueButton=cont;
-            cont.interactable=System.Array.Exists(new[]{"autosave","slot1","slot2","slot3"},GameServices.Current.Saves.Exists); if(cont.interactable)buttons.Add(cont);
+            // Each save is read once (QA-034): is there one to continue, and has any been played to its end? Then the line under the name says so, in the closing line's words (D288).
+            cont.interactable=false;
+            foreach(string slot in new[]{"autosave","slot1","slot2","slot3"}){var saved=GameServices.Current.Saves.Load(slot);if(saved==null)continue;cont.interactable=true;Finished|=Credits.Finished(saved);}
+            if(Finished){subtitle.text=Credits.TitleLine;subtitle.color=UiKit.GoldColor;}
+            if(cont.interactable)buttons.Add(cont);
             settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
             buttons.Add(MenuButton("Quit",3,()=>OrderlyQuit.Quit())); UiKit.LinkVertical(buttons.ToArray());
             hint=UiKit.Text(mainMenu.transform,"Hint",DeviceHints.TitleMenu(),24,UiKit.DimTextColor,TextAlignmentOptions.Left);
@@ -65,8 +71,10 @@ namespace Lattice.UI
             UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,320),new(900,85));
             var controls=new List<Selectable>();
             AudioSettingsUi.Add(settings.transform,new Vector2(0,200),850,80,controls);
+            // How a hit lands, under the sound: a player who can't take a shaking screen sets it before the first fight, not from a pause in the middle of one.
+            ImpactSettingsUi.Add(settings.transform,new Vector2(0,-195),850,58,controls);
             var back=UiKit.Button(settings.transform,"Back","Back",()=>{UiSounds.Cancel();CloseSettings();});
-            UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-265),new(380,65));controls.Add(back);
+            UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-440),new(380,65));controls.Add(back);
             UiKit.LinkVertical(controls.ToArray());EventSystem.current.SetSelectedGameObject(controls[0].gameObject);
         }
         public void CloseSettings(){if(settings==null)return;AudioMix.Current.Flush();Destroy(settings);settings=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
@@ -76,18 +84,29 @@ namespace Lattice.UI
         {
             if(SceneFlow.Current.Loading)return;
             var autosave=GameServices.Current.Saves.Load("autosave");
-            if(autosave==null){StartGame(false);return;}
+            if(autosave==null){AskDifficulty();return;}
             mainMenu.SetActive(false);newGameQuestion=UiKit.Dim(canvas.transform,.96f).gameObject;
             var heading=UiKit.Heading(newGameQuestion.transform,"NewGameTitle","START A NEW GAME?",45,UiKit.TextColor);UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,190),new(1300,80));
             int level=autosave.party.Count>0?autosave.party[0].level:1;
             var body=UiKit.Text(newGameQuestion.transform,"NewGameBody",$"This replaces your autosave ({DisplayNames.Zone(autosave.zone)}, Sync {level}). Saved slots are kept.",30,UiKit.TextColor);UiKit.Rect(body.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,90),new(1300,90));
             var keep=UiKit.Button(newGameQuestion.transform,"KeepSave","Back",()=>{UiSounds.Cancel();CloseNewGameQuestion();});UiKit.Rect(keep.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-30),new(520,70));
-            var start=UiKit.Button(newGameQuestion.transform,"ConfirmNewGame","Start new game",()=>StartGame(false));UiKit.Rect(start.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-120),new(520,70));
+            var start=UiKit.Button(newGameQuestion.transform,"ConfirmNewGame","Start new game",AskDifficulty);UiKit.Rect(start.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-120),new(520,70));
             UiKit.LinkVertical(keep,start);EventSystem.current.SetSelectedGameObject(keep.gameObject);
         }
         void CloseNewGameQuestion(){if(newGameQuestion==null)return;Destroy(newGameQuestion);newGameQuestion=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(playButton.gameObject);}
         void CloseSaves(){if(savePicker==null)return;Destroy(savePicker);savePicker=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(continueButton.gameObject);}
-        public void StartGame(bool resume)
+        /// <summary>The one question a new game asks, of a person and of nobody else (DifficultyUi.AsksAtNewGame): a replay route, a test and a scripted run go straight into the game
+        /// at Standard, by the same presses as ever. It takes the place of the question before it, so Back and B lead to the menu from either.</summary>
+        void AskDifficulty()
+        {
+            if(!DifficultyUi.AsksAtNewGame){StartGame(false);return;}
+            if(SceneFlow.Current.Loading)return;
+            if(newGameQuestion!=null){newGameQuestion.SetActive(false);Destroy(newGameQuestion);}
+            mainMenu.SetActive(false);
+            newGameQuestion=DifficultyUi.Ask(canvas.transform,chosen=>StartGame(false,chosen),()=>{UiSounds.Cancel();CloseNewGameQuestion();});
+        }
+        /// <param name="difficulty">What a new game starts at: the answer to its question, or Standard for whoever wasn't asked. A resumed game keeps its save's.</param>
+        public void StartGame(bool resume,DifficultySetting difficulty=DifficultySetting.Standard)
         {
             // The menu is live during its own fade-in, when a load is refused: replacing the game and hiding the menu here
             // left a black screen with no way out.
@@ -96,7 +115,7 @@ namespace Lattice.UI
             if(resume) GameServices.Current.State=GameServices.Current.Saves.Load("autosave")??new GameState();
             else
             {
-                GameServices.Current.NewGame();
+                GameServices.Current.NewGame();GameServices.Current.State.difficulty=difficulty;
                 // Only a genuine New Game from the title plays the first town's morning (D195); Continue, older saves and
                 // controlled fixtures never see it.
                 GameServices.Current.Flags.SetBool(Lattice.World.OpeningMarketSequence.Requested,true);
@@ -118,7 +137,7 @@ namespace Lattice.UI
                 var button=UiKit.Button(savePicker.transform,slot,state==null?SlotName(slot)+empty:SlotName(slot)+" — "+DisplayNames.Zone(state.zone)+" — Sync "+state.party[0].level+" — "+Played(state.playtime)+SavedWhen(state),()=>
                 {
                     if(SceneFlow.Current.Loading)return;
-                    var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;GameServices.ArmAnEmptyParty(loaded);
+                    var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;GameServices.ArmAnEmptyParty(loaded);Lattice.Rpg.PartyFloor.OnLoad(loaded);
                     GameServices.Current.Saves.ResumeFrom(id);
                     if(id=="autosave")SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);else SceneFlow.Current.LoadSavedZone(loaded.zone,loaded.spawn);
                 });

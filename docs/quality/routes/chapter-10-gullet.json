@@ -5,6 +5,7 @@
   "settleSeconds": 5,
   "frameCap": 60,
   "starterParty": false,
+  "wearBest": true,
   "screenshotInterval": 0,
   "steps": [
     {

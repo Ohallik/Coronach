@@ -85,6 +85,8 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(1,Step("NeveParcel"),"a first talk with the parcel in hand did not deliver it");
             yield return Talk(survivor);
             Assert.AreEqual("SurvivorRepeat",heard,"the parcel is delivered a second time");Assert.AreEqual(1,Step("NeveParcel"),"an ordinary talk moved the parcel on");
+            // From a pouch with room for both cells: a party carries 5 at most, and a reward over that is paid in scrip instead (prog159).
+            State.consumables["ChargeCell"]=1;
             int scrip=State.scrip;State.consumables.TryGetValue("ChargeCell",out int cells);
             yield return Talk(neve);
             Assert.AreEqual("NeveParcelReturn",heard);
@@ -108,6 +110,8 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual("OdaBerthOffer",heard);Assert.AreEqual(0,Step("OdaBerth"));
             yield return Talk(orrin);
             Assert.AreEqual("OrrinBerth",heard);Assert.AreEqual(1,Step("OdaBerth"));
+            // From a pouch with room for both gels (the carry cap is 9).
+            State.consumables["RepairGel"]=1;
             State.consumables.TryGetValue("RepairGel",out int gels);
             yield return Talk(oda);
             Assert.AreEqual("OdaBerthReturn",heard);

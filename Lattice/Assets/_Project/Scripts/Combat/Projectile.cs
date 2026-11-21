@@ -13,6 +13,8 @@ namespace Lattice.Combat
         /// <summary>Shots in the air, so AI can read incoming fire as a player does.</summary>
         public static readonly HashSet<Projectile> Live=new();
         public Vector3 Velocity=>velocity;
+        /// <summary>When it left the muzzle (game time): Meret's shield gives back only what was fired at it while it stood.</summary>
+        public float Fired{get;private set;}
         static readonly List<Projectile> fizzling=new();
         /// <summary>Whoever fired these is out of the fight: their shots burn out where they are.</summary>
         public static void Fizzle(Health source)
@@ -68,7 +70,7 @@ namespace Lattice.Combat
             // Theirs a hot trail, the party's a thin cyan streak: a shot says whose it is.
             p.trail.sharedMaterial=p.view.sharedMaterial;p.trail.startWidth=hostile?.26f:.12f;p.trail.time=Mathf.Min(TailSeconds,MostTail/speed);
             p.trail.enabled=true;
-            p.transform.position=position;p.velocity=direction.normalized*speed;p.life=reach>0?reach/speed:3;p.marked=reach>0;
+            p.transform.position=position;p.velocity=direction.normalized*speed;p.life=reach>0?reach/speed:3;p.marked=reach>0;p.Fired=Time.time;
             damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;
             p.gameObject.SetActive(true);p.counted=true;ActiveCount++;Live.Add(p);
@@ -99,5 +101,7 @@ namespace Lattice.Combat
         }
         void OnDisable(){Live.Remove(this);if(counted){counted=false;ActiveCount=Mathf.Max(0,ActiveCount-1);}}
         void Recycle(){gameObject.SetActive(false);pool.Push(this);}
+        /// <summary>Something that stops shots has stopped this one (Idra's Shelter): it burns out where it is and hits nobody.</summary>
+        public void Spend(){if(!gameObject.activeSelf)return;CombatVfx.Burst(transform.position,new Color(1,.45f,.15f),"spark");Recycle();}
     }
 }

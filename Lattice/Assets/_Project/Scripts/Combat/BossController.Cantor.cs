@@ -15,6 +15,14 @@ namespace Lattice.Combat
     /// </summary>
     public sealed partial class BossController
     {
+        static readonly Kit CantorKit=Register(new Kit
+        {
+            id="Cantor",title="THE CANTOR",epithet="A route-singer collared to the old survey line",thresholds=new[]{.75f,.4f},
+            choose=(boss,hero)=>boss.ChooseCantor(hero),
+            moves={["Choir"]=boss=>boss.ChoirAttack(),["SongSpiral"]=boss=>boss.SongSpiral(),["CoilLash"]=boss=>boss.CoilLash()},
+            signature=phase=>phase==2?"SongSpiral":phase>=3?"CoilLash":null,
+            ending=Ending.Released,downBark="release",
+        });
         int cantorRhythm;
 
         (string,IEnumerator) ChooseCantor(CombatActor hero)

@@ -86,7 +86,7 @@ namespace Lattice.Combat
                 if(weight<1)return;
                 if(departing){stage=Stage.Holding;return;}
                 stage=Stage.Exchange;exchange=0;
-                CombatVfx.Burst(transform.position+Vector3.up*.9f,actor!=null&&actor.character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"form");
+                CombatVfx.Burst(transform.position+Vector3.up*.9f,actor!=null&&actor.Warm?new Color(1,.65f,.2f):Color.cyan,"form");
             }
             else if(stage==Stage.Exchange)
             {

@@ -140,7 +140,8 @@ namespace Lattice.EditorTools
                 // Soft-edged and blended: a hard alpha-clipped patch read as a sticker on the soil.
                 m.DisableKeyword("_ALPHATEST_ON");m.SetFloat("_AlphaTest",0);
                 m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);
-                m.renderQueue=(int)RenderQueue.Transparent;
+                // Before danger markings (Transparent-11 and -10), a step under the ground kit's own details: at the plain transparent queue a patch drew after a marking and could lie over it.
+                m.renderQueue=GroundKit.DetailQueue-1;
             }
             else
             {

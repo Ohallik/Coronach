@@ -101,7 +101,7 @@ namespace Lattice.Core
             Common.Enable(); Ground.Enable();
             UiActions.Ensure();
             Current = this;
-            var bindings = PlayerPrefs.GetString("keyboardBindings", "");
+            var bindings = KeyBindingStore.Load();
             if (!string.IsNullOrEmpty(bindings)) Asset.LoadBindingOverridesFromJson(bindings);
         }
 
@@ -129,6 +129,9 @@ namespace Lattice.Core
                 a.AddCompositeBinding("ButtonWithOneModifier").With("Modifier","<Gamepad>/rightShoulder")
                     .With("Button","<Gamepad>/"+faces[i]);
             }
+            // The EXTRA move (S3): RB and LT together, as a skill is RB and a face button. LT alone stays the quick item, or the brake in flight. A Precision has
+            // both: its buttons 5 to 8 are the shoulders and the triggers (PadProfile).
+            Button(map,"Extra","r",null).AddCompositeBinding("ButtonWithOneModifier").With("Modifier","<Gamepad>/rightShoulder").With("Button","<Gamepad>/leftTrigger");
             // Precision has only a d-pad. LB + direction cycles without stealing movement.
             foreach(var name in new[]{"CycleItem", "CycleTarget"})
             {

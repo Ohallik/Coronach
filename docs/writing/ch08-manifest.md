@@ -1,10 +1,10 @@
 # Chapter 8 script manifest - Harrowgate (the Vaskar Reach)
 
-For the engineers wiring chapter 8. Script: [Harrowgate.yarn](Harrowgate.yarn). Barks: [barks.json](../barks.json). Brief: [ch08-harrowgate.md](../../chapters/ch08-harrowgate.md). Earlier manifests, in the same shape: [chapter 3](../ch03-manifest.md), [chapter 4](ch04-manifest.md), [chapter 5](ch05-manifest.md), [chapter 6](ch06-manifest.md), [chapter 7](ch07-manifest.md).
+For the engineers wiring chapter 8. Script: [Harrowgate.yarn](Harrowgate.yarn). Barks: [barks.json](barks.json). Brief: [ch08-harrowgate.md](../chapters/ch08-harrowgate.md). Earlier manifests, in the same shape: [chapter 3](ch03-manifest.md), [chapter 4](ch04-manifest.md), [chapter 5](ch05-manifest.md), [chapter 6](ch06-manifest.md), [chapter 7](ch07-manifest.md).
 
 **What is here:** 62 nodes, 254 dialogue lines, no option labels (254 strings). Compiled clean with the project's own compiler (Yarn Spinner 3.2.4, the nine live files and the six pending ones together: 0 errors, 457 nodes, no duplicate titles). No new Yarn commands: `setFlag`, `startQuest`, `shop`.
 
-**This file waits in `pending/`** until the chapter's people and quests are defined: five new portrait sets (Drask, Tovra, Odrun, Pip, Bryn), five `QuestDef`s, and the expectations in section 8.
+**Live since November 12** (moved out of `pending/` once `HarrowgateBuilder.Define` had the chapter's people and quests). It waited there until the chapter's people and quests were defined: five new portrait sets (Drask, Tovra, Odrun, Pip, Bryn), five `QuestDef`s, and the expectations in section 8.
 
 **Where the lines are.** The Picket, the Flows and the Foundry have 19 nodes between them, most of them five lines or fewer, because those are the fights. Harrowgate has 33. The fights themselves are carried by barks (section 7).
 

@@ -1,0 +1,293 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: Harrowgate
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: Harrowgate
+  title: Harrowgate
+  description: The Muster's foundry on Scoria has a young road in a cage, and its
+    Warmaster has orders in for five more.
+  steps:
+  - kind: 5
+    target: vask.lockAdmitted
+    count: 1
+  - kind: 1
+    target: PicketOfTeeth
+    count: 1
+  - kind: 4
+    target: PicketCrossed
+    count: 1
+  - kind: 5
+    target: vask.lockRemoved
+    count: 1
+  - kind: 5
+    target: vask.unswornMet
+    count: 1
+  - kind: 1
+    target: BridleFoundry
+    count: 1
+  - kind: 5
+    target: vask.vessaBeaten
+    count: 1
+  - kind: 2
+    target: SlagColossus
+    count: 1
+  - kind: 5
+    target: vask.juvenileFreed
+    count: 1
+  - kind: 5
+    target: vask.roadSaid
+    count: 1
+  - kind: 5
+    target: vask.parley
+    count: 1
+  - kind: 5
+    target: vask.draskMet
+    count: 1
+  - kind: 5
+    target: vask.duelWon
+    count: 1
+  - kind: 2
+    target: DraskSkiff
+    count: 1
+  - kind: 5
+    target: vask.deposed
+    count: 1
+  - kind: 5
+    target: vask.nacreHeard
+    count: 1
+  rewardXp: 1000
+  rewardScrip: 1200
+  rewards:
+  - id: EdgesT4
+    count: 1
+  - id: BridleWire
+    count: 4
+  - id: ScoriaGlass
+    count: 4
+  flagsOnComplete: []
+  stepText:
+  - Hear Idra's plan for the Picket at the chart table
+  - Take the lane to the Muster's border
+  - Cross the Picket, from shadow to shadow or straight through
+  - Take the route lock apart to Idra's count
+  - Follow Brekk across the Flows to the Unsworn camp
+  - Go into the Bridle Foundry
+  - Take the casting gallery from Vessa Korl
+  - Cool the Slag Colossus at the sluices, and break it
+  - Stand back while the smiths open the cage
+  - Go back to Tovra at the camp
+  - Walk in at Harrowgate's harbour gate under a parley flag
+  - See the town, and then the Warmaster
+  - Answer the Warmaster on the muster field
+  - Stop his skiff before it reaches the carrier
+  - Stand on the field while Harrowgate answers
+  - See the Warmaster in the harbour cells
+  rewardsRolled: 1
+  main: 1
+  chapter: 8
+  stepTargets:
+  - scene: ManyHands
+    via: []
+    speaker: 
+    report: PicketPlan
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: PicketOfTeeth
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: PicketOfTeeth
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: PicketCrossed
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: PicketOfTeeth
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: LockPiece
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ScoriaFlows
+    via:
+    - PicketOfTeeth
+    speaker: Tovra
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BridleFoundry
+    via:
+    - ScoriaFlows
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BridleFoundry
+    via:
+    - ScoriaFlows
+    speaker: 
+    report: 
+    encounter: VessaKorl
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BridleFoundry
+    via:
+    - ScoriaFlows
+    speaker: 
+    report: 
+    encounter: SlagColossus
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BridleFoundry
+    via:
+    - ScoriaFlows
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ScoriaFlows
+    via:
+    - BridleFoundry
+    speaker: Tovra
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Harrowgate
+    via:
+    - ScoriaFlows
+    speaker: Hessa
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Harrowgate
+    via:
+    - ScoriaFlows
+    speaker: Drask
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Harrowgate
+    via:
+    - ScoriaFlows
+    speaker: 
+    report: 
+    encounter: DraskVaal
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: HarrowgateHarbour
+    via:
+    - Harrowgate
+    speaker: 
+    report: 
+    encounter: DraskSkiff
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Harrowgate
+    via:
+    - ScoriaFlows
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Harrowgate
+    via:
+    - ScoriaFlows
+    speaker: Drask
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: Chapter 8 complete. The Warmaster's last order outlived his command.
+    Nacre is calling.
+  next:
+    scene: ManyHands
+    via:
+    - ManyHandsHull
+    - PicketOfTeeth
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags:
+  - vask.brekkWord
+  - vask.picketRead
+  - vask.picketCrossed
+  - vask.lock1
+  - vask.lock2
+  - vask.lock3
+  - vask.lock4
+  - vask.crustRead
+  - vask.garrisonSeen
+  - met.Tovra
+  - vask.sluiceRead
+  - vask.sluice1
+  - vask.sluice2
+  - vask.vessaMet
+  - vask.cageSeen
+  - bossdown.SlagColossus
+  - vask.anvilSeen
+  - vask.sistersHeard
+  - met.Hessa
+  - vask.pipMet
+  - vask.odrunMet
+  - met.Odrun
+  - vask.gallerySeen
+  - vask.townSeen
+  - met.Drask
+  - vask.fieldTaken
+  - bossdown.DraskVaal
+  - bossdown.DraskSkiff
+  - vask.pursuitWon
+  - vask.gateDenied
+  - idra.lockCounted
+  - vask.orderSaid
+  - chapter8.complete
+  cardFlag: chapter8.complete
+  cardBody: The route lock is off the Picket, and the young road went free with sixty
+    smiths watching. Harrowgate took its Warmaster's tabs. His last order closed
+    the Nacre road.
+  letGoAt: 

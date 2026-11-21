@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: FibreWisp
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: FibreWisp
+  prefab: {fileID: 0}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 320
+  breakThreshold: 70
+  speed: 3.5
+  attacks:
+  - {fileID: 11400000, guid: 67fd9739560d989488925c55b909147a, type: 2}
+  weakness: 3
+  resistance: 1
+  archetype: 1
+  lootTable: {fileID: 11400000, guid: 0e80b0619b5f65b4d924bbfe96e1e6b6, type: 2}
+  xp: 85
+  boss: 0
+  scrip: 8
+  scrap: 0
+  displayName: Fibre Wisp
+  bossMusicId: 
+  capsuleRadius: 0.55
+  capsuleHeight: 1.2
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 0
+  behaviour: 12
+  tune:
+    reach: 10
+    width: 1.6
+    speed: 0
+    recover: 1.1
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 10
+    arc: 0
+    guard: 0
+    wake: 16
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0.95, g: 1.15, b: 1.4, a: 1}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: wisp
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

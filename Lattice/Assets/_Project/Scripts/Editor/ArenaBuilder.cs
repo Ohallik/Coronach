@@ -80,7 +80,9 @@ namespace Lattice.EditorTools
                 Asset<EnemyDef>(name,e=>e.lootTable=loot);
             }
             Asset<ConsumableDef>("RepairGel",d=>{d.id="RepairGel";d.displayName="Repair Gel";d.heal=60;});
-            var affix=Asset<AffixDef>("Resonant",a=>{a.id=a.displayName="Resonant";a.bonus=new Stats{resonance=4};});
+            // 2 for a tier 1 part, as ProgressionBuilder writes it: an affix's stats scale with its part's tier (Gear.AffixStats), so a Refined part's Resonant is still +4.
+            // That builder also gives every part its slot's whole pool, and must be run after this one.
+            var affix=Asset<AffixDef>("Resonant",a=>{a.id=a.displayName="Resonant";a.bonus=new Stats{resonance=2};});
             foreach(Discipline discipline in Enum.GetValues(typeof(Discipline)))
             {
                 GearSlot slot=discipline switch{Discipline.Emitters=>GearSlot.Emitter,Discipline.Edges=>GearSlot.Edge,Discipline.Frames=>GearSlot.Frame,Discipline.Drives=>GearSlot.Drive,_=>GearSlot.Module};
@@ -104,6 +106,8 @@ namespace Lattice.EditorTools
             }
             Asset<QuestDef>("Sorrel",q=>{q.id="Sorrel";q.title="The Silent Outpost";q.steps=new[]{new Objective{kind=ObjectiveKind.Reach,target="Sorrel_Ridges",count=1},new Objective{kind=ObjectiveKind.TalkTo,target="Survivor",count=1},new Objective{kind=ObjectiveKind.Kill,target="Burrower",count=1},new Objective{kind=ObjectiveKind.Collect,target="WarpKey",count=1}};q.rewardXp=160;q.rewardScrip=200;q.flagsOnComplete=new[]{"warpkey"};});
             Asset<QuestDef>("MiraCrystals",q=>{q.id="MiraCrystals";q.title="Six Bright Answers";q.steps=new[]{new Objective{kind=ObjectiveKind.Collect,target="RidgeCrystal",count=6}};q.rewardXp=80;q.rewardScrip=100;});
+            // What the code knows about these zones, enemies and quests by id, written onto them as later chapters write their own (ContentScaffold).
+            ContentScaffold.Stamp();
         }
         public static void Materials()
         {

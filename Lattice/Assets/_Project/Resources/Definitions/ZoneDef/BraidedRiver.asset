@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: BraidedRiver
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: BraidedRiver
+  scene: BraidedRiver
+  kind: 1
+  cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 04e11cb5fecda7a4caa385d007ec0ace, type: 2}
+  ambientAudio: {fileID: 8300000, guid: aa1079232e062254fb7393777d02d304, type: 3}
+  ambientVolume: 0.2
+  musicId: Jungle Planet Groove
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 1
+  skybox: {fileID: 2100000, guid: a9bc7c938f2c64049890c44047b77f17, type: 2}
+  displayName: The Braided River
+  brightFloor: 0
+  fightMusicId: Riverbed Stomp
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 3
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

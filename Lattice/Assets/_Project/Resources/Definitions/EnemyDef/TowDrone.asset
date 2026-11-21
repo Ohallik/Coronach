@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: TowDrone
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: TowDrone
+  prefab: {fileID: 462201750029848815, guid: 6b2551ef89064e24f99a2a1933c61f80, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 900
+  breakThreshold: 200
+  speed: 6.5
+  attacks:
+  - {fileID: 11400000, guid: 9dd78a6e855bd7549b84db69591ff9fa, type: 2}
+  weakness: 3
+  resistance: 2
+  archetype: 3
+  lootTable: {fileID: 11400000, guid: 9cd68db2ac9523e4584c7b71c1cfed43, type: 2}
+  xp: 40
+  boss: 0
+  scrip: 16
+  scrap: 2
+  displayName: Tow-drone
+  bossMusicId: 
+  capsuleRadius: 0.9
+  capsuleHeight: 1.8
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 7
+  tune:
+    reach: 15
+    width: 0
+    speed: 3.5
+    recover: 0
+    linger: 3.5
+    area: 0
+    pace: 0.45
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 3
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

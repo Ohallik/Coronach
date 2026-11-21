@@ -53,7 +53,13 @@ namespace Lattice.Tests.PlayMode
         {
             var cc=hero.GetComponent<CharacterController>();cc.enabled=false;hero.transform.position=at;cc.enabled=true;Physics.SyncTransforms();
         }
-        static EncounterVolume Encounter(string id)=>All<EncounterVolume>().Single(e=>e.encounterId==id);
+        /// <summary>The one encounter by this id in the loaded zone. A door a boss's sheet names and the zone doesn't have says so, in place of 'Sequence contains no matching element'.</summary>
+        static EncounterVolume Encounter(string id)
+        {
+            var found=All<EncounterVolume>().Where(e=>e.encounterId==id).ToArray();
+            Assert.AreEqual(1,found.Length,$"{SceneFlow.Current.Zone} should have exactly one encounter called {id} (a boss sheet or a test names it as a door): found {found.Length}");
+            return found[0];
+        }
         static DiscoveryPoint Discovery(string flag)=>All<DiscoveryPoint>().Single(d=>d.flag==flag);
         static WarpBeacon WarpTo(string scene)=>All<WarpBeacon>().Single(w=>w.scene==scene);
         static IEnumerator Finish(float seconds=25)
@@ -192,18 +198,21 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ---------------------------------------------------------------- checkpoints
-        [UnityTest] public IEnumerator EveryBossDoorIsACheckpoint()
+        /// <summary>Every boss there is, as "zone/boss" so a zone's cases find it: the first four as they were listed here, then each boss defined since.</summary>
+        static string[] BossDoors=>ContentRegistry.Bosses.Select(boss=>(ContentRegistry.Expected.bosses.TryGetValue(boss,out var sheet)?sheet.zone:"(no sheet)")+"/"+boss).ToArray();
+        /// <summary>At the door its sheet names (ContentRegistry). One with no sheet fails by name. One case each: walked in one, Mother of Doors' checkpoint hid every boss after her.</summary>
+        [UnityTest] public IEnumerator EveryBossDoorIsACheckpoint([ValueSource(nameof(BossDoors))] string fight)
         {
-            foreach(var (zone,id,flight) in new[]{("Sorrel_Ridges","Sorrel_Burrower",false),("Hushwell","Hushwell_Bellows",false),("Gullet_Tunnel","Gullet_Cantor",true),("SunkenRelay","Relay_Hessa",false)})
-            {
-                yield return Zone(zone);
-                var door=Encounter(id);
-                Assert.IsFalse(string.IsNullOrEmpty(door.checkpointSpawn),id+" has no checkpoint: a defeat replays the zone");
-                var spawn=All<SpawnPoint>().SingleOrDefault(s=>s.id==door.checkpointSpawn);
-                Assert.IsNotNull(spawn,zone+" has no spawn called "+door.checkpointSpawn);
-                Assert.Less(Vector3.Distance(spawn.transform.position,door.transform.position),60,id+"'s checkpoint is a long way from its door");
-                if(!flight)Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position,out var near,1.5f,NavMesh.AllAreas),id+"'s checkpoint is not on walkable ground");
-            }
+            string boss=fight.Substring(fight.IndexOf('/')+1);
+            var sheet=ContentRegistry.Boss(boss);string zone=sheet.zone,id=sheet.door;
+            Assert.IsFalse(string.IsNullOrEmpty(zone)||string.IsNullOrEmpty(id),boss+"'s boss sheet names no zone or door");
+            yield return Zone(zone);bool flight=ZoneController.Current.Flight;
+            var door=Encounter(id);
+            Assert.IsFalse(string.IsNullOrEmpty(door.checkpointSpawn),id+" has no checkpoint: a defeat replays the zone");
+            var spawn=All<SpawnPoint>().SingleOrDefault(s=>s.id==door.checkpointSpawn);
+            Assert.IsNotNull(spawn,zone+" has no spawn called "+door.checkpointSpawn);
+            Assert.Less(Vector3.Distance(spawn.transform.position,door.transform.position),60,id+"'s checkpoint is a long way from its door");
+            if(!flight)Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position,out var near,1.5f,NavMesh.AllAreas),id+"'s checkpoint is not on walkable ground");
         }
         [UnityTest] public IEnumerator EnteringABossArenaSavesAtItsDoor()
         {
@@ -329,20 +338,20 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("TallowApproach");
             Assert.AreEqual(1,All<TextMeshPro>().Count(t=>t.text.Contains("Wick Reach")),"re-staging left copies of the warp's sign on top of each other");
         }
-        [UnityTest] public IEnumerator EveryChapterTwoExitIsSigned()
+        /// <summary>Chapter 2's three, then every zone on foot defined since: one case each (it walked them all in one, and one zone that couldn't load or logged an error hid
+        /// every zone after it). It compares nothing across zones.</summary>
+        static string[] SignedExitZones=>ContentRegistry.With(nameof(EveryChapterTwoExitIsSigned),new[]{"Lanternwick","LanternGorge","SunkenRelay"},ContentRegistry.OnFoot);
+        [UnityTest] public IEnumerator EveryChapterTwoExitIsSigned([ValueSource(nameof(SignedExitZones))] string zone)
         {
-            foreach(var zone in new[]{"Lanternwick","LanternGorge","SunkenRelay"})
+            yield return Zone(zone);
+            var signs=All<TextMeshPro>();
+            foreach(var warp in All<WarpBeacon>())
             {
-                yield return Zone(zone);
-                var signs=All<TextMeshPro>();
-                foreach(var warp in All<WarpBeacon>())
-                {
-                    var at=warp.transform.position;
-                    Assert.IsTrue(signs.Any(s=>{var d=s.transform.position-at;d.y=0;return d.magnitude<7;}),$"{zone}: {warp.prompt} is an unlabelled column");
-                }
+                var at=warp.transform.position;
+                Assert.IsTrue(signs.Any(s=>{var d=s.transform.position-at;d.y=0;return d.magnitude<7;}),$"{zone}: {warp.prompt} is an unlabelled column");
             }
-            yield return Zone("LanternGorge");
-            Assert.IsTrue(All<FlagGate>().Any(g=>g.flag=="gorge.relaysLit"),"the relay door looks the same lit or dark");
+            // The gorge's relay door, which the single case looked at once it had walked them all.
+            if(zone=="LanternGorge")Assert.IsTrue(All<FlagGate>().Any(g=>g.flag=="gorge.relaysLit"),"the relay door looks the same lit or dark");
         }
         [UnityTest] public IEnumerator QuestPropsComeAndGoWithTheirQuests()
         {
@@ -466,14 +475,25 @@ namespace Lattice.Tests.PlayMode
             StringAssert.Contains("ARCH MARKET",All<TMP_Text>().First(t=>t.name=="Heading"&&t.gameObject.activeInHierarchy).text);
             shop.Close();
         }
+        /// <summary>Chapter 2 is told. It says it has ended on its card (CHAPTER 2 COMPLETE, the road to Xylos: ChapterCardTests). The panel's own "Chapter 2 complete. Xylos's river towns
+        /// are next, but their route isn't charted yet" went with D272: true while chapter 2 was the last one built, and a dead end with no arrow once chapter 3 stood behind Abri's next
+        /// talk. What the panel must not do after the homecoming is read like a task nothing can satisfy: in Tallow Drift it names the one person with something to say, its arrow
+        /// on her and her next talk there to hear; anywhere else on the road it leads home to her.</summary>
         [UnityTest] public IEnumerator TheChapterSaysItHasEnded()
         {
-            foreach(var f in new[]{"met.Keeper","sliceComplete","tallow.lineObserved","tallow.driftDiscussed","compact.hailHeard","lanternwick.chartGiven","chapter2.homecoming"})Flag(f);
+            // Aumi met, since she gave the chart: while the old line stood over every zone, a fixture without her read the same.
+            foreach(var f in new[]{"met.Keeper","sliceComplete","tallow.lineObserved","tallow.driftDiscussed","compact.hailHeard","met.Aumi","lanternwick.chartGiven","chapter2.homecoming"})Flag(f);
             yield return Zone("TallowDrift");yield return ObjectiveSettles();
-            StringAssert.Contains("Chapter 2 complete",Objective(),"the objective reads like a task nothing can satisfy");
-            StringAssert.Contains("Xylos",Objective());
+            string said=Objective();var goal=Object.FindFirstObjectByType<ObjectiveHud>().Goal;
+            StringAssert.DoesNotContain("chart",said,"the objective still asks for the chart the homecoming brought");
+            StringAssert.Contains("Keeper Abri",said,"the objective reads like a task nothing can satisfy");
+            var abri=InteractionPrompt.Active.OfType<Npc>().First(n=>n.speaker=="Keeper").transform.position;
+            Assert.IsTrue(goal.HasValue&&Vector3.Distance(goal.Value,abri)<3,$"the panel names Keeper Abri and its arrow points at {goal}, not at her ({abri})");
+            Assert.IsNotNull(SideStories.NodeFor("Keeper",State),"the panel sends the party to Keeper Abri and she has nothing new to say");
             yield return Zone("Lanternwick");yield return ObjectiveSettles();
-            StringAssert.Contains("Xylos",Objective(),"after the homecoming Lanternwick still says head home");
+            said=Objective();goal=Object.FindFirstObjectByType<ObjectiveHud>().Goal;
+            StringAssert.Contains("Tallow",said,"after the homecoming Lanternwick's line doesn't lead home to Keeper Abri");
+            Assert.IsTrue(goal.HasValue&&InteractionPrompt.Active.OfType<DockingPad>().Any(p=>Vector3.Distance(p.transform.position,goal.Value)<.5f),$"after the homecoming Lanternwick's arrow points at {goal}, not at the way home");
         }
         [UnityTest] public IEnumerator ObjectivesSayWhy()
         {
@@ -531,9 +551,14 @@ namespace Lattice.Tests.PlayMode
             string root=Path.Combine(Application.dataPath,"_Project/Resources/Dialogue");
             string all=string.Concat(Directory.GetFiles(root,"*.yarn").Select(File.ReadAllText));
             foreach(var phrase in new[]{"Copper beacon","lamp oil","Light, parts, and more light","Knock twice","Close the door","warp is off the approach, past the port marker","past the second relay","Your keepers have her",
-                "We met at the Halo","Your route's safe","Read the wall","as your director put it","You've been down the gorge","We saw it.","Are you going back down","The grazers are backing off","Maybe that's what your chart",
-                "bridge"})
+                "We met at the Halo","Your route's safe","Read the wall","as your director put it","You've been down the gorge","We saw it.","Are you going back down","The grazers are backing off","Maybe that's what your chart"})
                 StringAssert.DoesNotContain(phrase,all,"still in the script: "+phrase);
+            // "bridge" was what the Decks' market walkway was called before it was a walkway (Mira: "Did the bridge just move?"), and the bare word was banned so it couldn't come back.
+            // It was banned everywhere because chapters 1 and 2 were everything. Xylos is a river town with rope bridges, and the ones that follow have their own: the ban stays on
+            // every script it has ever covered (ContentRegistry.FirstScripts, all nine found), and a script written since may say the word.
+            var first=Directory.GetFiles(root,"*.yarn").Where(ContentRegistry.IsFirstScript).ToArray();
+            Assert.AreEqual(ContentRegistry.FirstScripts.Length,first.Length,"fixture: every script of chapters 1 and 2 is there to be read: "+string.Join(", ",first.Select(Path.GetFileName)));
+            foreach(string file in first)StringAssert.DoesNotContain("bridge",File.ReadAllText(file),"still in the script: bridge, in "+Path.GetFileName(file));
             foreach(var node in new[]{"PellTallow","PellLampAfter","AbriLanternWaiting","AbriLanternAfter","NeveAfterParcel","OdaAfterBerth","SurvivorAfterParcel","SurvivorPostNursery","OrrinAfterCantor","NeveAfterCantor"})
                 StringAssert.Contains("title: "+node,all,"the script has no "+node);
         }

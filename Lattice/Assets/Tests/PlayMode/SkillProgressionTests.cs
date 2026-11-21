@@ -78,14 +78,17 @@ namespace Lattice.Tests.PlayMode
             while(Time.unscaledTime<until){actor.motor.Move(Vector2.zero,false,false);yield return null;}
         }
 
-        [UnityTest] public IEnumerator EachHeroLearnsFourMoreSkillsAsTheirSyncLevelRises()
+        /// <summary>D201 gave each hero four more at Sync 3, 5, 8 and 12, and this pinned that table: eight skills and nothing after Sync 12. S3 adds three a hero at Sync 16,
+        /// 20 and 24, so a game that runs to Sync 30 keeps teaching something. The first twelve levels are as they were (four, six and eight known at Sync 1, 5 and 12);
+        /// the table is longer.</summary>
+        [UnityTest] public IEnumerator EachHeroLearnsSevenMoreSkillsAsTheirSyncLevelRises()
         {
             yield return Boot("Arena_Ground");
             foreach(var hero in new[]{"Taren","Sela"})
             {
                 var all=SkillBook.All(hero);
-                Assert.AreEqual(8,all.Length,hero+" has the wrong number of skills");
-                Assert.AreEqual(8,all.Select(s=>s.kind).Distinct().Count(),hero+" has two skills that do the same thing");
+                Assert.AreEqual(11,all.Length,hero+" has the wrong number of skills");
+                Assert.AreEqual(11,all.Select(s=>s.kind).Distinct().Count(),hero+" has two skills that do the same thing");
                 for(int i=0;i<4;i++)Assert.AreEqual(GameCatalog.Find<CharacterDef>(hero).skills[i],SkillBook.Equipped(hero,i),hero+" does not start with the original four");
                 foreach(var skill in all)
                 {
@@ -97,7 +100,12 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsFalse(SkillBook.Equip(member,0,all.First(s=>s.unlockLevel>1)),"a locked skill can be equipped");
                 member.level=5;Assert.AreEqual(6,SkillBook.Learned(hero).Length,hero+" at Sync 5");
                 member.level=12;Assert.AreEqual(8,SkillBook.Learned(hero).Length,hero+" at Sync 12");
-                CollectionAssert.AreEquivalent(new[]{3,5,8,12},all.Where(s=>s.unlockLevel>1).Select(s=>s.unlockLevel).ToArray(),hero+"'s skill pacing changed");
+                member.level=15;Assert.AreEqual(8,SkillBook.Learned(hero).Length,hero+" at Sync 15");
+                member.level=16;Assert.AreEqual(9,SkillBook.Learned(hero).Length,hero+" at Sync 16");
+                member.level=20;Assert.AreEqual(10,SkillBook.Learned(hero).Length,hero+" at Sync 20");
+                member.level=24;Assert.AreEqual(11,SkillBook.Learned(hero).Length,hero+" at Sync 24");
+                CollectionAssert.AreEquivalent(new[]{3,5,8,12,16,20,24},all.Where(s=>s.unlockLevel>1).Select(s=>s.unlockLevel).ToArray(),hero+"'s skill pacing changed");
+                member.level=12;
             }
         }
 

@@ -1,0 +1,934 @@
+{
+  "name": "chapter-44-harrowgate-way-in",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 8: the chart from the Skyfields to Many Hands, Taren and Idra out, Brekk's word on the dock, Idra's plan, the hull's warp to the Picket",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter7.complete",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "open the quest log",
+      "seconds": 0.6,
+      "buttons": [
+        "Select"
+      ],
+      "until": "ui:pause",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the quest log",
+      "seconds": 0.3,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "turn to the chart",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder"
+      ],
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the turn",
+      "seconds": 0.4,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "find ManyHands on the chart",
+      "seconds": 8,
+      "pickRow": "Stop_ManyHands",
+      "buttons": [
+        "South"
+      ],
+      "until": "row:Travel",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the question for ManyHands",
+      "seconds": 0.6,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "travel to ManyHands",
+      "seconds": 25,
+      "pickRow": "Travel",
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:ManyHands",
+      "pauseUi": "pause",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after travelling to ManyHands",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up off the pads",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock until Brekk speaks",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Brekk's word from Scoria begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Brekk's word from Scoria line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Brekk's word from Scoria line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Brekk's word from Scoria line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Brekk's word from Scoria line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Brekk's word from Scoria line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Brekk's word from Scoria line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Brekk's word from Scoria line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Brekk's word from Scoria line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Brekk's word from Scoria line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Brekk's word from Scoria line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Brekk's word from Scoria line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Brekk's word from Scoria line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Brekk's word from Scoria line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Brekk's word from Scoria line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Brekk's word from Scoria line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Brekk's word from Scoria line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Brekk's word from Scoria line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Brekk's word from Scoria line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Brekk's word from Scoria",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.brekkWord",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Brekk's word from Scoria",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "on up the dock",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 1/7",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 2/7",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 3/7",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 4/7",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 5/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 6/7",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 7/7",
+      "seconds": 4.35,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 45.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "hear Idra's plan for the Picket",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read hear Idra's plan for the Picket line 12",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next hear Idra's plan for the Picket line 12",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release hear Idra's plan for the Picket line 12",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish hear Idra's plan for the Picket",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.lockAdmitted",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after hear Idra's plan for the Picket",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 1/11",
+      "seconds": 4.35,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 2/11",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 3/11",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 4/11",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 5/11",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 6/11",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 7/11",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 8/11",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 9/11",
+      "seconds": 2.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 10/11",
+      "seconds": 3.9,
+      "navigate": true,
+      "point": {
+        "x": 5.2,
+        "y": 0.0,
+        "z": -58.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the hull pad 11/11",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0.0,
+        "z": -61
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "launch to the hull",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "south off the stern dock",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -148
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "west along the stern",
+      "seconds": 10.19,
+      "navigate": true,
+      "point": {
+        "x": -80,
+        "y": 1,
+        "z": -164
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "on west past Oriel's warp",
+      "seconds": 9.57,
+      "navigate": true,
+      "point": {
+        "x": -132,
+        "y": 1,
+        "z": -166
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "settle at the warp to the Picket",
+      "seconds": 9.72,
+      "navigate": true,
+      "point": {
+        "x": -131.0,
+        "y": 1,
+        "z": -175.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "take the warp to the Picket of Teeth",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "first look at the border",
+      "seconds": 2,
+      "expectedFlag": "vask.lockAdmitted",
+      "expectedScene": "PicketOfTeeth"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

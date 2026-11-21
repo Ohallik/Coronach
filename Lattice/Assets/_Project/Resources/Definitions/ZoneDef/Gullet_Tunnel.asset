@@ -18,9 +18,17 @@ MonoBehaviour:
   cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
   hd2dProfile: {fileID: 11400000, guid: a2360d045852b864db338e4b91cd320d, type: 2}
   ambientAudio: {fileID: 0}
-  musicId: 
+  ambientVolume: 0.055
+  musicId: Starfight
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
-  skybox: {fileID: 2100000, guid: ef124f2ff2b8e894d93a20acdd95d93e, type: 2}
   enemyThreat: 1.2
+  cameraClearsScenery: 0
+  skybox: {fileID: 2100000, guid: ef124f2ff2b8e894d93a20acdd95d93e, type: 2}
+  displayName: The Gullet
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 1

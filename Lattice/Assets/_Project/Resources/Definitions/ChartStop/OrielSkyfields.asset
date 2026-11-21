@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ed15e2c7d9408b94f8057e0fbda480, type: 3}
+  m_Name: OrielSkyfields
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ChartStop
+  id: OrielSkyfields
+  displayName: Ishen's Camp
+  region: Oriel
+  blurb: 'The archivist''s camp at the landing on Oriel: Lume''s stall and the last
+    lantern, a bench and a mending cradle.'
+  zone: OrielSkyfields
+  spawn: Arrival
+  unlockFlag: 
+  lockedFlag: 
+  lockedReason: 
+  position: {x: 0.76, y: 0.02}
+  routes:
+  - ManyHands
+  shop: 1
+  bench: 1
+  repair: 1
+  chapter: 7
+  reaches:
+  - Orrery
+  - GlassChoir

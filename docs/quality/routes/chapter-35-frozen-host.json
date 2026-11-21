@@ -1,0 +1,3900 @@
+{
+  "name": "chapter-35-frozen-host",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 6: the White Reach, the herd, the whiteouts, the camp, the dig's three levels and rigs, to the dig cradle",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "iru.lampsLit",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "out onto the Reach until Sela speaks",
+      "seconds": 6.43,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 20
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "out on the Reach begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read out on the Reach line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next out on the Reach line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release out on the Reach line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read out on the Reach line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next out on the Reach line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release out on the Reach line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read out on the Reach line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next out on the Reach line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release out on the Reach line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read out on the Reach line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next out on the Reach line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release out on the Reach line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish out on the Reach",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.reachEntered",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after out on the Reach",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the spear field",
+      "seconds": 8.9,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 30
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Reach_Stalkers",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Reach_Stalkers",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Stalkers round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Stalkers round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Stalkers round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Stalkers 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Stalkers 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Stalkers round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Stalkers",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Reach_Stalkers cleared",
+      "seconds": 3,
+      "until": "flag:clear.Reach_Stalkers",
+      "expectedFlag": "clear.Reach_Stalkers",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Reach_Stalkers",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Reach_Stalkers",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the main bridge 1/3",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the main bridge 2/3",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 50
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the main bridge 3/3",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 54
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "toward the gap until Idra speaks",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 60
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "the herd in the gap begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the herd in the gap line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the herd in the gap line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the herd in the gap line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the herd in the gap line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the herd in the gap line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the herd in the gap line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the herd in the gap line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the herd in the gap line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the herd in the gap line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the herd in the gap line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the herd in the gap line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the herd in the gap line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the herd in the gap line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the herd in the gap line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the herd in the gap line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish the herd in the gap",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.herdMet",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after the herd in the gap",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "let the herd's head go by",
+      "seconds": 4,
+      "useItem": "none",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "walk through the herd 1/4",
+      "seconds": 4.99,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 66
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "walk through the herd 2/4",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 4.5,
+        "y": 0,
+        "z": 82
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "walk through the herd 3/4",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 93
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "walk through the herd 4/4",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 96.5
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "past the herd",
+      "seconds": 0.5,
+      "expectedFlag": "hoar.herdPassed",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "on until the wind drops",
+      "seconds": 3.44,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 102
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "the wind drops begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the wind drops line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the wind drops line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the wind drops line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the wind drops line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the wind drops line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the wind drops line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the wind drops line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the wind drops line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the wind drops line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the wind drops line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the wind drops line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the wind drops line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish the wind drops",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.whiteoutMet",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after the wind drops",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the first vent pocket 1/3",
+      "seconds": 2.99,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 100
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the first vent pocket 2/3",
+      "seconds": 5.73,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 102.2
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the first vent pocket 3/3",
+      "seconds": 5.47,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 0,
+        "z": 104
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "the first whiteout passes",
+      "seconds": 30,
+      "until": "flag:hoar.whiteoutLifted",
+      "expectedFlag": "hoar.whiteoutLifted",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "back to the walked line 1/2",
+      "seconds": 5.47,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 102.2
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "back to the walked line 2/2",
+      "seconds": 5.73,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 100
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the stalkers' field",
+      "seconds": 5.48,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 114
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Reach_Whiteout",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Reach_Whiteout",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Whiteout round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Whiteout round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Whiteout round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Whiteout round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 5a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Whiteout 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Whiteout 5b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Whiteout round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Whiteout",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Reach_Whiteout cleared",
+      "seconds": 3,
+      "until": "flag:clear.Reach_Whiteout",
+      "expectedFlag": "clear.Reach_Whiteout",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Reach_Whiteout",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Reach_Whiteout",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the second bridge to the camp 1/4",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 118
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the second bridge to the camp 2/4",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 134
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the second bridge to the camp 3/4",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 138
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "over the second bridge to the camp 4/4",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 145
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "along the line to the camp",
+      "seconds": 5.66,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 156
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "onto the camp's trodden snow",
+      "seconds": 2.89,
+      "navigate": true,
+      "point": {
+        "x": 21,
+        "y": 0,
+        "z": 154
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Reach_Camp",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Reach_Camp",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Camp round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Camp round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Camp round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Reach_Camp 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Reach_Camp 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Reach_Camp round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Reach_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Reach_Camp cleared",
+      "seconds": 3,
+      "until": "flag:clear.Reach_Camp",
+      "expectedFlag": "clear.Reach_Camp",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Reach_Camp",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Reach_Camp",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "back to the line at the dig's head 1/1",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 156
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "past the rig's glass until Vessa speaks",
+      "seconds": 4.87,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": 0.0,
+        "z": 166
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Vessa on the loudhailer begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa on the loudhailer line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa on the loudhailer line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa on the loudhailer line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa on the loudhailer line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa on the loudhailer line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa on the loudhailer line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa on the loudhailer line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa on the loudhailer line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa on the loudhailer line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa on the loudhailer line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa on the loudhailer line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa on the loudhailer line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa on the loudhailer line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa on the loudhailer line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa on the loudhailer line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa on the loudhailer line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa on the loudhailer line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa on the loudhailer line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish Vessa on the loudhailer",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.vessaHeard",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after Vessa on the loudhailer",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down the mouth ramp",
+      "seconds": 7.61,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": -4.0,
+        "z": 178
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the upper gallery until Idra speaks",
+      "seconds": 4.09,
+      "navigate": true,
+      "point": {
+        "x": 30,
+        "y": -4.0,
+        "z": 184
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "the first rank begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the first rank line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the first rank line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the first rank line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the first rank line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the first rank line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the first rank line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the first rank line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the first rank line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the first rank line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish the first rank",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.ranksSeen",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after the first rank",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "east along the upper gallery 1/2",
+      "seconds": 4.09,
+      "navigate": true,
+      "point": {
+        "x": 30,
+        "y": -4.0,
+        "z": 184
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "east along the upper gallery 2/2",
+      "seconds": 6.2,
+      "navigate": true,
+      "point": {
+        "x": 47,
+        "y": -4.0,
+        "z": 185.4
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Dig_Motes",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Dig_Motes",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Motes round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Motes",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Motes round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Motes",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Motes round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Motes",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Motes 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Motes 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Motes round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Motes",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Dig_Motes cleared",
+      "seconds": 3,
+      "until": "flag:clear.Dig_Motes",
+      "expectedFlag": "clear.Dig_Motes",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Dig_Motes",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Dig_Motes",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "to rig one 1/2",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 56,
+        "y": -4.0,
+        "z": 185.9
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "to rig one 2/2",
+      "seconds": 3.08,
+      "navigate": true,
+      "point": {
+        "x": 58.5,
+        "y": -4.0,
+        "z": 189.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "settle before run thaw rig one",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "run thaw rig one",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hoar.rig1",
+      "expectedFlag": "hoar.rig1",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release run thaw rig one",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "plug one melts",
+      "seconds": 4,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp one 1/2",
+      "seconds": 2.87,
+      "navigate": true,
+      "point": {
+        "x": 58,
+        "y": -4.0,
+        "z": 186
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp one 2/2",
+      "seconds": 5.45,
+      "navigate": true,
+      "point": {
+        "x": 72,
+        "y": -6.25,
+        "z": 187
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "onto the second level until Vessa speaks",
+      "seconds": 6.01,
+      "navigate": true,
+      "point": {
+        "x": 88,
+        "y": -8.5,
+        "z": 184
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Vessa's offer begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's offer line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's offer line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's offer line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish Vessa's offer",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.offerHeard",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after Vessa's offer",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the second level",
+      "seconds": 7.91,
+      "navigate": true,
+      "point": {
+        "x": 96,
+        "y": -8.5,
+        "z": 186.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Dig_Second",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Dig_Second",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Second round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Second",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Second round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Second",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Second round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Second",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Second 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Second 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Second round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Second",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Dig_Second cleared",
+      "seconds": 3,
+      "until": "flag:clear.Dig_Second",
+      "expectedFlag": "clear.Dig_Second",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Dig_Second",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Dig_Second",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "to rig two 1/2",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 100,
+        "y": -8.5,
+        "z": 188
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "to rig two 2/2",
+      "seconds": 3.13,
+      "navigate": true,
+      "point": {
+        "x": 99.0,
+        "y": -8.5,
+        "z": 192.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "settle before run thaw rig two",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "run thaw rig two",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hoar.rig2",
+      "expectedFlag": "hoar.rig2",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release run thaw rig two",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "plug two and the rank's ice melt",
+      "seconds": 4,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the left gallery 1/3",
+      "seconds": 3.13,
+      "navigate": true,
+      "point": {
+        "x": 100,
+        "y": -8.5,
+        "z": 188
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the left gallery 2/3",
+      "seconds": 5.15,
+      "navigate": true,
+      "point": {
+        "x": 92,
+        "y": -8.5,
+        "z": 198
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the left gallery 3/3",
+      "seconds": 3.98,
+      "navigate": true,
+      "point": {
+        "x": 91,
+        "y": -8.5,
+        "z": 206
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Dig_Rank",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Dig_Rank",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Dig_Rank cleared",
+      "seconds": 3,
+      "until": "flag:clear.Dig_Rank",
+      "expectedFlag": "clear.Dig_Rank",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Dig_Rank",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Dig_Rank",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp two to the third level 1/4",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 90,
+        "y": -8.5,
+        "z": 212
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp two to the third level 2/4",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": 100,
+        "y": -9.46,
+        "z": 214
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp two to the third level 3/4",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 112,
+        "y": -13.0,
+        "z": 214
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp two to the third level 4/4",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 118,
+        "y": -13.0,
+        "z": 216
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Dig_Third",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Dig_Third",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Third round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Third round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Third round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Third round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 5a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Third 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Third 5b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Third round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Dig_Third cleared",
+      "seconds": 3,
+      "until": "flag:clear.Dig_Third",
+      "expectedFlag": "clear.Dig_Third",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Dig_Third",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Dig_Third",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "east along the third level 1/3",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 124,
+        "y": -13.0,
+        "z": 218
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "east along the third level 2/3",
+      "seconds": 6.08,
+      "navigate": true,
+      "point": {
+        "x": 140,
+        "y": -13.0,
+        "z": 222.4
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "east along the third level 3/3",
+      "seconds": 3.53,
+      "navigate": true,
+      "point": {
+        "x": 146,
+        "y": -13.0,
+        "z": 224
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "to rig three",
+      "seconds": 2.97,
+      "navigate": true,
+      "point": {
+        "x": 145.5,
+        "y": -13.0,
+        "z": 227.9
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "settle before run thaw rig three",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "run thaw rig three",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hoar.rig3",
+      "expectedFlag": "hoar.rig3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release run thaw rig three",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock Dig_Rank3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock Dig_Rank3",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank3 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 5a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill Dig_Rank3 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill Dig_Rank3 5b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight Dig_Rank3 round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Dig_Rank3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Dig_Rank3 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Dig_Rank3",
+      "expectedFlag": "clear.Dig_Rank3",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after Dig_Rank3",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after Dig_Rank3",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp three 1/3",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 146,
+        "y": -13.0,
+        "z": 224
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp three 2/3",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": 158,
+        "y": -14.88,
+        "z": 219
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "down ramp three 3/3",
+      "seconds": 3.98,
+      "navigate": true,
+      "point": {
+        "x": 166,
+        "y": -17.5,
+        "z": 218.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "on to the winch until Sela reads the slate",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 174,
+        "y": -17.5,
+        "z": 218
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Vessa's slate begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's slate line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's slate line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's slate line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's slate line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's slate line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's slate line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's slate line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's slate line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's slate line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's slate line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's slate line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's slate line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's slate line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's slate line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's slate line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Vessa's slate line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Vessa's slate line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Vessa's slate line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish Vessa's slate",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.slateRead",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after Vessa's slate",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "to the dig cradle",
+      "seconds": 5.59,
+      "navigate": true,
+      "point": {
+        "x": 175.1,
+        "y": -17.5,
+        "z": 206.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "repair and save at the dig cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "FrozenHost"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

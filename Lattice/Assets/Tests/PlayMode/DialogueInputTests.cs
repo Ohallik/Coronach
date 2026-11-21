@@ -23,6 +23,40 @@ namespace Lattice.Tests.PlayMode
 {
     public sealed class DialogueInputTests
     {
+        /// <summary>Whose conversation a node is, by the name it begins with: the fourteen speakers of chapters 1 and 2 as this always listed them, and for a node written since,
+        /// any CharacterDef's id (the longest that fits). A node that begins with nobody's name still fails, and now says what a node should be called.</summary>
+        static string SpeakerOf(string node)
+        {
+            var first=new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper","Oda","Ilo","Aumi","Pell","Ishen","Corra","Brekk","Hessa"}.Where(n=>node.StartsWith(n)).ToArray();
+            if(first.Length==1)return first[0];
+            return ContentRegistry.Speakers.Where(n=>node.StartsWith(n)).OrderByDescending(n=>n.Length).FirstOrDefault()
+                ??throw new System.InvalidOperationException(node+" begins with no speaker's id: a node is named <Speaker><Purpose>, after a CharacterDef");
+        }
+        /// <summary>Where a node with no choices leaves the party, read from its own script (Resources/Dialogue): a <c>shop</c>, <c>bench</c> or <c>repair</c> command outside every
+        /// option opens that when the talk ends, a <c>jump</c> ends where its target ends, and anything else ends in the world. Chapter 3's Binna ends five choice-less talks at her
+        /// counter, and this assumed every node not named for Mira or Corra ended in the world, so "BinnaAfterBaskets choice 0" failed on a shop that was right to open.</summary>
+        static string EndingOf(string node,int depth=0)
+        {
+            foreach(string file in ContentRegistry.ScriptFiles)
+            {
+                var lines=System.IO.File.ReadAllText(file).Replace("\r\n","\n").Split('\n');
+                int title=System.Array.FindIndex(lines,l=>l.Trim()=="title: "+node);if(title<0)continue;
+                int start=System.Array.FindIndex(lines,title,l=>l.Trim()=="---")+1;string ending="world";int option=-1;
+                for(int i=start;i>0&&i<lines.Length&&lines[i].Trim()!="===";i++)
+                {
+                    string text=lines[i].Trim();if(text.Length==0||text.StartsWith("//"))continue;
+                    int indent=lines[i].Length-lines[i].TrimStart().Length;
+                    // An option's own lines are indented under its arrow; the first line back at the arrow's depth or less is past the choice, and runs whichever was taken.
+                    if(text.StartsWith("->")){option=indent;continue;}
+                    if(option>=0&&indent>option)continue;
+                    option=-1;
+                    if(text=="<<shop>>")ending="shop";else if(text=="<<bench>>")ending="bench";else if(text=="<<repair>>")ending="repair";
+                    else if(text.StartsWith("<<jump ")&&depth<8)return EndingOf(text.Substring(7).TrimEnd('>').Trim(),depth+1);
+                }
+                return ending;
+            }
+            throw new System.InvalidOperationException(node+" is compiled, but no script file in Resources/Dialogue holds it");
+        }
         Gamepad pad;
         Keyboard keyboard;
         InputSettings.BackgroundBehavior priorBackground;
@@ -78,7 +112,9 @@ namespace Lattice.Tests.PlayMode
         TMP_Text Text(string name)=>panel.GetComponentsInChildren<TMP_Text>(true).Single(t=>t.name==name);
         int ChoiceCount=>panel.GetComponentsInChildren<Transform>().Count(t=>t.name.StartsWith("Option_"));
 
-        [UnityTest] public IEnumerator EveryCompiledStoryNodeAndChoiceAcceptsRapidInputAndRoundTripsItsConsequences()
+        /// <summary>The staged script files, by name: one case each. Every node in one test ran past the framework's three minutes once chapter 3's 68 nodes were in.</summary>
+        static string[] ScriptNames=>ContentRegistry.ScriptFiles.Select(System.IO.Path.GetFileNameWithoutExtension).ToArray();
+        [UnityTest] public IEnumerator EveryCompiledStoryNodeAndChoiceAcceptsRapidInputAndRoundTripsItsConsequences([ValueSource(nameof(ScriptNames))] string script)
         {
             var branches=new Dictionary<string,string[]>
             {
@@ -88,15 +124,25 @@ namespace Lattice.Tests.PlayMode
                 // Chapter 2 (D202): Corra keeps Lanternwick's own stock.
                 ["CorraFirst"]=new[]{"shop","world"}
             };
-            var nodes=Resources.Load<YarnProject>("Dialogue/Lattice").NodeNames.Where(n=>!n.StartsWith("__")).OrderBy(n=>n).ToArray();
-            Assert.GreaterOrEqual(nodes.Length,25);
+            var compiled=Resources.Load<YarnProject>("Dialogue/Lattice").NodeNames.Where(n=>!n.StartsWith("__")).ToArray();
+            Assert.GreaterOrEqual(compiled.Length,25);
+            // Split by file, nothing may fall between them: a compiled node no staged file holds would be checked by no case.
+            var written=new HashSet<string>(ContentRegistry.ScriptFiles.SelectMany(ContentRegistry.NodesIn));
+            CollectionAssert.IsEmpty(compiled.Where(n=>!written.Contains(n)).ToArray(),"compiled nodes that no script file in Resources/Dialogue holds");
+            var file=ContentRegistry.ScriptFiles.Single(f=>System.IO.Path.GetFileNameWithoutExtension(f)==script);
+            var nodes=compiled.Intersect(ContentRegistry.NodesIn(file)).OrderBy(n=>n).ToArray();
+            if(nodes.Length==0)Assert.Pass(script+" holds no story node");
             var saves=new SaveSystem(System.IO.Path.Combine(Application.temporaryCachePath,"C6-all-branches-"+System.Guid.NewGuid().ToString("N")));
+            var later=new HashSet<string>(ContentRegistry.LaterNodes);
             foreach(string node in nodes)
             {
                 string speaker=node=="ArenaGuide"?"Hal":node=="CacheFound"?"Neve":node=="CompactHail"||node.StartsWith("Abri")?"Keeper":node.StartsWith("Sela")?"Sela":
-                    new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper","Oda","Ilo","Aumi","Pell","Ishen","Corra","Brekk","Hessa"}.Single(n=>node.StartsWith(n));
+                    SpeakerOf(node);
                 // Mira's holding line during the first morning (D197) points at the walkway job instead of opening her stock.
-                var outcomes=branches.TryGetValue(node,out var choices)?choices:new[]{node.StartsWith("Mira")&&node!="MiraOpening"||node=="CorraRepeat"||node=="CorraPost"||node=="CorraRationsOffer"?"shop":"world"};
+                // The table above is chapters 1 and 2's; a node with choices written since says where each leads in its chapter's expectations (ContentRegistry.Book.Branch).
+                if(!branches.TryGetValue(node,out var choices))choices=ContentRegistry.Branch(node);
+                // With no choices, chapters 1 and 2's nodes end as they always did here, by name; a later node ends where its own script says (EndingOf), with nothing written for it.
+                var outcomes=choices??new[]{later.Contains(node)?EndingOf(node):node.StartsWith("Mira")&&node!="MiraOpening"||node=="CorraRepeat"||node=="CorraPost"||node=="CorraRationsOffer"?"shop":"world"};
                 for(int choice=0;choice<outcomes.Length;choice++)
                 {
                     // A real serialized reload before and after every implemented branch.

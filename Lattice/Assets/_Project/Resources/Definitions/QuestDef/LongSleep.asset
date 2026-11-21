@@ -1,0 +1,186 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: LongSleep
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: LongSleep
+  title: The Long Sleep
+  description: Sorrel's nursery can only leave by a road that runs cold, and the
+    herders of Lastlight are the only people said to know how a young road sleeps.
+  steps:
+  - kind: 1
+    target: AuroraShear
+    count: 1
+  - kind: 5
+    target: hoar.idraHailed
+    count: 1
+  - kind: 1
+    target: Lastlight
+    count: 1
+  - kind: 5
+    target: hoar.ternHeard
+    count: 1
+  - kind: 5
+    target: hoar.planTaken
+    count: 1
+  - kind: 5
+    target: hoar.idraJoined
+    count: 1
+  - kind: 2
+    target: HostMarshal
+    count: 1
+  - kind: 5
+    target: hoar.sleepLearned
+    count: 1
+  - kind: 5
+    target: hoar.liftFixed
+    count: 1
+  rewardXp: 1600
+  rewardScrip: 900
+  rewards:
+  - id: EdgesT4
+    count: 1
+  - id: RepairSalve
+    count: 2
+  flagsOnComplete: []
+  stepText:
+  - Take the lane to Hoarfell through the Aurora Shear
+  - Ride the currents down the ice ring
+  - Follow the striped cutter down to Lastlight
+  - Find Old Tern under the fourth rib
+  - Hear Idra Sorn's plan at the carving yard
+  - Cross the White Reach and go down to the bottom of the dig
+  - Put the Host Marshal back to sleep
+  - Go back to Old Tern, and sit down
+  - Bring Idra's cutters home to Many Hands
+  rewardsRolled: 1
+  main: 1
+  chapter: 6
+  stepTargets:
+  - scene: AuroraShear
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: AuroraShear
+    via: []
+    speaker: 
+    report: CurrentTurns
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Lastlight
+    via:
+    - AuroraShear
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Lastlight
+    via: []
+    speaker: Tern
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Lastlight
+    via: []
+    speaker: Idra
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: FrozenHost
+    via:
+    - Lastlight
+    speaker: 
+    report: BottomGallery
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: FrozenHost
+    via:
+    - Lastlight
+    speaker: 
+    report: 
+    encounter: HostMarshal
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Lastlight
+    via:
+    - FrozenHost
+    speaker: Tern
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: ManyHands
+    via:
+    - ManyHandsHull
+    - AuroraShear
+    speaker: 
+    report: LiftFigures
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: 'Chapter 6 complete. The Muster has the plans for a cage. Ishen knows
+    who drew the first one: he''s on the dock.'
+  next:
+    scene: ManyHands
+    via:
+    - ManyHandsHull
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 1
+    point: {x: 0, y: 0, z: -49.4}
+    brief: 
+  storyFlags:
+  - hoar.charted
+  - hoar.arrived
+  - hoar.ribsSeen
+  - met.Tern
+  - hoar.pensSeen
+  - met.Idra
+  - hoar.reachEntered
+  - hoar.herdMet
+  - hoar.herdPassed
+  - hoar.whiteoutMet
+  - hoar.vessaHeard
+  - hoar.ranksSeen
+  - hoar.offerHeard
+  - hoar.slateRead
+  - hoar.coupling1
+  - hoar.coupling2
+  - hoar.coupling3
+  - hoar.marshalSeen
+  - bossdown.HostMarshal
+  - hoar.marshalAsleep
+  - chapter6.complete
+  cardFlag: chapter6.complete
+  cardBody: 'Cold slowly, never alone, sung to: the herders are aboard with what
+    they know, and Old Tern has stayed with her roof. Idra Sorn''s cutters give Many
+    Hands its engines.'
+  letGoAt: 

@@ -61,7 +61,8 @@ namespace Lattice.UI
         public static void Apply()
         {
             var zone=ZoneController.Current;bool flight=zone!=null&&zone.Flight;
-            bool bright=!flight&&zone!=null&&zone.definition!=null&&BrightFloors.Contains(zone.definition.id);
+            // The list is the first chapters'; a zone since says so itself (ZoneDef.brightFloor).
+            bool bright=!flight&&zone!=null&&zone.definition!=null&&(BrightFloors.Contains(zone.definition.id)||zone.definition.brightFloor);
             var view=zone!=null&&zone.definition!=null?zone.definition.cameraProfile:null;
             float yaw=view!=null?view.yaw:0;
             float slide=view!=null?Mathf.Sin(view.pitch*Mathf.Deg2Rad)/Mathf.Max(1,view.distance):0;

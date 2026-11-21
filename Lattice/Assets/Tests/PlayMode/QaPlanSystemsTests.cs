@@ -51,7 +51,7 @@ namespace Lattice.Tests.PlayMode
 #endif
             GameTime.Reset();PromptService.ForceDevice(null);SceneManager.LoadScene("_Boot");yield return null;
             yield return new WaitForSecondsRealtime(.5f);
-            savedBindings=PlayerPrefs.GetString("keyboardBindings","");GameInput.Current.Asset.RemoveAllBindingOverrides();
+            savedBindings=KeyBindingStore.Load();GameInput.Current.Asset.RemoveAllBindingOverrides();
             ClearSaves();DevLoadout.Apply("starter");
             heard=null;logged.Clear();touchedLevels=false;mashed=0;
             Npc.TalkRequested+=Listen;Application.logMessageReceived+=Logged;
@@ -68,7 +68,7 @@ namespace Lattice.Tests.PlayMode
             if(keyboard!=null&&keyboard.added)InputSystem.RemoveDevice(keyboard);
             keyboard=null;
             if(GameInput.Current!=null)GameInput.Current.Asset.RemoveAllBindingOverrides();
-            if(string.IsNullOrEmpty(savedBindings))PlayerPrefs.DeleteKey("keyboardBindings");else PlayerPrefs.SetString("keyboardBindings",savedBindings);
+            KeyBindingStore.Save(savedBindings);
             // Back to the default device, which also drops any tag cached off another device's words.
             PromptService.ForceDevice(PromptDevice.Keyboard);PromptService.ForceDevice(null);InputSystem.settings.backgroundBehavior=priorBackground;
 #if UNITY_EDITOR
@@ -104,7 +104,13 @@ namespace Lattice.Tests.PlayMode
         static int Step(string quest)=>State.questSteps.TryGetValue(quest,out var step)?step:-1;
         static T[] All<T>()where T:Object=>Object.FindObjectsByType<T>(FindObjectsInactive.Include,FindObjectsSortMode.None);
         static bool Live<T>()where T:Object=>Object.FindObjectsByType<T>(FindObjectsSortMode.None).Length>0;
-        static EncounterVolume Encounter(string id)=>All<EncounterVolume>().Single(e=>e.encounterId==id);
+        /// <summary>The one encounter by this id in the loaded zone. A door a boss's sheet names and the zone doesn't have says so, in place of 'Sequence contains no matching element'.</summary>
+        static EncounterVolume Encounter(string id)
+        {
+            var found=All<EncounterVolume>().Where(e=>e.encounterId==id).ToArray();
+            Assert.AreEqual(1,found.Length,$"{SceneFlow.Current.Zone} should have exactly one encounter called {id} (a boss sheet or a test names it as a door): found {found.Length}");
+            return found[0];
+        }
         static DiscoveryPoint Discovery(string flag)=>All<DiscoveryPoint>().Single(d=>d.flag==flag);
         static WarpBeacon WarpTo(string scene)=>All<WarpBeacon>().Single(w=>w.scene==scene);
         static Npc Person(string speaker)=>All<Npc>().Single(n=>n.speaker==speaker);
@@ -152,11 +158,13 @@ namespace Lattice.Tests.PlayMode
         static EnemyBrain Dummy(string id,Vector3 at)
         {var enemy=Spawn(id,at);enemy.enabled=false;enemy.Health.maximum=enemy.Health.integrity=1000000;enemy.Health.breakThreshold=1e9f;return enemy;}
         static void Remove<T>()where T:Component{foreach(var left in Object.FindObjectsByType<T>(FindObjectsSortMode.None))Object.Destroy(left.gameObject);}
+        /// <summary>The fight over: its boss down, whatever holds its bar while it fights. Through a plate (CutsPlate) and past a held line: the Foundry Saint's raised arms take every
+        /// blow on the press while it fights (D281), so the blow this was took nothing, the Saint stood, and its seal stayed shut, which read as "stays shut after FoundrySaint is down".</summary>
         static void Defeat(EnemyBrain boss)
         {
-            var packet=new DamagePacket{source=Hero.Health,amount=boss.Health.maximum*50,type=DamageType.Pulse};
+            var packet=new DamagePacket{source=Hero.Health,amount=boss.Health.maximum*50,type=DamageType.Pulse,tag=Health.CutsPlate};
             if(boss.TryGetComponent<CantorCollar>(out var collar))foreach(var link in collar.Links)link.GetComponent<Hurtbox>().Hit(packet);
-            boss.Health.Receive(packet);
+            boss.Health.Holds=null;boss.Health.Receive(packet);
         }
         static IEnumerator FinishTalk(float seconds=25)
         {
@@ -352,22 +360,35 @@ namespace Lattice.Tests.PlayMode
                 StringAssert.Contains(next.displayName,Note(),"the page doesn't say which skill comes next");
                 StringAssert.Contains($"Sync {next.unlockLevel}",Note(),"the page doesn't say when the next skill comes");
                 Row("Row_1").onClick.Invoke();yield return null;
-                foreach(var skill in all)
+                // S3: a hero has eleven skills now (three more, at Sync 16, 20 and 24) and the chooser shows seven to a page, where this read all eight off one.
+                // Each row is read on the page it's on, and the page is turned: every skill still has to be there and say its piece.
+                var read=new List<string>();
+                for(int turn=0;turn<4&&read.Count<all.Length;turn++)
                 {
-                    var words=Words(With(skill.displayName));
-                    if(skill.unlockLevel<=taren.level)
+                    foreach(var skill in all)
                     {
-                        StringAssert.DoesNotContain("Locked",words,skill.displayName+" is learned and reads as locked");
-                        StringAssert.Contains($"{SkillBook.Cost("Taren",skill):0} Charge",words,skill.displayName+"'s row doesn't say what it costs");
-                        StringAssert.Contains("Mastery",words,skill.displayName+"'s row doesn't show its mastery");
-                        StringAssert.Contains($"{skill.cooldown:0} s",words,skill.displayName+"'s row doesn't show its cooldown");
+                        var line=Buttons().FirstOrDefault(b=>b.name.StartsWith("Row_")&&Words(b).Contains(skill.displayName));
+                        if(line==null||read.Contains(skill.id))continue;
+                        read.Add(skill.id);var words=Words(line);
+                        if(skill.unlockLevel<=taren.level)
+                        {
+                            StringAssert.DoesNotContain("Locked",words,skill.displayName+" is learned and reads as locked");
+                            StringAssert.Contains($"{SkillBook.Cost("Taren",skill):0} Charge",words,skill.displayName+"'s row doesn't say what it costs");
+                            StringAssert.Contains("Mastery",words,skill.displayName+"'s row doesn't show its mastery");
+                            StringAssert.Contains($"{skill.cooldown:0} s",words,skill.displayName+"'s row doesn't show its cooldown");
+                        }
+                        else
+                        {
+                            StringAssert.Contains("Locked",words,skill.displayName+" isn't learned at Sync 5 and doesn't say so");
+                            StringAssert.Contains($"Sync {skill.unlockLevel}",words,skill.displayName+" is locked and doesn't say at what level it comes");
+                        }
                     }
-                    else
-                    {
-                        StringAssert.Contains("Locked",words,skill.displayName+" isn't learned at Sync 5 and doesn't say so");
-                        StringAssert.Contains($"Sync {skill.unlockLevel}",words,skill.displayName+" is locked and doesn't say at what level it comes");
-                    }
+                    if(read.Count==all.Length)break;
+                    Assert.IsNotNull(Row("Pager"),"the chooser has more skills than rows and nothing turns the page");
+                    Row("Pager").onClick.Invoke();yield return null;
                 }
+                Assert.AreEqual(all.Length,read.Count,"a skill is on no page of the chooser");
+                for(int turn=0;turn<4&&!Buttons().Any(b=>Words(b).Contains(next.displayName));turn++){Row("Pager").onClick.Invoke();yield return null;}
                 EventSystem.current.SetSelectedGameObject(With(next.displayName).gameObject);yield return null;
                 StringAssert.Contains(next.description,Note(),"focus on a locked skill doesn't say what it will do");
                 menu.Close();yield return null;
@@ -417,7 +438,9 @@ namespace Lattice.Tests.PlayMode
             StringAssert.Contains("RESTORING",Hud("Partner").text,"standing over a downed partner shows no progress");
             yield return Until(()=>Hud("Partner").text.Contains("RECOVERING"),3);
             StringAssert.Contains("RECOVERING",Hud("Partner").text,"a partner getting up isn't shown as getting up");
-            var hound=Dummy("Ridgehound",hero.transform.position+Vector3.forward*6);hound.Health.breakThreshold=100;yield return null;
+            // Three metres ahead, clear of the card that names it. At six its body stood in the card's own band at the top of the screen, and a card with a body
+            // under it and no room to slide keeps only its first line (D226, November 10): the name and integrity, without the gauge this reads.
+            var hound=Dummy("Ridgehound",hero.transform.position+Vector3.forward*3);hound.Health.breakThreshold=100;yield return null;
             hero.target=hound.Health;yield return Frames(2);
             StringAssert.Contains("RIDGEHOUND",Hud("Target").text,"the target line doesn't name the target");
             StringAssert.Contains($"{hound.Health.integrity:0}/{hound.Health.maximum:0}",Hud("Target").text,"the target line doesn't say how it is");
@@ -474,9 +497,11 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Lanternwick");
             var shop=ShopPanel;var corra=GameCatalog.Find<ShopInventory>("Lanternwick");
-            foreach(var stock in new[]{corra,null})
+            // The Decks' stock is Mira's own inventory now (Hub_Decks). It was whatever a stall with no inventory fell back to: every tier 1 part and every consumable in the catalogue.
+            var mira=GameCatalog.Find<ShopInventory>("Hub_Decks");Assert.IsNotNull(mira,"Mira has no stock of her own, so her stall sells nothing");
+            foreach(var stock in new[]{corra,mira})
             {
-                string whose=stock!=null?"Corra's stock":"the Decks' stock";
+                string whose=stock==corra?"Corra's stock":"the Decks' stock";
                 shop.Open(stock);yield return null;
                 var offers=new List<string>();
                 for(int page=0;page<5;page++)
@@ -579,45 +604,100 @@ namespace Lattice.Tests.PlayMode
             Assert.IsNotNull(source.clip,where+" has a cue and no clip: silence");Assert.AreEqual(track,source.clip.name,where+"'s voice holds the wrong clip");
             Assert.IsTrue(source.isPlaying,where+"'s track isn't playing");
         }
-        [UnityTest] public IEnumerator EachZonePlaysThePlansTrack()
+        static readonly (string zone,string track)[] PlannedTracks=
         {
-            foreach(var (zone,track) in new[]
+            ("Hub_Decks","Hub Town Groove"),("Hub_CinderHalo","Hub Town Groove"),("TallowDrift","Hub Town Groove"),("Lanternwick","Old Village"),
+            ("LanternGorge","Adventure Awaits"),("Hushwell","Moon Caverns"),("SunkenRelay","Moon Caverns"),("Gullet_Tunnel","Starfight"),("WickReach","Starfight"),
+        };
+        /// <summary>The nine the plan names, Sorrel, then every zone built since chapter 2, in the order the single case walked them. One case each: a zone whose track
+        /// isn't staged logs MUSIC_MISSING as it loads, and that used to end the walk for every zone after it (ZoneWalk).</summary>
+        static string[] TrackZones=>PlannedTracks.Select(p=>p.zone).Concat(new[]{"Sorrel_Ridges"}).Concat(ContentRegistry.LaterZones()).ToArray();
+        [UnityTest] public IEnumerator EachZonePlaysThePlansTrack([ValueSource(nameof(TrackZones))] string zone)
+        {
+            string planned=PlannedTracks.Where(p=>p.zone==zone).Select(p=>p.track).FirstOrDefault();
+            if(planned!=null){yield return Zone(zone);Plays(planned,zone);yield break;}
+            if(zone=="Sorrel_Ridges")
             {
-                ("Hub_Decks","Hub Town Groove"),("Hub_CinderHalo","Hub Town Groove"),("TallowDrift","Hub Town Groove"),("Lanternwick","Old Village"),
-                ("LanternGorge","Adventure Awaits"),("Hushwell","Moon Caverns"),("SunkenRelay","Moon Caverns"),("Gullet_Tunnel","Starfight"),("WickReach","Starfight"),
-            })
-            {yield return Zone(zone);Plays(track,zone);}
-            // Past the outpost's shelter Sorrel is combat ground.
-            yield return Zone("Sorrel_Ridges");Put(Hero,new Vector3(0,0,32));yield return new WaitForSecondsRealtime(.4f);
-            Plays("Adventure Awaits","Sorrel's open ridges");
+                // Past the outpost's shelter Sorrel is combat ground.
+                yield return Zone("Sorrel_Ridges");Put(Hero,new Vector3(0,0,32));yield return new WaitForSecondsRealtime(.4f);
+                Plays("Adventure Awaits","Sorrel's open ridges");
+                yield break;
+            }
+            // Every zone built since chapter 2 plays what its own definition names (ZoneDef.musicId), and has to name something: a zone nobody gave music to
+            // used to load in silence, with no error and no test that knew it existed.
+            yield return Zone(zone);Plays(HomeTrack(zone),zone);
+        }
+        /// <summary>What a later zone plays where the party arrives: its definition's music, or its safe pocket's if the arrival stands in one.</summary>
+        static string HomeTrack(string zone)
+        {
+            var definition=ContentRegistry.Zone(zone);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(definition.musicId),zone+" names no music on its ZoneDef (musicId): it plays in silence");
+            bool pocket=ZoneController.Current!=null&&ZoneController.Current.definition==definition&&ZoneController.Current.InSafePocket;
+            return pocket&&!string.IsNullOrWhiteSpace(definition.pocketMusicId)?definition.pocketMusicId:definition.musicId;
         }
         IEnumerator BossTrackIn(string zone,string encounter,string boss,string home,params string[] flags)
         {
             foreach(var f in flags)Flag(f);
             yield return Zone(zone);
+            // A later zone's own track is whatever its definition names where the party arrives.
+            home??=HomeTrack(zone);
             Plays(home,zone+" before the fight");
             foreach(var hero in PartyController.Current.members)hero.Health.InvulnerableUntil=GameTime.Now+60;
             Encounter(encounter).Begin();yield return Frames(3);
-            Plays(BossTrack,boss+"'s fight");
+            // The first four play the boss track, pinned. A boss since may name its own (EnemyDef.bossMusicId).
+            string named=System.Array.IndexOf(ContentRegistry.FirstBosses,boss)>=0?null:GameCatalog.Find<EnemyDef>(boss).bossMusicId;
+            Plays(string.IsNullOrWhiteSpace(named)?BossTrack:named,boss+"'s fight");
             DialogueSystem.Current.AutoAdvance=true;
-            Defeat(All<EnemyBrain>().First(e=>e.definition.id==boss));yield return Frames(2);
+            Fell(All<EnemyBrain>().First(e=>e.definition.id==boss));yield return Frames(2);
+            // Mother of Doors goes up her road in quiet (MotherCoil.Release): the fight's music goes out as she is let go, nothing plays over her going, and the zone's comes back once
+            // her going's after-talk has been heard and she is gone, or when her quiet has run its longest. Only her own going may hold the zone's track back, and only in silence.
+            var going=Object.FindObjectsByType<MotherCoil>(FindObjectsSortMode.None).FirstOrDefault(c=>c.Releasing);
+            if(going!=null)
+            {
+                Assert.IsNull(MusicDirector.Current.Track,boss+" is let go and something plays over her going");
+                yield return Until(()=>MusicDirector.Current.Track!=null,BossController.MotherTune.QuietAtMost+5);
+                Assert.AreEqual(home,MusicDirector.Current.Track,boss+" has gone and the zone's track doesn't come back after her quiet");
+            }
             Assert.AreEqual(home,MusicDirector.Current.Track,boss+" is down and the boss track plays on");
             yield return new WaitForSecondsRealtime(.2f);
             var dialogue=DialogueSystem.Current;if(dialogue.Running){dialogue.Cancel();yield return Frames(2);}
         }
-        [UnityTest] public IEnumerator EachBossFightPlaysTheBossTrackAndGivesTheZoneBack()
+        /// <summary>A boss brought down as its own fight's end brings it down. A boss whose bar is its mechanism holds at a line (the Last Warden until a clamp opens, Meret's frame until
+        /// a coupling does), turns a blow on its plate, or can't be struck at all (Mother of Doors, the Tollkeeper); what ends its fight lifts all of that before the blow that takes it
+        /// down (BossController.WardenClampOpened, and the same in each). The blow alone left the Warden at his first line with his fight going on (WARDEN_HOLDS shut=4), and the track
+        /// check then asked for the zone's music over a fight that hadn't ended: in the player the release ends it and Glass Ruans comes back with it (nov14-recon14 s41).</summary>
+        static void Fell(EnemyBrain boss)
         {
-            yield return BossTrackIn("Hushwell","Hushwell_Bellows","BellowsBelow","Moon Caverns");
-            yield return BossTrackIn("Gullet_Tunnel","Gullet_Cantor","Cantor","Starfight");
-            yield return BossTrackIn("SunkenRelay","Relay_Hessa","HessaKorl","Moon Caverns","relay.hessaConfronted");
-            yield return Zone("Sorrel_Ridges");Put(Hero,new Vector3(0,0,32));yield return new WaitForSecondsRealtime(.4f);
-            Plays("Adventure Awaits","Sorrel before the Burrower");
-            foreach(var hero in PartyController.Current.members)hero.Health.InvulnerableUntil=GameTime.Now+60;
-            Put(Hero,new Vector3(0,.2f,164));Put(Partner,new Vector3(2,.2f,164));
-            Encounter("Sorrel_Burrower").Begin();yield return Frames(3);
-            Plays(BossTrack,"the Burrower's fight");
-            Defeat(All<EnemyBrain>().First(e=>e.definition.id=="Burrower"));yield return Frames(2);
-            Assert.AreEqual("Adventure Awaits",MusicDirector.Current.Track,"the Burrower is down and the boss track plays on");
+            var body=boss.Health;
+            body.Holds=null;body.Plate=null;body.InvulnerableUntil=0;body.ShieldUntil=0;body.Damageable=true;
+            Defeat(boss);
+            Assert.IsFalse(body.Alive,$"fixture: {body.id} still stands at {body.integrity:0} of {body.maximum:0} after the blow its own fight's end deals");
+        }
+        /// <summary>The first four at the doors they always had, then every boss defined since at the door its sheet names (ContentRegistry), each as "zone/boss" so a zone's cases find it.
+        /// One case each: walked in one, the Last Warden's held line ended the walk for every boss after it (nine of them, never once checked).</summary>
+        static string[] BossFights=>new[]{"Hushwell/BellowsBelow","Gullet_Tunnel/Cantor","SunkenRelay/HessaKorl","Sorrel_Ridges/Burrower"}
+            .Concat(ContentRegistry.LaterBosses.Select(boss=>(ContentRegistry.Expected.bosses.TryGetValue(boss,out var sheet)?sheet.zone:"(no sheet)")+"/"+boss)).ToArray();
+        [UnityTest] public IEnumerator EachBossFightPlaysTheBossTrackAndGivesTheZoneBack([ValueSource(nameof(BossFights))] string fight)
+        {
+            string boss=fight.Substring(fight.IndexOf('/')+1);
+            switch(boss)
+            {
+                case "BellowsBelow":yield return BossTrackIn("Hushwell","Hushwell_Bellows","BellowsBelow","Moon Caverns");yield break;
+                case "Cantor":yield return BossTrackIn("Gullet_Tunnel","Gullet_Cantor","Cantor","Starfight");yield break;
+                case "HessaKorl":yield return BossTrackIn("SunkenRelay","Relay_Hessa","HessaKorl","Moon Caverns","relay.hessaConfronted");yield break;
+                case "Burrower":
+                    yield return Zone("Sorrel_Ridges");Put(Hero,new Vector3(0,0,32));yield return new WaitForSecondsRealtime(.4f);
+                    Plays("Adventure Awaits","Sorrel before the Burrower");
+                    foreach(var hero in PartyController.Current.members)hero.Health.InvulnerableUntil=GameTime.Now+60;
+                    Put(Hero,new Vector3(0,.2f,164));Put(Partner,new Vector3(2,.2f,164));
+                    Encounter("Sorrel_Burrower").Begin();yield return Frames(3);
+                    Plays(BossTrack,"the Burrower's fight");
+                    Fell(All<EnemyBrain>().First(e=>e.definition.id=="Burrower"));yield return Frames(2);
+                    Assert.AreEqual("Adventure Awaits",MusicDirector.Current.Track,"the Burrower is down and the boss track plays on");
+                    yield break;
+            }
+            // Every boss defined since, at the door its sheet names: its track through the fight, its zone's own after.
+            var sheet=ContentRegistry.Boss(boss);yield return BossTrackIn(sheet.zone,sheet.door,boss,null,sheet.doorFlags);
         }
         [UnityTest] public IEnumerator TheShopThemeTakesOverAndTheTownPicksUpWhereItLeftOff()
         {
@@ -999,7 +1079,8 @@ namespace Lattice.Tests.PlayMode
             // The page reads it, and what is chosen there sticks.
             Assert.AreEqual("Taren",Hero.character,"fixture: Taren leads");
             var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return null;
-            StringAssert.Contains("6 of 8",Note(),"the Skills page miscounts an old save's skills");
+            // Of 11, where it was 8: S3 adds three a hero at Sync 16, 20 and 24. An old save at Sync 7 still knows six of them.
+            StringAssert.Contains("6 of 11",Note(),"the Skills page miscounts an old save's skills");
             Row("Row_1").onClick.Invoke();yield return null;With(Skill("Taren",SkillKind.AnchorSlam).displayName).onClick.Invoke();yield return null;
             Assert.AreEqual(SkillKind.AnchorSlam,SkillBook.Equipped("Taren",0).kind,"an old save can't change its loadout");
             menu.Close();yield return null;
@@ -1241,21 +1322,33 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(panel.IsOpen,"fixture: the defeat panel");Audit("the defeat panel",failures);
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct()));
         }
-        [UnityTest] public IEnumerator WorldLabelsReadFromTheGamesCameraAtTheTypeFloor()
+        // One case per zone, and the count over the world a test of its own (ZoneWalk): it walked every zone in one case, and a zone that couldn't load or logged an error hid every zone after it.
+        static string[] LabelZones=>ContentRegistry.With(nameof(WorldLabelsReadFromTheGamesCameraAtTheTypeFloor),new[]{"Hub_Decks","Hub_CinderHalo","TallowDrift","Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay","WickReach"});
+        static IEnumerator ReadWorldLabels(string zone,List<string> failures)
         {
-            var failures=new List<string>();int read=0;
-            foreach(string zone in new[]{"Hub_Decks","Hub_CinderHalo","TallowDrift","Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay","WickReach"})
+            int read=0;
+            yield return Zone(zone);
+            var view=ZoneController.Current.definition.cameraProfile;float seen=2*view.distance*Mathf.Tan(view.fov*.5f*Mathf.Deg2Rad);
+            foreach(var label in Object.FindObjectsByType<TextMeshPro>(FindObjectsSortMode.None).Where(t=>t.text.Length>0&&t.enabled&&t.GetComponent<Renderer>().enabled))
             {
-                yield return Zone(zone);
-                var view=ZoneController.Current.definition.cameraProfile;float seen=2*view.distance*Mathf.Tan(view.fov*.5f*Mathf.Deg2Rad);
-                foreach(var label in Object.FindObjectsByType<TextMeshPro>(FindObjectsSortMode.None).Where(t=>t.text.Length>0&&t.enabled&&t.GetComponent<Renderer>().enabled))
-                {
-                    read++;float pixels=label.fontSize*.1f*label.transform.lossyScale.y/seen*1080;
-                    if(pixels<24)failures.Add($"{zone}: \"{label.text}\" stands {pixels:0} px tall on a 1080p screen, under the type floor of 24");
-                }
+                read++;float pixels=label.fontSize*.1f*label.transform.lossyScale.y/seen*1080;
+                if(pixels<24)failures.Add($"{zone}: \"{label.text}\" stands {pixels:0} px tall on a 1080p screen, under the type floor of 24");
             }
-            Assert.Greater(read,20,"fixture: the world has labels");
+            ZoneWalk.Keep(nameof(WorldLabelsReadFromTheGamesCameraAtTheTypeFloor),zone,read);
+        }
+        [UnityTest] public IEnumerator WorldLabelsReadFromTheGamesCameraAtTheTypeFloor([ValueSource(nameof(LabelZones))] string zone)
+        {
+            var failures=new List<string>();
+            yield return ReadWorldLabels(zone,failures);
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct()));
+        }
+        [UnityTest] public IEnumerator WorldLabelsReadFromTheGamesCameraAtTheTypeFloorAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            IEnumerator Rebooted(){yield return Cleanup();yield return Boot();}
+            yield return ZoneWalk.Walk(nameof(WorldLabelsReadFromTheGamesCameraAtTheTypeFloor),LabelZones,zone=>ReadWorldLabels(zone,new List<string>()),Rebooted,read,unread);
+            // Which labels each zone draws too small is that zone's case to report.
+            Assert.Greater(read.Values.Sum(),20,"fixture: the world has labels"+ZoneWalk.Unread(unread));
         }
 
         // ------------------------------------------------------------------ 4.12: rebinding, in play
@@ -1590,6 +1683,9 @@ namespace Lattice.Tests.PlayMode
                 if(Vector3.Distance(at,caster.transform.position)>.001f)failures.Add(kind+": the hero moves behind the pause menu");
                 yield return Tap(GamepadButton.Start);
                 if(menu.IsOpen){failures.Add(kind+": Start doesn't close the menu");menu.Close();}
+                // A skill can land in the first frames after the menu closes (a flight Tether Hook is out and on its body in two), and since the impact pass a hit that lands
+                // holds the fight for a beat (GameTime.Stop). That beat is the hit's, not the pause's: the clock has to be back once it has let go, and no beat outlasts MostStop.
+                for(float end=Time.unscaledTime+GameTime.MostStop+.1f;GameTime.Stopped&&Time.unscaledTime<end;)yield return null;
                 if(Time.timeScale!=1)failures.Add(kind+": the clock doesn't come back after the pause");
                 for(float end=Time.unscaledTime+3.5f;body.integrity>=before&&Time.unscaledTime<end;){caster.motor.Move(Vector2.zero,false,false);yield return null;}
                 if(body.integrity>=before)failures.Add(kind+": paid for, paused, and it never lands");
@@ -1756,6 +1852,16 @@ namespace Lattice.Tests.PlayMode
             if(boss.TryGetComponent<CantorCollar>(out var collar))collar.Links[0].Receive(packet);else boss.Health.Receive(packet);
             yield return Frames(2);
             Assert.IsTrue(BossController.AnyFightUnderway,"fixture: "+bossId+"'s fight is under way");
+            // The chart is a way out in a pocket (RouteChart.Blocked): it waits for the fight too. And in flight nothing seals a fight, so a ship can stand off past a boss's
+            // reach (D198's 45 m): the chart must still wait there, as a flight lane's fight is the whole lane's.
+            if(RouteChart.Blocked()==null)failures.Add($"the chart takes the party out of the middle of {bossId}'s fight");
+            if(lead.flight)
+            {
+                var stood=lead.transform.position;var off=stood-boss.transform.position;off.y=0;if(off.sqrMagnitude<.01f)off=Vector3.back;
+                Put(lead,stood+off.normalized*120);yield return Frames(2);
+                if(RouteChart.Blocked()==null)failures.Add($"120 m off, the chart takes a ship out of {bossId}'s fight while it is still under way");
+                Put(lead,stood);yield return Frames(2);
+            }
             lead.GetComponent<PlayerBrain>().AutoPilot=false;
             int tried=0;
             foreach(var exit in All<InteractionPrompt>().Where(p=>(p is DockingPad||p is WarpBeacon)&&p.gameObject.activeInHierarchy))
@@ -1774,19 +1880,38 @@ namespace Lattice.Tests.PlayMode
                 if(SceneFlow.Current.Loading){failures.Add($"A beside {exit.name} left {zone} in the middle of {bossId}'s fight");break;}
             }
             yield return Until(()=>!SceneFlow.Current.Loading,25);
-            Assert.Greater(tried,0,"fixture: a way out to try");
+            // Each of the first four has a dock or a warp inside its fight, and that stays required of them. A boss since may be fought far from every way out (a river 400 m
+            // long, its gates a walk away): there a party clear of the fight may leave (D198), no way out answers inside it, and its seals, walked above, are all that holds it.
+            // So for those: something was tried, a seal or a way out, or the failure names the boss. It was a bare 'fixture: a way out to try' for whichever came first.
+            if(System.Array.IndexOf(ContentRegistry.FirstBosses,bossId)>=0)Assert.Greater(tried,0,"fixture: a way out to try");
+            else Assert.Greater(tried+walked,0,$"{bossId}'s fight in {zone} has no way out within reach of it and no seal on its door ({encounter}) to walk at: nothing here keeps the party in, and nothing could be tried");
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct()));
             // The fight over, the seals let go.
             lead.GetComponent<PlayerBrain>().AutoPilot=true;DialogueSystem.Current.AutoAdvance=true;
+            // The boss as its own fight's end brings it down (Fell): fighting, the Foundry Saint's raised arms take every blow on its press, and the blow alone left it up with its seals shut.
             var at=boss.transform.position;
-            foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>e.Health.Alive&&Flat(e.transform.position,at)<60))Defeat(enemy);
+            foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>e.Health.Alive&&Flat(e.transform.position,at)<60))if(enemy==boss)Fell(enemy);else Defeat(enemy);
             yield return new WaitForSecondsRealtime(.3f);
+            Assert.IsFalse(boss!=null&&boss.Health.Alive,"fixture: "+bossId+" is still standing after the blow that ends its fight");
             foreach(var seal in door.membranes)if(seal!=null)Assert.IsTrue(seal.Open,seal.name+" stays shut after "+bossId+" is down");
         }
         [UnityTest] public IEnumerator NoWayOutAnswersInTheBurrowersFight()=>NoWayOut("Sorrel_Ridges","Sorrel_Burrower","Burrower");
         [UnityTest] public IEnumerator NoWayOutAnswersInTheBellowsFight()=>NoWayOut("Hushwell","Hushwell_Bellows","BellowsBelow");
         [UnityTest] public IEnumerator NoWayOutAnswersInTheCantorsFight()=>NoWayOut("Gullet_Tunnel","Gullet_Cantor","Cantor");
         [UnityTest] public IEnumerator NoWayOutAnswersInHessasFight()=>NoWayOut("SunkenRelay","Relay_Hessa","HessaKorl","relay.hessaConfronted");
+        /// <summary>Every boss defined since, as "zone/boss" so a zone's cases find it.</summary>
+        static string[] LaterBossFights=>ContentRegistry.LaterBosses.Select(boss=>(ContentRegistry.Expected.bosses.TryGetValue(boss,out var sheet)?sheet.zone:"(no sheet)")+"/"+boss).ToArray();
+        /// <summary>The four above are chapters 1 and 2's, by name. Every boss defined since is walked here, at the door its sheet names (ContentRegistry): one with no sheet fails by name.
+        /// One case each: walked in one, the Foundry Saint's seals ended the walk from November 13 and hid every boss after it.</summary>
+        [UnityTest] public IEnumerator NoWayOutAnswersInEveryLaterBossFight([ValueSource(nameof(LaterBossFights))] string fight)
+        {
+            yield return null;
+            // A chapter half built says what it is missing, by name: a boss with no sheet (ContentRegistry.Boss), a door in a zone not built yet, a door the zone doesn't have (Encounter).
+            string boss=fight.Substring(fight.IndexOf('/')+1);
+            var sheet=ContentRegistry.Boss(boss);
+            Assert.IsTrue(Application.CanStreamedLevelBeLoaded(sheet.zone),$"{boss}'s sheet puts its door in {sheet.zone}, which isn't built into the game yet");
+            yield return NoWayOut(sheet.zone,sheet.door,boss,sheet.doorFlags);
+        }
 
         // ------------------------------------------------------------------ 4.13: sequence breaks
         void StartTheRoad(int step)

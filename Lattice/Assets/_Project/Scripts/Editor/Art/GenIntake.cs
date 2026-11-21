@@ -20,6 +20,9 @@ namespace Lattice.EditorTools
             public string id,model,albedo,emission,emissionColor="#22F5FF",kind="static",fit="height",folder="Environment",character,form,enemy;
             public float emissionStrength=1.5f;
             public float size=1.9f,yaw,pitch,roll;public ClipRow[] clips=Array.Empty<ClipRow>();
+            /// <summary>How many separate vane meshes a Shaped body carries. The Vael heroes shape four; Idra's second ground
+            /// form is a frame she wears (Braced), which takes the same slot with none.</summary>
+            public int vanes=4;
         }
         static readonly (string bone,string human)[] MeshyMap={
             ("Hips","Hips"),("Spine02","Spine"),("Spine01","Chest"),("Spine","UpperChest"),("neck","Neck"),("Head","Head"),
@@ -69,7 +72,8 @@ namespace Lattice.EditorTools
             if(stagedMaterial==null){stagedMaterial=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(stagedMaterial,materialPath);}
             stagedMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_base_color.png"));
             // Retain the hero visibility shader variant in release builds and fresh intake.
-            if(row.enemy=="Burrower"||row.enemy=="BellowsBelow"||row.enemy=="HessaKorl")
+            // Which bodies stand tall enough to hide the party is each boss's own file's to say (BossController.Kit.occlusion).
+            if(!string.IsNullOrEmpty(row.enemy)&&Lattice.Combat.BossController.Occludes(row.enemy))
             {stagedMaterial.EnableKeyword("_OCCFADE_ON");stagedMaterial.SetFloat("_OccFadeToggle",1);stagedMaterial.SetFloat("_OccFade",0);}
             EditorUtility.SetDirty(stagedMaterial);AssetDatabase.SaveAssets();
             PackStaging.StageFile(row.model,destination+row.id+"_clean.fbx");AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
@@ -77,7 +81,9 @@ namespace Lattice.EditorTools
             // Flight folding and rigid enemy death placement read real vertices;
             // the same rule as PresentationUpgrade, applied at intake so a new
             // enemy body cannot miss it. Scenery stays GPU-only.
-            if(row.form=="Flight"||row.kind!="biped"&&!string.IsNullOrEmpty(row.enemy))importer.isReadable=true;
+            // A creature taken in before its EnemyDef exists has no enemy on its row yet (an unknown
+            // enemy is rejected below), so the Enemies folder counts too: the body is an enemy's either way.
+            if(row.form=="Flight"||row.kind!="biped"&&(!string.IsNullOrEmpty(row.enemy)||row.folder=="Enemies"))importer.isReadable=true;
             // A replacement FBX must not retain the old rig's serialized rest pose.
             if(row.kind=="biped")
             {
@@ -131,10 +137,10 @@ namespace Lattice.EditorTools
                     var driver=root.AddComponent<Lattice.Combat.GeneratedAnimator>();
                     driver.strideProfile=Resources.Load<Lattice.Combat.GroundStrideProfile>("Motion/"+row.id);
                 }
-                if(row.form=="Shaped"&&row.kind=="biped")
+                if(row.form=="Shaped"&&row.kind=="biped"&&row.vanes>0)
                 {
                     var vanes=body.GetComponentsInChildren<Transform>().Where(t=>t.name.StartsWith("Vane_")).OrderBy(t=>t.name).ToArray();
-                    if(vanes.Length!=4||vanes.Any(v=>v.GetComponent<MeshFilter>()==null))throw new InvalidOperationException("Shaped hero needs four separate generated vane meshes: "+row.id);
+                    if(vanes.Length!=row.vanes||vanes.Any(v=>v.GetComponent<MeshFilter>()==null))throw new InvalidOperationException("Shaped hero needs "+row.vanes+" separate generated vane meshes: "+row.id);
                     foreach(var vane in vanes)
                     {
                         var bone=animator.GetBoneTransform(vane.name.Contains("Upper")?HumanBodyBones.Chest:HumanBodyBones.Hips);
@@ -142,7 +148,7 @@ namespace Lattice.EditorTools
                         if(vane.parent!=bone)throw new InvalidOperationException("Vane failed to attach to animated bone: "+row.id+" "+vane.name);
                     }
                     var driver=root.AddComponent<Lattice.Combat.GeneratedVanes>();driver.vanes=vanes;driver.folded=vanes.Select(v=>v.localRotation).ToArray();
-                    Debug.Log("VANE_PARTS_OK "+row.id+" count=4");
+                    Debug.Log("VANE_PARTS_OK "+row.id+" count="+vanes.Length);
                 }
                 if(row.form=="Flight"){root.AddComponent<Lattice.Combat.FlightShipMotion>();FlightSocketSetup.Configure(root,row.id);}
                 Directory.CreateDirectory(Path.GetDirectoryName(Prefab(row)));var prefab=PrefabUtility.SaveAsPrefabAsset(root,Prefab(row));
@@ -177,7 +183,7 @@ namespace Lattice.EditorTools
             if(controller==null)controller=AnimatorController.CreateAnimatorControllerAtPath(path);
             var machine=controller.layers[0].stateMachine;foreach(var state in machine.states)machine.RemoveState(state.state);
             foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);state.iKOnFeet=row.kind=="biped"&&!LifecycleCalibration.HuskRig(row);if(clip.state=="Idle")machine.defaultState=state;}
-            if(row.character=="Taren"||row.character=="Sela")StrideCalibration.ConfigureController(controller);
+            if(row.character=="Taren"||row.character=="Sela"||row.character=="Idra")StrideCalibration.ConfigureController(controller);
             if(row.character=="Sela")RangedLayerSetup.Configure(controller);
             if(!string.IsNullOrEmpty(row.enemy)&&LifecycleCalibration.HuskRig(row))EnemyRecoilLayerSetup.Configure(controller);
             animator.runtimeAnimatorController=controller;animator.applyRootMotion=false;animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;EditorUtility.SetDirty(controller);

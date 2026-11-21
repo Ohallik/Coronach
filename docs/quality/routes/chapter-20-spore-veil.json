@@ -1,0 +1,2076 @@
+{
+  "name": "chapter-20-spore-veil",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 4: Abri and Pell aboard Tallow, the Wendmire warp, the beacons, both pockets, the swarm field flown dark, the Veil Ray, the dead beacon, the tide-gate",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter3.complete",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "through the pressure cabin",
+      "seconds": 5.91,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "stand beside Keeper Abri",
+      "seconds": 2.36,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Abri's word on the first barge",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Abri's word on the first barge",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's word on the first barge line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's word on the first barge line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's word on the first barge line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Abri's word on the first barge",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter3.afterword",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri's word on the first barge",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Abri's stale air",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Abri's stale air",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's stale air line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's stale air line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's stale air line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Abri's stale air",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri's stale air",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to Pell at her lamp",
+      "seconds": 3.82,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": -1.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Pell's lantern learns the Veil",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Pell's lantern learns the Veil",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell's lantern learns the Veil line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell's lantern learns the Veil line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell's lantern learns the Veil line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell's lantern learns the Veil line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell's lantern learns the Veil line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell's lantern learns the Veil line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell's lantern learns the Veil line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell's lantern learns the Veil line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell's lantern learns the Veil line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell's lantern learns the Veil line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell's lantern learns the Veil line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell's lantern learns the Veil line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell's lantern learns the Veil line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell's lantern learns the Veil line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell's lantern learns the Veil line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Pell's lantern learns the Veil line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Pell's lantern learns the Veil line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Pell's lantern learns the Veil line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Pell's lantern learns the Veil",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.charted",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Pell's lantern learns the Veil",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "back past Abri",
+      "seconds": 3.82,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to the pressure lift",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "launch from Tallow",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "toward the Wendmire warp",
+      "seconds": 4.83,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 1,
+        "z": -27
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "settle at the Wendmire warp",
+      "seconds": 8.05,
+      "navigate": true,
+      "point": {
+        "x": -8.85,
+        "y": 1,
+        "z": -34.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "take the Wendmire warp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "past the first beacon",
+      "seconds": 7.83,
+      "navigate": true,
+      "point": {
+        "x": -7.0,
+        "y": 1,
+        "z": 45.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "the first beacon passed",
+      "seconds": 0.5,
+      "expectedFlag": "wend.beacon1",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "fly on until Maru hails",
+      "seconds": 6.65,
+      "navigate": true,
+      "point": {
+        "x": -11.9,
+        "y": 1,
+        "z": 77.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "Maru's hail on the Veil begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru's hail on the Veil line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru's hail on the Veil line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru's hail on the Veil line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "finish Maru's hail on the Veil",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.maruHailed",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release after Maru's hail on the Veil",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "toward the first pods",
+      "seconds": 14.31,
+      "navigate": true,
+      "point": {
+        "x": -29.7,
+        "y": 1,
+        "z": 127.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "through the first pods' gap",
+      "seconds": 8.11,
+      "navigate": true,
+      "point": {
+        "x": -36.0,
+        "y": 1,
+        "z": 168.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "toward the second pods",
+      "seconds": 11.99,
+      "navigate": true,
+      "point": {
+        "x": -36.5,
+        "y": 1,
+        "z": 237.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "through the second pods' gap",
+      "seconds": 7.15,
+      "navigate": true,
+      "point": {
+        "x": -37.1,
+        "y": 1,
+        "z": 272.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "into pocket A's mouth",
+      "seconds": 8.53,
+      "navigate": true,
+      "point": {
+        "x": -68.6,
+        "y": 1,
+        "z": 304.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "Maru calls a stray ship begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru calls a stray ship line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru calls a stray ship line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru calls a stray ship line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru calls a stray ship line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru calls a stray ship line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru calls a stray ship line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru calls a stray ship line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru calls a stray ship line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru calls a stray ship line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru calls a stray ship line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru calls a stray ship line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru calls a stray ship line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read Maru calls a stray ship line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next Maru calls a stray ship line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release Maru calls a stray ship line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "finish Maru calls a stray ship",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.strayed",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release after Maru calls a stray ship",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "to the slipped beacon",
+      "seconds": 46.38,
+      "navigate": true,
+      "point": {
+        "x": -81.7,
+        "y": 1,
+        "z": 305.6
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "settle before retune the first slipped beacon",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "retune the first slipped beacon",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:wend.offBeacon1",
+      "expectedFlag": "wend.offBeacon1",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release retune the first slipped beacon",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "to the pilots' cache",
+      "seconds": 10.48,
+      "navigate": true,
+      "point": {
+        "x": -73.1,
+        "y": 1,
+        "z": 311.8
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "settle before open the pilots' cache",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "open the pilots' cache",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:cache.wend.pocketA",
+      "expectedFlag": "cache.wend.pocketA",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release open the pilots' cache",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "back to the lane",
+      "seconds": 12.71,
+      "navigate": true,
+      "point": {
+        "x": -12.1,
+        "y": 1,
+        "z": 353.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "through the third pods' gap",
+      "seconds": 10.46,
+      "navigate": true,
+      "point": {
+        "x": 4.9,
+        "y": 1,
+        "z": 408.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "into the first swarms",
+      "seconds": 7.72,
+      "navigate": true,
+      "point": {
+        "x": 3.8,
+        "y": 1,
+        "z": 447.9
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "lock Lane_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release lock Lane_0",
+      "seconds": 0.3,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Lane_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Lane_0 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_0",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Lane_0 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Lane_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Lane_0 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_0",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Lane_0 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Lane_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Lane_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Lane_0 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Lane_0",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Lane_0 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "Lane_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Lane_0",
+      "expectedFlag": "clear.Lane_0",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "go dark and count two",
+      "seconds": 3,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "past the second beacon",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 19.7,
+        "y": 1,
+        "z": 516.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "the second beacon passed",
+      "seconds": 0.5,
+      "expectedFlag": "wend.beacon2",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "dark between the sleeping swarms 1/6",
+      "seconds": 12.79,
+      "navigate": true,
+      "point": {
+        "x": 62.1,
+        "y": 1,
+        "z": 577.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "dark between the sleeping swarms 2/6",
+      "seconds": 13.1,
+      "navigate": true,
+      "point": {
+        "x": 53.0,
+        "y": 1,
+        "z": 652.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "dark between the sleeping swarms 3/6",
+      "seconds": 13.42,
+      "navigate": true,
+      "point": {
+        "x": 120.2,
+        "y": 1,
+        "z": 693.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "dark between the sleeping swarms 4/6",
+      "seconds": 13.57,
+      "navigate": true,
+      "point": {
+        "x": 115.0,
+        "y": 1,
+        "z": 772.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "dark between the sleeping swarms 5/6",
+      "seconds": 13.44,
+      "navigate": true,
+      "point": {
+        "x": 165.5,
+        "y": 1,
+        "z": 833.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "dark between the sleeping swarms 6/6",
+      "seconds": 12.96,
+      "navigate": true,
+      "point": {
+        "x": 125.0,
+        "y": 1,
+        "z": 896.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "out of the swarm field",
+      "seconds": 8.64,
+      "navigate": true,
+      "point": {
+        "x": 145.5,
+        "y": 1,
+        "z": 937.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "past the third beacon",
+      "seconds": 6.51,
+      "navigate": true,
+      "point": {
+        "x": 144.3,
+        "y": 1,
+        "z": 968.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "the third beacon passed",
+      "seconds": 0.5,
+      "expectedFlag": "wend.beacon3",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "toward pocket B",
+      "seconds": 20.35,
+      "navigate": true,
+      "point": {
+        "x": 167.4,
+        "y": 1,
+        "z": 1092.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "on into Pocket_B",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": 167.4,
+        "y": 1,
+        "z": 1114.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "lock Pocket_B",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release lock Pocket_B",
+      "seconds": 0.3,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Pocket_B round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Pocket_B",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Pocket_B round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Pocket_B",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Pocket_B round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Pocket_B round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Pocket_B",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Pocket_B round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Pocket_B",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Pocket_B round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Pocket_B round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Pocket_B",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Pocket_B round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Pocket_B",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Pocket_B round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "Pocket_B cleared",
+      "seconds": 3,
+      "until": "flag:clear.Pocket_B",
+      "expectedFlag": "clear.Pocket_B",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "go dark again",
+      "seconds": 3,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "to the second slipped beacon",
+      "seconds": 50.0,
+      "navigate": true,
+      "point": {
+        "x": 179.4,
+        "y": 1,
+        "z": 1126.6
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "settle before retune the second slipped beacon",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "retune the second slipped beacon",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:wend.offBeacon2",
+      "expectedFlag": "wend.offBeacon2",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release retune the second slipped beacon",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "to the second pilots' cache",
+      "seconds": 10.49,
+      "navigate": true,
+      "point": {
+        "x": 170.1,
+        "y": 1,
+        "z": 1131.7
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "settle before open the second pilots' cache",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "open the second pilots' cache",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:cache.wend.pocketB",
+      "expectedFlag": "cache.wend.pocketB",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release open the second pilots' cache",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "back to the lane",
+      "seconds": 15.93,
+      "navigate": true,
+      "point": {
+        "x": 98.2,
+        "y": 1,
+        "z": 1195.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "toward the dead beacon",
+      "seconds": 13.69,
+      "navigate": true,
+      "point": {
+        "x": 63.3,
+        "y": 1,
+        "z": 1267.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "on into Veil_Ray",
+      "seconds": 5.4,
+      "navigate": true,
+      "point": {
+        "x": 63.3,
+        "y": 1,
+        "z": 1290.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "lock Veil_Ray",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release lock Veil_Ray",
+      "seconds": 0.3,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Veil_Ray round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Veil_Ray round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Veil_Ray round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Veil_Ray round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Veil_Ray round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Veil_Ray round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Veil_Ray round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Veil_Ray round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Veil_Ray round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Veil_Ray round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Veil_Ray round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Veil_Ray round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pursue Veil_Ray round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "pulse Veil_Ray round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Veil_Ray",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release pulse Veil_Ray round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "Veil_Ray cleared",
+      "seconds": 3,
+      "until": "flag:clear.Veil_Ray",
+      "expectedFlag": "clear.Veil_Ray",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "to the dead beacon",
+      "seconds": 50.0,
+      "navigate": true,
+      "point": {
+        "x": 51.1,
+        "y": 1,
+        "z": 1327.6
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "reach for the dark lamp",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release the lamp",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read the dead beacon line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next the dead beacon line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release the dead beacon line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read the dead beacon line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next the dead beacon line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release the dead beacon line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "read the dead beacon line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "next the dead beacon line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release the dead beacon line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "finish the dead beacon",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.beaconRelit",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "release after the dead beacon",
+      "seconds": 0.5,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "on to the tide-gate",
+      "seconds": 19.49,
+      "navigate": true,
+      "point": {
+        "x": 48.6,
+        "y": 1,
+        "z": 1447.8
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "over the tide-gate",
+      "seconds": 45.97,
+      "navigate": true,
+      "point": {
+        "x": 44.4,
+        "y": 1,
+        "z": 1502.6
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "SporeVeil"
+    },
+    {
+      "name": "come down through the tide-gate",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the gate",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "first look at Driftreed",
+      "seconds": 2,
+      "expectedFlag": "wend.arrived",
+      "expectedScene": "Driftreed"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

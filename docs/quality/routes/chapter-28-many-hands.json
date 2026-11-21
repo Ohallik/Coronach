@@ -1,0 +1,3018 @@
+{
+  "name": "chapter-28-many-hands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 5: Abri's welcome, Binna's vent, Ruva, Pell's three lamps, the chart table, Maru and the running rings, Corra and Dov, Ilo, the claim, the launch",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "chapter4.complete",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up from the pads until Abri speaks",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Abri's welcome begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Abri's welcome line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Abri's welcome line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Abri's welcome line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Abri's welcome",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.aboard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Abri's welcome",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "on to the spine",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the freight spine to the crossing 1/3",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the freight spine to the crossing 2/3",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the freight spine to the crossing 3/3",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "along the arcade to the galley 1/6",
+      "seconds": 19.78,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "along the arcade to the galley 2/6",
+      "seconds": 4.14,
+      "navigate": true,
+      "point": {
+        "x": 56.0,
+        "y": 0.0,
+        "z": 2.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "along the arcade to the galley 3/6",
+      "seconds": 5.58,
+      "navigate": true,
+      "point": {
+        "x": 66,
+        "y": 0.0,
+        "z": 3.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "along the arcade to the galley 4/6",
+      "seconds": 4.99,
+      "navigate": true,
+      "point": {
+        "x": 74.4,
+        "y": 0.0,
+        "z": 4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "along the arcade to the galley 5/6",
+      "seconds": 4.2,
+      "navigate": true,
+      "point": {
+        "x": 74.4,
+        "y": 0.0,
+        "z": 10.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "along the arcade to the galley 6/6",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": 67.4,
+        "y": 0.0,
+        "z": 11
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Binna's vent",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Binna's vent",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Binna's vent line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Binna's vent line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Binna's vent line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Binna's vent",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.ventFixed",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Binna's vent",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back round the tables 1/6",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": 74.4,
+        "y": 0.0,
+        "z": 10.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back round the tables 2/6",
+      "seconds": 4.2,
+      "navigate": true,
+      "point": {
+        "x": 74.4,
+        "y": 0.0,
+        "z": 4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back round the tables 3/6",
+      "seconds": 4.99,
+      "navigate": true,
+      "point": {
+        "x": 66,
+        "y": 0.0,
+        "z": 3.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back round the tables 4/6",
+      "seconds": 5.58,
+      "navigate": true,
+      "point": {
+        "x": 56.0,
+        "y": 0.0,
+        "z": 2.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back round the tables 5/6",
+      "seconds": 4.14,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "back round the tables 6/6",
+      "seconds": 19.78,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 1/9",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 2/9",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 3/9",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0.0,
+        "z": 20.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 4/9",
+      "seconds": 6.14,
+      "navigate": true,
+      "point": {
+        "x": 27,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 5/9",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 33.5,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 6/9",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 38.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 7/9",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 39.4,
+        "y": 0.0,
+        "z": 25.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 8/9",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the garden 9/9",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 29.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Ruva's case for the roots",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Ruva's case for the roots",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva's case for the roots line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva's case for the roots line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva's case for the roots line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva's case for the roots line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva's case for the roots line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva's case for the roots line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva's case for the roots line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva's case for the roots line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva's case for the roots line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva's case for the roots line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva's case for the roots line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva's case for the roots line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva's case for the roots line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva's case for the roots line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva's case for the roots line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ruva's case for the roots line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ruva's case for the roots line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ruva's case for the roots line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Ruva's case for the roots",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.ruvaHeard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Ruva's case for the roots",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 1/11",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": 44,
+        "y": 0.0,
+        "z": 25.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 2/11",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": 39.4,
+        "y": 0.0,
+        "z": 25.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 3/11",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 38.6,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 4/11",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 33.5,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 5/11",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 27,
+        "y": 0.0,
+        "z": 24.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 6/11",
+      "seconds": 6.14,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0.0,
+        "z": 20.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 7/11",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 8/11",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 9/11",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 10/11",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 3.6,
+        "z": 40.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the lamp gallery 11/11",
+      "seconds": 5.06,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 3.6,
+        "z": 45.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Pell's three lamps",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Pell's three lamps",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Pell's three lamps line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Pell's three lamps line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Pell's three lamps line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Pell's three lamps",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.pellAboard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Pell's three lamps",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the east scope",
+      "seconds": 3.31,
+      "navigate": true,
+      "point": {
+        "x": 3.8,
+        "y": 3.6,
+        "z": 47.2
+      },
+      "tolerance": 0.2,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before sight the east gallery lamp",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "sight the east gallery lamp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hands.lamp3",
+      "expectedFlag": "hands.lamp3",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release sight the east gallery lamp",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "round to the north scope 1/2",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": 3.6,
+        "y": 3.6,
+        "z": 49.6
+      },
+      "tolerance": 0.2,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "round to the north scope 2/2",
+      "seconds": 3.31,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 50.4
+      },
+      "tolerance": 0.2,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before sight the north gallery lamp",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "sight the north gallery lamp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hands.lamp2",
+      "expectedFlag": "hands.lamp2",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release sight the north gallery lamp",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "round to the west scope 1/2",
+      "seconds": 3.31,
+      "navigate": true,
+      "point": {
+        "x": -3.6,
+        "y": 3.6,
+        "z": 49.6
+      },
+      "tolerance": 0.2,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "round to the west scope 2/2",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": -3.8,
+        "y": 3.6,
+        "z": 47.2
+      },
+      "tolerance": 0.2,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before sight the west gallery lamp",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "sight the west gallery lamp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:hands.lamp1",
+      "expectedFlag": "hands.lamp1",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release sight the west gallery lamp",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "the three lamps are sighted",
+      "seconds": 0.5,
+      "expectedFlag": "hands.lampsSighted",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "round to the chart table 1/2",
+      "seconds": 2.79,
+      "navigate": true,
+      "point": {
+        "x": -3.6,
+        "y": 3.6,
+        "z": 45
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "round to the chart table 2/2",
+      "seconds": 3.28,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 45.2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "open the route chart",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release open the route chart",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read open the route chart line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next open the route chart line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release open the route chart line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read open the route chart line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next open the route chart line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release open the route chart line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read open the route chart line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next open the route chart line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release open the route chart line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read open the route chart line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next open the route chart line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release open the route chart line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish open the route chart",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.chartOpen",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after open the route chart",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 1/10",
+      "seconds": 4.35,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 2/10",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 3/10",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 4/10",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 5/10",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 6/10",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 7/10",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 8/10",
+      "seconds": 7.16,
+      "navigate": true,
+      "point": {
+        "x": -14.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 9/10",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -19.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 10/10",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Maru's case for the tides",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Maru's case for the tides",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru's case for the tides line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru's case for the tides line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru's case for the tides line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru's case for the tides line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru's case for the tides line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru's case for the tides line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru's case for the tides line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru's case for the tides line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru's case for the tides line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru's case for the tides line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru's case for the tides line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru's case for the tides line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru's case for the tides line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru's case for the tides line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru's case for the tides line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Maru's case for the tides line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Maru's case for the tides line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Maru's case for the tides line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Maru's case for the tides",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.maruHeard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Maru's case for the tides",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the arcade walk to the hold wall 1/5",
+      "seconds": 3.02,
+      "navigate": true,
+      "point": {
+        "x": -22.8,
+        "y": 0.0,
+        "z": -21.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the arcade walk to the hold wall 2/5",
+      "seconds": 2.92,
+      "navigate": true,
+      "point": {
+        "x": -23.8,
+        "y": 0.0,
+        "z": -19
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the arcade walk to the hold wall 3/5",
+      "seconds": 4.67,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": -11.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the arcade walk to the hold wall 4/5",
+      "seconds": 3.03,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": -8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the arcade walk to the hold wall 5/5",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": -19.4,
+        "y": 0.0,
+        "z": -8.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "fit the running rings",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read fit the running rings line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next fit the running rings line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release fit the running rings line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish fit the running rings",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.mooringSettled",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after fit the running rings",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "the three jobs are done",
+      "seconds": 0.5,
+      "expectedFlag": "hands.jobsDone",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 1/3",
+      "seconds": 6.06,
+      "navigate": true,
+      "point": {
+        "x": -19,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 2/3",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Corra's stall 3/3",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Corra's stall",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Corra's stall",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's stall line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's stall line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's stall line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's stall line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's stall line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's stall line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's stall line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's stall line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's stall line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's stall line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's stall line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's stall line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Corra's stall line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Corra's stall line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Corra's stall line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Corra's stall",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "look over the stock after Corra's stall",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "leave the stock after Corra's stall",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the stall after Corra's stall",
+      "seconds": 0.3,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Dov's counter 1/3",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Dov's counter 2/3",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Dov's counter 3/3",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0.0,
+        "z": 6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "greet Dov",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release greet Dov",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "hear Dov out",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:options",
+      "expectedUi": "options",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release before his choices",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "see his stock",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "find the repair gel",
+      "seconds": 3,
+      "pickRow": "Repair Gel",
+      "until": "row:Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "buy repair gel up to the cap",
+      "seconds": 20,
+      "pickRow": "Repair Gel",
+      "buttons": [
+        "South"
+      ],
+      "stock": "cap",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "leave Dov's counter",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dov's counter",
+      "seconds": 0.3,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 1/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0.0,
+        "z": 3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 2/7",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 3/7",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 4/7",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 5/7",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 6/7",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": -4.0,
+        "y": 0.0,
+        "z": -60.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the dock 7/7",
+      "seconds": 4.14,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 0.0,
+        "z": -59.7
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "start Ilo off the courier",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release start Ilo off the courier",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Ilo off the courier line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Ilo off the courier line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Ilo off the courier line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Ilo off the courier",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.iloAboard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Ilo off the courier",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Dessik's claim on the radio begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Dessik's claim on the radio line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Dessik's claim on the radio line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Dessik's claim on the radio line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Dessik's claim on the radio",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hands.claimRead",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Dessik's claim on the radio",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the hull pad 1/5",
+      "seconds": 4.14,
+      "navigate": true,
+      "point": {
+        "x": -4.0,
+        "y": 0.0,
+        "z": -60.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the hull pad 2/5",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the hull pad 3/5",
+      "seconds": 2.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -57
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the hull pad 4/5",
+      "seconds": 3.9,
+      "navigate": true,
+      "point": {
+        "x": 5.2,
+        "y": 0.0,
+        "z": -58.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the hull pad 5/5",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0.0,
+        "z": -61
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "launch to the hull",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "ManyHandsHull"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

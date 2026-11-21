@@ -225,7 +225,10 @@ namespace Lattice.Tests.PlayMode
             }
             Assert.AreEqual("Keeper Aumi",DisplayNames.Speaker("Aumi"));
             var stock=GameCatalog.Find<ShopInventory>("Lanternwick");Assert.IsNotNull(stock,"Corra has no stock of her own");
-            Assert.IsTrue(stock.parts.All(p=>p.tier==2),"Lanternwick sells starter parts");
+            // Her parts are her offers that name one (ShopInventory.offers). The check also asks that there are some: over an empty list, "all of them are tier 2" was true of nothing.
+            var parts=ShopUi.Parts(stock).Select(o=>o.part).ToArray();
+            Assert.Greater(parts.Length,0,"Corra sells no parts at all");
+            Assert.IsTrue(parts.All(p=>p.tier==2),"Lanternwick sells starter parts");
         }
     }
 }

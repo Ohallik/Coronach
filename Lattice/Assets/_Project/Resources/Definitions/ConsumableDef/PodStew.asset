@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64292bb1d67cc034ca31d4a8d8f97704, type: 3}
+  m_Name: PodStew
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ConsumableDef
+  id: PodStew
+  displayName: Pod Stew
+  icon: {fileID: 0}
+  stack: 3
+  heal: 0
+  charge: 0
+  healPercent: 0
+  revive: 0
+  party: 0
+  buff:
+    critChance: 0
+    critDamage: 0
+    breakPower: 0
+    ownType: 0
+    beam: 0
+    plasma: 0
+    kinetic: 0
+    pulse: 0
+    chargeGain: 0
+    lifeOnKill: 0
+    skillCost: 0
+    cooldown: 0
+    guardCost: 0
+    mashCost: 0
+    thrustRegen: 0
+    flashWindow: 0
+    flashCharge: 0
+    brokenDamage: 0
+    executeDamage: 0
+    dropLuck: 0
+    luckCap: 0
+    damageDealt: 0
+    damageTaken: 0
+    partnerDamage: 0
+    chargeHold: 0
+    chargeFloor: 0
+    brokenTime: 0
+    flashDamage: 0
+    sharedHeal: 0
+    mastery: 0
+    secondWind: 0
+    regen: 0.0025
+  seconds: 120
+  meal: 1
+  value: 12
+  mark: STEW

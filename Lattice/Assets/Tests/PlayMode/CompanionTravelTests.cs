@@ -185,6 +185,52 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(samples,100);
             Assert.GreaterOrEqual(worst,.25f,"roll crosses the visible animal");
         }
+        /// <summary>Since D323 she leaves every enemy's marking in flight, and the way out was read off the marking alone: inside the Cantor's volley cone, with the lead in that way, the roll
+        /// turned the other way, toward the head, which swam on into her (the live fixture above, nine of twenty-four runs on November 20). Here an ordinary enemy's row is laid over her
+        /// and over the carrier lying straight beside her, so that the row's own short way out runs across the body: she must leave it the long way, clear of what is drawn of the
+        /// animal by the room her travel keeps, and be out of it before it bursts. The lead is locked on nothing, so no guide of her travel round the animal is running.</summary>
+        IEnumerator RowBesideTheCarrier(string companion)
+        {
+            var party=PartyController.Current;if(party.Active.character==companion)Assert.IsTrue(party.Swap());
+            var leader=party.Active;var partner=party.members.First(a=>a!=leader);
+            var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Cantor"),new Vector3(200,1,0));
+            enemy.Passive=true;enemy.transform.rotation=Quaternion.Euler(0,180,0);
+            var gun=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("ClampGun"),new Vector3(250,1,60));gun.Passive=true;
+            yield return new WaitForSecondsRealtime(.5f);
+            var chain=enemy.GetComponent<SerpentSegments>();chain.enabled=false;
+            var previous=enemy.transform.position+Vector3.up*SerpentSegments.CenterHeight;
+            for(int i=0;i<chain.Parts.Count;i++)
+            {var joint=chain.Parts[i];joint.position=new Vector3(200,2.5f,2.2f+2*i);joint.rotation=Quaternion.LookRotation(previous-joint.position);previous=joint.position;}
+            yield return null;
+            var anatomy=enemy.GetComponentsInChildren<Renderer>().Where(r=>r is MeshRenderer||r is SkinnedMeshRenderer).ToArray();
+            var start=new Vector3(204.5f,1,8);Place(leader,new Vector3(210,1,-4));Place(partner,start);leader.target=null;leader.TargetLocked=false;
+            Assert.GreaterOrEqual(Clearance(partner,anatomy),.25f,"fixture: she starts across the animal");
+            // The row: 30 m along the body, from x 199.5 to 213.5. Her own side of its middle is the body's, so its way out is west, across the carrier (out at x 199.25, inside it);
+            // east is 9.25 m. Its ends are 15 m off.
+            var row=Telegraph.Line(new Vector3(206.5f,1,-7),Vector3.forward,30,14,2.5f,Telegraph.Threat,true);row.owner=gun;
+            var way=row.WayOut(start);float acrossIt=float.PositiveInfinity;
+            for(float t=0;t<=5.5f;t+=.25f){Place(partner,start+way*t);acrossIt=Mathf.Min(acrossIt,Clearance(partner,anatomy));}
+            Place(partner,start);
+            Assert.Less(acrossIt,.25f,"fixture: the row's own way out doesn't cross the carrier, so the check below proves nothing");
+            float worst=float.PositiveInfinity;bool outInTime=false;int samples=0;var motor=partner.GetComponent<FlightMotor>();int rolls=motor.DashSequence;
+            partner.GetComponent<PartnerBrain>().enabled=true;float began=GameTime.Now;
+            try
+            {
+                while(GameTime.Now-began<4)
+                {
+                    leader.motor.Move(Vector2.zero,false,true);
+                    yield return null;samples++;worst=Mathf.Min(worst,Clearance(partner,anatomy));
+                    if(!row.Released&&row.Remaining<=0){outInTime=!row.Contains(partner.transform.position);row.Release();}
+                }
+            }
+            finally{if(row!=null)row.Clear();}
+            Debug.Log($"COMPANION_ROW hero={companion} clearance={worst:R} outInTime={outInTime} rolls={motor.DashSequence-rolls} at={partner.transform.position} samples={samples}");
+            Assert.Greater(samples,120);
+            Assert.GreaterOrEqual(worst,.25f,companion+" left the row across the carrier's body: the way out of a marking crosses visible anatomy");
+            Assert.IsTrue(outInTime,companion+" was still in the row when it burst");
+        }
+        [UnityTest] public IEnumerator SelaLeavesARowBesideTheCarrierTheLongWayRound()=>RowBesideTheCarrier("Sela");
+        [UnityTest] public IEnumerator TarenLeavesARowBesideTheCarrierTheLongWayRound()=>RowBesideTheCarrier("Taren");
         [UnityTest] public IEnumerator SelaEvadesWithoutRollingThroughTheAnimal()=>EvadeBesideAnimal("Sela");
         [UnityTest] public IEnumerator TarenEvadesWithoutRollingThroughTheAnimal()=>EvadeBesideAnimal("Taren");
         [UnityTest] public IEnumerator TurningTheHeadDoesNotTeleportTheTail()

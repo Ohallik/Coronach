@@ -1,0 +1,259 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: SeedRoad
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: SeedRoad
+  title: Carrying a Place
+  description: Tallow's cabins need feeding, and the river growers of Xylos won't
+    sell a field they would have to pull up by the root.
+  steps:
+  - kind: 5
+    target: xylos.charted
+    count: 1
+  - kind: 1
+    target: XylosNearspace
+    count: 1
+  - kind: 4
+    target: SeedBarge
+    count: 3
+  - kind: 1
+    target: Rootmarket
+    count: 1
+  - kind: 5
+    target: xylos.termsHeard
+    count: 1
+  - kind: 5
+    target: xylos.sluiceA
+    count: 1
+  - kind: 5
+    target: xylos.marrow1
+    count: 1
+  - kind: 5
+    target: xylos.marrow2
+    count: 1
+  - kind: 5
+    target: xylos.sluiceB
+    count: 1
+  - kind: 2
+    target: Seedthane
+    count: 1
+  - kind: 5
+    target: xylos.seedthaneGone
+    count: 1
+  - kind: 4
+    target: AnchorRoot
+    count: 3
+  - kind: 2
+    target: Floodcrown
+    count: 1
+  - kind: 5
+    target: xylos.voteHeard
+    count: 1
+  rewardXp: 900
+  rewardScrip: 500
+  rewards:
+  - id: ModulesReservoir
+    count: 1
+  - id: HeartwoodNode
+    count: 1
+  - id: AmberSap
+    count: 3
+  flagsOnComplete: []
+  stepText:
+  - Teach Pell's lantern the lane to Xylos
+  - Take the Xylos warp off Tallow's approach
+  - Cut Teo Marrow's seed barges free of the snagvine
+  - Follow the delta beacon down to Rootmarket
+  - Take the mooring line, then hear Ruva Okh out
+  - Open the middle sluice on the Braided River's north bank
+  - Relieve the crew shut inside Marrow-1, on the first island
+  - Relieve the crew shut inside Marrow-2, on the second island
+  - Open the south sluice to reach Seedfall bank
+  - Drive the Seedthane off Marrow-3
+  - Ask Teo Marrow what still blocks the crossing
+  - Work the Walking Canopy's anchor roots to reach its basin
+  - Stop the Floodcrown holding the basin's flood gates
+  - Tell Ruva Okh the crossing is open, and hear the vote
+  rewardsRolled: 0
+  main: 1
+  chapter: 3
+  stepTargets:
+  - scene: TallowDrift
+    via: []
+    speaker: Pell
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: XylosNearspace
+    via:
+    - TallowApproach
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: XylosNearspace
+    via: []
+    speaker: 
+    report: SeedBarge
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Rootmarket
+    via:
+    - XylosNearspace
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Rootmarket
+    via: []
+    speaker: Ruva
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: 
+    report: SluiceA
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: Garo
+    report: 
+    encounter: River_Marrow1
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: Dabb
+    report: 
+    encounter: River_Marrow2
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: 
+    report: SluiceB
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: 
+    report: 
+    encounter: Seedthane
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: Teo
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: WalkingCanopy
+    via:
+    - BraidedRiver
+    - Rootmarket
+    speaker: 
+    report: AnchorRoot
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: WalkingCanopy
+    via:
+    - BraidedRiver
+    - Rootmarket
+    speaker: 
+    report: 
+    encounter: Floodcrown
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Rootmarket
+    via:
+    - BraidedRiver
+    - WalkingCanopy
+    speaker: Ruva
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: 'Chapter 3 complete. Tallow is fed, and its air is going thick: see
+    Keeper Abri.'
+  next:
+    scene: TallowDrift
+    via:
+    - TallowApproach
+    - XylosNearspace
+    speaker: Keeper
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags:
+  - extra.unlocked
+  - xylos.teoHailed
+  - xylos.patrolHeard
+  - xylos.claimSeen
+  - xylos.barge1
+  - xylos.barge2
+  - xylos.barge3
+  - xylos.bargesFree
+  - clear.Barge1_Knots
+  - clear.Barge2_Knots
+  - clear.Barge3_Knots
+  - xylos.landed
+  - xylos.arrivalSeen
+  - xylos.ropeHauled
+  - met.Ruva
+  - xylos.archSeen
+  - xylos.crewsThanked
+  - bossdown.Seedthane
+  - xylos.anchor1
+  - xylos.anchor2
+  - xylos.anchor3
+  - bossdown.Floodcrown
+  - xylos.floodcrownGone
+  - ruva.lineHeld
+  - chapter3.complete
+  cardFlag: chapter3.complete
+  cardBody: Tallow has dinner, and growers aboard who'll vote on where it goes. Three
+    more settlements have asked to follow, and the air aboard is going thick.
+  letGoAt: 

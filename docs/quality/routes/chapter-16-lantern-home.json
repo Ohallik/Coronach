@@ -1026,6 +1026,66 @@
       "expectedScene": "Lanternwick"
     },
     {
+      "name": "find the Refined Frame",
+      "seconds": 8,
+      "pickRow": "Refined Frame",
+      "until": "row:Refined Frame",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy the Refined Frame up to 2",
+      "seconds": 20,
+      "pickRow": "Refined Frame",
+      "buttons": [
+        "South"
+      ],
+      "stock": "2",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "find the Refined Drive",
+      "seconds": 8,
+      "pickRow": "Refined Drive",
+      "until": "row:Refined Drive",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy the Refined Drive up to 2",
+      "seconds": 20,
+      "pickRow": "Refined Drive",
+      "buttons": [
+        "South"
+      ],
+      "stock": "2",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "find the Refined Module",
+      "seconds": 8,
+      "pickRow": "Refined Module",
+      "until": "row:Refined Module",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy the Refined Module up to 1",
+      "seconds": 20,
+      "pickRow": "Refined Module",
+      "buttons": [
+        "South"
+      ],
+      "stock": "1",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
       "name": "leave her stall",
       "seconds": 0.5,
       "buttons": [
@@ -1364,5 +1424,7 @@
       "expectedFlag": "chapter2.complete",
       "expectedScene": "TallowDrift"
     }
-  ]
+  ],
+  "autoHeal": true,
+  "wearBest": true
 }

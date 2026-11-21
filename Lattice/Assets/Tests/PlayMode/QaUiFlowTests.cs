@@ -181,7 +181,9 @@ namespace Lattice.Tests.PlayMode
         static bool osNamesRegistered;
         [UnityTest] public IEnumerator TheTargetLineSaysHowToSwitchTargetsInEachDevicesWords()
         {
-            var hound=Spawn("Ridgehound",Hero.transform.position+Vector3.forward*6);yield return null;yield return null;
+            // Three metres ahead, clear of the card: at six the hound stood in the card's band, and a card with a body under it and no room to slide keeps only its
+            // first line (D226, November 10), which hasn't the gauge or the keys this reads.
+            var hound=Spawn("Ridgehound",Hero.transform.position+Vector3.forward*3);yield return null;yield return null;
             // The widest gauge a body has: three digits on both sides.
             var body=hound.Health;body.breakThreshold=999;body.Receive(new DamagePacket{source=Hero.Health,amount=1,type=DamageType.Pulse,breakPower=400});
             Hero.target=body;Hero.TargetLocked=true;
@@ -208,6 +210,8 @@ namespace Lattice.Tests.PlayMode
             StringAssert.DoesNotContain("D-pad",line.text,"a Precision is told to use a d-pad that walks instead");
             FitsItsBox(line,"Precision target line");
             // A boss's bar takes the gauge and the name, and the line stays for the lock and the switch: the mites and links are targets too.
+            // Twelve metres straight ahead, where a boss stands for most of a fight: under the card's band, with no room to slide. The line is one line, and it keeps it
+            // as a card keeps its first line (D226); until November 12 it went altogether there, and nothing on screen said how to get to the mites.
             var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),Hero.transform.position+Vector3.forward*12);boss.Passive=false;Hero.Health.InvulnerableUntil=GameTime.Now+10;
             yield return null;yield return null;yield return null;
             Hero.target=boss.Health;yield return null;yield return null;
@@ -471,7 +475,8 @@ namespace Lattice.Tests.PlayMode
             float room=Text("Objective").rectTransform.rect.width;
             var probe=UiKit.Text(Object.FindFirstObjectByType<GameHud>().transform,"Also probe","",24,Color.white);
             var failures=new List<string>();int steps=0;
-            foreach(var quest in GameCatalog.All<QuestDef>().Where(q=>q.id!="Sorrel"&&q.id!="Hushwell"&&q.id!="LanternRoad"))
+            // Every quest that isn't the story's own, by its definition (QuestDef.main): a later chapter's main quest is left out without being named here, and its side quests are held to the line.
+            foreach(var quest in GameCatalog.All<QuestDef>().Where(q=>!ContentRegistry.IsMain(q.id)))
                 for(int step=0;step<quest.steps.Length;step++)
                 {
                     steps++;State.questCounts[quest.id+"/"+step]=quest.steps[step].count;
@@ -490,7 +495,7 @@ namespace Lattice.Tests.PlayMode
             Flag("chapter2.homecoming");
             float deadline=Time.unscaledTime+3;while(!toast.Heading.Contains("CHAPTER 2")&&Time.unscaledTime<deadline)yield return null;
             StringAssert.Contains("CHAPTER 2 COMPLETE",toast.Heading,"the last conversation of the chapter ends with nothing to say so");
-            StringAssert.Contains("still being drawn",toast.Body,"nothing says the road's chart is out of the player's hands, so 'isn't charted yet' still reads as a task");
+            StringAssert.Contains("Keeper Abri",toast.Body,"nothing says who has the next word, so the chapter's end reads as the game's");
             yield return new WaitForSecondsRealtime(5.5f);
             Assert.IsTrue(toast.Showing,"three lines at the end of a chapter are gone before they can be read");
             deadline=Time.unscaledTime+6;while(toast.Showing&&Time.unscaledTime<deadline)yield return null;
@@ -626,24 +631,36 @@ namespace Lattice.Tests.PlayMode
             var screen=((RectTransform)frame.canvas.transform);var top=new Vector3[4];screen.GetWorldCorners(top);
             Assert.GreaterOrEqual((top[2].y-zone.transform.TransformPoint(bounds.max).y)/scale,16,"the zone name is jammed against the top of the screen");
         }
-        [UnityTest] public IEnumerator WarpSignsReadFromTheGamesCameraAtTheTypeFloor()
+        // One case per zone, and the count over the world a test of its own (ZoneWalk): it walked every zone in one case, and a zone that couldn't load or logged an error hid every zone after it.
+        static string[] WarpSignZones=>ContentRegistry.With(nameof(WarpSignsReadFromTheGamesCameraAtTheTypeFloor),new[]{"Hub_CinderHalo","Gullet_Tunnel","TallowApproach","WickReach","Lanternwick","LanternGorge","SunkenRelay"});
+        static IEnumerator ReadWarpSigns(string zone,List<string> failures)
         {
-            var failures=new List<string>();int read=0;
-            foreach(string zone in new[]{"Hub_CinderHalo","Gullet_Tunnel","TallowApproach","WickReach","Lanternwick","LanternGorge","SunkenRelay"})
+            int read=0;
+            yield return Zone(zone);
+            var view=ZoneController.Current.definition.cameraProfile;float seen=2*view.distance*Mathf.Tan(view.fov*.5f*Mathf.Deg2Rad);
+            // A warp's prompt can say more than its sign does, and a sign the story hasn't reached yet waits switched off.
+            var warps=Object.FindObjectsByType<WarpBeacon>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+            foreach(var sign in Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(s=>s.text.Length>0&&(s.text.StartsWith("Warp")||warps.Any(w=>w.prompt.StartsWith(s.text)))))
             {
-                yield return Zone(zone);
-                var view=ZoneController.Current.definition.cameraProfile;float seen=2*view.distance*Mathf.Tan(view.fov*.5f*Mathf.Deg2Rad);
-                // A warp's prompt can say more than its sign does, and a sign the story hasn't reached yet waits switched off.
-                var warps=Object.FindObjectsByType<WarpBeacon>(FindObjectsInactive.Include,FindObjectsSortMode.None);
-                foreach(var sign in Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(s=>s.text.Length>0&&(s.text.StartsWith("Warp")||warps.Any(w=>w.prompt.StartsWith(s.text)))))
-                {
-                    read++;float em=sign.fontSize*.1f*sign.transform.lossyScale.y,pixels=em/seen*1080;
-                    if(sign.gameObject.activeInHierarchy)Assert.AreEqual(em*1.12f,sign.GetPreferredValues(sign.text).y,em*.2f,"fixture: a TextMeshPro point is a tenth of a metre");
-                    if(pixels<24)failures.Add($"{zone}: the sign \"{sign.text}\" stands {pixels:0} px tall on a 1080p screen, under the type floor of 24");
-                }
+                read++;float em=sign.fontSize*.1f*sign.transform.lossyScale.y,pixels=em/seen*1080;
+                if(sign.gameObject.activeInHierarchy)Assert.AreEqual(em*1.12f,sign.GetPreferredValues(sign.text).y,em*.2f,"fixture: a TextMeshPro point is a tenth of a metre");
+                if(pixels<24)failures.Add($"{zone}: the sign \"{sign.text}\" stands {pixels:0} px tall on a 1080p screen, under the type floor of 24");
             }
-            Assert.Greater(read,8,"fixture: the warps carry signs");
+            ZoneWalk.Keep(nameof(WarpSignsReadFromTheGamesCameraAtTheTypeFloor),zone,read);
+        }
+        [UnityTest] public IEnumerator WarpSignsReadFromTheGamesCameraAtTheTypeFloor([ValueSource(nameof(WarpSignZones))] string zone)
+        {
+            var failures=new List<string>();
+            yield return ReadWarpSigns(zone,failures);
             Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+        [UnityTest] public IEnumerator WarpSignsReadFromTheGamesCameraAtTheTypeFloorAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            IEnumerator Rebooted(){yield return Cleanup();yield return Boot();}
+            yield return ZoneWalk.Walk(nameof(WarpSignsReadFromTheGamesCameraAtTheTypeFloor),WarpSignZones,zone=>ReadWarpSigns(zone,new List<string>()),Rebooted,read,unread);
+            // Which warp signs each zone draws too small is that zone's case to report.
+            Assert.Greater(read.Values.Sum(),8,"fixture: the warps carry signs"+ZoneWalk.Unread(unread));
         }
     }
 }

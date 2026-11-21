@@ -12,12 +12,13 @@ def extract(source,destination,key='cyan'):
         strength*=np.clip((rgb[:,:,1]-.45)*5,0,1)
     else:
         hsv=np.asarray(image.convert('HSV'),dtype=np.float32)/255
-        hues={'amber':.105,'orange':.060,'green':.40,'blue':.61}
+        hues={'amber':.105,'orange':.060,'green':.40,'blue':.61,'lime':.18,'magenta':.93}
         if key=='white':strength=np.clip((hsv[:,:,2]-.91)*14,0,1)*np.clip((.13-hsv[:,:,1])*10,0,1)
-        elif key in ('lamp','bulb'):
+        elif key in ('lamp','bulb','livid'):
             # lamp: bright amber glass only (copper trim shares the hue but is darker and redder);
-            # bulb: pale yellow bulbs only (ochre gravel shares the hue but is darker and more saturated).
-            centre,width,sat_lo,sat_hi,val=((.11,.045,.45,1.01,.8) if key=='lamp' else (.15,.04,.18,.72,.86))
+            # bulb: pale yellow bulbs only (ochre gravel shares the hue but is darker and more saturated);
+            # livid: a dark crimson-magenta throat, too dark for the magenta key's floor (the Rotbloom's mouths).
+            centre,width,sat_lo,sat_hi,val={'lamp':(.11,.045,.45,1.01,.8),'bulb':(.15,.04,.18,.72,.86),'livid':(.93,.07,.5,1.01,.3)}[key]
             distance=np.abs(hsv[:,:,0]-centre)
             strength=np.clip((width-distance)*30,0,1)*np.clip((hsv[:,:,1]-sat_lo)*8,0,1)*np.clip((sat_hi-hsv[:,:,1])*8,0,1)*np.clip((hsv[:,:,2]-val)*10,0,1)
         else:
@@ -27,4 +28,4 @@ def extract(source,destination,key='cyan'):
     print('EMISSION_MASK_OK',Path(destination).name,'coverage',round(float((strength>.15).mean()),4))
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('source');parser.add_argument('destination');parser.add_argument('--key',choices=['cyan','amber','orange','green','blue','white','lamp','bulb'],default='cyan');args=parser.parse_args();extract(args.source,args.destination,args.key)
+    parser=argparse.ArgumentParser();parser.add_argument('source');parser.add_argument('destination');parser.add_argument('--key',choices=['cyan','amber','orange','green','blue','lime','magenta','white','lamp','bulb','livid'],default='cyan');args=parser.parse_args();extract(args.source,args.destination,args.key)

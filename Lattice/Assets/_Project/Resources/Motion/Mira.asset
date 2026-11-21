@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ee7d15f31656c49a3ee207d49cfc05, type: 3}
+  m_Name: Mira
+  m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GroundStrideProfile
+  leftHeel: {x: -0.014470467, y: 0.07604966, z: 0.090963736}
+  leftToe: {x: -0.014312513, y: 0.085574314, z: 0.030723402}
+  rightHeel: {x: 0.003636206, y: 0.04821368, z: 0.11622928}
+  rightToe: {x: 0.014451432, y: 0.083418585, z: 0.026162693}
+  walkSpeed: 1.08
+  runSpeed: 6.38
+  sprintSpeed: 9.6
+  holdsHandover: 0

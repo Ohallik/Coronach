@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156aeac18c8f5bf459154ec1e4bcd3aa, type: 3}
+  m_Name: Harrowgate_Odrun
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ShopInventory
+  title: THE BACK TABLE
+  offers:
+  - id: RepairGel
+    price: 28
+    lot: 0
+    requires: 
+  - id: RepairSalve
+    price: 68
+    lot: 0
+    requires: 
+  - id: ChargeBank
+    price: 68
+    lot: 0
+    requires: 
+  - id: SyncTonic
+    price: 100
+    lot: 0
+    requires: 
+  - id: RelinkSpike
+    price: 100
+    lot: 0
+    requires: 
+  - id: PlatingWax
+    price: 56
+    lot: 0
+    requires: 
+  - id: SurgeDraught
+    price: 56
+    lot: 0
+    requires: 
+  - id: Quickening
+    price: 56
+    lot: 0
+    requires: 
+  - id: EmittersT4
+    price: 960
+    lot: 0
+    requires: 
+  - id: EdgesT4
+    price: 1020
+    lot: 0
+    requires: 
+  - id: FramesT4
+    price: 1050
+    lot: 0
+    requires: 
+  - id: DrivesT4
+    price: 920
+    lot: 0
+    requires: 
+  - id: ModulesT4
+    price: 1080
+    lot: 0
+    requires: 
+  - id: ScrapAlloy
+    price: 16
+    lot: 3
+    requires: 
+  buysMaterials: 1
+  discountFlag: 
+  discountNote: 
+  discount: 1

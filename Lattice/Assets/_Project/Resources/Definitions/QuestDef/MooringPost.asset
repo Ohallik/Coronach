@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: MooringPost
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: MooringPost
+  title: The Mooring Post
+  description: Old Senn carved a mooring post for his wife's island and never carried
+    it out there.
+  steps:
+  - kind: 4
+    target: SennPost
+    count: 1
+  - kind: 5
+    target: senn.postReported
+    count: 1
+  rewardXp: 240
+  rewardScrip: 100
+  rewards:
+  - id: ModulesTwinThread
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Set Senn's mooring post on Ulma's island, off the Braided River's second island
+  - Tell Old Senn where the post went
+  rewardsRolled: 0
+  main: 0
+  chapter: 3
+  stepTargets:
+  - scene: BraidedRiver
+    via:
+    - Rootmarket
+    speaker: 
+    report: SennPost
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Set Senn's mooring post
+  - scene: Rootmarket
+    via:
+    - BraidedRiver
+    speaker: Senn
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Senn where it went
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

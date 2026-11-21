@@ -15,6 +15,8 @@ namespace Lattice.UI
                 quality = ContinuousReview.ReadRoute();
                 if (quality.starterParty) DevLoadout.Apply("starter");
                 if (!string.IsNullOrEmpty(quality.loadout)) DevLoadout.Apply(quality.loadout);
+                // The pair a route names goes out with its loadout, before the zone loads.
+                ContinuousReview.ApplyPair(quality);
                 gameObject.AddComponent<ContinuousReview>();
             }
 #if LATTICE_DEV || UNITY_EDITOR

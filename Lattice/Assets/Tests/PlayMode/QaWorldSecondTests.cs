@@ -86,30 +86,52 @@ namespace Lattice.Tests.PlayMode
         // ---------------------------------------------------------------- item 1: names and signs
         /// <summary>From the fixed camera, at their post, a person's name doesn't land on a floor sign, in any zone with both. A sign's letters are about as tall as a name's, so where the two cross neither reads.
         /// Measured as a marked name, gold with its mark and at its larger size, over a head of either height the kit's bodies have.</summary>
-        [UnityTest] public IEnumerator NoNameIsPrintedOnAFloorSign()
+        // It walked every zone in one case, and a zone that couldn't load or logged an error hid every zone after it: one case per zone now, and the count over the world
+        // a test of its own (ZoneWalk).
+        static string[] NameZones=>ContentRegistry.With(nameof(NoNameIsPrintedOnAFloorSign),new[]{"Hub_Decks","Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay","TallowDrift"},ContentRegistry.OnFoot);
+        /// <summary>The game as a case starts it: where a walk across zones picks up after a zone it couldn't read.</summary>
+        IEnumerator Rebooted(){yield return Cleanup();yield return Boot();}
+        /// <summary>Everyone who can be there: the captain once she's yielded, Pell once she's aboard. What the single case set for a zone stayed set for every zone after it,
+        /// so a zone's case sets what was set for it and for each zone before it in the walk.</summary>
+        static void EveryoneThere(string zone)
         {
-            var failures=new List<string>();int read=0;
-            foreach(var zone in new[]{"Hub_Decks","Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay","TallowDrift"})
+            foreach(var upTo in NameZones.TakeWhile(z=>z!=zone).Concat(new[]{zone}))
             {
-                // Everyone who can be there: the captain once she's yielded, Pell once she's aboard.
-                if(zone=="SunkenRelay")foreach(var flag in new[]{"relay.hessaConfronted","bossdown.HessaKorl","clear.Relay_Hessa","relay.hessaYielded"})Flag(flag);
-                if(zone=="TallowDrift")Flag("lanternwick.chartGiven");
-                yield return Zone(zone);yield return null;yield return null;
-                var rotation=Quaternion.Euler(View.pitch,View.yaw,0);var right=rotation*Vector3.right;var up=rotation*Vector3.up;
-                var signs=FloorAndGateSigns().Select(s=>(sign:s,rect:OnScreen(Paint(s),right,up))).ToArray();
-                float marked=UiKit.WorldFontSize(32);
-                foreach(var npc in All<Npc>().Where(n=>n.gameObject.activeInHierarchy))
-                {
-                    var label=npc.GetComponentsInChildren<TextMeshPro>().FirstOrDefault();if(label==null)continue;
-                    read++;float wide=label.GetPreferredValues("!  "+label.text).x*marked/label.fontSize,tall=marked*.13f;var at=npc.transform.position;
-                    var ends=new List<Vector3>();
-                    foreach(float head in new[]{1.75f,2.2f}){var over=new Vector3(at.x,at.y+head+.32f,at.z);foreach(int side in new[]{-1,1})foreach(int high in new[]{-1,1})ends.Add(over+right*side*wide*.5f+up*high*tall*.5f);}
-                    var name=OnScreen(ends,right,up);
-                    foreach(var (sign,rect) in signs)if(name.Overlaps(rect))failures.Add($"{zone}: \"{label.text}\" lies across \"{sign.text}\" from the fixed camera, so neither can be read");
-                }
+                if(upTo=="SunkenRelay")foreach(var flag in new[]{"relay.hessaConfronted","bossdown.HessaKorl","clear.Relay_Hessa","relay.hessaYielded"})Flag(flag);
+                if(upTo=="TallowDrift")Flag("lanternwick.chartGiven");
             }
-            Assert.Greater(read,8,"fixture: the zones have their people");
+        }
+        static IEnumerator ReadNamesOverSigns(string zone,List<string> failures)
+        {
+            int read=0;
+            EveryoneThere(zone);
+            yield return Zone(zone);yield return null;yield return null;
+            var rotation=Quaternion.Euler(View.pitch,View.yaw,0);var right=rotation*Vector3.right;var up=rotation*Vector3.up;
+            var signs=FloorAndGateSigns().Select(s=>(sign:s,rect:OnScreen(Paint(s),right,up))).ToArray();
+            float marked=UiKit.WorldFontSize(32);
+            foreach(var npc in All<Npc>().Where(n=>n.gameObject.activeInHierarchy))
+            {
+                var label=npc.GetComponentsInChildren<TextMeshPro>().FirstOrDefault();if(label==null)continue;
+                read++;float wide=label.GetPreferredValues("!  "+label.text).x*marked/label.fontSize,tall=marked*.13f;var at=npc.transform.position;
+                var ends=new List<Vector3>();
+                foreach(float head in new[]{1.75f,2.2f}){var over=new Vector3(at.x,at.y+head+.32f,at.z);foreach(int side in new[]{-1,1})foreach(int high in new[]{-1,1})ends.Add(over+right*side*wide*.5f+up*high*tall*.5f);}
+                var name=OnScreen(ends,right,up);
+                foreach(var (sign,rect) in signs)if(name.Overlaps(rect))failures.Add($"{zone}: \"{label.text}\" lies across \"{sign.text}\" from the fixed camera, so neither can be read");
+            }
+            ZoneWalk.Keep(nameof(NoNameIsPrintedOnAFloorSign),zone,read);
+        }
+        [UnityTest] public IEnumerator NoNameIsPrintedOnAFloorSign([ValueSource(nameof(NameZones))] string zone)
+        {
+            var failures=new List<string>();
+            yield return ReadNamesOverSigns(zone,failures);
             Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+        [UnityTest] public IEnumerator NoNameIsPrintedOnAFloorSignAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(NoNameIsPrintedOnAFloorSign),NameZones,zone=>ReadNamesOverSigns(zone,new List<string>()),Rebooted,read,unread);
+            // Whose name lands on a sign is that zone's case to report.
+            Assert.Greater(read.Values.Sum(),8,"fixture: the zones have their people"+ZoneWalk.Unread(unread));
         }
         [UnityTest] public IEnumerator TallowsSignsStandWhereTheirNamesAreTrue()
         {
@@ -168,24 +190,24 @@ namespace Lattice.Tests.PlayMode
             floor=near;if(!NavMesh.SamplePosition(near,out var hit,reach,NavMesh.AllAreas))return false;
             floor=hit.position;return true;
         }
-        [UnityTest] public IEnumerator NothingWideStandsBetweenTheCameraAndAFight()
+        /// <summary>The three it was written on, then every combat zone on foot defined since: one case each (it walked them all in one, and one zone that couldn't load or
+        /// logged an error hid every zone after it). It compares nothing across zones.</summary>
+        static string[] FightZones=>ContentRegistry.With(nameof(NothingWideStandsBetweenTheCameraAndAFight),new[]{"Sorrel_Ridges","Hushwell","SunkenRelay"},ContentRegistry.Wilds);
+        [UnityTest] public IEnumerator NothingWideStandsBetweenTheCameraAndAFight([ValueSource(nameof(FightZones))] string zone)
         {
             var problems=new List<string>();
-            foreach(var zone in new[]{"Sorrel_Ridges","Hushwell","SunkenRelay"})
+            foreach(var flag in new[]{"relay.hessaConfronted"})Flag(flag);
+            yield return Zone(zone);
+            var floor=new List<Vector3>();
+            foreach(var fight in All<EncounterVolume>())
             {
-                foreach(var flag in new[]{"relay.hessaConfronted"})Flag(flag);
-                yield return Zone(zone);
-                var floor=new List<Vector3>();
-                foreach(var fight in All<EncounterVolume>())
-                {
-                    var middle=fight.GetComponent<Collider>().bounds.center;
-                    float reach=zone=="SunkenRelay"?6:0;
-                    for(float x=-reach;x<=reach;x+=Mathf.Max(3,reach))for(float z=-reach;z<=reach;z+=Mathf.Max(3,reach))
-                        if(FloorAt(middle+new Vector3(x,0,z),3,out var at))floor.Add(at);
-                }
-                Assert.Greater(floor.Count,0,"fixture: "+zone+" has fights");
-                problems.AddRange(Blocked(floor,zone));
+                var middle=fight.GetComponent<Collider>().bounds.center;
+                float reach=zone=="SunkenRelay"?6:0;
+                for(float x=-reach;x<=reach;x+=Mathf.Max(3,reach))for(float z=-reach;z<=reach;z+=Mathf.Max(3,reach))
+                    if(FloorAt(middle+new Vector3(x,0,z),3,out var at))floor.Add(at);
             }
+            Assert.Greater(floor.Count,0,"fixture: "+zone+" has fights");
+            problems.AddRange(Blocked(floor,zone));
             Assert.IsEmpty(problems,string.Join("\n",problems));
         }
         [UnityTest] public IEnumerator TheGorgesRocksDoNotHangOverItsFloor()

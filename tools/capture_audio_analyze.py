@@ -6,7 +6,10 @@ import math
 import struct
 
 MARKER = 'Audio storage: bounded-writer-v1'
-MAX_BUFFER_BYTES = 4_325_376
+# The writer keeps twenty seconds of listener blocks (CaptureAudioWriter.ForListener, QA-033): at 48 kHz stereo that is
+# 938 blocks of 4096 samples and one spare, 15.4 MB. The bound was still the first writer's 32 blocks of 32768 (4.3 MB),
+# so every capture made since the writer changed was rejected (found by the first chain after it, November 13).
+MAX_BUFFER_BYTES = 16 * 1024 * 1024
 
 
 def check(folder: Path) -> dict | None:

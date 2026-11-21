@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: ClaimHauler
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: ClaimHauler
+  prefab: {fileID: 736406244204124745, guid: bd9a2d908f2f7ff418cf611fc9284dae, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 640
+  breakThreshold: 160
+  speed: 6
+  attacks:
+  - {fileID: 11400000, guid: 8502c0b476488f34dbb3eb8f08882eca, type: 2}
+  weakness: 3
+  resistance: 2
+  archetype: 3
+  lootTable: {fileID: 11400000, guid: 0e0d5b943d8b8ae4aaf267770a06086b, type: 2}
+  xp: 38
+  boss: 0
+  scrip: 14
+  scrap: 3
+  displayName: Claim Hauler
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 1
+  drawnScale: 1.3
+  heavyDeath: 1
+  behaviour: 7
+  tune:
+    reach: 15
+    width: 0
+    speed: 4
+    recover: 0
+    linger: 4
+    area: 0
+    pace: 0.45
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

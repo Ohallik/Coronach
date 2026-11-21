@@ -19,10 +19,17 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 1f86d50c6acdd1f4a946e30ed6befe71, type: 2}
   ambientAudio: {fileID: 8300000, guid: c4529dfd567addf4880752acb70cb240, type: 3}
   ambientVolume: 0.106
-  musicId: 
+  musicId: Adventure Awaits
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
   enemyThreat: 1.6
   cameraClearsScenery: 1
   skybox: {fileID: 2100000, guid: 3dfa06876a929784fbe9c19c6d1f9114, type: 2}
+  displayName: Lantern Gorge
+  brightFloor: 1
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 2
+  quietArrival: 0

@@ -60,7 +60,11 @@ namespace Lattice.Tests.PlayMode
             // D202: the hail leads straight into chapter 2's first conversation, and the chapter ends on its homecoming.
             yield return Load("TallowDrift");StringAssert.Contains("route that waits",Objective());Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));
             GameServices.Current.Flags.SetBool("lanternwick.chartGiven",true);GameServices.Current.Flags.SetBool("chapter2.homecoming",true);
-            yield return Load("TallowDrift");StringAssert.Contains("Xylos",Objective());
+            // D272: the homecoming used to end this line on 'Xylos's river towns are next, but their route isn't charted yet', a dead end once chapter 3 stood behind Abri's
+            // next talk. The line leads home to her now: her last word on the lanterns, then the talk that opens the Seed Road.
+            yield return Load("TallowDrift");StringAssert.Contains("Keeper Abri says next",Objective());
+            GameServices.Current.Flags.SetBool(Lattice.World.SideStories.AfterwordHeard,true);
+            yield return Load("TallowDrift");StringAssert.Contains("Keeper Abri about the cabins' dinner",Objective());
         }
     }
 }

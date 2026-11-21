@@ -36,7 +36,7 @@ namespace Lattice.Tests.PlayMode
         {
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;
             yield return new WaitForSecondsRealtime(.5f);
-            savedBindings=PlayerPrefs.GetString("keyboardBindings","");
+            savedBindings=KeyBindingStore.Load();
             GameInput.Current.Asset.RemoveAllBindingOverrides();
             DevLoadout.Apply("starter");yield return Load("Arena_Ground");
         }
@@ -45,7 +45,7 @@ namespace Lattice.Tests.PlayMode
             if(pad!=null){InputSystem.RemoveDevice(pad);pad=null;}
             if(keyboard!=null){InputSystem.RemoveDevice(keyboard);keyboard=null;}
             if(GameInput.Current!=null)GameInput.Current.Asset.RemoveAllBindingOverrides();
-            if(string.IsNullOrEmpty(savedBindings))PlayerPrefs.DeleteKey("keyboardBindings");else PlayerPrefs.SetString("keyboardBindings",savedBindings);
+            KeyBindingStore.Save(savedBindings);
             // Back to the default device, which also drops any tag cached off an override: a pad press or a rebind here mustn't decide what the next fixture's prompts say.
             PromptService.ForceDevice(PromptDevice.Keyboard);PromptService.ForceDevice(null);GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.3f);
         }
@@ -130,15 +130,26 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(hero,State.activeMember,"the page's title row swaps hero when pressed");
             menu.Close();
         }
-        /// <summary>ui218. Sync 5+ skills sat on a second page, behind a pager that lost its place.</summary>
-        [UnityTest] public IEnumerator AllEightSkillsFitWithoutAPage()
+        /// <summary>ui218. Sync 5+ skills sat on a second page, behind a pager that lost its place. This was AllEightSkillsFitWithoutAPage, and held the chooser to one page of
+        /// eight. S3 gives a hero eleven (three more, at Sync 16, 20 and 24), and Back and eleven rows don't fit above the note, so the chooser pages at seven, as the page
+        /// was written to do past eight. What ui218 asked for still has to hold: every skill is on a page, the pager keeps its place, and no row sits under the note.</summary>
+        [UnityTest] public IEnumerator TheChooserShowsEverySkillAndItsPagerKeepsItsPlace()
         {
             Taren.level=12;var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return null;
             Row("Row_1").onClick.Invoke();yield return null;
-            var all=SkillBook.All("Taren");
-            Assert.AreEqual(all.Length+1,Rows().Length,"Back and every skill don't share one page: "+string.Join(" | ",Shown()));
-            foreach(var skill in all)With(skill.displayName);
-            ClearOfTheNote("chooser");
+            var all=SkillBook.All("Taren");var seen=new List<string>();
+            Assert.AreEqual(11,all.Length,"fixture: Taren's eight and the three learned at Sync 16, 20 and 24");
+            for(int page=0;page<4&&seen.Count<all.Length;page++)
+            {
+                Assert.LessOrEqual(Rows().Length,8,"Back and seven skills is a page of the chooser: "+string.Join(" | ",Shown()));
+                ClearOfTheNote("chooser");
+                foreach(var skill in all)if(!seen.Contains(skill.displayName)&&Rows().Any(b=>Words(b).Contains(skill.displayName)))seen.Add(skill.displayName);
+                Assert.IsNotNull(Row("Pager"),"eleven skills and nothing turns the page: "+string.Join(" | ",Shown()));
+                if(seen.Count==all.Length)break;
+                Row("Pager").onClick.Invoke();yield return null;
+                Assert.AreEqual("Pager",Selected().name,$"after Next page the next A lands on \"{Words(Selected().transform)}\"");
+            }
+            CollectionAssert.AreEquivalent(all.Select(s=>s.displayName).ToArray(),seen,"a skill is on no page of the chooser");
             menu.Close();
         }
         /// <summary>ui218. Focus went by row index, so a page turn could land on a buy, an equip or a salvage.</summary>
@@ -174,7 +185,10 @@ namespace Lattice.Tests.PlayMode
         /// <summary>ui220, copy10, ques115, ques122. One description, whoever's, in no order, with the tenth row under the note.</summary>
         [UnityTest] public IEnumerator TheQuestLogLeadsWithTheMainQuestAndEveryRowHasItsOwnNote()
         {
-            var quests=GameCatalog.All<QuestDef>();Assert.AreEqual(10,quests.Length,"fixture: the log is meant to overflow one page");
+            // The log this was written for holds chapters 1 and 2's ten quests: they overflow one page, three are done and The Lantern Road leads. It counted every QuestDef to say so,
+            // and the first quest of chapter 3 would have failed it. It takes those ten by id now, in the catalog's order as before, so it sees the same log whatever else is defined.
+            var quests=GameCatalog.All<QuestDef>().Where(q=>System.Array.IndexOf(ContentRegistry.FirstQuests,q.id)>=0).ToArray();
+            Assert.AreEqual(10,quests.Length,"fixture: chapters 1 and 2's ten quests, which overflow one page of the log: "+string.Join(", ",ContentRegistry.FirstQuests.Where(id=>!quests.Any(q=>q.id==id)))+" missing");
             State.questSteps.Clear();foreach(var quest in quests)State.questSteps[quest.id]=0;
             foreach(string id in new[]{"Sorrel","Hushwell","MiraCrystals"})State.questSteps[id]=quests.First(q=>q.id==id).steps.Length;
             var menu=Menu;menu.Open(PauseMenu.QuestsPage);yield return null;
@@ -226,7 +240,9 @@ namespace Lattice.Tests.PlayMode
             menu.Open(PauseMenu.GearPage);yield return null;With("Refined Frame  T2 +0  ·  Plating +16");menu.Close();yield return null;
             shop.Open(corra);yield return null;With("Refined Frame  ·  Plating +16  —  260 scrip");shop.Close();yield return null;
             menu.Open(PauseMenu.ItemsPage);yield return null;
-            With($"Repair Gel ×{State.consumables["RepairGel"]}  ·  restores 60 Integrity");With($"Charge Cell ×{State.consumables["ChargeCell"]}  ·  restores 50 Charge");menu.Close();yield return null;
+            // A gel was a flat 60 on a bar that grows to 640: it's a quarter of the hero's own bar now, with the 60 as its floor, and each count stands against the most the pouch holds (prog159).
+            int gelCap=Inventory.Cap(GameCatalog.Find<ConsumableDef>("RepairGel")),cellCap=Inventory.Cap(GameCatalog.Find<ConsumableDef>("ChargeCell"));
+            With($"Repair Gel ×{State.consumables["RepairGel"]} of {gelCap}  ·  restores 25% Integrity (min 60)");With($"Charge Cell ×{State.consumables["ChargeCell"]} of {cellCap}  ·  restores 50 Charge");menu.Close();yield return null;
             menu.Open(PauseMenu.FabricatePage);yield return null;With("Scrap Alloy 20/3");menu.Close();yield return null;
             menu.Open(PauseMenu.PartyPage);yield return null;
             StringAssert.Contains("Output 50",Words(Row("Row_0")),"the Party page hides what a hero hits for");StringAssert.Contains("Plating 10",Words(Row("Row_0")));menu.Close();yield return null;
@@ -401,7 +417,8 @@ namespace Lattice.Tests.PlayMode
             inventory.Grant("FramesT2",1);Assert.IsTrue(Sela.equipped.ContainsKey(GearSlot.Frame),"the partner's slot was empty too");
             inventory.Grant("FramesT2",1);yield return Card(toast,"Equip it from Gear");
             Assert.AreEqual(2,State.party.Count(m=>m.equipped.ContainsKey(GearSlot.Frame)));
-            State.scrip=1000;var shop=ShopPanel;shop.Open(null);yield return null;
+            // Mira's own stall (Hub_Decks): a stall with no inventory used to sell every tier 1 part in the catalogue, and now sells nothing. Her rows stand in the order they did.
+            State.scrip=1000;var shop=ShopPanel;shop.Open(GameCatalog.Find<ShopInventory>("Hub_Decks"));yield return null;
             Row("ShopRow3").onClick.Invoke();yield return null;StringAssert.Contains("Purchased Scrap Frame. Equip it from Gear.",Feedback(),"nothing says the part isn't on anyone");
             Row("ShopRow1").onClick.Invoke();yield return null;StringAssert.Contains("Purchased Scrap Emitter. Equipped on Sela.",Feedback(),"a bought part with a slot waiting isn't worn");
             shop.Close();

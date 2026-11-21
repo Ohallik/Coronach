@@ -5,8 +5,12 @@ namespace Lattice.Combat
 {
     /// <summary>What a hit's number and spark say about it.</summary>
     public enum HitKind{Normal,Weak,Resisted,WeakSpot}
+    /// <summary>How hard a hit lands, for what it does to the clock, the camera and the body it strikes (<see cref="Impact"/>). None is a hit nobody swung, and it's the
+    /// default on purpose: a packet built by hand, by a fixture or a wall, changes nothing but integrity. Tick is one of many: a needle, a pellet, a turn of a spin.</summary>
+    public enum HitWeight{None,Tick,Light,Medium,Heavy,Finisher}
     public struct DamagePacket
     {
+        public HitWeight weight;
         public float amount,breakPower;
         public DamageType type;
         public Health source;

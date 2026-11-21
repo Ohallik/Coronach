@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ed15e2c7d9408b94f8057e0fbda480, type: 3}
+  m_Name: SorrelOutpost
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ChartStop
+  id: SorrelOutpost
+  displayName: Sorrel Outpost
+  region: Sorrel
+  blurb: The survey outpost under the ridges, where the drill road runs down to Hushwell.
+  zone: Sorrel_Ridges
+  spawn: Outpost
+  unlockFlag: met.Survivor
+  lockedFlag: 
+  lockedReason: 
+  position: {x: 0.05, y: 0.12}
+  routes:
+  - Decks
+  shop: 0
+  bench: 0
+  repair: 1
+  chapter: 1
+  reaches:
+  - Hushwell

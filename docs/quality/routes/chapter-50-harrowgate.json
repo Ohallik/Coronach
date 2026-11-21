@@ -1,0 +1,1778 @@
+{
+  "name": "chapter-50-harrowgate",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 8: the sisters, Hessa's parley, Pip, the field with Pip, the trophy gallery, Pip's case, Mother Odrun, a save at the armourer's frame",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "vask.roadSaid",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "east along the quay",
+      "seconds": 6.98,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 0.0,
+        "z": 7.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "on until the sisters are heard",
+      "seconds": 6.99,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0.0,
+        "z": 8.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "the sisters at the harbour gate begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the sisters at the harbour gate line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the sisters at the harbour gate line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the sisters at the harbour gate line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the sisters at the harbour gate line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the sisters at the harbour gate line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the sisters at the harbour gate line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the sisters at the harbour gate line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the sisters at the harbour gate line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the sisters at the harbour gate line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the sisters at the harbour gate line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the sisters at the harbour gate line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the sisters at the harbour gate line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the sisters at the harbour gate line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the sisters at the harbour gate line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the sisters at the harbour gate line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish the sisters at the harbour gate",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.sistersHeard",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after the sisters at the harbour gate",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "on along the quay",
+      "seconds": 12.01,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0.0,
+        "z": 10.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the gate's foot",
+      "seconds": 4.33,
+      "navigate": true,
+      "point": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 13.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to Hessa at the harbour gate",
+      "seconds": 4.49,
+      "navigate": true,
+      "point": {
+        "x": 15.000000000000002,
+        "y": 0.0,
+        "z": 13.2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "start Hessa's parley",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release start Hessa's parley",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Hessa's parley line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Hessa's parley line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Hessa's parley line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Hessa's parley",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.parley",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Hessa's parley",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back to the gate's foot and up through it 1/2",
+      "seconds": 4.49,
+      "navigate": true,
+      "point": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 13.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back to the gate's foot and up through it 2/2",
+      "seconds": 6.98,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 27
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "onto the gate's landing until Pip speaks",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 32
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Pip at the gate begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip at the gate line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip at the gate line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip at the gate line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip at the gate line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip at the gate line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip at the gate line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip at the gate line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip at the gate line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip at the gate line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Pip at the gate line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Pip at the gate line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Pip at the gate line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Pip at the gate",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.pipMet",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Pip at the gate",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "on onto the landing",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 32
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the forecourt 1/5",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the forecourt 2/5",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the forecourt 3/5",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 52
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the forecourt 4/5",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 56
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "up to the forecourt 5/5",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "along the forecourt",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the field's wall with Pip",
+      "seconds": 2.92,
+      "navigate": true,
+      "point": {
+        "x": -8.0,
+        "y": 4.8,
+        "z": 68.60000000000001
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "look out over the muster field",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look out over the muster field",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look out over the muster field line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look out over the muster field line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look out over the muster field line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look out over the muster field line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look out over the muster field line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look out over the muster field line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look out over the muster field line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look out over the muster field line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look out over the muster field line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look out over the muster field line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look out over the muster field line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look out over the muster field line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look out over the muster field line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look out over the muster field line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look out over the muster field line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish look out over the muster field",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "pip.fieldTalked",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after look out over the muster field",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "across the field to the cadet yard 1/6",
+      "seconds": 2.92,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "across the field to the cadet yard 2/6",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "across the field to the cadet yard 3/6",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 72.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "across the field to the cadet yard 4/6",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "across the field to the cadet yard 5/6",
+      "seconds": 8.22,
+      "navigate": true,
+      "point": {
+        "x": -17.5,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "across the field to the cadet yard 6/6",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "into the trophy gallery until Sela speaks",
+      "seconds": 8.76,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 4.8,
+        "z": 104
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "the trophy gallery begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read the trophy gallery line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next the trophy gallery line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the trophy gallery line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish the trophy gallery",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.gallerySeen",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after the trophy gallery",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "along the gallery",
+      "seconds": 9.2,
+      "navigate": true,
+      "point": {
+        "x": -31.0,
+        "y": 4.8,
+        "z": 104
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the case with the door",
+      "seconds": 3.28,
+      "navigate": true,
+      "point": {
+        "x": -31.0,
+        "y": 4.8,
+        "z": 107.60000000000001
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "look at the case with the door",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look at the case with the door",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look at the case with the door line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look at the case with the door line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look at the case with the door line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look at the case with the door line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look at the case with the door line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look at the case with the door line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look at the case with the door line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look at the case with the door line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look at the case with the door line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look at the case with the door line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look at the case with the door line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look at the case with the door line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read look at the case with the door line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next look at the case with the door line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release look at the case with the door line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish look at the case with the door",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "pip.galleryTalked",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after look at the case with the door",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 1/10",
+      "seconds": 3.28,
+      "navigate": true,
+      "point": {
+        "x": -31.0,
+        "y": 4.8,
+        "z": 104
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 2/10",
+      "seconds": 4.49,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 4.8,
+        "z": 104
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 3/10",
+      "seconds": 8.76,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 4/10",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": -17.5,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 5/10",
+      "seconds": 8.22,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 6/10",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 72.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 7/10",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 8/10",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 56
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 9/10",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 52
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "back out of the gallery and down to the lower terrace 10/10",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "along the lower terrace to Odrun's kitchen 1/3",
+      "seconds": 10.89,
+      "navigate": true,
+      "point": {
+        "x": -25,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "along the lower terrace to Odrun's kitchen 2/3",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -25.0,
+        "y": 2.4,
+        "z": 40.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "along the lower terrace to Odrun's kitchen 3/3",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": -25,
+        "y": 2.4,
+        "z": 44.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to Mother Odrun",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": -23.6,
+        "y": 2.4,
+        "z": 45.6
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "start Mother Odrun",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release start Mother Odrun",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "read Mother Odrun line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "next Mother Odrun line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release Mother Odrun line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "finish Mother Odrun",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.odrunMet",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release after Mother Odrun",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "out of the kitchen and east to the armourers' street 1/5",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": -25,
+        "y": 2.4,
+        "z": 44.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "out of the kitchen and east to the armourers' street 2/5",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": -25.0,
+        "y": 2.4,
+        "z": 40.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "out of the kitchen and east to the armourers' street 3/5",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -25,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "out of the kitchen and east to the armourers' street 4/5",
+      "seconds": 16.58,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "out of the kitchen and east to the armourers' street 5/5",
+      "seconds": 4.63,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 2.4,
+        "z": 42.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the armourer's frame",
+      "seconds": 2.43,
+      "navigate": true,
+      "point": {
+        "x": 16.0,
+        "y": 2.4,
+        "z": 43.6
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "repair and save at the armourer's frame",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the frame",
+      "seconds": 1,
+      "expectedScene": "Harrowgate"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

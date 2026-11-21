@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: FlakGate
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: FlakGate
+  prefab: {fileID: 3204289886287284309, guid: 5ba2ddde1f69c634bacd9c425f4d2ea5, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 2400
+  breakThreshold: 420
+  speed: 0
+  attacks:
+  - {fileID: 11400000, guid: 3f14f6c6f1a77424a9c873c0876289c2, type: 2}
+  weakness: 2
+  resistance: 0
+  archetype: 4
+  lootTable: {fileID: 11400000, guid: f6ffc31b59f2d02478bf78bde066b7d8, type: 2}
+  xp: 80
+  boss: 0
+  scrip: 24
+  scrap: 3
+  displayName: Flak Gate
+  bossMusicId: 
+  capsuleRadius: 2
+  capsuleHeight: 4.4
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 6
+  tune:
+    reach: 24
+    width: 52
+    speed: 0
+    recover: 0
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 3
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

@@ -1,0 +1,2164 @@
+{
+  "name": "chapter-60-the-coronach",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: Hal's last machine, the call, the seven doors, the three last words, Orrin at the joint, the launch, the cut to the Ring",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.saintReleased",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Hal at his bench 1/2",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 30.2,
+        "y": 0,
+        "z": 1.4
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Hal at his bench 2/2",
+      "seconds": 3.06,
+      "navigate": true,
+      "point": {
+        "x": 33.0,
+        "y": 0,
+        "z": 2.4
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "start Hal's last machine",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release start Hal's last machine",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Hal's last machine line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Hal's last machine line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Hal's last machine line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish Hal's last machine",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.halChose",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after Hal's last machine",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "back into the workshop",
+      "seconds": 2.71,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": 2.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "out across the workshop's front until Orrin speaks",
+      "seconds": 3.14,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": -1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "Orrin calls the Coronach begins",
+      "seconds": 4,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Orrin calls the Coronach line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Orrin calls the Coronach line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Orrin calls the Coronach line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Orrin calls the Coronach line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Orrin calls the Coronach line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Orrin calls the Coronach line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read Orrin calls the Coronach line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next Orrin calls the Coronach line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release Orrin calls the Coronach line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish Orrin calls the Coronach",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.coronachCalled",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after Orrin calls the Coronach",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "out onto the promenade",
+      "seconds": 3.14,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": -1
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Hal at the bolt holes 1/1",
+      "seconds": 3.14,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": 2.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Hal at the bolt holes",
+      "seconds": 2.5,
+      "navigate": true,
+      "point": {
+        "x": 32.0,
+        "y": 0,
+        "z": 3.2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: hal at the bolt holes",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: hal at the bolt holes",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: hal at the bolt holes",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: hal at the bolt holes line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: hal at the bolt holes line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: hal at the bolt holes line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: hal at the bolt holes line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: hal at the bolt holes line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: hal at the bolt holes line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: hal at the bolt holes",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.hal",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: hal at the bolt holes",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Neve at lock nine 1/5",
+      "seconds": 3.54,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": -1
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Neve at lock nine 2/5",
+      "seconds": 3.28,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Neve at lock nine 3/5",
+      "seconds": 9.82,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Neve at lock nine 4/5",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Neve at lock nine 5/5",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0,
+        "z": -11.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Neve at lock nine",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": -1.7,
+        "y": 0,
+        "z": -12.4
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: neve at lock nine",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: neve at lock nine",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: neve at lock nine",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: neve at lock nine line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: neve at lock nine line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: neve at lock nine line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: neve at lock nine line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: neve at lock nine line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: neve at lock nine line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: neve at lock nine",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.neve",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: neve at lock nine",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Jun at the yellow line 1/5",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0,
+        "z": -11.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Jun at the yellow line 2/5",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Jun at the yellow line 3/5",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Jun at the yellow line 4/5",
+      "seconds": 2.5,
+      "navigate": true,
+      "point": {
+        "x": -7.2,
+        "y": 0,
+        "z": -3.75
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Jun at the yellow line 5/5",
+      "seconds": 3.46,
+      "navigate": true,
+      "point": {
+        "x": -11.3,
+        "y": 0,
+        "z": -3.75
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Jun at the yellow line",
+      "seconds": 2.22,
+      "navigate": true,
+      "point": {
+        "x": -11.0,
+        "y": 0,
+        "z": -4.3
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: jun at the yellow line",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: jun at the yellow line",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: jun at the yellow line",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: jun at the yellow line line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: jun at the yellow line line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: jun at the yellow line line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: jun at the yellow line line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: jun at the yellow line line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: jun at the yellow line line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: jun at the yellow line line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: jun at the yellow line line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: jun at the yellow line line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: jun at the yellow line",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.jun",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: jun at the yellow line",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Mira at pitch nine 1/1",
+      "seconds": 2.22,
+      "navigate": true,
+      "point": {
+        "x": -11.3,
+        "y": 0,
+        "z": -3.75
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Mira at pitch nine",
+      "seconds": 2.52,
+      "navigate": true,
+      "point": {
+        "x": -9.85,
+        "y": 0,
+        "z": -3.8
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: mira at pitch nine",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: mira at pitch nine",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: mira at pitch nine",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: mira at pitch nine line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: mira at pitch nine line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: mira at pitch nine line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: mira at pitch nine line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: mira at pitch nine line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: mira at pitch nine line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: mira at pitch nine line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: mira at pitch nine line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: mira at pitch nine line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: mira at pitch nine",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.mira",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: mira at pitch nine",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Ilo at the notice board 1/4",
+      "seconds": 2.52,
+      "navigate": true,
+      "point": {
+        "x": -11.3,
+        "y": 0,
+        "z": -3.75
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Ilo at the notice board 2/4",
+      "seconds": 2.53,
+      "navigate": true,
+      "point": {
+        "x": -12.6,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Ilo at the notice board 3/4",
+      "seconds": 7.48,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Ilo at the notice board 4/4",
+      "seconds": 3.99,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Ilo at the notice board",
+      "seconds": 2.95,
+      "navigate": true,
+      "point": {
+        "x": -25.4,
+        "y": 0,
+        "z": -8.0
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: ilo at the notice board",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: ilo at the notice board",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: ilo at the notice board",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: ilo at the notice board line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: ilo at the notice board line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: ilo at the notice board line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: ilo at the notice board line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: ilo at the notice board line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: ilo at the notice board line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: ilo at the notice board",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.ilo",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: ilo at the notice board",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Oda at the stamping window 1/4",
+      "seconds": 2.95,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Oda at the stamping window 2/4",
+      "seconds": 3.99,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Oda at the stamping window 3/4",
+      "seconds": 3.64,
+      "navigate": true,
+      "point": {
+        "x": -28.0,
+        "y": 0,
+        "z": 1.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Oda at the stamping window 4/4",
+      "seconds": 3.67,
+      "navigate": true,
+      "point": {
+        "x": -32.7,
+        "y": 0,
+        "z": 1.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Oda at the stamping window",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": -34.4,
+        "y": 0,
+        "z": 3.0
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: oda at the stamping window",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: oda at the stamping window",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: oda at the stamping window",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: oda at the stamping window line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: oda at the stamping window line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: oda at the stamping window line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: oda at the stamping window line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: oda at the stamping window line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: oda at the stamping window line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: oda at the stamping window line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: oda at the stamping window line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: oda at the stamping window line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: oda at the stamping window",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.oda",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: oda at the stamping window",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at his board 1/5",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": -32.7,
+        "y": 0,
+        "z": 1.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at his board 2/5",
+      "seconds": 3.67,
+      "navigate": true,
+      "point": {
+        "x": -28.0,
+        "y": 0,
+        "z": 1.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at his board 3/5",
+      "seconds": 3.85,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": 6.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at his board 4/5",
+      "seconds": 2.92,
+      "navigate": true,
+      "point": {
+        "x": -30.6,
+        "y": 0,
+        "z": 6.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at his board 5/5",
+      "seconds": 2.53,
+      "navigate": true,
+      "point": {
+        "x": -30.6,
+        "y": 0,
+        "z": 8.3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at his board",
+      "seconds": 2.29,
+      "navigate": true,
+      "point": {
+        "x": -31.0,
+        "y": 0,
+        "z": 9.0
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "wait until Orrin stands at his board",
+      "seconds": 90,
+      "until": "prompt:Stop and listen",
+      "useItem": "none",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stop and listen: orrin at his board",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stop and listen: orrin at his board",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: orrin at his board",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: orrin at his board line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: orrin at his board line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: orrin at his board line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stop and listen: orrin at his board line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stop and listen: orrin at his board line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stop and listen: orrin at his board line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stop and listen: orrin at his board",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.orrin",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stop and listen: orrin at his board",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "the seven doors are heard",
+      "seconds": 1,
+      "expectedFlag": "coronach.doorsHeard",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Taren's last word 1/5",
+      "seconds": 2.29,
+      "navigate": true,
+      "point": {
+        "x": -30.6,
+        "y": 0,
+        "z": 8.3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Taren's last word 2/5",
+      "seconds": 2.53,
+      "navigate": true,
+      "point": {
+        "x": -30.6,
+        "y": 0,
+        "z": 6.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Taren's last word 3/5",
+      "seconds": 2.92,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": 6.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Taren's last word 4/5",
+      "seconds": 5.48,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Taren's last word 5/5",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": -13.6,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Taren's last word",
+      "seconds": 2.21,
+      "navigate": true,
+      "point": {
+        "x": -13.6,
+        "y": 0,
+        "z": -3.6
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before say yours: taren's last word",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "say yours: taren's last word",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: taren's last word",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read say yours: taren's last word line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next say yours: taren's last word line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: taren's last word line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read say yours: taren's last word line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next say yours: taren's last word line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: taren's last word line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish say yours: taren's last word",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.taren",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after say yours: taren's last word",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Sela's last word 1/3",
+      "seconds": 2.21,
+      "navigate": true,
+      "point": {
+        "x": -13.6,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Sela's last word 2/3",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Sela's last word 3/3",
+      "seconds": 5.84,
+      "navigate": true,
+      "point": {
+        "x": -28.0,
+        "y": 0,
+        "z": -13.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Sela's last word",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": -29.9,
+        "y": 0,
+        "z": -14.9
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before say yours: sela's last word",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "say yours: sela's last word",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: sela's last word",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read say yours: sela's last word line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next say yours: sela's last word line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: sela's last word line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read say yours: sela's last word line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next say yours: sela's last word line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: sela's last word line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish say yours: sela's last word",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.sela",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after say yours: sela's last word",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Idra's last word 1/3",
+      "seconds": 2.78,
+      "navigate": true,
+      "point": {
+        "x": -28.0,
+        "y": 0,
+        "z": -13.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Idra's last word 2/3",
+      "seconds": 5.84,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Idra's last word 3/3",
+      "seconds": 3.58,
+      "navigate": true,
+      "point": {
+        "x": -32.44,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Idra's last word",
+      "seconds": 2.07,
+      "navigate": true,
+      "point": {
+        "x": -32.44,
+        "y": 0,
+        "z": -2.8
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before say yours: idra's last word",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "say yours: idra's last word",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: idra's last word",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read say yours: idra's last word line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next say yours: idra's last word line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release say yours: idra's last word line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish say yours: idra's last word",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "coronach.idra",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after say yours: idra's last word",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "the three last words are said",
+      "seconds": 1,
+      "expectedFlag": "coronach.lastHeard",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at the walkway joint 1/2",
+      "seconds": 2.07,
+      "navigate": true,
+      "point": {
+        "x": -32.44,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at the walkway joint 2/2",
+      "seconds": 8.7,
+      "navigate": true,
+      "point": {
+        "x": -13.6,
+        "y": 0,
+        "z": -3
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "to Orrin at the walkway joint",
+      "seconds": 2.21,
+      "navigate": true,
+      "point": {
+        "x": -13.6,
+        "y": 0,
+        "z": -3.6
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "wait until Orrin stands at the joint",
+      "seconds": 60,
+      "until": "prompt:Stand with Orrin",
+      "useItem": "none",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "settle before stand with Orrin",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "stand with Orrin",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stand with Orrin",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stand with Orrin line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stand with Orrin line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stand with Orrin line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read stand with Orrin line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next stand with Orrin line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release stand with Orrin line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish stand with Orrin",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.coronachWalked",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after stand with Orrin",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "the market district lifts begins",
+      "seconds": 20,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read the market district lifts line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next the market district lifts line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release the market district lifts line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read the market district lifts line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next the market district lifts line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release the market district lifts line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read the market district lifts line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next the market district lifts line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release the market district lifts line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read the market district lifts line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next the market district lifts line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release the market district lifts line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read the market district lifts line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next the market district lifts line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release the market district lifts line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "read the market district lifts line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "next the market district lifts line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release the market district lifts line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "finish the market district lifts",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.launched",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release after the market district lifts",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "the cut to the Broken Ring",
+      "seconds": 40,
+      "until": "scene:BrokenRing",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release after the cut",
+      "seconds": 0.5,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "first look at the Ring",
+      "seconds": 2,
+      "expectedFlag": "home.launched",
+      "expectedScene": "BrokenRing"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

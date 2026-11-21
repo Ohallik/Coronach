@@ -1,0 +1,2728 @@
+{
+  "name": "chapter-42-oriel-errands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 7: up out of the Choir, the gardener's gardens, the lantern on the highest island, the chart to the camp, Lume's answer, Ishen's moons and the Orrery's lap",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.coronachHeard",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 1/11",
+      "seconds": 3.38,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -6.6,
+        "z": 252
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 2/11",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": -6.6,
+        "z": 232
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 3/11",
+      "seconds": 7.91,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.9,
+        "z": 208
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 4/11",
+      "seconds": 6.46,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": -4.4,
+        "z": 190
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 5/11",
+      "seconds": 6.95,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.4,
+        "z": 170
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 6/11",
+      "seconds": 6.43,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -2.98,
+        "z": 152
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 7/11",
+      "seconds": 7.67,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": -2.4,
+        "z": 129
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 8/11",
+      "seconds": 4.73,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": -2.4,
+        "z": 118
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 9/11",
+      "seconds": 16.77,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": 0.0,
+        "z": 58
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 10/11",
+      "seconds": 12.83,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "up out of the Choir 11/11",
+      "seconds": 6.0,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -2.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "out by the great door",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the great door",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "down the forecourt to the third junction 1/3",
+      "seconds": 4.36,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 12.0,
+        "z": 157
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "down the forecourt to the third junction 2/3",
+      "seconds": 4.87,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 12.0,
+        "z": 151.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "down the forecourt to the third junction 3/3",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 12.0,
+        "z": 135.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the stair gardens 1/5",
+      "seconds": 4.65,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 12.0,
+        "z": 131
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the stair gardens 2/5",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 12.0,
+        "z": 130
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the stair gardens 3/5",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 129
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the stair gardens 4/5",
+      "seconds": 3.52,
+      "navigate": true,
+      "point": {
+        "x": -31.5,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west along the stair gardens 5/5",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the second junction to the frayed garden 1/4",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 107.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the second junction to the frayed garden 2/4",
+      "seconds": 4.1,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 104
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the second junction to the frayed garden 3/4",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 12.0,
+        "z": 103
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "over the second junction to the frayed garden 4/4",
+      "seconds": 2.37,
+      "navigate": true,
+      "point": {
+        "x": -10.5,
+        "y": 12.0,
+        "z": 103.20000000000002
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "look at the gardener's frayed junction",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read look at the gardener's frayed junction line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next look at the gardener's frayed junction line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read look at the gardener's frayed junction line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next look at the gardener's frayed junction line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read look at the gardener's frayed junction line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next look at the gardener's frayed junction line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read look at the gardener's frayed junction line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next look at the gardener's frayed junction line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read look at the gardener's frayed junction line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next look at the gardener's frayed junction line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read look at the gardener's frayed junction line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next look at the gardener's frayed junction line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release look at the gardener's frayed junction line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish look at the gardener's frayed junction",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.gardenerAsked",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after look at the gardener's frayed junction",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to the first frayed garden's collar",
+      "seconds": 2.99,
+      "navigate": true,
+      "point": {
+        "x": -14.0,
+        "y": 12.0,
+        "z": 105.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle before seat the first frayed garden",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "seat the first frayed garden",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.garden1",
+      "expectedFlag": "oriel.garden1",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release seat the first frayed garden",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 1/8",
+      "seconds": 2.73,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 12.0,
+        "z": 103
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 2/8",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 104
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 3/8",
+      "seconds": 4.1,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 107.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 4/8",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 5/8",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -31.5,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 6/8",
+      "seconds": 3.52,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 129
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 7/8",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": -24.0,
+        "y": 12.0,
+        "z": 129.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back over the second junction 8/8",
+      "seconds": 2.89,
+      "navigate": true,
+      "point": {
+        "x": -24.0,
+        "y": 12.0,
+        "z": 133.20000000000002
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle before seat the second frayed garden",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "seat the second frayed garden",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.garden2",
+      "expectedFlag": "oriel.garden2",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release seat the second frayed garden",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the third frayed garden 1/4",
+      "seconds": 2.89,
+      "navigate": true,
+      "point": {
+        "x": -24.0,
+        "y": 12.0,
+        "z": 129.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the third frayed garden 2/4",
+      "seconds": 5.45,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 12.0,
+        "z": 130
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the third frayed garden 3/4",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 6.0,
+        "y": 12.0,
+        "z": 130.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to the third frayed garden 4/4",
+      "seconds": 2.59,
+      "navigate": true,
+      "point": {
+        "x": 6.0,
+        "y": 12.0,
+        "z": 133.20000000000002
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle before seat the third frayed garden",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "seat the third frayed garden",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:oriel.garden3",
+      "expectedFlag": "oriel.garden3",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release seat the third frayed garden",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "three gardens seated: the gardener goes ahead",
+      "seconds": 1,
+      "expectedFlag": "oriel.gardensSeated",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 1/7",
+      "seconds": 2.59,
+      "navigate": true,
+      "point": {
+        "x": 6.0,
+        "y": 12.0,
+        "z": 130.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 2/7",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 12.0,
+        "z": 130
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 3/7",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 129
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 4/7",
+      "seconds": 3.52,
+      "navigate": true,
+      "point": {
+        "x": -31.5,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 5/7",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 12.0,
+        "z": 123.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 6/7",
+      "seconds": 3.43,
+      "navigate": true,
+      "point": {
+        "x": -43.8,
+        "y": 12.0,
+        "z": 122.9
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "west after the gardener to the sealed garden 7/7",
+      "seconds": 2.86,
+      "navigate": true,
+      "point": {
+        "x": -43.8,
+        "y": 12.0,
+        "z": 126.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "go in after the gardener",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read go in after the gardener line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next go in after the gardener line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release go in after the gardener line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish go in after the gardener",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.sealedGardenSeen",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after go in after the gardener",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to the lift to the highest island 1/1",
+      "seconds": 3.87,
+      "navigate": true,
+      "point": {
+        "x": -40.0,
+        "y": 12.0,
+        "z": 133.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle on the lift to the highest island's node",
+      "seconds": 0.6,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "ride the lift to the highest island",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release and ride the lift to the highest island",
+      "seconds": 4.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "step off the lift to the highest island",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -56.0,
+        "y": 18.0,
+        "z": 154.5
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "to the worn seat",
+      "seconds": 3.33,
+      "navigate": true,
+      "point": {
+        "x": -61.0,
+        "y": 18.0,
+        "z": 156.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "set the lantern in the seat",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release set the lantern in the seat",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read set the lantern in the seat line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next set the lantern in the seat line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release set the lantern in the seat line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read set the lantern in the seat line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next set the lantern in the seat line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release set the lantern in the seat line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read set the lantern in the seat line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next set the lantern in the seat line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release set the lantern in the seat line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish set the lantern in the seat",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "oriel.lanternSet",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after set the lantern in the seat",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the lift's high node",
+      "seconds": 3.33,
+      "navigate": true,
+      "point": {
+        "x": -56.0,
+        "y": 18.0,
+        "z": 154.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "settle on the lift down from the highest island's node",
+      "seconds": 0.6,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "ride the lift down from the highest island",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release and ride the lift down from the highest island",
+      "seconds": 4.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "step off the lift down from the highest island",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -40.0,
+        "y": 12.0,
+        "z": 133.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 1/9",
+      "seconds": 3.23,
+      "navigate": true,
+      "point": {
+        "x": -36,
+        "y": 12.0,
+        "z": 130
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 2/9",
+      "seconds": 3.5,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 12.0,
+        "z": 129
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 3/9",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 12.0,
+        "z": 130
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 4/9",
+      "seconds": 6.93,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 12.0,
+        "z": 131
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 5/9",
+      "seconds": 4.65,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 12.0,
+        "z": 135.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 6/9",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 12.0,
+        "z": 151.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 7/9",
+      "seconds": 4.87,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 12.0,
+        "z": 157
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 8/9",
+      "seconds": 3.92,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 12.0,
+        "z": 162
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the forecourt 9/9",
+      "seconds": 3.08,
+      "navigate": true,
+      "point": {
+        "x": 4.0,
+        "y": 12.0,
+        "z": 166.39999999999998
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "into the Glass Choir",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the Choir's door",
+      "seconds": 0.5,
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "open the quest log",
+      "seconds": 0.6,
+      "buttons": [
+        "Select"
+      ],
+      "until": "ui:pause",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the quest log",
+      "seconds": 0.3,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "turn to the chart",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder"
+      ],
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "release the turn",
+      "seconds": 0.4,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "find OrielSkyfields on the chart",
+      "seconds": 8,
+      "pickRow": "Stop_OrielSkyfields",
+      "buttons": [
+        "South"
+      ],
+      "until": "row:Travel",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "read the question for OrielSkyfields",
+      "seconds": 0.6,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "GlassChoir"
+    },
+    {
+      "name": "travel to OrielSkyfields",
+      "seconds": 25,
+      "pickRow": "Travel",
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:OrielSkyfields",
+      "pauseUi": "pause",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after travelling to OrielSkyfields",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to Ishen's crates",
+      "seconds": 8.65,
+      "navigate": true,
+      "point": {
+        "x": -9.0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "start Ishen and the three named gates",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release start Ishen and the three named gates",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen and the three named gates line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen and the three named gates line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen and the three named gates line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen and the three named gates line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen and the three named gates line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen and the three named gates line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen and the three named gates line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen and the three named gates line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen and the three named gates line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read Ishen and the three named gates line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next Ishen and the three named gates line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release Ishen and the three named gates line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish Ishen and the three named gates",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after Ishen and the three named gates",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "on to Lume's stall",
+      "seconds": 6.43,
+      "navigate": true,
+      "point": {
+        "x": 9.0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "start the far lantern is lit",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release start the far lantern is lit",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the far lantern is lit line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the far lantern is lit line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the far lantern is lit line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the far lantern is lit line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the far lantern is lit line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the far lantern is lit line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read the far lantern is lit line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next the far lantern is lit line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the far lantern is lit line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish the far lantern is lit",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "look over the stock after the far lantern is lit",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "leave the stock after the far lantern is lit",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the stall after the far lantern is lit",
+      "seconds": 0.3,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "The Far End is done",
+      "seconds": 0.5,
+      "expectedFlag": "lume.lanternLit",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back west to the landing pad 1/4",
+      "seconds": 4.22,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back west to the landing pad 2/4",
+      "seconds": 5.69,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back west to the landing pad 3/4",
+      "seconds": 7.18,
+      "navigate": true,
+      "point": {
+        "x": -36.0,
+        "y": 0.0,
+        "z": 13.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back west to the landing pad 4/4",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": -41.6,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "launch to the Orrery",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 9, The Warden",
+      "seconds": 5.05,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 845.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Warden's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 833.0
+      },
+      "tolerance": 1.5,
+      "until": "lee:9",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Warden's middle gate on green",
+      "seconds": 8.02,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 803.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 8, The Almoner",
+      "seconds": 9.29,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 753.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Almoner's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 741.5
+      },
+      "tolerance": 1.5,
+      "until": "lee:8",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Almoner's middle gate on green",
+      "seconds": 7.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 715.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 7, The Bellfounder",
+      "seconds": 9.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 664.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Bellfounder's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 652.0
+      },
+      "tolerance": 1.5,
+      "until": "lee:7",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Bellfounder's middle gate on green",
+      "seconds": 7.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 624.73
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 6, The Second Gardener",
+      "seconds": 9.23,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 575.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Second Gardener's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 563.0
+      },
+      "tolerance": 1.5,
+      "until": "lee:6",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Second Gardener's middle gate on green",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 537.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 5, The Reeve",
+      "seconds": 2.75,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 543.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Reeve's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 531.0
+      },
+      "tolerance": 1.5,
+      "until": "lee:5",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Reeve's middle gate on green",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 505.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 4, The Lamplighter",
+      "seconds": 9.62,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 453.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Lamplighter's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 441.5
+      },
+      "tolerance": 1.5,
+      "until": "lee:4",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Lamplighter's middle gate on green",
+      "seconds": 7.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 415.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 3, The Clerk of Roads",
+      "seconds": 9.61,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 363.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Clerk of Roads' lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 351.0
+      },
+      "tolerance": 1.5,
+      "until": "lee:3",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Clerk of Roads' middle gate on green",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 325.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 2, The Weigher",
+      "seconds": 9.62,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 273.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Weigher's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 261.5
+      },
+      "tolerance": 1.5,
+      "until": "lee:2",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Weigher's middle gate on green",
+      "seconds": 7.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 235.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 1, The Steward",
+      "seconds": 9.53,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 183.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Steward's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 171.5
+      },
+      "tolerance": 1.5,
+      "until": "lee:1",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "over The Steward's rail behind its moon",
+      "seconds": 5.67,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 158.3
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Steward's named ring on green, slowly",
+      "seconds": 12.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 145.3
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Steward's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 146.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:1",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Steward's middle gate on green",
+      "seconds": 5.81,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 171.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 2, The Weigher",
+      "seconds": 10.55,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 230.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Weigher's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 236.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:2",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Weigher's named ring on green, slowly",
+      "seconds": 12.8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 243.8
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "on past The Weigher's rail",
+      "seconds": 4.57,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 261.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 3, The Clerk of Roads",
+      "seconds": 9.76,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 314.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Clerk of Roads' lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 326.86
+      },
+      "tolerance": 1.5,
+      "until": "lee:3",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Clerk of Roads' middle gate on green",
+      "seconds": 7.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 351.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 4, The Lamplighter",
+      "seconds": 10.63,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 410.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Lamplighter's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 416.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:4",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Lamplighter's named ring on green, slowly",
+      "seconds": 12.8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 423.8
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "on past The Lamplighter's rail",
+      "seconds": 4.57,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 441.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 5, The Reeve",
+      "seconds": 9.76,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 494.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Reeve's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 506.86
+      },
+      "tolerance": 1.5,
+      "until": "lee:5",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Reeve's middle gate on green",
+      "seconds": 7.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 531.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 6, The Second Gardener",
+      "seconds": 2.6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 526.86
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Second Gardener's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 538.86
+      },
+      "tolerance": 1.5,
+      "until": "lee:6",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Second Gardener's middle gate on green",
+      "seconds": 7.26,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 563.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 7, The Bellfounder",
+      "seconds": 9.38,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 613.73
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Bellfounder's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 625.73
+      },
+      "tolerance": 1.5,
+      "until": "lee:7",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Bellfounder's middle gate on green",
+      "seconds": 7.57,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 652.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 8, The Almoner",
+      "seconds": 9.61,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 704.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Almoner's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 716.3
+      },
+      "tolerance": 1.5,
+      "until": "lee:8",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Almoner's middle gate on green",
+      "seconds": 7.41,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 741.5
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "up to rail 9, The Warden",
+      "seconds": 9.43,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 792.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "wait in The Warden's lee at its middle gate",
+      "seconds": 45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 804.6
+      },
+      "tolerance": 1.5,
+      "until": "lee:9",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through The Warden's middle gate on green",
+      "seconds": 7.88,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 833.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "the three names read",
+      "seconds": 0.5,
+      "expectedFlag": "oriel.lamplighterRead",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "through the far gate",
+      "seconds": 5.93,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 860.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "settle over the landing",
+      "seconds": 14.8,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 876.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Orrery"
+    },
+    {
+      "name": "land at the Skyfields",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release landing",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "east to Ishen's crates",
+      "seconds": 8.65,
+      "navigate": true,
+      "point": {
+        "x": -9.0,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "start what Ishen took down",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release start what Ishen took down",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read what Ishen took down line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next what Ishen took down line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release what Ishen took down line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read what Ishen took down line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next what Ishen took down line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release what Ishen took down line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "read what Ishen took down line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "next what Ishen took down line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release what Ishen took down line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "finish what Ishen took down",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "ishen.moonsRead",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release after what Ishen took down",
+      "seconds": 0.5,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the camp cradle 1/2",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 0.0,
+        "z": 14
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "back to the camp cradle 2/2",
+      "seconds": 4.33,
+      "navigate": true,
+      "point": {
+        "x": -23.4,
+        "y": 0.0,
+        "z": 9.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "repair and save at the camp cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "OrielSkyfields"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "OrielSkyfields"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

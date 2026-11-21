@@ -26,7 +26,14 @@ namespace Lattice.Dialogue
         internal bool Interrupted;
         public int LinesPresented{get;internal set;}
         public string Speaker{get;private set;}
-        public bool Running=>dialogueActive||Runner!=null&&Runner.IsDialogueRunning;
+        /// <summary>The node the running conversation started at, and <see cref="LinesPresented"/> as it started: what a scene staged line by line reads (LineCues: the meeting's turning heads, Hal's bench).</summary>
+        public string Node{get;private set;}
+        public int NodeStartLines{get;private set;}
+        public bool Running=>dialogueActive||following||Runner!=null&&Runner.IsDialogueRunning;
+        /// <summary>A conversation asked for straight after the one running (<see cref="Follow"/>) is waiting for it to end, or to let go of the runner: the box stays up and the party held.</summary>
+        public bool FollowsOn=>next.Count>0&&!Interrupted;
+        readonly Queue<(string node,string speaker,Action<bool> completed)> next=new();
+        bool following;
         string pendingUi;
         Action<bool> pendingCompletion;
         bool leaving,preparationComplete,dialogueActive,chapterFlag;
@@ -55,13 +62,17 @@ namespace Lattice.Dialogue
                 {
                 if(leaving||GameServices.Current==null)return;
                 if(Preparing){preparationComplete=true;return;}
-                View?.Hide();GameServices.Current.Input.Blocked=false;
-                if(Interrupted){pendingJoins.Clear();pendingUi=null;Debug.Log("DIALOGUE_CANCELLED "+Speaker);return;}
+                // Followed (the Coronach's extras after a door's line): the box stays up and the party held until the next one's first line takes it over (Update).
+                if(FollowsOn)following=true;else{View?.Hide();GameServices.Current.Input.Blocked=false;}
+                if(Interrupted){pendingJoins.Clear();pendingUi=null;DropFollowing();Debug.Log("DIALOGUE_CANCELLED "+Speaker);return;}
                 Debug.Log("DIALOGUE_OK "+Speaker);RpgServices.Quests.Report(ObjectiveKind.TalkTo,Speaker);
                 foreach(string id in pendingJoins)
                 {
                     var state=GameServices.Current.State;if(state.party.Exists(m=>m.id==id))continue;
-                    int level=state.party[0].level;var joined=new MemberState{id=id,level=level,integrity=Levels.MaxIntegrity(level)};state.party.Add(joined);GameServices.GiveStartingGear(state,joined);MemberJoined?.Invoke(id);Debug.Log("PARTY_JOIN "+id);
+                    int level=state.party[0].level;var joined=new MemberState{id=id,level=level,integrity=Levels.MaxIntegrity(level)};state.party.Add(joined);GameServices.GiveStartingGear(state,joined);
+                    // She joins in the floor of the chapter she joins in (PartyFloor, D329): Idra came with nothing in her Emitter's or Module's slot before the Host Marshal.
+                    PartyFloor.BringUp(state,joined,PartyFloor.Here());
+                    MemberJoined?.Invoke(id);Debug.Log("PARTY_JOIN "+id);
                 }
                 pendingJoins.Clear();
                 if(pendingUi!=null){string action=pendingUi;pendingUi=null;UiRequested?.Invoke(action);}
@@ -117,13 +128,38 @@ namespace Lattice.Dialogue
         public bool StartNode(string node,string speaker,Action<bool> completed=null)
         {
             if(Preparing||Running||!Prepared)return false;
+            return Begin(node,speaker,completed);
+        }
+        /// <summary>Said straight after the conversation running now, in the same box, which stays up between them with the party still held: one stop, not two (chapter 9's Coronach, where
+        /// a door's own line and the side stories' after it closed the box for three frames between). Each is asked in turn once the one before has ended to its last line; one cut
+        /// short takes everything after it with it. With nothing running, refused: a follow-on never starts a conversation of its own.</summary>
+        public bool Follow(string node,string speaker,Action<bool> completed=null)
+        {
+            if(Preparing||!Prepared||!Running||Interrupted||!Known(node))return false;
+            next.Enqueue((node,speaker,completed));return true;
+        }
+        bool Known(string node)=>!string.IsNullOrEmpty(node)&&Runner!=null&&Runner.YarnProject!=null&&Runner.YarnProject.Program.Nodes.ContainsKey(node);
+        void Update()
+        {
+            // The one before has let go of the runner: the next takes the box over without it closing.
+            if(!following||dialogueActive||Runner!=null&&Runner.IsDialogueRunning)return;
+            following=false;
+            while(next.Count>0){var (node,speaker,completed)=next.Dequeue();if(Begin(node,speaker,completed))return;completed?.Invoke(false);}
+            View?.Hide();if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;
+        }
+        void DropFollowing()
+        {
+            following=false;
+            while(next.Count>0){var (_,_,completed)=next.Dequeue();completed?.Invoke(false);}
+        }
+        bool Begin(string node,string speaker,Action<bool> completed)
+        {
             // Reject bad content before taking input or completion ownership.
-            if(string.IsNullOrEmpty(node)||Runner==null||Runner.YarnProject==null||
-                !Runner.YarnProject.Program.Nodes.ContainsKey(node))return false;
+            if(!Known(node))return false;
             // Yarn's VM stops before its presenters and completion commands drain.
             // Keep the conversation owned until those commands finish, so callers
             // cannot start a second node against the first node's cancellation state.
-            Speaker=speaker;Interrupted=false;pendingCompletion=completed;dialogueActive=true;GameServices.Current.Input.Blocked=true;
+            Speaker=speaker;Node=node;NodeStartLines=LinesPresented;Interrupted=false;pendingCompletion=completed;dialogueActive=true;GameServices.Current.Input.Blocked=true;
             startedOn=GameServices.Current.State;questsAtStart=QuestsDone(startedOn);chapterFlag=false;
             using(StartNodeMarker.Auto())Runner.StartDialogue(node).Forget();
             return true;
@@ -132,6 +168,8 @@ namespace Lattice.Dialogue
         public void Cancel()
         {
             if(!Running||Preparing)return;
+            // Between a conversation and the one it is followed by, nothing is running but the hold: let it go.
+            if(following&&!dialogueActive&&(Runner==null||!Runner.IsDialogueRunning)){DropFollowing();View?.Hide();GameServices.Current.Input.Blocked=false;return;}
             Interrupted=true;if(Runner!=null&&Runner.IsDialogueRunning)Runner.Stop().Forget();
         }
         void FinishPending(bool completed)
@@ -146,7 +184,7 @@ namespace Lattice.Dialogue
             public void ClearOptions(){}
         }
         void OnEnable(){leaving=false;}
-        void OnDisable(){leaving=true;FinishPending(false);}
+        void OnDisable(){leaving=true;FinishPending(false);DropFollowing();}
         void OnDestroy(){if(Current==this)Current=null;}
     }
 }

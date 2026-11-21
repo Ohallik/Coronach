@@ -73,54 +73,83 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ---------------------------------------------------------------- the sign style
-        [UnityTest] public IEnumerator FloorSignsReadFromTheFixedCameraOnAnyFloor()
+        // Both walked every zone in one case, and one zone that couldn't load or logged an error hid every zone after it. Each is one case per zone now (ZoneWalk), and what
+        // compares zones with each other (one material for every sign, the counts over the world) is its own test, ...AcrossZones.
+        static string[] FloorSignZones=>ContentRegistry.With(nameof(FloorSignsReadFromTheFixedCameraOnAnyFloor),new[]{"Hub_Decks","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowDrift","Lanternwick","LanternGorge","SunkenRelay"});
+        static string[] SignZones=>ContentRegistry.Zones;
+        /// <summary>The game as a case starts it: where a walk across zones picks up after a zone it couldn't read.</summary>
+        IEnumerator Rebooted(){yield return Cleanup();yield return Boot();}
+        /// <summary>One zone's floor signs, as the walk across zones needs them: how many, and each one's material.</summary>
+        sealed class FloorSigns{public int read;public readonly List<(string name,int face)> faces=new();}
+        static IEnumerator ReadFloorSigns(string zone,List<string> failures)
         {
-            var failures=new List<string>();Material shared=null;int read=0;
-            foreach(var zone in new[]{"Hub_Decks","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowDrift","Lanternwick","LanternGorge","SunkenRelay"})
+            var found=new FloorSigns();
+            yield return Zone(zone);
+            foreach(var sign in Signs().Where(OnTheFloor))
             {
-                yield return Zone(zone);
-                foreach(var sign in Signs().Where(OnTheFloor))
+                found.read++;string name=zone+" \""+sign.text+"\"";
+                if(Pixels(sign)<36)failures.Add($"{name} stands {Pixels(sign):0} px tall: readers measured letters of 8 to 12 px that nobody can read from a couch");
+                if(sign.gameObject.activeInHierarchy&&Physics.Raycast(sign.transform.position+Vector3.up*.3f,Vector3.down,out var under,8,~0,QueryTriggerInteraction.Ignore))
                 {
-                    read++;string name=zone+" \""+sign.text+"\"";
-                    if(Pixels(sign)<36)failures.Add($"{name} stands {Pixels(sign):0} px tall: readers measured letters of 8 to 12 px that nobody can read from a couch");
-                    if(sign.gameObject.activeInHierarchy&&Physics.Raycast(sign.transform.position+Vector3.up*.3f,Vector3.down,out var under,8,~0,QueryTriggerInteraction.Ignore))
-                    {
-                        // A level sign can't lie along the Gullet's curved bed: there its low end rests on it, and TheEddysSignLiesOnTheEddysFloor holds the worst case.
-                        if(!ZoneController.Current.Flight&&sign.transform.position.y-under.point.y>.6f)failures.Add($"{name} hangs {sign.transform.position.y-under.point.y:0.0} m over the floor it names");
-                        if(sign.transform.TransformPoint(0,-sign.GetPreferredValues(sign.text).y*.5f,0).y<under.point.y-.02f)failures.Add($"{name} is half sunk: the bottom of its letters goes under the floor");
-                    }
-                    var face=sign.fontSharedMaterial;shared??=face;
-                    if(face!=shared)failures.Add($"{name} has a material of its own: every sign should share one");
-                    if(face.GetFloat("_FaceDilate")<.15f)failures.Add($"{name} keeps Cinzel's thin strokes, which vanish on a light floor");
-                    if(face.GetFloat("_OutlineWidth")<.25f||face.GetColor("_OutlineColor").maxColorComponent>.15f)failures.Add($"{name} has no strong dark edge to hold it on a bright floor");
-                    var plate=sign.transform.Find("Sign plate");
-                    if(plate==null){failures.Add($"{name} has no painted backing: pale type on Sorrel's orange ground is a hairline ghost");continue;}
-                    var paint=plate.GetComponent<Renderer>().sharedMaterial;
-                    if(paint.GetColor("_BaseColor").a<.4f||paint.GetColor("_BaseColor").maxColorComponent>.15f)failures.Add($"{name}'s backing is too faint or too pale to lift its words off the floor");
+                    // A level sign can't lie along the Gullet's curved bed: there its low end rests on it, and TheEddysSignLiesOnTheEddysFloor holds the worst case.
+                    if(!ZoneController.Current.Flight&&sign.transform.position.y-under.point.y>.6f)failures.Add($"{name} hangs {sign.transform.position.y-under.point.y:0.0} m over the floor it names");
+                    if(sign.transform.TransformPoint(0,-sign.GetPreferredValues(sign.text).y*.5f,0).y<under.point.y-.02f)failures.Add($"{name} is half sunk: the bottom of its letters goes under the floor");
                 }
+                // Whether every sign shares one material is asked across zones (FloorSignsReadFromTheFixedCameraOnAnyFloorAcrossZones).
+                var face=sign.fontSharedMaterial;found.faces.Add((name,face.GetInstanceID()));
+                if(face.GetFloat("_FaceDilate")<.15f)failures.Add($"{name} keeps Cinzel's thin strokes, which vanish on a light floor");
+                if(face.GetFloat("_OutlineWidth")<.25f||face.GetColor("_OutlineColor").maxColorComponent>.15f)failures.Add($"{name} has no strong dark edge to hold it on a bright floor");
+                var plate=sign.transform.Find("Sign plate");
+                if(plate==null){failures.Add($"{name} has no painted backing: pale type on Sorrel's orange ground is a hairline ghost");continue;}
+                var paint=plate.GetComponent<Renderer>().sharedMaterial;
+                if(paint.GetColor("_BaseColor").a<.4f||paint.GetColor("_BaseColor").maxColorComponent>.15f)failures.Add($"{name}'s backing is too faint or too pale to lift its words off the floor");
             }
-            Assert.Greater(read,15,"fixture: the zones carry floor signs");
+            ZoneWalk.Keep(nameof(FloorSignsReadFromTheFixedCameraOnAnyFloor),zone,found);
+        }
+        [UnityTest] public IEnumerator FloorSignsReadFromTheFixedCameraOnAnyFloor([ValueSource(nameof(FloorSignZones))] string zone)
+        {
+            var failures=new List<string>();
+            yield return ReadFloorSigns(zone,failures);
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
-        [UnityTest] public IEnumerator EverySignReadsLevelToTheCamera()
+        [UnityTest] public IEnumerator FloorSignsReadFromTheFixedCameraOnAnyFloorAcrossZones()
         {
-            var failures=new List<string>();int warps=0;
-            foreach(var zone in new[]{"Hub_Decks","Hub_CinderHalo","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","WickReach","Lanternwick","LanternGorge","SunkenRelay"})
+            var read=new Dictionary<string,FloorSigns>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(FloorSignsReadFromTheFixedCameraOnAnyFloor),FloorSignZones,zone=>ReadFloorSigns(zone,new List<string>()),Rebooted,read,unread);
+            // What each zone's signs get wrong is that zone's case to report: this asks that they all share one material, the first one's.
+            var failures=new List<string>();int? shared=null;
+            foreach(var zone in read.Values)foreach(var (name,face) in zone.faces){shared??=face;if(face!=shared)failures.Add($"{name} has a material of its own: every sign should share one");}
+            Assert.Greater(read.Values.Sum(r=>r.read),15,"fixture: the zones carry floor signs"+ZoneWalk.Unread(unread));
+            Assert.IsEmpty(failures,string.Join("\n",failures)+ZoneWalk.Unread(unread));
+        }
+        static IEnumerator ReadSignsLevel(string zone,List<string> failures)
+        {
+            int warps=0;
+            yield return Zone(zone);
+            var level=Quaternion.Euler(0,View.yaw,0)*Vector3.right;var look=Quaternion.Euler(View.pitch,View.yaw,0)*Vector3.forward;
+            foreach(var sign in Signs())
             {
-                yield return Zone(zone);
-                var level=Quaternion.Euler(0,View.yaw,0)*Vector3.right;var look=Quaternion.Euler(View.pitch,View.yaw,0)*Vector3.forward;
-                foreach(var sign in Signs())
-                {
-                    float slant=Vector3.Angle(sign.transform.right,level);
-                    if(slant>1)failures.Add($"{zone} \"{sign.text}\" slants {slant:0} degrees across the frame: the ground camera has a yaw of {View.yaw}");
-                    if(Vector3.Dot(sign.transform.forward,look)<.6f)failures.Add($"{zone} \"{sign.text}\" doesn't face the camera");
-                    if(!Warp(sign))continue;
-                    warps++;float px=Pixels(sign);
-                    if(px<24||px>34)failures.Add($"{zone} \"{sign.text}\" stands {px:0} px tall: a warp's sign should read at the type floor or a little over, and not run into the bottom HUD");
-                }
+                float slant=Vector3.Angle(sign.transform.right,level);
+                if(slant>1)failures.Add($"{zone} \"{sign.text}\" slants {slant:0} degrees across the frame: the ground camera has a yaw of {View.yaw}");
+                if(Vector3.Dot(sign.transform.forward,look)<.6f)failures.Add($"{zone} \"{sign.text}\" doesn't face the camera");
+                if(!Warp(sign))continue;
+                warps++;float px=Pixels(sign);
+                if(px<24||px>34)failures.Add($"{zone} \"{sign.text}\" stands {px:0} px tall: a warp's sign should read at the type floor or a little over, and not run into the bottom HUD");
             }
-            Assert.Greater(warps,8,"fixture: the warps carry signs");
+            ZoneWalk.Keep(nameof(EverySignReadsLevelToTheCamera),zone,warps);
+        }
+        [UnityTest] public IEnumerator EverySignReadsLevelToTheCamera([ValueSource(nameof(SignZones))] string zone)
+        {
+            var failures=new List<string>();
+            yield return ReadSignsLevel(zone,failures);
             Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+        [UnityTest] public IEnumerator EverySignReadsLevelToTheCameraAcrossZones()
+        {
+            var read=new Dictionary<string,int>();var unread=new List<string>();
+            yield return ZoneWalk.Walk(nameof(EverySignReadsLevelToTheCamera),SignZones,zone=>ReadSignsLevel(zone,new List<string>()),Rebooted,read,unread);
+            // How each zone's signs stand is that zone's case to report.
+            Assert.Greater(read.Values.Sum(),8,"fixture: the warps carry signs"+ZoneWalk.Unread(unread));
         }
         /// <summary>A prop's world box is good enough for a crate. A long curved wall's box reaches far past the wall itself, so a big piece is read by its real mesh.</summary>
         static bool Meets(Renderer part,Ray ray,float reach)

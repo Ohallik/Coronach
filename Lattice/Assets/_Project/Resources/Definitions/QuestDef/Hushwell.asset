@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: Hushwell
   title: What the Drill Found
-  description: Something below Sorrel's drill is breathing, and the survey key's route runs straight through it.
+  description: Something below Sorrel's drill is breathing, and the survey key's
+    route runs straight through it.
   steps:
   - kind: 2
     target: BellowsBelow
@@ -27,5 +28,11 @@ MonoBehaviour:
   rewards: []
   flagsOnComplete: []
   stepText:
-  - 'Follow the breathing down to the Bellows'
-  - 'Find what the Bellows was guarding'
+  - Follow the breathing down to the Bellows
+  - Find what the Bellows was guarding
+  rewardsRolled: 0
+  main: 1
+  chapter: 1
+  stepTargets: []
+  closingLine: 
+  storyFlags: []

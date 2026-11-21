@@ -43,6 +43,7 @@ namespace Lattice.EditorTools
             AssetDatabase.SaveAssets();Debug.Log("NURSERY_WATER_MESH_OK");
         });
 
+        [Restage.Step("chapter1.surfaces","Sorrel_Ridges,Arena_Ground,Hushwell,TallowDrift",Chapter=1,OnlyWhereMissing=true,Leaves=new[]{"Sorrel_Ridges: Biome surfaces #1","Arena_Ground: Biome surfaces #1","Hushwell: Biome surfaces #1","TallowDrift: Biome surfaces #1"})]
         public static void Apply() => BatchTools.Run(() =>
         {
             Directory.CreateDirectory(Art);
@@ -266,7 +267,8 @@ namespace Lattice.EditorTools
                     material.SetVector("_EdgeParams",new Vector4(1,.4f,.03f,.5f));
                     material.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);
                     material.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);
-                    material.SetFloat("_ZWrite",0);material.renderQueue=(int)RenderQueue.Transparent;
+                    // Before danger markings, as WaterKit's water is: at the plain transparent queue it lay over any marking on it (November 12).
+                    material.SetFloat("_ZWrite",0);material.renderQueue=(int)RenderQueue.Transparent-30;
                     material.SetOverrideTag("RenderType","Transparent");
                     material.SetFloat("_BaseMapStrength",.2f);
                     material.SetColor("_BaseColor",new Color(.32f,.48f,.46f,.6f));

@@ -18,8 +18,17 @@ MonoBehaviour:
   cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
   hd2dProfile: {fileID: 11400000, guid: d6dbd57ebebb0bd458e48e685f334acb, type: 2}
   ambientAudio: {fileID: 0}
-  musicId: 
+  ambientVolume: 0.055
+  musicId: Adventure Awaits
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
   skybox: {fileID: 0}
+  displayName: Proving Yard
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 0

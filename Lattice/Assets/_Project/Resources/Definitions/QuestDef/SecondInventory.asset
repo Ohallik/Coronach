@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: SecondInventory
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: SecondInventory
+  title: Mira's Second Inventory
+  description: Mira's evacuation stock is forty-one lots of other people's belongings
+    and nine of her own. Three of the lots have two owners each.
+  steps:
+  - kind: 4
+    target: Consignment
+    count: 3
+  - kind: 5
+    target: mira.inventorySettled
+    count: 1
+  rewardXp: 200
+  rewardScrip: 160
+  rewards:
+  - id: ModulesT5
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - 'Find the three disputed lots: at Nacre, on the Crawl, and under the promenade'
+  - Tell Mira what each owner decided
+  rewardsRolled: 1
+  main: 0
+  chapter: 9
+  stepTargets:
+  - scene: 
+    via: []
+    speaker: 
+    report: Consignment
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Find the disputed lots
+  - scene: DecksLeaving
+    via: []
+    speaker: Mira
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Tell Mira
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

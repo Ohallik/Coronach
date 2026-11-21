@@ -16,3 +16,6 @@ MonoBehaviour:
   displayName: Ridge Crystal
   icon: {fileID: 0}
   stack: 999
+  value: 4
+  rare: 0
+  chapter: 1

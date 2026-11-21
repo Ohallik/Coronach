@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 496f5187abc2dcf47a138e80429b5e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GeneratedAnimator
+  strideProfile: {fileID: 11400000, guid: 699e8f1578bdba240a3cbcb420f041d0, type: 2}
 --- !u!1001 &3763160712074644208
 PrefabInstance:
   m_ObjectHideFlags: 0

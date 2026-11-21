@@ -1,0 +1,256 @@
+{
+  "Sorrel_Ridges": [
+    {"id": "Sorrel_0", "x": -33, "z": 46, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_1", "x": -39, "z": 69, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_10", "x": 34, "z": 104, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_11", "x": 29, "z": 126, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_2", "x": -25, "z": 90, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_3", "x": -21, "z": 112, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_4", "x": 9, "z": 45, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_5", "x": -7, "z": 75, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_6", "x": -4, "z": 101, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_7", "x": 15, "z": 129, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_8", "x": 29, "z": 49, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_9", "x": 36, "z": 73, "yaw": 0, "width": 16, "depth": 14, "flag": ""},
+    {"id": "Sorrel_Burrower", "x": 0, "z": 164, "yaw": 0, "width": 24, "depth": 12, "flag": ""}
+  ],
+  "Hushwell": [
+    {"id": "Hushwell_0", "x": -12, "z": 48, "yaw": 0, "width": 22, "depth": 24, "flag": ""},
+    {"id": "Hushwell_1", "x": 8, "z": 84, "yaw": 0, "width": 22, "depth": 22, "flag": ""},
+    {"id": "Hushwell_2", "x": 0, "z": 164, "yaw": 0, "width": 26, "depth": 22, "flag": ""},
+    {"id": "Hushwell_3", "x": 1, "z": 226, "yaw": 0, "width": 26, "depth": 18, "flag": ""},
+    {"id": "Hushwell_Bellows", "x": 0, "z": 262, "yaw": 0, "width": 30, "depth": 26, "flag": ""}
+  ],
+  "Gullet_Tunnel": [
+    {"id": "Gullet_Cantor", "x": 0, "z": 805, "yaw": 0, "width": 66, "depth": 58, "flag": ""},
+    {"id": "Gullet_Chamber_0", "x": -2, "z": 155, "yaw": 0, "width": 58, "depth": 110, "flag": ""},
+    {"id": "Gullet_Chamber_1", "x": -2.61, "z": 355, "yaw": 0, "width": 28, "depth": 150, "flag": ""},
+    {"id": "Gullet_Chamber_2", "x": -3, "z": 590, "yaw": 0, "width": 50, "depth": 120, "flag": ""}
+  ],
+  "WickReach": [
+    {"id": "Wick_0", "x": 0, "z": 60, "yaw": 0, "width": 70, "depth": 24, "flag": ""},
+    {"id": "Wick_1", "x": 0, "z": 125, "yaw": 0, "width": 70, "depth": 24, "flag": ""},
+    {"id": "Wick_2", "x": 0, "z": 190, "yaw": 0, "width": 70, "depth": 24, "flag": ""},
+    {"id": "Wick_3", "x": 0, "z": 245, "yaw": 0, "width": 70, "depth": 24, "flag": ""}
+  ],
+  "LanternGorge": [
+    {"id": "Gorge_0", "x": 2, "z": 26, "yaw": 0, "width": 22, "depth": 16, "flag": ""},
+    {"id": "Gorge_1", "x": 8, "z": 60, "yaw": 0, "width": 22, "depth": 16, "flag": ""},
+    {"id": "Gorge_3", "x": 2, "z": 156, "yaw": 0, "width": 22, "depth": 16, "flag": ""},
+    {"id": "Gorge_4", "x": 6, "z": 204, "yaw": 0, "width": 22, "depth": 16, "flag": ""},
+    {"id": "Gorge_Camp", "x": -6, "z": 114, "yaw": 0, "width": 22, "depth": 16, "flag": ""},
+    {"id": "Gorge_Den", "x": -22, "z": 98, "yaw": 0, "width": 22, "depth": 16, "flag": ""}
+  ],
+  "SunkenRelay": [
+    {"id": "Relay_0", "x": 0, "z": 30, "yaw": 0, "width": 14, "depth": 10, "flag": ""},
+    {"id": "Relay_1", "x": 0, "z": 58, "yaw": 0, "width": 14, "depth": 10, "flag": ""},
+    {"id": "Relay_2", "x": 0, "z": 96, "yaw": 0, "width": 14, "depth": 10, "flag": ""},
+    {"id": "Relay_Hessa", "x": 0, "z": 138, "yaw": 0, "width": 38, "depth": 28, "flag": "relay.hessaConfronted"}
+  ],
+  "BraidedRiver": [
+    {"id": "River_0", "x": 76, "z": 121, "yaw": 0, "width": 24, "depth": 16, "flag": ""},
+    {"id": "River_1", "x": 132, "z": 121, "yaw": 0, "width": 24, "depth": 16, "flag": ""},
+    {"id": "River_3", "x": 146, "z": 86, "yaw": 0, "width": 22, "depth": 16, "flag": ""},
+    {"id": "River_5", "x": 260, "z": 98, "yaw": 0, "width": 26, "depth": 16, "flag": ""},
+    {"id": "River_6", "x": 296, "z": 98, "yaw": 0, "width": 24, "depth": 16, "flag": ""},
+    {"id": "River_Bar", "x": 150, "z": 66, "yaw": 0, "width": 16, "depth": 12, "flag": ""},
+    {"id": "River_Marrow1", "x": 48, "z": 88, "yaw": 0, "width": 26, "depth": 16, "flag": ""},
+    {"id": "River_Marrow2", "x": 214, "z": 95, "yaw": 0, "width": 26, "depth": 16, "flag": ""},
+    {"id": "Seedthane", "x": 362, "z": 88, "yaw": 0, "width": 30, "depth": 28, "flag": "xylos.seedfallSeen"}
+  ],
+  "WalkingCanopy": [
+    {"id": "Canopy_0", "x": 0, "z": 14, "yaw": 0, "width": 30, "depth": 12, "flag": ""},
+    {"id": "Canopy_1", "x": -37.5, "z": 25, "yaw": 0, "width": 11, "depth": 10, "flag": ""},
+    {"id": "Canopy_2", "x": -37.5, "z": 40, "yaw": 0, "width": 11, "depth": 10, "flag": ""},
+    {"id": "Canopy_3", "x": -36.5, "z": 57, "yaw": 0, "width": 12, "depth": 10, "flag": ""},
+    {"id": "Canopy_4", "x": -11, "z": 74, "yaw": 0, "width": 20, "depth": 16, "flag": ""},
+    {"id": "Canopy_Return", "x": -6, "z": 14, "yaw": 0, "width": 18, "depth": 14, "flag": "xylos.anchor2"},
+    {"id": "Floodcrown", "x": 24, "z": 52, "yaw": 0, "width": 36, "depth": 34, "flag": "xylos.basinSeen"}
+  ],
+  "XylosNearspace": [
+    {"id": "Barge1_Knots", "x": 56.95, "z": 241.13, "yaw": 0, "width": 58, "depth": 58, "flag": ""},
+    {"id": "Barge1_Skimmers", "x": 44.34, "z": 250.98, "yaw": 38, "width": 46, "depth": 40, "flag": ""},
+    {"id": "Barge2_Knots", "x": 344.24, "z": 878.06, "yaw": 0, "width": 58, "depth": 58, "flag": ""},
+    {"id": "Barge2_Skimmers", "x": 333.53, "z": 866.17, "yaw": 312, "width": 46, "depth": 40, "flag": ""},
+    {"id": "Barge3_Claim", "x": 733.49, "z": 1161.96, "yaw": 114, "width": 52, "depth": 26, "flag": ""},
+    {"id": "Barge3_Knots", "x": 757.24, "z": 1151.38, "yaw": 0, "width": 58, "depth": 58, "flag": ""},
+    {"id": "Barge3_Skimmers", "x": 771.86, "z": 1144.87, "yaw": 24, "width": 46, "depth": 40, "flag": ""},
+    {"id": "Lane_0", "x": 16.12, "z": 129, "yaw": 7.13, "width": 90, "depth": 26, "flag": ""},
+    {"id": "Lane_1", "x": 223.84, "z": 674.55, "yaw": 31.26, "width": 90, "depth": 26, "flag": ""},
+    {"id": "Lane_2", "x": 534.24, "z": 1007.12, "yaw": 63.43, "width": 90, "depth": 26, "flag": ""},
+    {"id": "Nest_1", "x": 128.47, "z": 606.11, "yaw": 0, "width": 40, "depth": 40, "flag": ""},
+    {"id": "Nest_2", "x": 604.45, "z": 991.92, "yaw": 0, "width": 40, "depth": 40, "flag": ""}
+  ],
+  "DrownedWaystation": [
+    {"id": "Gallery_Floor", "x": -7, "z": 228, "yaw": 0, "width": 30, "depth": 44, "flag": "wend.pump2"},
+    {"id": "Gallery_Terrace", "x": 15, "z": 229, "yaw": 0, "width": 14, "depth": 40, "flag": "wend.pump1"},
+    {"id": "Hall_Sentries", "x": -1, "z": 190.2, "yaw": 0, "width": 32, "depth": 7.6, "flag": "wend.pump1"},
+    {"id": "Mire_Leeches", "x": 10.5, "z": 93, "yaw": 0, "width": 24, "depth": 16, "flag": ""},
+    {"id": "Mire_Lures", "x": 27, "z": 72.5, "yaw": 0, "width": 32, "depth": 22, "flag": ""},
+    {"id": "Mire_Strider", "x": 2, "z": 32, "yaw": 0, "width": 30, "depth": 18, "flag": ""},
+    {"id": "Mire_Third", "x": -4, "z": 120, "yaw": 0, "width": 26, "depth": 24, "flag": ""},
+    {"id": "Rotbloom", "x": 0, "z": 289, "yaw": 0, "width": 38, "depth": 38, "flag": "wend.bloomSeen"}
+  ],
+  "SporeVeil": [
+    {"id": "Field_0", "x": 6.62, "z": 619.12, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_1", "x": 48.53, "z": 595.37, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_2", "x": 95.46, "z": 582.52, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_3", "x": 61.94, "z": 753.29, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_4", "x": 103.84, "z": 729.54, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_5", "x": 150.78, "z": 716.69, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_6", "x": 104.21, "z": 865.8, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_7", "x": 152.32, "z": 863.65, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Field_8", "x": 199.98, "z": 873.49, "yaw": 0, "width": 12, "depth": 12, "flag": ""},
+    {"id": "Lane_0", "x": 4.75, "z": 451.79, "yaw": 13.13, "width": 70, "depth": 24, "flag": ""},
+    {"id": "Pocket_B", "x": 170.3, "z": 1125.42, "yaw": 0, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Pods_0", "x": -22.81, "z": 148.26, "yaw": 351.25, "width": 144, "depth": 10, "flag": ""},
+    {"id": "Pods_1", "x": -39.53, "z": 256.98, "yaw": 351.25, "width": 144, "depth": 10, "flag": ""},
+    {"id": "Pods_2", "x": -8.88, "z": 393.36, "yaw": 13.13, "width": 144, "depth": 10, "flag": ""},
+    {"id": "Veil_Ray", "x": 65.81, "z": 1328.77, "yaw": 0, "width": 84, "depth": 84, "flag": ""}
+  ],
+  "ManyHands": [
+    {"id": "DessikVarn", "x": 32, "z": -34.5, "yaw": 0, "width": 37, "depth": 33, "flag": "hands.hallEntered"}
+  ],
+  "ManyHandsHull": [
+    {"id": "Hull_Drones", "x": -58, "z": -84, "yaw": 0, "width": 44, "depth": 32, "flag": "hands.claimRead"},
+    {"id": "Hulljack", "x": 0, "z": -10, "yaw": 0, "width": 150, "depth": 104, "flag": "hands.claimRead"}
+  ],
+  "AuroraShear": [
+    {"id": "Descent_0", "x": -28.35, "z": 1346.03, "yaw": 355.6, "width": 34, "depth": 34, "flag": ""},
+    {"id": "Fast_0", "x": 31.79, "z": 848.58, "yaw": 11.31, "width": 34, "depth": 34, "flag": ""},
+    {"id": "Fast_1", "x": 11.18, "z": 1068.31, "yaw": 354.29, "width": 36, "depth": 36, "flag": ""},
+    {"id": "Lane_0", "x": 20.03, "z": 585.78, "yaw": 11.31, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Shear_Tender", "x": -33.14, "z": 554.5, "yaw": 350.54, "width": 30, "depth": 34, "flag": ""}
+  ],
+  "FrozenHost": [
+    {"id": "Dig_Amber", "x": 40.2, "z": 194.5, "yaw": 0, "width": 14, "depth": 7, "flag": ""},
+    {"id": "Dig_Excavator", "x": 124, "z": 184, "yaw": 0, "width": 20, "depth": 18, "flag": ""},
+    {"id": "Dig_Motes", "x": 52, "z": 183.5, "yaw": 0, "width": 16, "depth": 11, "flag": ""},
+    {"id": "Dig_Rank", "x": 90, "z": 207.5, "yaw": 0, "width": 12, "depth": 13, "flag": "hoar.rig2"},
+    {"id": "Dig_Rank3", "x": 146, "z": 221, "yaw": 0, "width": 18, "depth": 22, "flag": "hoar.rig3"},
+    {"id": "Dig_Second", "x": 104, "z": 181, "yaw": 0, "width": 20, "depth": 22, "flag": "hoar.offerHeard"},
+    {"id": "Dig_Third", "x": 124, "z": 219, "yaw": 0, "width": 22, "depth": 26, "flag": ""},
+    {"id": "HostMarshal", "x": 208, "z": 218, "yaw": 0, "width": 36, "depth": 36, "flag": "hoar.marshalSeen"},
+    {"id": "Reach_Camp", "x": 26, "z": 152, "yaw": 0, "width": 30, "depth": 16, "flag": ""},
+    {"id": "Reach_Stalkers", "x": 0, "z": 32, "yaw": 0, "width": 36, "depth": 20, "flag": ""},
+    {"id": "Reach_West", "x": -37, "z": 61, "yaw": 0, "width": 20, "depth": 16, "flag": ""},
+    {"id": "Reach_Whiteout", "x": 6, "z": 120, "yaw": 0, "width": 40, "depth": 22, "flag": "hoar.whiteoutMet"}
+  ],
+  "GlassChoir": [
+    {"id": "Choir_Fibres", "x": -4.2, "z": 229.5, "yaw": 0, "width": 16.5, "depth": 30, "flag": ""},
+    {"id": "Choir_Sentinels", "x": -5.5, "z": 189.5, "yaw": 0, "width": 19, "depth": 32, "flag": "oriel.stay2"},
+    {"id": "Choir_Tenders", "x": -4.2, "z": 242.5, "yaw": 0, "width": 16.5, "depth": 15, "flag": "oriel.stay3"},
+    {"id": "LastWarden", "x": 0, "z": 292, "yaw": 0, "width": 38, "depth": 38, "flag": "oriel.wardenMet"}
+  ],
+  "OrielSkyfields": [
+    {"id": "Sky_Door", "x": 4, "z": 155.5, "yaw": 0, "width": 24, "depth": 13, "flag": ""},
+    {"id": "Sky_Glassback", "x": 10, "z": 43, "yaw": 0, "width": 26, "depth": 16, "flag": ""},
+    {"id": "Sky_Grove", "x": -48, "z": 43, "yaw": 0, "width": 18, "depth": 14, "flag": ""},
+    {"id": "Sky_Mixed", "x": 6, "z": 101, "yaw": 0, "width": 26, "depth": 16, "flag": ""},
+    {"id": "Sky_Pruners", "x": -34, "z": 129, "yaw": 0, "width": 20, "depth": 16, "flag": "oriel.junction2.cut"},
+    {"id": "Sky_Wisps", "x": 0, "z": 71, "yaw": 0, "width": 24, "depth": 16, "flag": ""}
+  ],
+  "Orrery": [
+    {"id": "Rail_1", "x": -30, "z": 168.9, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_2", "x": -30, "z": 258.93, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_3", "x": -30, "z": 348.97, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_4", "x": -29.99, "z": 439.02, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_5", "x": -29.99, "z": 529.08, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_6", "x": -29.99, "z": 561.11, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_7", "x": -29.99, "z": 649.19, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_8", "x": -29.99, "z": 739.3, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Rail_9", "x": -29.98, "z": 829.45, "yaw": 0, "width": 6, "depth": 6, "flag": ""},
+    {"id": "Shards_0", "x": -119.69, "z": 347.49, "yaw": 0, "width": 0.2, "depth": 0.2, "flag": ""},
+    {"id": "Shards_1", "x": -125.64, "z": 348.26, "yaw": 0, "width": 0.2, "depth": 0.2, "flag": ""},
+    {"id": "Shards_2", "x": -131.58, "z": 349.06, "yaw": 0, "width": 0.2, "depth": 0.2, "flag": ""}
+  ],
+  "BridleFoundry": [
+    {"id": "Charging_Floor", "x": 0, "z": 97, "yaw": 0, "width": 42, "depth": 30, "flag": ""},
+    {"id": "Foundry_Skips", "x": -30, "z": 24, "yaw": 0, "width": 15, "depth": 17, "flag": ""},
+    {"id": "Foundry_Yard", "x": 0, "z": 26, "yaw": 0, "width": 34, "depth": 28, "flag": ""},
+    {"id": "Gallery_Drones", "x": 0, "z": 146, "yaw": 0, "width": 50, "depth": 19, "flag": ""},
+    {"id": "Press_Bay", "x": 40, "z": 96, "yaw": 0, "width": 14, "depth": 22, "flag": "vask.sluice2"},
+    {"id": "SlagColossus", "x": 0, "z": 251, "yaw": 0, "width": 44, "depth": 44, "flag": "vask.cageSeen"},
+    {"id": "VessaKorl", "x": 0, "z": 180, "yaw": 0, "width": 50, "depth": 42, "flag": "vask.vessaMet"}
+  ],
+  "Harrowgate": [
+    {"id": "DraskVaal", "x": 0, "z": 85, "yaw": 0, "width": 35, "depth": 25, "flag": "vask.fieldTaken"}
+  ],
+  "HarrowgateHarbour": [
+    {"id": "DraskSkiff", "x": 0, "z": 30, "yaw": 0, "width": 60, "depth": 60, "flag": ""}
+  ],
+  "PicketOfTeeth": [
+    {"id": "Buoy_1", "x": 50, "z": 200, "yaw": 0, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Buoy_2", "x": -50, "z": 360, "yaw": 0, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Buoy_3", "x": 50, "z": 470, "yaw": 0, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Buoy_4", "x": 0, "z": 570, "yaw": 0, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Hunters_1", "x": 44, "z": 520, "yaw": 0, "width": 1, "depth": 1, "flag": ""},
+    {"id": "Hunters_2", "x": 44, "z": 520, "yaw": 0, "width": 1, "depth": 1, "flag": ""},
+    {"id": "Hunters_3", "x": 44, "z": 520, "yaw": 0, "width": 1, "depth": 1, "flag": ""},
+    {"id": "Lock_Flak", "x": 0, "z": 624, "yaw": 0, "width": 104, "depth": 30, "flag": "vask.lock1"}
+  ],
+  "ScoriaFlows": [
+    {"id": "Scoria_Battery", "x": 0, "z": 184, "yaw": 0, "width": 36, "depth": 32, "flag": ""},
+    {"id": "Scoria_Crossing", "x": 0, "z": 93, "yaw": 0, "width": 30, "depth": 18, "flag": ""},
+    {"id": "Scoria_Delta", "x": -4, "z": 128, "yaw": 0, "width": 40, "depth": 40, "flag": ""},
+    {"id": "Scoria_Gate", "x": 0, "z": 243, "yaw": 0, "width": 26, "depth": 18, "flag": ""},
+    {"id": "Scoria_Hollow", "x": 26, "z": 108, "yaw": 0, "width": 18, "depth": 14, "flag": ""}
+  ],
+  "BrokenRing": [
+    {"id": "DebrisCutter", "x": 0, "z": 280, "yaw": 0, "width": 100, "depth": 100, "flag": "ring.formed"},
+    {"id": "Ring_Pair1", "x": -16, "z": 118, "yaw": 0, "width": 40, "depth": 40, "flag": ""},
+    {"id": "Ring_Pair2", "x": 16, "z": 188, "yaw": 0, "width": 40, "depth": 40, "flag": ""}
+  ],
+  "NacreGrave": [
+    {"id": "Nacre_Fragment", "x": -33.52, "z": -92.09, "yaw": 0, "width": 22, "depth": 22, "flag": ""},
+    {"id": "Nacre_TowsBasin", "x": -52.98, "z": -28.17, "yaw": 0, "width": 30, "depth": 30, "flag": ""},
+    {"id": "Nacre_TowsInner", "x": -120.97, "z": -17, "yaw": 0, "width": 36, "depth": 30, "flag": ""},
+    {"id": "Nacre_TowsOuter", "x": 143.34, "z": -25.28, "yaw": 0, "width": 36, "depth": 30, "flag": ""}
+  ],
+  "SeparationWorks": [
+    {"id": "FoundrySaint", "x": 0, "z": 187, "yaw": 0, "width": 46, "depth": 26, "flag": "home.joint3"},
+    {"id": "Works_Control", "x": 24.6, "z": 84, "yaw": 0, "width": 15, "depth": 19, "flag": ""},
+    {"id": "Works_ControlRig", "x": 24.6, "z": 84, "yaw": 0, "width": 15, "depth": 19, "flag": ""},
+    {"id": "Works_Gallery", "x": 0, "z": 123, "yaw": 0, "width": 31, "depth": 40, "flag": ""},
+    {"id": "Works_GalleryRig", "x": 0, "z": 123, "yaw": 0, "width": 31, "depth": 40, "flag": ""},
+    {"id": "Works_Module", "x": 20.2, "z": 20, "yaw": 0, "width": 15, "depth": 16.5, "flag": "home.joint4"},
+    {"id": "Works_Skiff", "x": 25, "z": 134, "yaw": 0, "width": 14, "depth": 16, "flag": "home.joint6"},
+    {"id": "Works_Throat", "x": 1.5, "z": 57, "yaw": 0, "width": 24, "depth": 9, "flag": ""}
+  ],
+  "Terminator": [
+    {"id": "Terminator_Burrowers", "x": 1, "z": 520, "yaw": 0, "width": 30, "depth": 24, "flag": ""},
+    {"id": "Terminator_Engine", "x": 1, "z": 161.5, "yaw": 0, "width": 30, "depth": 35, "flag": ""},
+    {"id": "Terminator_Gull", "x": 5, "z": 462, "yaw": 0, "width": 32, "depth": 22, "flag": ""},
+    {"id": "Terminator_Gulls", "x": 1, "z": 330, "yaw": 0, "width": 32, "depth": 22, "flag": ""},
+    {"id": "Terminator_Kitchens", "x": 1, "z": 405.5, "yaw": 0, "width": 30, "depth": 35, "flag": ""},
+    {"id": "Terminator_Spines", "x": 5, "z": 262, "yaw": 0, "width": 30, "depth": 24, "flag": ""}
+  ],
+  "Continuance": [
+    {"id": "Continuance_Mess", "x": 12, "z": 30, "yaw": 0, "width": 34, "depth": 36, "flag": "end.boarded"},
+    {"id": "Continuance_Works", "x": -2, "z": 142.5, "yaw": 0, "width": 52, "depth": 54, "flag": ""},
+    {"id": "MeretShip", "x": -4, "z": 234, "yaw": 0, "width": 80, "depth": 56, "flag": "end.meretHailed"}
+  ],
+  "LastMooring": [
+    {"id": "Mooring_Gap", "x": -21, "z": 270, "yaw": 0, "width": 44, "depth": 36, "flag": ""},
+    {"id": "Mooring_Island", "x": 44, "z": 248.6, "yaw": 0, "width": 19, "depth": 8, "flag": ""},
+    {"id": "Mooring_Lane1", "x": 0, "z": 110, "yaw": 0, "width": 112, "depth": 44, "flag": ""},
+    {"id": "Mooring_Lane2", "x": 0, "z": 326, "yaw": 0, "width": 112, "depth": 44, "flag": ""},
+    {"id": "Tollkeeper", "x": 0, "z": 428, "yaw": 0, "width": 110, "depth": 72, "flag": "end.sectionHeld"}
+  ],
+  "ReturningPassage": [
+    {"id": "Passage_Tug", "x": 10.17, "z": 705.56, "yaw": 10.24, "width": 60, "depth": 44, "flag": "end.passageRun"}
+  ],
+  "SorrelSecondSky": [
+    {"id": "MotherOfDoors", "x": 0, "z": 302, "yaw": 0, "width": 148, "depth": 92, "flag": "end.sorrelSeen"},
+    {"id": "Sorrel_Clamp1", "x": -19.92, "z": 318.5, "yaw": 0, "width": 26, "depth": 26, "flag": "end.sorrelSeen"},
+    {"id": "Sorrel_Clamp2", "x": -9.72, "z": 309.15, "yaw": 0, "width": 26, "depth": 26, "flag": "end.clamp1"},
+    {"id": "Sorrel_Clamp3", "x": 9.72, "z": 309.15, "yaw": 0, "width": 26, "depth": 26, "flag": "end.clamp2"},
+    {"id": "Sorrel_Clamp4", "x": 19.92, "z": 318.5, "yaw": 0, "width": 26, "depth": 26, "flag": "end.clamp3"},
+    {"id": "Sorrel_Lane1", "x": 0, "z": 95, "yaw": 0, "width": 80, "depth": 28, "flag": ""},
+    {"id": "Sorrel_Lane2", "x": 0, "z": 175, "yaw": 0, "width": 80, "depth": 28, "flag": ""}
+  ],
+  "StillwaterChamber": [
+    {"id": "MeretGantry", "x": 0, "z": 1.3, "yaw": 0, "width": 38, "depth": 31.4, "flag": "end.meretShip"},
+    {"id": "MeretWell", "x": 0, "z": 64.6, "yaw": 0, "width": 25, "depth": 20.8, "flag": "end.wellEntered"}
+  ]
+}

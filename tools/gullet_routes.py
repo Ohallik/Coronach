@@ -37,6 +37,16 @@ def route_x(z):
     return max(center(z) - sample(z, 1) + 6, min(right_edge(z) - 6, x))
 
 
+def lead(hero, resting=False):
+    """Who leads, for a circuit written from chapter 6 on. build() below presses Swap once and takes whoever answers for "the other hull": true of two
+    heroes with both flying, which is all there was, and its JSON stays as the accepted circuits were. With three in the party say it instead: the
+    driver presses Swap until this hero leads and fails the step at once, with its reason, if they can't. resting=True, in a safe zone, also brings
+    them out through the Party page first (the step holds the pause menu's pause and ends as soon as they lead). build() doesn't call this."""
+    if resting:
+        return dict(name=hero + ' comes out and leads', seconds=14, ensureCharacter=hero, pauseUi='pause', until='lead:' + hero, expectedCharacter=hero, expectedUi='world')
+    return dict(name=hero + ' leads', seconds=1.2, ensureCharacter=hero, expectedCharacter=hero)
+
+
 def build(hero):
     steps = []
     def nav(label, x, z, seconds, fire=True):

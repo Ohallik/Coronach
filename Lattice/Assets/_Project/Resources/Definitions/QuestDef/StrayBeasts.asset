@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: StrayBeasts
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: StrayBeasts
+  title: Count Them Twice
+  description: Three of Hask's rime-beasts went through the fence when the vents
+    blew, and a beast alone doesn't know to come home.
+  steps:
+  - kind: 4
+    target: StrayBeast
+    count: 3
+  - kind: 5
+    target: hask.straysCounted
+    count: 1
+  rewardXp: 300
+  rewardScrip: 160
+  rewards:
+  - id: FramesT4
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Walk the three strays in from the steam on the White Reach, without running
+  - Let Hask count them
+  rewardsRolled: 1
+  main: 0
+  chapter: 6
+  stepTargets:
+  - scene: FrozenHost
+    via:
+    - Lastlight
+    speaker: 
+    report: StrayBeast
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Bring in the strays
+  - scene: Lastlight
+    via:
+    - FrozenHost
+    speaker: Hask
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Let Hask count them
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

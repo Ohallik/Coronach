@@ -259,7 +259,9 @@ namespace Lattice.Tests.PlayMode
             var failures=new List<string>();AudioManager.CueStarted+=Cue;
             try
             {
-                foreach(var hero in PartyController.Current.members)foreach(var skill in SkillBook.All(hero.character))
+                // What they know at Sync 12, where this took every skill there is: the three S3 adds at Sync 16, 20 and 24 can't be equipped at this level, and are heard
+                // from their casters in SkillsLateTests.
+                foreach(var hero in PartyController.Current.members)foreach(var skill in SkillBook.Learned(hero.character))
                 {
                     for(float end=Time.unscaledTime+2;!hero.CanAct&&Time.unscaledTime<end;){hero.motor.Move(Vector2.zero,false,false);yield return null;}
                     // A blink's mine and a fold's well sound from the hero after she can act again: left alone, they would speak for a silent skill.

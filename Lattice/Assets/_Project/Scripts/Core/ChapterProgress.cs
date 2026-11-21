@@ -12,6 +12,7 @@ namespace Lattice.Core
 
         public static float MaxIntegrity(int level)=>120+18*(UnityEngine.Mathf.Clamp(level,1,40)-1);
         static readonly System.Text.RegularExpressions.Regex PartId=new("^(Edges|Emitters|Frames|Drives|Modules)T[0-9]$");
+        static readonly System.Text.RegularExpressions.Regex LaterPartId=new("^(Edges|Emitters|Frames|Drives|Modules)[A-Za-z0-9]+$");
         /// <summary>Puts right what older builds wrote: gels, cells and parts stranded in materials where they can't be used,
         /// a party saved with nobody standing, which would load into an endless defeat, and what a later flag cost a save for good.
         /// It runs on every read and writes nothing itself, so each repair sets the flag that stops it: the next save holds both, and it's paid once.</summary>
@@ -25,11 +26,24 @@ namespace Lattice.Core
                 {state.consumables.TryGetValue(id,out int held);state.consumables[id]=held+count;state.materials.Remove(id);}
             foreach(string id in new System.Collections.Generic.List<string>(state.materials.Keys))
             {
-                if(!PartId.IsMatch(id))continue;
+                // The first two tiers by their pattern, as ever; a later part by its definition, since its id says more than a tier ("EdgesT3Plasma", "ModulesReservoir").
+                if(!PartId.IsMatch(id)&&!(LaterPartId.IsMatch(id)&&GameCatalog.Find<Lattice.Data.TechPartDef>(id)!=null))continue;
                 for(int i=0;i<state.materials[id];i++)state.parts.Add(new Lattice.Data.PartInstance{definitionId=id});
                 state.materials.Remove(id);
             }
-            if(state.party.Count>0&&state.party.TrueForAll(m=>m.integrity<=0))foreach(var member in state.party)member.integrity=MaxIntegrity(member.level);
+            // A part written before affixes were rolled, or by hand, can hold null where its list belongs: every sum over a part reads that list.
+            state.parts.RemoveAll(part=>part==null);foreach(var part in state.parts)part.affixes??=new();
+            // The carry cap (prog159) came after these saves were written. What's over it is paid at its value: the cap holds from the first fight and nothing is lost.
+            // It pays once, since the count is at the cap from then on.
+            foreach(string id in new System.Collections.Generic.List<string>(state.consumables.Keys))
+            {
+                var def=GameCatalog.Find<Lattice.Data.ConsumableDef>(id);if(def==null||def.stack<=0||state.consumables[id]<=def.stack)continue;
+                int over=state.consumables[id]-def.stack,paid=over*UnityEngine.Mathf.Max(0,def.value);
+                state.consumables[id]=def.stack;state.scrip+=paid;UnityEngine.Debug.Log($"SAVE_REPAIRED carry cap {id} -{over} +{paid} scrip");
+            }
+            // Nobody standing is nobody out (Deployment.Of, the whole party for two): with three, a hero resting with Integrity to spare isn't on the field, and a save of the
+            // two out down would still have loaded into a defeat.
+            var field=Deployment.Of(state);if(field.Count>0&&field.TrueForAll(m=>m.integrity<=0))foreach(var member in field)member.integrity=MaxIntegrity(member.level);
             // Until November 6 a later flag played a speaker's later words as the first talk and still marked them met, and a first node never plays twice.
             // Her cache has only this flag to wait on, and pays once by itself (SalvageField), so it's safe whatever she has or hasn't said.
             if(Has(state,"met.Neve")&&!Has(state,"neve.cache"))Restore(state,"neve.cache");
@@ -39,6 +53,8 @@ namespace Lattice.Core
             // Reaching Tallow with the chart is what takes Pell out of Lanternwick (a FlagAll in TallowDrift), and the homecoming is only heard there. A save from before that flag
             // has heard it and still has her on the square, packing, until the next dock at Tallow.
             if(Has(state,"chapter2.homecoming")&&!Has(state,"pell.aboard"))Restore(state,"pell.aboard");
+            // A party of three whose lead is written as the hero resting (a file changed by hand) would steer one hero and equip another. A party of two is never touched.
+            Deployment.Settle(state);
         }
         static void Restore(GameState state,string flag){state.flags[flag]=true;UnityEngine.Debug.Log("SAVE_REPAIRED "+flag);}
         /// <summary>What Inventory.Give does to a material, which Core can't call. No quest gathers these two, so there's nothing to report.</summary>

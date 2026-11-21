@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: EmptyGardens
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: EmptyGardens
+  title: The Empty Gardens
+  description: A gardener has followed twelve paces behind since the landing. At
+    a frayed junction, under a garden that was sagging, it put down its rake and
+    held out its hands.
+  steps:
+  - kind: 4
+    target: GardenJunction
+    count: 3
+  - kind: 4
+    target: SealedGarden
+    count: 1
+  rewardXp: 320
+  rewardScrip: 180
+  rewards:
+  - id: ModulesMasteryLens
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Seat the three frayed garden junctions, and cut none of them
+  - Follow the gardener
+  rewardsRolled: 0
+  main: 0
+  chapter: 7
+  stepTargets:
+  - scene: OrielSkyfields
+    via: []
+    speaker: 
+    report: GardenJunction
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Seat the junctions
+  - scene: OrielSkyfields
+    via: []
+    speaker: 
+    report: SealedGarden
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Follow the gardener
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

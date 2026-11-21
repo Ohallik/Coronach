@@ -1,0 +1,857 @@
+{
+  "name": "chapter-59-the-foundry-saint",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: the Foundry Saint at its collars and on its back, Orrin on the speaker, the lift up to the Decks",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.joint3",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "through the press hall's door",
+      "seconds": 5.52,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -6.0,
+        "z": 179
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "lock FoundrySaint",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release lock FoundrySaint",
+      "seconds": 0.3,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 1a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 1b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 2a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 2b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 3a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 3b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 4a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 4b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 5a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 5b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 6a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 6b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 7a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 7b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 8a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 8b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 9a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 9b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 10a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 10b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 11a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 11a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 11b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 11b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 11",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 12a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 12a",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "skill FoundrySaint 12b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release skill FoundrySaint 12b",
+      "seconds": 0.45,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "fight FoundrySaint round 12",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.FoundrySaint",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "FoundrySaint is down",
+      "seconds": 4,
+      "until": "flag:bossdown.FoundrySaint",
+      "expectedFlag": "bossdown.FoundrySaint",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "reach the fallen hero after the Saint",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "both heroes ready after the Saint",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Orrin on the press's speaker begins",
+      "seconds": 10,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Orrin on the press's speaker line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Orrin on the press's speaker line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Orrin on the press's speaker line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Orrin on the press's speaker line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Orrin on the press's speaker line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Orrin on the press's speaker line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "read Orrin on the press's speaker line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "next Orrin on the press's speaker line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release Orrin on the press's speaker line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "finish Orrin on the press's speaker",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.saintReleased",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "release after Orrin on the press's speaker",
+      "seconds": 0.5,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "to the lift home",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 18.399998,
+        "y": -6.0,
+        "z": 207.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "SeparationWorks"
+    },
+    {
+      "name": "ride the lift up to the Decks",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:DecksLeaving",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "release ride the lift up to the Decks",
+      "seconds": 0.5,
+      "expectedScene": "DecksLeaving"
+    },
+    {
+      "name": "up on the Decks",
+      "seconds": 2,
+      "expectedFlag": "home.saintReleased",
+      "expectedScene": "DecksLeaving"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

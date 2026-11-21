@@ -11,6 +11,14 @@ namespace Lattice.World
             if(TalkRequested==null)return false;
             TalkRequested.Invoke(node,speaker,done??(_=>{}));return true;
         }
+        public static event Action<string,string,Action<bool>> FollowRequested;
+        /// <summary>Said straight after the conversation running now, in the same box (DialogueSystem.Follow): chapter 9's extras after a door's own line. Refused (done(false)) with
+        /// nothing running; false with nobody to hear it.</summary>
+        public static bool SayNext(string node,string speaker,Action<bool> done=null)
+        {
+            if(FollowRequested==null)return false;
+            FollowRequested.Invoke(node,speaker,done??(_=>{}));return true;
+        }
         public string speaker,firstNode,repeatNode,postNode,postFlag="warpkey";
         public string finalNode,finalFlag;
         // Optional completion-owned acknowledgement after the final tier.
@@ -42,7 +50,13 @@ namespace Lattice.World
             {
                 if(TalkRequested==null)return;
                 pending=true;int asked=++request;
-                TalkRequested.Invoke(story,speaker,_=>{if(this!=null&&asked==request)pending=false;});
+                // A beat the story waits behind (chapter 2's last word, before chapter 3's offer) says so once it has been heard to its end.
+                string heard=SideStories.HeardFlagFor(story);
+                TalkRequested.Invoke(story,speaker,completed=>
+                {
+                    if(this!=null&&asked==request)pending=false;
+                    if(completed&&heard!=null&&GameServices.Current!=null&&ReferenceEquals(state,GameServices.Current.State))GameServices.Current.Flags.SetBool(heard,true);
+                });
                 return;
             }
             // A first meeting comes first, whatever the story has moved on to: a later flag used to skip the introduction,

@@ -1,0 +1,2128 @@
+{
+  "name": "chapter-66-the-continuance",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: the boarding spine, the mess, the captain of the Steady Hand, the works, the flight berth, Meret's craft (her door retried), the dock to the gantry",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "end.gateOpen",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "up the boarding spine",
+      "seconds": 10.86,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -2.31,
+        "z": -40
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "on up the spine until Idra speaks",
+      "seconds": 9.88,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -8.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Idra's crews brace the spine begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Idra's crews brace the spine line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Idra's crews brace the spine line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Idra's crews brace the spine line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Idra's crews brace the spine line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Idra's crews brace the spine line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Idra's crews brace the spine line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Idra's crews brace the spine line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Idra's crews brace the spine line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Idra's crews brace the spine line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "finish Idra's crews brace the spine",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.boarded",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release after Idra's crews brace the spine",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "aboard, to the mess 1/3",
+      "seconds": 9.88,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -8.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "aboard, to the mess 2/3",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 8.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "aboard, to the mess 3/3",
+      "seconds": 5.04,
+      "navigate": true,
+      "point": {
+        "x": 3.0,
+        "y": 0.0,
+        "z": 20.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "lock Continuance_Mess",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release lock Continuance_Mess",
+      "seconds": 0.3,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 1a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 1b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Mess round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 2a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 2b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Mess round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 3a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 3b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Mess round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 4a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 4b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Mess round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 5a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Mess 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Mess 5b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Mess round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Mess",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Continuance_Mess cleared",
+      "seconds": 3,
+      "until": "flag:clear.Continuance_Mess",
+      "expectedFlag": "clear.Continuance_Mess",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "reach the fallen hero after Continuance_Mess",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "both heroes ready after Continuance_Mess",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "to the stair and deck four 1/4",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0.0,
+        "z": 44
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "to the stair and deck four 2/4",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 50
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "to the stair and deck four 3/4",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 60
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "to the stair and deck four 4/4",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 72
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "across deck four until the captain speaks",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3,
+        "z": 88
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "The captain of the Steady Hand lets them pass begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read The captain of the Steady Hand lets them pass line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next The captain of the Steady Hand lets them pass line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release The captain of the Steady Hand lets them pass line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read The captain of the Steady Hand lets them pass line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next The captain of the Steady Hand lets them pass line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release The captain of the Steady Hand lets them pass line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read The captain of the Steady Hand lets them pass line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next The captain of the Steady Hand lets them pass line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release The captain of the Steady Hand lets them pass line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "finish The captain of the Steady Hand lets them pass",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.captainPassed",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release after The captain of the Steady Hand lets them pass",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "the captain stands aside",
+      "seconds": 3,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "on to the works 1/2",
+      "seconds": 9.88,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 104
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "on to the works 2/2",
+      "seconds": 3.48,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 110
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "on into Continuance_Works",
+      "seconds": 3.8,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -3.0,
+        "z": 117.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "lock Continuance_Works",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release lock Continuance_Works",
+      "seconds": 0.3,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 1a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 1b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 2a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 2b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 3a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 3b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 4a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 4b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 5a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 5b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 5",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 6a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 6b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 6",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 7a",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "skill Continuance_Works 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release skill Continuance_Works 7b",
+      "seconds": 0.45,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "fight Continuance_Works round 7",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Continuance_Works",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Continuance_Works cleared",
+      "seconds": 3,
+      "until": "flag:clear.Continuance_Works",
+      "expectedFlag": "clear.Continuance_Works",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "reach the fallen hero after Continuance_Works",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "both heroes ready after Continuance_Works",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "through the works' north door to the bay 1/4",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 170
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "through the works' north door to the bay 2/4",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -3.0,
+        "z": 190
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "through the works' north door to the bay 3/4",
+      "seconds": 7.93,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -3.0,
+        "z": 214
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "through the works' north door to the bay 4/4",
+      "seconds": 7.5,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": -3.0,
+        "z": 236
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "settle before launch from the bay round the hull",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "launch from the bay round the hull",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "docked:HullBerth",
+      "stopWhen": "docked:HullBerth",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "flying round the hull",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "north over the hull until Meret hails",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": -8.0,
+        "y": 19.0,
+        "z": 204
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Meret hails them from her craft begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret hails them from her craft line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret hails them from her craft line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret hails them from her craft line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret hails them from her craft line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret hails them from her craft line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret hails them from her craft line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret hails them from her craft line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret hails them from her craft line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret hails them from her craft line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret hails them from her craft line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret hails them from her craft line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret hails them from her craft line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret hails them from her craft line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret hails them from her craft line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret hails them from her craft line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret hails them from her craft line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret hails them from her craft line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret hails them from her craft line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "finish Meret hails them from her craft",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.meretHailed",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release after Meret hails them from her craft",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "settle at the bay's way back in",
+      "seconds": 10.8,
+      "navigate": true,
+      "point": {
+        "x": -8.0,
+        "y": 19.0,
+        "z": 193.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "back in to the bay",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "launched:HullBerth",
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "on foot in the bay",
+      "seconds": 0.6,
+      "expectedForm": "Shaped",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "to the bay's pad",
+      "seconds": 4.62,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": -3,
+        "z": 236
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "bossDoor": "MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "settle before launch round the hull after her craft",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "launch round the hull after her craft",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "docked:HullBerth",
+      "stopWhen": "docked:HullBerth",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "flying round the hull",
+      "seconds": 0.6,
+      "expectedForm": "Flight",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "into her lane",
+      "seconds": 6.69,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 19.0,
+        "z": 214
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "lock MeretShip",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release lock MeretShip",
+      "seconds": 0.3,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 1",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 2",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 3",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 4",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 5",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 6",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 6",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 7",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 7",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 8",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 8",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 9",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 9",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 10",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 10",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 11",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 11",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 12",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 12",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 12",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 13",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 13",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 13",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pursue MeretShip round 14",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "pulse MeretShip round 14",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release pulse MeretShip round 14",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "MeretShip is down",
+      "seconds": 4,
+      "until": "flag:bossdown.MeretShip",
+      "expectedFlag": "bossdown.MeretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "Meret at the gantry's rail begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret at the gantry's rail line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret at the gantry's rail line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret at the gantry's rail line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret at the gantry's rail line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret at the gantry's rail line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret at the gantry's rail line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret at the gantry's rail line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret at the gantry's rail line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret at the gantry's rail line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "read Meret at the gantry's rail line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "next Meret at the gantry's rail line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release Meret at the gantry's rail line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "finish Meret at the gantry's rail",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.meretShip",
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "release after Meret at the gantry's rail",
+      "seconds": 0.5,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "settle at the dock at the frame gantry",
+      "seconds": 50.0,
+      "navigate": true,
+      "point": {
+        "x": 24.0,
+        "y": 19.0,
+        "z": 242.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "Continuance"
+    },
+    {
+      "name": "dock at the frame gantry",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:StillwaterChamber",
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "leftTrigger": 1,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release dock at the frame gantry",
+      "seconds": 0.5,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "on the gangway to the gantry",
+      "seconds": 2,
+      "expectedFlag": "end.meretShip",
+      "expectedScene": "StillwaterChamber"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

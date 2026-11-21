@@ -22,9 +22,25 @@ param(
     [ValidateSet(-1,0,1,2,3)][int]$DiagnosticQueue=-1,
     [ValidateSet('Windowed','Borderless','Exclusive')][string]$WindowMode='Windowed',
     [string]$ResumeFrom,
-    [int]$TimeoutSec=780
+    # Extra engine switches for the player, for diagnosis (for example '-force-d3d12-single-pso-disk-cache').
+    [string[]]$PlayerArgs=@(),
+    [int]$TimeoutSec=780,
+    # Reconnaissance (D290): the driver's pad reaches the game while the window is behind another, so a route can be tried while
+    # engineers work at the same machine. It is never evidence: run.json and analysis.json say "valid": false and "reconnaissance":
+    # true, only another reconnaissance run may resume from it, and its folder must have "recon" in its path.
+    [switch]$Reconnaissance,
+    # With -Reconnaissance: resume from a reconnaissance run that found faults (quality_resume.py --past-faults), so a chain finds every
+    # stop in a chapter and not only the first. What it finds after a fault may be that fault's consequence.
+    [switch]$PastFaults,
+    # With -Reconnaissance: open a window after all. A windowless player draws nothing to capture (every still is black), so a
+    # reconnaissance run that captures needs one; the window must then stay uncovered (leave the machine alone), or it presents once a
+    # second and the route crawls: read the segment's median frame time before believing it.
+    [switch]$Windowed
 )
 $ErrorActionPreference='Stop'
+if($PastFaults -and -not $Reconnaissance){throw 'Only reconnaissance goes on past faults'}
+if($Reconnaissance -and $Output -notmatch 'recon'){throw 'A reconnaissance run writes under a folder with "recon" in its name, so nobody takes it for evidence'}
+if($Reconnaissance -and ($Profile -or $Headroom -or $GpuClocks -or $FrameClocks -or $NativeGpu)){throw 'Reconnaissance is not timing evidence'}
 if($GpuClocks){$Headroom=$true}
 if($GroundPose){$Motion=$true}
 if($NativeGpu){
@@ -44,7 +60,7 @@ if (Test-Path -LiteralPath $folder) { throw 'Choose a new output directory; pres
 New-Item -ItemType Directory -Path $folder -Force | Out-Null
 # Clean timing must not silently overlap another project's build/render work.
 # Inspect and record only; never stop an unrelated process to obtain a pass.
-$cleanTiming=-not $Capture -and -not $Profile
+$cleanTiming=-not $Capture -and -not $Profile -and -not $Reconnaissance
 $interference=@()
 function Get-QualityCompetitors([int]$IgnoreId=0) {
     @(Get-CimInstance Win32_Process | Where-Object {
@@ -65,7 +81,9 @@ if($LASTEXITCODE -ne 0){throw 'Route checkpoints were rejected; player was not s
 if($ResumeFrom){
     $routeData=Get-Content -LiteralPath $routePath -Raw | ConvertFrom-Json
     if($routeData.scene -ne 'Title' -or $routeData.starterParty -ne $false -or $routeData.loadout){throw 'Resume must enter the actual Title Continue menu without a development loadout'}
-    & python (Join-Path $repo 'tools/quality_resume.py') (Join-Path $repo $ResumeFrom) $folder
+    if($Reconnaissance -and $PastFaults){& python (Join-Path $repo 'tools/quality_resume.py') (Join-Path $repo $ResumeFrom) $folder --reconnaissance --past-faults}
+    elseif($Reconnaissance){& python (Join-Path $repo 'tools/quality_resume.py') (Join-Path $repo $ResumeFrom) $folder --reconnaissance}
+    else{& python (Join-Path $repo 'tools/quality_resume.py') (Join-Path $repo $ResumeFrom) $folder}
     if($LASTEXITCODE -ne 0){throw 'Prior replay saves were rejected; player was not started'}
 }
 $exe=Join-Path $repo $(if($Build -eq 'Release'){'Builds/Windows/Coronach.exe'}else{'Builds/WindowsDev/Coronach.exe'})
@@ -77,12 +95,20 @@ $log=Join-Path $folder 'player.log'
 $launch=@('-screen-fullscreen',[string]([int]($WindowMode -ne 'Windowed')),'-screen-width','1920','-screen-height','1080','-quality-route',$routePath,'-quality-output',$folder,'-savepath',(Join-Path $folder 'saves'),'-logFile',$log)
 if($WindowMode -ne 'Windowed'){$launch+=@('-window-mode',$WindowMode.ToLowerInvariant())}
 if($GraphicsApi -ne 'Auto'){$launch+=('-force-'+$GraphicsApi.ToLowerInvariant())}
+# Reconnaissance runs with no window at all (-batchmode): nothing opens over anybody's work or takes the focus, and nothing covers it.
+# A window was tried first (November 14): given the focus back it ends up wholly behind another window, and Windows then lets it present
+# about once a second, v-sync or not (a fifteenth of real speed). Windowless, the same route kept the strict run's pace to the second.
+# The player paces itself at sixty in batch mode (GameServices).
+if($Windowed -and -not $Reconnaissance){throw '-Windowed belongs to reconnaissance: a focus-checked replay always has its window'}
+if($Reconnaissance -and $Capture -and -not $Windowed){throw 'A windowless reconnaissance run captures only black: add -Windowed, and leave its window uncovered'}
+if($Reconnaissance -and -not $Windowed){$launch+='-batchmode'}
 if($DiagnosticVSync -ge 0){$launch+=@('-quality-vsync',[string]$DiagnosticVSync)}
 if($MultithreadedRendering){$launch+='-force-gfx-mt'}
 if($DirectRendering){$launch+='-force-gfx-direct'}
 if($D3D11BitBlt){$launch+=@('-force-d3d11','-force-d3d11-bitblt-model')}
 if($DiagnosticQueue -ge 0){$launch+=@('-quality-queue',[string]$DiagnosticQueue)}
 if ($Capture) { $ffmpeg=(& python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())').Trim(); $launch+=@('-quality-ffmpeg',$ffmpeg) }
+if ($PlayerArgs.Count) { $launch+=$PlayerArgs }
 if ($Arrows) { $launch+='-quality-arrows' }
 if ($Profile) { $launch+='-quality-profile' }
 if ($ProfileSegmentFrames) { $launch+=@('-quality-profile-segments',[string]$ProfileSegmentFrames) }
@@ -93,7 +119,8 @@ if ($NativeGpu) { $launch+='-quality-native-gpu' }
 if ($Census) { $launch+='-quality-census' }
 if ($Motion) { $launch+='-quality-motion' }
 if ($GroundPose) { $launch+='-quality-ground-pose' }
-$manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}
+if ($Reconnaissance) { $launch+='-quality-reconnaissance' }
+$manifest=@{reconnaissance=[bool]$Reconnaissance;source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}
 $assemblyDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data/Managed'
 $manifest.assemblies=@(Get-ChildItem -LiteralPath $assemblyDir -Filter 'Lattice.*.dll' | ForEach-Object { @{name=$_.Name;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })
 $manifest.arguments=$launch
@@ -106,7 +133,12 @@ $plugins=Join-Path $dataDir 'Plugins'
 $manifest.nativePlugins=@(if(Test-Path -LiteralPath $plugins){Get-ChildItem -LiteralPath $plugins -File -Recurse -Filter '*.dll' | ForEach-Object { @{path=$_.FullName.Substring($dataDir.Length+1);bytes=$_.Length;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} }})
 $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $folder 'build.json')
 # This is the visible game being reviewed. Focus is verified per frame; no focus override.
+# (A reconnaissance run has no window: see -batchmode above. It can pass nothing.)
 $process=Start-Process -FilePath $exe -ArgumentList ($launch | ForEach-Object { '"'+$_+'"' }) -PassThru
+if($Reconnaissance){
+    # It shares the machine with test mirrors and builders that take every core: the game goes ahead of them.
+    try{$process.PriorityClass='AboveNormal'}catch{}
+}
 # Retain the native handle before polling. Windows PowerShell may otherwise
 # lose ExitCode when a Start-Process child has already been disposed.
 $ownedProcessHandle=$process.Handle
@@ -140,5 +172,5 @@ try {
         & $ffmpeg -hide_banner -loglevel error -i (Join-Path $folder 'video.mp4') -i (Join-Path $folder 'mix.wav') -c:v copy -c:a aac -b:a 192k -shortest (Join-Path $folder 'replay.mp4')
         if ($LASTEXITCODE -ne 0) { throw 'Video/audio mux failed; raw artifacts preserved' }
     }
-    if ($null -eq $processExit -or $processExit -ne 0 -or (Get-Content -LiteralPath $log -Raw) -match 'Exception:|QUALITY_REPLAY_REJECTED') { throw "Quality replay rejected; inspect $folder" }
+    if ($null -eq $processExit -or $processExit -ne 0 -or (Get-Content -LiteralPath $log -Raw) -match 'Exception:|QUALITY_REPLAY_REJECTED|QUALITY_RECONNAISSANCE_FAILED') { throw "Quality replay rejected; inspect $folder" }
 } finally { if (-not $process.HasExited) { Stop-LatticeProcessTree $process.Id } }

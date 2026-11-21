@@ -18,6 +18,8 @@ namespace Lattice.Combat
         public Vector3 Facing{get;private set;}=Vector3.forward;
         public Vector3 Velocity=>Core.GameTime.Paused||actor!=null&&(!actor.Health.Alive||actor.Recovering)?Vector3.zero:velocity;
         public void Halt(){velocity=dashVelocity=Vector3.zero;dashRemaining=0;engineDrive=0;thrustFrame=-1;}
+        /// <summary>When (unscaled) the hull last struck something solid and bounced off it, as a pilot feels a scrape: the replay driver's hands read it (ContinuousReview.Cover.cs).</summary>
+        public float LastScrape=>contactAt;
         void OnDisable(){Halt();}
         void Awake(){controller=GetComponent<CharacterController>();controller.minMoveDistance=0;actor=GetComponent<CombatActor>();}
         public static Vector3 Integrate(Vector3 velocity,Vector3 input,float dt,float acceleration,float drag,float max,bool brake)
@@ -65,7 +67,8 @@ namespace Lattice.Combat
                 if(dashRemaining<=0)velocity=Vector3.ClampMagnitude(velocity,maxSpeed);
                 return;
             }
-            Vector3 displacement=Advance(ref velocity,thrust,dt,acceleration*(boost?2.1f:1),drag,maxSpeed*(boost?1.9f:1),brake);
+            // Held by a tether or caught in a cloud (Health.Hinder), the hull's top speed is that share of itself; a roll's dash above is untouched, as on foot.
+            Vector3 displacement=Advance(ref velocity,thrust,dt,acceleration*(boost?2.1f:1),drag,maxSpeed*(boost?1.9f:1)*(actor!=null?actor.Health.Pace:1),brake);
             if(thrust.sqrMagnitude>.01f)Facing=thrust.normalized;
             if(Facing.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(Facing);
             if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
@@ -82,6 +85,11 @@ namespace Lattice.Combat
             var turn=Quaternion.RotateTowards(Quaternion.LookRotation(Facing),Quaternion.LookRotation(direction),360*(actor!=null?actor.MotorDelta:Time.deltaTime));
             Facing=turn*Vector3.forward;transform.rotation=turn;
         }
+        /// <summary>Solids the game itself has under way (a seed barge drifting back to its lane once its last knot is cut, World.SnaggedBarge): one that comes against the
+        /// pilot's hull shoves it, as any solid does, and costs nothing. The pilot did not fly into it: it came through where the last knot is cut from, and cost the ship that
+        /// freed it 12 a touch (three plays of barge three through the pad, November 20, and part of one defeat).</summary>
+        public static readonly System.Collections.Generic.List<Transform> UnderWay=new();
+        static bool ComesAtUs(Collider solid){foreach(var mover in UnderWay)if(mover!=null&&solid.transform.IsChildOf(mover))return true;return false;}
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
             // Combatants resolve damage through their attacks. Brushing a partner or a
@@ -96,7 +104,11 @@ namespace Lattice.Combat
                 return;
             }
             contactAt=Time.unscaledTime;dashRemaining=0;velocity=Vector3.Reflect(velocity,hit.normal)*.4f+hit.normal*4;
-            if(Lattice.Core.ZoneController.Current!=null&&Lattice.Core.ZoneController.Current.Combat&&TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
+            // What a scrape costs is the pilot's: the hull the player is flying. The partner is flown by the game, and where its steering fails (a knot to fight a hull's
+            // width off a barge, a swarm chased along the lane's limit) it struck the same thing again and again until it fell: Sela went down against a seed barge on
+            // twenty-one scrapes with nothing shooting at her (first player run of chapter 3, November 13). It still bounces off, and still says what it struck.
+            var party=PartyController.Current;bool piloted=party==null||party.Active==null||party.Active.gameObject==gameObject;
+            if(piloted&&!ComesAtUs(hit.collider)&&Lattice.Core.ZoneController.Current!=null&&Lattice.Core.ZoneController.Current.Combat&&TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
             // At most once per 0.6 s: evidence of what a route or a pilot actually strikes.
             Debug.Log($"WALL_CONTACT {name} {hit.collider.name} at {transform.position}");
         }

@@ -42,7 +42,8 @@ namespace Lattice.Dialogue
         public override async YarnTask OnDialogueCompleteAsync()
         {
             while(pendingLines>0)await YarnTask.Yield();
-            if(system!=null)system.PresenterView?.Hide();
+            // A conversation followed straight on (DialogueSystem.Follow) leaves the box up for the next one's first line.
+            if(system!=null&&!system.FollowsOn)system.PresenterView?.Hide();
         }
     }
 }

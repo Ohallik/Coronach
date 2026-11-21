@@ -19,6 +19,7 @@ namespace Lattice.EditorTools
     public static class QaNov10Staging
     {
         const string WorldMaterials="Assets/_Project/Resources/WorldMaterials/";
+        [Restage.Step("chapter1.nov10","Hushwell,Gullet_Tunnel,Sorrel_Ridges,TallowApproach",After="chapter1.staging-final",Chapter=1,ScenesArg="-qa-zones",Leaves=new[]{"Hushwell: Seal frame #2","Gullet_Tunnel: Mouth lower lip #1","Sorrel_Ridges: Rig torn plates #1","Sorrel_Ridges: Rig deck scorch #1","Sorrel_Ridges: Rig smoke #1","Sorrel_Ridges: Wreck smoke #1"})]
         public static void Apply()=>BatchTools.Run(()=>
         {
             string only=DevArgs.Value("-qa-zones");var zones=only?.Split(',');
@@ -89,7 +90,10 @@ namespace Lattice.EditorTools
                     jamb.transform.localScale=Vector3.Scale(jamb.transform.localScale,new Vector3(slim,1,slim));
                     b=ModelGeometry.BoundsOf(jamb);jamb.transform.position+=new Vector3(x-b.center.x,0,at.z-b.center.z);
                 }
-                Span("HushwellLowRidge",frame,new Vector3(left-.3f,floor,at.z),new Vector3(right+.3f,floor,at.z),.45f,.14f).name="Seal sill";
+                // Laid end to end at about the ridge's own length (1.08 m at this height). One ridge stretched across the whole door was ten times longer than it is deep, its
+                // texture smeared along it (QaPlanWorldTests.NoKitPieceIsStretchedAcrossItsTexture, which November 10's staging was never run against).
+                float sillFrom=left-.3f,sillTo=right+.3f;int sills=Mathf.Max(1,Mathf.RoundToInt((sillTo-sillFrom)/1.08f));
+                for(int i=0;i<sills;i++)Span("HushwellLowRidge",frame,new Vector3(Mathf.Lerp(sillFrom,sillTo,i/(float)sills),floor,at.z),new Vector3(Mathf.Lerp(sillFrom,sillTo,(i+1f)/sills),floor,at.z),.45f,.14f).name="Seal sill";
                 Debug.Log($"QA_SEAL_FRAME {seal.name} left={left:F2} right={right:F2} floor={floor}");
             }
         }
@@ -212,29 +216,42 @@ namespace Lattice.EditorTools
             Debug.Log($"QA_DECK_TOP at={at} floor={floor:F2} top={top:F2}");
             return top;
         }
-        /// <summary>The Burrower's wreck smokes too, where it burned out; it shows only when BossWreck shows the wreck.</summary>
+        /// <summary>Where the line every route walks through the excavation begins, from the west, with a hand's margin: the wreck and everything of it keeps west of x -2
+        /// (QaWorldBeatsTests.TheRigStaysWhereItFell).</summary>
+        const float RouteLineWest=-2.3f;
+        /// <summary>The Burrower's wreck smokes too, where it burned out: a smoulder down in the excavation's shelter, smaller and slower than the drill's smoke up in the wind and
+        /// leaning the same way. At the drill's size and drift the column reached x -1.7 one load and -1.35 the next, wherever its random puffs happened to be, across the route
+        /// line; so its farthest possible reach is worked out from its own settings and its foot set back from the line by that, never left to chance. It lives with the thrown
+        /// parts, shown on a later visit: in the fight the wreck takes over wherever the body fell, and a column rising from the site with no rig under it comes from nowhere.</summary>
         static void WreckSmoke()
         {
             var wreck=All<Transform>().FirstOrDefault(t=>t.name=="Burrower wreck"&&t.parent==null);if(wreck==null)return;
             foreach(var old in wreck.GetComponentsInChildren<Transform>(true).Where(t=>t.name=="Wreck smoke").ToArray())Object.DestroyImmediate(old.gameObject);
-            var b=ModelGeometry.BoundsOf(wreck.Find("Rig").gameObject);
-            Smoke("Wreck smoke",new Vector3(b.center.x,b.max.y-.3f,b.center.z),.8f,wreck);
+            var b=ModelGeometry.BoundsOf(wreck.Find("Rig").gameObject);var parts=wreck.Find("Thrown parts")??throw new System.InvalidOperationException("QA_PROBLEM Sorrel_Ridges: the wreck has no thrown parts");
+            const float Scale=.65f,Wind=.35f;float reach=SmokeReach(Scale,Wind),x=Mathf.Min(b.center.x,RouteLineWest-reach);
+            if(x<b.min.x+.4f)throw new System.InvalidOperationException($"QA_PROBLEM Sorrel_Ridges: the wreck's smoke reaches {reach:F2} m east, so rising from the rig ({b.min.x:F2} to {b.max.x:F2}) it crosses the route line at x {RouteLineWest}");
+            Smoke("Wreck smoke",new Vector3(x,b.max.y-.3f,b.center.z),Scale,parts,Wind);
+            Debug.Log($"QA_WRECK_SMOKE rig x {b.min.x:F2} to {b.max.x:F2} foot x {x:F2} farthest east {x+reach:F2} (route line {RouteLineWest})");
         }
-        /// <summary>A slow dark column of soft puffs: what says a machine burned, from any distance. A few dozen particles at most.</summary>
-        static void Smoke(string name,Vector3 at,float scale,Transform parent)
+        const float SmokeLife=7,SmokeSpeed=.85f,SmokeSize=1.8f,SmokeGrowth=2.6f,SmokeCone=9,SmokeDrift=.45f;
+        /// <summary>How far east of its foot a column can draw at all: the cone's mouth, its spread and the drift over a puff's longest life, and half the diagonal of the largest
+        /// puff at its fullest (a quad turned 45 degrees).</summary>
+        static float SmokeReach(float scale,float wind)=>.5f*scale+SmokeLife*(Mathf.Sin(SmokeCone*Mathf.Deg2Rad)*SmokeSpeed*scale+SmokeDrift*wind)+.7072f*SmokeSize*scale*SmokeGrowth;
+        /// <summary>A slow dark column of soft puffs: what says a machine burned, from any distance. A few dozen particles at most. <paramref name="wind"/> scales its drift east.</summary>
+        static void Smoke(string name,Vector3 at,float scale,Transform parent,float wind=1)
         {
             var go=new GameObject(name,typeof(ParticleSystem));go.transform.position=at;go.transform.rotation=Quaternion.Euler(-90,0,0);if(parent!=null)go.transform.SetParent(parent,true);
             var ps=go.GetComponent<ParticleSystem>();ps.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
-            var main=ps.main;main.loop=true;main.prewarm=true;main.duration=6;main.startLifetime=new ParticleSystem.MinMaxCurve(5,7);main.startSpeed=new ParticleSystem.MinMaxCurve(.55f*scale,.85f*scale);
-            main.startSize=new ParticleSystem.MinMaxCurve(1.2f*scale,1.8f*scale);main.startRotation=new ParticleSystem.MinMaxCurve(0,Mathf.PI*2);main.maxParticles=40;main.simulationSpace=ParticleSystemSimulationSpace.World;
+            var main=ps.main;main.loop=true;main.prewarm=true;main.duration=6;main.startLifetime=new ParticleSystem.MinMaxCurve(5,SmokeLife);main.startSpeed=new ParticleSystem.MinMaxCurve(.55f*scale,SmokeSpeed*scale);
+            main.startSize=new ParticleSystem.MinMaxCurve(1.2f*scale,SmokeSize*scale);main.startRotation=new ParticleSystem.MinMaxCurve(0,Mathf.PI*2);main.maxParticles=40;main.simulationSpace=ParticleSystemSimulationSpace.World;
             main.startColor=new Color(.16f,.14f,.14f,1);main.scalingMode=ParticleSystemScalingMode.Hierarchy;
             var emission=ps.emission;emission.rateOverTime=4.5f;
-            var shape=ps.shape;shape.shapeType=ParticleSystemShapeType.Cone;shape.angle=9;shape.radius=.5f*scale;
-            var size=ps.sizeOverLifetime;size.enabled=true;size.size=new ParticleSystem.MinMaxCurve(1,new AnimationCurve(new Keyframe(0,.6f),new Keyframe(1,2.6f)));
+            var shape=ps.shape;shape.shapeType=ParticleSystemShapeType.Cone;shape.angle=SmokeCone;shape.radius=.5f*scale;
+            var size=ps.sizeOverLifetime;size.enabled=true;size.size=new ParticleSystem.MinMaxCurve(1,new AnimationCurve(new Keyframe(0,.6f),new Keyframe(1,SmokeGrowth)));
             var colour=ps.colorOverLifetime;colour.enabled=true;var fade=new Gradient();
             fade.SetKeys(new[]{new GradientColorKey(new Color(.22f,.2f,.19f),0),new GradientColorKey(new Color(.42f,.4f,.38f),1)},new[]{new GradientAlphaKey(0,0),new GradientAlphaKey(.5f,.15f),new GradientAlphaKey(.3f,.6f),new GradientAlphaKey(0,1)});
             colour.color=fade;
-            var drift=ps.velocityOverLifetime;drift.enabled=true;drift.space=ParticleSystemSimulationSpace.World;drift.x=new ParticleSystem.MinMaxCurve(.25f,.45f);drift.y=new ParticleSystem.MinMaxCurve(0,0);drift.z=new ParticleSystem.MinMaxCurve(.05f,.15f);
+            var drift=ps.velocityOverLifetime;drift.enabled=true;drift.space=ParticleSystemSimulationSpace.World;drift.x=new ParticleSystem.MinMaxCurve(.25f*wind,SmokeDrift*wind);drift.y=new ParticleSystem.MinMaxCurve(0,0);drift.z=new ParticleSystem.MinMaxCurve(.05f*wind,.15f*wind);
             var view=go.GetComponent<ParticleSystemRenderer>();view.sharedMaterial=Resources.Load<Material>("Effects/circle_02");view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;view.sortingFudge=2;
         }
     }

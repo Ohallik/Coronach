@@ -83,24 +83,23 @@ Each chapter gets a full brief (map sketches, encounter plan, cast and script ou
 
 ## 7. Progress
 
-| Item | State (November 12, 02:00) |
+| Item | State (November 14, 04:45; nothing committed since `ff8ddeb`; **Unity's licence lapsed at 04:14 and waits on Nathan signing in to Unity Hub**) |
 |---|---|
 | November 10 open-issue work | landed (`ff99a7a`): 28 fixed, 6 much better, 5 open |
-| Briefs and scripts for chapters 3-10 | written and committed (`docs/chapters/`, `docs/writing/`, `docs/writing/pending/`; about 1,900 lines of dialogue) |
+| Briefs and scripts for chapters 3-10 | written and committed (`docs/chapters/`, `docs/writing/`; about 1,900 lines of dialogue) |
 | Portrait sheets | approved for every speaker in chapters 3-10 |
 | Music | thirteen existing tracks placed; six new cues wait on Suno (`docs/music/NEW_TRACKS.md`) |
-| S1 Impact (hit weight, hit-stop, camera, flash, knockback, 19 sounds, settings) | built, its tests pass; uncommitted |
-| S2 Loot (affixes, five tiers, modules, consumables, per-seller stalls, caches) | built, its tests pass; uncommitted |
-| S3 Skills and EXTRA moves | built; four regressions with the skills engineer; uncommitted |
-| S4 Route chart, difficulty, chapter cards | built, tests pass; uncommitted |
-| S5 Ground kit (D246) | Lantern Gorge, Lanternwick, Sorrel done; Hushwell 10 of 17 stills; uncommitted |
-| S5 Town life, uphill gait | not started |
-| S6 Third hero (Idra) | bodies and portraits in; kit and party-of-three machinery in progress |
-| Framework (content by data, test book, scaffold, replay driver's new hands) | built; two ReplayHands failures open; uncommitted |
-| Test mirrors (D247) | committed (`035bd75`); suite `nov12a` running on a frozen copy |
-| Chapter 3 | combat written (eight enemies, two bosses); approach and town built, look pass sent back; river and Canopy in progress; tests and routes being written |
-| Chapter 4 | art in; three engineers started (space and town, dungeon, combat) |
-| Chapters 5-6 | art in (20 pieces, six portrait sets); not started |
-| Chapters 7-10 | art ordered; not started |
+| Systems pass (S1 impact, S2 loot, S3 skills, S4 chart, difficulty and cards, S5 ground kit and town life, S6 Idra, the framework) | built and played in chapters 1 to 5; uncommitted |
+| Chapters 1-2 on the new systems | played whole on November 13 (routes 1 to 16) |
+| Chapter 3 (Xylos) | built; **played whole** (routes 17-19, 24-26). Seedthane 82 s, Floodcrown 143 to 158 s after resizing |
+| Chapter 4 (Wendmire) | built; **played whole** (routes 20-23, 27). Rotbloom resized after a 91 s fight, not refought |
+| Chapter 5 (Many Hands) | built; **played whole** (routes 28 to 31; Hulljack 103 s, Dessik Varn 106 s). Many Hands rebuilt since (a pipe moved under the deck), not replayed |
+| Chapter 6 (Hoarfell) | built; route 32 (the Aurora Shear) has not passed: currents now hold through talks (D275) and carry a whole fight (D282, unrun); routes 33 to 37 played once as reconnaissance |
+| Chapter 7 (Oriel) | built and tested; routes 38 to 43 written (D276), **never played**; the Orrery's backdrop owes a look pass |
+| Chapter 8 (Harrowgate) | built and tested; routes 44 to 52 written (D279), **never played**; the Picket and the harbour redrawn (D284), built and unseen; the town owes a look pass |
+| Chapter 9 (home) | every zone built at least once; combat retuned (D281); the Terminator new and never seen; tests mostly unrun since the last changes (D277, D278, D280, D283); no routes |
+| Chapter 10 | defined and wired (`docs/chapters/ch10-wiring.md`, D285 to D288); thirteen streams to start, the berth, Sorrel and Mother of Doors first |
+| What playing found | D271 to D275, D282; guide section 10 holds the route and driver rules |
+| Owed before a commit | everything parked on the licence run and seen (NEXT_SESSION_PROMPT, "Parked on the licence"); a whole chain from route 1 on the final build; the whole suite on a frozen copy |
 
-Meshy ledger: 2,372 at the start; 891 left after chapters 3-6, Idra and every portrait sheet; chapters 7-10 are capped at 720 with 45 more allowed for chapter 3's space backdrop.
+Meshy ledger: 2,372 at the start; 891 left after chapters 3-6, Idra and every portrait sheet; chapters 7-10 are capped at 720 with 45 more allowed for chapter 3's space backdrop. On November 14, 685 of the 720 is spent (35 left); chapter 10's main models already exist as prefabs and nothing more is ordered.

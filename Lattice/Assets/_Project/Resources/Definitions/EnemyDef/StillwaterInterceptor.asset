@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: StillwaterInterceptor
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: StillwaterInterceptor
+  prefab: {fileID: 4621319396835008956, guid: 3b052059ea77e9e4f8eee52df8c5d20b, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1180
+  breakThreshold: 270
+  speed: 12
+  attacks:
+  - {fileID: 11400000, guid: 6060f9ebc55a1e341a299c3f3bfaae9d, type: 2}
+  - {fileID: 11400000, guid: bd1948e4b5e331d4d937dc3237c6ff1a, type: 2}
+  weakness: 0
+  resistance: 2
+  archetype: 0
+  lootTable: {fileID: 11400000, guid: 1af97b29d2d91a841a396e72615d4756, type: 2}
+  xp: 90
+  boss: 0
+  scrip: 22
+  scrap: 2
+  displayName: Interceptor
+  bossMusicId: 
+  capsuleRadius: 1
+  capsuleHeight: 2.2
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 8
+  tune:
+    reach: 22
+    width: 2.6
+    speed: 24
+    recover: 1.4
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 1
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

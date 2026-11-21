@@ -56,6 +56,54 @@ class ResumeContract(unittest.TestCase):
                 path.write_bytes(original)
         self.assertFalse((self.target / 'saves').exists())
 
+    def scout(self, run_found_no_fault=True, analysis_found_no_fault=True):
+        """The source as a reconnaissance run (D290) leaves it: never valid, with what it found beside."""
+        (self.source / 'run.json').write_text(json.dumps({'valid': False, 'reconnaissance': True, 'reconnaissancePassed': run_found_no_fault,
+                                                          'failures': [] if run_found_no_fault else ['step: condition timeout']}))
+        (self.source / 'analysis.json').write_text(json.dumps({'valid': False, 'reconnaissance': True, 'reconnaissancePassed': analysis_found_no_fault,
+                                                               'failures': [] if analysis_found_no_fault else ['route truncated']}))
+
+    def test_reconnaissance_can_never_seed_a_run_that_is_to_be_evidence(self):
+        self.scout()
+        with self.assertRaises(ValueError): stage_resume(self.source, self.target, self.root)
+        self.assertFalse((self.target / 'saves').exists())
+
+    def test_reconnaissance_goes_on_from_reconnaissance_that_found_no_fault_and_from_a_pass(self):
+        self.scout()
+        manifest = stage_resume(self.source, self.target, self.root, reconnaissance=True)
+        self.assertTrue(manifest['reconnaissance'])
+        self.assertTrue((self.target / 'saves/slot1.json').exists())
+        # From a passed run too: scouting ahead of where the evidence has reached is the point.
+        again = self.root / 'ahead'; again.mkdir()
+        for name in ('run.json', 'analysis.json'): (self.source / name).write_text(json.dumps({'valid': True, 'failures': []}))
+        self.assertTrue(stage_resume(self.source, again, self.root, reconnaissance=True)['reconnaissance'])
+
+    def test_reconnaissance_that_found_a_fault_seeds_nothing(self):
+        for index, found in enumerate(((False, True), (True, False))):
+            with self.subTest(found=found):
+                self.scout(*found)
+                target = self.root / ('fault-' + str(index)); target.mkdir()
+                with self.assertRaises(ValueError): stage_resume(self.source, target, self.root, reconnaissance=True)
+                self.assertFalse((target / 'saves').exists())
+
+    def test_reconnaissance_steps_past_faults_only_when_told_to_and_writes_them_down(self):
+        self.scout(False, False)
+        manifest = stage_resume(self.source, self.target, self.root, reconnaissance=True, past_faults=True)
+        self.assertEqual(['route truncated', 'step: condition timeout'], manifest['pastFaults'])
+        # Never for a run that is to be evidence, whatever else is asked.
+        strict = self.root / 'strict'; strict.mkdir()
+        with self.assertRaises(ValueError): stage_resume(self.source, strict, self.root, reconnaissance=False, past_faults=True)
+        # And never from a rejected run that was not reconnaissance: a focus-checked run that failed is a failure.
+        for name in ('run.json', 'analysis.json'): (self.source / name).write_text(json.dumps({'valid': False, 'failures': ['lost focus']}))
+        with self.assertRaises(ValueError): stage_resume(self.source, strict, self.root, reconnaissance=True, past_faults=True)
+        self.assertFalse((strict / 'saves').exists())
+
+    def test_a_reconnaissance_mark_without_its_verdict_seeds_nothing(self):
+        # A hand-made or half-written record: "valid" alone, or the mark alone, is not a reconnaissance that found no fault.
+        (self.source / 'run.json').write_text(json.dumps({'valid': False, 'reconnaissance': True, 'failures': []}))
+        (self.source / 'analysis.json').write_text(json.dumps({'valid': False, 'reconnaissance': True, 'failures': []}))
+        with self.assertRaises(ValueError): stage_resume(self.source, self.target, self.root, reconnaissance=True)
+
     def test_development_fixtures_cannot_seed_a_workshop(self):
         for route in ({'scene': 'Gullet_Tunnel'}, {'scene': 'Title'}, {'scene': 'Title', 'starterParty': False, 'loadout': 'gullet'}):
             with self.subTest(route=route):

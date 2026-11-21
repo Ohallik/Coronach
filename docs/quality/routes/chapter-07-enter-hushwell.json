@@ -2,6 +2,7 @@
   "name": "chapter-07-enter-hushwell",
   "scene": "Title",
   "starterParty": false,
+  "wearBest": true,
   "settleSeconds": 5,
   "frameCap": 60,
   "screenshotInterval": 0,
@@ -149,9 +150,12 @@
       "pauseUi": "bench"
     },
     {
-      "name": "fabricate cave gel 1",
-      "seconds": 0.3,
+      "name": "fabricate cave gels up to the cap",
+      "seconds": 20,
       "expectedScene": "Sorrel_Ridges",
+      "pickRow": "Repair Gel",
+      "stock": "cap",
+      "until": "stocked",
       "buttons": [
         "South"
       ],
@@ -159,184 +163,8 @@
       "pauseUi": "bench"
     },
     {
-      "name": "release cave gel 1",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 2",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 2",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 3",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 3",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 4",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 4",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 5",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 5",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 6",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 6",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 7",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 7",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 8",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 8",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 9",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 9",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 10",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 10",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 11",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 11",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "fabricate cave gel 12",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release cave gel 12",
-      "seconds": 0.3,
+      "name": "read what the bench made",
+      "seconds": 0.8,
       "expectedScene": "Sorrel_Ridges",
       "pauseUi": "bench"
     },

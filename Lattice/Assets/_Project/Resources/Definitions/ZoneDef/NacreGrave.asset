@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: NacreGrave
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: NacreGrave
+  scene: NacreGrave
+  kind: 3
+  cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 62017c4f235596447a73990addb9e5a6, type: 2}
+  ambientAudio: {fileID: 0}
+  ambientVolume: 0.055
+  musicId: Endless Flight
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
+  skybox: {fileID: 2100000, guid: 4f954979155f81c469970d93401b3f9a, type: 2}
+  displayName: Nacre Grave
+  brightFloor: 0
+  fightMusicId: Starfight
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 9
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

@@ -9,6 +9,8 @@ namespace Lattice.Tests.EditMode
     {
         [TestCase("Taren")]
         [TestCase("Sela")]
+        // Her cutter is her own hull (IdraFlight), not Sela's: she flew in Sela's sphere until it was measured.
+        [TestCase("Idra")]
         public void FlightCollisionContainsTheActualMeshThroughEveryBankAndRoll(string hero)
         {
             var hull=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Characters/"+hero+"Flight.prefab"));
@@ -16,8 +18,8 @@ namespace Lattice.Tests.EditMode
             {
                 var points=hull.GetComponentsInChildren<MeshFilter>().SelectMany(f=>f.sharedMesh.vertices.Select(v=>hull.transform.InverseTransformPoint(f.transform.TransformPoint(v)))).ToArray();
                 float furthest=points.Max(p=>p.magnitude);
-                Assert.GreaterOrEqual(HeroCollision.HullRadius(hero)-.005f,furthest,"stable flight sphere fails to contain rotated hull geometry");
-                Assert.Less(HeroCollision.HullRadius(hero)-furthest,.04f,"movement footprint is unnecessarily inflated beyond measured hull");
+                Assert.GreaterOrEqual(HeroCollision.HullRadius(hero)-.005f,furthest,$"stable flight sphere ({HeroCollision.HullRadius(hero)} m) fails to contain rotated hull geometry reaching {furthest:0.000} m");
+                Assert.Less(HeroCollision.HullRadius(hero)-furthest,.04f,$"movement footprint ({HeroCollision.HullRadius(hero)} m) is unnecessarily inflated beyond measured hull ({furthest:0.000} m)");
             }
             finally{Object.DestroyImmediate(hull);}
         }

@@ -29,7 +29,10 @@ namespace Lattice.Tests.PlayMode
             var party=PartyController.Current;var leader=party.Active;var partner=party.members[1-party.index];
             leader.GetComponent<PlayerBrain>().AutoPilot=true;
             void Place(CombatActor a,Vector3 p){var cc=a.GetComponent<CharacterController>();cc.enabled=false;a.transform.SetPositionAndRotation(p,Quaternion.identity);cc.enabled=true;}
-            // The partner settles on its formation point behind the leader, clear of the arena.
+            // The partner settles on its formation point behind the leader, clear of the arena. On foot that takes a floor: the yard's own ends long before here, and
+            // in the settle below she fell seven metres through nothing and off the bottom of the screen, where a companion looks for a place the screen shows
+            // (D227, November 10) instead of standing to be read as a target. Until then she had only been falling in place, which the shot's reading never saw.
+            if(zone=="Arena_Ground"){var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.name="Evasion fixture floor";floor.transform.position=new Vector3(200,-.5f,-200);floor.transform.localScale=new Vector3(80,1,80);Physics.SyncTransforms();}
             Place(leader,new Vector3(200,y,-200));Place(partner,new Vector3(202,y,-203));
             yield return new WaitForSecondsRealtime(1.2f);
             fixture=new GameObject("Evasion fixture");

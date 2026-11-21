@@ -24,13 +24,26 @@ namespace Lattice.Core
         public static InteractionPrompt Interaction { get; private set; }
         static int consumedFrame=-1;
         public static bool AConsumed => consumedFrame==Time.frameCount;
+        /// <summary>The prompt the objective's arrow points at (ObjectiveHud sets it each frame; null when it points at none). Standing where two prompts are in reach, the
+        /// one the story is waiting for is offered if it is within <see cref="WantedRoom"/> of being the nearest: five chapters' plans are heard at Many Hands' chart table, on
+        /// the exact spot of the table's own chart, and the nearest of two at the same distance was whichever the scene listed first (D309).</summary>
+        public static InteractionPrompt Wanted;
+        public const float WantedRoom=.5f;
         public static void FindInteraction(Vector3 position)
         {
             Interaction=null;float best=float.MaxValue;
             foreach(var p in InteractionPrompt.Active)
             {
-                float d=(p.transform.position-position).sqrMagnitude;
-                if(d<p.range*p.range&&d<best&&p.Available){best=d;Interaction=p;}
+                // In reach on the plan, and no further above or below than the reach itself; the nearest still wins by the straight line. Measured by the straight line
+                // alone, a way out carried on a tall body was measured to that body's middle: Rootmarket's river gate is an arch six metres high placed by its centre,
+                // so the spot its builder gave to stand at, 3.4 m off on the floor, was seven centimetres outside its 4.6 m reach and the gate offered nothing
+                // (first player run of chapter 3, November 13).
+                var gap=p.transform.position-position;float d=gap.sqrMagnitude,flat=gap.x*gap.x+gap.z*gap.z;
+                if(!(flat<p.range*p.range&&Mathf.Abs(gap.y)<=p.range))continue;
+                // Compared by the straight line, the wanted one counted half a metre nearer; two still level are told apart by name, so the answer never turns on the
+                // order of a set.
+                float near=Mathf.Sqrt(d)-(p==Wanted&&p!=null?WantedRoom:0);
+                if((near<best||near==best&&Interaction!=null&&string.CompareOrdinal(p.name,Interaction.name)<0)&&p.Available){best=near;Interaction=p;}
             }
         }
         static float interactFrom;
@@ -404,7 +417,7 @@ namespace Lattice.Core
         /// <summary>Editor/tests teardown safety — drop caches and any device pin.</summary>
         public static void Reset()
         {
-            Interaction=null;consumedFrame=-1;interactFrom=0;padRead=false;
+            Interaction=null;Wanted=null;consumedFrame=-1;interactFrom=0;padRead=false;
             _forced = null;
             Device = PromptDevice.Keyboard;
             SpriteCache.Clear();

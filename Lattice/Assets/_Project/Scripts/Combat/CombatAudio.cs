@@ -58,9 +58,23 @@ namespace Lattice.Combat
         public static void Launch(CombatActor actor)=>
             AudioManager.PlayAt("thrusterFire_000",actor.transform,actor.transform.position,.18f,AudioBus.SFX,110,.1f,1.2f);
 
-        // The tag-in strike: a short push of Pulse from the hero arriving.
-        public static void SwapStrike(CombatActor actor)=>
+        // The tag-in strike: a short push of Pulse from the hero arriving, with a body behind it.
+        public static void SwapStrike(CombatActor actor)
+        {
             AudioManager.PlayAt("forceField_000",actor.transform,actor.transform.position+Vector3.up,.2f,AudioBus.SFX,100,.1f,1.25f);
+            // The class, not this one's Impact(victim, armored).
+            global::Lattice.Combat.Impact.SwapStrike(actor);
+        }
+
+        static readonly System.Collections.Generic.Dictionary<string,int> turns=new();
+        // What a hit did, over the impact that says what it struck: a heavy blow's thump, a crit's tick, a break's crack. Impact asks for these, and only for the
+        // hero the player holds, so a crowd can't stack them. A family's variations go round in turn with the pitch the caller gives: no random numbers are drawn
+        // here, because the fight's own rolls come off that stream.
+        public static void Accent(string family,int count,Transform emitter,Vector3 point,float volume,float pitch=1,int priority=110,float interval=.05f)
+        {
+            turns.TryGetValue(family,out int turn);turns[family]=turn+1;
+            AudioManager.PlayAt(count>1?family+"_"+turn%count:family,emitter,point,volume,AudioBus.SFX,priority,interval,pitch);
+        }
 
         public static void Deflect(CombatActor actor)=>
             AudioManager.Family("deflect",2,actor.transform,actor.transform.position+Vector3.up*1.1f,.26f,60,.1f);

@@ -1,0 +1,1400 @@
+{
+  "name": "chapter-55-many-hands-and-the-crawl",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: Meret's notice, Bryn's chart lesson, Maru names the Crawl, the chart to the Meridian Crawl, Dorrow at the helm, the drop cage",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.nacreDone",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up off the pads",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock until Meret's notice",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "Meret's notice to all stations begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Meret's notice to all stations line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Meret's notice to all stations line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Meret's notice to all stations line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Meret's notice to all stations line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Meret's notice to all stations line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Meret's notice to all stations line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Meret's notice to all stations line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Meret's notice to all stations line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Meret's notice to all stations line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Meret's notice to all stations line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Meret's notice to all stations line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Meret's notice to all stations line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read Meret's notice to all stations line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next Meret's notice to all stations line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release Meret's notice to all stations line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish Meret's notice to all stations",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.noticeHeard",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after Meret's notice to all stations",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "on up the dock",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 1/6",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 2/6",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 3/6",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 4/6",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 5/6",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up to the chart table 6/6",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Bryn at the chart table",
+      "seconds": 4.25,
+      "navigate": true,
+      "point": {
+        "x": -1.2,
+        "y": 3.6,
+        "z": 44.800000000000004
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before ask Bryn about her chart",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "ask Bryn about her chart",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Bryn about her chart line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Bryn about her chart line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Bryn about her chart line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish ask Bryn about her chart",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.chartLent",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after ask Bryn about her chart",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 1/9",
+      "seconds": 4.25,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 2/9",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 3/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 4/9",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 5/9",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 6/9",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 7/9",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 8/9",
+      "seconds": 7.16,
+      "navigate": true,
+      "point": {
+        "x": -14.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "down to the raft bay 9/9",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -19.5,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to Maru in the raft bay",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0.0,
+        "z": -24
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before ask Maru who has moved a town",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "ask Maru who has moved a town",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Maru who has moved a town",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Maru who has moved a town line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Maru who has moved a town line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Maru who has moved a town line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Maru who has moved a town line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Maru who has moved a town line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Maru who has moved a town line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Maru who has moved a town line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Maru who has moved a town line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Maru who has moved a town line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Maru who has moved a town line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Maru who has moved a town line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Maru who has moved a town line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read ask Maru who has moved a town line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next ask Maru who has moved a town line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release ask Maru who has moved a town line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish ask Maru who has moved a town",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.crawlNamed",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after ask Maru who has moved a town",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "open the quest log",
+      "seconds": 0.6,
+      "buttons": [
+        "Select"
+      ],
+      "until": "ui:pause",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the quest log",
+      "seconds": 0.3,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "turn to the chart",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder"
+      ],
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release the turn",
+      "seconds": 0.4,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "find MeridianCrawl on the chart",
+      "seconds": 8,
+      "pickRow": "Stop_MeridianCrawl",
+      "buttons": [
+        "South"
+      ],
+      "until": "row:Travel",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read the question for MeridianCrawl",
+      "seconds": 0.6,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "travel to MeridianCrawl",
+      "seconds": 25,
+      "pickRow": "Travel",
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:MeridianCrawl",
+      "pauseUi": "pause",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release after travelling to MeridianCrawl",
+      "seconds": 0.5,
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "first look at the Crawl",
+      "seconds": 2,
+      "expectedFlag": "home.crawlNamed",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 1/9",
+      "seconds": 3.49,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 2/9",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -14,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 3/9",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 4/9",
+      "seconds": 14.09,
+      "navigate": true,
+      "point": {
+        "x": -54,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 5/9",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": -60,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 6/9",
+      "seconds": 3.6,
+      "navigate": true,
+      "point": {
+        "x": -64.5,
+        "y": 0.0,
+        "z": -3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 7/9",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -64.5,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 8/9",
+      "seconds": 2.53,
+      "navigate": true,
+      "point": {
+        "x": -66.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "along the spine to the helm 9/9",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": -74.0,
+        "y": 2.4,
+        "z": 0.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "to Dorrow at the helm",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -77.0,
+        "y": 2.4,
+        "z": 0.2
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "start Dorrow at the helm",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release start Dorrow at the helm",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "read Dorrow at the helm line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "next Dorrow at the helm line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release Dorrow at the helm line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "finish Dorrow at the helm",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.crawlAsked",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "release after Dorrow at the helm",
+      "seconds": 0.5,
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 1/13",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -74.0,
+        "y": 2.4,
+        "z": 0.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 2/13",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": -66.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 3/13",
+      "seconds": 2.53,
+      "navigate": true,
+      "point": {
+        "x": -64.5,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 4/13",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -64.5,
+        "y": 0.0,
+        "z": -3.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 5/13",
+      "seconds": 5.73,
+      "navigate": true,
+      "point": {
+        "x": -54,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 6/13",
+      "seconds": 14.09,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 7/13",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": -14,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 8/13",
+      "seconds": 13.38,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 9/13",
+      "seconds": 4.13,
+      "navigate": true,
+      "point": {
+        "x": 24,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 10/13",
+      "seconds": 5.77,
+      "navigate": true,
+      "point": {
+        "x": 34.6,
+        "y": 0.0,
+        "z": -3.35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 11/13",
+      "seconds": 4.42,
+      "navigate": true,
+      "point": {
+        "x": 41.4,
+        "y": 0.0,
+        "z": -3.35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 12/13",
+      "seconds": 6.84,
+      "navigate": true,
+      "point": {
+        "x": 55,
+        "y": 0.0,
+        "z": -3
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "back along the spine to the tail 13/13",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 55,
+        "y": 0.0,
+        "z": 2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "to the drop cage",
+      "seconds": 3.71,
+      "navigate": true,
+      "point": {
+        "x": 58.4,
+        "y": 0.0,
+        "z": 5.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "MeridianCrawl"
+    },
+    {
+      "name": "ride the drop cage down",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:Terminator",
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "Terminator"
+    },
+    {
+      "name": "release ride the drop cage down",
+      "seconds": 0.5,
+      "expectedScene": "Terminator"
+    },
+    {
+      "name": "first look at the band",
+      "seconds": 1,
+      "expectedFlag": "home.crawlAsked",
+      "expectedScene": "Terminator"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

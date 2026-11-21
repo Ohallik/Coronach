@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: Scrapmite
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
   id: Scrapmite
   prefab: {fileID: 6470270973033943676, guid: 53f4b3f05224eba4bb900080846bd750, type: 3}
   bodySegment: {fileID: 0}
@@ -33,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: bdbe37205b007bf4dbb771fe25193eac, type: 2}
   xp: 24
   boss: 0
+  scrip: 8
+  scrap: 2
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 2
+  drawnScale: 1
+  heavyDeath: 0

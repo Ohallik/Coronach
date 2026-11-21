@@ -23,6 +23,17 @@ namespace Lattice.Combat
     /// </summary>
     public sealed partial class BossController
     {
+        static readonly Kit HessaKit=Register(new Kit
+        {
+            id="HessaKorl",title="HESSA KORL",epithet="Muster scavenger captain, stripping the relay's glass",thresholds=new[]{.66f,.33f},
+            choose=(boss,hero)=>boss.ChooseHessa(hero),
+            moves={["HookLance"]=boss=>boss.HookLance(boss.Phase>=3?4:3),["Advance"]=boss=>boss.Advance(),["GrappleChain"]=boss=>boss.GrappleChain(),["Sidearm"]=boss=>boss.Sidearm(),
+                ["SweepingCut"]=boss=>boss.SweepingCut(),["Lampbreaker"]=boss=>boss.Lampbreaker()},
+            signature=phase=>phase==2?"SweepingCut":phase>=3?"Lampbreaker":null,
+            shift=boss=>boss.CallCrew(2),shiftText="SHE'S SHIFTING  ·  BRACE",
+            // Sized for a person: on a rig's 1.4 m capsule the party couldn't get inside her reach.
+            capsuleRadius=.8f,occlusion=true,ending=Ending.Yields,
+        });
         float HessaRest=>Phase>=3?1.9f:Phase>=2?2.3f:2.8f;
         (string,IEnumerator) ChooseHessa(CombatActor hero)
         {

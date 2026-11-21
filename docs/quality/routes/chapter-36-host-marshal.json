@@ -1,0 +1,1138 @@
+{
+  "name": "chapter-36-host-marshal",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 6: Idra joins, the Marshal wakes, the Host Marshal, it sleeps, the winch up to Lastlight",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.slateRead",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "toward the bottom gallery until Idra speaks",
+      "seconds": 4.44,
+      "navigate": true,
+      "point": {
+        "x": 184,
+        "y": -17.5,
+        "z": 218
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Idra joins begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Idra joins line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Idra joins line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Idra joins line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Idra joins line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Idra joins line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Idra joins line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Idra joins line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Idra joins line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Idra joins line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Idra joins line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Idra joins line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Idra joins line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Idra joins line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Idra joins line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Idra joins line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read Idra joins line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next Idra joins line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release Idra joins line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish Idra joins",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.idraJoined",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after Idra joins",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Idra is out",
+      "seconds": 1.5,
+      "expectedCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the passage until the Marshal steps out",
+      "seconds": 5.13,
+      "navigate": true,
+      "point": {
+        "x": 187.6,
+        "y": -17.5,
+        "z": 218
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "the Marshal steps out begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal steps out line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal steps out line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal steps out line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal steps out line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal steps out line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal steps out line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal steps out line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal steps out line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal steps out line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal steps out line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal steps out line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal steps out line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish the Marshal steps out",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.marshalSeen",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after the Marshal steps out",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "into the bottom gallery",
+      "seconds": 7.36,
+      "navigate": true,
+      "point": {
+        "x": 196,
+        "y": -17.5,
+        "z": 221.64
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "lock HostMarshal",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release lock HostMarshal",
+      "seconds": 0.3,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 1a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 1b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 2a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 2b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 3a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 3b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 4a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 4b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 5a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 5b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 6a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 6b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 7a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 7b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 8a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 8b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 9a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 9b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 10a",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "skill HostMarshal 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release skill HostMarshal 10b",
+      "seconds": 0.45,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "fight HostMarshal round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HostMarshal",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "HostMarshal is down",
+      "seconds": 4,
+      "until": "flag:bossdown.HostMarshal",
+      "expectedFlag": "bossdown.HostMarshal",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "reach the fallen hero after the Marshal",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "both heroes ready after the Marshal",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "the Marshal sleeps begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal sleeps line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal sleeps line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal sleeps line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal sleeps line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal sleeps line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal sleeps line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal sleeps line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal sleeps line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal sleeps line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal sleeps line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal sleeps line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal sleeps line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal sleeps line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal sleeps line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal sleeps line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "read the Marshal sleeps line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "next the Marshal sleeps line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Marshal sleeps line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "finish the Marshal sleeps",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.marshalAsleep",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release after the Marshal sleeps",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "out to the loading winch 1/3",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 192,
+        "y": -17.5,
+        "z": 218
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "out to the loading winch 2/3",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 184,
+        "y": -17.5,
+        "z": 218
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "out to the loading winch 3/3",
+      "seconds": 4.83,
+      "navigate": true,
+      "point": {
+        "x": 177.0,
+        "y": -17.5,
+        "z": 227.1
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "ride the winch up",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the winch",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back in Lastlight",
+      "seconds": 1.5,
+      "expectedFlag": "hoar.marshalAsleep",
+      "expectedScene": "Lastlight"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

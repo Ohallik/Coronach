@@ -1,0 +1,2164 @@
+{
+  "name": "chapter-67-the-anchor-chamber",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 10: Meret at the gantry (her door retried, her couplings worked), the lift, Meret in the well (her door retried), her yield, the sequence, the last collar, the release, the launch",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "end.meretShip",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "north through the gantry's seal",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -9
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "lock MeretGantry",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release lock MeretGantry",
+      "seconds": 0.3,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 1a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 1b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 2a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 2b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 3a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 3b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 4a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 4b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 5a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 5b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 6a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 6b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 7a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 7b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 8a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 8b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 9a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 9b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 10a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 10b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 11a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 11a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 11b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 11b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 11",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 12a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 12a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretGantry 12b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretGantry 12b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretGantry round 12",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretGantry",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "MeretGantry is down",
+      "seconds": 4,
+      "until": "flag:bossdown.MeretGantry",
+      "expectedFlag": "bossdown.MeretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "reach the fallen hero after the gantry",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "both heroes ready after the gantry",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "to the lift's cage",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0,
+        "z": 10.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "wait for the cage to come back up",
+      "seconds": 20,
+      "until": "prompt:Ride down",
+      "useItem": "none",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "ride down to the control well",
+      "seconds": 25,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 30,
+      "until": "saved",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "into the well's door until Meret speaks",
+      "seconds": 3.87,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -16,
+        "z": 54
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Meret in the control well begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret in the control well line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret in the control well line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret in the control well line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret in the control well line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret in the control well line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret in the control well line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret in the control well line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret in the control well line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret in the control well line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret in the control well line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret in the control well line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret in the control well line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret in the control well line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret in the control well line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret in the control well line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret in the control well line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret in the control well line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret in the control well line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "finish Meret in the control well",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.meretGantry",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release after Meret in the control well",
+      "seconds": 0.5,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "into the well",
+      "seconds": 4.93,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -16,
+        "z": 59.5
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "lock MeretWell",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release lock MeretWell",
+      "seconds": 0.3,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 1a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 1b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 2a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 2b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 3a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 3b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 4a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 4b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 5a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 5b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 6a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 6b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 7a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 7b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 8a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 8b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 9a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 9b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 10a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 10b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 11a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 11a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 11b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 11b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 11",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 12a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 12a",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "skill MeretWell 12b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release skill MeretWell 12b",
+      "seconds": 0.45,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "fight MeretWell round 12",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.MeretWell",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "MeretWell is down",
+      "seconds": 4,
+      "until": "flag:bossdown.MeretWell",
+      "expectedFlag": "bossdown.MeretWell",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Meret yields begins",
+      "seconds": 8,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret yields line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret yields line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret yields line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret yields line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret yields line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret yields line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret yields line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret yields line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret yields line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret yields line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret yields line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret yields line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret yields line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret yields line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret yields line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "finish Meret yields",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.crewsOrdered",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release after Meret yields",
+      "seconds": 0.5,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Tovra reads the sequence begins",
+      "seconds": 25,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Tovra reads the sequence line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Tovra reads the sequence line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Tovra reads the sequence line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Tovra reads the sequence line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Tovra reads the sequence line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Tovra reads the sequence line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Tovra reads the sequence line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Tovra reads the sequence line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Tovra reads the sequence line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Tovra reads the sequence line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Tovra reads the sequence line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Tovra reads the sequence line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Tovra reads the sequence line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Tovra reads the sequence line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Tovra reads the sequence line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Tovra reads the sequence line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Tovra reads the sequence line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Tovra reads the sequence line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "finish Tovra reads the sequence",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.sequenceRead",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release after Tovra reads the sequence",
+      "seconds": 0.5,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "to the last collar",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": -16,
+        "z": 77.60000000000001
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "settle before the last collar",
+      "seconds": 0.6,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "take the last collar and hold",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 40,
+      "until": "flag:end.collarTaken",
+      "useItem": "none",
+      "expectedFlag": "end.collarTaken",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "the four clamps let go",
+      "seconds": 3,
+      "useItem": "none",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Meret sees it open begins",
+      "seconds": 15,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret sees it open line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret sees it open line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret sees it open line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret sees it open line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret sees it open line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret sees it open line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret sees it open line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret sees it open line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret sees it open line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret sees it open line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret sees it open line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret sees it open line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Meret sees it open line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Meret sees it open line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Meret sees it open line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "finish Meret sees it open",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.anchorReleased",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release after Meret sees it open",
+      "seconds": 0.5,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "Ilo takes her into custody begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Ilo takes her into custody line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Ilo takes her into custody line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Ilo takes her into custody line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Ilo takes her into custody line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Ilo takes her into custody line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Ilo takes her into custody line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Ilo takes her into custody line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Ilo takes her into custody line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Ilo takes her into custody line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "read Ilo takes her into custody line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "next Ilo takes her into custody line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release Ilo takes her into custody line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "finish Ilo takes her into custody",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "end.custody",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "release after Ilo takes her into custody",
+      "seconds": 0.5,
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "back south through the well",
+      "seconds": 7.19,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": -16,
+        "z": 56.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "to the launch to the passage",
+      "seconds": 4.07,
+      "navigate": true,
+      "point": {
+        "x": 5.6,
+        "y": -16,
+        "z": 49.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "StillwaterChamber"
+    },
+    {
+      "name": "launch into the Returning Passage",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:ReturningPassage",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "release launch into the Returning Passage",
+      "seconds": 0.5,
+      "expectedScene": "ReturningPassage"
+    },
+    {
+      "name": "the road ahead",
+      "seconds": 2,
+      "expectedFlag": "end.custody",
+      "expectedScene": "ReturningPassage"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

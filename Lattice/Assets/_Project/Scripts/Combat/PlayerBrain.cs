@@ -28,6 +28,8 @@ namespace Lattice.Combat
             var zone=ZoneController.Current;bool combat=zone!=null&&zone.Combat;
             if(!combat)ForgetPresses();
             // A boss that dives is still the fight: the lock waits for it to surface and its opening.
+            // A body of the other form (a flier over the shelf the hero stands on, chapter 10's berth) is nothing he can fight: the lock lets go of it.
+            if(actor.target!=null&&EnemyBrain.OtherForm(actor,actor.target)){actor.TargetLocked=false;actor.target=null;}
             bool diving=actor.target!=null&&actor.target.Alive&&actor.target.TryGetComponent<BossController>(out var diver)&&diver.Burrowed;
             if(!diving&&(!combat||actor.target==null||!actor.target.Targetable||(actor.target.transform.position-transform.position).sqrMagnitude>900))
             {
@@ -37,9 +39,10 @@ namespace Lattice.Combat
             }
             PromptService.FindInteraction(transform.position);
             // With the boss bar up the HUD hides the prompt (GameHud, this same test), so A is the attack it looks like.
-            if(input.Pressed("Interact")&&!input.SkillMod&&BossController.Focus(transform.position)==null&&PromptService.TryInteract()){ForgetPresses();return;}
+            // A hand the fight asks for (a Bridle clamp: InteractionPrompt.InFight) answers with the bar up too, and only while it is offered and in reach.
+            if(input.Pressed("Interact")&&!input.SkillMod&&(BossController.Focus(transform.position)==null||PromptService.Interaction!=null&&PromptService.Interaction.InFight)&&PromptService.TryInteract()){ForgetPresses();return;}
             Vector2 move=input.Move;
-            var rotated=Quaternion.Euler(0,zone.definition.cameraProfile.yaw,0)*new Vector3(move.x,0,move.y);
+            var rotated=Quaternion.Euler(0,zone.CameraProfile.yaw,0)*new Vector3(move.x,0,move.y);
             move=new Vector2(rotated.x,rotated.z);actor.MoveIntent=rotated;
             bool boost=SprintRequested(input.Held(actor.flight?"Boost":"Sprint"),move);
             actor.motor.Move(move,boost,actor.flight&&input.Held("Brake"));
@@ -60,22 +63,24 @@ namespace Lattice.Combat
             for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1))){waitingSkill=i;attackRequestedUntil=lungeRequestedUntil=-1;}
             // Still mid-action: keep it. Refused for Charge or cooldown: Skill() has said so.
             if(waitingSkill>=0&&actor.CanAct){int slot=waitingSkill;waitingSkill=-1;actor.Skill(slot);}
-            if(input.SkillMod){lungeRequestedUntil=attackRequestedUntil=-1;if(input.Held("Guard"))guardLatched=true;return;}
+            // A hero whose ship can guard (S6a: the prow, HeroStyle.flightGuard) holds X for it, where the others' X is the lunge.
+            bool prow=actor.flight&&actor.Style.flightGuard;string guardAction=prow?"Lunge":"Guard";
+            if(input.SkillMod){lungeRequestedUntil=attackRequestedUntil=-1;if(input.Held(guardAction))guardLatched=true;return;}
             // A short lunge tap during emitter recovery should fire as soon as recovery ends.
             // Give it priority over held fire so continuous shooting cannot starve the request.
-            if(actor.flight&&input.Pressed("Lunge")){lungeRequestedUntil=GameTime.Now+.2f;waitingSkill=-1;}
+            if(actor.flight&&!prow&&input.Pressed("Lunge")){lungeRequestedUntil=GameTime.Now+.2f;waitingSkill=-1;}
             if(actor.flight&&GameTime.Now<=lungeRequestedUntil&&!actor.CanAct)lungeRequestedUntil=GameTime.Now+.2f;
             bool lungePending=actor.flight&&GameTime.Now<=lungeRequestedUntil;
             if(lungePending&&actor.Lunge())lungeRequestedUntil=-1;
-            if(actor.flight&&!lungePending&&!PromptService.AConsumed&&input.Held("Fire"))actor.Attack();
+            if(actor.flight&&!lungePending&&!PromptService.AConsumed&&input.Held("Fire")&&!(prow&&input.Held(guardAction)))actor.Attack();
             if(!actor.flight&&!PromptService.AConsumed&&input.Pressed("Attack")){attackRequestedUntil=GameTime.Now+PressExpiry;waitingSkill=-1;}
             if(GameTime.Now>attackRequestedUntil)attackRequestedUntil=-1;else if(!actor.CanAct)attackRequestedUntil=GameTime.Now+PressExpiry;
             if(!actor.flight&&GameTime.Now<=attackRequestedUntil&&actor.Attack())attackRequestedUntil=-1;
             // Only a roll that goes: B tapped during a roll or its gap does nothing, so it can't cost what was waiting either.
             if(input.Pressed(actor.flight?"Roll":"Dodge")&&actor.Dodge(new Vector3(move.x,0,move.y)))ForgetPresses();
-            bool guardHeld=input.Held("Guard");if(!guardHeld)guardLatched=false;guardHeld&=!guardLatched;
-            if(!actor.flight&&guardHeld)ForgetPresses();
-            if(!actor.flight)actor.Guard(guardHeld);
+            bool guardHeld=input.Held(guardAction);if(!guardHeld)guardLatched=false;guardHeld&=!guardLatched;
+            if((!actor.flight||prow)&&guardHeld)ForgetPresses();
+            if(!actor.flight||prow)actor.Guard(guardHeld);
             if(!actor.flight&&input.Pressed("QuickItem"))QuickItem();
             if(actor.target==null||!actor.target.Targetable&&!(diving&&actor.TargetLocked))actor.target=FindTarget();
         }
@@ -109,10 +114,10 @@ namespace Lattice.Combat
         void QuickItem()
         {
             var state=GameServices.Current.State;string id=state.quickItem??"";
-            state.consumables.TryGetValue(id,out int before);UseItem();state.consumables.TryGetValue(id,out int after);
-            if(after<before){AudioManager.PlayAt("ui_confirm",transform,transform.position+Vector3.up,.3f);return;}
-            var def=GameCatalog.Find<Lattice.Data.ConsumableDef>(id);
-            QuickItemRefused?.Invoke(before<=0||def==null?$"No {DisplayNames.Item(id)} left.":def.heal>0?"Integrity is already full.":"Charge is already full.");
+            var (used,why)=UseItem(id);
+            if(used){AudioManager.PlayAt("ui_confirm",transform,transform.position+Vector3.up,.3f);return;}
+            // The refusal says its own reason: none left, already full, nobody down, or the shared wait between items.
+            QuickItemRefused?.Invoke(GameCatalog.Find<Lattice.Data.ConsumableDef>(id)==null?$"No {DisplayNames.Item(id)} left.":why);
         }
         void OnDisable()
         {
@@ -125,7 +130,7 @@ namespace Lattice.Combat
             Health nearest=null;float best=30*30;
             foreach(var h in Health.All)
             {
-                if(h==null||h.friendly||!h.Targetable)continue;var offset=h.transform.position-transform.position;
+                if(h==null||h.friendly||!h.Targetable||EnemyBrain.OtherForm(actor,h))continue;var offset=h.transform.position-transform.position;
                 float score=offset.sqrMagnitude;if(Vector3.Angle(actor.motor.Facing,offset)>120)score*=2;
                 if(score<best){nearest=h;best=score;}
             }
@@ -134,20 +139,15 @@ namespace Lattice.Combat
         public void CycleTarget(int direction)
         {
             var targets=new System.Collections.Generic.List<Health>();
-            foreach(var h in Health.All)if(h!=null&&h.Targetable&&!h.friendly&&(h.transform.position-transform.position).sqrMagnitude<900)targets.Add(h);
+            foreach(var h in Health.All)if(h!=null&&h.Targetable&&!h.friendly&&!EnemyBrain.OtherForm(actor,h)&&(h.transform.position-transform.position).sqrMagnitude<900)targets.Add(h);
             targets.Sort((a,b)=>Vector3.SignedAngle(transform.forward,a.transform.position-transform.position,Vector3.up).CompareTo(Vector3.SignedAngle(transform.forward,b.transform.position-transform.position,Vector3.up)));
             if(targets.Count>0){actor.target=targets[(targets.IndexOf(actor.target)+direction+targets.Count)%targets.Count];actor.TargetLocked=true;}
         }
         /// <summary>Uses a consumable on this hero and says what happened, in words for the player. A refusal spends nothing.</summary>
         public (bool used,string message) UseItem(string id=null)
         {
-            var state=GameServices.Current.State;
-            id??=state.quickItem;var def=GameCatalog.Find<Lattice.Data.ConsumableDef>(id);if(def==null)return (false,"That can't be used.");
-            if(!state.consumables.TryGetValue(id,out var n)||n<=0)return (false,$"No {def.displayName} left.");
-            if(def.heal>0&&actor.Health.integrity<actor.Health.maximum||def.charge>0&&actor.charge<100)
-            {state.consumables[id]=n-1;actor.Health.Heal(def.heal);actor.charge=Mathf.Min(100,actor.charge+def.charge);}
-            else return (false,def.heal>0?"Integrity is already full.":"Charge is already full.");
-            return (true,$"Used {def.displayName} on {DisplayNames.Speaker(actor.character)}.");
+            // What each kind does, the carry cap's other half (one shared wait between items) and the words for it are ItemUse's.
+            return ItemUse.Use(actor,id);
         }
     }
 }

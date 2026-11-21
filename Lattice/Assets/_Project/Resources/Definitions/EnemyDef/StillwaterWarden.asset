@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: StillwaterWarden
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: StillwaterWarden
+  prefab: {fileID: 350422555858981678, guid: 32e01cd04fbd5bb46ac13e5c4836958c, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1900
+  breakThreshold: 340
+  speed: 2.6
+  attacks:
+  - {fileID: 11400000, guid: 3b0c15c4bbc9e3244acdc491e4d8c32a, type: 2}
+  - {fileID: 11400000, guid: 4e58f99d1e951fa4d9c7f356b942632b, type: 2}
+  weakness: 1
+  resistance: 3
+  archetype: 2
+  lootTable: {fileID: 11400000, guid: bf6225ccd3c7c774ba14aa47f112f07f, type: 2}
+  xp: 140
+  boss: 0
+  scrip: 28
+  scrap: 3
+  displayName: Compact Warden
+  bossMusicId: 
+  capsuleRadius: 0.6
+  capsuleHeight: 1.95
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 5
+  tune:
+    reach: 7
+    width: 1.8
+    speed: 80
+    recover: 1.6
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 140
+    guard: 0.2
+    wake: 9
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: warden
+    pair: 1
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 1
+    standsDown: 0

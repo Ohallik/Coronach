@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baa42b3aabba774c8e80324e65c4799, type: 3}
+  m_Name: Odrun
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
+  id: Odrun
+  displayName: Mother Odrun
+  speakerId: Odrun
+  female: 1
+  baseStats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  growthPerLevel:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  natural: {fileID: 7406684539807656514, guid: 43b0d360caf04be469c29eb6ab68e8e1, type: 3}
+  shaped: {fileID: 0}
+  flight: {fileID: 0}
+  portraitNatural: {fileID: 11400000, guid: b54dcd373786b104aa56bd492b4ce4b2, type: 2}
+  portraitShaped: {fileID: 0}
+  skills:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  learnable: []
+  startingGear: []
+  syncHue: {r: 0, g: 1, b: 1, a: 1}
+  extra: {fileID: 0}
+  style:
+    attack: 0
+    guardTakes: 0.35
+    guardCost: 250
+    flightGuard: 0
+    prowArc: 120
+    counter: 0
+    counterBreak: 0
+    counterReach: 0
+    hop: 3.3
+    hopSeconds: 0.25
+    hopSafe: 99
+    roll: 4
+    rollSeconds: 0.3
+    rollSafe: 99
+    chainWindow: 0.9
+    partnerGuards: 0
+    warm: 0
+    bodiesFrom: 
+    bodyTint: {r: 1, g: 1, b: 1, a: 1}

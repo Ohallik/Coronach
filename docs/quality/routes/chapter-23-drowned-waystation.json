@@ -1,0 +1,4877 @@
+{
+  "name": "chapter-23-drowned-waystation",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 4: the mire, the lure lesson, the portico, pumps one and two, Pim, the vault and pump four, pump three, the door, the Rotbloom",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "wend.schoolSeen",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "toward Maru's lamp",
+      "seconds": 5.64,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 16
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "onto the first island",
+      "seconds": 9.05,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 30
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the mire gate's island begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the mire gate's island line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the mire gate's island line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the mire gate's island line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the mire gate's island line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the mire gate's island line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the mire gate's island line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the mire gate's island line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the mire gate's island line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the mire gate's island line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the mire gate's island line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the mire gate's island line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the mire gate's island line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the mire gate's island",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.mireEntered",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the mire gate's island",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "into the striders' ground",
+      "seconds": 5.48,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 30
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Mire_Strider",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Mire_Strider",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Strider round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Strider",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Strider round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Strider",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Strider round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Strider",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Strider 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Strider 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Strider round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Strider",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Mire_Strider cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mire_Strider",
+      "expectedFlag": "clear.Mire_Strider",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Mire_Strider",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Mire_Strider",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "over the ford 1/2",
+      "seconds": 16.23,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 38
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "over the ford 2/2",
+      "seconds": 5.75,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 52
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "toward the lure posts",
+      "seconds": 5.0,
+      "navigate": true,
+      "point": {
+        "x": 27,
+        "y": 0,
+        "z": 62
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the lure lesson begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the lure lesson line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the lure lesson line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the lure lesson line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the lure lesson",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.lureLearned",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the lure lesson",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "among the lure posts",
+      "seconds": 7.3,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": 72
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Mire_Lures",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Mire_Lures",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Lures round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Lures",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Lures round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Lures",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Lures round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Lures",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Lures 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Lures 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Lures round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Lures",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Mire_Lures cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mire_Lures",
+      "expectedFlag": "clear.Mire_Lures",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Mire_Lures",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Mire_Lures",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the leech channel 1/2",
+      "seconds": 15.95,
+      "navigate": true,
+      "point": {
+        "x": 22,
+        "y": 0,
+        "z": 82
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the leech channel 2/2",
+      "seconds": 5.85,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 92
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Mire_Leeches",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Mire_Leeches",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Leeches round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Leeches round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Leeches round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Leeches 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Leeches 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Leeches round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Leeches",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Mire_Leeches cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mire_Leeches",
+      "expectedFlag": "clear.Mire_Leeches",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Mire_Leeches",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Mire_Leeches",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the third island 1/2",
+      "seconds": 16.97,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": 0,
+        "z": 101
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the third island 2/2",
+      "seconds": 6.19,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": 118
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Mire_Third",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Mire_Third",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Third round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Third round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Third round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Mire_Third 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Mire_Third 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Mire_Third round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Mire_Third",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Mire_Third cleared",
+      "seconds": 3,
+      "until": "flag:clear.Mire_Third",
+      "expectedFlag": "clear.Mire_Third",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Mire_Third",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Mire_Third",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "over the causeway 1/2",
+      "seconds": 17.68,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 136
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "over the causeway 2/2",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 154
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the portico",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 166
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the portico begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the portico line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the portico line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the portico line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the portico line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the portico line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the portico line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the portico line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the portico line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the portico line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the portico line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the portico line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the portico line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the portico line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the portico line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the portico line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the portico",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.porticoReached",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the portico",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "under the portico",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.3,
+        "z": 170
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "into the entry hall",
+      "seconds": 4.2,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0.3,
+        "z": 174
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the entry hall begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the entry hall line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the entry hall line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the entry hall line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the entry hall line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the entry hall line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the entry hall line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the entry hall line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the entry hall line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the entry hall line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the entry hall line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the entry hall line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the entry hall line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the entry hall",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.hallSeen",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the entry hall",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "along the dry walk to pump one 1/3",
+      "seconds": 3.39,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0.3,
+        "z": 174
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "along the dry walk to pump one 2/3",
+      "seconds": 4.27,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0.3,
+        "z": 180
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "along the dry walk to pump one 3/3",
+      "seconds": 2.76,
+      "navigate": true,
+      "point": {
+        "x": 12.1,
+        "y": 0.3,
+        "z": 182.9
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "set a hand to pump one",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release pump one",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read pump one line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next pump one line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release pump one line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read pump one line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next pump one line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release pump one line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read pump one line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next pump one line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release pump one line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read pump one line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next pump one line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release pump one line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish pump one",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.pump1",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after pump one",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the hall drains",
+      "seconds": 5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "on into Hall_Sentries",
+      "seconds": 3.3,
+      "navigate": true,
+      "point": {
+        "x": 12.1,
+        "y": 0.3,
+        "z": 188.2
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Hall_Sentries",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Hall_Sentries",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Hall_Sentries round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Hall_Sentries round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Hall_Sentries round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Hall_Sentries 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Hall_Sentries 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Hall_Sentries round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hall_Sentries",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Hall_Sentries cleared",
+      "seconds": 3,
+      "until": "flag:clear.Hall_Sentries",
+      "expectedFlag": "clear.Hall_Sentries",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Hall_Sentries",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Hall_Sentries",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down the stair to the terrace 1/3",
+      "seconds": 13.52,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.3,
+        "z": 190
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down the stair to the terrace 2/3",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": -2.4,
+        "z": 206
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down the stair to the terrace 3/3",
+      "seconds": 6.95,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": -2.4,
+        "z": 226
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Gallery_Terrace",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Gallery_Terrace",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Terrace round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Terrace round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Terrace round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Terrace 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Terrace 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Terrace round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Terrace",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Gallery_Terrace cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gallery_Terrace",
+      "expectedFlag": "clear.Gallery_Terrace",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Gallery_Terrace",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Gallery_Terrace",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to pump two 1/2",
+      "seconds": 17.53,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": -2.4,
+        "z": 244
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to pump two 2/2",
+      "seconds": 2.59,
+      "navigate": true,
+      "point": {
+        "x": 17,
+        "y": -2.4,
+        "z": 246.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "settle before run pump two",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "run pump two",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:wend.pump2",
+      "expectedFlag": "wend.pump2",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release run pump two",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the low floor drains",
+      "seconds": 5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down onto the low floor 1/5",
+      "seconds": 2.59,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": -2.4,
+        "z": 244
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down onto the low floor 2/5",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": -3.2,
+        "z": 245
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down onto the low floor 3/5",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.0,
+        "z": 245
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down onto the low floor 4/5",
+      "seconds": 5.44,
+      "navigate": true,
+      "point": {
+        "x": -10.1,
+        "y": -4.0,
+        "z": 233.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "down onto the low floor 5/5",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": -4.0,
+        "z": 230
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock Gallery_Floor",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock Gallery_Floor",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Floor round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Floor round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Floor round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Gallery_Floor 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Gallery_Floor 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight Gallery_Floor round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gallery_Floor",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Gallery_Floor cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gallery_Floor",
+      "expectedFlag": "clear.Gallery_Floor",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after Gallery_Floor",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after Gallery_Floor",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to Pim's grille 1/3",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": -4.0,
+        "z": 230
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to Pim's grille 2/3",
+      "seconds": 5.23,
+      "navigate": true,
+      "point": {
+        "x": -22,
+        "y": -4.0,
+        "z": 221.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to Pim's grille 3/3",
+      "seconds": 3.11,
+      "navigate": true,
+      "point": {
+        "x": -26.5,
+        "y": -2.0,
+        "z": 221.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "start Pim behind the grille",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release start Pim behind the grille",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Pim behind the grille line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Pim behind the grille line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Pim behind the grille line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish Pim behind the grille",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.pimFound",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after Pim behind the grille",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 1/9",
+      "seconds": 3.11,
+      "navigate": true,
+      "point": {
+        "x": -22,
+        "y": -4.0,
+        "z": 221.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 2/9",
+      "seconds": 5.23,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": -4.0,
+        "z": 230
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 3/9",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": -10.1,
+        "y": -4.0,
+        "z": 233.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 4/9",
+      "seconds": 5.44,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.0,
+        "z": 245
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 5/9",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": -3.2,
+        "z": 245
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 6/9",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": -2.4,
+        "z": 244
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 7/9",
+      "seconds": 6.46,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": -2.4,
+        "z": 226
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 8/9",
+      "seconds": 4.09,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": -2.4,
+        "z": 217.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the terrace's vault passage 9/9",
+      "seconds": 4.78,
+      "navigate": true,
+      "point": {
+        "x": 25.3,
+        "y": -2.4,
+        "z": 217.9
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "settle before run the fourth pump",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "run the fourth pump",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:wend.pump4",
+      "expectedFlag": "wend.pump4",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release run the fourth pump",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the vault's sump drains",
+      "seconds": 5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "through the vault's sump 1/4",
+      "seconds": 2.67,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": -3.4,
+        "z": 217.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "through the vault's sump 2/4",
+      "seconds": 3.31,
+      "navigate": true,
+      "point": {
+        "x": 33.3,
+        "y": -3.4,
+        "z": 218
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "through the vault's sump 3/4",
+      "seconds": 4.14,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": -2.4,
+        "z": 218
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "through the vault's sump 4/4",
+      "seconds": 2.94,
+      "navigate": true,
+      "point": {
+        "x": 45.8,
+        "y": -2.4,
+        "z": 217.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "take a rubbing of the marks",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the rubbing",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the wall of marks line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the wall of marks line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the wall of marks line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the wall of marks line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the wall of marks line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the wall of marks line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the wall of marks line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the wall of marks line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the wall of marks line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the wall of marks line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the wall of marks line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the wall of marks line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the wall of marks",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.vaultRead",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the wall of marks",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the vault's coffer",
+      "seconds": 3.03,
+      "navigate": true,
+      "point": {
+        "x": 45.8,
+        "y": -2.4,
+        "z": 213.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "settle before open the vault's coffer",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "open the vault's coffer",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:cache.wend.station.vault",
+      "expectedFlag": "cache.wend.station.vault",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release open the vault's coffer",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 1/11",
+      "seconds": 2.16,
+      "navigate": true,
+      "point": {
+        "x": 46,
+        "y": -2.4,
+        "z": 214
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 2/11",
+      "seconds": 3.39,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": -2.4,
+        "z": 218
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 3/11",
+      "seconds": 4.14,
+      "navigate": true,
+      "point": {
+        "x": 33.3,
+        "y": -3.4,
+        "z": 218
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 4/11",
+      "seconds": 3.31,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": -3.4,
+        "z": 217.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 5/11",
+      "seconds": 5.45,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": -2.4,
+        "z": 217.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 6/11",
+      "seconds": 4.09,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": -2.4,
+        "z": 226
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 7/11",
+      "seconds": 6.46,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": -2.4,
+        "z": 244
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 8/11",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": -3.2,
+        "z": 245
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 9/11",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.0,
+        "z": 245
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 10/11",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -2.3,
+        "z": 252
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the great stair 11/11",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -0.6,
+        "z": 262
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the station cradle",
+      "seconds": 3.38,
+      "navigate": true,
+      "point": {
+        "x": 5.6,
+        "y": -0.6,
+        "z": 261.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "stand a moment before the press",
+      "seconds": 0.6,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "repair and save at the station cradle",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "saved",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the cradle",
+      "seconds": 1,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to pump three 1/2",
+      "seconds": 3.38,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -0.6,
+        "z": 262
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to pump three 2/2",
+      "seconds": 4.22,
+      "navigate": true,
+      "point": {
+        "x": -9,
+        "y": -0.6,
+        "z": 262.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "settle before run pump three",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "run pump three",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:wend.pump3",
+      "expectedFlag": "wend.pump3",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release run pump three",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the grille lifts",
+      "seconds": 2,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "back to the door",
+      "seconds": 4.22,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -0.6,
+        "z": 262
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "up to the great hall's door",
+      "seconds": 3.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -0.6,
+        "z": 266.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the great hall's door begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the great hall's door line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the great hall's door line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the great hall's door line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the great hall's door line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the great hall's door line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the great hall's door line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the great hall's door line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the great hall's door line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the great hall's door line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the great hall's door line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the great hall's door line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the great hall's door line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the great hall's door line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the great hall's door line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the great hall's door line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the great hall's door",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.bloomSeen",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the great hall's door",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "onto the great hall's floor",
+      "seconds": 6.14,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": -1.6,
+        "z": 277
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "lock the Rotbloom",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release lock the Rotbloom",
+      "seconds": 0.3,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 1a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 1b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 2a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 2b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 3a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 3b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 4a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 4b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 5a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 5b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 6a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 6b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 7a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 7b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 8a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 8b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 9a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 9b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 10a",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "skill Rotbloom 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release skill Rotbloom 10b",
+      "seconds": 0.45,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "fight the Rotbloom round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Rotbloom",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the Rotbloom dies",
+      "seconds": 4,
+      "until": "flag:bossdown.Rotbloom",
+      "expectedFlag": "bossdown.Rotbloom",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "reach the fallen hero after the Rotbloom",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "both heroes ready after the Rotbloom",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "the hall after the Rotbloom",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the hall after the Rotbloom line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the hall after the Rotbloom line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the hall after the Rotbloom line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the hall after the Rotbloom line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the hall after the Rotbloom line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the hall after the Rotbloom line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the hall after the Rotbloom line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the hall after the Rotbloom line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the hall after the Rotbloom line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the hall after the Rotbloom line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next the hall after the Rotbloom line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the hall after the Rotbloom line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish the hall after the Rotbloom",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.rotbloomDead",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after the hall after the Rotbloom",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 1/12",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -0.6,
+        "z": 262
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 2/12",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -2.3,
+        "z": 252
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 3/12",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": -4.0,
+        "z": 245
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 4/12",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": -3.2,
+        "z": 245
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 5/12",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": -2.4,
+        "z": 244
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 6/12",
+      "seconds": 6.46,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": -2.4,
+        "z": 226
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 7/12",
+      "seconds": 6.95,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": -2.4,
+        "z": 206
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 8/12",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0.3,
+        "z": 190
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 9/12",
+      "seconds": 4.47,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0.3,
+        "z": 180
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 10/12",
+      "seconds": 4.27,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0.3,
+        "z": 174
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 11/12",
+      "seconds": 3.39,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.3,
+        "z": 170
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out of the great hall 12/12",
+      "seconds": 2.49,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.3,
+        "z": 168
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "out to the portico",
+      "seconds": 3.23,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 163
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Maru's lamp at the portico begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Maru's lamp at the portico line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Maru's lamp at the portico line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Maru's lamp at the portico line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Maru's lamp at the portico line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Maru's lamp at the portico line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Maru's lamp at the portico line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Maru's lamp at the portico line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Maru's lamp at the portico line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Maru's lamp at the portico line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Maru's lamp at the portico line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Maru's lamp at the portico line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Maru's lamp at the portico line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read Maru's lamp at the portico line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "next Maru's lamp at the portico line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release Maru's lamp at the portico line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "finish Maru's lamp at the portico",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.lampCarried",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release after Maru's lamp at the portico",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Lattice.Core;
 using Lattice.Data;
 using UnityEngine;
+using UnityEngine.AI;
 namespace Lattice.Combat
 {
     /// <summary>A dying Scrapmite's burst: marked on the ground, with a short fuse, and striking only inside its marking. It
@@ -34,7 +35,7 @@ namespace Lattice.Combat
         public bool Telegraphing{get;private set;}
         /// <summary>The ground marking of the attack being told, if any.</summary>
         public Telegraph AttackMark{get;private set;}
-        public bool Attacking=>lunging||Time.time<attackAnimationUntil;
+        public bool Attacking=>lunging||acting||Time.time<attackAnimationUntil;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
         public float TellDuration{get;private set;}=1;
         /// <summary>How far through its tell the attack is, 0 when there is none: what a body's wind-up follows.</summary>
@@ -56,6 +57,34 @@ namespace Lattice.Combat
         /// <summary>Where the body stood when it marked this attack and how far a drag has carried it since, and when it was last dragged.</summary>
         Vector3 markedFrom;float dragged,draggedAt=float.NegativeInfinity;
         bool lunging;
+        // ---------- behaviours (EnemyBehaviour.cs): a body past the six archetypes fights through the same tell everything else reads ----------
+        EnemyBehaviour behaviour;bool acting;
+        /// <summary>How this body fights when its definition names a behaviour (EnemyDef.behaviour); null for one that fights by archetype alone.</summary>
+        public EnemyBehaviour Behaviour=>behaviour;
+        internal CharacterController Controller=>controller;
+        internal Vector3 Home=>home;
+        /// <summary>In the middle of a move of its own (a charge, a pass): it counts as attacking, for its clip, its sounds and a shove.</summary>
+        internal bool Acting{get=>acting;set=>acting=value;}
+        /// <summary>Starts a tell as every ordinary attack does: its marking, the clock the partner, the driver and the body's wind-up read, and its sound, in that order.</summary>
+        internal void BeginTell(Telegraph mark,float tell,Vector3 toward,CombatActor victim,string sound,float pitch,bool shooter=false)
+        {
+            Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;if(shooter)shotAt=Time.time;
+            markedFrom=transform.position;dragged=0;toward.y=0;aim=toward.sqrMagnitude>.001f?toward.normalized:transform.forward;
+            if(mark!=null)mark.owner=this;AttackMark=mark;
+            if(victim!=null&&boss==null){var gap=victim.transform.position-transform.position;gap.y=0;FlashLessons.MarkedAttack(victim,gap.magnitude);}
+            AudioManager.PlayAt(sound,transform,transform.position+Vector3.up,.09f,AudioBus.SFX,128,.1f,pitch);
+        }
+        internal bool TellRunOut=>Telegraphing&&Time.time>=strikeAt;
+        internal Vector3 Aim=>aim;
+        /// <summary>The tell is over and the strike is the caller's: the marking comes back still live, to be released as it lands or carried by a shot.</summary>
+        internal Telegraph EndTell(float followThrough=.55f){Telegraphing=false;var told=AttackMark;AttackMark=null;attackAnimationUntil=Time.time+followThrough;return told;}
+        internal void Rest(float seconds)=>nextAttack=Time.time+seconds;
+        internal bool Rested=>Time.time>=nextAttack&&Time.time>=draggedAt+DragSettles;
+        internal void Walk(Vector3 direction,float speed)=>Move(direction,speed);
+        internal bool Sees(CombatActor victim)=>InSight(victim);
+        internal void Spread(Vector3 toVictim,float distance,float reach)=>KeepApart(toVictim,distance,reach);
+        internal DamagePacket Blow(AttackDef attack,HitWeight weight)=>new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10,weight=weight};
+        void LateUpdate(){if(behaviour!=null)behaviour.Present();}
         public float DamageScale=1;
         float wardedUntil;Vector3 wardFrom;
         /// <summary>Touched by a lit relay's light. It keeps clear for a moment after, so a pack paces the ward's edge instead of
@@ -108,10 +137,12 @@ namespace Lattice.Combat
             collar=GetComponent<CantorCollar>();
             Health.Died+=OnDeath;
             nextAttack=Time.time+.6f;
+            behaviour=EnemyBehaviour.For(this);
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
             CombatActor.PayHit(packet,amount);
+            if(behaviour!=null&&Health.Alive)behaviour.Struck(packet,amount);
             if(Health.Alive&&!Health.Broken&&amount>0)
             {
                 ImpactStarted=Time.time;ImpactSequence++;
@@ -136,6 +167,7 @@ namespace Lattice.Combat
         {
             StopAllCoroutines();lunging=false;Telegraphing=false;strikeAt=attackAnimationUntil=0;
             if(AttackMark!=null){AttackMark.Cancel();AttackMark=null;}
+            if(behaviour!=null){acting=false;behaviour.Cancel();}
         }
         /// <summary>Something took this enemy out of its attack (a hook's reel): it starts over, no expired strike waiting.</summary>
         public void Interrupt(){CancelAttack();nextAttack=Mathf.Max(nextAttack,Time.time+.6f);}
@@ -172,10 +204,33 @@ namespace Lattice.Combat
             }
             return false;
         }
+        // ---------- forms apart (chapter 10's berth, ch10-wiring 6.1) ----------
+        bool formRead,flier;
+        /// <summary>This body fights in flight: read once, from where it first stood (a flier woke at the plane; a Clamp Tender on a shelf in a flight zone did not). In a zone
+        /// with a berth the zone's form changes under it while the party is docked; its own doesn't, and a flier read as on foot fell off the plane.</summary>
+        public bool Flier
+        {
+            get
+            {
+                if(!formRead){var zone=ZoneController.Current;if(zone==null)return false;formRead=true;flier=zone.FlightAt(transform.position);}
+                return flier;
+            }
+        }
+        /// <summary>Flying, for its own settling and spacing: its own form in a zone with a berth, the zone's anywhere else (exactly as it always was).</summary>
+        bool Flying=>ZoneController.HasBerth?Flier:ZoneController.Current!=null&&ZoneController.Current.Flight;
+        /// <summary>A hero and a body of different forms (a hero on a shelf and a flier over it): neither is the other's fight. Only where a zone has a berth; everywhere else never.</summary>
+        public static bool OtherForm(CombatActor hero,Health body)
+        {
+            if(!ZoneController.HasBerth||hero==null||body==null)return false;
+            var owner=body.reactionOwner!=null?body.reactionOwner:body;
+            return owner.TryGetComponent<EnemyBrain>(out var brain)&&brain.Flier!=hero.flight;
+        }
+        /// <summary>The same for a hit about to land on a hero (Health.Receive): what a body of the other form dealt passes him by.</summary>
+        public static bool OtherForm(Health hero,Health source)=>ZoneController.HasBerth&&hero!=null&&source!=null&&hero.TryGetComponent<CombatActor>(out var actor)&&OtherForm(actor,source);
         /// <summary>Whether a skill may drag this body (Tether Hook, Gravity Fold): bosses, serpents and anchored mines
         /// hold their ground (D201).</summary>
         public bool CanBeMoved=>Health.Alive&&controller!=null&&controller.enabled&&GetComponent<BossController>()==null&&
-            definition!=null&&!definition.boss&&definition.archetype!=EnemyArchetype.Serpent&&definition.archetype!=EnemyArchetype.Mine;
+            definition!=null&&!definition.boss&&definition.archetype!=EnemyArchetype.Serpent&&definition.archetype!=EnemyArchetype.Mine&&(behaviour==null||behaviour.Movable);
         /// <summary>How far a drag can carry a body through its attack: under this a shot or a lane is still within a hero's width of its paint. How long after a drag it can start a tell:
         /// one started on the way would be lost an eighth of a second later, a flicker of paint and a lesson for nothing. And how fast a pull has to carry it for that: at the well's centre it only
         /// takes back what the body just walked or its own kind just shoved it, which is carrying it nowhere, and from there it can attack as it always could.</summary>
@@ -190,6 +245,24 @@ namespace Lattice.Combat
             if(!Telegraphing&&!lunging)return;
             dragged+=travel;if(dragged>MostDragged)Interrupt();
         }
+        /// <summary>Carried by the world this far (chapter 6's currents: World's AuroraCurrent carries a body in one while it fights the party), through its controller, so a wall still
+        /// holds it. What it marked and what its behaviour is running down go with it; its home stays where it was set, so left behind it goes back there. Nothing else calls it.</summary>
+        public void Carry(Vector3 delta)
+        {
+            if(controller==null||!controller.enabled||!Health.Alive)return;delta.y=0;
+            var from=transform.position;controller.Move(delta);var moved=transform.position-from;moved.y=0;
+            markedFrom+=moved;behaviour?.Carried(moved);
+        }
+        /// <summary>A blow can carry this body back: a pack hunter or one of a swarm, awake, and neither telling an attack nor making one. What it marked is where it strikes
+        /// from, and a shove is not a hook: it may never take an attack away, or a three-hit combo would cancel everything a hound began. A body asleep or held for a scene keeps its place.</summary>
+        public bool Shovable=>enabled&&!Passive&&definition!=null&&(definition.archetype==EnemyArchetype.PackHunter||definition.archetype==EnemyArchetype.Swarm)&&
+            !Telegraphing&&!Attacking&&CanBeMoved;
+        /// <summary>One step of a blow's shove (Impact), through the controller as a drag goes. False once it may not be shoved or a wall holds it.</summary>
+        public bool Shoved(Vector3 delta)
+        {
+            if(!Shovable)return false;var from=transform.position;Displace(delta);
+            var moved=transform.position-from;moved.y=0;return moved.sqrMagnitude>.000001f;
+        }
         public void RestoreAfterRecovery()
         {
             CancelAttack();ImpactStarted=float.NegativeInfinity;ImpactSequence=0;
@@ -197,35 +270,45 @@ namespace Lattice.Combat
         }
         void OnDestroy()
         {
+            if(behaviour!=null)behaviour.Dispose();
             if(Health==null)return;
             Health.Damaged-=OnDamaged;Health.Died-=OnDeath;
         }
         void OnDeath(Health _,DamagePacket packet)
         {
-            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill(!definition.boss);// A boss gets its own line, never "One less."
+            // A boss gets its own line, never "One less."; nor does someone who stands aside (EnemyBehaviour.Yields), who isn't killed.
+            bool standsAside=behaviour!=null&&behaviour.Yields;
+            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill(!definition.boss&&!standsAside);
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
-            bool disabledRig=definition.id=="Burrower",releasedAnimal=definition.id=="Cantor",yielded=definition.id=="HessaKorl";
-            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig||releasedAnimal||yielded?"failure":"kill");
+            // How a boss ends is its own file's to say (BossController.Kit.ending); anything else is destroyed.
+            var ending=BossController.EndingOf(definition.id);
+            bool disabledRig=ending==BossController.Ending.ShutDown,releasedAnimal=ending==BossController.Ending.Released,yielded=ending==BossController.Ending.Yields,leaves=ending==BossController.Ending.Leaves;
+            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig||releasedAnimal||yielded||leaves||standsAside?"failure":"kill");
             // Resolution can disable equipment or release an animal. Neither
             // outcome borrows the generic boss explosion.
             if(releasedAnimal)AudioManager.PlayAt("doorOpen_000",transform,transform.position+Vector3.up,.24f,AudioBus.SFX,70);
             // A captain who yields drops her lance; she is arrested, not killed (D202).
             else if(yielded)AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40,.06f,.7f);
+            // Driven off, it has had enough: a groan as it turns away, and no explosion.
+            else if(leaves)AudioManager.PlayAt("root_groan",transform,transform.position+Vector3.up,.34f,AudioBus.SFX,40,.06f,.7f);
             else if(disabledRig)CombatAudio.Death(transform,true);
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
-            else CombatAudio.Death(transform,definition.id=="SentinelHusk"||definition.archetype==EnemyArchetype.Mine||definition.id=="MusterSkiff");
+            // Standing aside, it lowers its baton: metal set down, not a body falling.
+            else if(standsAside)AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.2f,AudioBus.SFX,40,.06f,.85f);
+            else CombatAudio.Death(transform,definition.heavyDeath||definition.id=="SentinelHusk"||definition.archetype==EnemyArchetype.Mine||definition.id=="MusterSkiff");
             if(definition.boss)Telegraph.ClearAll(this);
             CancelAttack();
-            if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
+            if(behaviour!=null)behaviour.Fell(packet);
+            if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true,weight=HitWeight.Medium});
             controller.enabled=false;enabled=false;
         }
         void Update()
         {
             // Charges can step onto geometry or another controller. Settling
             // cannot depend on the AI choosing to chase again afterward.
-            if(!GameTime.Paused&&Health.Alive&&controller.enabled&&ZoneController.Current!=null&&!ZoneController.Current.Flight&&!GameServices.Current.Input.Blocked)
-                controller.Move(Vector3.down*6*Time.deltaTime);
+            if(!GameTime.Paused&&Health.Alive&&controller.enabled&&ZoneController.Current!=null&&!Flying&&!GameServices.Current.Input.Blocked)
+            {controller.Move(Vector3.down*6*Time.deltaTime);KeepToTheFloor();}
             // A conversation or load stops the clock on what it interrupted: no strike the instant it ends.
             if(GameServices.Current.Input.Blocked&&!GameTime.Paused){strikeAt+=Time.deltaTime;nextAttack+=Time.deltaTime;}
             // A stun takes the enemy out of its attack: it used to hold its tell and strike the moment it recovered.
@@ -234,13 +317,29 @@ namespace Lattice.Combat
             if(boss!=null&&boss.Busy){if(Telegraphing)CancelAttack();return;}
             // Light-shy: inside a ward it drops its lunge and backs out toward the dark, at the pace the light allows.
             if(Warded){if(Telegraphing)CancelAttack();Move(transform.position-wardFrom,definition.speed);return;}
-            var victim=PartyController.Current.Active;if(!victim.Health.Alive)return;
+            // Whoever the player is playing, unless a hero near it is holding the line (S6a, BraceKit): an ordinary body turns to her for those seconds; a boss never does.
+            var victim=BraceKit.Holder(this)??PartyController.Current.Active;if(!victim.Health.Alive)return;
+            // Chapter 10's berth: a body fights heroes of its own form. A flier doesn't mark or fire at a hero on a shelf, nor a body on the shelf at a ship flying past: it goes home and waits.
+            if(OtherForm(victim,Health))
+            {
+                if(Telegraphing)CancelAttack();
+                if(!Mine&&(home-transform.position).sqrMagnitude>1)Move(home-transform.position,definition.speed);
+                return;
+            }
             // A hero inside a safe pocket can't fight back, so nothing follows them in: they go home and wait.
             if(ZoneController.Current!=null&&ZoneController.Current.InSafePocket)
             {
                 if(Telegraphing)CancelAttack();
                 if(!Mine&&(home-transform.position).sqrMagnitude>1)Move(home-transform.position,definition.speed);
                 return;
+            }
+            // A body with a behaviour of its own fights by it from here: what's above (a break, a ward, a safe pocket, a boss's special) holds for every body alike.
+            if(behaviour!=null)
+            {
+                // Left behind by the party it goes home, as every body does, unless its behaviour keeps a place of its own or is in the middle of something.
+                var gap=victim.transform.position-transform.position;gap.y=0;
+                if(gap.sqrMagnitude>35*35&&!Telegraphing&&!acting&&behaviour.Roams){if((home-transform.position).sqrMagnitude>1)Move(home-transform.position,definition.speed);return;}
+                behaviour.Tick(victim);return;
             }
             Vector3 d=victim.transform.position-transform.position;d.y=0;float distance=d.magnitude;
             var attack=definition.attacks?.Length>0?definition.attacks[0]:null;
@@ -254,7 +353,7 @@ namespace Lattice.Combat
                 {
                     // A shot's marking goes with it until it lands (Telegraph.Carry); anything else strikes now, and its marking flashes.
                     Telegraphing=false;var told=AttackMark;AttackMark=null;Projectile[] shots=null;attackAnimationUntil=Time.time+.55f;
-                    var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10,deathAttack=Mine};
+                    var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10,deathAttack=Mine,weight=Mine?HitWeight.Heavy:dive?HitWeight.Medium:HitWeight.Light};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
                     {packet.hullVolleyHits=new HashSet<Health>();packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);shots=new Projectile[3];for(int i=-1;i<=1;i++)shots[i+1]=Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11,ShotReach(range));}
@@ -335,7 +434,7 @@ namespace Lattice.Combat
         void KeepApart(Vector3 toVictim,float distance,float reach)
         {
             crowded=false;
-            if(boss!=null||Mine||definition.archetype==EnemyArchetype.Serpent||!controller.enabled||ZoneController.Current==null||ZoneController.Current.Flight)return;
+            if(boss!=null||Mine||definition.archetype==EnemyArchetype.Serpent||!controller.enabled||ZoneController.Current==null||Flying)return;
             var at=transform.position;var push=Vector3.zero;
             foreach(var other in crowd)
             {
@@ -377,10 +476,97 @@ namespace Lattice.Combat
             var chest=transform.position+Vector3.up*StrikeHeight;
             return !CombatCover.Clear(chest,chest+direction,controller.radius);
         }
+        /// <summary>How often a body on the ground asks whether it still stands on its own floor; how far above or below its feet that floor may be and still be under it (a slope, the
+        /// bake's own rounding); how far to one side (the bake keeps half a body clear of every wall and drop, and a body at a ledge's lip stands past its edge by as much again); and
+        /// how far round it it looks for that floor when it doesn't.</summary>
+        public const float FloorCheckEvery=.25f,OnFloorWithin=.5f,BesideFloor=1.25f,DownWithin=5,SunkWithin=2;
+        float floorCheckAt;bool floorKnown;Vector3 ownFloor,floorSeenAt=new(float.NaN,0,0);
+        static NavMeshPath floorPath;
+        /// <summary>Nothing that fights on foot may come to rest where a hero on the floor can't strike it. On the 17:17 build both of the Frozen Host's third-rank Bridle-hounds ended in
+        /// the gap between Rig three and the north wall, one standing on the other 1.3 m up, while the lead swung at them from the rig's corner for two minutes, and the fight never
+        /// cleared (nov14-recon24 s35). The bake has no floor in a gap narrower than a body, nor on whatever it never saw (another body's back, ice that melts, a frozen rank), and it
+        /// makes a solid prop's flat top an island of floor of its own. So a body on the ground keeps the floor it first stood on (the baked floor at its feet, and everything joined to
+        /// it) and the floor the lead stands on as its own, and one that finds itself anywhere else, with either beside or below it within <see cref="DownWithin"/>, is put on it at
+        /// once, at the nearest place with room for it. Never up: a body that went over a drop to a floor below is left where it is, as is one in a zone or a fixture with no bake.</summary>
+        void KeepToTheFloor()
+        {
+            if(Time.time<floorCheckAt)return;floorCheckAt=Time.time+FloorCheckEvery;
+            if(Passive||boss!=null||Mine||lunging||acting||definition==null||definition.archetype==EnemyArchetype.Serpent||behaviour!=null&&!behaviour.Movable)return;
+            var feet=transform.position;
+            if(!float.IsNaN(floorSeenAt.x)&&(feet-floorSeenAt).sqrMagnitude<.25f)return;
+            bool sampled=NavMesh.SamplePosition(feet,out var on,2,NavMesh.AllAreas),inside=InScenery(feet);
+            bool baked=sampled&&!inside&&Mathf.Abs(on.position.y-feet.y)<=OnFloorWithin&&Beside(on.position,feet)<=BesideFloor;
+            if(!floorKnown){if(baked){ownFloor=on.position;floorKnown=true;floorSeenAt=feet;}return;}
+            // The floor the lead stands on counts as its own too: a pen's floor is an island in the bake until its ice melts, and what comes out of it fights on the lead's.
+            var lead=PartyController.Current!=null?PartyController.Current.Active:null;
+            leadOnFloor=false;
+            if(lead!=null&&!lead.flight&&NavMesh.SamplePosition(lead.transform.position,out var under,2,NavMesh.AllAreas)&&Mathf.Abs(under.position.y-lead.transform.position.y)<=OnFloorWithin)
+            {leadOnFloor=true;leadFloor=under.position;}
+            if(baked&&Joined(on.position)){floorSeenAt=feet;return;}
+            // Off its floor: the nearest place on it, ring by ring outward. Below it only, for a body on floor of another piece (a prop's top, or a floor the bake doesn't join to
+            // its own, as through a door that opens); beside it too, for one on none (a gap, another body's back, inside something solid).
+            // And a little above, for one inside something solid: a controller set down inside a wall sinks through the floor under it before anything sees it.
+            float highest=baked?feet.y-OnFloorWithin:inside?feet.y+SunkWithin:feet.y+OnFloorWithin;
+            for(float r=0;r<=DownWithin;r+=.75f)
+                for(int i=0;i<(r==0?1:12);i++)
+                    foreach(float depth in Depths)
+                    {
+                        var probe=feet+Quaternion.Euler(0,i*30,0)*Vector3.forward*r+Vector3.down*depth;
+                        if(!NavMesh.SamplePosition(probe,out var to,2,NavMesh.AllAreas)||to.position.y>highest||!Room(to.position)||!Joined(to.position))continue;
+                        Bring(feet,to.position);return;
+                    }
+            // Nothing of its own floor near it: left be until it moves.
+            floorSeenAt=feet;
+            if(!saidOff){saidOff=true;Debug.Log($"ENEMY_OFF_FLOOR {definition.id} at {feet}: none of its floor or the lead's near it");}
+        }
+        bool saidOff;
+        static readonly float[] Depths={0,1.5f,3.5f};
+        static float Beside(Vector3 a,Vector3 b){a.y=b.y=0;return Vector3.Distance(a,b);}
+        bool leadOnFloor;Vector3 leadFloor;
+        static readonly Collider[] Crowded=new Collider[8];
+        /// <summary>Room for its body standing there: nothing solid in its capsule, a hero's or another body's included (set down inside another controller, it would be pushed out
+        /// anywhere, up onto it as like as not).</summary>
+        bool Room(Vector3 at)
+        {
+            float r=controller.radius*.9f,low=controller.radius+.25f;
+            int count=Physics.OverlapCapsuleNonAlloc(at+Vector3.up*low,at+Vector3.up*Mathf.Max(low,controller.height-controller.radius),r,Crowded,~0,QueryTriggerInteraction.Ignore);
+            for(int i=0;i<count;i++)if(Crowded[i]!=controller&&!Crowded[i].transform.IsChildOf(transform))return false;
+            return true;
+        }
+        /// <summary>Its body is inside something solid of the scene's (put there by a wall that came up round it, or a fixture): a body or a hero it touches doesn't count.</summary>
+        bool InScenery(Vector3 at)
+        {
+            // Clear of the floor under it by half a metre, so a ramp or a step it stands on is no wall.
+            float r=controller.radius*.8f,low=controller.radius+.4f;
+            int count=Physics.OverlapCapsuleNonAlloc(at+Vector3.up*low,at+Vector3.up*Mathf.Max(low,controller.height-controller.radius),r,Crowded,~0,QueryTriggerInteraction.Ignore);
+            for(int i=0;i<count;i++)
+            {
+                var c=Crowded[i];
+                if(c==controller||c.transform.IsChildOf(transform)||c is CharacterController||c.attachedRigidbody!=null||c.GetComponentInParent<Health>()!=null)continue;
+                return true;
+            }
+            return false;
+        }
+        bool Joined(Vector3 at)=>JoinedTo(at,ownFloor)||leadOnFloor&&JoinedTo(at,leadFloor);
+        static bool JoinedTo(Vector3 at,Vector3 floor)
+        {
+            if(!NavMesh.Raycast(at,floor,out _,NavMesh.AllAreas))return true;
+            floorPath??=new NavMeshPath();
+            return NavMesh.CalculatePath(at,floor,NavMesh.AllAreas,floorPath)&&floorPath.status==NavMeshPathStatus.PathComplete;
+        }
+        void Bring(Vector3 from,Vector3 to)
+        {
+            if(Telegraphing)CancelAttack();
+            controller.enabled=false;transform.position=to;controller.enabled=true;Physics.SyncTransforms();
+            var moved=to-from;moved.y=0;markedFrom+=moved;behaviour?.Carried(moved);floorSeenAt=to;
+            Debug.Log($"ENEMY_PUT_ON_FLOOR {definition.id} from {from} to {to}");
+        }
+        /// <summary>Planted: it turns and strikes where it stands and does not walk (a boss rooted for a phase). Its own moves still carry it.</summary>
+        internal bool Rooted;
         void Move(Vector3 direction,float speed)
         {
-            direction.y=0;if(!controller.enabled||direction.sqrMagnitude<.0001f)return;
-            float travel=speed*(Time.time<Health.SlowUntil?.4f:1)*Time.deltaTime;
+            direction.y=0;if(Rooted||!controller.enabled||direction.sqrMagnitude<.0001f)return;
+            float travel=speed*(Time.time<Health.SlowUntil?.4f:1)*Health.Pace*Time.deltaTime;
             if(definition.archetype!=EnemyArchetype.Serpent){controller.Move(direction.normalized*travel);return;}
             // A long animal swims forward through a broad turn. Ranged retreat
             // must not back the head through its body, and firing aim must not

@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: StillGround
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: StillGround
+  title: Still Ground
+  description: Dorrow's apprentice has never stood on a floor that stays where it
+    is, and has been sick twice.
+  steps:
+  - kind: 4
+    target: StillThing
+    count: 3
+  - kind: 5
+    target: tam.goingBack
+    count: 1
+  rewardXp: 200
+  rewardScrip: 160
+  rewards:
+  - id: RingKeystone
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Show Tam a doorframe, a pear tree and a stair
+  - Hear what Tam has decided
+  rewardsRolled: 0
+  main: 0
+  chapter: 9
+  stepTargets:
+  - scene: DecksLeaving
+    via: []
+    speaker: 
+    report: StillThing
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Show Tam still things
+  - scene: DecksLeaving
+    via: []
+    speaker: Tam
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Find Tam
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

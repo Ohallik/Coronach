@@ -44,7 +44,7 @@ namespace Lattice.Tests.PlayMode
 #endif
             GameTime.Reset();PromptService.ForceDevice(null);SceneManager.LoadScene("_Boot");yield return null;
             yield return new WaitForSecondsRealtime(.5f);
-            savedBindings=PlayerPrefs.GetString("keyboardBindings","");GameInput.Current.Asset.RemoveAllBindingOverrides();
+            savedBindings=KeyBindingStore.Load();GameInput.Current.Asset.RemoveAllBindingOverrides();
             ClearSaves();DevLoadout.Apply("starter");heard=null;
             Npc.TalkRequested+=Listen;
         }
@@ -58,7 +58,7 @@ namespace Lattice.Tests.PlayMode
             if(pad!=null&&pad.added)InputSystem.RemoveDevice(pad);pad=null;
             if(keyboard!=null&&keyboard.added)InputSystem.RemoveDevice(keyboard);keyboard=null;
             if(GameInput.Current!=null)GameInput.Current.Asset.RemoveAllBindingOverrides();
-            if(string.IsNullOrEmpty(savedBindings))PlayerPrefs.DeleteKey("keyboardBindings");else PlayerPrefs.SetString("keyboardBindings",savedBindings);
+            KeyBindingStore.Save(savedBindings);
             PromptService.ForceDevice(PromptDevice.Keyboard);PromptService.ForceDevice(null);InputSystem.settings.backgroundBehavior=priorBackground;
 #if UNITY_EDITOR
             InputSystem.settings.editorInputBehaviorInPlayMode=priorEditor;

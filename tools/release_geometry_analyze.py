@@ -135,9 +135,10 @@ def analyze(rows, frames, run, report):
             anatomy, heroes = row['anatomy'], row['heroes']
             if len(anatomy) != 8 or [a['role'] for a in anatomy] != ['head']+['part'+str(i) for i in range(1, 8)]:
                 raise ValueError('missing or reordered anatomy')
-            if len(heroes) != 2 or [h['role'] for h in heroes] != ['active', 'partner'] or heroes[0]['hero'] != f['hero'] or heroes[0]['hero'] == heroes[1]['hero'] or not heroes[1]['hero']:
+            # The two hulls as ever, active then partner. A third out on the field follows them as 'other', somebody else again.
+            if len(heroes) < 2 or [h['role'] for h in heroes] != ['active', 'partner']+['other']*(len(heroes)-2) or heroes[0]['hero'] != f['hero'] or not all(h['hero'] for h in heroes[1:]) or len({h['hero'] for h in heroes}) != len(heroes):
                 raise ValueError('missing or mismatched party identity')
-            if len({a['instance'] for a in anatomy+heroes}) != 10:
+            if len({a['instance'] for a in anatomy+heroes}) != 8+len(heroes):
                 raise ValueError('duplicated mesh root')
             for item in anatomy+heroes:
                 shape(item, matrix, camera, rotation)

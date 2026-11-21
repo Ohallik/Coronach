@@ -1075,5 +1075,7 @@
       "seconds": 2,
       "expectedScene": "Lanternwick"
     }
-  ]
+  ],
+  "autoHeal": true,
+  "wearBest": true
 }

@@ -1,0 +1,1710 @@
+{
+  "name": "chapter-61-the-broken-ring",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: the market's lee, two interceptor pairs, the channel, the formation, the Debris Cutter, the tow, the warp home, the fleet's chart",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.launched",
+      "expectedForm": "Flight",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "north in the market's lee",
+      "seconds": 7.53,
+      "navigate": true,
+      "point": {
+        "x": -15.0,
+        "y": 1,
+        "z": 40
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "on north in the lee",
+      "seconds": 10.73,
+      "navigate": true,
+      "point": {
+        "x": -15.0,
+        "y": 1,
+        "z": 100
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "toward the first pair",
+      "seconds": 3.75,
+      "navigate": true,
+      "point": {
+        "x": -16.0,
+        "y": 1,
+        "z": 112.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "lock Ring_Pair1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release lock Ring_Pair1",
+      "seconds": 0.3,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair1 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair1",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair1 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "Ring_Pair1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Ring_Pair1",
+      "expectedFlag": "clear.Ring_Pair1",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "to the channel's west bank",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 1,
+        "z": 150
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "settle at the channel's west bank",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 1,
+        "z": 150
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "wait for the channel to be clear",
+      "seconds": 40,
+      "until": "clear:11,160",
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "across the channel",
+      "seconds": 5.38,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 1,
+        "z": 160
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "settle on the channel's east bank",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 1,
+        "z": 160
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "past the second pair's cover",
+      "seconds": 3.17,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 1,
+        "z": 168
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "toward the second pair",
+      "seconds": 4.12,
+      "navigate": true,
+      "point": {
+        "x": 14.0,
+        "y": 1,
+        "z": 182.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "lock Ring_Pair2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release lock Ring_Pair2",
+      "seconds": 0.3,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue Ring_Pair2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse Ring_Pair2 round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Ring_Pair2",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse Ring_Pair2 round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "Ring_Pair2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Ring_Pair2",
+      "expectedFlag": "clear.Ring_Pair2",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "north to the Cutter's ring",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 234.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "into the Cutter's ring",
+      "seconds": 3.45,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 244.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "bossDoor": "DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "wait for the districts to form",
+      "seconds": 150,
+      "until": "flag:ring.formed",
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "lock DebrisCutter",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release lock DebrisCutter",
+      "seconds": 0.3,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 1",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 2",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 3",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 4",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 5",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 6",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 6",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 7",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 7",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 8",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 8",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 9",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 9",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 10",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 10",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 11",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 11",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 12",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 12",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 12",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 13",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 13",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 13",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 14",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 14",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 14",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 15",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 15",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 15",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pursue DebrisCutter round 16",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 5,
+      "rangedTolerance": 5,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "pulse DebrisCutter round 16",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release pulse DebrisCutter round 16",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "DebrisCutter is down",
+      "seconds": 4,
+      "until": "flag:bossdown.DebrisCutter",
+      "expectedFlag": "bossdown.DebrisCutter",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "the tug takes the Cutter begins",
+      "seconds": 10,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "read the tug takes the Cutter line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "next the tug takes the Cutter line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release the tug takes the Cutter line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "read the tug takes the Cutter line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "next the tug takes the Cutter line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release the tug takes the Cutter line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "read the tug takes the Cutter line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "next the tug takes the Cutter line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release the tug takes the Cutter line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "finish the tug takes the Cutter",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.cutterDisabled",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "release after the tug takes the Cutter",
+      "seconds": 0.5,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "north up the exit lane",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 348.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "settle at the warp home",
+      "seconds": 14.4,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 363.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "BrokenRing"
+    },
+    {
+      "name": "take the warp to Many Hands' hull",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:ManyHandsHull",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release take the warp to Many Hands' hull",
+      "seconds": 0.5,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "north toward the stern dock",
+      "seconds": 4.68,
+      "navigate": true,
+      "point": {
+        "x": -38.0,
+        "y": 1,
+        "z": -148.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "settle at the stern dock",
+      "seconds": 9.06,
+      "navigate": true,
+      "point": {
+        "x": -40.0,
+        "y": 1,
+        "z": -139.4
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "dock at Many Hands",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:ManyHands",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release dock at Many Hands",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up off the pads",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -55
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 1/7",
+      "seconds": 7.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -40
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 2/7",
+      "seconds": 9.11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": -20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 3/7",
+      "seconds": 10.18,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 3.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 4/7",
+      "seconds": 4.02,
+      "navigate": true,
+      "point": {
+        "x": 0.9,
+        "y": 0.0,
+        "z": 8.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 5/7",
+      "seconds": 6.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 20
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 6/7",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 23.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "up the dock and the spine to the chart table 7/7",
+      "seconds": 7.55,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 3.6,
+        "z": 38.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "to the fleet's chart",
+      "seconds": 4.19,
+      "navigate": true,
+      "point": {
+        "x": 1.4,
+        "y": 3.6,
+        "z": 44.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "settle before see where the roads run",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "see where the roads run",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "read see where the roads run line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "next see where the roads run line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release see where the roads run line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "finish see where the roads run",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.chartRead",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release after see where the roads run",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "chapter nine closes",
+      "seconds": 3,
+      "expectedFlag": "chapter9.complete",
+      "expectedScene": "ManyHands"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

@@ -585,8 +585,10 @@ namespace Lattice.Tests.PlayMode
             StringAssert.DoesNotContain("build",words,"the card steps out of the game at the end of the chapter");
             StringAssert.Contains("road runs on",words,"the card no longer says the road goes on");
             StringAssert.Contains("Xylos",words,"the card no longer says where the road goes");
-            StringAssert.Contains("still being drawn",words,"'isn't charted yet' reads as a task: the card has to say nobody's waiting on the player for it");
-            StringAssert.Contains("keep exploring",words,"the card no longer says what's left to do");
+            // While chapter 2 was the last one built the card said the chart was 'still being drawn' and to 'keep exploring'. With chapter 3 behind Abri's next talk that
+            // told the player the game stopped here (first player run, November 13): the card now says who has the next word.
+            StringAssert.DoesNotContain("still being drawn",words,"the card still says the road ahead isn't made yet");
+            StringAssert.Contains("Keeper Abri",words,"the card no longer says who has the next word");
             var body=Text("ChapterCardBody");var box=body.rectTransform.rect;
             Assert.LessOrEqual(body.GetPreferredValues(words,box.width,0).y,box.height+1,"the card's words overflow it");
         }

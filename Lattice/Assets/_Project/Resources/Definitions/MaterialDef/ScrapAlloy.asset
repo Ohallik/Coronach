@@ -16,3 +16,6 @@ MonoBehaviour:
   displayName: Scrap Alloy
   icon: {fileID: 0}
   stack: 999
+  value: 1
+  rare: 0
+  chapter: 1

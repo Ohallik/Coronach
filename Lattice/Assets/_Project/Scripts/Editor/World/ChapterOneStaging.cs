@@ -18,6 +18,8 @@ namespace Lattice.EditorTools
     /// </summary>
     public static class ChapterOneStaging
     {
+        [Restage.Step("chapter1.staging","Hub_CinderHalo,Hub_Decks,Sorrel_Ridges,Hushwell,Gullet_Tunnel,TallowApproach,TallowDrift",After="chapter1.surfaces,chapter2.tallow-warp",Chapter=1,Leaves=new[]{"Hub_CinderHalo: Warp — Tallow Approach <WarpBeacon> #1","Hub_CinderHalo: Spawn_Tallow #1","Hub_CinderHalo: Orrin's hail <RadioHail> #1","Hub_CinderHalo: Repair tender <RepairBay> #1","Hub_CinderHalo: One way sign gate <FlagGate> #1","Hub_CinderHalo: Sky drift <SkyDrift> #1","Hub_Decks: Service job kit #1","Sorrel_Ridges: Drill site cradle <RepairBay> #1","Sorrel_Ridges: Spawn_DrillDoor #1","Sorrel_Ridges: Drill seal posts #1","Sorrel_Ridges: Bore mouth #1","Sorrel_Ridges: Burrower wreck site <BossWreck> #1","Sorrel_Ridges: Rig wreckage #1","Sorrel_Ridges: Outpost cradle bay #1","Hushwell: Survey cradle <RepairBay> #1","Hushwell: Spawn_BellowsDoor #1","Hushwell: Pool shores #1","Hushwell: Pool edges #1","Gullet_Tunnel: Spawn_Collar #1","TallowApproach: Warp — Cinder Halo <WarpBeacon> #1","TallowApproach: Spawn_Halo #1","TallowApproach: Wick sign named <FlagGate> #1","TallowApproach: Wick sign unnamed <FlagGate> #1","TallowApproach: Dock strut feet #1","TallowApproach: Sky drift <SkyDrift> #1","TallowDrift: Pell aboard <FlagGate> #1","TallowDrift: Pell's lamp burns <FlagGate> #1","TallowDrift: Pell comes aboard <FlagAll> #1","TallowDrift: Refuge cradle bay #1"})]
+        [Restage.Step("chapter1.staging-final","Hub_CinderHalo,Hub_Decks,Sorrel_Ridges,Hushwell,Gullet_Tunnel,TallowApproach,TallowDrift",After="chapter1.dressing",Chapter=1)]
         public static void Apply()=>BatchTools.Run(()=>
         {
             Stage("Hub_CinderHalo",Halo);Stage("Hub_Decks",Decks);Stage("Sorrel_Ridges",Sorrel);Stage("Hushwell",Hushwell);Stage("Gullet_Tunnel",Gullet);Stage("TallowApproach",Approach);Stage("TallowDrift",Drift);
@@ -411,7 +413,7 @@ namespace Lattice.EditorTools
             MoveSign("DRILL BREACH",new Vector3(-2,.1f,9));MoveSign("SURVEY GRID",new Vector3(8,.1f,94.5f));
             // The breach's big work lights hung over nothing: flat orange ovals on the floor with no lamp near them. They hang over the camp's own lamps.
             var lamps=new[]{new Vector3(-7,3.2f,5.6f),new Vector3(5.2f,3.2f,11.6f)};int hung=0;
-            foreach(var light in All<Light>().Where(l=>l.name=="Work light"))light.transform.position=lamps[hung++%lamps.Length];
+            foreach(var light in All<Light>().Where(l=>l.name=="Work light").OrderBy(l=>l.intensity).ThenBy(l=>l.range))light.transform.position=lamps[hung++%lamps.Length]; // in a fixed order: FindObjectsByType's isn't, and a second run swapped the two (Restage, November 12); this order is the one the accepted stills have
             var rock=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+"hushwell-rock.mat");
             rock.EnableKeyword("_TRIPLANAR_ON");rock.SetFloat("_Triplanar",1);rock.SetFloat("_TriplanarScale",.166f);EditorUtility.SetDirty(rock);
             All<WarpBeacon>().Single(w=>w.requiredFlag=="hushwell.nursery").lockedPrompt="The lift is dead. Look at what the Bellows was guarding first.";

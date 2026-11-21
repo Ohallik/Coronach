@@ -1,0 +1,1134 @@
+{
+  "name": "chapter-22-driftreed-errands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 4: back by the way home, the school raft, Dov's order and bell, the notice, Quill's fourth pump, the mire gate again",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "wend.tideTurned",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "to the way home",
+      "seconds": 2.94,
+      "navigate": true,
+      "point": {
+        "x": -7.2,
+        "y": 0,
+        "z": 0.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "home through the mire gate",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the way home",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the gate walk to the school raft 1/5",
+      "seconds": 2.89,
+      "navigate": true,
+      "point": {
+        "x": 45.3,
+        "y": 0,
+        "z": 88.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the gate walk to the school raft 2/5",
+      "seconds": 7.76,
+      "navigate": true,
+      "point": {
+        "x": 45.3,
+        "y": 0,
+        "z": 65.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the gate walk to the school raft 3/5",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 45.3,
+        "y": 0,
+        "z": 62.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the gate walk to the school raft 4/5",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 36,
+        "y": 0,
+        "z": 61
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the gate walk to the school raft 5/5",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 35.9,
+        "y": 0,
+        "z": 57.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "watch the school raft",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the watch",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the school raft line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next the school raft line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the school raft line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the school raft line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next the school raft line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the school raft line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the school raft line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next the school raft line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the school raft line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "finish the school raft",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.schoolSeen",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release after the school raft",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 1/11",
+      "seconds": 2.98,
+      "navigate": true,
+      "point": {
+        "x": 36,
+        "y": 0,
+        "z": 61
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 2/11",
+      "seconds": 3.1,
+      "navigate": true,
+      "point": {
+        "x": 40,
+        "y": 0,
+        "z": 63
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 3/11",
+      "seconds": 3.09,
+      "navigate": true,
+      "point": {
+        "x": 37.45,
+        "y": 0,
+        "z": 66.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 4/11",
+      "seconds": 7.42,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 80
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 5/11",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0,
+        "z": 80.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 6/11",
+      "seconds": 4.75,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 78.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 7/11",
+      "seconds": 2.9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 8/11",
+      "seconds": 6.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 9/11",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 10/11",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 45.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "round by the hall to the market 11/11",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 45.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "start Dov's order",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release start Dov's order",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's order line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's order line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's order line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's order line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's order line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's order line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's order line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's order line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's order line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's order line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's order line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's order line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "finish Dov's order",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "look over the stock after Dov's order",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "leave the stock after Dov's order",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the stall after Dov's order",
+      "seconds": 0.3,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "start Dov's bell",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release start Dov's bell",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's bell line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's bell line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's bell line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's bell line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's bell line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's bell line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's bell line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's bell line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's bell line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's bell line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's bell line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's bell line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Dov's bell line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Dov's bell line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Dov's bell line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "finish Dov's bell",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "look over the stock after Dov's bell",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "leave the stock after Dov's bell",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the stall after Dov's bell",
+      "seconds": 0.3,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "to the Compact notice 1/4",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 45.5
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "to the Compact notice 2/4",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "to the Compact notice 3/4",
+      "seconds": 3.01,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "to the Compact notice 4/4",
+      "seconds": 3.01,
+      "navigate": true,
+      "point": {
+        "x": -4.8,
+        "y": 0,
+        "z": 40.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the notice",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the notice",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the Compact notice line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next the Compact notice line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the Compact notice line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the Compact notice line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next the Compact notice line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the Compact notice line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "finish the Compact notice",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.noticeRead",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release after the Compact notice",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the pump walk to Quill 1/5",
+      "seconds": 3.01,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the pump walk to Quill 2/5",
+      "seconds": 3.01,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the pump walk to Quill 3/5",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": -16,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the pump walk to Quill 4/5",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": -30.2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "over the pump walk to Quill 5/5",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": -32.9,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "greet Quill",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release greet Quill",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "hear Quill's fourth pump",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:options",
+      "expectedUi": "options",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release before his choices",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "use the pump-and-press",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:bench",
+      "pauseUi": "bench",
+      "expectedUi": "bench",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "leave the press",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "pauseUi": "bench",
+      "expectedUi": "world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the press",
+      "seconds": 0.4,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 1/15",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": -30.2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 2/15",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": -16,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 3/15",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 4/15",
+      "seconds": 4.95,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 5/15",
+      "seconds": 6.18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 6/15",
+      "seconds": 2.9,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 78.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 7/15",
+      "seconds": 4.75,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0,
+        "z": 80.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 8/15",
+      "seconds": 3.97,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 80
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 9/15",
+      "seconds": 7.42,
+      "navigate": true,
+      "point": {
+        "x": 37.45,
+        "y": 0,
+        "z": 66.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 10/15",
+      "seconds": 3.09,
+      "navigate": true,
+      "point": {
+        "x": 40,
+        "y": 0,
+        "z": 63
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 11/15",
+      "seconds": 3.32,
+      "navigate": true,
+      "point": {
+        "x": 45.3,
+        "y": 0,
+        "z": 62.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 12/15",
+      "seconds": 2.74,
+      "navigate": true,
+      "point": {
+        "x": 45.3,
+        "y": 0,
+        "z": 65.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 13/15",
+      "seconds": 7.76,
+      "navigate": true,
+      "point": {
+        "x": 45.3,
+        "y": 0,
+        "z": 88.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 14/15",
+      "seconds": 2.89,
+      "navigate": true,
+      "point": {
+        "x": 45.5,
+        "y": 0,
+        "z": 92.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back to the mire gate 15/15",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 46.6,
+        "y": 0,
+        "z": 96.9
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back through the mire gate",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the mire gate",
+      "seconds": 0.5,
+      "expectedScene": "DrownedWaystation"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

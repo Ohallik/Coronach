@@ -21,9 +21,12 @@ def knee(row, side):
 
 def analyze(rows, frames, run, report):
     errors=[];groups={};identities=set();previous_frame=-1
+    # Each sample's rows: the active hero, the partner, then any other body out on the field ('other', one row each,
+    # written after the pair). A party of two is two rows a sample, as it always was.
+    current=-1;place=0;partner=None;others=sum(1 for row in rows if isinstance(row,dict) and row.get('role')=='other')
     if report.get('schema')!=1 or report.get('complete') is not True or report.get('failure') not in ('',None):
         errors.append('ground pose producer did not finish successfully')
-    if not frames or run.get('samples')!=len(frames) or report.get('samples')!=len(frames) or report.get('rows')!=len(rows) or len(rows)!=len(frames)*2:
+    if not frames or run.get('samples')!=len(frames) or report.get('samples')!=len(frames) or report.get('rows')!=len(rows) or len(rows)-others!=len(frames)*2:
         errors.append('ground pose coverage/count mismatch')
     if run.get('valid') is not True or any(f.get('focus')!='True' for f in frames):errors.append('replay rejected or focus unavailable')
     for index,row in enumerate(rows):
@@ -31,9 +34,12 @@ def analyze(rows, frames, run, report):
             sample=int(row['sample']);frame=int(row['frame']);role=row['role'];elapsed=float(row['elapsed']);delta=float(row['delta'])
             if not 0<=sample<len(frames):raise ValueError('sample outside replay')
             f=frames[sample]
-            if sample!=index//2 or role!=('active' if index%2==0 else 'partner') or (sample,role) in identities:raise ValueError('duplicate, missing or reordered role/sample')
-            identities.add((sample,role))
-            if frame<=0 or (index%2==0 and frame<=previous_frame) or (index%2==1 and frame!=previous_frame):raise ValueError('wrong evaluated frame')
+            first=sample!=current
+            if first and (sample!=current+1 or (current>=0 and place<1)):raise ValueError('duplicate, missing or reordered role/sample')
+            place=0 if first else place+1;current=sample
+            if role!=('active' if place==0 else 'partner' if place==1 else 'other') or (sample,role,row['hero'] if place>1 else '') in identities:raise ValueError('duplicate, missing or reordered role/sample')
+            identities.add((sample,role,row['hero'] if place>1 else ''))
+            if frame<=0 or (place==0 and frame<=previous_frame) or (place>0 and frame!=previous_frame):raise ValueError('wrong evaluated frame')
             previous_frame=frame
             if not math.isfinite(elapsed) or not math.isfinite(float(f['elapsed'])) or abs(elapsed-float(f['elapsed']))>.000005 or int(row['step'])!=int(f['step']):raise ValueError('step/time mismatch')
             if not math.isfinite(delta) or delta<=0:raise ValueError('invalid evaluated delta')
@@ -41,6 +47,8 @@ def analyze(rows, frames, run, report):
             if not row['hero'] or row['form'] not in ('Natural','Shaped') or row['transitioning'] not in ('True','False'):raise ValueError('actor identity unavailable')
             if role=='active' and (row['hero'],row['form'],row['state'])!=(f['hero'],f['form'],f['state']):raise ValueError('active identity mismatch')
             if role=='partner' and (row['hero']==f['hero'] or row['state']!=f['partnerState']):raise ValueError('partner identity mismatch')
+            if role=='partner':partner=row['hero']
+            if role=='other' and row['hero'] in (f['hero'],partner):raise ValueError('a third body with the identity of one of the pair')
             if not all(math.isfinite(float(row[k])) for k in ['phase','grade','requestedDrop']):raise ValueError('nonfinite pose metadata')
             positions={name:point(row,name) for name in VECTORS}
             if not .9<math.sqrt(sum(v*v for v in positions['forward']))<1.1:raise ValueError('invalid heading')

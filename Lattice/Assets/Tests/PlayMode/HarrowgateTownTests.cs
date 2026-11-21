@@ -1,0 +1,329 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Lattice.Combat;
+using Lattice.Core;
+using Lattice.Data;
+using Lattice.Dialogue;
+using Lattice.UI;
+using Lattice.World;
+using NUnit.Framework;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+namespace Lattice.Tests.PlayMode
+{
+    /// <summary>Harrowgate as a player meets it, in the built scene: the harbour gate that waits for a vouched flag, Pip who waits inside it and goes where the party goes until the oath
+    /// bell, the kitchen that doesn't exist and the quarter behind it, the trophy cases and their key, the Warmaster at his table, the muster field built to the duel's contract and a
+    /// combat place only while the duel is owed, the town standing on the field after the pursuit, and the end down the stair to the cells and the radio. What every zone gets from the
+    /// shared checks is theirs and not repeated here. Coordinates are the map brief's (docs/maps/Harrowgate.md), which are the builder's own (HarrowgateBuilder.Town).</summary>
+    public sealed class HarrowgateTownTests
+    {
+        readonly List<string> heard=new();
+        void Talked(string node,string speaker,System.Action<bool> done)=>heard.Add(node);
+        void Looked(DiscoveryPoint point){if(!string.IsNullOrEmpty(point.dialogueNode))heard.Add(point.dialogueNode);}
+        [UnitySetUp] public IEnumerator Boot()
+        {
+            GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
+            DevLoadout.Apply("chapter8");heard.Clear();Npc.TalkRequested+=Talked;DiscoveryPoint.DialogueRequested+=Looked;
+        }
+        [UnityTearDown] public IEnumerator Cleanup()
+        {
+            Npc.TalkRequested-=Talked;DiscoveryPoint.DialogueRequested-=Looked;
+            var dialogue=DialogueSystem.Current;if(dialogue!=null&&dialogue.Running){dialogue.Cancel();yield return null;yield return null;}
+            GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.3f);
+        }
+
+        // ------------------------------------------------------------------ what this class writes by hand for the shared tests
+        [ContentRegistry.Expectations] static void HarrowgateTown(ContentRegistry.Book book)
+        {
+            // The forecourt's launch after the Warmaster's skiff: "Answer the Warmaster on the muster field first".
+            book.Lock("vask.duelWon","Warmaster","muster field");
+        }
+
+        // ------------------------------------------------------------------ the town's places, on the plan (HarrowgateBuilder.Town's constants)
+        static readonly Vector2 Arrival=new(-40,8),GateHead=new(8,28),PipWaits=new(11.6f,30.6f),HessaGate=new(16.6f,14.6f),KitchenDoor=new(-25,40),OdrunAt=new(-21.8f,46.5f),BrekkAt=new(-24,53.4f),
+            F=new(0,87),DuelMiddle=new(0,85),GuardPost=new(14,95),PipThirdFile=new(-20.2f,80),FieldSpawn=new(0,64),VerdictSpawn=new(-4,80),DraskAt=new(0,109.4f),CellAt=new(56,110.6f),CellFront=new(56,107.4f),
+            ArmouryGate=new(47.6f,80.25f),StairMid=new(50.8f,88.5f),Lookout=new(54,121),PipAfterAt=new(-21.8f,38.6f);
+        const float FieldHalfX=17.5f,FieldSouth=72.5f,FieldNorth=97.5f,Upper=4.8f;
+
+        // ------------------------------------------------------------------ fixtures
+        static GameState State=>GameServices.Current.State;
+        static void Flag(string key,bool on=true)=>GameServices.Current.Flags.SetBool(key,on);
+        static bool Has(string key)=>GameServices.Current.Flags.GetBool(key);
+        static T[] All<T>()where T:Object=>Object.FindObjectsByType<T>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+        static T[] Live<T>()where T:Component=>All<T>().Where(c=>c.gameObject.activeInHierarchy).ToArray();
+        static float Flat(Vector3 a,Vector2 b)=>Vector2.Distance(new Vector2(a.x,a.z),b);
+        static float Flat(Vector3 a,Vector3 b){a.y=b.y=0;return Vector3.Distance(a,b);}
+        static CombatActor Lead=>PartyController.Current.Active;
+        static IEnumerator Frames(int n){for(int i=0;i<n;i++)yield return null;}
+        /// <summary>The story at the town's gate: the Foundry done, Tovra's road said.</summary>
+        static void AtTheGate(){foreach(string f in new[]{"vask.lockAdmitted","vask.picketCrossed","vask.lockRemoved","vask.unswornMet","vask.vessaBeaten","bossdown.SlagColossus","vask.juvenileFreed","vask.roadSaid"})Flag(f);}
+        /// <summary>In under the flag, the sisters heard.</summary>
+        static void InTown(){AtTheGate();Flag("vask.sistersHeard");Flag("vask.parley");Flag("met.Hessa");}
+        static IEnumerator Zone(string spawn="Arrival")
+        {
+            SceneFlow.Current.LoadZone("Harrowgate",spawn);float deadline=Time.unscaledTime+30;
+            while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading,"Harrowgate never finished loading");
+            foreach(var actor in PartyController.Current.members){actor.GetComponent<PlayerBrain>().AutoPilot=true;actor.GetComponent<PartnerBrain>().enabled=false;actor.Health.InvulnerableUntil=GameTime.Now+900;}
+            deadline=Time.unscaledTime+10;while(!DialogueSystem.Current.Prepared&&Time.unscaledTime<deadline)yield return null;
+            yield return new WaitForSecondsRealtime(.7f);
+        }
+        static void Put(CombatActor actor,Vector3 at)
+        {
+            var body=actor.GetComponent<CharacterController>();body.enabled=false;if(actor.motor is GroundMotor ground)ground.Halt();
+            actor.transform.position=at;body.enabled=true;Physics.SyncTransforms();
+        }
+        static Vector3 Floor(Vector2 at)
+        {
+            Assert.IsTrue(NavMesh.SamplePosition(new Vector3(at.x,8,at.y),out var hit,9,NavMesh.AllAreas),$"fixture: no floor near ({at.x}, {at.y})");
+            return hit.position;
+        }
+        /// <summary>A whole path over the town's floor from the arrival, with every door and seal as it stands.</summary>
+        static bool Reached(Vector2 to)
+        {
+            var path=new NavMeshPath();
+            return NavMesh.SamplePosition(new Vector3(Arrival.x,1,Arrival.y),out var from,2,NavMesh.AllAreas)&&NavMesh.SamplePosition(new Vector3(to.x,8,to.y),out var goal,9,NavMesh.AllAreas)
+                &&NavMesh.CalculatePath(from.position,goal.position,NavMesh.AllAreas,path)&&path.status==NavMeshPathStatus.PathComplete;
+        }
+        static Npc[] Here(string speaker)=>All<Npc>().Where(n=>n.speaker==speaker&&n.gameObject.activeInHierarchy).ToArray();
+        static DiscoveryPoint Point(string flag)=>All<DiscoveryPoint>().Single(p=>p.flag==flag);
+        static IEnumerator Settle(){float deadline=Time.unscaledTime+30;while(DialogueSystem.Current.Running&&Time.unscaledTime<deadline)yield return null;Assert.IsFalse(DialogueSystem.Current.Running,"a conversation never ended");yield return new WaitForSecondsRealtime(.3f);}
+        /// <summary>Walks the lead across a crossing box from just short of it: what a player does.</summary>
+        static IEnumerator Cross(DiscoveryPoint line,Vector2 from)
+        {
+            DialogueSystem.Current.AutoAdvance=true;Put(Lead,Floor(from));yield return Frames(2);Put(Lead,line.transform.position+Vector3.up*.1f);
+            float deadline=Time.unscaledTime+4;while(!DialogueSystem.Current.Running&&Time.unscaledTime<deadline)yield return null;
+            yield return Settle();
+        }
+
+        // ================================================================== the town and its ways
+        [UnityTest] public IEnumerator HarrowgateIsASafeTownWithItsWaysOutAndEveryServiceItsChartStopLists()
+        {
+            InTown();yield return Zone();
+            Assert.AreEqual(ZoneKind.GroundSafe,ZoneController.Current.definition.kind,"Harrowgate isn't a safe town");
+            var ways=All<WarpBeacon>().Select(w=>(w.scene,w.spawn)).Concat(All<DockingPad>().Select(d=>(d.scene,d.spawn))).ToArray();
+            CollectionAssert.Contains(ways,("ScoriaFlows","Harrowgate"),"there's no road back to the Flows");CollectionAssert.Contains(ways,("PicketOfTeeth","Harrowgate"),"there's no pad up to the Picket");
+            Assert.IsNotNull(Object.FindFirstObjectByType<Bench>(),"the chart says Harrowgate has a bench");Assert.IsNotNull(Object.FindFirstObjectByType<RepairBay>(),"the chart says Harrowgate has a mender");
+            Assert.IsNotNull(Object.FindFirstObjectByType<GroundNavigation>(),"Harrowgate has no navigation");
+            foreach(var (name,at) in new[]{("the gate's head",GateHead),("Odrun's door",KitchenDoor),("Brekk in the quarter",BrekkAt+new Vector2(0,-1.6f)),("the field",F),("the Warmaster's table",DraskAt+new Vector2(0,-1.6f)),("the lookout",Lookout)})
+                Assert.IsTrue(Reached(at),$"{name} can't be walked to from the quay once the flag is vouched");
+        }
+
+        [UnityTest] public IEnumerator TheHarbourGateIsShutUntilTheFlagIsVouchedAndTheSistersAreHeardOnTheWayUp()
+        {
+            AtTheGate();yield return Zone();
+            var shut=All<FlagGate>().Single(g=>g.name.StartsWith("The harbour gate is shut")).targets[0];var open=All<FlagGate>().Single(g=>g.name.StartsWith("The harbour gate stands open")).targets[0];
+            Assert.IsTrue(shut.activeInHierarchy&&!open.activeInHierarchy,"the harbour gate stands open before anyone has vouched for the flag");
+            yield return Frames(3);Assert.IsFalse(Reached(GateHead),"the town can be walked into through a shut gate");
+            var vessa=All<LeavesAfter>().Single(l=>l.name=="Vessa at the harbour gate");Assert.IsTrue(vessa.gameObject.activeInHierarchy,"Vessa isn't at the gate on the way up");
+            var sisters=Point("vask.sistersHeard");Assert.AreEqual("HessaSisters",sisters.dialogueNode);Assert.IsTrue(sisters.startsOnCrossing);
+            yield return Cross(sisters,Arrival+new Vector2(18,0));
+            Assert.Contains("HessaSisters",heard,"walking up the quay to the gate doesn't overhear the sisters");Assert.IsTrue(Has("vask.sistersHeard"));
+            var hessa=Here("Hessa");Assert.AreEqual(1,hessa.Length,"Hessa isn't on the gate, or is in two places");Assert.Less(Flat(hessa[0].transform.position,HessaGate),1);
+            Assert.AreEqual("HessaParley",hessa[0].firstNode);Assert.AreEqual("HessaGateRepeat",hessa[0].repeatNode);
+            Flag("vask.parley");yield return Frames(4);
+            Assert.IsTrue(!shut.activeInHierarchy&&open.activeInHierarchy,"the gate didn't open once the flag was vouched");Assert.IsTrue(Reached(GateHead),"the town can't be walked into once the flag is vouched");
+        }
+
+        [UnityTest] public IEnumerator PipWaitsInsideTheGateGoesWhereThePartyGoesAndTakesHisFileWhenTheBellRings()
+        {
+            InTown();yield return Zone();
+            var pip=All<KeepsPace>().Single(k=>k.name=="Pip");yield return Frames(3);
+            Assert.AreEqual(0,pip.Current,"Pip isn't waiting inside the gate before his first word");Assert.Less(Flat(pip.transform.position,PipWaits),1.5f,"Pip isn't waiting at the gate's head");
+            var first=Point("vask.pipMet");Assert.AreEqual("PipFirst",first.dialogueNode);Assert.AreEqual("vask.parley",first.requiredFlag);Assert.Less(Flat(first.transform.position,GateHead),2.5f,"Pip's first word isn't just inside the gate");
+            // His places are offered only while he is with the party.
+            var places=All<DiscoveryPoint>().Where(p=>p.dialogueSpeaker=="Pip"&&!p.startsOnCrossing).ToArray();Assert.AreEqual(7,places.Length,"Pip doesn't stop at his seven places");
+            foreach(var place in places)Assert.IsFalse(place.Wanted,$"\"{place.prompt}\" is offered before Pip has attached himself");
+            Flag("vask.pipMet");yield return Frames(3);Assert.AreEqual(1,pip.Current,"Pip doesn't go with the party once he has spoken");
+            Assert.IsTrue(places.Single(p=>p.dialogueNode=="PipWashing").Wanted,"his place under the washing isn't offered while he's with the party");
+            Flag("vask.draskMet");yield return Frames(3);Assert.AreEqual(2,pip.Current,"Pip doesn't go to his file when the oath bell rings");
+            foreach(var place in places)Assert.IsFalse(place.isActiveAndEnabled,$"\"{place.prompt}\" is still offered once Pip is in his file");
+            Flag("vask.deposed");Flag("vask.pursuitWon");yield return Zone();
+            Assert.IsFalse(All<KeepsPace>().Single(k=>k.name=="Pip").gameObject.activeInHierarchy,"Pip still follows the party after the verdict");
+            var after=Here("Pip");Assert.AreEqual(1,after.Length,"Pip isn't at Odrun's door after the verdict");Assert.Less(Flat(after[0].transform.position,PipAfterAt),1);
+            Assert.AreEqual("pip.oathLeft",after[0].postFlag);Assert.AreEqual("PipPost",after[0].postNode);
+        }
+
+        [UnityTest] public IEnumerator OdrunsKitchenHasNoSignItsQuarterIsBehindItAndHerThingsAreOfferedOnlyForHerQuest()
+        {
+            InTown();yield return Zone();
+            var odrun=Here("Odrun");Assert.AreEqual(1,odrun.Length);Assert.Less(Flat(odrun[0].transform.position,OdrunAt),1,"Odrun isn't at her range");
+            Assert.AreEqual("OdrunFirst",odrun[0].firstNode);Assert.AreEqual("OdrunRepeat",odrun[0].repeatNode);Assert.AreEqual("odrun.kitchenStocked",odrun[0].postFlag);Assert.AreEqual("OdrunShop",odrun[0].postNode);
+            foreach(var sign in Object.FindObjectsByType<TMPro.TextMeshPro>(FindObjectsSortMode.None))StringAssert.DoesNotContain("KITCHEN",sign.text.ToUpperInvariant(),"the kitchen that doesn't exist has a sign");
+            var brekk=Here("Brekk");Assert.AreEqual(1,brekk.Length,"Brekk isn't in the quarter");Assert.Less(Flat(brekk[0].transform.position,BrekkAt),1);Assert.AreEqual("BrekkKitchen",brekk[0].repeatNode);
+            // The quarter is reached through the kitchen and no other way: the path to Brekk passes Odrun's door.
+            var path=new NavMeshPath();Assert.IsTrue(NavMesh.CalculatePath(Floor(Arrival),Floor(BrekkAt+new Vector2(0,-1.6f)),NavMesh.AllAreas,path)&&path.status==NavMeshPathStatus.PathComplete,"the quarter can't be reached");
+            Assert.IsTrue(path.corners.Zip(path.corners.Skip(1),(a,b)=>(a,b)).Any(s=>DistanceToSegment(new Vector2(KitchenDoor.x,KitchenDoor.y),s.a,s.b)<1.6f),"the way to the hidden quarter doesn't go through Odrun's door");
+            var wants=All<DiscoveryPoint>().Where(p=>p.report=="KitchenWant").ToArray();Assert.AreEqual(3,wants.Length,"Odrun's three things aren't in the town");
+            foreach(var want in wants){Assert.IsFalse(want.Wanted,$"\"{want.prompt}\" is offered before Odrun has asked");Assert.IsNotNull(want.visual,$"\"{want.prompt}\" has nothing to see");}
+            State.questSteps["OdrunsKitchen"]=0;yield return Frames(3);
+            foreach(var want in wants){Assert.IsTrue(want.Wanted,$"\"{want.prompt}\" isn't offered for Odrun's quest");Assert.IsTrue(want.visual.activeInHierarchy,$"\"{want.prompt}\" can't be seen while it can be taken");}
+            var tovra=All<Transform>().Single(t=>t.name=="Tovra at the kitchen table").gameObject;var table=Point("vask.kitchenTable");
+            Assert.IsFalse(tovra.activeInHierarchy,"Tovra is at the kitchen table before the Warmaster has spoken");Assert.IsFalse(table.Wanted);
+            Flag("vask.draskMet");yield return Frames(3);
+            Assert.IsTrue(tovra.activeInHierarchy,"Tovra hasn't come in the back way once the Warmaster has spoken");Assert.IsTrue(table.Wanted,"the kitchen table isn't offered once Tovra is at it");Assert.AreEqual("OdrunTovra",table.dialogueNode);
+        }
+        static float DistanceToSegment(Vector2 p,Vector3 a,Vector3 b){var a2=new Vector2(a.x,a.z);var d=new Vector2(b.x,b.z)-a2;float t=Mathf.Clamp01(Vector2.Dot(p-a2,d)/Mathf.Max(.0001f,d.sqrMagnitude));return Vector2.Distance(p,a2+d*t);}
+
+        [UnityTest] public IEnumerator TheGlassCasesOpenOncePipHasSaidWhereTheKeyIsOrTheTownHasAnswered()
+        {
+            InTown();Flag("vask.pipMet");yield return Zone();
+            var gallery=Point("vask.gallerySeen");Assert.AreEqual("SelaTrophyGallery",gallery.dialogueNode);Assert.IsTrue(gallery.startsOnCrossing);
+            var cases=All<DiscoveryPoint>().Where(p=>p.report=="GlassCase").ToArray();Assert.AreEqual(3,cases.Length,"Lanternwick's glass isn't in three cases");
+            foreach(var c in cases){Assert.AreEqual("Open the case",c.prompt);Assert.AreEqual("glass",c.situation);Assert.AreEqual("RelayGlass",c.requiredQuest);Assert.IsNotNull(c.visual,"a case has no glass in it");}
+            State.questSteps["RelayGlass"]=0;yield return Frames(3);
+            foreach(var c in cases)Assert.IsFalse(c.Wanted,"a case opens before anyone has said where the key is");
+            Flag("pip.galleryTalked");yield return Frames(3);
+            Assert.IsTrue(Has("vask.casesOpen"),"Pip's word about the key doesn't open the cases");foreach(var c in cases)Assert.IsTrue(c.Wanted,"a case stays shut once Pip has said where the key is");
+            Flag("pip.galleryTalked",false);Flag("vask.casesOpen",false);Flag("vask.deposed");yield return Frames(3);
+            Assert.IsTrue(Has("vask.casesOpen"),"the cases stay shut after the town has answered");
+        }
+
+        [UnityTest] public IEnumerator TheWarmasterComesToHisTableOnceTheTownIsSeenAndGoesOutToTheFieldAfterHeHasSpoken()
+        {
+            InTown();yield return Zone();
+            Assert.AreEqual(0,Here("Drask").Length,"the Warmaster receives anyone before they have seen the town");
+            Flag("vask.odrunMet");yield return Frames(3);Assert.AreEqual(0,Here("Drask").Length,"the Warmaster is at his table with only the kitchen seen");
+            Flag("vask.gallerySeen");yield return Frames(4);
+            var drask=Here("Drask");Assert.AreEqual(1,drask.Length,"the Warmaster isn't at his table once the town is seen");Assert.Less(Flat(drask[0].transform.position,DraskAt),1);Assert.AreEqual("DraskReceives",drask[0].firstNode);
+            Flag("vask.draskMet");yield return Zone();Assert.AreEqual(0,Here("Drask").Length,"the Warmaster is still at his table after he has sent them to the field");
+        }
+
+        // ================================================================== the duel ground (docs/maps/Harrowgate.md, "Duel ground contract")
+        [UnityTest] public IEnumerator TheMusterFieldIsBuiltToTheDuelsContractAndIsACombatPlaceOnlyWhileTheDuelIsOwed()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask"})Flag(f);yield return Zone();
+            var ground=All<DuelGround>().Single();Assert.AreEqual("DraskVaal",ground.boss);Assert.Less(Flat(ground.transform.position,DuelMiddle),.3f,"the duel ground isn't at the field's middle");
+            Assert.AreEqual(FieldHalfX,ground.half.x,.01f);Assert.AreEqual((FieldNorth-FieldSouth)*.5f,ground.half.y,.01f);
+            Assert.IsNotNull(ground.guardPost);Assert.Less(Flat(ground.guardPost.position,GuardPost),.3f,"the guard wing's post isn't inside the kerb's north-east corner");
+            Assert.IsTrue(ground.Holds(ground.guardPost.position),"the guard wing's post is outside the duel's floor");
+            // Level and clear inside the kerb: nothing solid stands on it, and its floor is one height.
+            var at=Floor(F);
+            for(float x=-FieldHalfX+.8f;x<FieldHalfX;x+=2.4f)for(float z=FieldSouth+.8f;z<FieldNorth;z+=2.4f)
+            {
+                // The cadets at drill walk the field before the duel is owed; anything else standing there is in the way.
+                var hits=Physics.RaycastAll(new Vector3(x,Upper+6,z),Vector3.down,10,~0,QueryTriggerInteraction.Ignore).Where(h=>h.collider.GetComponentInParent<WalkLoop>()==null).OrderBy(h=>h.distance).ToArray();
+                Assert.IsNotEmpty(hits,$"no floor at ({x:0.0}, {z:0.0})");
+                Assert.AreEqual(Upper,hits[0].point.y,.08f,$"something stands on the field or its floor isn't level at ({x:0.0}, {z:0.0}): {hits[0].collider.name}");
+            }
+            // Four openings, each its own seal, the encounter's when there is one.
+            var seals=All<Membrane>().Where(m=>m.name.StartsWith("Muster field seal")).ToArray();Assert.AreEqual(4,seals.Length,"the field's four openings aren't each sealed");
+            foreach(var seal in seals)Assert.IsTrue(seal.Open,$"{seal.name} is shut before the duel");
+            var duel=All<EncounterVolume>().SingleOrDefault(e=>e.encounterId=="DraskVaal");
+            if(GameCatalog.Find<EnemyDef>("DraskVaal")!=null)
+            {
+                Assert.IsNotNull(duel,"the field has no duel");Assert.AreEqual("vask.fieldTaken",duel.requiredFlag);Assert.AreEqual("Field",duel.checkpointSpawn);CollectionAssert.AreEquivalent(seals,duel.membranes);
+                var post=duel.spawners.Single();Assert.Less(Flat(post.transform.position,F),.3f,"the Warmaster's post isn't F");Assert.AreEqual(180,post.transform.eulerAngles.y,1);Assert.IsTrue(post.faceAsPlaced);Assert.AreEqual(0,post.radius);
+            }
+            var spawn=All<SpawnPoint>().Single(s=>s.id=="Field");Assert.Less(Flat(spawn.transform.position,F),Flat(All<SpawnPoint>().Single(s=>s.id=="Arrival").transform.position,new Vector2(F.x,F.y)),"the checkpoint is no nearer the field than the arrival");
+            Assert.Less(Flat(spawn.transform.position,F),60);Assert.IsTrue(NavMesh.SamplePosition(spawn.transform.position,out _,1.5f,NavMesh.AllAreas),"the checkpoint isn't on navigation");
+            Assert.IsFalse(ground.Holds(spawn.transform.position),"the checkpoint is on the duel's floor");
+            // Nothing tall between the fixed camera and anywhere the two fighters can be.
+            for(float x=-FieldHalfX+1;x<FieldHalfX;x+=3)for(float z=FieldSouth+1;z<FieldNorth;z+=3)
+            {
+                var chest=new Vector3(x,Upper+SightlineAudit.Chest,z);var eye=chest+SightlineAudit.ToCamera*SightlineAudit.Distance;
+                foreach(var block in Physics.RaycastAll(eye,chest-eye,SightlineAudit.Distance-SightlineAudit.NearIgnore,~0,QueryTriggerInteraction.Ignore))
+                    if(block.collider.GetComponentInParent<WalkLoop>()==null&&block.collider.GetComponentInParent<CombatActor>()==null)Assert.Fail($"{block.collider.name} stands between the camera and a fighter at ({x:0}, {z:0})");
+            }
+            // A combat place only while the duel is owed, and only on the field.
+            var pocket=All<FightPocket>().Single();yield return Frames(2);Assert.AreEqual(0,pocket.State,"the field is staged for the duel before the Warmaster has spoken");
+            // Just inside the east opening: on the field, short of the Warmaster's talk (which would start the duel itself).
+            var onField=new Vector2(FieldHalfX-.3f,85);
+            Put(Lead,Floor(onField));yield return Frames(4);Assert.AreEqual(ZoneKind.GroundSafe,ZoneController.Current.Kind,"the field is a combat place before the duel is owed");
+            Flag("vask.draskMet");Put(Lead,Floor(onField));yield return Frames(4);Assert.AreEqual(1,pocket.State);
+            Assert.AreEqual(ZoneKind.GroundCombat,ZoneController.Current.Kind,"the field isn't a combat place while the duel is owed");
+            Put(Lead,Floor(FieldSpawn));yield return Frames(4);Assert.AreEqual(ZoneKind.GroundSafe,ZoneController.Current.Kind,"the forecourt became a combat place");
+            Flag("vask.duelWon");Put(Lead,Floor(onField));yield return Frames(4);Assert.AreEqual(2,pocket.State);Assert.AreEqual(ZoneKind.GroundSafe,ZoneController.Current.Kind,"the field is still a combat place after the duel");
+        }
+
+        [UnityTest] public IEnumerator TheTownWatchesTheDuelFromTheStepsAndTheKerbsAndTheGuardWingWaitsAtItsPost()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask","vask.draskMet"})Flag(f);yield return Zone("Field");yield return Frames(3);
+            var watching=Live<PropTint>().Where(t=>t.name=="Townsperson, watching the duel").ToArray();
+            Assert.GreaterOrEqual(watching.Length,20,"fewer than twenty of the town watch the duel");
+            var ground=All<DuelGround>().Single();
+            foreach(var one in watching)Assert.IsFalse(ground.Holds(one.transform.position,-1),$"someone watches from inside the kerb at {one.transform.position}");
+            Assert.Greater(watching.Count(w=>w.transform.position.z>FieldNorth+1),8,"the town isn't on the hall steps");
+            Assert.Greater(watching.Count(w=>Mathf.Abs(w.transform.position.x)>FieldHalfX+1),8,"the town isn't along the kerbs");
+            Assert.IsFalse(watching.Any(w=>w.transform.position.z<FieldSouth&&Mathf.Abs(w.transform.position.x)<FieldHalfX),"someone stands between the camera and the field");
+            Transform[] Guard(string who)=>Live<Transform>().Where(t=>t.name.StartsWith("Townsperson")&&t.name.Contains(who)).ToArray();
+            var arrek=Guard("Arrek").SingleOrDefault();var sool=Guard("Sool");
+            Assert.IsNotNull(arrek,"Arrek isn't at the guard wing's post");Assert.AreEqual(1,sool.Length,"Sool isn't at the guard wing's post, or is there twice");
+            Assert.Less(Flat(arrek.position,GuardPost),7,"the guard wing's front rank isn't by its post");
+            Flag("vask.shout1");yield return Frames(3);Assert.IsNull(Guard("Arrek").SingleOrDefault(),"Arrek is still at the post after he has answered the first shout");
+            Assert.IsFalse(Live<Transform>().Any(t=>t.name=="The Unsworn come in behind the steps"),"the smiths come in before the second shout");
+            Flag("vask.shout2");yield return Frames(3);Assert.IsTrue(Live<Transform>().Any(t=>t.name=="The Unsworn come in behind the steps"),"the smiths don't come in behind the steps at the second shout");
+            Flag("bossdown.DraskVaal");yield return Frames(3);Assert.AreEqual(1,Guard("Sool").Length,"Sool isn't where he stayed once the Warmaster has yielded");
+            var pip=All<KeepsPace>().Single(k=>k.name=="Pip");Assert.AreEqual(2,pip.Current);Assert.Less(Flat(pip.transform.position,PipThirdFile),2,"Pip isn't in the third file by the drain");
+        }
+
+        [UnityTest] public IEnumerator AfterThePursuitTheTownStandsOnTheFieldAndOdrunAnswersAtOnce()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask","vask.draskMet","vask.fieldTaken","bossdown.DraskVaal","clear.DraskVaal","vask.duelWon","vask.pursuitWon"})Flag(f);
+            yield return Zone("Verdict");
+            var field=All<Transform>().Single(t=>t.name=="The field after the pursuit").gameObject;Assert.IsTrue(field.activeInHierarchy,"the town isn't standing on the field after the pursuit");
+            Assert.IsTrue(Live<Transform>().Any(t=>t.name=="The Warmaster's skiff, down"),"his skiff isn't down on his own field");
+            DialogueSystem.Current.AutoAdvance=true;float deadline=Time.unscaledTime+6;while(!heard.Contains("OdrunVerdict")&&Time.unscaledTime<deadline)yield return null;
+            Assert.Contains("OdrunVerdict",heard,"Harrowgate doesn't answer when the party comes down on the field");
+            yield return Settle();Assert.IsTrue(Has("vask.deposed"),"the verdict didn't take his tabs");
+        }
+
+        // ================================================================== the end
+        [UnityTest] public IEnumerator TheEndRunsThroughTheArmouryGateDownTheStairToTheCellsAndEveryRadio()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask","vask.draskMet","vask.fieldTaken","bossdown.DraskVaal","clear.DraskVaal","vask.duelWon"})Flag(f);
+            yield return Zone("Field");yield return Frames(3);
+            Assert.IsFalse(Reached(CellFront),"the stair down to the cells can be walked before the town has answered");
+            Flag("vask.pursuitWon");Flag("vask.deposed");yield return Zone("Field");yield return Frames(3);
+            Assert.IsTrue(Reached(CellFront),"the cells can't be walked to once the town has answered");
+            var hessa=Here("Hessa");Assert.AreEqual(1,hessa.Length,"Hessa isn't at the armoury gate, or is in two places");Assert.Less(Flat(hessa[0].transform.position,ArmouryGate),5,"Hessa isn't by the armoury gate");
+            var gate=Point("vask.gateDenied");Assert.AreEqual("HessaArmouryGate",gate.dialogueNode);Assert.AreEqual("vask.deposed",gate.requiredFlag);
+            var stair=Point("idra.lockCounted");Assert.AreEqual("IdraLockCounted",stair.dialogueNode);Assert.AreEqual("vask.gateDenied",stair.requiredFlag);Assert.Less(Flat(stair.transform.position,StairMid),1);
+            var drask=Here("Drask");Assert.AreEqual(1,drask.Length,"the Warmaster isn't in his cell, or is in two places");Assert.Less(Flat(drask[0].transform.position,CellAt),1);
+            Assert.AreEqual("vask.deposed",drask[0].finalFlag);Assert.AreEqual("DraskCustody",drask[0].finalNode);Assert.AreEqual("vask.orderSaid",drask[0].finalCompletionFlag);
+            Assert.LessOrEqual(Vector3.Distance(Floor(CellFront),drask[0].transform.position),drask[0].range+.3f,"the Warmaster can't be talked to from outside his cell");
+            var radio=All<AfterTalk>().Single(a=>a.node=="BrynNacreTraffic");Assert.AreEqual("vask.orderSaid",radio.flag);Assert.AreEqual("vask.nacreHeard",radio.heardFlag);
+            var meret=All<AfterTalk>().Single(a=>a.node=="MeretAllStations");Assert.AreEqual("vask.nacreHeard",meret.flag);Assert.AreEqual("chapter8.complete",meret.heardFlag);
+            Flag("chapter8.complete");yield return Zone();Assert.AreEqual(0,Here("Drask").Length,"the Warmaster is still in his cell once the chapter is over: he's aboard Many Hands");
+        }
+
+        // ================================================================== people
+        [UnityTest] public IEnumerator HarrowgateIsLivedInByVaskarInSeveralLooksWhoStandOffTheWaysAndNeverTwoAlikeSideBySide()
+        {
+            InTown();yield return Zone();
+            var standing=Live<PropTint>().Where(t=>t.name.StartsWith("Townsperson")||t.name.StartsWith("A child")).ToArray();var walking=Live<WalkLoop>();
+            Assert.GreaterOrEqual(standing.Length+walking.Length,24,"Harrowgate has fewer than twenty-four residents about");
+            Assert.GreaterOrEqual(walking.Length,8,"most of Harrowgate stands about: fewer than eight residents walk an errand or a drill");
+            string Coat(Component who){var model=who.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="Generated civilian");var r=model!=null?model.GetComponentInChildren<SkinnedMeshRenderer>():null;
+                return r!=null&&r.sharedMaterial!=null?r.sharedMaterial.name:"?";}
+            var coats=standing.Select(s=>(at:s.transform.position,coat:Coat(s))).ToArray();
+            Assert.GreaterOrEqual(coats.Select(c=>c.coat).Distinct().Count(),6,"Harrowgate's people wear fewer than six looks: "+string.Join(", ",coats.Select(c=>c.coat).Distinct()));
+            for(int a=0;a<coats.Length;a++)for(int b=a+1;b<coats.Length;b++)
+                if(Flat(coats[a].at,coats[b].at)<3.2f)Assert.AreNotEqual(coats[a].coat,coats[b].coat,$"two residents side by side at {coats[a].at} and {coats[b].at} wear the same look");
+            foreach(var named in new[]{"Hessa","Odrun","Brekk"})foreach(var npc in Here(named))foreach(var (at,coat) in coats)
+            {
+                Assert.Greater(Flat(at,npc.transform.position),1.4f,$"a resident stands on top of {named}");
+                var own=npc.GetComponentsInChildren<SkinnedMeshRenderer>().Select(r=>r.sharedMaterial!=null?r.sharedMaterial.name:"").FirstOrDefault();
+                if(coat==own)Assert.Greater(Flat(at,npc.transform.position),8,$"a resident in {named}'s own look stands {Flat(at,npc.transform.position):0.0} m from {named}");
+            }
+        }
+
+        [UnityTest] public IEnumerator SavingInHarrowgateAndContinuingKeepsTheVouchedFlagAndThePlaceSavedAt()
+        {
+            InTown();yield return Zone();
+            var frame=Live<RepairBay>().Single();Put(Lead,Floor(new Vector2(16,43.6f)));yield return Frames(2);frame.Interact();yield return Frames(4);
+            string zone=State.zone;GameServices.Current.Saves.Save("autosave",State);
+            SceneFlow.Current.LoadZone("Title");float deadline=Time.unscaledTime+15;
+            while((SceneFlow.Current.Loading||Object.FindFirstObjectByType<TitleScreen>()==null)&&Time.unscaledTime<deadline)yield return null;yield return null;yield return null;
+            var title=Object.FindFirstObjectByType<TitleScreen>();Assert.IsNotNull(title,"fixture: the title never came up");title.StartGame(true);yield return null;
+            deadline=Time.unscaledTime+30;while((State.zone!=zone||SceneFlow.Current.Loading)&&Time.unscaledTime<deadline)yield return null;yield return new WaitForSecondsRealtime(1);
+            Assert.AreEqual("Harrowgate",SceneFlow.Current.Zone);
+            Assert.Less(Flat(Lead.transform.position,All<SpawnPoint>().Single(s=>s.id==frame.saveSpawn).transform.position),4,"Continue didn't come back where the armourer's frame saved");
+            Assert.IsTrue(Reached(GateHead),"after a Continue the harbour gate is shut again");
+        }
+    }
+}

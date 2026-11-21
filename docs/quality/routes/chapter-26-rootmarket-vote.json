@@ -1,0 +1,1224 @@
+{
+  "name": "chapter-26-rootmarket-vote",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 3: the root bridge to town, the vote, Abri's call, and home to Tallow Drift",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.floodcrownGone",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the root bridge 1/2",
+      "seconds": 6.67,
+      "navigate": true,
+      "point": {
+        "x": 365,
+        "y": 0.6,
+        "z": 84
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "to the root bridge 2/2",
+      "seconds": 7.59,
+      "navigate": true,
+      "point": {
+        "x": 350.4,
+        "y": 0.6,
+        "z": 66.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "over the root bridge to town",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the root bridge",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 1/11",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": 45,
+        "y": 0,
+        "z": 43
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 2/11",
+      "seconds": 6.03,
+      "navigate": true,
+      "point": {
+        "x": 33.8,
+        "y": 0,
+        "z": 44.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 3/11",
+      "seconds": 3.89,
+      "navigate": true,
+      "point": {
+        "x": 28.5,
+        "y": 0,
+        "z": 45
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 4/11",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 27.5,
+        "y": 0,
+        "z": 50
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 5/11",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 23.5,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 6/11",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 23.2,
+        "y": 0,
+        "z": 64.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 7/11",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 17,
+        "y": 0,
+        "z": 62.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 8/11",
+      "seconds": 4.16,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0,
+        "z": 63.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 9/11",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 0,
+        "z": 62.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 10/11",
+      "seconds": 3.87,
+      "navigate": true,
+      "point": {
+        "x": 5.5,
+        "y": 0,
+        "z": 65.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up past the kitchen to the seed house 11/11",
+      "seconds": 2.28,
+      "navigate": true,
+      "point": {
+        "x": 5.5,
+        "y": 0,
+        "z": 66.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "start the vote",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release start the vote",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the vote line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the vote line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the vote line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish the vote",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.voteHeard",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after the vote",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 1/13",
+      "seconds": 2.28,
+      "navigate": true,
+      "point": {
+        "x": 5.5,
+        "y": 0,
+        "z": 65.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 2/13",
+      "seconds": 3.87,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 0,
+        "z": 62.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 3/13",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0,
+        "z": 63.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 4/13",
+      "seconds": 4.16,
+      "navigate": true,
+      "point": {
+        "x": 17,
+        "y": 0,
+        "z": 62.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 5/13",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 23.2,
+        "y": 0,
+        "z": 64.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 6/13",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 23.5,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 7/13",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 27.5,
+        "y": 0,
+        "z": 50
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 8/13",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 28.5,
+        "y": 0,
+        "z": 45
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 9/13",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 10/13",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 25.5,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 11/13",
+      "seconds": 3.68,
+      "navigate": true,
+      "point": {
+        "x": 23,
+        "y": 0,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 12/13",
+      "seconds": 3.35,
+      "navigate": true,
+      "point": {
+        "x": 21.5,
+        "y": 0,
+        "z": 31.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "down the ring's east side toward the pad 13/13",
+      "seconds": 3.86,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 26.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "onto the landing",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 24.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "Abri's dinner call begins",
+      "seconds": 4,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Abri's dinner call line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Abri's dinner call line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Abri's dinner call line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish Abri's dinner call",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter3.complete",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after Abri's dinner call",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the pad 1/4",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 24.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the pad 2/4",
+      "seconds": 3.14,
+      "navigate": true,
+      "point": {
+        "x": 13,
+        "y": 0,
+        "z": 25.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the pad 3/4",
+      "seconds": 7.52,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 17
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the pad 4/4",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 21.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "launch from Rootmarket",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 1560",
+      "seconds": 11.71,
+      "navigate": true,
+      "point": {
+        "x": 879.4,
+        "y": 1,
+        "z": 1167.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 1474",
+      "seconds": 14.51,
+      "navigate": true,
+      "point": {
+        "x": 795.9,
+        "y": 1,
+        "z": 1146.4
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 1300",
+      "seconds": 27.65,
+      "navigate": true,
+      "point": {
+        "x": 637.1,
+        "y": 1,
+        "z": 1069.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 1100",
+      "seconds": 31.01,
+      "navigate": true,
+      "point": {
+        "x": 472.6,
+        "y": 1,
+        "z": 956.9
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 1040",
+      "seconds": 11.21,
+      "navigate": true,
+      "point": {
+        "x": 441.6,
+        "y": 1,
+        "z": 901.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 990",
+      "seconds": 9.27,
+      "navigate": true,
+      "point": {
+        "x": 404.6,
+        "y": 1,
+        "z": 868.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 900",
+      "seconds": 15.09,
+      "navigate": true,
+      "point": {
+        "x": 336.7,
+        "y": 1,
+        "z": 809.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 800",
+      "seconds": 16.14,
+      "navigate": true,
+      "point": {
+        "x": 265.4,
+        "y": 1,
+        "z": 742.9
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 500",
+      "seconds": 45.53,
+      "navigate": true,
+      "point": {
+        "x": 116.8,
+        "y": 1,
+        "z": 483.1
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 296",
+      "seconds": 31.74,
+      "navigate": true,
+      "point": {
+        "x": 35.0,
+        "y": 1,
+        "z": 295.7
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 100",
+      "seconds": 30.77,
+      "navigate": true,
+      "point": {
+        "x": 12.4,
+        "y": 1,
+        "z": 99.2
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "home down the lane at 20",
+      "seconds": 13.66,
+      "navigate": true,
+      "point": {
+        "x": -3.5,
+        "y": 1,
+        "z": 20.6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "settle at the warp home",
+      "seconds": 20.93,
+      "navigate": true,
+      "point": {
+        "x": -12.2,
+        "y": 1,
+        "z": -1.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "XylosNearspace"
+    },
+    {
+      "name": "warp home to Tallow",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "clear of the Xylos warp",
+      "seconds": 4.65,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 1,
+        "z": -12
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "to Tallow's dock",
+      "seconds": 8.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4.2
+      },
+      "tolerance": 0.65,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "dock at Tallow Drift",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Natural",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release dock",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "home aboard Tallow",
+      "seconds": 2,
+      "expectedFlag": "chapter3.complete",
+      "expectedScene": "TallowDrift"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

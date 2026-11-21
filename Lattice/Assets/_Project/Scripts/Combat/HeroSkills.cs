@@ -19,13 +19,14 @@ namespace Lattice.Combat
     /// </list>
     /// Effects outlive the pose (a drone keeps firing after Sela moves on); a pose interrupted before its release
     /// releases nothing.</summary>
-    public sealed class HeroSkills:MonoBehaviour
+    public sealed partial class HeroSkills:MonoBehaviour
     {
         CombatActor actor;
         void Awake(){actor=GetComponent<CombatActor>();}
         static readonly Color Cyan=new(.25f,1.1f,1.6f),Violet=new(.75f,.45f,1.6f);
 
-        DamagePacket Hit(float amount,DamageType type,float breakPower)=>actor.Packet(amount,type,breakPower);
+        /// <param name="weight">How hard it lands (Impact). Left out, it goes by its break power, as any packet does.</param>
+        DamagePacket Hit(float amount,DamageType type,float breakPower,HitWeight weight=HitWeight.None)=>actor.Packet(amount,type,breakPower,null,weight);
         /// <summary>A skill's strike on the world: it stops at walls, as its ring does, and it outlives the caster's next action.</summary>
         internal static HitVolume Land(Vector3 center,float radius,DamagePacket packet)
         {var strike=CombatActor.Strike(center,radius,packet);strike.ThroughWalls=false;strike.Detach();return strike;}
@@ -61,12 +62,12 @@ namespace Lattice.Combat
                     float distance=Mathf.Clamp(TargetDistance(4)-1.4f,1.5f,7f);
                     actor.Health.InvulnerableUntil=Mathf.Max(actor.Health.InvulnerableUntil,GameTime.Now+.45f);
                     After(.1f,()=>actor.motor.Dash(aim,distance));
-                    After(.42f,()=>Slam(transform.position+aim*.8f,3.2f,Hit(Melee(2.2f,power),DamageType.Kinetic,70)));
+                    After(.42f,()=>Slam(transform.position+aim*.8f,3.2f,Hit(Melee(2.2f,power),DamageType.Kinetic,70,HitWeight.Finisher)));
                     break;
                 }
                 case SkillKind.TetherHook:
                     actor.Perform("Pulse",.55f,.45f);
-                    After(.2f,()=>TetherLine.Cast(actor,Hand(aim),aim,12,Hit(Melee(1.2f,power),DamageType.Pulse,45)));
+                    After(.2f,()=>TetherLine.Cast(actor,Hand(aim),aim,12,Hit(Melee(1.2f,power),DamageType.Pulse,45,HitWeight.Medium)));
                     break;
                 case SkillKind.ForgeSpiral:
                     actor.Perform("Cleave",1f,.9f);
@@ -91,6 +92,8 @@ namespace Lattice.Combat
                     actor.Perform("Buff",.6f,.5f);
                     After(.42f,()=>StarfallStrike.Call(actor,Destination(aim,7),false,power));
                     break;
+                // The skills learned at Sync 16 to 24 (S3): HeroSkills.Late.cs.
+                default:GroundLate(kind,power,aim);break;
             }
         }
 
@@ -101,12 +104,12 @@ namespace Lattice.Combat
                 case SkillKind.AnchorSlam:
                     actor.Perform("Dash",.4f,.24f);actor.motor.Dash(aim,Mathf.Clamp(TargetDistance(11)-2.5f,3,11));
                     actor.Health.InvulnerableUntil=Mathf.Max(actor.Health.InvulnerableUntil,GameTime.Now+.35f);
-                    GetComponent<FlightDashContact>().Begin(Hit(Melee(2.2f,power),DamageType.Kinetic,70));
+                    GetComponent<FlightDashContact>().Begin(Hit(Melee(2.2f,power),DamageType.Kinetic,70,HitWeight.Finisher));
                     After(.2f,()=>{FlightWave.Release(transform.position+Vector3.up*.8f,aim,Hit(Melee(.9f,power),DamageType.Kinetic,30),false);Sound("explosionCrunch_000",.32f,.8f);});
                     break;
                 case SkillKind.TetherHook:
                     actor.Perform("Shoot",.4f,.16f);
-                    TetherLine.Cast(actor,transform.position+Vector3.up*.8f+aim,aim,14,Hit(Melee(1.2f,power),DamageType.Pulse,45));
+                    TetherLine.Cast(actor,transform.position+Vector3.up*.8f+aim,aim,14,Hit(Melee(1.2f,power),DamageType.Pulse,45,HitWeight.Medium));
                     break;
                 case SkillKind.ForgeSpiral:
                     actor.Perform("Pulse",.7f,.5f);
@@ -130,6 +133,7 @@ namespace Lattice.Combat
                     actor.Perform("Buff",.45f,.2f);
                     StarfallStrike.Call(actor,Destination(aim,8)+Vector3.up*.8f,true,power);
                     break;
+                default:FlightLate(kind,power,aim);break;
             }
         }
 
@@ -156,6 +160,8 @@ namespace Lattice.Combat
             Land(point+Vector3.up*.9f,radius,packet).life=.14f;
             SkillRing.Expand(point,radius,GroundRing.Friendly,.35f,false);CombatVfx.Burst(point+Vector3.up*.3f,new Color(1,.6f,.2f),"hit");
             Sound("explosionCrunch_000",.38f,.85f);
+            // It comes down whether or not anyone is under it.
+            Impact.Thud(actor,point-transform.position);
         }
 
         IEnumerator Spiral(float power,Vector3 aim)
@@ -393,7 +399,7 @@ namespace Lattice.Combat
             if(best==null){nextShot=.15f;return;}
             nextShot=Interval;Shots++;
             var target=best.transform.position+Vector3.up*(owner.flight?0:.8f);
-            var packet=new DamagePacket{source=owner.Health,amount=owner.rangedDamage*.32f*power*owner.damageScale,type=DamageType.Beam,breakPower=6,chargeCut=ChargeCut};
+            var packet=new DamagePacket{source=owner.Health,amount=owner.rangedDamage*.32f*power*owner.damageScale,type=DamageType.Beam,breakPower=6,chargeCut=ChargeCut,weight=HitWeight.Tick};
             Projectile.Fire(transform.position,target-transform.position,packet,30);
             HeroSkills.Sound(owner,transform.position,"laserSmall_000",.1f,1.6f);
         }
@@ -483,7 +489,7 @@ namespace Lattice.Combat
                 Destroy(gameObject);
             }
         }
-        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Pulse,breakPower=breakPower,chargeCut=CombatActor.MultiHitCut};
+        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Pulse,breakPower=breakPower,chargeCut=CombatActor.MultiHitCut,weight=breakPower>=35?HitWeight.Heavy:HitWeight.Tick};
     }
 
     /// <summary>Starfall: marks a circle, then beams fall into it from above, finishing with a heavy centre strike.</summary>
@@ -543,6 +549,6 @@ namespace Lattice.Combat
             Destroy(go,.14f);Destroy(material,.15f);
             CombatVfx.Burst(point+Vector3.up*(flight?0:.2f),new Color(.3f,1,1.6f),"hit");HeroSkills.Sound(owner,point,"laserSmall_000",.14f,1.9f);
         }
-        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Beam,breakPower=breakPower,chargeCut=CombatActor.MultiHitCut};
+        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Beam,breakPower=breakPower,chargeCut=CombatActor.MultiHitCut,weight=breakPower>=35?HitWeight.Heavy:HitWeight.Tick};
     }
 }

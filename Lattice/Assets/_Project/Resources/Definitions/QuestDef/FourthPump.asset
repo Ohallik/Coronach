@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: FourthPump
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: FourthPump
+  title: The Fourth Pump
+  description: Quill has counted the pipes for a pump that drains one small room,
+    and can't say what the old engineers kept dry in it.
+  steps:
+  - kind: 4
+    target: FourthPump
+    count: 1
+  - kind: 4
+    target: VaultMark
+    count: 1
+  - kind: 5
+    target: quill.markRead
+    count: 1
+  rewardXp: 260
+  rewardScrip: 160
+  rewards:
+  - id: ModulesPrismPlasma
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Find the fourth pump off the lower gallery's east side and run it
+  - Take a rubbing of the marks in the drained vault
+  - Show Quill the old engineers' mark
+  rewardsRolled: 0
+  main: 0
+  chapter: 4
+  stepTargets:
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: 
+    report: FourthPump
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Run the fourth pump
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: 
+    report: VaultMark
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Take a rubbing in the vault
+  - scene: Driftreed
+    via:
+    - DrownedWaystation
+    speaker: Quill
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: Show Quill the rubbing
+  closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 
+  letGoAt: 

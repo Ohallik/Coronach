@@ -9,7 +9,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=Path,required=True)
 parser.add_argument('--owned-art-root',type=Path,default=Path('C:/Users/natem/Projects/FrostboundUnity/art-src'))
 parser.add_argument('--scifi-art-root',type=Path,default=root/'art-src/Kenney_SciFiSounds')
-parser.add_argument('--set',choices=['movement-combat-ui','lifecycle'],default='movement-combat-ui')
+parser.add_argument('--set',choices=['movement-combat-ui','lifecycle','impact'],default='movement-combat-ui')
 args=parser.parse_args();out=args.output.resolve()
 if not out.is_relative_to(root/'Builds/quality'):raise ValueError('Candidates must stay under Builds/quality')
 out.mkdir(parents=True,exist_ok=False)
@@ -31,9 +31,12 @@ def decode(spec):
     pcm=np.frombuffer(result.stdout,dtype='<f4').copy()
     if len(pcm)==0 or not np.isfinite(pcm).all() or np.max(np.abs(pcm))<.001:raise ValueError('Silent or invalid source '+str(p))
     if info(p)!=before:raise ValueError('Source changed '+str(p))
+    # Only the impact set's layers carry these: the first seconds of a source, and a source played backwards (a swell in).
+    if spec.get('take'):pcm=pcm[:round(spec['take']*rate)]
+    if spec.get('reverse'):pcm=pcm[::-1].copy()
     peak=float(np.max(np.abs(pcm)));pcm*=spec['gain']/peak
     return pcm
-recipes=[]
+recipes=[];limits={}
 if args.set=='movement-combat-ui':
   for i in range(4):
       recipes += [(f'step_metal_{i}',[layer(impact,f'footstep_concrete_{i:03d}.ogg',.8),layer(impact,f'impactPlate_light_{i:03d}.ogg',.2,1.18,.008)]),
@@ -47,6 +50,25 @@ if args.set=='movement-combat-ui':
                   (f'needle_sela_{i}',[layer(scifi,f'laserSmall_{i:03d}.ogg')])]
   for name,file in [('ui_confirm','confirmation_001.ogg'),('ui_cancel','back_001.ogg'),('ui_error','error_001.ogg'),('ui_move','select_001.ogg'),('dialogue_tick','tick_001.ogg')]:
       recipes.append((name,[layer(ui,file)]))
+elif args.set=='impact':
+  # What a hit did, laid over the palette's impacts (Impact.cs): a heavy blow's low thump, a crit's bright tick, a break's
+  # crack, a kill's short burst, a guard's dull clank, a hull struck, a boss going down, and the three beats that had only
+  # a borrowed force-field: a Flash Move's whoosh in, the tag-in strike and a level gained. Each is cut to its length, so a
+  # source's long tail doesn't ring on under the next hit.
+  def cut(name,seconds,specs):limits[name]=seconds;recipes.append((name,specs))
+  for i in range(3):
+    cut(f'thump_{i}',.34,[layer(impact,f'impactPunch_heavy_{i:03d}.ogg',.75,.72),layer(impact,f'impactSoft_heavy_{i+2:03d}.ogg',.55,.9)])
+    cut(f'guard_block_{i}',.3,[layer(impact,f'impactPlate_heavy_{i:03d}.ogg',.7,.78),layer(impact,f'impactMetal_medium_{i+2:03d}.ogg',.35,.7,.006)])
+    cut(f'hull_hit_{i}',.42,[layer(impact,f'impactMetal_heavy_{i+2:03d}.ogg',.7,.85),layer(impact,f'impactTin_medium_{i:03d}.ogg',.35,.7,.01)])
+  for i in range(2):
+    cut(f'crit_{i}',.24,[layer(impact,f'impactGlass_light_{i:03d}.ogg',.6,1.5),layer(impact,f'impactMetal_light_{i:03d}.ogg',.5,1.7)])
+    # The pack's heavy glass and wood are thuds: a crack is the light wood's knock pitched up, light glass and metal over it, and a little plate for its body.
+    cut(f'break_{i}',.42,[layer(impact,f'impactWood_light_{i:03d}.ogg',.7,1.7),layer(impact,f'impactGlass_light_{i+1:03d}.ogg',.55,1.2),layer(impact,f'impactMetal_light_{i+1:03d}.ogg',.3,.9,.012),layer(impact,'impactPlate_heavy_003.ogg',.25,.8)])
+    cut(f'kill_{i}',.36,[layer(impact,f'impactPunch_heavy_{i+3:03d}.ogg',.6,.9),layer(scifi,f'explosionCrunch_{i+3:03d}.ogg',.5,1.35)])
+  cut('flash_move',.5,[dict(layer(scifi,'forceField_002.ogg',.8,1.5),take=.45,reverse=True),layer(rpg,'cloth3.ogg',.3,1.3)])
+  cut('swap_strike',.4,[layer(impact,'impactPunch_medium_003.ogg',.6),layer(scifi,'forceField_001.ogg',.4,1.6),layer(impact,'impactSoft_heavy_001.ogg',.3,.9,.004)])
+  cut('level_up',.9,[layer(ui,'confirmation_003.ogg',.6),layer(impact,'impactBell_heavy_002.ogg',.35,1.5,.05),layer(impact,'impactBell_heavy_003.ogg',.3,2,.16)])
+  cut('boss_down',1.2,[layer(scifi,'lowFrequency_explosion_000.ogg',.8),layer(scifi,'explosionCrunch_002.ogg',.5,.8,.02),layer(impact,'impactPlate_heavy_004.ogg',.35,.6)])
 else:
   # Lifecycle and defence: organic and mechanical deaths, hero down/revive,
   # a cloth dodge distinct from the ship thruster, and Refract interception.
@@ -60,11 +82,17 @@ else:
               ('hero_revive',[layer(scifi,'forceField_003.ogg',.7,1.2),layer(ui,'confirmation_002.ogg',.3,1,.08)])]
 manifest={'status':'Prepared candidates only; not staged in game; audition UNVERIFIED','sampleRate':rate,'channels':1,'targetSamplePeakDbfs':-10,'processing':'Decode mono 48k; optional pitch-resample; normalize each layer to unit peak then weighted mix/delay; trim below -60 dB relative activity; 2 ms onset and 12 ms tail fades; normalize composite to -10 dBFS; signed 16-bit PCM.','clips':[]}
 if args.set!='movement-combat-ui':manifest['set']=args.set
+if limits:
+    manifest['limits']=limits
+    manifest['processing']+=' Impact set: a layer may keep only its first seconds (take) or play backwards (reverse) before its gain; a clip longer than its limit is cut there with a 60 ms eased tail before the fades.'
 for name,specs in recipes:
     arrays=[decode(s) for s in specs];size=max(len(a)+round(s['delay']*rate) for a,s in zip(arrays,specs));mix=np.zeros(size,dtype=np.float64)
     for a,s in zip(arrays,specs):
         start=round(s['delay']*rate);mix[start:start+len(a)]+=a
     active=np.flatnonzero(np.abs(mix)>max(np.max(np.abs(mix))*.001,1e-6));mix=mix[max(0,active[0]-96):min(len(mix),active[-1]+577)]
+    # A clip with a length of its own ends there, eased out over its last 60 ms.
+    if name in limits and len(mix)>round(limits[name]*rate):
+        mix=mix[:round(limits[name]*rate)].copy();n=round(.06*rate);mix[-n:]*=np.cos(np.linspace(0,np.pi/2,n))**2
     n=min(96,len(mix)//2);mix[:n]*=np.linspace(0,1,n);n=min(576,len(mix)//2);mix[-n:]*=np.linspace(1,0,n)
     mix*=10**(-10/20)/np.max(np.abs(mix));pcm=np.round(mix*32767).astype('<i2');path=out/(name+'.wav')
     with wave.open(str(path),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(rate);w.writeframes(pcm.tobytes())

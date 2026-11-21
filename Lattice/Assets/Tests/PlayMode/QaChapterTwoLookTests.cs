@@ -20,7 +20,10 @@ namespace Lattice.Tests.PlayMode
     /// people behind barrels. Every check here fails on the build it was written against, and says what the player would see go wrong.</summary>
     public sealed class QaChapterTwoLookTests
     {
-        static readonly string[] Everywhere={"Hub_Decks","Hub_CinderHalo","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","WickReach","Lanternwick","LanternGorge","SunkenRelay"};
+        /// <summary>Chapters 1 and 2's eleven in the order this always walked them, then every zone defined since (ContentRegistry): it was a list written here.</summary>
+        static string[] Everywhere=>ContentRegistry.Zones;
+        /// <summary>The canyon's three, then every zone on foot defined since; one with no heightfield walls is left out by name, with the reason (ContentRegistry.Book.Exempt).</summary>
+        static string[] FloorAndWallZones=>ContentRegistry.With(nameof(FloorAndWallMeetInShade),new[]{"Lanternwick","LanternGorge","SunkenRelay"},ContentRegistry.OnFoot);
         [UnitySetUp] public IEnumerator Boot()
         {
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
@@ -49,6 +52,10 @@ namespace Lattice.Tests.PlayMode
         static WarpBeacon WarpTo(string scene)=>All<WarpBeacon>().Single(w=>w.scene==scene);
         /// <summary>Nothing starts while the hero is put about the zone: a fight's framing would move the camera these checks read through.</summary>
         static void ClearFights(){foreach(var fight in All<EncounterVolume>())Flag("clear."+fight.encounterId);}
+        /// <summary>Whether the camera draws this at all. A shadows-only renderer (a canyon landform's welded caster, D231) writes the sun's shadow map and never a pixel of the frame,
+        /// so nothing of it can stand in front of anyone or be the lamp under a light; its box is the whole landform, so counted as scenery it hid every person in the town and
+        /// stood beside every lamp in the canyon.</summary>
+        static bool Drawn(Renderer r)=>r.enabled&&r.gameObject.activeInHierarchy&&r.shadowCastingMode!=ShadowCastingMode.ShadowsOnly;
         static Bounds BoundsOf(Component root)
         {
             var parts=root.GetComponentsInChildren<Renderer>(true).Where(r=>r is MeshRenderer or SkinnedMeshRenderer).ToArray();
@@ -131,21 +138,19 @@ namespace Lattice.Tests.PlayMode
         static readonly Rect[] HudPanels={Rect.MinMaxRect(0,.72f,.29f,1),Rect.MinMaxRect(.69f,.76f,1,1),Rect.MinMaxRect(.09f,0,.56f,.075f),Rect.MinMaxRect(.65f,0,1,.15f)};
 
         // ---------------------------------------------------------------- the floor (item 0)
-        [UnityTest] public IEnumerator NothingDrawsAMeshWithNoUvsOverATexture()
+        // One case per zone: it walked every zone in one, and a zone that couldn't load or logged an error hid every zone after it (ZoneWalk). It compares nothing across zones.
+        [UnityTest] public IEnumerator NothingDrawsAMeshWithNoUvsOverATexture([ValueSource(nameof(Everywhere))] string zone)
         {
-            foreach(var zone in Everywhere)
+            yield return Zone(zone);
+            foreach(var filter in All<MeshFilter>())
             {
-                yield return Zone(zone);
-                foreach(var filter in All<MeshFilter>())
-                {
-                    var view=filter.GetComponent<MeshRenderer>();if(view==null||!view.enabled||!view.gameObject.activeInHierarchy||filter.sharedMesh==null)continue;
-                    // In play a static body's filter holds its combined batch, with uvs from whatever it was merged with. A collision body's own mesh is still on its collider.
-                    var body=filter.GetComponent<MeshCollider>();var mesh=body!=null&&body.sharedMesh!=null?body.sharedMesh:filter.sharedMesh;
-                    if(mesh.HasVertexAttribute(VertexAttribute.TexCoord0))continue;
-                    foreach(var material in view.sharedMaterials)
-                        if(material!=null&&material.HasProperty("_BaseMap")&&material.GetTexture("_BaseMap")!=null)
-                            Assert.Fail($"{zone}: {filter.name} draws {mesh.name}, which has no uvs, with {material.name}: it paints one flat colour from a single texel, right over the textured floor at the same depth");
-                }
+                var view=filter.GetComponent<MeshRenderer>();if(view==null||!view.enabled||!view.gameObject.activeInHierarchy||filter.sharedMesh==null)continue;
+                // In play a static body's filter holds its combined batch, with uvs from whatever it was merged with. A collision body's own mesh is still on its collider.
+                var body=filter.GetComponent<MeshCollider>();var mesh=body!=null&&body.sharedMesh!=null?body.sharedMesh:filter.sharedMesh;
+                if(mesh.HasVertexAttribute(VertexAttribute.TexCoord0))continue;
+                foreach(var material in view.sharedMaterials)
+                    if(material!=null&&material.HasProperty("_BaseMap")&&material.GetTexture("_BaseMap")!=null)
+                        Assert.Fail($"{zone}: {filter.name} draws {mesh.name}, which has no uvs, with {material.name}: it paints one flat colour from a single texel, right over the textured floor at the same depth");
             }
         }
         [UnityTest] public IEnumerator TheFloorKeepsItsStoneAfterAZoneChange()
@@ -333,7 +338,8 @@ namespace Lattice.Tests.PlayMode
             lamp.SetActive(true);var lying=BoundsOf(lamp.transform);Assert.Less(lying.size.y,Mathf.Max(lying.size.x,lying.size.z),"Pell's chewed lamp is a clean upright pedestal: it reads as ordinary scenery");
             var crate=All<DiscoveryPoint>().Single(p=>p.flag=="unsworn.rationsFound").visual;
             Assert.IsNotNull(crate.GetComponentInChildren<Light>(true),"the ration crate is a near copy of every other black crate, and nothing says which one the prompt means");
-            var kit=All<MeshRenderer>().Where(r=>r.enabled&&r.gameObject.activeInHierarchy&&r.GetComponent<TextMeshPro>()==null&&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")).ToArray();
+            // A pool of light painted on the ground under a lamp (the ground kit's LampPools) is not the lamp.
+            var kit=All<MeshRenderer>().Where(r=>Drawn(r)&&r.GetComponent<TextMeshPro>()==null&&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")&&!r.name.StartsWith("Floor detail")).ToArray();
             foreach(var light in All<Light>().Where(l=>l.name=="Lamp light"))
             {
                 var at=new Vector2(light.transform.position.x,light.transform.position.z);
@@ -436,12 +442,22 @@ namespace Lattice.Tests.PlayMode
             foreach(var zone in new[]{"Lanternwick","SunkenRelay"})
             {
                 yield return Zone(zone);
-                var scenery=All<MeshRenderer>().Where(r=>r.enabled&&r.gameObject.activeInHierarchy&&r.GetComponentInParent<Npc>(true)==null&&r.GetComponent<TextMeshPro>()==null
+                var scenery=All<MeshRenderer>().Where(r=>Drawn(r)&&r.GetComponentInParent<Npc>(true)==null&&r.GetComponent<TextMeshPro>()==null
                     &&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")&&r.name!="Sign plate").ToArray();
+                // The landform's floor and walls are left out above because their box is the whole zone; they are read by their real shape instead, the collision heightfield
+                // they are cut from, so a terrace that rises between the camera and someone still counts.
+                var land=All<MeshCollider>().Where(c=>c.GetComponent<Renderer>()!=null&&c.sharedMesh!=null).ToArray();
+                Assert.Greater(land.Length,0,zone+": fixture: the landform's collision body");
                 foreach(var person in All<Npc>())
                     foreach(var (height,part) in new[]{(.4f,"legs"),(.9f,"body"),(1.5f,"chest")})
+                    {
+                        var target=person.transform.position+Vector3.up*height;
                         foreach(var piece in scenery)
-                            Assert.IsFalse(Hides(piece.bounds,person.transform.position+Vector3.up*height),$"{zone}: {person.speaker}'s {part} are behind {piece.transform.root.name} from the fixed camera, through their whole conversation");
+                            Assert.IsFalse(Hides(piece.bounds,target),$"{zone}: {person.speaker}'s {part} are behind {piece.transform.root.name} from the fixed camera, through their whole conversation");
+                        var eye=target+SightlineAudit.ToCamera*SightlineAudit.Distance;
+                        foreach(var body in land)
+                            Assert.IsFalse(body.Raycast(new Ray(eye,target-eye),out _,SightlineAudit.Distance-SightlineAudit.NearIgnore),$"{zone}: {person.speaker}'s {part} are behind the ground of {body.name} from the fixed camera, through their whole conversation");
+                    }
             }
         }
         [UnityTest] public IEnumerator ArchesStandOnTheirFeet()
@@ -543,7 +559,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(floor.vertexCount,shades.Length,"hall after hall has the same floor");
             Color Hall(float z){var sum=Color.clear;int n=0;for(int i=0;i<ground.Length;i++)if(Mathf.Abs(ground[i].x)<3&&Mathf.Abs(ground[i].z-z)<3){sum+=shades[i];n++;}return sum/Mathf.Max(1,n);}
             Assert.Greater(Mathf.Abs(Hall(32).grayscale-Hall(140).grayscale),.1f,"the cut corridor's floor is the Great Lantern's floor");
-            var kit=All<MeshRenderer>().Where(r=>r.enabled&&r.GetComponent<TextMeshPro>()==null&&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")).ToArray();
+            var kit=All<MeshRenderer>().Where(r=>r.enabled&&r.shadowCastingMode!=ShadowCastingMode.ShadowsOnly&&r.GetComponent<TextMeshPro>()==null&&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")&&!r.name.StartsWith("Floor detail")).ToArray();
             foreach(var lamp in All<Light>().Where(l=>l.name=="Lamp light"))
             {
                 var at=new Vector2(lamp.transform.position.x,lamp.transform.position.z);
@@ -571,7 +587,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator ThePlatesStandClearAndTheCradleIsSigned()
         {
             yield return Zone("SunkenRelay");
-            var parts=All<MeshRenderer>().Where(r=>r.enabled&&r.gameObject.activeInHierarchy&&r.GetComponent<TextMeshPro>()==null&&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")&&r.name!="Sign plate").ToArray();
+            var parts=All<MeshRenderer>().Where(r=>Drawn(r)&&r.GetComponent<TextMeshPro>()==null&&!r.name.EndsWith(" floor")&&!r.name.EndsWith(" cliffs")&&r.name!="Sign plate").ToArray();
             foreach(var stand in All<Transform>().Where(t=>t.name=="Record plate stand"))
             {
                 var at=new Vector2(stand.position.x,stand.position.z);
@@ -707,7 +723,7 @@ namespace Lattice.Tests.PlayMode
                 }
             }
         }
-        [UnityTest] public IEnumerator FloorAndWallMeetInShade([Values("Lanternwick","LanternGorge","SunkenRelay")] string zone)
+        [UnityTest] public IEnumerator FloorAndWallMeetInShade([ValueSource(nameof(FloorAndWallZones))] string zone)
         {
             yield return Zone(zone);
             var floor=All<MeshFilter>().Single(f=>f.name.EndsWith(" floor")).sharedMesh;var walls=All<MeshFilter>().Single(f=>f.name.EndsWith(" cliffs")).sharedMesh;

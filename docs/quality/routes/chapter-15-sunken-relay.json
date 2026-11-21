@@ -281,18 +281,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_0 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_0",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_0 1",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "skill Relay_0 2a",
       "seconds": 0.18,
       "buttons": [
@@ -340,18 +328,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Relay_0 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_0",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_0 2",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -405,18 +381,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_0 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_0",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_0 3",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Relay_0 cleared",
       "seconds": 3,
       "until": "flag:clear.Relay_0",
@@ -447,17 +411,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel after Relay_0",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel after Relay_0",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -537,18 +490,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_1 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_1",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_1 1",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "skill Relay_1 2a",
       "seconds": 0.18,
       "buttons": [
@@ -596,18 +537,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Relay_1 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_1",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_1 2",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -661,18 +590,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_1 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_1",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_1 3",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "skill Relay_1 4a",
       "seconds": 0.18,
       "buttons": [
@@ -723,18 +640,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_1 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_1",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_1 4",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Relay_1 cleared",
       "seconds": 3,
       "until": "flag:clear.Relay_1",
@@ -765,17 +670,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel after Relay_1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel after Relay_1",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -895,18 +789,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_2 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_2",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_2 1",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "skill Relay_2 2a",
       "seconds": 0.18,
       "buttons": [
@@ -954,18 +836,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Relay_2 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_2",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_2 2",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1019,18 +889,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_2 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_2",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_2 3",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "skill Relay_2 4a",
       "seconds": 0.18,
       "buttons": [
@@ -1081,18 +939,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Relay_2 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:clear.Relay_2",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Relay_2 4",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Relay_2 cleared",
       "seconds": 3,
       "until": "flag:clear.Relay_2",
@@ -1123,17 +969,6 @@
       "name": "Taren leads",
       "seconds": 1.2,
       "ensureCharacter": "Taren",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel after Relay_2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel after Relay_2",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1367,7 +1202,7 @@
     },
     {
       "name": "onto the Great Lantern's floor",
-      "seconds": 3.38,
+      "seconds": 6.37,
       "navigate": true,
       "point": {
         "x": 1,
@@ -1376,6 +1211,7 @@
       },
       "tolerance": 1.5,
       "until": "arrived",
+      "bossDoor": "HessaKorl",
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1442,18 +1278,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Hessa 1",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 1",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Cleave Hessa round 2",
       "seconds": 0.2,
       "buttons": [
@@ -1501,18 +1325,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Hessa 2",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 2",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1566,18 +1378,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Hessa 3",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 3",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Cleave Hessa round 4",
       "seconds": 0.2,
       "buttons": [
@@ -1625,18 +1425,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Hessa 4",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 4",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1690,18 +1478,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Hessa 5",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 5",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Cleave Hessa round 6",
       "seconds": 0.2,
       "buttons": [
@@ -1749,18 +1525,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Hessa 6",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 6",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1814,18 +1578,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Hessa 7",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 7",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Cleave Hessa round 8",
       "seconds": 0.2,
       "buttons": [
@@ -1873,18 +1625,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Hessa 8",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 8",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1938,18 +1678,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel Hessa 9",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 9",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "Cleave Hessa round 10",
       "seconds": 0.2,
       "buttons": [
@@ -1997,18 +1725,6 @@
         "y": 0,
         "z": 0
       },
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel Hessa 10",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "stopWhen": "flag:bossdown.HessaKorl",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel Hessa 10",
-      "seconds": 0.4,
       "expectedScene": "SunkenRelay"
     },
     {
@@ -2153,17 +1869,6 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "repair gel after Hessa",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel after Hessa",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
       "name": "to the relay lift 1/2",
       "seconds": 6.92,
       "navigate": true,
@@ -2204,5 +1909,7 @@
       "seconds": 0.5,
       "expectedScene": "Lanternwick"
     }
-  ]
+  ],
+  "autoHeal": true,
+  "wearBest": true
 }

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: MeridianCrawl
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: MeridianCrawl
+  scene: MeridianCrawl
+  kind: 0
+  cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 0fb3ee33ff77c4641a8123bd8e9e4843, type: 2}
+  ambientAudio: {fileID: 8300000, guid: c1be1e004562b244fba61374907fdade, type: 3}
+  ambientVolume: 0.286
+  musicId: Dventure at Dusk
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 1
+  skybox: {fileID: 2100000, guid: 9b6383348d9ccd841a00e6f2e9bf8297, type: 2}
+  displayName: The Meridian Crawl
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: Shop Theme
+  chapter: 9
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

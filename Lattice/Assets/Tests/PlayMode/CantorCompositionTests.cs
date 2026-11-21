@@ -56,9 +56,14 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(2);
             // The party is put here in one frame from the tube's mouth, and the view pulls back for a jump no ship can make before it comes in, at the pace a framed view comes in at
             // (CameraRig.MostComeIn, D221). A player flies in, so what's judged is the view once it has settled. A swap re-seats the camera, which is why Sela's run never waited.
-            var eye=Camera.main.transform;float settled=Time.unscaledTime+8;
+            // Settled is still for longer than the view holds before it comes in (CameraRig.ComeInHold): still for a quarter of a second, it was judged inside that hold,
+            // pulled out to 120 m for the 760 m jump, whenever the jump's pull ended late enough (the November 12 mirror runs, 4.6 s; the passing November 11 run waited 8.8 s).
+            var eye=Camera.main.transform;float settled=Time.unscaledTime+14,still=Time.unscaledTime;
             for(var last=eye.position;Time.unscaledTime<settled;last=eye.position)
-            {yield return new WaitForSecondsRealtime(.25f);if((eye.position-last).sqrMagnitude<.05f*.05f)break;}
+            {
+                yield return new WaitForSecondsRealtime(.25f);
+                if((eye.position-last).sqrMagnitude>=.05f*.05f)still=Time.unscaledTime;else if(Time.unscaledTime-still>CameraRig.ComeInHold+.25f)break;
+            }
             Assert.Less(Time.unscaledTime,settled,"fixture: the preview's view never settles");
             Assert.IsFalse(encounter.Started);
             var meshes=animal.GetComponentsInChildren<Renderer>().Where(r=>r.enabled&&r.gameObject.activeInHierarchy).ToArray();

@@ -278,6 +278,9 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest] public IEnumerator VisibleSolesStayPlantedOnUphillAndDownhillGround()=>SlopeContacts(new[]{10f,-10f});
         [UnityTest] public IEnumerator VisibleSolesStayPlantedOnSteepUphillAndDownhillGround()=>SlopeContacts(new[]{39f,-39f});
+        /// <summary>Idra on her own measured stride (November 12): before it she had no profile, GroundFeet never ran on her, and her soles skated.</summary>
+        [UnityTest] public IEnumerator IdraVisibleSolesStayPlantedOnUphillAndDownhillGround()=>SlopeContacts(new[]{10f,-10f,39f,-39f},new[]{"Idra"});
+        [UnityTest] public IEnumerator IdraVisibleSolesHoldDuringRuntimeLocomotionAndPause()=>RuntimeLocomotion(new[]{"Idra"});
         [UnityTest] public IEnumerator TarenUphillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Taren");
         [UnityTest] public IEnumerator SelaUphillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Sela");
         [UnityTest] public IEnumerator TarenDownhillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Taren",-39);
@@ -443,15 +446,16 @@ namespace Lattice.Tests.PlayMode
         }
         /// <summary>D197 paces: the civil light-tilt walk and full-tilt jog on the Natural body, the combat run on the Shaped one.</summary>
         static readonly (bool shaped,float pace)[] Paces={(false,GroundMotor.NaturalWalk),(false,GroundMotor.NaturalJog),(true,6.7f)};
-        static IEnumerator SlopeContacts(float[] slopes)
+        static IEnumerator SlopeContacts(float[] slopes,string[] heroes=null)
         {
+            heroes??=new[]{"Taren","Sela"};
             GameTime.Reset();
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
             floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(60,1,60);
             var failures=new List<string>();
             try
             {
-                foreach(string hero in new[]{"Taren","Sela"})foreach(var (shaped,pace) in Paces)foreach(float slope in slopes)
+                foreach(string hero in heroes)foreach(var (shaped,pace) in Paces)foreach(float slope in slopes)
                 {
                     floor.transform.rotation=Quaternion.Euler(-slope,0,0);
                     Vector3 normal=floor.transform.up,surface=floor.transform.position+normal*.5f;
@@ -509,14 +513,15 @@ namespace Lattice.Tests.PlayMode
             finally{GameTime.Reset();Object.Destroy(floor);}
         }
 
-        [UnityTest] public IEnumerator VisibleSolesHoldDuringRuntimeLocomotionAndPause()
+        [UnityTest] public IEnumerator VisibleSolesHoldDuringRuntimeLocomotionAndPause()=>RuntimeLocomotion(new[]{"Taren","Sela"});
+        static IEnumerator RuntimeLocomotion(string[] heroes)
         {
             GameTime.Reset();
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(400,1,400);
             Physics.SyncTransforms();
             try
             {
-                foreach(string hero in new[]{"Taren","Sela"})foreach(var (shaped,speed) in Paces)
+                foreach(string hero in heroes)foreach(var (shaped,speed) in Paces)
                 foreach(float direction in new[]{0f,90,180})
                 {
                     var root=new GameObject("runtime stride "+hero,typeof(Health),typeof(CombatActor));root.transform.position=new Vector3(100,0,100);

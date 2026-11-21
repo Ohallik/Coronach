@@ -1,0 +1,1716 @@
+{
+  "name": "chapter-45-picket-of-teeth",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 8: Idra at the edge, the quiet route shadow to shadow, B4 shot down, the lock in sight, the four pieces worked from the curtain's front line while the hunter wing hunts and loses the ship, down to the Flows",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "vask.lockAdmitted",
+      "expectedForm": "Flight",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "up the approach",
+      "seconds": 9.85,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 60
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "on until Idra speaks",
+      "seconds": 6.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 92.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "Idra at the picket's edge begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read Idra at the picket's edge line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next Idra at the picket's edge line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release Idra at the picket's edge line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read Idra at the picket's edge line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next Idra at the picket's edge line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release Idra at the picket's edge line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read Idra at the picket's edge line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next Idra at the picket's edge line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release Idra at the picket's edge line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read Idra at the picket's edge line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next Idra at the picket's edge line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release Idra at the picket's edge line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read Idra at the picket's edge line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next Idra at the picket's edge line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release Idra at the picket's edge line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "finish Idra at the picket's edge",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.picketRead",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release after Idra at the picket's edge",
+      "seconds": 0.5,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "to the first tooth's edge",
+      "seconds": 9.27,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 110.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle at the first tooth's edge",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 110.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 1",
+      "seconds": 0.12,
+      "x": 0.012,
+      "y": 0.3,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 1",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 1",
+      "seconds": 40,
+      "until": "clear:2,160",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 1 to its pocket",
+      "seconds": 9.28,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 1,
+        "z": 160.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 1",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 1,
+        "z": 160.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 2",
+      "seconds": 0.12,
+      "x": -0.205,
+      "y": 0.219,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 2",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 2",
+      "seconds": 40,
+      "until": "clear:-26,190",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 2 to its pocket",
+      "seconds": 7.97,
+      "navigate": true,
+      "point": {
+        "x": -26.0,
+        "y": 1,
+        "z": 190.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 2",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -26.0,
+        "y": 1,
+        "z": 190.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 3",
+      "seconds": 0.12,
+      "x": 0.119,
+      "y": 0.276,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 3",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 3",
+      "seconds": 40,
+      "until": "clear:-21.7,200;-6,228",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 3 round the rock 1",
+      "seconds": 3.58,
+      "navigate": true,
+      "point": {
+        "x": -21.7,
+        "y": 1,
+        "z": 200.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 3 to its pocket",
+      "seconds": 6.67,
+      "navigate": true,
+      "point": {
+        "x": -6.0,
+        "y": 1,
+        "z": 228.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 3",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -6.0,
+        "y": 1,
+        "z": 228.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 4",
+      "seconds": 0.12,
+      "x": 0.025,
+      "y": 0.299,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 4",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 4",
+      "seconds": 40,
+      "until": "clear:0,300;-22,322",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 4 round the rock 1",
+      "seconds": 12.51,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 300.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 4 to its pocket",
+      "seconds": 6.53,
+      "navigate": true,
+      "point": {
+        "x": -22.0,
+        "y": 1,
+        "z": 322.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 4",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -22.0,
+        "y": 1,
+        "z": 322.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 5",
+      "seconds": 0.12,
+      "x": 0.166,
+      "y": 0.25,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 5",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 5",
+      "seconds": 40,
+      "until": "clear:-6,346",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 5 to its pocket",
+      "seconds": 6.2,
+      "navigate": true,
+      "point": {
+        "x": -6.0,
+        "y": 1,
+        "z": 346.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 5",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -6.0,
+        "y": 1,
+        "z": 346.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 6",
+      "seconds": 0.12,
+      "x": 0.205,
+      "y": 0.219,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 6",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 6",
+      "seconds": 40,
+      "until": "clear:12.1,365.4;13.5,368.1;14,372",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 6 round the rock 1",
+      "seconds": 5.86,
+      "navigate": true,
+      "point": {
+        "x": 12.1,
+        "y": 1,
+        "z": 365.4
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 6 round the rock 2",
+      "seconds": 2.44,
+      "navigate": true,
+      "point": {
+        "x": 13.5,
+        "y": 1,
+        "z": 368.1
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 6 to its pocket",
+      "seconds": 2.57,
+      "navigate": true,
+      "point": {
+        "x": 14.0,
+        "y": 1,
+        "z": 372.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 6",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 14.0,
+        "y": 1,
+        "z": 372.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 7",
+      "seconds": 0.12,
+      "x": -0.171,
+      "y": 0.247,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 7",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 7",
+      "seconds": 40,
+      "until": "clear:-4,398",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 7 to its pocket",
+      "seconds": 6.6,
+      "navigate": true,
+      "point": {
+        "x": -4.0,
+        "y": 1,
+        "z": 398.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 7",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -4.0,
+        "y": 1,
+        "z": 398.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 8",
+      "seconds": 0.12,
+      "x": -0.157,
+      "y": 0.255,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 8",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 8",
+      "seconds": 40,
+      "until": "clear:-20,424",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 8 to its pocket",
+      "seconds": 6.44,
+      "navigate": true,
+      "point": {
+        "x": -20.0,
+        "y": 1,
+        "z": 424.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 8",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -20.0,
+        "y": 1,
+        "z": 424.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 9",
+      "seconds": 0.12,
+      "x": -0.055,
+      "y": 0.295,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 9",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 9",
+      "seconds": 40,
+      "until": "clear:-21,429.4;-19.2,433.9;0,448",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 9 round the rock 1",
+      "seconds": 2.8,
+      "navigate": true,
+      "point": {
+        "x": -21.0,
+        "y": 1,
+        "z": 429.4
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 9 round the rock 2",
+      "seconds": 2.7,
+      "navigate": true,
+      "point": {
+        "x": -19.2,
+        "y": 1,
+        "z": 433.9
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 9 to its pocket",
+      "seconds": 5.46,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 448.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 9",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 448.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 10",
+      "seconds": 0.12,
+      "x": -0.02,
+      "y": 0.299,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 10",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 10",
+      "seconds": 40,
+      "until": "clear:-0.3,452.6;1.3,456.4;20,474",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 10 round the rock 1",
+      "seconds": 2.67,
+      "navigate": true,
+      "point": {
+        "x": -0.3,
+        "y": 1,
+        "z": 452.6
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 10 round the rock 2",
+      "seconds": 2.6,
+      "navigate": true,
+      "point": {
+        "x": 1.3,
+        "y": 1,
+        "z": 456.4
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 10 to its pocket",
+      "seconds": 5.74,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 1,
+        "z": 474.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 10",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 20.0,
+        "y": 1,
+        "z": 474.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 11",
+      "seconds": 0.12,
+      "x": -0.216,
+      "y": 0.208,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 11",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 11",
+      "seconds": 40,
+      "until": "clear:2.5,490.8;1,495.1;2,500",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 11 round the rock 1",
+      "seconds": 5.53,
+      "navigate": true,
+      "point": {
+        "x": 2.5,
+        "y": 1,
+        "z": 490.8
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 11 round the rock 2",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 1.0,
+        "y": 1,
+        "z": 495.1
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 11 to its pocket",
+      "seconds": 2.73,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 1,
+        "z": 500.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 11",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 1,
+        "z": 500.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 12",
+      "seconds": 0.12,
+      "x": -0.203,
+      "y": 0.22,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 12",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 12",
+      "seconds": 40,
+      "until": "clear:-22,526",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 12 to its pocket",
+      "seconds": 7.15,
+      "navigate": true,
+      "point": {
+        "x": -22.0,
+        "y": 1,
+        "z": 526.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 12",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -22.0,
+        "y": 1,
+        "z": 526.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose down leg 13",
+      "seconds": 0.12,
+      "x": -0.212,
+      "y": 0.212,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for leg 13",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait in the shadow for leg 13",
+      "seconds": 40,
+      "until": "clear:-24.7,528.7;-26,531.3;-36,574",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 13 round the rock 1",
+      "seconds": 2.56,
+      "navigate": true,
+      "point": {
+        "x": -24.7,
+        "y": 1,
+        "z": 528.7
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 13 round the rock 2",
+      "seconds": 2.42,
+      "navigate": true,
+      "point": {
+        "x": -26.0,
+        "y": 1,
+        "z": 531.3
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "leg 13 to its pocket",
+      "seconds": 8.38,
+      "navigate": true,
+      "point": {
+        "x": -36.0,
+        "y": 1,
+        "z": 574.0
+      },
+      "tolerance": 4.0,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle into pocket 13",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -36.0,
+        "y": 1,
+        "z": 574.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose toward B4's north side",
+      "seconds": 0.12,
+      "x": 0.105,
+      "y": 0.281,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "let Idra fall in behind for B4's north side",
+      "seconds": 2.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "wait for the way to B4's north side",
+      "seconds": 30,
+      "until": "clear:-30,590;0,581",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "north out of the last pocket",
+      "seconds": 4.49,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 1,
+        "z": 590
+      },
+      "tolerance": 2.5,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "to B4's north side",
+      "seconds": 6.56,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 581.0
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle north of B4",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 1,
+        "z": 581.0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "lock Buoy_4",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release lock Buoy_4",
+      "seconds": 0.3,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "pursue Buoy_4 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Buoy_4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "pulse Buoy_4 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Buoy_4",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release pulse Buoy_4 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "pursue Buoy_4 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Buoy_4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "pulse Buoy_4 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Buoy_4",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release pulse Buoy_4 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "pursue Buoy_4 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Buoy_4",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "pulse Buoy_4 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Buoy_4",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release pulse Buoy_4 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "Buoy_4 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Buoy_4",
+      "expectedFlag": "clear.Buoy_4",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "toward the lock until Idra speaks",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 608.0
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "the lock in sight begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock in sight line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock in sight line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock in sight line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock in sight line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock in sight line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock in sight line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock in sight line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock in sight line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock in sight line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock in sight line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock in sight line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock in sight line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "finish the lock in sight",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.picketCrossed",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release after the lock in sight",
+      "seconds": 0.5,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "toward the port collar",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": 1,
+        "z": 632.5
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "up to the lock's line for the port collar",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": -1.5,
+        "y": 1,
+        "z": 636.5
+      },
+      "tolerance": 0.15,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "hold still before take the port collar off",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose south before take the port collar off",
+      "seconds": 0.12,
+      "x": 0.0,
+      "y": -0.3,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle before take the port collar off",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "take the port collar off",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.lock1",
+      "expectedFlag": "vask.lock1",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release take the port collar off",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "along the lock's line to the starboard collar",
+      "seconds": 4.08,
+      "navigate": true,
+      "point": {
+        "x": 1.1,
+        "y": 1,
+        "z": 636.5
+      },
+      "tolerance": 0.15,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "hold still before take the starboard collar off",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "turn the nose west before take the starboard collar off",
+      "seconds": 0.12,
+      "x": -0.3,
+      "y": 0.0,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle before take the starboard collar off",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "take the starboard collar off",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.lock2",
+      "expectedFlag": "vask.lock2",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release take the starboard collar off",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "hold still before take the keel collar off",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle before take the keel collar off",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "take the keel collar off",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.lock3",
+      "expectedFlag": "vask.lock3",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release take the keel collar off",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "hold still before take the keeper bar out",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle before take the keeper bar out",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "take the keeper bar out",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "flag:vask.lock4",
+      "expectedFlag": "vask.lock4",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release take the keeper bar out",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "the lock is off begins",
+      "seconds": 12,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock is off line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock is off line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock is off line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock is off line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock is off line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock is off line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock is off line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock is off line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock is off line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock is off line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock is off line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock is off line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "read the lock is off line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "next the lock is off line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release the lock is off line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "finish the lock is off",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.lockRemoved",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release after the lock is off",
+      "seconds": 0.5,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "through the gap",
+      "seconds": 4.28,
+      "navigate": true,
+      "point": {
+        "x": -1,
+        "y": 1,
+        "z": 652.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "north toward Scoria",
+      "seconds": 19.88,
+      "navigate": true,
+      "point": {
+        "x": -16.0,
+        "y": 1,
+        "z": 774.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle over the way down to Scoria",
+      "seconds": 11.42,
+      "navigate": true,
+      "point": {
+        "x": -18.0,
+        "y": 1,
+        "z": 785.6
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "land on the Scoria Flows",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release landing",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "first look at the Flows",
+      "seconds": 2,
+      "expectedFlag": "vask.lockRemoved",
+      "expectedScene": "ScoriaFlows"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

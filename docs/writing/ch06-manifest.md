@@ -1,10 +1,10 @@
 # Chapter 6 script manifest - The Long Sleep (Hoarfell)
 
-For the engineers wiring chapter 6. Script: [Hoarfell.yarn](Hoarfell.yarn). Barks: [barks.json](../barks.json). Brief: [ch06-the-long-sleep.md](../../chapters/ch06-the-long-sleep.md). Earlier manifests, in the same shape: [chapter 3](../ch03-manifest.md), [chapter 4](ch04-manifest.md), [chapter 5](ch05-manifest.md).
+For the engineers wiring chapter 6. Script: [Hoarfell.yarn](Hoarfell.yarn). Barks: [barks.json](barks.json). Brief: [ch06-the-long-sleep.md](../chapters/ch06-the-long-sleep.md). Earlier manifests, in the same shape: [chapter 3](ch03-manifest.md), [chapter 4](ch04-manifest.md), [chapter 5](ch05-manifest.md).
 
 **What is here:** 52 nodes, 213 dialogue lines, 2 option labels (215 strings). Compiled clean with the project's own compiler (Yarn Spinner 3.2.4, the nine live files and the four pending ones together: 0 errors, 362 nodes, no duplicate titles). No new Yarn commands: `setFlag`, `startQuest`, `joinParty`, `shop`.
 
-**This file waits in `pending/`** until the chapter's people and quests are defined: six new portrait sets (Idra's two, Tern, Hask, Iru, Vessa), four `QuestDef`s, and the test lists in section 8.
+**Live since November 12** (moved up from `pending/` once the chapter's people and quests were defined in `HoarfellBuilder.Define`: six portrait sets (Idra's two, Tern, Hask, Iru, Vessa) and four `QuestDef`s).
 
 ## 1. Conventions this file follows
 
@@ -292,7 +292,7 @@ Where the panel takes its line from the main quest's current step, section 4's s
 | FrozenHost | the fight, couplings left | Break a coupling to put the wall back to sleep (1/3) |
 | FrozenHost | the fight, phase two | Outlast the Host Marshal as its heat fails |
 | FrozenHost | `hoar.marshalAsleep` | Climb out ahead of the cold |
-| any | `chapter6.complete` | Chapter 6 complete. The Muster has the plans for a cage, and Ishen knows who drew the first one. |
+| any | `chapter6.complete` | Chapter 6 complete. The Muster has the plans for a cage. Ishen knows who drew the first one: he's on the dock. |
 
 Chapter-end card (`QuestToast`): heading `CHAPTER 6 COMPLETE`, title `THE LONG SLEEP`, body `Cold slowly, never alone, sung to: the herders of Lastlight are aboard with what they know, and Old Tern has stayed with her roof. Idra Sorn's cutters give Many Hands the engines it lacked. The Muster left Hoarfell with a crate of plans. Until then nothing closes behind you, so keep exploring.`
 

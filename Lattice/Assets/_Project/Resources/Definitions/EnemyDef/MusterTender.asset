@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: MusterTender
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: MusterTender
+  prefab: {fileID: 3883464370262941894, guid: 92ecfdb410f58ae48ad2a70fecadd9d3, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1100
+  breakThreshold: 260
+  speed: 2.2
+  attacks:
+  - {fileID: 11400000, guid: faa2763a201b31a4ba5674dc8015a877, type: 2}
+  weakness: 2
+  resistance: 1
+  archetype: 3
+  lootTable: {fileID: 11400000, guid: 5f4fef150b2494c4086c14c54b9546a5, type: 2}
+  xp: 100
+  boss: 0
+  scrip: 22
+  scrap: 3
+  displayName: Muster Tender
+  bossMusicId: 
+  capsuleRadius: 1.6
+  capsuleHeight: 3.2
+  motion: 1
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 2
+  tune:
+    reach: 0
+    width: 0
+    speed: 0
+    recover: 0
+    linger: 4
+    area: 3.2
+    pace: 0
+    effect: 1
+    tick: 22
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

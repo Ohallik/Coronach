@@ -8,6 +8,13 @@ def move(name,x,z,seconds,sprint=False,**kw):
     return dict(name=name,seconds=seconds,navigate=True,point=dict(x=x,y=0,z=z),rightTrigger=int(sprint),**kw)
 def action(name,seconds,buttons=(),**kw):
     return dict(name=name,seconds=seconds,buttons=list(buttons),**kw)
+def lead(hero,resting=False):
+    """Who leads, for a route written from chapter 6 on. The routes below press Swap once and take whoever answers for "the other hero": true of two
+    heroes with both standing, which is all there was, and their JSON stays as written. With three in the party say it instead: the driver presses Swap
+    until this hero leads and fails the step at once, with its reason, if they can't. resting=True, in a safe zone, also brings them out through the
+    Party page first (the step holds the pause menu's pause and ends as soon as they lead). Nothing below calls this."""
+    if resting:return dict(name=hero+' comes out and leads',seconds=14,ensureCharacter=hero,pauseUi='pause',until='lead:'+hero,expectedCharacter=hero,expectedUi='world')
+    return dict(name=hero+' leads',seconds=1.2,ensureCharacter=hero,expectedCharacter=hero)
 def write(name,scene,steps):
     data=dict(name=name,scene=scene,sourceRevision='paired station redesign; build hashes in evidence',settleSeconds=8,frameCap=60,starterParty=True,steps=steps)
     (dest/(name+'.json')).write_text(json.dumps(data,indent=2)+'\n')

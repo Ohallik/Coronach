@@ -31,6 +31,13 @@ namespace Lattice.Tests.PlayMode
     /// says it will do. Written from the plan, not from the code, so some of these are expected to fail: each failure is a finding.</summary>
     public sealed class QaPlanEarlyTests
     {
+        // Each of these checks ran on the chapter 1 and 2 zones written into its [Values]. It keeps exactly those and adds every zone of its kind defined since
+        // (ContentRegistry.With); one it can't apply to is left out by name, with the reason, in its chapter's expectations (ContentRegistry.Book.Exempt).
+        static string[] WallFootZones=>ContentRegistry.With(nameof(TheCameraNeverHidesTheHeroAtTheFootOfAWall),new[]{"Sorrel_Ridges","LanternGorge","SunkenRelay","Lanternwick"},ContentRegistry.OnFoot);
+        static string[] HullWallZones=>ContentRegistry.With(nameof(AHullDrivenIntoARealWallGetsBackOff),new[]{"Hub_CinderHalo","TallowApproach","WickReach","Gullet_Tunnel"},ContentRegistry.InFlight);
+        static string[] DockZones=>ContentRegistry.With(nameof(EveryDockAnswersAHullFlownInFromEveryOpenSide),new[]{"Hub_CinderHalo","TallowApproach","WickReach"},ContentRegistry.InFlight);
+        // Every flight zone since chapter 2 (the first chapters' are walled as boxes, ZoneKit.FlightLimits): one with no walled lane passes and says so.
+        static string[] LaneZones=>ContentRegistry.With(nameof(NoLaneWallStandsInTheNextStretchsOpenSpace),new string[0],ContentRegistry.InFlight);
         Gamepad pad;Keyboard keyboard;InputDevice joystick;bool digital;
         InputSettings.BackgroundBehavior priorBackground;
 #if UNITY_EDITOR
@@ -53,6 +60,8 @@ namespace Lattice.Tests.PlayMode
 #endif
             GameTime.Reset();PromptService.ForceDevice(null);SceneManager.LoadScene("_Boot");yield return null;
             yield return new WaitForSecondsRealtime(.5f);
+            // These checks press the default keys (J, Space, K): whatever rebinds this machine keeps are a player's, not theirs. Nothing is written back.
+            GameInput.Current.Asset.RemoveAllBindingOverrides();
             DevLoadout.Apply("starter");heard=null;digital=false;Npc.TalkRequested+=Listen;
         }
         [UnityTearDown] public IEnumerator Cleanup()
@@ -564,7 +573,8 @@ namespace Lattice.Tests.PlayMode
             else Assert.IsTrue(hero.TargetLocked,$"{pressing} the first press of lock-on is eaten");
             yield return LetGo();Assert.IsTrue(hero.TargetLocked,$"{pressing} lock-on doesn't hold after the press");
             yield return Hold("LockOn");yield return LetGo();Assert.IsFalse(hero.TargetLocked,$"{pressing} a second press doesn't let the lock go");
-            State.quickItem="RepairGel";State.consumables["RepairGel"]=3;hero.Health.integrity=hero.Health.maximum*.5f;
+            // This asks whether the press is heard, not how soon after the last item: the shared wait between items (prog159) is cleared, as a new party starts with it.
+            State.quickItem="RepairGel";State.consumables["RepairGel"]=3;hero.Health.integrity=hero.Health.maximum*.5f;ItemUse.Reset();
             yield return Hold("QuickItem");Assert.AreEqual(2,State.consumables["RepairGel"],$"{pressing} the first press of the quick item is eaten");
             yield return LetGo();
             int swaps=party.SwapCount;var was=party.Active;
@@ -805,7 +815,7 @@ namespace Lattice.Tests.PlayMode
             }
             return null;
         }
-        [UnityTest] public IEnumerator TheCameraNeverHidesTheHeroAtTheFootOfAWall([Values("Sorrel_Ridges","LanternGorge","SunkenRelay","Lanternwick")] string zone)
+        [UnityTest] public IEnumerator TheCameraNeverHidesTheHeroAtTheFootOfAWall([ValueSource(nameof(WallFootZones))] string zone)
         {
             foreach(string flag in new[]{"met.Survivor","bossdown.Burrower","clear.Sorrel_Burrower","relay.hessaConfronted"})Flag(flag);
             yield return Zone(zone);
@@ -835,8 +845,13 @@ namespace Lattice.Tests.PlayMode
             // The relay's west walls came down too, for the same reason, and QaWorldSecondTests.TheRelaysWallsStayUnderTheLens says so from the other side.
             bool lowered=zone=="Lanternwick"||zone=="SunkenRelay";
             if(lowered&&corners.Count==0){TestContext.WriteLine($"CAMERA_SWEEP {zone} checked=0 hidden=0: no scenery stands on the camera's line anywhere");yield break;}
-            Assert.IsNotEmpty(corners,$"fixture: the search finds no scenery on the camera's line anywhere in {zone}");
-            if(!lowered)Assert.GreaterOrEqual(picks.Count,5,$"fixture: {zone} has wall feet a hero can reach ({corners.Count} corners)");
+            // A later zone is checked at every wall foot on the camera's line that a hero can reach, however few. One built to the rule (D119: walls kept under the sightline to the floor
+            // beyond them) may have none at all, or only wall tops and drowned rooms nobody stands in, and then there is nothing a hero could be hidden at. Chapters 1 and 2's
+            // zones keep their counts: walls are known to stand there, so a search that sees none or too few is a broken search.
+            bool later=!ContentRegistry.IsFirst(zone);
+            if(later&&picks.Count==0){TestContext.WriteLine($"CAMERA_SWEEP {zone} checked=0 hidden=0: no wall foot a hero can reach has scenery on the camera's line ({corners.Count} corners, all out of reach)");yield break;}
+            if(!later)Assert.IsNotEmpty(corners,$"fixture: the search finds no scenery on the camera's line anywhere in {zone}");
+            if(!lowered&&!later)Assert.GreaterOrEqual(picks.Count,5,$"fixture: {zone} has wall feet a hero can reach ({corners.Count} corners)");
             var hidden=new List<string>();
             foreach(var at in picks)
             {
@@ -964,7 +979,7 @@ namespace Lattice.Tests.PlayMode
             yield return Drive("a corner",Wall(apex,left,24),Wall(apex,right,24));
         }
         /// <summary>The chain never touches a wall (WALL_CONTACT appears in none of its logs), so this is the only place a real one gets hit.</summary>
-        [UnityTest] public IEnumerator AHullDrivenIntoARealWallGetsBackOff([Values("Hub_CinderHalo","TallowApproach","WickReach","Gullet_Tunnel")] string zone)
+        [UnityTest] public IEnumerator AHullDrivenIntoARealWallGetsBackOff([ValueSource(nameof(HullWallZones))] string zone)
         {
             yield return Zone(zone);
             var hero=PartyController.Current.Active;float hull=HeroCollision.HullRadius(hero.character);var home=hero.transform.position;
@@ -999,15 +1014,104 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine($"REAL_WALLS {zone} {walls.Count}: {string.Join(", ",walls.Select(w=>w.name))}");
             Assert.IsEmpty(failures,$"{zone}: a wall traps a hull:\n"+string.Join("\n",failures));
         }
+        /// <summary>A lane that bends is walled stretch by stretch (ZoneKit.FlightCorridor): each stretch's walls run on past its ends so the outside of a bend is closed,
+        /// and the inside walls run on into the next stretch's open space as far. Run the half width past (FlightCorridor's first default), the Aurora Shear's starboard
+        /// wall stood 30 m into the stretch beyond its bend at 560, across a current, and the Spore Veil's and Nearspace's stood 40 and 20 m in. Read back from the built
+        /// walls: the lane's two ends meet their end walls, every bend's outside is closed, and no wall stands further into another stretch's open space than closing the
+        /// lane's sharpest bend needs, with 5 m of run to spare. The same measure first refuses this lane walled the old way, so a pass is the check passing, not blind.</summary>
+        [UnityTest] public IEnumerator NoLaneWallStandsInTheNextStretchsOpenSpace([ValueSource(nameof(LaneZones))] string zone)
+        {
+            yield return Zone(zone);
+            var limits=All<BoxCollider>().Where(b=>b.name.StartsWith("Lane limit ")&&b.transform.parent!=null&&b.transform.parent.name=="Lane limits").ToArray();
+            if(limits.Length==0){TestContext.WriteLine($"LANE_WALLS {zone}: no walled lane (its limits are its own)");yield break;}
+            BoxCollider Named(string name)=>limits.FirstOrDefault(b=>b.name==name);
+            (Vector2 from,Vector2 to) Run(BoxCollider b)
+            {
+                var c=b.transform.TransformPoint(b.center);var f=new Vector2(b.transform.forward.x,b.transform.forward.z).normalized;float length=b.size.z*Mathf.Abs(b.transform.lossyScale.z);
+                return (new Vector2(c.x,c.z)-f*length*.5f,new Vector2(c.x,c.z)+f*length*.5f);
+            }
+            int n=0;while(Named($"Lane limit {n+1} port")!=null&&Named($"Lane limit {n+1} starboard")!=null)n++;
+            var astern=Named("Lane limit astern");var ahead=Named("Lane limit ahead");
+            Assert.IsTrue(n>0&&astern!=null&&ahead!=null,$"{zone}: its lane limits aren't a FlightCorridor's (stretch walls, astern, ahead)");
+            var built=new List<(int stretch,string name,Vector2 from,Vector2 to)>();
+            for(int i=1;i<=n;i++)foreach(string side in new[]{"port","starboard"}){var (from,to)=Run(Named($"Lane limit {i} {side}"));built.Add((i,$"Lane limit {i} {side}",from,to));}
+            // The lane as the walls give it back: each stretch's middle line between its two walls, the bends where those lines meet, the ends the half width inside the end walls.
+            var mid=new Vector2[n+1];var way=new Vector2[n+1];float half=0;
+            for(int i=1;i<=n;i++)
+            {
+                var (pf,pt)=(built[2*i-2].from,built[2*i-2].to);var sf=built[2*i-1].from;
+                way[i]=(pt-pf).normalized;mid[i]=(pf+sf)*.5f;half+=Mathf.Abs(way[i].x*(sf-pf).y-way[i].y*(sf-pf).x)*.5f/n;
+            }
+            var lane=new Vector2[n+1];
+            var (af,at)=Run(astern);var (hf,ht)=Run(ahead);lane[0]=(af+at)*.5f+way[1]*half;lane[n]=(hf+ht)*.5f-way[n]*half;
+            for(int k=1;k<n;k++)
+            {
+                float cross=way[k].x*way[k+1].y-way[k].y*way[k+1].x;
+                if(Mathf.Abs(cross)<.002f){lane[k]=((built[2*k-2].to+built[2*k-1].to)*.5f+(built[2*k].from+built[2*k+1].from)*.5f)*.5f;continue;}
+                var d=mid[k+1]-mid[k];lane[k]=mid[k]+way[k]*((d.x*way[k+1].y-d.y*way[k+1].x)/cross);
+            }
+            var old=LaneWallFaults(lane,half,WalledTheOldWay(lane,half));
+            bool oldStandsIn=Enumerable.Range(1,n-1).Any(k=>(LaneNeed(lane,half,k)+half)*Mathf.Sin(LaneTurn(lane,k)*Mathf.Deg2Rad)>LaneAllowedDepth(lane,half,k)+1);
+            TestContext.WriteLine($"LANE_WALLS {zone} stretches={n} half={half:0.0} lane={string.Join(" > ",lane.Select(p=>$"({p.x:0.0}, {p.y:0.0})"))} walled-the-old-way={old.Count} faults");
+            if(oldStandsIn)Assert.IsNotEmpty(old,$"fixture: {zone}'s lane walled the old way (the half width past every end) stands in its next stretches, and this measure doesn't see it");
+            var faults=LaneWallFaults(lane,half,built);
+            Assert.IsEmpty(faults,$"{zone}: a lane wall stands where a ship flies, or leaves a bend open (ZoneKit.FlightCorridor's overrun):\n"+string.Join("\n",faults));
+        }
+        static float LaneTurn(Vector2[] lane,int k)=>Vector2.Angle(lane[k]-lane[k-1],lane[k+1]-lane[k]);
+        /// <summary>How far a stretch's walls must run past bend k to close its outside: half x tan(turn/2).</summary>
+        static float LaneNeed(Vector2[] lane,float half,int k)=>half*Mathf.Tan(LaneTurn(lane,k)*.5f*Mathf.Deg2Rad);
+        /// <summary>The furthest a wall may stand into the stretch beyond bend k: run past the bend by what the lane's sharpest bend needs and 5 m more, at the bend's turn.</summary>
+        static float LaneAllowedDepth(Vector2[] lane,float half,int k)
+        {
+            float most=0;for(int b=1;b<lane.Length-1;b++)most=Mathf.Max(most,LaneNeed(lane,half,b));
+            return (LaneNeed(lane,half,k)+most+5)*Mathf.Sin(LaneTurn(lane,k)*Mathf.Deg2Rad)+.5f;
+        }
+        /// <summary>The walls FlightCorridor used to stand: each stretch's run the half width past both its ends.</summary>
+        static List<(int stretch,string name,Vector2 from,Vector2 to)> WalledTheOldWay(Vector2[] lane,float half)
+        {
+            var walls=new List<(int,string,Vector2,Vector2)>();
+            for(int i=1;i<lane.Length;i++)
+            {
+                var along=(lane[i]-lane[i-1]).normalized;var across=new Vector2(along.y,-along.x)*half;
+                foreach(int side in new[]{-1,1})walls.Add((i,$"old {i} {(side<0?"port":"starboard")}",lane[i-1]-along*half+across*side,lane[i]+along*half+across*side));
+            }
+            return walls;
+        }
+        static List<string> LaneWallFaults(Vector2[] lane,float half,List<(int stretch,string name,Vector2 from,Vector2 to)> walls)
+        {
+            int n=lane.Length-1;var faults=new List<string>();
+            float Off(Vector2 p,Vector2 a,Vector2 b){var d=b-a;float t=Mathf.Clamp01(Vector2.Dot(p-a,d)/d.sqrMagnitude);return Vector2.Distance(p,a+d*t);}
+            foreach(var (i,name,from,to) in walls)
+            {
+                var along=(lane[i]-lane[i-1]).normalized;float before=Vector2.Dot(lane[i-1]-from,along),after=Vector2.Dot(to-lane[i],along);
+                if(i==1&&before<half-.5f)faults.Add($"{name} stops {half-before:0.0} m short of the lane's astern wall: the corner between them is open");
+                if(i==n&&after<half-.5f)faults.Add($"{name} stops {half-after:0.0} m short of the lane's ahead wall: the corner between them is open");
+                if(i>1&&before<LaneNeed(lane,half,i-1)-.5f)faults.Add($"{name} runs {before:0.0} m back past the bend at {lane[i-1]}, which needs {LaneNeed(lane,half,i-1):0.0} to close its outside");
+                if(i<n&&after<LaneNeed(lane,half,i)-.5f)faults.Add($"{name} runs {after:0.0} m on past the bend at {lane[i]}, which needs {LaneNeed(lane,half,i):0.0} to close its outside");
+                int steps=Mathf.Max(1,Mathf.CeilToInt(Vector2.Distance(from,to)/.5f));
+                for(int j=1;j<=n;j++)
+                {
+                    if(j==i)continue;
+                    float allowed=Mathf.Abs(j-i)==1?LaneAllowedDepth(lane,half,Mathf.Min(i,j)):.5f,deepest=0;var at=from;
+                    for(int s=0;s<=steps;s++){var p=Vector2.Lerp(from,to,s/(float)steps);float depth=half-Off(p,lane[j-1],lane[j]);if(depth>deepest){deepest=depth;at=p;}}
+                    if(deepest>allowed)faults.Add($"{name} stands {deepest:0.0} m into stretch {j}'s open space at ({at.x:0.0}, {at.y:0.0}); closing this lane's bends needs no more than {allowed:0.0}");
+                }
+            }
+            return faults;
+        }
         /// <summary>DockReachTests sweeps a sphere at the Halo's and Tallow's docks and stops there. This flies a hull in on its own motor, from
         /// every side a hull can come from, and includes the Wick Reach's dock, which nothing else checks.</summary>
-        [UnityTest] public IEnumerator EveryDockAnswersAHullFlownInFromEveryOpenSide([Values("Hub_CinderHalo","TallowApproach","WickReach")] string zone)
+        [UnityTest] public IEnumerator EveryDockAnswersAHullFlownInFromEveryOpenSide([ValueSource(nameof(DockZones))] string zone)
         {
             foreach(string flag in new[]{"lantern.routeKnown","wick.relay1","wick.relay2","wick.gateOpen"})Flag(flag);
             yield return Use("analog");
             yield return Zone(zone);
             var hero=PartyController.Current.Active;float hull=HeroCollision.HullRadius(hero.character);
-            var docks=Object.FindObjectsByType<DockingPad>(FindObjectsSortMode.None);Assert.IsNotEmpty(docks,$"fixture: {zone} has a dock");
+            var pads=Object.FindObjectsByType<DockingPad>(FindObjectsSortMode.None);
+            // A flight zone with no pad lands by its beacons instead (Xylos Nearspace's delta beacon, with a dock's reach): each way down to a ground zone is its dock and is flown at
+            // the same. A zone with neither has nothing a hull docks at. Zones with pads are judged on their pads alone, as they always were.
+            var docks=pads.Length>0?pads.Cast<InteractionPrompt>().ToArray():Object.FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).Where(w=>GameCatalog.Find<ZoneDef>(w.scene) is ZoneDef to&&(to.kind==ZoneKind.GroundSafe||to.kind==ZoneKind.GroundCombat)).Cast<InteractionPrompt>().ToArray();
+            if(docks.Length==0)Assert.Ignore($"{zone} has no dock and no beacon that lands: no hull docks here");
             Park(hero,hero.transform.position+Vector3.up*200);
             var failures=new List<string>();
             foreach(var dock in docks)
@@ -1052,14 +1156,30 @@ namespace Lattice.Tests.PlayMode
         static void Scan(string surface,PromptDevice device,List<string> failures)
         {
             var sprite=device==PromptDevice.Keyboard?PadSprite:KeySprite;var words=device==PromptDevice.Keyboard?PadWords:KeyWords;int read=0;
+            // A pad's letter that is also one of the keyboard's own keys is that key: with guard moved to Y the strip rightly says "Y  GUARD". Only keys bound to a
+            // button count, so with the default keys (none of them A, B, X or Y; A moves, and moving is never written as a hint) nothing is let through.
+            var ownKeys=device==PromptDevice.Keyboard?KeyboardKeys():new HashSet<string>();
             foreach(var text in Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None))
             {
                 if(!text.isActiveAndEnabled||text.name=="InputProbe"||string.IsNullOrEmpty(text.text))continue;
                 read++;string shown=text.text;var found=sprite.Match(shown);
-                if(!found.Success)found=words.Match(Regex.Replace(shown,"<[^>]+>"," "));
+                if(!found.Success){found=words.Match(Regex.Replace(shown,"<[^>]+>"," "));while(found.Success&&ownKeys.Contains(found.Value.Trim()))found=found.NextMatch();}
                 if(found.Success)failures.Add($"{surface}: {text.name} names \"{found.Value}\" on {device}: \"{shown}\"");
             }
             Assert.Greater(read,0,"fixture: "+surface+" has words on it");
+        }
+        /// <summary>What the keyboard's button keys are called as a hint writes them: "J", "Space", "Y" after a rebind.</summary>
+        static HashSet<string> KeyboardKeys()
+        {
+            var keys=new HashSet<string>();
+            foreach(var action in GameInput.Current.Asset)
+            {
+                if(action.type!=InputActionType.Button)continue;
+                foreach(var binding in action.bindings)
+                    if(!binding.isComposite&&!binding.isPartOfComposite&&binding.effectivePath.StartsWith("<Keyboard>/"))
+                        keys.Add(InputControlPath.ToHumanReadableString(binding.effectivePath,InputControlPath.HumanReadableStringOptions.OmitDevice));
+            }
+            return keys;
         }
         [UnityTest] public IEnumerator NoSurfaceNamesTheOtherDevicesButtons([Values("Keyboard","Gamepad")] string name)
         {
@@ -1076,6 +1196,17 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("Arena_Ground");var hero=PartyController.Current.Active;
             var hound=Enemy("Ridgehound",hero.transform.position+Vector3.forward*6);hero.target=hound.Health;yield return Frames(3);
             Scan("the fight HUD",device,failures);
+            if(device==PromptDevice.Keyboard)
+            {
+                // A player who has moved guard to Y reads "Y  GUARD": that's their own key, and the scan mustn't call it the pad's Y button (November 12's suite did,
+                // on a machine whose shared preferences had kept a fixture's half-finished rebind).
+                var guard=GameInput.Current.Ground.FindAction("Guard");int key=guard.bindings.ToList().FindIndex(b=>b.path.StartsWith("<Keyboard>"));
+                guard.ApplyBindingOverride(key,"<Keyboard>/y");PromptService.NotifyBindingsChanged();yield return Frames(3);
+                StringAssert.Contains("Y  GUARD",Text("Skills").text,"fixture: the strip names the rebound key");
+                var rebound=new List<string>();Scan("the fight HUD with guard on Y",device,rebound);
+                guard.RemoveAllBindingOverrides();PromptService.NotifyBindingsChanged();yield return Frames(2);
+                Assert.IsEmpty(rebound,"the keyboard's own Y key is read as the pad's Y button:\n"+string.Join("\n",rebound));
+            }
             // Every pause tab, and the skill chooser.
             var menu=Object.FindFirstObjectByType<PauseMenu>();
             for(int page=0;page<menu.PageCount;page++)
@@ -1150,7 +1281,9 @@ namespace Lattice.Tests.PlayMode
             yield return null;
             // The main path's XP at chapter 2's end: the chain's measured 7095 less the 620 of the three side quests it did (Builds/quality/QA/v2c/s16). TheMainPathLandsOnThePlansSyncLevels' ledger runs 320 low.
             const int mainPath=6475;
-            int sides=GameCatalog.All<QuestDef>().Where(q=>q.id!="Sorrel"&&q.id!="Hushwell"&&q.id!="LanternRoad").Sum(q=>q.rewardXp);
+            // The band is chapter 2's end, so the side quests are chapters 1 and 2's: the first ten less the story's own (QuestDef.main, read through ContentRegistry). It summed every
+            // quest that wasn't one of three names, so chapter 3's main quest, and then its side quests, would have been counted into chapter 2's Sync.
+            int sides=GameCatalog.All<QuestDef>().Where(q=>System.Array.IndexOf(ContentRegistry.FirstQuests,q.id)>=0&&!ContentRegistry.IsMain(q.id)).Sum(q=>q.rewardXp);
             Assert.Greater(sides,0,"fixture: the side quests pay XP");
             int sync=SyncAt(mainPath+sides);
             TestContext.WriteLine($"SYNC_BAND main={mainPath} sides={sides} sync={sync}");
@@ -1215,9 +1348,11 @@ namespace Lattice.Tests.PlayMode
             State.scrip=1000;
             yield return Zone("Lanternwick");
             var stock=GameCatalog.Find<ShopInventory>("Lanternwick");Assert.IsNotNull(stock,"Lanternwick has no shop of its own");
-            Assert.IsTrue(stock.parts.Any(p=>p.slot==GearSlot.Edge)&&stock.parts.Any(p=>p.slot==GearSlot.Emitter),"Corra sells nothing either hero fights with");
+            // A stall's parts are its offers that name one, each with its own price (ShopInventory.offers): the parts and the prices used to be two lists matched by position.
+            var parts=ShopUi.Parts(stock).Select(o=>o.part).ToArray();
+            Assert.IsTrue(parts.Any(p=>p.slot==GearSlot.Edge)&&parts.Any(p=>p.slot==GearSlot.Emitter),"Corra sells nothing either hero fights with");
             var shop=Object.FindFirstObjectByType<ShopUi>();shop.Open(stock);yield return Frames(2);
-            foreach(var part in stock.parts)
+            foreach(var part in parts)
             {
                 Assert.AreEqual(2,part.tier,$"Corra's {part.displayName} isn't a T2 part");
                 StringAssert.StartsWith("Refined",part.displayName,$"{part.id} doesn't read as Refined");
@@ -1230,7 +1365,7 @@ namespace Lattice.Tests.PlayMode
                 Assert.GreaterOrEqual(Sum(part.baseStats),Sum(starter.baseStats)*2,$"{part.displayName} doesn't clearly outclass {starter.displayName}");
             }
             // What the player reads at the counter: the offer beside what the hero wears now.
-            var edge=stock.parts.First(p=>p.slot==GearSlot.Edge);string words=Words(With(edge.displayName));
+            var edge=parts.First(p=>p.slot==GearSlot.Edge);string words=Words(With(edge.displayName));
             var numbers=Regex.Match(words,@"Output \+(\d+).*now \+(\d+)");
             Assert.IsTrue(numbers.Success,$"Taren wears a Scrap Edge, and the Refined Edge row doesn't set one against the other: \"{words}\"");
             Assert.GreaterOrEqual(int.Parse(numbers.Groups[1].Value),int.Parse(numbers.Groups[2].Value)*2,$"the Refined Edge doesn't read as clearly better than what's worn: \"{words}\"");
@@ -1247,7 +1382,7 @@ namespace Lattice.Tests.PlayMode
             var stock=GameCatalog.Find<ShopInventory>("Lanternwick");
             // Not a kill, not a boss's purse, not a side quest: a new game's scrip and what the two main quests before Lanternwick pay.
             int purse=new GameState().scrip+GameCatalog.Find<QuestDef>("Sorrel").rewardScrip+GameCatalog.Find<QuestDef>("Hushwell").rewardScrip;
-            int cheapest=stock.prices.Take(stock.parts.Length).Min();
+            int cheapest=ShopUi.Parts(stock).Min(o=>o.price);
             Assert.GreaterOrEqual(purse,cheapest,$"the main quests pay {purse} scrip by Lanternwick and Corra's cheapest part is {cheapest}: a Refined part takes grinding");
         }
     }

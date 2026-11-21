@@ -1,0 +1,1857 @@
+{
+  "name": "chapter-49-slag-colossus",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 8: the caged road, the Slag Colossus at its sluices, the release, Brekk by the anvil, the way out, Tovra's road, the town road",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "vask.vessaBeaten",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "toward the heart's door until Sela speaks",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 226.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "the caged road begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the caged road line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the caged road line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the caged road line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the caged road line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the caged road line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the caged road line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the caged road line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the caged road line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the caged road line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the caged road line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the caged road line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the caged road line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "finish the caged road",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.cageSeen",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release after the caged road",
+      "seconds": 0.5,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "into the heart",
+      "seconds": 6.01,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 236
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "bossDoor": "SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "lock SlagColossus",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release lock SlagColossus",
+      "seconds": 0.3,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 1a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 1b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 2a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 2b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 3a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 3b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 4a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 4b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 5a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 5a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 5b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 5b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 6a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 6a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 6b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 6b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 7a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 7a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 7b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 7b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 8a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 8a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 8b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 8b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 9a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 9a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 9b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 9b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 10a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 10a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 10b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 10b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 11a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 11a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 11b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 11b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 11",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 12a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 12a",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "skill SlagColossus 12b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release skill SlagColossus 12b",
+      "seconds": 0.45,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "fight SlagColossus round 12",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.SlagColossus",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "SlagColossus is down",
+      "seconds": 4,
+      "until": "flag:bossdown.SlagColossus",
+      "expectedFlag": "bossdown.SlagColossus",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "reach the fallen hero after the Colossus",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "both heroes ready after the Colossus",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "the release begins",
+      "seconds": 14,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 12",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 12",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 12",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read the release line 13",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next the release line 13",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release the release line 13",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "finish the release",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.juvenileFreed",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release after the release",
+      "seconds": 0.5,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "across the heart toward the anvil",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 262
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "findWay": true,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "to Brekk by the anvil",
+      "seconds": 4.56,
+      "navigate": true,
+      "point": {
+        "x": -4.699999999999999,
+        "y": -10.0,
+        "z": 271.29999999999995
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "stand by the anvil",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release stand by the anvil",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "read stand by the anvil line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "next stand by the anvil line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release stand by the anvil line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "finish stand by the anvil",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.anvilSeen",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "release after stand by the anvil",
+      "seconds": 0.5,
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "back across the heart to its door 1/3",
+      "seconds": 4.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 262
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "back across the heart to its door 2/3",
+      "seconds": 7.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 240
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "back across the heart to its door 3/3",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 229
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the heart stair and across the gallery 1/4",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -10.0,
+        "z": 218
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the heart stair and across the gallery 2/4",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -5.0,
+        "z": 198
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the heart stair and across the gallery 3/4",
+      "seconds": 11.35,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -5.0,
+        "z": 160
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the heart stair and across the gallery 4/4",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": -5.0,
+        "z": 150
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "wait for the gallery's ladle line back",
+      "seconds": 40,
+      "until": "clear:-6,142;-13,134",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "the gallery's ladle line back 1/2",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": -5.0,
+        "z": 142
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "the gallery's ladle line back 2/2",
+      "seconds": 4.62,
+      "navigate": true,
+      "point": {
+        "x": -13,
+        "y": -4.64,
+        "z": 134
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the stair and across the charging floor 1/4",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": -13,
+        "y": 0.0,
+        "z": 121
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the stair and across the charging floor 2/4",
+      "seconds": 5.2,
+      "navigate": true,
+      "point": {
+        "x": -13,
+        "y": 0.0,
+        "z": 108
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the stair and across the charging floor 3/4",
+      "seconds": 7.07,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 92
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "up the stair and across the charging floor 4/4",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 82
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "wait for the gangway back",
+      "seconds": 40,
+      "until": "clear:0,66",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "the gangway back 1/1",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 66
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "through the wheel hall and the yard to the mouth 1/5",
+      "seconds": 4.46,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 56
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "through the wheel hall and the yard to the mouth 2/5",
+      "seconds": 4.87,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 0.0,
+        "z": 50
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "through the wheel hall and the yard to the mouth 3/5",
+      "seconds": 4.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 46
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "through the wheel hall and the yard to the mouth 4/5",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 30
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "through the wheel hall and the yard to the mouth 5/5",
+      "seconds": 6.43,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.0,
+        "z": 12
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "to the Foundry mouth",
+      "seconds": 5.94,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -3.9999999999999996
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "BridleFoundry"
+    },
+    {
+      "name": "out by the Foundry mouth",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the mouth",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "down the Foundry road 1/1",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 240
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the last tongue's north bank",
+      "seconds": 4.71,
+      "navigate": true,
+      "point": {
+        "x": 0.5,
+        "y": 0,
+        "z": 229
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "wait for the last tongue",
+      "seconds": 40,
+      "until": "clear:4,210",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "the last tongue 1/1",
+      "seconds": 6.76,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 210
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 1/7",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 209
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 2/7",
+      "seconds": 4.96,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": 208
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 3/7",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 30,
+        "y": 0,
+        "z": 206.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 4/7",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 204.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 5/7",
+      "seconds": 3.0,
+      "navigate": true,
+      "point": {
+        "x": 39.0,
+        "y": 0,
+        "z": 204.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 6/7",
+      "seconds": 2.76,
+      "navigate": true,
+      "point": {
+        "x": 42,
+        "y": 0,
+        "z": 203.2
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the camp 7/7",
+      "seconds": 3.19,
+      "navigate": true,
+      "point": {
+        "x": 46.8,
+        "y": 0,
+        "z": 203.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to Tovra",
+      "seconds": 3.17,
+      "navigate": true,
+      "point": {
+        "x": 46.0,
+        "y": 0,
+        "z": 208.3
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "start the road to Harrowgate",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release start the road to Harrowgate",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read the road to Harrowgate line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next the road to Harrowgate line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the road to Harrowgate line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read the road to Harrowgate line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next the road to Harrowgate line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the road to Harrowgate line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read the road to Harrowgate line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next the road to Harrowgate line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the road to Harrowgate line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "read the road to Harrowgate line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "next the road to Harrowgate line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release the road to Harrowgate line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "finish the road to Harrowgate",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "vask.roadSaid",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "release after the road to Harrowgate",
+      "seconds": 0.5,
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "east out of the camp 1/3",
+      "seconds": 3.49,
+      "navigate": true,
+      "point": {
+        "x": 52,
+        "y": 0,
+        "z": 207.6
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "east out of the camp 2/3",
+      "seconds": 3.2,
+      "navigate": true,
+      "point": {
+        "x": 56.6,
+        "y": 0,
+        "z": 206
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "east out of the camp 3/3",
+      "seconds": 3.11,
+      "navigate": true,
+      "point": {
+        "x": 61.0,
+        "y": 0,
+        "z": 205.0
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "to the town road",
+      "seconds": 2.62,
+      "navigate": true,
+      "point": {
+        "x": 63.5,
+        "y": 0,
+        "z": 205.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "ScoriaFlows"
+    },
+    {
+      "name": "take the road to Harrowgate",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "release the road",
+      "seconds": 0.5,
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "first look at the quay",
+      "seconds": 2,
+      "expectedFlag": "vask.roadSaid",
+      "expectedScene": "Harrowgate"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

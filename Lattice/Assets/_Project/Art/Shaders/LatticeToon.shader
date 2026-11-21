@@ -72,6 +72,21 @@ Shader "Lattice/Toon"
         // x = scale (1/world-u), y = strength
         _PanelParams("Panel Params", Vector) = (0.25, 0.5, 0, 0)
 
+        // ---- Ground splat (GroundKit): up to three more tiling layers over the base map on one terrain. A layer's weight rides in the mesh's third uv set (TEXCOORD2.xyz); each layer
+        //      is world-projected at its own scale and tinted (tint alpha = how solid it lies), and cut in along a crisp edge that a little noise and the layer's own height (its map's
+        //      alpha) make ragged: soft gradients read as airbrush (D060, E2-sorrel-07). TEXCOORD2.w is painted shade: ruts, hollows and wear darken (or, negative, lift) what's under it. ----
+        [Toggle(_SPLAT_ON)] _Splat("Ground Splat", Float) = 0
+        _SplatMap1("Splat Layer 1", 2D) = "white" {}
+        _SplatMap2("Splat Layer 2", 2D) = "white" {}
+        _SplatMap3("Splat Layer 3", 2D) = "white" {}
+        _SplatTint1("Splat Tint 1", Color) = (1, 1, 1, 1)
+        _SplatTint2("Splat Tint 2", Color) = (1, 1, 1, 1)
+        _SplatTint3("Splat Tint 3", Color) = (1, 1, 1, 1)
+        // xyz = each layer's scale (1/world-u), w = edge noise scale (1/world-u)
+        _SplatScale("Splat Scales", Vector) = (0.25, 0.25, 0.25, 0.9)
+        // x = edge half width (in weight), y = edge noise amount, z = how far a layer's own height moves its edge, w = dark line under the edge
+        _SplatEdge("Splat Edge", Vector) = (0.04, 0.3, 0.35, 0.3)
+
         // ---- POLISH-01: soft edges ----
         [Toggle(_EDGEFADE_ON)] _EdgeFade("Edge Fade", Float) = 0
         // x = mode (0 = path uv2, 1 = disc uv2, 2 = object-local slab), y = fade width (world u),
@@ -177,6 +192,10 @@ Shader "Lattice/Toon"
         // 0 for scenery, whose door is unchanged.
         _OccFadeSoft("Occluder Fade Softness", Range(0, 1)) = 0
 
+        // ---- A struck body's flash (HitFlash). rgb = what it goes to, a = how far, 0 = none. Driven per renderer through a property block for a few frames; no keyword, so
+        //      every material has it and none needs a variant. A material never sets it. ----
+        [HideInInspector] _HitFlash("Hit Flash", Color) = (1, 1, 1, 0)
+
         // ---- POLISH-01: material-driven pass state (defaults == the old hardcoded state) ----
         [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull", Float) = 2
         [Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("Src Blend", Float) = 1
@@ -215,6 +234,11 @@ Shader "Lattice/Toon"
             float4 _StrataSlope;
             float _TriplanarScale;
             float4 _PanelParams;
+            half4 _SplatTint1;
+            half4 _SplatTint2;
+            half4 _SplatTint3;
+            float4 _SplatScale;
+            float4 _SplatEdge;
             float4 _EdgeParams;
             half4 _DeepColor;
             half4 _FoamColor;
@@ -239,6 +263,7 @@ Shader "Lattice/Toon"
             float4 _OccFadeEllipse;
             half _OccFadeDepth;
             half _OccFadeSoft;
+            half4 _HitFlash;
             float4 _WindParams;
             half _ScatterPebbleRerole;
         CBUFFER_END
@@ -246,6 +271,9 @@ Shader "Lattice/Toon"
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_EmissionMap); SAMPLER(sampler_EmissionMap);
         TEXTURE2D(_PanelMap); SAMPLER(sampler_PanelMap);
+        TEXTURE2D(_SplatMap1); SAMPLER(sampler_SplatMap1);
+        TEXTURE2D(_SplatMap2);
+        TEXTURE2D(_SplatMap3);
 
         // Global (NOT a material property): the gallery pins this for deterministic
         // renders; 0 in the live game -> real time drives the motion.
@@ -265,6 +293,23 @@ Shader "Lattice/Toon"
         float4 _FbAerialHeightG; // x = haze ceiling (world Y), y = 1/fade band
         float4 _FbWindG;         // x,y = wind dir XZ (normalized), z = strength 0..1, w = unused
         float _FbCloudShadowStrength;
+
+        // ---- Moving ground shade (globals, set by a zone's GroundShade; all zero = off, every zone without one). Cloud shadow or canopy dapple: one tiling map drifted across the
+        // sun, cut at a threshold so its edge is as crisp as a cast shadow's, and applied to the toon ramp's lit term, so it never darkens past a real shadow and never stacks on one. ----
+        TEXTURE2D(_GroundShadeMap); SAMPLER(sampler_GroundShadeMap);
+        float4 _GroundShadeA;   // xy = drift (world u), z = 1 / size of one repeat (world u), w = strength 0..1
+        float4 _GroundShadeB;   // x = cut threshold, y = edge half width, z = second octave's scale (0 = none), w = its weight
+
+        half FbGroundShade(float3 positionWS, half3 toLight)
+        {
+            // Followed down the sun's ray to the ground plane, so a wall wears the shadow of the floor at its foot instead of a stripe of its own.
+            float2 at = positionWS.xz - toLight.xz * (positionWS.y / max(toLight.y, 0.25));
+            float2 uv = (at + _GroundShadeA.xy) * _GroundShadeA.z;
+            half field = SAMPLE_TEXTURE2D(_GroundShadeMap, sampler_GroundShadeMap, uv).r;
+            field = lerp(field, SAMPLE_TEXTURE2D(_GroundShadeMap, sampler_GroundShadeMap, uv * _GroundShadeB.z + 0.37).r, _GroundShadeB.w);
+            half open = smoothstep(_GroundShadeB.x - _GroundShadeB.y, _GroundShadeB.x + _GroundShadeB.y, field);
+            return lerp(1.0h, open, saturate(_GroundShadeA.w));
+        }
 
         // POLISH-61C: the whole scene agrees on the wind — smoke/cloth/cloud drift
         // scripts read the same _FbWindG the shader sways by. Height mask squares
@@ -396,6 +441,7 @@ Shader "Lattice/Toon"
             #pragma shader_feature_local_fragment _WATER_ON
             #pragma shader_feature_local_fragment _GLOW_ON
             #pragma shader_feature_local _VCOLOR_ON
+            #pragma shader_feature_local _SPLAT_ON
             #pragma shader_feature_local _GEL_ON
             #pragma shader_feature_local_fragment _ICE_ON
             #pragma shader_feature_local_fragment _SURF_ON
@@ -419,6 +465,9 @@ Shader "Lattice/Toon"
                 float3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
                 float2 uv2 : TEXCOORD1;
+                #if defined(_SPLAT_ON)
+                float4 splat : TEXCOORD2;
+                #endif
                 #if defined(_VCOLOR_ON)
                 half4 color : COLOR;
                 #endif
@@ -435,6 +484,9 @@ Shader "Lattice/Toon"
                 float2 uv2 : TEXCOORD4;
                 #if defined(_VCOLOR_ON)
                 half4 color : TEXCOORD5;
+                #endif
+                #if defined(_SPLAT_ON)
+                half4 splat : TEXCOORD6;
                 #endif
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
@@ -470,6 +522,9 @@ Shader "Lattice/Toon"
                 #if defined(_VCOLOR_ON)
                 output.color = input.color;
                 #endif
+                #if defined(_SPLAT_ON)
+                output.splat = input.splat;
+                #endif
                 output.fogFactor = ComputeFogFactor(positionInputs.positionCS.z);
                 return output;
             }
@@ -502,6 +557,28 @@ Shader "Lattice/Toon"
                 #endif
                 baseTex.rgb = lerp(half3(1, 1, 1), baseTex.rgb, _BaseMapStrength);
                 half4 albedo = baseTex * _BaseColor;
+                #if defined(_SPLAT_ON)
+                {
+                    float2 splatAt = input.positionWS.xz;
+                    half ragged = (FbFbm2(splatAt * _SplatScale.w) - 0.5h) * _SplatEdge.y;
+                    half4 layer1 = SAMPLE_TEXTURE2D(_SplatMap1, sampler_SplatMap1, splatAt * _SplatScale.x);
+                    half4 layer2 = SAMPLE_TEXTURE2D(_SplatMap2, sampler_SplatMap1, splatAt * _SplatScale.y);
+                    half4 layer3 = SAMPLE_TEXTURE2D(_SplatMap3, sampler_SplatMap1, splatAt * _SplatScale.z);
+                    // Where a layer is painted at all, its own height moves its edge: a paving's edge is whole stones, a scree's is its bigger pebbles.
+                    half3 cut = input.splat.xyz + ragged
+                        + (half3(layer1.a, layer2.a, layer3.a) - 0.5h) * _SplatEdge.z * step(0.02h, input.splat.xyz);
+                    half3 over = smoothstep(0.5h - _SplatEdge.x, 0.5h + _SplatEdge.x, cut);
+                    // A thin dark line just outside each edge, as a cel painter would ink where one surface lies on another.
+                    half3 inked = (smoothstep(0.5h - _SplatEdge.x, 0.5h + _SplatEdge.x, cut + 0.07h) - over) * _SplatEdge.w;
+                    albedo.rgb *= 1.0h - inked.x * _SplatTint1.a;
+                    albedo.rgb = lerp(albedo.rgb, layer1.rgb * _SplatTint1.rgb, over.x * _SplatTint1.a);
+                    albedo.rgb *= 1.0h - inked.y * _SplatTint2.a;
+                    albedo.rgb = lerp(albedo.rgb, layer2.rgb * _SplatTint2.rgb, over.y * _SplatTint2.a);
+                    albedo.rgb *= 1.0h - inked.z * _SplatTint3.a;
+                    albedo.rgb = lerp(albedo.rgb, layer3.rgb * _SplatTint3.rgb, over.z * _SplatTint3.a);
+                    albedo.rgb *= 1.0h - input.splat.w;
+                }
+                #endif
                 #if defined(_PANELS_ON)
                 {
                     float3 plate = pow(abs(normalize(input.normalWS)), 6.0);
@@ -823,6 +900,7 @@ Shader "Lattice/Toon"
 
                 half ndotl = dot(normalWS, mainLight.direction);
                 half lit = ToonRamp(ndotl * lerp(1.0h, mainLight.shadowAttenuation, _ReceiveShadows) * mainLight.distanceAttenuation);
+                lit *= FbGroundShade(input.positionWS, mainLight.direction);
                 half3 lighting = lerp(_ShadowTint.rgb, half3(1, 1, 1), lit) * mainLight.color;
 
                 // Additional lights: smooth, scaled down so the sun stays the author of the look.
@@ -907,6 +985,8 @@ Shader "Lattice/Toon"
                 }
                 #endif
 
+                // A struck body goes toward the flash's colour over everything it was, lit or shaded: before the fog, so a far body flashes no brighter than the air lets it.
+                color = lerp(color, _HitFlash.rgb, saturate(_HitFlash.a));
                 color = MixFog(color, input.fogFactor);
                 return half4(color, alphaOut);
             }

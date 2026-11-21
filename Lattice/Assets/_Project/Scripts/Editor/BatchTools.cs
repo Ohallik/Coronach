@@ -64,11 +64,32 @@ namespace Lattice.EditorTools
             }
             RegisterScenes();AssetDatabase.SaveAssets();Debug.Log("BOOT_SCENES_OK");
         });
+        /// <summary>The first fifteen scenes, at the build indices they have always had: the two that aren't zones, then chapters 1 and 2. Nothing is added here.</summary>
+        static readonly string[] FirstScenes={"_Boot","Title","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","Arena_Ground","Arena_Flight",
+            "WickReach","Lanternwick","LanternGorge","SunkenRelay"};
+        /// <summary>Every scene of the build, in build order: the first fifteen, then each other zone that has a ZoneDef asset and a built scene, by its chapter and then its id.
+        /// A new zone joins by being defined and built: a zone left off the old hand-kept list simply couldn't be loaded in the player.</summary>
+        internal static string[] SceneNames()
+        {
+            var names=FirstScenes.ToList();var later=new System.Collections.Generic.List<Lattice.Data.ZoneDef>();
+            const string folder="Assets/_Project/Resources/Definitions/ZoneDef";
+            foreach(string path in Directory.Exists(folder)?Directory.GetFiles(folder,"*.asset"):Array.Empty<string>())
+            {
+                var zone=AssetDatabase.LoadAssetAtPath<Lattice.Data.ZoneDef>(path.Replace('\\','/'));if(zone==null)continue;
+                string file=Path.GetFileNameWithoutExtension(path);
+                if(zone.id!=file||zone.scene!=file)throw new Exception($"ZoneDef {file}: its id ('{zone.id}'), its scene ('{zone.scene}') and its file name must be the same string");
+                if(!names.Contains(file))later.Add(zone);
+            }
+            foreach(var zone in later.OrderBy(z=>z.chapter<=0?int.MaxValue:z.chapter).ThenBy(z=>z.id,StringComparer.Ordinal))
+            {
+                // Defined before it is built is an ordinary day; built and never registered was the silent failure.
+                if(File.Exists(Scenes+zone.id+".unity"))names.Add(zone.id);else Debug.LogWarning("SCENE_UNBUILT "+zone.id+": it has a ZoneDef and no scene yet, so it isn't in the build");
+            }
+            return names.ToArray();
+        }
         internal static void RegisterScenes()
         {
-            var names=new[]{"_Boot","Title","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","Arena_Ground","Arena_Flight",
-                "WickReach","Lanternwick","LanternGorge","SunkenRelay"};
-            EditorBuildSettings.scenes=names.Select(n=>new EditorBuildSettingsScene(Scenes+n+".unity",true)).ToArray();
+            EditorBuildSettings.scenes=SceneNames().Select(n=>new EditorBuildSettingsScene(Scenes+n+".unity",true)).ToArray();
         }
         public static void BuildWindowsPlayer()=>Build(false);
         public static void BuildWindowsDevPlayer()=>Build(true);
@@ -99,8 +120,12 @@ namespace Lattice.EditorTools
                 Path.Combine(Path.GetDirectoryName(output),"CoronachGpuClock-NOTICES.txt"),true);
             Debug.Log("BUILD_OK "+output);
         });
+        /// <summary>Set by a runner that calls other entry points inside its own run (Restage.All): an entry point then runs, and throws as any call does, without
+        /// quitting Unity, and the runner decides how its own run ends.</summary>
+        internal static bool Nested;
         public static void Run(Action action)
         {
+            if(Nested){action();return;}
             try{action();EditorApplication.Exit(0);}catch(Exception e){Debug.LogError("FAILED: "+e);EditorApplication.Exit(1);}
         }
     }

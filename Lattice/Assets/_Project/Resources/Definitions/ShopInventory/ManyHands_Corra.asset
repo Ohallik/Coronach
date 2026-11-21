@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156aeac18c8f5bf459154ec1e4bcd3aa, type: 3}
+  m_Name: ManyHands_Corra
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ShopInventory
+  title: CORRA'S STALL
+  offers:
+  - id: EmittersT3
+    price: 560
+    lot: 0
+    requires: 
+  - id: EdgesT3
+    price: 600
+    lot: 0
+    requires: 
+  - id: FramesT3
+    price: 620
+    lot: 0
+    requires: 
+  - id: DrivesT3
+    price: 540
+    lot: 0
+    requires: 
+  - id: ModulesT3
+    price: 640
+    lot: 0
+    requires: 
+  - id: ModulesGuardCapacitor
+    price: 720
+    lot: 0
+    requires: 
+  - id: ModulesMedicFilament
+    price: 680
+    lot: 0
+    requires: 
+  - id: ModulesReservoir
+    price: 700
+    lot: 0
+    requires: kettle.reported
+  - id: ScrapAlloy
+    price: 16
+    lot: 3
+    requires: 
+  - id: LatticeFilament
+    price: 18
+    lot: 3
+    requires: 
+  - id: RidgeCrystal
+    price: 32
+    lot: 3
+    requires: 
+  - id: Rootfibre
+    price: 45
+    lot: 3
+    requires: 
+  - id: AmberSap
+    price: 54
+    lot: 3
+    requires: 
+  - id: ReedWeave
+    price: 54
+    lot: 3
+    requires: 
+  - id: Glowspore
+    price: 63
+    lot: 3
+    requires: 
+  - id: EmittersT5
+    price: 1480
+    lot: 0
+    requires: chapter9.complete
+  - id: EdgesT5
+    price: 1560
+    lot: 0
+    requires: chapter9.complete
+  - id: FramesT5
+    price: 1620
+    lot: 0
+    requires: chapter9.complete
+  - id: DrivesT5
+    price: 1420
+    lot: 0
+    requires: chapter9.complete
+  - id: ModulesT5
+    price: 1600
+    lot: 0
+    requires: chapter9.complete
+  buysMaterials: 1
+  discountFlag: kettle.reported
+  discountNote: "STALL PRICE  \xB7  CORRA'S THANKS FOR THE KETTLES"
+  discount: 0.85
+  noteFlag: chapter9.complete
+  note: "OFF THE DECKS' CONVOY  \xB7  CHOIRWROUGHT"

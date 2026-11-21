@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: GlassSentinel
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: GlassSentinel
+  prefab: {fileID: 4147169102731047794, guid: 16b553bebfc679f42aa41e1c83f0605a, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 1650
+  breakThreshold: 330
+  speed: 2
+  attacks:
+  - {fileID: 11400000, guid: d104b26203ae7f74fb5415cccf8a2158, type: 2}
+  - {fileID: 11400000, guid: 23d0c8c90ff7d8a4f80ee5f7921b170a, type: 2}
+  - {fileID: 11400000, guid: 3b6004993010b8e4dbe18e57db9e44d4, type: 2}
+  weakness: 2
+  resistance: 0
+  archetype: 2
+  lootTable: {fileID: 11400000, guid: f4a315a5d793dfa47990b892c184c85f, type: 2}
+  xp: 320
+  boss: 0
+  scrip: 36
+  scrap: 3
+  displayName: Glass Sentinel
+  bossMusicId: 
+  capsuleRadius: 0.75
+  capsuleHeight: 2.4
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1
+  behaviour: 5
+  tune:
+    reach: 10
+    width: 0
+    speed: 70
+    recover: 1.6
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 130
+    guard: 0.2
+    wake: 10
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0.8, g: 1.1, b: 1.5, a: 1}
+    disguised: 0
+    sweep: 110
+    reflects: 1
+    bark: sentinel
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

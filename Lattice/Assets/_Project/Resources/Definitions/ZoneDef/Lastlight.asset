@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: Lastlight
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: Lastlight
+  scene: Lastlight
+  kind: 0
+  cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 21486bfa3192113478a73a24a8acee6a, type: 2}
+  ambientAudio: {fileID: 8300000, guid: 603bb740e9bb4d24f92cdb434f2e84ad, type: 3}
+  ambientVolume: 0.362
+  musicId: Village Circle
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 1
+  skybox: {fileID: 2100000, guid: 8f8136f70e1238e44bb55470739ebfea, type: 2}
+  displayName: Lastlight
+  brightFloor: 1
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: Moonbase Market
+  chapter: 6
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

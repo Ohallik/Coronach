@@ -1,0 +1,2231 @@
+{
+  "name": "chapter-19-rootmarket-errands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 3: Hadda's press, Binna's stall and baskets, the seed house, the notice, the upper walk, Jask, Senn, Teo, the river gate",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.termsHeard",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to Hadda at the press",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 33.8,
+        "y": 0,
+        "z": 46.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "greet Hadda",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release greet Hadda",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "hear Hadda out",
+      "seconds": 15,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:options",
+      "expectedUi": "options",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release before her choices",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "use the press",
+      "seconds": 1.5,
+      "buttons": [
+        "South"
+      ],
+      "until": "ui:bench",
+      "pauseUi": "bench",
+      "expectedUi": "bench",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "look over the press",
+      "seconds": 1,
+      "pauseUi": "bench",
+      "expectedUi": "bench",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "leave the press",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "pauseUi": "bench",
+      "expectedUi": "world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the press",
+      "seconds": 0.4,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to Binna's kitchen 1/4",
+      "seconds": 3.93,
+      "navigate": true,
+      "point": {
+        "x": 28.5,
+        "y": 0,
+        "z": 45
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to Binna's kitchen 2/4",
+      "seconds": 3.81,
+      "navigate": true,
+      "point": {
+        "x": 27.5,
+        "y": 0,
+        "z": 50
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to Binna's kitchen 3/4",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 23.5,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to Binna's kitchen 4/4",
+      "seconds": 5.06,
+      "navigate": true,
+      "point": {
+        "x": 23.2,
+        "y": 0,
+        "z": 66.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "greet Binna",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release greet Binna",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "hear Binna out",
+      "seconds": 15,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:options",
+      "expectedUi": "options",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release before her choices",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "ask what she's selling",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the ask",
+      "seconds": 0.3,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "her stall opens",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "find the repair gel",
+      "seconds": 3,
+      "pickRow": "Repair Gel",
+      "until": "row:Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "buy repair gel up to the cap",
+      "seconds": 20,
+      "pickRow": "Repair Gel",
+      "buttons": [
+        "South"
+      ],
+      "stock": "cap",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "leave her stall",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release her stall",
+      "seconds": 0.3,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "start Binna's three baskets",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release start Binna's three baskets",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Binna's three baskets line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Binna's three baskets line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Binna's three baskets line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Binna's three baskets line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Binna's three baskets line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Binna's three baskets line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Binna's three baskets line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Binna's three baskets line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Binna's three baskets line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Binna's three baskets line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Binna's three baskets line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Binna's three baskets line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Binna's three baskets line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Binna's three baskets line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Binna's three baskets line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Binna's three baskets line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Binna's three baskets line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Binna's three baskets line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish Binna's three baskets",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "look over the stock after Binna's three baskets",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "leave the stock after Binna's three baskets",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the stall after Binna's three baskets",
+      "seconds": 0.3,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 1/7",
+      "seconds": 4.43,
+      "navigate": true,
+      "point": {
+        "x": 16.5,
+        "y": 0,
+        "z": 65.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 2/7",
+      "seconds": 2.94,
+      "navigate": true,
+      "point": {
+        "x": 17,
+        "y": 0,
+        "z": 62.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 3/7",
+      "seconds": 4.16,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0,
+        "z": 63.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 4/7",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 9.5,
+        "y": 0,
+        "z": 62.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 5/7",
+      "seconds": 3.87,
+      "navigate": true,
+      "point": {
+        "x": 5.5,
+        "y": 0,
+        "z": 65.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 6/7",
+      "seconds": 3.18,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 68
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the seed house 7/7",
+      "seconds": 3.12,
+      "navigate": true,
+      "point": {
+        "x": 2.5,
+        "y": 0,
+        "z": 71.1
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "look into the seed house",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the look",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the seed house line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the seed house line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the seed house line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the seed house line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the seed house line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the seed house line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the seed house line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the seed house line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the seed house line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish the seed house",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.seedHouseSeen",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after the seed house",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the Compact's notice",
+      "seconds": 3.85,
+      "navigate": true,
+      "point": {
+        "x": -2.7,
+        "y": 0,
+        "z": 71.1
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the notice",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the notice",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the Compact notice line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the Compact notice line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the Compact notice line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the Compact notice line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the Compact notice line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the Compact notice line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the Compact notice line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the Compact notice line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the Compact notice line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the Compact notice line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the Compact notice line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the Compact notice line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the Compact notice line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the Compact notice line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the Compact notice line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read the Compact notice line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next the Compact notice line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the Compact notice line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish the Compact notice",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "xylos.noticeRead",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after the Compact notice",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 1/7",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0,
+        "z": 68
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 2/7",
+      "seconds": 6.46,
+      "navigate": true,
+      "point": {
+        "x": -17,
+        "y": 0,
+        "z": 62
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 3/7",
+      "seconds": 5.31,
+      "navigate": true,
+      "point": {
+        "x": -24.5,
+        "y": 0,
+        "z": 56.5
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 4/7",
+      "seconds": 6.53,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 1,
+        "z": 68
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 5/7",
+      "seconds": 8.3,
+      "navigate": true,
+      "point": {
+        "x": -25,
+        "y": 2.4,
+        "z": 85
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 6/7",
+      "seconds": 8.67,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 2.4,
+        "z": 97.5
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up the dry walk 7/7",
+      "seconds": 6.12,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 101.1
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "open the growers' cache",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "cache.xylos.walkway",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the cache",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back down the dry walk 1/6",
+      "seconds": 6.12,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 2.4,
+        "z": 97.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back down the dry walk 2/6",
+      "seconds": 8.67,
+      "navigate": true,
+      "point": {
+        "x": -25,
+        "y": 2.4,
+        "z": 85
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back down the dry walk 3/6",
+      "seconds": 8.3,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 1,
+        "z": 68
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back down the dry walk 4/6",
+      "seconds": 6.53,
+      "navigate": true,
+      "point": {
+        "x": -24.5,
+        "y": 0,
+        "z": 56.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back down the dry walk 5/6",
+      "seconds": 3.69,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 0,
+        "z": 52
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back down the dry walk 6/6",
+      "seconds": 3.82,
+      "navigate": true,
+      "point": {
+        "x": -23.4,
+        "y": 0,
+        "z": 47.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "start Jask at the ferry stage",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release start Jask at the ferry stage",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Jask at the ferry stage line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Jask at the ferry stage line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Jask at the ferry stage line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish Jask at the ferry stage",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "met.Jask",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after Jask at the ferry stage",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 1/7",
+      "seconds": 3.84,
+      "navigate": true,
+      "point": {
+        "x": -22.5,
+        "y": 0,
+        "z": 42.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 2/7",
+      "seconds": 4.34,
+      "navigate": true,
+      "point": {
+        "x": -21.5,
+        "y": 0,
+        "z": 36
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 3/7",
+      "seconds": 5.32,
+      "navigate": true,
+      "point": {
+        "x": -19,
+        "y": 0,
+        "z": 27
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 4/7",
+      "seconds": 3.06,
+      "navigate": true,
+      "point": {
+        "x": -21.5,
+        "y": 0,
+        "z": 28.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 5/7",
+      "seconds": 2.68,
+      "navigate": true,
+      "point": {
+        "x": -23.4,
+        "y": 0,
+        "z": 28.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 6/7",
+      "seconds": 8.85,
+      "navigate": true,
+      "point": {
+        "x": -39.2,
+        "y": 0,
+        "z": 17.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the rope walk 7/7",
+      "seconds": 4.41,
+      "navigate": true,
+      "point": {
+        "x": -44.8,
+        "y": 0,
+        "z": 13.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "start Old Senn",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release start Old Senn",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Old Senn line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Old Senn line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Old Senn line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Old Senn line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Old Senn line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Old Senn line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Old Senn line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Old Senn line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Old Senn line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Old Senn line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Old Senn line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Old Senn line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Old Senn line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Old Senn line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Old Senn line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Old Senn line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Old Senn line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Old Senn line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish Old Senn",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "met.Senn",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after Old Senn",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "start Senn's mooring post",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release start Senn's mooring post",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Senn's mooring post line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Senn's mooring post line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Senn's mooring post line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Senn's mooring post line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Senn's mooring post line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Senn's mooring post line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Senn's mooring post line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Senn's mooring post line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Senn's mooring post line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Senn's mooring post line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Senn's mooring post line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Senn's mooring post line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Senn's mooring post line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Senn's mooring post line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Senn's mooring post line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish Senn's mooring post",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after Senn's mooring post",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the old mooring box 1/2",
+      "seconds": 2.77,
+      "navigate": true,
+      "point": {
+        "x": -45.6,
+        "y": 0,
+        "z": 11.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the old mooring box 2/2",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": -49.6,
+        "y": 0,
+        "z": 11.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "open the old mooring box",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "cache.xylos.sennIsland",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release the box",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 1/8",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": -45.6,
+        "y": 0,
+        "z": 11.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 2/8",
+      "seconds": 5.07,
+      "navigate": true,
+      "point": {
+        "x": -39.2,
+        "y": 0,
+        "z": 17.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 3/8",
+      "seconds": 8.85,
+      "navigate": true,
+      "point": {
+        "x": -23.4,
+        "y": 0,
+        "z": 28.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 4/8",
+      "seconds": 2.68,
+      "navigate": true,
+      "point": {
+        "x": -21.5,
+        "y": 0,
+        "z": 28.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 5/8",
+      "seconds": 3.06,
+      "navigate": true,
+      "point": {
+        "x": -19,
+        "y": 0,
+        "z": 27
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 6/8",
+      "seconds": 5.37,
+      "navigate": true,
+      "point": {
+        "x": -22,
+        "y": 0,
+        "z": 36
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 7/8",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": -22,
+        "y": 0,
+        "z": 41
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back across the rope walk 8/8",
+      "seconds": 3.12,
+      "navigate": true,
+      "point": {
+        "x": -21,
+        "y": 0,
+        "z": 44
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 1/10",
+      "seconds": 16.93,
+      "navigate": true,
+      "point": {
+        "x": 21,
+        "y": 0,
+        "z": 44
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 2/10",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 40
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 3/10",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 25.5,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 4/10",
+      "seconds": 3.68,
+      "navigate": true,
+      "point": {
+        "x": 23,
+        "y": 0,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 5/10",
+      "seconds": 3.35,
+      "navigate": true,
+      "point": {
+        "x": 21.5,
+        "y": 0,
+        "z": 31.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 6/10",
+      "seconds": 3.86,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 26.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 7/10",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 24.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 8/10",
+      "seconds": 3.14,
+      "navigate": true,
+      "point": {
+        "x": 13,
+        "y": 0,
+        "z": 25.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 9/10",
+      "seconds": 7.52,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 17
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "over the raft crossing and round to the landing 10/10",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": -6.7,
+        "y": 0,
+        "z": 23.2
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "start Teo by the landing pool",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release start Teo by the landing pool",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "read Teo by the landing pool line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "next Teo by the landing pool line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release Teo by the landing pool line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "finish Teo by the landing pool",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "met.Teo",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "release after Teo by the landing pool",
+      "seconds": 0.5,
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 1/10",
+      "seconds": 5.25,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 17
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 2/10",
+      "seconds": 7.52,
+      "navigate": true,
+      "point": {
+        "x": 13,
+        "y": 0,
+        "z": 25.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 3/10",
+      "seconds": 3.14,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 24.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 4/10",
+      "seconds": 3.61,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 26.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 5/10",
+      "seconds": 3.86,
+      "navigate": true,
+      "point": {
+        "x": 21.5,
+        "y": 0,
+        "z": 31.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 6/10",
+      "seconds": 3.35,
+      "navigate": true,
+      "point": {
+        "x": 23,
+        "y": 0,
+        "z": 35
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 7/10",
+      "seconds": 3.68,
+      "navigate": true,
+      "point": {
+        "x": 25.5,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 8/10",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 40
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 9/10",
+      "seconds": 4.41,
+      "navigate": true,
+      "point": {
+        "x": 33.8,
+        "y": 0,
+        "z": 44.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "back round the ring's east side 10/10",
+      "seconds": 6.03,
+      "navigate": true,
+      "point": {
+        "x": 45,
+        "y": 0,
+        "z": 43
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "to the river gate",
+      "seconds": 6.2,
+      "navigate": true,
+      "point": {
+        "x": 56.8,
+        "y": 0,
+        "z": 43
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "through the river gate",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "BraidedRiver"
+    },
+    {
+      "name": "release the river gate",
+      "seconds": 0.5,
+      "expectedScene": "BraidedRiver"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

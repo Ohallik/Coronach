@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: Reedstalker
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
+  id: Reedstalker
+  prefab: {fileID: 8229940328030898971, guid: 52637b7f87f421c49a0c68f5d0dd32ef, type: 3}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 300
+  breakThreshold: 100
+  speed: 4.2
+  attacks:
+  - {fileID: 11400000, guid: 9b9ee5279f4a0744faa7475aa6ad1d33, type: 2}
+  weakness: 2
+  resistance: 0
+  archetype: 0
+  lootTable: {fileID: 11400000, guid: c021a2cc711c14a43a8107a1a710aa05, type: 2}
+  xp: 40
+  boss: 0
+  scrip: 10
+  scrap: 1
+  displayName: Reedstalker
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 0
+  behaviour: 3
+  tune:
+    reach: 0
+    width: 0
+    speed: 5.5
+    recover: 1.5
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 2
+    arc: 0
+    guard: 0
+    wake: 3.2
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

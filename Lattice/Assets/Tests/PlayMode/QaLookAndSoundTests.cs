@@ -43,18 +43,37 @@ namespace Lattice.Tests.PlayMode
             var bounds=renderers[0].bounds;foreach(var r in renderers)bounds.Encapsulate(r.bounds);return bounds;
         }
 
-        [UnityTest] public IEnumerator EachNaturalPlaceHasItsOwnAir()
+        /// <summary>The five natural places of chapters 1 and 2, then every zone on foot defined since: a ship's deck that should hum says so by name (ContentRegistry.Book.Exempt).
+        /// One case each, and whether two places share their air a test of its own (ZoneWalk): it walked them all in one case, and one zone that couldn't load or logged an
+        /// error hid every zone after it.</summary>
+        static string[] AirZones=>ContentRegistry.With(nameof(EachNaturalPlaceHasItsOwnAir),new[]{"Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay"},ContentRegistry.OnFoot);
+        /// <summary>Loads a zone and keeps the name of the bed it plays ("" for none).</summary>
+        static IEnumerator ReadAir(string zone)
         {
+            yield return Zone(zone);
+            var bed=Bed;ZoneWalk.Keep(nameof(EachNaturalPlaceHasItsOwnAir),zone,bed.clip!=null?bed.clip.name:"");
+        }
+        [UnityTest] public IEnumerator EachNaturalPlaceHasItsOwnAir([ValueSource(nameof(AirZones))] string zone)
+        {
+            yield return ReadAir(zone);
+            var bed=Bed;Assert.IsNotNull(bed.clip,zone+" is silent");
+            Assert.AreNotEqual("computerNoise_000",bed.clip.name,zone+" hums like a server room: wind, water and a town all sound like the Decks");
+            // Whether another place has the same air is EachNaturalPlaceHasItsOwnAirAcrossZones's to say.
+            Assert.IsTrue(bed.isPlaying,zone+"'s bed isn't playing");
+            Assert.AreEqual(ZoneController.Current.definition.ambientVolume,bed.volume,.001f,zone+" ignores the level measured for its bed");
+            Assert.Less(bed.volume,1.01f);
+        }
+        [UnityTest] public IEnumerator EachNaturalPlaceHasItsOwnAirAcrossZones()
+        {
+            var read=new Dictionary<string,string>();var unread=new List<string>();
+            IEnumerator Rebooted(){yield return Cleanup();yield return Boot();}
+            yield return ZoneWalk.Walk(nameof(EachNaturalPlaceHasItsOwnAir),AirZones,ReadAir,Rebooted,read,unread);
             var heard=new HashSet<string>();
-            foreach(string zone in new[]{"Sorrel_Ridges","Hushwell","Lanternwick","LanternGorge","SunkenRelay"})
+            foreach(var (zone,clip) in read)
             {
-                yield return Zone(zone);
-                var bed=Bed;Assert.IsNotNull(bed.clip,zone+" is silent");
-                Assert.AreNotEqual("computerNoise_000",bed.clip.name,zone+" hums like a server room: wind, water and a town all sound like the Decks");
-                Assert.IsTrue(heard.Add(bed.clip.name),zone+" shares its air with another place: "+bed.clip.name);
-                Assert.IsTrue(bed.isPlaying,zone+"'s bed isn't playing");
-                Assert.AreEqual(ZoneController.Current.definition.ambientVolume,bed.volume,.001f,zone+" ignores the level measured for its bed");
-                Assert.Less(bed.volume,1.01f);
+                // A place that is silent or hums like the Decks fails its own case before this is asked of it.
+                if(clip==""||clip=="computerNoise_000")continue;
+                Assert.IsTrue(heard.Add(clip),zone+" shares its air with another place: "+clip+ZoneWalk.Unread(unread));
             }
         }
         [UnityTest] public IEnumerator StationsAndSpaceKeepTheirHum()

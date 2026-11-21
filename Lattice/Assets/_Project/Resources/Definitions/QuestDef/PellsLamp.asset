@@ -33,3 +33,11 @@ MonoBehaviour:
   - Search the grazer den under the fallen tower, west of the path before the second
     relay
   - Bring the lamp back to Pell
+  rewardsRolled: 0
+  main: 0
+  chapter: 2
+  stepTargets: []
+  closingLine: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 

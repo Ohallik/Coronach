@@ -1,0 +1,845 @@
+{
+  "name": "chapter-29-hull-of-many-hands",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 5: the claim haulers over the raft bay, Hulljack's four feet, the way in after it through the freight hall's roof door",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "hands.claimRead",
+      "expectedForm": "Flight",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "north over the stern dock's yards",
+      "seconds": 5.21,
+      "navigate": true,
+      "point": {
+        "x": -32,
+        "y": 1,
+        "z": -104
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "over the raft bay's hold",
+      "seconds": 4.88,
+      "navigate": true,
+      "point": {
+        "x": -46,
+        "y": 1,
+        "z": -90
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "lock Hull_Drones",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release lock Hull_Drones",
+      "seconds": 0.3,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hull_Drones round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hull_Drones",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hull_Drones round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Hull_Drones",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hull_Drones round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hull_Drones round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hull_Drones",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hull_Drones round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Hull_Drones",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hull_Drones round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hull_Drones round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Hull_Drones",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hull_Drones round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Hull_Drones",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hull_Drones round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "Hull_Drones cleared",
+      "seconds": 3,
+      "until": "flag:clear.Hull_Drones",
+      "expectedFlag": "clear.Hull_Drones",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "into the frame's reach at the raft bay join",
+      "seconds": 4.35,
+      "navigate": true,
+      "point": {
+        "x": -36,
+        "y": 1,
+        "z": -52
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "bossDoor": "Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "lock Hulljack",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release lock Hulljack",
+      "seconds": 0.3,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 1",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 2",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 3",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 4",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 5",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 5",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 6",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 6",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 7",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 7",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 8",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 8",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 9",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 9",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 10",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 10",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 11",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 11",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 12",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 12",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 12",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 13",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 13",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 13",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pursue Hulljack round 14",
+      "seconds": 20,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "pulse Hulljack round 14",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "release pulse Hulljack round 14",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "Hulljack is down",
+      "seconds": 4,
+      "until": "flag:bossdown.Hulljack",
+      "expectedFlag": "bossdown.Hulljack",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "the frame tears through the roof door",
+      "seconds": 5,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "toward the torn roof door",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 44.0,
+        "y": 1,
+        "z": -56.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "settle over the roof door",
+      "seconds": 8.0,
+      "navigate": true,
+      "point": {
+        "x": 44.0,
+        "y": 1,
+        "z": -63.5
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "ManyHandsHull"
+    },
+    {
+      "name": "follow Varn in",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release follow",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "in the freight yard",
+      "seconds": 1.5,
+      "expectedFlag": "bossdown.Hulljack",
+      "expectedScene": "ManyHands"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

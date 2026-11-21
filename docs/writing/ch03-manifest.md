@@ -315,7 +315,7 @@ In `ObjectiveHud`'s style: what to do, then why after a colon. These are the han
 | WalkingCanopy | fight, phase one | Break the flood gates on the basin's rim (1/3) |
 | WalkingCanopy | fight, phase two | Drive the Floodcrown out with the water |
 | WalkingCanopy | `xylos.floodcrownGone` | Take the root ladder back to the mooring: Ruva owes you a vote |
-| any | `chapter3.complete` | Chapter 3 complete. Wendmire's reed weavers are next, and that lane isn't charted. |
+| any | `chapter3.complete` | Chapter 3 complete. Tallow is fed, and its air is going thick: see Keeper Abri. |
 
 Chapter-end card (`QuestToast`): heading `CHAPTER 3 COMPLETE`, title `CARRYING A PLACE`, body `Tallow has dinner, and growers aboard who'll vote on where it goes. Three more settlements have asked to follow, and the air aboard is going thick. Hadda says the reed weavers of Wendmire are the ones to ask. Until then nothing closes behind you, so keep exploring.`
 

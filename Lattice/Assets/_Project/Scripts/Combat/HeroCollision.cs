@@ -7,8 +7,13 @@ namespace Lattice.Combat
     {
         CharacterController controller;CapsuleCollider body;
         float groundRadius,groundHeight,groundSkin,groundStep;Vector3 groundCenter;bool flying;
-        public static float HullRadius(string hero)=>hero=="Taren"?1.78f:1.69f;
+        /// <summary>Each hull's measured reach from its root through any bank (FlightSocketTests). Idra's cutter reaches 2.16 m: in Sela's 1.69 half a metre of it flew
+        /// outside her collision.</summary>
+        public static float HullRadius(string hero)=>hero=="Taren"?1.78f:hero=="Idra"?2.17f:1.69f;
         public const float ArrivalSpacing=3.7f;
+        /// <summary>How far apart two ships arrive: the usual spacing, or more for two hulls that wouldn't clear each other at it (Taren's and Idra's reach 3.95 m between
+        /// them). Taren and Sela arrive exactly as they always did.</summary>
+        public static float Apart(string a,string b)=>Mathf.Max(ArrivalSpacing,HullRadius(a)+HullRadius(b)+.2f);
         void Awake()
         {
             controller=GetComponent<CharacterController>();body=GetComponent<CapsuleCollider>();

@@ -42,6 +42,19 @@ namespace Lattice.Combat
         public bool Released{get;private set;}
         /// <summary>A marking held at full charge (an expanding band, a burrow trail) instead of filling.</summary>
         public bool Steady;
+        /// <summary>A band that runs outward from its origin once its tell is over, this fast (m/s): Mother of Doors' pressure wave, marked at her coil's edge as it fills and then drawn
+        /// where it is as it runs. 0 for a marking that strikes where it lies. What reads the floor (the companion, the replay driver) reads a running band by <see cref="Reaches"/>.</summary>
+        public float Spreads;
+        /// <summary>How long until this marking is on a point: what is left of its tell while the point is inside it; for a band that runs outward (<see cref="Spreads"/>), its tell and then
+        /// its run out to the point; never (infinity) for a point it will not reach. A ship a metre outside Mother of Doors' filling band was struck a twentieth of a second after the band
+        /// went, and her companion, who read only markings already over her, took every wave of the fight.</summary>
+        public float Reaches(Vector3 point)
+        {
+            if(Spreads<=0||Shape!=Kind.Ring)return Contains(point)?Remaining:float.PositiveInfinity;
+            var offset=point-Origin;offset.y=0;float distance=offset.magnitude;
+            if(distance<Inner-BodyAllowance)return float.PositiveInfinity;
+            return Remaining+Mathf.Max(0,distance-Radius-BodyAllowance)/Spreads;
+        }
 
         Mesh mesh;MeshRenderer view;MaterialPropertyBlock block;Color color;
         float releasedAt=-1,cancelledAt=-1;bool ownsMesh;
@@ -146,6 +159,9 @@ namespace Lattice.Combat
         }
         /// <summary>Move the marking (a trail following a hero) and lay it on the ground again.</summary>
         public void MoveTo(Vector3 origin){Origin=origin;Build();}
+        /// <summary>Carried by what it lies in (chapter 6's currents: World's AuroraCurrent carries everything at the flight plane inside one), with whatever shot it is drawn ahead of,
+        /// and laid again. Gone from the scene after its strike it still knows its shape, and a pass still running down it asks it: that is moved too, and not drawn. Nothing else calls it.</summary>
+        public void Shift(Vector3 delta){delta.y=0;Origin+=delta;carriedOrigin+=delta;if(this!=null&&mesh!=null)Build();}
         /// <summary>Reshape an expanding band.</summary>
         public void SetRing(float inner,float outer){Inner=Mathf.Max(0,inner);Radius=Mathf.Max(Inner+.05f,outer);Build();}
         /// <summary>The strike lands: a short flash, then the marking fades away. In real time: through a Flash the world runs at a quarter, and a spent ring stayed on the floor for over a

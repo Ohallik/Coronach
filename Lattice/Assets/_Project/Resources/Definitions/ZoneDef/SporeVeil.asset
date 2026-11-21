@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: SporeVeil
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: SporeVeil
+  scene: SporeVeil
+  kind: 3
+  cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 05f1accca80b5aa47a58c990b5f5689a, type: 2}
+  ambientAudio: {fileID: 8300000, guid: 52fa89ac41e0bf3479a13d39eebfc6c3, type: 3}
+  ambientVolume: 0.356
+  musicId: Starfield Frontier
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1
+  cameraClearsScenery: 0
+  skybox: {fileID: 2100000, guid: 73ba5e42df2e60c42b39a272ec78e3c4, type: 2}
+  displayName: The Spore Veil
+  brightFloor: 0
+  fightMusicId: Starfight
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 4
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

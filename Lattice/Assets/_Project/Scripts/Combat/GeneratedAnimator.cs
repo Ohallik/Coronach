@@ -40,6 +40,8 @@ namespace Lattice.Combat
         public const string YieldState="Down";public const float YieldPhase=.29f;
         /// <summary>How far a beaten body bows at each joint, degrees, from the hips up.</summary>
         static readonly float[] BackBow={12,16,10};
+        /// <summary>How a flinch's bow is shared up the spine.</summary>
+        static readonly float[] FlinchShare={.3f,.4f,.3f};
         const float NeckBow=12,HeadBow=22;
         readonly Dictionary<string, float> lengths = new();
         public GroundStrideProfile strideProfile;
@@ -95,15 +97,37 @@ namespace Lattice.Combat
             }
             return calm;
         }
+        Vector3 flinchAxis;float flinchDegrees,flinchAge=1,flinchLife=1;
+        /// <summary>A hero struck with nothing raised: the spine bows away from the blow and comes back, over whatever the body was doing. Nothing is taken from the player:
+        /// the feet, the swing and the next press are untouched. An ordinary hit used to change a number and nothing on the body.</summary>
+        public void Flinch(Vector3 along,float degrees,float seconds)
+        {
+            along.y=0;if(along.sqrMagnitude<.0001f||degrees<=0||seconds<=0)return;
+            // A heavier flinch still showing isn't cut down by a lighter hit.
+            if(flinchAge<flinchLife){float left=1-flinchAge/flinchLife;if(flinchDegrees*left*left>degrees)return;}
+            flinchAxis=Vector3.Cross(Vector3.up,along.normalized);flinchDegrees=degrees;flinchLife=seconds;flinchAge=0;
+        }
         void LateUpdate()
         {
             if(animator==null||leftArm==null||rightArm==null||leftFore==null||rightFore==null||!animator.isActiveAndEnabled)return;
-            float dt=GameTime.Paused?0:Time.unscaledDeltaTime;
+            float dt=GameTime.Delta;
             if(beaten||enemy!=null)
             {
                 slump=Mathf.MoveTowards(slump,beaten||!enemy.Health.Alive?1:0,dt/.35f);
                 if(slump>0)Slump(slump);
                 return;
+            }
+            if(flinchAge<flinchLife)
+            {
+                // At its deepest on the frame of the hit, which a hit-stop then holds; eased back on the hero's own clock.
+                float left=1-flinchAge/flinchLife;flinchAge+=dt;
+                // A blow that staggers has a whole clip of its own for it: the bow isn't laid over that.
+                if(actor!=null&&actor.Health.Alive&&actor.State!=ActorState.Stagger&&!actor.Recovering)
+                {
+                    float bow=flinchDegrees*left*left;
+                    for(int i=0;i<back.Length;i++)if(back[i]!=null)back[i].rotation=Quaternion.AngleAxis(bow*FlinchShare[i],flinchAxis)*back[i].rotation;
+                    if(head!=null)head.rotation=Quaternion.AngleAxis(bow*.3f,flinchAxis)*head.rotation;
+                }
             }
             bool resting=state=="Idle"&&(shown==CalmState||!hasCalm)&&!upperShot&&emitterWeight<.01f&&(form==null||!form.Shaping);
             // Quick to let go: a swing's edge lands .15 s in, and the blade is read from this same arm.
@@ -129,7 +153,8 @@ namespace Lattice.Combat
         {
             if (beaten || animator == null || !animator.isActiveAndEnabled) return;
             if (form != null && form.Shaping) { animator.speed = 0; previous = transform.position; return; }
-            if (GameTime.Paused) { animator.speed = 0; previous = transform.position; return; }
+            // A hit-stop holds every pose where it is: the heroes' rigs run on real time, and would otherwise swing on through it.
+            if (GameTime.Paused || GameTime.Stopped) { animator.speed = 0; previous = transform.position; return; }
             float speed = actor?.motor != null ? actor.motor.Velocity.magnitude :
                 Vector3.Distance(transform.position, previous) / Mathf.Max(.001f, Time.deltaTime);
             previous = transform.position;
@@ -297,7 +322,7 @@ namespace Lattice.Combat
             if(emitterLayer>=0)
             {
                 bool interrupted=actor==null||!actor.Health.Alive||actor.Recovering||actor.State==ActorState.Guard||actor.State==ActorState.Stagger||actor.State==ActorState.Dodge||actor.flight;
-                emitterWeight=interrupted?0:Mathf.MoveTowards(emitterWeight,upperShot?1:0,Time.unscaledDeltaTime/.045f);
+                emitterWeight=interrupted?0:Mathf.MoveTowards(emitterWeight,upperShot?1:0,GameTime.Delta/.045f);
                 animator.SetLayerWeight(emitterLayer,emitterWeight);
                 if(upperShot)
                 {

@@ -1,0 +1,1336 @@
+{
+  "name": "chapter-33-lastlight",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 6: the ribs, Old Tern, Idra and Hask at the pens, Hask's counter, Idra's plan, the Reach gate",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.idraHailed",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up from the landing until Sela looks up",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 22
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "the ribs overhead begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read the ribs overhead line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next the ribs overhead line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the ribs overhead line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read the ribs overhead line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next the ribs overhead line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the ribs overhead line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read the ribs overhead line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next the ribs overhead line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the ribs overhead line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read the ribs overhead line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next the ribs overhead line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release the ribs overhead line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish the ribs overhead",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.ribsSeen",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after the ribs overhead",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "on up the commons",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 22
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to Tern's hall 1/4",
+      "seconds": 6.33,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to Tern's hall 2/4",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to Tern's hall 3/4",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 54
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to Tern's hall 4/4",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 58.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "start Old Tern",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release start Old Tern",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Old Tern line 12",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Old Tern line 12",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Old Tern line 12",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish Old Tern",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.ternHeard",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after Old Tern",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down to the commons 1/5",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 54
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down to the commons 2/5",
+      "seconds": 5.18,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down to the commons 3/5",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down to the commons 4/5",
+      "seconds": 6.33,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 22
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "back down to the commons 5/5",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 26
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "toward the pens until Idra and Hask are heard",
+      "seconds": 4.85,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 25.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "Idra and Hask at the pens begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra and Hask at the pens line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra and Hask at the pens line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra and Hask at the pens line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish Idra and Hask at the pens",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.pensSeen",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after Idra and Hask at the pens",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "on to Hask at the pen gate",
+      "seconds": 6.06,
+      "navigate": true,
+      "point": {
+        "x": -23.4,
+        "y": 0,
+        "z": 26.4
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "greet Hask",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release greet Hask",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "hear Hask out",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:options",
+      "expectedUi": "options",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release before his choices",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "see what he trades",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "find the repair gel",
+      "seconds": 3,
+      "pickRow": "Repair Gel",
+      "until": "row:Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "buy repair gel up to the cap",
+      "seconds": 20,
+      "pickRow": "Repair Gel",
+      "buttons": [
+        "South"
+      ],
+      "stock": "cap",
+      "until": "stocked",
+      "expectedUi": "shop",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "leave Hask's counter",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Hask's counter",
+      "seconds": 0.3,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to the carving yard 1/6",
+      "seconds": 3.23,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 25.8
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to the carving yard 2/6",
+      "seconds": 4.85,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 26
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to the carving yard 3/6",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 22
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to the carving yard 4/6",
+      "seconds": 6.33,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to the carving yard 5/6",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "up to the carving yard 6/6",
+      "seconds": 3.91,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": 45.6
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "start Idra's plan",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release start Idra's plan",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "read Idra's plan line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "next Idra's plan line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release Idra's plan line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "finish Idra's plan",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "hoar.planTaken",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "release after Idra's plan",
+      "seconds": 0.5,
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 1/5",
+      "seconds": 3.91,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 2/5",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 3/5",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": -40,
+        "y": 0,
+        "z": 42
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 4/5",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": -57.0,
+        "y": 0,
+        "z": 42.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "west to the Reach gate 5/5",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": -60.0,
+        "y": 0,
+        "z": 42.0
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Lastlight"
+    },
+    {
+      "name": "through the Reach gate",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "FrozenHost"
+    },
+    {
+      "name": "release the Reach gate",
+      "seconds": 0.5,
+      "expectedScene": "FrozenHost"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

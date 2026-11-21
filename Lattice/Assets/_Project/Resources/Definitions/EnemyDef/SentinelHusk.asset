@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: SentinelHusk
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
+  collarPlate: {fileID: 0}
   id: SentinelHusk
   prefab: {fileID: 2651303975460094046, guid: 71a6526b79fc02f429f80fd05b414a5c, type: 3}
   bodySegment: {fileID: 0}
@@ -33,3 +35,12 @@ MonoBehaviour:
   lootTable: {fileID: 11400000, guid: 1897bdb7b69387b4181d35e4772452d3, type: 2}
   xp: 24
   boss: 0
+  scrip: 8
+  scrap: 2
+  displayName: 
+  bossMusicId: 
+  capsuleRadius: 0
+  capsuleHeight: 0
+  motion: 0
+  drawnScale: 1
+  heavyDeath: 1

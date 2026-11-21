@@ -1,0 +1,951 @@
+{
+  "name": "chapter-53-the-way-to-nacre",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 9: Harrowgate's field to the quay, the Picket's north end, the warp to Nacre Grave, Bryn at the outer marker, the outer tows, the tug",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "home.turnedForNacre",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 1/12",
+      "seconds": 5.02,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 72.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 2/12",
+      "seconds": 4.31,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 4.8,
+        "z": 66
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 3/12",
+      "seconds": 5.56,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 56
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 4/12",
+      "seconds": 3.42,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 52
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 5/12",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 6/12",
+      "seconds": 4.84,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 35
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 7/12",
+      "seconds": 3.07,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 32
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 8/12",
+      "seconds": 3.78,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 2.4,
+        "z": 27
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 9/12",
+      "seconds": 6.98,
+      "navigate": true,
+      "point": {
+        "x": 8.0,
+        "y": 0.0,
+        "z": 13.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 10/12",
+      "seconds": 4.33,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0.0,
+        "z": 10.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 11/12",
+      "seconds": 7.03,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0.0,
+        "z": 8.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "off the field and down through the town to the quay 12/12",
+      "seconds": 6.99,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 0.0,
+        "z": 7.6
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "to the quay's landing pad",
+      "seconds": 2.53,
+      "navigate": true,
+      "point": {
+        "x": -26.0,
+        "y": 0.0,
+        "z": 6.1
+      },
+      "tolerance": 0.4,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "launch for the Picket of Teeth",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:PicketOfTeeth",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "release launch for the Picket of Teeth",
+      "seconds": 0.5,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "toward the warp to Nacre",
+      "seconds": 4.5,
+      "navigate": true,
+      "point": {
+        "x": 32.0,
+        "y": 1,
+        "z": 772.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "settle at the warp to Nacre Grave",
+      "seconds": 6.81,
+      "navigate": true,
+      "point": {
+        "x": 36.1,
+        "y": 1,
+        "z": 776.4
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "PicketOfTeeth"
+    },
+    {
+      "name": "take the warp to Nacre Grave",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "scene:NacreGrave",
+      "expectedUi": "world",
+      "expectedForm": "Flight",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release take the warp to Nacre Grave",
+      "seconds": 0.5,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "first look at the wreck field",
+      "seconds": 2,
+      "expectedFlag": "home.turnedForNacre",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "east past the outer marker until Bryn speaks",
+      "seconds": 9.62,
+      "navigate": true,
+      "point": {
+        "x": 37.49,
+        "y": 1,
+        "z": 150.37
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "Bryn at the outer marker begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read Bryn at the outer marker line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next Bryn at the outer marker line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release Bryn at the outer marker line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "finish Bryn at the outer marker",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.nacreSpoken",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release after Bryn at the outer marker",
+      "seconds": 0.5,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "east past the outer marker",
+      "seconds": 9.62,
+      "navigate": true,
+      "point": {
+        "x": 37.49,
+        "y": 1,
+        "z": 150.37
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 20",
+      "seconds": 4.63,
+      "navigate": true,
+      "point": {
+        "x": 55.45,
+        "y": 1,
+        "z": 152.33
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 50",
+      "seconds": 14.06,
+      "navigate": true,
+      "point": {
+        "x": 120.86,
+        "y": 1,
+        "z": 101.42
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 80",
+      "seconds": 13.73,
+      "navigate": true,
+      "point": {
+        "x": 151.11,
+        "y": 1,
+        "z": 26.65
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "into the outer tows",
+      "seconds": 7.79,
+      "navigate": true,
+      "point": {
+        "x": 150.7,
+        "y": 1,
+        "z": -13.18
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "on into Nacre_TowsOuter",
+      "seconds": 2.16,
+      "navigate": true,
+      "point": {
+        "x": 150.7,
+        "y": 1,
+        "z": -14.3
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "lock Nacre_TowsOuter",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release lock Nacre_TowsOuter",
+      "seconds": 0.3,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsOuter round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsOuter round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsOuter round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsOuter round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsOuter round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsOuter round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsOuter round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsOuter round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsOuter round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pursue Nacre_TowsOuter round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "pulse Nacre_TowsOuter round 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Nacre_TowsOuter",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release pulse Nacre_TowsOuter round 4",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "Nacre_TowsOuter cleared",
+      "seconds": 3,
+      "until": "flag:clear.Nacre_TowsOuter",
+      "expectedFlag": "clear.Nacre_TowsOuter",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 110",
+      "seconds": 23.82,
+      "navigate": true,
+      "point": {
+        "x": 140.12,
+        "y": 1,
+        "z": -51.0
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "along the outer pass's quiet side, turn 140",
+      "seconds": 13.08,
+      "navigate": true,
+      "point": {
+        "x": 93.06,
+        "y": 1,
+        "z": -110.91
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "out round the tug's raft",
+      "seconds": 10.46,
+      "navigate": true,
+      "point": {
+        "x": 42.97,
+        "y": 1,
+        "z": -140.53
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle at the tug Welcome Back",
+      "seconds": 28.51,
+      "navigate": true,
+      "point": {
+        "x": 10.141041,
+        "y": 1,
+        "z": -145.02365
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "settle before hail the tug Welcome Back",
+      "seconds": 0.5,
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "hail the tug Welcome Back",
+      "seconds": 5,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "leftTrigger": 1,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the tug Welcome Back",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the tug Welcome Back line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the tug Welcome Back line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the tug Welcome Back line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the tug Welcome Back line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the tug Welcome Back line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the tug Welcome Back line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the tug Welcome Back line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the tug Welcome Back line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the tug Welcome Back line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the tug Welcome Back line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the tug Welcome Back line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the tug Welcome Back line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "read hail the tug Welcome Back line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "next hail the tug Welcome Back line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release hail the tug Welcome Back line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "finish hail the tug Welcome Back",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "home.tugFound",
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "release after hail the tug Welcome Back",
+      "seconds": 0.5,
+      "expectedScene": "NacreGrave"
+    },
+    {
+      "name": "the tug is found",
+      "seconds": 1,
+      "expectedFlag": "home.tugFound",
+      "expectedScene": "NacreGrave"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "deployed": [
+    "Taren",
+    "Idra"
+  ],
+  "wearBest": true
+}

@@ -24,7 +24,8 @@ namespace Lattice.UI
         /// <param name="from">Who's selling, the speaker of the conversation that opened it: their stock with their face on it, as the dialogue box draws them. It was a list on a black screen headed only 'Arch Market'.</param>
         public void Open(ShopInventory source,string from=null)
         {
-            inventory=source;seller=from;page=offset=0;feedback="";sellAsked=null;GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);
+            // No inventory named is the outfitter's, as it always was: Mira's own stock now (Outfitter), where it used to be every tier 1 part and every consumable in the catalogue.
+            inventory=source!=null?source:Outfitter;seller=from;page=offset=0;feedback="";sellAsked=null;GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);
             // The A that ended the conversation is often pressed twice: submit waits a moment.
             first.Begin();
             // A moment doesn't cover a thumb still tapping through someone's lines, and its next A bought a 240-scrip part nobody had read. So a shop a conversation opens lands on the page's toggle, which spends nothing: another tap only turns the page, with the cursor left on the toggle, and the first offer is one press down.
@@ -55,68 +56,162 @@ namespace Lattice.UI
             string trade=inventory!=null&&!string.IsNullOrEmpty(inventory.title)?inventory.title:"OUTFITTER";
             var heading=UiKit.Heading(panel.transform,"Heading",trade+(page==0?" · BUY":" · SELL")+"   "+state.scrip+" SCRIP",42,UiKit.TextColor);
             UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,390),new(1180,80));
+            // A seller's own price, said on the stall so a player sees why the prices changed.
+            // And what the story has brought to the counter (ShopInventory.note), on the same line: the two together at Corra's once the convoy is in.
+            string stallSays=string.Join("  ·  ",new[]{Discounted(inventory,state)?inventory.discountNote:null,Noted(inventory,state)?inventory.note:null}.Where(s=>!string.IsNullOrEmpty(s)));
+            if(page==0&&stallSays!=""){var priceNote=UiKit.Heading(panel.transform,"Discount",stallSays,26,UiKit.GoldColor);UiKit.Rect(priceNote.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,334),new(1180,40));}
             var buttons=new List<Selectable>();int row=0;
             void Add(string label,System.Action action,string name=null)
             {
                 var b=UiKit.Button(panel.transform,name??"ShopRow"+row,label,action);b.GetComponentInChildren<TMP_Text>().fontSize=30;
                 UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,260-row++*76),new(1180,62));buttons.Add(b);
             }
-            Add((page==0?"Sell parts":"Buy supplies")+"  ·  "+DeviceHints.Pages(),Switch);
-            var offers=new List<(string label,Action action)>();
-            int priceIndex=0;
-            int Price(int fallback){int i=priceIndex++;return inventory!=null&&inventory.prices!=null&&i<inventory.prices.Length?Mathf.Max(0,inventory.prices[i]):fallback;}
-            void Buy(string name,string says,string against,int cost,Func<string> give)
+            bool takesMaterials=inventory==null||inventory.buysMaterials;
+            Add((page==0?takesMaterials?"Sell parts and materials":"Sell parts":"Buy supplies")+"  ·  "+DeviceHints.Pages(),Switch);
+            // Each offer with what the row under the cursor has no room to say: a module's passive, the whole comparison, how many are carried.
+            // A row's leaner wording, for when its full one outruns it: the price is never what gives way.
+            var offers=new List<(string label,Action action,string detail,string lean)>();
+            void Buy(string name,string says,string against,int cost,string detail,Func<string> refuse,Func<string> give)
             {
                 offers.Add(($"{name}{says}  —  {cost} scrip{against}",()=>
                 {
-                    if(state.scrip<cost){feedback=$"Not enough scrip: {name} costs {cost}, you have {state.scrip}.";UiSounds.Error();}
+                    string why=refuse?.Invoke();
+                    if(why!=null){feedback=why;UiSounds.Error();}
+                    else if(state.scrip<cost){feedback=$"Not enough scrip: {name} costs {cost}, you have {state.scrip}.";UiSounds.Error();}
                     else{state.scrip-=cost;feedback=$"Purchased {name}.{give()}";}
                     Rebuild();
-                }));
+                },detail,$"{name}  —  {cost} scrip{against}"));
             }
             if(page==0)
             {
-                foreach(var part in (inventory!=null?inventory.parts??Array.Empty<TechPartDef>():GameCatalog.All<TechPartDef>().Where(p=>p.tier==1)).OrderBy(p=>p.slot))
+                // Every offer has its own price, in the order the stall keeps them (ShopInventory.offers). The prices were one list read by position after the parts were sorted by slot,
+                // and a zone with no inventory sold the whole catalogue of consumables at 20: a stall with nothing authored now has nothing on the counter.
+                foreach(var offer in Stock(inventory,state))
                 {
-                    var p=part;
-                    Buy(p.displayName,"  ·  "+PartText.Effect(p),PartText.Against(state,active,p),Price(60),()=>
+                    var o=offer;int cost=Price(inventory,o,state);
+                    var part=GameCatalog.Find<TechPartDef>(o.id);var consumable=part==null?GameCatalog.Find<ConsumableDef>(o.id):null;var material=part==null&&consumable==null?GameCatalog.Find<MaterialDef>(o.id):null;
+                    if(part!=null)
                     {
-                        var bag=RpgServices.Inventory;var wearer=bag.EquipIfEmpty(bag.GivePart(p),p);
-                        return wearer!=null?$" Equipped on {DisplayNames.Speaker(wearer.id)}.":" Equip it from Gear.";
-                    });
+                        string does=PartText.Effects(part),against=PartText.Compare(state,active,part);
+                        Buy(part.displayName,"  ·  "+PartText.Effect(part),PartText.Against(state,active,part),cost,does!=""?does+"\n"+against:against,null,()=>
+                        {
+                            // A shop's part comes clean: what's found or made can roll affixes, what's bought never does.
+                            var bag=RpgServices.Inventory;var wearer=bag.EquipIfEmpty(bag.GivePart(part),part);
+                            return wearer!=null?$" Equipped on {DisplayNames.Speaker(wearer.id)}.":" Equip it from Gear.";
+                        });
+                    }
+                    else if(consumable!=null)
+                    {
+                        string restores=PartText.Restores(consumable),carried=PartText.Carried(state,consumable);
+                        // A draught's or a meal's words are the note's: with them on the row a price ran off its end.
+                        Buy(consumable.displayName,restores.Length<=RowWords?"  ·  "+restores:"","  ·  "+carried,cost,$"{consumable.displayName} {restores}.\nYou carry {carried}.",
+                            ()=>RpgServices.Inventory.Full(consumable)?$"You can't carry more {consumable.displayName}: {Inventory.Cap(consumable)} is the most.":null,
+                            ()=>{state.consumables[consumable.id]=RpgServices.Inventory.Held(consumable.id)+1;return $" You carry {PartText.Carried(state,consumable)}.";});
+                    }
+                    else if(material!=null)
+                    {
+                        int lot=o.lot>0?o.lot:3;
+                        Buy(material.displayName+" ×"+lot,"","",cost,$"You hold {RpgServices.Inventory.Count(material.id)} {material.displayName}.",null,()=>{RpgServices.Inventory.Give(material.id,lot);return "";});
+                    }
                 }
-                foreach(var consumable in inventory!=null?inventory.consumables??Array.Empty<ConsumableDef>():GameCatalog.All<ConsumableDef>())
-                {var c=consumable;Buy(c.displayName,"  ·  "+PartText.Restores(c),"",Price(20),()=>{state.consumables.TryGetValue(c.id,out int n);state.consumables[c.id]=n+1;return "";});}
-                foreach(var material in inventory!=null?inventory.materials??Array.Empty<MaterialDef>():GameCatalog.All<MaterialDef>().Where(m=>m.id=="ScrapAlloy"||m.id=="LatticeFilament"))
-                {var m=material;Buy(m.displayName+" ×3","","",Price(12),()=>{RpgServices.Inventory.Give(m.id,3);return "";});}
             }
-            else foreach(var item in state.parts.ToArray())
+            else
             {
-                var p=item;var wearer=RpgServices.Inventory.Wearer(p);
-                var def=GameCatalog.Find<TechPartDef>(p.definitionId);int value=20+(def!=null?def.tier-1:0)*20+p.upgrade*5;string name=def!=null?def.displayName:p.definitionId;
-                string says=def!=null?$"  ·  {PartText.Effect(def,p)}":"";
-                offers.Add(($"{PartText.Mark(wearer,active)}{name} +{p.upgrade}{PartText.Affixes(p)}{says}  —  {value} scrip",()=>
+                foreach(var item in state.parts.ToArray())
                 {
-                    if(wearer!=null){feedback=$"{name} is on {DisplayNames.Speaker(wearer.id)}. Take it off in Gear before selling it.";UiSounds.Error();}
-                    else if((p.upgrade>0||def!=null&&def.tier>1)&&sellAsked!=p.instanceId){sellAsked=p.instanceId;feedback=$"Press again to sell {name} for {value} scrip.";}
-                    // The next part slides under the cursor: a repeat press mustn't sell that too.
-                    else if(state.parts.Remove(p)){sellAsked=null;state.scrip+=value;feedback=$"Sold {name} for {value} scrip.";first.Begin();}
-                    Rebuild();
-                }));
+                    var p=item;var wearer=RpgServices.Inventory.Wearer(p);
+                    var def=GameCatalog.Find<TechPartDef>(p.definitionId);int value=20+(def!=null?def.tier-1:0)*20+p.upgrade*5;string name=def!=null?def.displayName:p.definitionId;
+                    string says=def!=null?$"  ·  {PartText.Effect(def,p)}":"";
+                    offers.Add(($"{PartText.Mark(wearer,active)}{name} +{p.upgrade}{PartText.Affixes(p)}{says}  —  {value} scrip",()=>
+                    {
+                        if(wearer!=null){feedback=$"{name} is on {DisplayNames.Speaker(wearer.id)}. Take it off in Gear before selling it.";UiSounds.Error();}
+                        else if((p.upgrade>0||def!=null&&def.tier>1||p.affixes.Count>0)&&sellAsked!=p.instanceId){sellAsked=p.instanceId;feedback=$"Press again to sell {name} for {value} scrip.";}
+                        // The next part slides under the cursor: a repeat press mustn't sell that too.
+                        else if(state.parts.Remove(p)){sellAsked=null;state.scrip+=value;feedback=$"Sold {name} for {value} scrip.";first.Begin();}
+                        Rebuild();
+                    },def!=null?PartText.Effects(def,p):"",$"{PartText.Mark(wearer,active)}{name} +{p.upgrade}{says}  —  {value} scrip"));
+                }
+                // Spare materials sell too (prog160): five at a time, since they come by the dozen; a boss's or an elite's one at a time, and asked twice.
+                if(takesMaterials)foreach(var held in state.materials.Where(m=>m.Value>0).Select(m=>m.Key).ToArray())
+                {
+                    var material=GameCatalog.Find<MaterialDef>(held);if(material==null||material.value<=0)continue;
+                    string id=held,name=material.displayName;int count=RpgServices.Inventory.Count(id),lot=material.rare?1:Mathf.Min(MaterialLot,count),pay=lot*material.value;
+                    offers.Add(($"{name} ×{count}  —  sell {lot} for {pay} scrip",()=>
+                    {
+                        if(material.rare&&sellAsked!=id){sellAsked=id;feedback=$"Press again to sell {name} for {pay} scrip. It's rare: a recipe, a last upgrade or a re-tune may want it.";}
+                        else{int paid=RpgServices.Inventory.SellMaterial(id,lot);sellAsked=null;feedback=$"Sold {lot} {name} for {paid} scrip.";if(RpgServices.Inventory.Count(id)<=0)first.Begin();}
+                        Rebuild();
+                    },$"{material.value} scrip each."+(material.rare?" Rare.":""),null));
+                }
             }
             if(offset>=offers.Count)offset=offers.Count>0?(offers.Count-1)/PerPage*PerPage:0;
-            foreach(var offer in offers.Skip(offset).Take(PerPage))Add(offer.label,offer.action);
+            var details=new Dictionary<string,string>();TMP_Text note=null;
+            foreach(var offer in offers.Skip(offset).Take(PerPage))
+            {
+                string detail=offer.detail,rowName="ShopRow"+row;details[rowName]=detail;Add(offer.label,offer.action);
+                if(offer.lean!=null)PartText.Narrow((Button)buttons[buttons.Count-1],offer.label,offer.lean);
+                // Moving onto a row lets it speak; the answer to the last press stays until then.
+                buttons[buttons.Count-1].gameObject.AddComponent<SelectNote>().selected=()=>{if(settling||note==null)return;feedback="";PartText.Fit(note,(detail??"").Split('\n'));};
+            }
             // Focus goes by role: an index would land the next A on a buy.
             if(offers.Count>PerPage)Add(UiKit.PagerLabel(offset,PerPage,offers.Count),()=>{offset=offset+PerPage<offers.Count?offset+PerPage:0;sellAsked=null;Rebuild("Pager");},"Pager");
             Add("Back",()=>{UiSounds.Cancel();Close();},"ShopBack");
-            string said=feedback!=""?feedback:page==1?"Only parts can be sold here. Anything worn comes off in Gear first.":"";
-            var note=UiKit.Text(panel.transform,"Feedback",said,25,UiKit.TextColor);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,-430),new(1180,70));
+            string said=feedback!=""?feedback:page==1?(takesMaterials?"Parts and spare materials can be sold here.":"Only parts can be sold here.")+" Anything worn comes off in Gear first.":offers.Count==0?"Nothing on the counter today.":"";
+            note=UiKit.Text(panel.transform,"Feedback",said,25,UiKit.TextColor);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,-430),new(1180,70));
             UiKit.LinkVertical(buttons.ToArray());
             Selectable target=focus!=null?buttons.FirstOrDefault(b=>b.name==focus):null;
             // The last row went away with a sale: the nearest one above it.
             if(target==null&&focus!=null&&focus.StartsWith("ShopRow")&&int.TryParse(focus.Substring(7),out int at))
                 for(int i=at-1;i>=0&&target==null;i--){string above="ShopRow"+i;target=buttons.FirstOrDefault(b=>b.name==above);}
-            EventSystem.current.SetSelectedGameObject((target!=null?target:buttons[0]).gameObject);
+            var landing=(target!=null?target:buttons[0]).gameObject;
+            settling=true;EventSystem.current.SetSelectedGameObject(landing);settling=false;
+            // With nothing just said, the row the cursor lands on says its piece at once.
+            if(feedback==""&&page==0&&details.TryGetValue(landing.name,out string first0)&&!string.IsNullOrEmpty(first0))PartText.Fit(note,first0.Split('\n'));
+        }
+        /// <summary>The cursor is being put where it belongs after a redraw, not moved by the player: the answer to the last press isn't to be talked over.</summary>
+        bool settling;
+        /// <summary>How long a consumable's effect can be and still share its row with a price.</summary>
+        const int RowWords=34;
+        /// <summary>How many of a common material one press sells.</summary>
+        public const int MaterialLot=5;
+        /// <summary>What a stall has on its counter now: its offers, less any still waiting on a flag (a cook's dishes, until her baskets are full).</summary>
+        public static IEnumerable<ShopOffer> Stock(ShopInventory inventory,GameState state)
+        {
+            if(inventory==null||inventory.offers==null)yield break;
+            foreach(var offer in inventory.offers)
+                if(!string.IsNullOrEmpty(offer.id)&&(string.IsNullOrEmpty(offer.requires)||state.flags.TryGetValue(offer.requires,out bool met)&&met))yield return offer;
+        }
+        /// <summary>The parts a stall sells, each with its price, whatever flag an offer waits on: what a check or a ledger asks of a stall.</summary>
+        public static IEnumerable<(TechPartDef part,int price)> Parts(ShopInventory inventory)
+        {
+            if(inventory==null||inventory.offers==null)yield break;
+            foreach(var offer in inventory.offers){var part=string.IsNullOrEmpty(offer.id)?null:GameCatalog.Find<TechPartDef>(offer.id);if(part!=null)yield return (part,offer.price);}
+        }
+        /// <summary>The stall a conversation opens: the seller's own in this zone ("Rootmarket_Binna") where a zone has more than one, or the zone's.
+        /// A talk that opens a shop where nobody has stocked one gets an empty counter, not the outfitter's: a new town's missing stall shows as missing.</summary>
+        /// <summary>Whether this seller's own price holds now (ShopInventory.discountFlag set).</summary>
+        /// <summary>Whether the stall's story line stands now (ShopInventory.noteFlag set).</summary>
+        public static bool Noted(ShopInventory inventory,GameState state)=>inventory!=null&&!string.IsNullOrEmpty(inventory.noteFlag)&&!string.IsNullOrEmpty(inventory.note)&&state.flags.TryGetValue(inventory.noteFlag,out bool set)&&set;
+        public static bool Discounted(ShopInventory inventory,GameState state)=>inventory!=null&&!string.IsNullOrEmpty(inventory.discountFlag)&&state.flags.TryGetValue(inventory.discountFlag,out bool set)&&set;
+        /// <summary>What an offer costs to buy here now: its price, times the seller's discount while it holds.</summary>
+        public static int Price(ShopInventory inventory,ShopOffer offer,GameState state)=>Mathf.Max(0,Discounted(inventory,state)?Mathf.RoundToInt(offer.price*inventory.discount):offer.price);
+        public static ShopInventory For(string zone,string seller)
+        {
+            var own=string.IsNullOrEmpty(zone)||string.IsNullOrEmpty(seller)?null:GameCatalog.Find<ShopInventory>(zone+"_"+seller);
+            if(own==null&&!string.IsNullOrEmpty(zone))own=GameCatalog.Find<ShopInventory>(zone);
+            return own!=null?own:Unstocked;
+        }
+        /// <summary>The outfitter's stock, Mira's on the Decks: what a shop opened with no inventory sells.</summary>
+        public static ShopInventory Outfitter=>GameCatalog.Find<ShopInventory>("Hub_Decks");
+        static ShopInventory unstocked;
+        /// <summary>A stall with nothing on its counter, which still buys.</summary>
+        public static ShopInventory Unstocked
+        {
+            get
+            {
+                if(unstocked==null){unstocked=ScriptableObject.CreateInstance<ShopInventory>();unstocked.name="Unstocked";unstocked.title="";unstocked.offers=Array.Empty<ShopOffer>();unstocked.hideFlags=HideFlags.HideAndDontSave;}
+                return unstocked;
+            }
         }
     }
 }

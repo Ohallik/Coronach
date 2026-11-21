@@ -32,3 +32,11 @@ MonoBehaviour:
   stepText:
   - Take a ration crate from the scavengers' camp in Lantern Gorge
   - Bring the rations to the orchard shed
+  rewardsRolled: 0
+  main: 0
+  chapter: 2
+  stepTargets: []
+  closingLine: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 

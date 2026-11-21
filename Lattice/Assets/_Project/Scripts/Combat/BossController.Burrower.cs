@@ -14,6 +14,16 @@ namespace Lattice.Combat
     /// </summary>
     public sealed partial class BossController
     {
+        static readonly Kit BurrowerKit=Register(new Kit
+        {
+            id="Burrower",title="THE BURROWER",epithet="Sorrel's drill rig, chasing an evacuation signal",thresholds=new[]{.6f,.3f},
+            choose=(boss,hero)=>boss.ChooseBurrower(hero),
+            moves={["DrillCharge"]=boss=>boss.DrillCharge(boss.Phase>=2?2:1),["SpoilToss"]=boss=>boss.SpoilToss(),["TailSweep"]=boss=>boss.TailSweep(),["Burrow"]=boss=>boss.Burrow(),["SeismicRings"]=boss=>boss.SeismicRings()},
+            signature=phase=>phase==2?"Burrow":phase>=3?"SeismicRings":null,
+            shift=boss=>boss.SummonMites(boss.HealthPhase>=3?2:2),
+            fightGoal=(boss,label)=>"Stop the Burrower",
+            occlusion=true,ending=Ending.ShutDown,
+        });
         bool burrowed;
         public bool Burrowed=>burrowed;
         float BurrowerRest=>Phase>=3?3f:Phase>=2?3.6f:4.2f;

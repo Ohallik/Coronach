@@ -2,6 +2,8 @@
   "name": "chapter-08-hushwell-nursery",
   "scene": "Title",
   "starterParty": false,
+  "wearBest": true,
+  "autoHeal": true,
   "settleSeconds": 5,
   "frameCap": 60,
   "screenshotInterval": 0,
@@ -124,27 +126,18 @@
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_0",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
     {
-      "name": "repair gel if hurt gallery A Scrapmites",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release gallery A Scrapmites",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "finish gallery A Scrapmites",
-      "seconds": 12,
+      "seconds": 30,
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_0",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
@@ -156,7 +149,7 @@
     },
     {
       "name": "both heroes ready after gallery A Scrapmites",
-      "seconds": 0.2,
+      "seconds": 20,
       "until": "partyAlive",
       "expectedScene": "Hushwell"
     },
@@ -230,27 +223,18 @@
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_1",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
     {
-      "name": "repair gel if hurt gallery B Scrapmites",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release gallery B Scrapmites",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "finish gallery B Scrapmites",
-      "seconds": 12,
+      "seconds": 30,
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_1",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
@@ -262,7 +246,7 @@
     },
     {
       "name": "both heroes ready after gallery B Scrapmites",
-      "seconds": 0.2,
+      "seconds": 20,
       "until": "partyAlive",
       "expectedScene": "Hushwell"
     },
@@ -372,27 +356,18 @@
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_2",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
     {
-      "name": "repair gel if hurt chamber 1 Ridgehounds",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release chamber 1 Ridgehounds",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "finish chamber 1 Ridgehounds",
-      "seconds": 14,
+      "seconds": 30,
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_2",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
@@ -404,7 +379,7 @@
     },
     {
       "name": "both heroes ready after chamber 1 Ridgehounds",
-      "seconds": 0.2,
+      "seconds": 20,
       "until": "partyAlive",
       "expectedScene": "Hushwell"
     },
@@ -490,27 +465,18 @@
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_3",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
     {
-      "name": "repair gel if hurt chamber 3 Ridgehounds",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release chamber 3 Ridgehounds",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "finish chamber 3 Ridgehounds",
-      "seconds": 14,
+      "seconds": 30,
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
       ],
+      "stopWhen": "flag:clear.Hushwell_3",
       "expectedScene": "Hushwell",
       "evadeTelegraphs": true
     },
@@ -522,12 +488,13 @@
     },
     {
       "name": "both heroes ready after chamber 3 Ridgehounds",
-      "seconds": 0.2,
+      "seconds": 20,
       "until": "partyAlive",
       "expectedScene": "Hushwell"
     },
     {
       "name": "the Bellows entry",
+      "bossDoor": "BellowsBelow",
       "seconds": 8.6,
       "navigate": true,
       "point": {
@@ -595,17 +562,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel after the west organ",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release west",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "to the east pressure organ",
       "seconds": 10.5,
       "navigate": true,
@@ -642,17 +598,6 @@
       ],
       "until": "targetDown",
       "rangedTolerance": 9,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel after the east organ",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release east",
-      "seconds": 0.45,
       "expectedScene": "Hushwell"
     },
     {
@@ -698,17 +643,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 1",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release Bellows 1",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "chase and melee the Bellows 2",
       "evadeTelegraphs": true,
       "seconds": 16,
@@ -734,17 +668,6 @@
     },
     {
       "name": "Pulse release 2",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel during the Bellows 2",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release Bellows 2",
       "seconds": 0.45,
       "expectedScene": "Hushwell"
     },
@@ -778,17 +701,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 3",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release Bellows 3",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "chase and melee the Bellows 4",
       "evadeTelegraphs": true,
       "seconds": 16,
@@ -818,17 +730,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 4",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release Bellows 4",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "chase and melee the Bellows 5",
       "evadeTelegraphs": true,
       "seconds": 16,
@@ -854,17 +755,6 @@
     },
     {
       "name": "Pulse release 5",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel during the Bellows 5",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel release Bellows 5",
       "seconds": 0.45,
       "expectedScene": "Hushwell"
     },
@@ -899,18 +789,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 6",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell",
-      "stopWhen": "flag:bossdown.BellowsBelow"
-    },
-    {
-      "name": "gel release Bellows 6",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "chase and melee the Bellows 7",
       "evadeTelegraphs": true,
       "seconds": 16,
@@ -937,18 +815,6 @@
     },
     {
       "name": "Pulse release 7",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel during the Bellows 7",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell",
-      "stopWhen": "flag:bossdown.BellowsBelow"
-    },
-    {
-      "name": "gel release Bellows 7",
       "seconds": 0.45,
       "expectedScene": "Hushwell"
     },
@@ -983,18 +849,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 8",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell",
-      "stopWhen": "flag:bossdown.BellowsBelow"
-    },
-    {
-      "name": "gel release Bellows 8",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "chase and melee the Bellows 9",
       "evadeTelegraphs": true,
       "seconds": 16,
@@ -1021,18 +875,6 @@
     },
     {
       "name": "Pulse release 9",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
-      "name": "gel during the Bellows 9",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell",
-      "stopWhen": "flag:bossdown.BellowsBelow"
-    },
-    {
-      "name": "gel release Bellows 9",
       "seconds": 0.45,
       "expectedScene": "Hushwell"
     },
@@ -1067,18 +909,6 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 10",
-      "seconds": 0.18,
-      "leftTrigger": 1,
-      "expectedScene": "Hushwell",
-      "stopWhen": "flag:bossdown.BellowsBelow"
-    },
-    {
-      "name": "gel release Bellows 10",
-      "seconds": 0.45,
-      "expectedScene": "Hushwell"
-    },
-    {
       "name": "chase and melee the Bellows 11",
       "evadeTelegraphs": true,
       "seconds": 16,
@@ -1109,15 +939,78 @@
       "expectedScene": "Hushwell"
     },
     {
-      "name": "gel during the Bellows 11",
+      "name": "chase and melee the Bellows 12",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "Pulse Burst on the Bellows 12",
       "seconds": 0.18,
-      "leftTrigger": 1,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
       "expectedScene": "Hushwell",
       "stopWhen": "flag:bossdown.BellowsBelow"
     },
     {
-      "name": "gel release Bellows 11",
+      "name": "Pulse release 12",
       "seconds": 0.45,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "chase and melee the Bellows 13",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "Pulse Burst on the Bellows 13",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "expectedScene": "Hushwell",
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 13",
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "chase and melee the Bellows 14",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12,
       "expectedScene": "Hushwell"
     },
     {
@@ -1128,7 +1021,7 @@
     },
     {
       "name": "both heroes ready after the Bellows",
-      "seconds": 0.2,
+      "seconds": 20,
       "until": "partyAlive",
       "expectedScene": "Hushwell"
     },

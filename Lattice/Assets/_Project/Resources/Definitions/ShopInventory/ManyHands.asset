@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156aeac18c8f5bf459154ec1e4bcd3aa, type: 3}
+  m_Name: ManyHands
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ShopInventory
+  title: PROVISIONS
+  offers:
+  - id: RepairGel
+    price: 24
+    lot: 0
+    requires: 
+  - id: RepairSalve
+    price: 60
+    lot: 0
+    requires: 
+  - id: ChargeCell
+    price: 28
+    lot: 0
+    requires: 
+  - id: ChargeBank
+    price: 60
+    lot: 0
+    requires: 
+  - id: SyncTonic
+    price: 90
+    lot: 0
+    requires: 
+  - id: RelinkSpike
+    price: 90
+    lot: 0
+    requires: 
+  - id: SurgeDraught
+    price: 50
+    lot: 0
+    requires: 
+  - id: PlatingWax
+    price: 50
+    lot: 0
+    requires: 
+  - id: Quickening
+    price: 50
+    lot: 0
+    requires: 
+  - id: RiverSkewer
+    price: 18
+    lot: 0
+    requires: 
+  - id: PodStew
+    price: 24
+    lot: 0
+    requires: 
+  - id: SpiceCake
+    price: 24
+    lot: 0
+    requires: 
+  buysMaterials: 1

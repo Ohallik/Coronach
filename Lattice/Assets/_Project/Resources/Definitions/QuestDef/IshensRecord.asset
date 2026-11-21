@@ -32,3 +32,11 @@ MonoBehaviour:
   stepText:
   - Recover the record plates from the lit mirror stands in the Sunken Relay
   - Bring the plates to Ishen at the archive
+  rewardsRolled: 0
+  main: 0
+  chapter: 2
+  stepTargets: []
+  closingLine: 
+  storyFlags: []
+  cardFlag: 
+  cardBody: 

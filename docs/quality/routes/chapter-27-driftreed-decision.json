@@ -1,0 +1,961 @@
+{
+  "name": "chapter-27-driftreed-decision",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 4's close: the chart to Driftreed, Ona decides, Abri's call on the stage walk, the chart to Tallow, the new dock into Many Hands",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "autosave",
+      "expectedUi": "world",
+      "expectedFlag": "wend.lampCarried",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "open the quest log",
+      "seconds": 0.6,
+      "buttons": [
+        "Select"
+      ],
+      "until": "ui:pause",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the quest log",
+      "seconds": 0.3,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "turn to the chart",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder"
+      ],
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "release the turn",
+      "seconds": 0.4,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "find Driftreed on the chart",
+      "seconds": 8,
+      "pickRow": "Stop_Driftreed",
+      "buttons": [
+        "South"
+      ],
+      "until": "row:Travel",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "read the question for Driftreed",
+      "seconds": 0.6,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "DrownedWaystation"
+    },
+    {
+      "name": "travel to Driftreed",
+      "seconds": 25,
+      "pickRow": "Travel",
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:Driftreed",
+      "pauseUi": "pause",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release after travelling to Driftreed",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 1/7",
+      "seconds": 5.38,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 18
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 2/7",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 3/7",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0,
+        "z": 46.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 4/7",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 5/7",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 6/7",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 78.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "up the stage walk to Ona 7/7",
+      "seconds": 2.6,
+      "navigate": true,
+      "point": {
+        "x": 0.5,
+        "y": 0,
+        "z": 80.1
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "start Ona decides",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release start Ona decides",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Ona decides line 11",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Ona decides line 11",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Ona decides line 11",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "finish Ona decides",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wend.decided",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release after Ona decides",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back down to the stage 1/5",
+      "seconds": 2.6,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 78.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back down to the stage 2/5",
+      "seconds": 3.29,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back down to the stage 3/5",
+      "seconds": 8.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back down to the stage 4/5",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0,
+        "z": 46.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "back down to the stage 5/5",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 34
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "down the stage walk until Abri calls",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 18
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "Abri's call about the name begins",
+      "seconds": 3,
+      "until": "ui:dialogue",
+      "expectedUi": "dialogue",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read Abri's call about the name line 10",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "next Abri's call about the name line 10",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release Abri's call about the name line 10",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "finish Abri's call about the name",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter4.complete",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release after Abri's call about the name",
+      "seconds": 0.5,
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "open the quest log",
+      "seconds": 0.6,
+      "buttons": [
+        "Select"
+      ],
+      "until": "ui:pause",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the quest log",
+      "seconds": 0.3,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "turn to the chart",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder"
+      ],
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "release the turn",
+      "seconds": 0.4,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "find TallowDrift on the chart",
+      "seconds": 8,
+      "pickRow": "Stop_TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "until": "row:Travel",
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "read the question for TallowDrift",
+      "seconds": 0.6,
+      "pauseUi": "pause",
+      "expectedUi": "pause",
+      "expectedScene": "Driftreed"
+    },
+    {
+      "name": "travel to TallowDrift",
+      "seconds": 25,
+      "pickRow": "Travel",
+      "buttons": [
+        "South"
+      ],
+      "until": "scene:TallowDrift",
+      "pauseUi": "pause",
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after travelling to TallowDrift",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to the pressure lift",
+      "seconds": 16.93,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "launch from Tallow",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "toward the convoy",
+      "seconds": 5.71,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -34
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "settle at the dock to Many Hands",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -40.4
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "dock at Many Hands",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "release dock",
+      "seconds": 0.5,
+      "expectedScene": "ManyHands"
+    },
+    {
+      "name": "first look at the dock",
+      "seconds": 2,
+      "expectedFlag": "chapter4.complete",
+      "expectedScene": "ManyHands"
+    }
+  ],
+  "autoHeal": true,
+  "useExtra": true,
+  "wearBest": true
+}

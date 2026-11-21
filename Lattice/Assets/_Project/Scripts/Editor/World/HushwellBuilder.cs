@@ -92,11 +92,15 @@ namespace Lattice.EditorTools
             var spit=ArenaBuilder.Asset<AttackDef>("BellowsSpit",a=>{a.damage=16;a.range=14;a.telegraph=.9f;a.cooldown=2.2f;a.projectile=true;a.type=DamageType.Kinetic;});
             var loot=ArenaBuilder.Asset<LootTable>("BellowsBelow",l=>l.entries=new[]{new LootEntry{id="HuskCore",count=2,chance=1},new LootEntry{id="RidgeCrystal",count=3,chance=1}});
             ArenaBuilder.Asset<EnemyDef>("BellowsBelow",e=>{e.id="BellowsBelow";e.archetype=EnemyArchetype.Spitter;e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.boss=true;
-                e.integrity=35000;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
+                e.integrity=33500;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
+            // 33,500 since November 20 (35,000 before): on the final tree the chapter's party read 465 to 487 a second flat out against it where it had read 487 to 530,
+            // which put a person at a quarter of that on the five-minute ceiling (301 s). At 33,500 that person has 284 s and the replay party about 2 min 50 s (D331).
+            // The asset (Resources/Definitions/EnemyDef/BellowsBelow.asset) was edited to match by hand: this builder rebuilds the whole cave.
             // The cave starts its chapter quest on entry; Bellows and the nursery finish it.
             ArenaBuilder.Asset<QuestDef>("Hushwell",q=>{q.id="Hushwell";q.title="What the Drill Found";
                 q.steps=new[]{new Objective{kind=ObjectiveKind.Kill,target="BellowsBelow",count=1},new Objective{kind=ObjectiveKind.Interact,target="HushwellNursery",count=1}};
                 q.rewardXp=220;q.rewardScrip=150;q.flagsOnComplete=new string[0];});
+            ContentScaffold.Stamp();
             AssetDatabase.SaveAssets();return zone;
         }
 

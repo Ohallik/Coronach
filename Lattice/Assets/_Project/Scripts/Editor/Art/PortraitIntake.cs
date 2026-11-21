@@ -18,7 +18,8 @@ namespace Lattice.EditorTools
         public static void ImportNamed()=>BatchTools.Run(()=>
         {
             var names=(DevArgs.Value("-portrait-names")??"").Split(new[]{','},StringSplitOptions.RemoveEmptyEntries);
-            if(names.Length==0||names.Any(n=>!n.EndsWith("_Natural")&&!n.EndsWith("_Shaped")))throw new InvalidOperationException("-portrait-names needs Name_Natural/Name_Shaped entries");
+            // A second sheet is the hero's other ground form, whatever it is called: Shaped for the Vael, Braced for Idra. It binds portraitShaped.
+            if(names.Length==0||names.Any(n=>!n.EndsWith("_Natural")&&!n.EndsWith("_Shaped")&&!n.EndsWith("_Braced")))throw new InvalidOperationException("-portrait-names needs Name_Natural, Name_Shaped or Name_Braced entries");
             ImportSheets(names,false);
         });
         static void ImportSheets(string[] Sheets,bool requireDefinition)

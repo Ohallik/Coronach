@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: WalkingCanopy
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: WalkingCanopy
+  scene: WalkingCanopy
+  kind: 1
+  cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 0b2f6bcfe3838df4f86105e3897558fe, type: 2}
+  ambientAudio: {fileID: 8300000, guid: 4ae8b28fc8ca10f4c9d824a1a4b5eadb, type: 3}
+  ambientVolume: 0.22
+  musicId: Riverbed Stomp
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  enemyThreat: 1.1
+  cameraClearsScenery: 1
+  skybox: {fileID: 0}
+  displayName: The Walking Canopy
+  brightFloor: 0
+  fightMusicId: 
+  pocketMusicId: 
+  shopMusicId: 
+  chapter: 3
+  quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

@@ -16,3 +16,6 @@ MonoBehaviour:
   displayName: Husk Core
   icon: {fileID: 0}
   stack: 999
+  value: 10
+  rare: 0
+  chapter: 1

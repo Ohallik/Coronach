@@ -1,0 +1,222 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: ReedRoad
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: ReedRoad
+  title: Breathing Room
+  description: The convoy is running out of air, and Driftreed's weavers won't send
+    a mat anywhere without a weaver to mend it.
+  steps:
+  - kind: 5
+    target: wend.charted
+    count: 1
+  - kind: 1
+    target: SporeVeil
+    count: 1
+  - kind: 5
+    target: wend.beaconRelit
+    count: 1
+  - kind: 1
+    target: Driftreed
+    count: 1
+  - kind: 5
+    target: wend.onaHeard
+    count: 1
+  - kind: 5
+    target: wend.tideTurned
+    count: 1
+  - kind: 5
+    target: wend.lureLearned
+    count: 1
+  - kind: 4
+    target: Pump
+    count: 2
+  - kind: 5
+    target: wend.pimFound
+    count: 1
+  - kind: 4
+    target: LastPump
+    count: 1
+  - kind: 2
+    target: Rotbloom
+    count: 1
+  - kind: 5
+    target: wend.decided
+    count: 1
+  rewardXp: 1000
+  rewardScrip: 600
+  rewards:
+  - id: DrivesT3
+    count: 1
+  - id: ReedWeave
+    count: 3
+  flagsOnComplete: []
+  stepText:
+  - Teach Pell's lantern the lane to Wendmire
+  - Take the Wendmire warp off Tallow's approach
+  - Follow Maru's beacons and relight the dark one
+  - Come down dark through the tide-gate to Driftreed
+  - Hold the pilots' line, then ask Ona Sedge about mats
+  - Ask Maru Wend to take you into the mire
+  - 'Follow Maru''s lamp across the mire: two short, one long'
+  - Run the pumps that drain the hall and the lower gallery
+  - Find Ona's apprentice in the lower gallery
+  - Run the last pump, at the great hall's door
+  - Kill the Rotbloom
+  - Go back to Ona Sedge and hear what Driftreed decides
+  rewardsRolled: 1
+  main: 1
+  chapter: 4
+  stepTargets:
+  - scene: TallowDrift
+    via: []
+    speaker: Pell
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: SporeVeil
+    via:
+    - TallowApproach
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: SporeVeil
+    via: []
+    speaker: 
+    report: DeadBeacon
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Driftreed
+    via:
+    - SporeVeil
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Driftreed
+    via: []
+    speaker: Ona
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Driftreed
+    via: []
+    speaker: Maru
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: 
+    report: LureLesson
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: 
+    report: Pump
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: Pim
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: 
+    report: LastPump
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: DrownedWaystation
+    via:
+    - Driftreed
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  - scene: Driftreed
+    via:
+    - DrownedWaystation
+    speaker: Ona
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  closingLine: 'Chapter 4 complete. Many Hands has a dock off Tallow Drift, and a
+    tug waiting with a ledger: launch for it.'
+  next:
+    scene: ManyHands
+    via:
+    - TallowApproach
+    - SporeVeil
+    speaker: Keeper
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
+  storyFlags:
+  - wend.maruHailed
+  - wend.beacon1
+  - wend.beacon2
+  - wend.beacon3
+  - wend.arrived
+  - wend.arrivalSeen
+  - wend.lineHeld
+  - met.Maru
+  - met.Ona
+  - wend.mireEntered
+  - wend.pump1
+  - wend.pump2
+  - wend.pump3
+  - wend.porticoReached
+  - wend.hallSeen
+  - wend.bloomSeen
+  - bossdown.Rotbloom
+  - wend.rotbloomDead
+  - wend.lampCarried
+  - chapter4.complete
+  cardFlag: chapter4.complete
+  cardBody: 'Driftreed''s weavers are coming up on their own rafts, tied to nobody,
+    and the mire has only its own lamps again. The convoy has a name now: Many Hands.'
+  letGoAt: 

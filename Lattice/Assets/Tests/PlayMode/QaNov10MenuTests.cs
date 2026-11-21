@@ -68,7 +68,8 @@ namespace Lattice.Tests.PlayMode
         static GameObject Selected()
         {var s=EventSystem.current.currentSelectedGameObject;Assert.IsNotNull(s,"nothing has focus: a pad player is stuck");return s;}
         static int Held()=>State.materials.Values.Sum();
-        static RecipeDef FirstRecipe()=>GameCatalog.All<RecipeDef>().OrderBy(r=>r.discipline).ThenBy(r=>r.tier).First();
+        // The first the bench lists: a recipe that takes a later region's material stays off the list until the party has held it (Fabrication.Known), so it's the first of those it knows.
+        static RecipeDef FirstRecipe(){var bench=new Lattice.Rpg.Fabrication(State);return GameCatalog.All<RecipeDef>().Where(bench.Known).OrderBy(r=>r.discipline).ThenBy(r=>r.tier).First();}
 
         // ------------------------------------------------------------------ QA-036: the bench
         /// <summary>QA-036. Hal's bench opened at the end of his talk with the cursor on a recipe, so the next tap of a thumb still going through his lines made one and

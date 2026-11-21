@@ -44,6 +44,21 @@ class ReleaseGeometryTests(unittest.TestCase):
         self.assertEqual(2,result['frames']);self.assertEqual(2,result['heroes']['Sela']['samples'])
         self.assertGreater(result['heroes']['Sela']['minimumPlanarHullClearance'],0)
 
+    def test_a_third_hull_follows_the_pair_and_changes_nothing_before_it(self):
+        two=analyze(*fixture());rows,frames,run,report=fixture()
+        for row in rows:row['heroes'].append(mesh('other',40,11,'Idra'))
+        result=analyze(rows,frames,run,report);self.assertTrue(result['valid'],result['failures'])
+        self.assertEqual(2,result['heroes']['Idra']['samples'])
+        self.assertEqual(two['heroes'],{k:v for k,v in result['heroes'].items() if k!='Idra'})
+        self.assertEqual(two['observations'],[o for o in result['observations'] if o['hero']!='Idra'])
+
+    def test_a_third_hull_is_somebody_else_with_a_role_of_its_own(self):
+        for role,hero,instance in [('other','Sela',11),('other','Taren',11),('partner','Idra',11),('other','',11),('other','Idra',10)]:
+            with self.subTest(role=role,hero=hero,instance=instance):
+                rows,frames,run,report=fixture()
+                for row in rows:row['heroes'].append(mesh(role,40,instance,hero))
+                self.assertFalse(analyze(rows,frames,run,report)['valid'])
+
     def test_projected_overlap_is_retained_not_rejected_or_called_collision(self):
         rows,frames,run,report=fixture()
         # A far-away, physically separate hull projects over the head.

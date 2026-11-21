@@ -91,6 +91,27 @@ namespace Lattice.Tests.PlayMode
         static string Game=>Path.Combine(Application.dataPath,"_Project/Resources/Dialogue");
         static string Writing=>Path.Combine(Application.dataPath,"..","..","docs","writing");
         static string Script(string root)=>string.Concat(Directory.GetFiles(root,"*.yarn").OrderBy(f=>f).Select(File.ReadAllText)).Replace("\r\n","\n");
+        /// <summary>What a repair option says about its price, as Hal's say it.</summary>
+        const string Fee="(8 scrip per Sync level)";
+        /// <summary>Every choice in every script under this root whose own lines run <c>repair</c>: the file, the node and the words on the choice.</summary>
+        static List<(string file,string node,string label)> RepairOptions(string root)
+        {
+            var found=new List<(string,string,string)>();
+            foreach(string file in Directory.GetFiles(root,"*.yarn").OrderBy(f=>f))
+            {
+                string node=null,label=null;int option=-1;
+                foreach(string raw in File.ReadAllText(file).Replace("\r\n","\n").Split('\n'))
+                {
+                    string text=raw.Trim();int indent=raw.Length-raw.TrimStart().Length;
+                    if(text.StartsWith("title:")){node=text.Substring(6).Trim();option=-1;continue;}
+                    if(text=="==="){option=-1;continue;}
+                    if(text.StartsWith("->")){option=indent;label=text.Substring(2).Trim();continue;}
+                    if(option>=0&&text.Length>0&&indent<=option)option=-1;
+                    if(option>=0&&text=="<<repair>>")found.Add((file,node,label));
+                }
+            }
+            return found;
+        }
         static string Body(string node)
         {
             string all=Script(Game);int at=all.IndexOf("title: "+node+"\n",System.StringComparison.Ordinal);
@@ -123,14 +144,22 @@ namespace Lattice.Tests.PlayMode
                     ("The warp can read it alongside the survey key.","Sela no longer answers about the warp"),
                     ("mirror stand","Ishen doesn't say where the plates rest, so the lit stands mean nothing"),
                 })StringAssert.Contains(kept,all,root+": "+why);
-                Assert.AreEqual(3,Regex.Matches(all,Regex.Escape("-> Repair and save (8 scrip per Sync level).")).Count,root+": one of Hal's repair options still doesn't name the fee");
+                // Every choice that runs a paid repair names its fee, whoever offers it: Hal's three, and every mender a chapter adds since (Hadda's four in chapter 3). It was a count of
+                // exactly Hal's three, which a second mender with the same words broke without anything being wrong. Hal's three are still held to, in chapters 1 and 2's files.
+                var repairs=RepairOptions(root);
+                foreach(var (file,node,label) in repairs)StringAssert.Contains(Fee,label,$"{root}: {file}'s {node} offers a repair that doesn't name its fee: \"{label}\"");
+                Assert.AreEqual(3,repairs.Count(r=>ContentRegistry.IsFirstScript(r.file)&&r.node.StartsWith("Hal")),root+": one of Hal's repair options is gone or no longer runs a repair");
+                Assert.AreEqual(repairs.Count,Regex.Matches(all,Regex.Escape("-> Repair and save "+Fee+".")).Count,root+": a repair option's words aren't the ones every other mender uses");
             }
+            // The words are the number the cradle charges: 8 scrip a Sync level of the lead (RepairBay.Fee).
+            Assert.AreEqual(8*State.party[0].level,RepairBay.Fee(State),"a repair no longer costs what its option says: "+Fee);
             foreach(var node in new[]{"AbriLanternHome","HessaYields"})
                 Assert.IsFalse(Regex.IsMatch(Body(node),@"^\w+: Then\b",RegexOptions.Multiline),node+" still answers with a stock 'Then...' retort");
             // And that is what was compiled: the player reads the string table, not the source.
             var table=Resources.Load<YarnProject>("Dialogue/Lattice").baseLocalization;
             var compiled=table.GetLineIDs().Select(id=>table.GetLocalizedString(id)).Where(line=>line!=null).ToArray();
-            Assert.AreEqual(3,compiled.Count(line=>line.Contains("Repair and save (8 scrip per Sync level)")),"the compiled script still offers Hal's repair with no fee");
+            Assert.AreEqual(RepairOptions(Game).Count,compiled.Count(line=>line.Contains("Repair and save "+Fee)),"the compiled script's repair options aren't the source's, each naming its fee");
+            Assert.IsFalse(compiled.Any(line=>line.StartsWith("Repair and save")&&!line.Contains(Fee)),"the compiled script still offers a repair with no fee");
             Assert.IsFalse(compiled.Any(line=>line.Contains("outer beacon")),"the compiled script still says outer beacon");
         }
         [UnityTest] public IEnumerator TheWickDockNamesThePlaceAsEverySignDoes()
@@ -501,16 +530,16 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ---------------------------------------------------------------- a rebuild keeps each zone's authored light
-        [UnityTest] public IEnumerator TheChapterTwoZonesKeepTheirAuthoredLight()
+        /// <summary>Chapter 2's four, then every zone defined since: a zone rebuilt and not lit again is flat and white, whichever chapter it belongs to. One case each (it walked
+        /// them all in one, and one zone that couldn't load or logged an error hid every zone after it). It compares nothing across zones.</summary>
+        static string[] LitZones=>ContentRegistry.With(nameof(TheChapterTwoZonesKeepTheirAuthoredLight),new[]{"WickReach","Lanternwick","LanternGorge","SunkenRelay"});
+        [UnityTest] public IEnumerator TheChapterTwoZonesKeepTheirAuthoredLight([ValueSource(nameof(LitZones))] string zone)
         {
-            foreach(var zone in new[]{"WickReach","Lanternwick","LanternGorge","SunkenRelay"})
-            {
-                yield return Zone(zone);
-                Assert.AreEqual(UnityEngine.Rendering.AmbientMode.Trilight,RenderSettings.ambientMode,zone+" has lost its authored light: flat ambient, as a rebuild leaves it without ZoneLook.Apply, so the dusk or the cave reads flat");
-                var key=All<Light>().Where(l=>l.type==LightType.Directional&&l.gameObject.scene.name==zone).ToArray();
-                Assert.AreEqual(1,key.Length,zone+": fixture: the zone has one key light");
-                Assert.IsFalse(key[0].color==Color.white,zone+" has lost its authored light: a white key light, as a rebuild leaves it without ZoneLook.Apply");
-            }
+            yield return Zone(zone);
+            Assert.AreEqual(UnityEngine.Rendering.AmbientMode.Trilight,RenderSettings.ambientMode,zone+" has lost its authored light: flat ambient, as a rebuild leaves it without ZoneLook.Apply, so the dusk or the cave reads flat");
+            var key=All<Light>().Where(l=>l.type==LightType.Directional&&l.gameObject.scene.name==zone).ToArray();
+            Assert.AreEqual(1,key.Length,zone+": fixture: the zone has one key light");
+            Assert.IsFalse(key[0].color==Color.white,zone+" has lost its authored light: a white key light, as a rebuild leaves it without ZoneLook.Apply");
         }
 
         // ---------------------------------------------------------------- boss285: the wreck

@@ -28,6 +28,7 @@ namespace Lattice.Rpg
         /// happen, like a boss killed before the talk that asked for it.</summary>
         public void Reconcile()
         {
+            LetGo();
             foreach(var d in definitions.Values)
             {
                 if(!state.questSteps.TryGetValue(d.id,out var step)||step<0||step>=d.steps.Length)continue;
@@ -52,6 +53,19 @@ namespace Lattice.Rpg
         {
             if(amount<=0)return;
             foreach(var d in definitions.Values)Progress(d,kind,id,amount);
+            if(kind==ObjectiveKind.Flag)LetGo();
+        }
+        /// <summary>Takes out of the log every unfinished quest whose <see cref="QuestDef.letGoAt"/> flag is set (on a load, and as the flag is said), and marks it
+        /// <c>quest.&lt;id&gt;.letGo</c>. No reward, no card: the place it pointed at is gone, and nothing on the main path mentions it.</summary>
+        public void LetGo()
+        {
+            foreach(var d in definitions.Values)
+            {
+                if(string.IsNullOrEmpty(d.letGoAt)||!Flag(d.letGoAt)||!state.questSteps.TryGetValue(d.id,out int step)||step>=d.steps.Length)continue;
+                state.questSteps.Remove(d.id);
+                foreach(var key in new List<string>(state.questCounts.Keys))if(key.StartsWith(d.id+"/",StringComparison.Ordinal))state.questCounts.Remove(key);
+                state.flags["quest."+d.id+".letGo"]=true;Changed?.Invoke(d.id);
+            }
         }
         void Progress(QuestDef d,ObjectiveKind kind,string id,int amount)
         {
@@ -70,7 +84,7 @@ namespace Lattice.Rpg
             foreach(var member in state.party)Levels.Grant(member,d.rewardXp);
             // A reward goes where its kind lives (D199); the quest card names it, so the pickup feed stays out of it.
             var inv=new Inventory(state);
-            foreach(var reward in d.rewards??Array.Empty<Ingredient>())inv.Grant(reward.id,Math.Max(1,reward.count),false);
+            foreach(var reward in d.rewards??Array.Empty<Ingredient>())inv.Grant(reward.id,Math.Max(1,reward.count),false,d.rewardsRolled);
             foreach(var flag in d.flagsOnComplete??Array.Empty<string>())state.flags[flag]=true;
         }
     }
