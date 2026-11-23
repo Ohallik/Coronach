@@ -6,7 +6,10 @@ namespace Lattice.UI
 {
     public sealed class BarkPanel:MonoBehaviour
     {
-        TMP_Text text;float until;Canvas canvas;PickupFeed feed;
+        TMP_Text text;float until;Canvas canvas;PickupFeed feed;GameHud hud;ExtraCutIn cutIn;
+        /// <summary>Whether the line was said with the lead on foot or flying, and in which zone: a line belongs to where it was said. Taren's 'That one's holding the hatch
+        /// for us' stayed up after the launch, over the ship (s66 123).</summary>
+        bool saidFlying;ZoneController saidIn;
         static readonly string NameColor=ColorUtility.ToHtmlStringRGB(UiKit.GoldColor);
         /// <summary>A line isn't worth hiding the party for, or what it's about: Orrin's box lay solid over the tender he was saying was free. So a lighter plate, which steps aside like the rest. At .66 it went a muddy tan on Sorrel's floor with its pale words losing out, and the slab showed through it in the Bellows' chamber.</summary>
         const float RestingPlate=.85f;
@@ -20,38 +23,56 @@ namespace Lattice.UI
         public PanelFade Fade{get;private set;}
         void Start()
         {
-            canvas=UiKit.CreateCanvas("Barks",8,transform);feed=GetComponent<PickupFeed>();text=UiKit.Legible(UiKit.Text(canvas.transform,"Bark","",25,UiKit.LooseTextColor,TextAlignmentOptions.TopLeft));
+            canvas=UiKit.CreateCanvas("Barks",8,transform);feed=GetComponent<PickupFeed>();hud=GetComponent<GameHud>();text=UiKit.Legible(UiKit.Text(canvas.transform,"Bark","",25,UiKit.LooseTextColor,TextAlignmentOptions.TopLeft));
             UiKit.Rect(text.gameObject,new(0,1),new(0,1),Rest,new(460,170));var plate=TextPlate.Attach(text,"BarkPlate",34,16);BarkService.Spoken+=Show;
             plate.Frame.color=new Color(1,1,1,RestingPlate);Fade=new PanelFade(plate.Frame.rectTransform,plate.Frame).Backs(text);
         }
         void Show(string speaker,string line)
         {
             text.text=$"<color=#{NameColor}>{DisplayNames.Speaker(speaker)}</color>\n{line}";until=Time.unscaledTime+3.5f;
+            var lead=PartyController.Current!=null?PartyController.Current.Active:null;saidFlying=lead!=null&&lead.flight;saidIn=ZoneController.Current;
             // Measured once a line, as its plate is. It lands clear: there's nothing to slide past when it has only just come up.
             var ink=UiKit.Ink(text);plateHigh=ink.yMax+16;plateLow=ink.yMin-16;plateLeft=ink.xMin-34;plateRight=ink.xMax+34;
             slide=Seat(0);text.rectTransform.anchoredPosition=Rest+new Vector2(0,slide);
         }
-        /// <summary>A menu or a conversation hides the line and holds its time. Wiped, it was gone for good, and a hail counts as heard from its first line: Orrin's warning before a one-way warp could be lost to a pause.</summary>
+        /// <summary>A menu or a conversation hides the line and holds its time, and so does an EXTRA's cut-in, whose band crosses the column: the bark showed in pieces round
+        /// Taren's portrait under 'ANVIL CHORUS' (s47 080). Wiped, it was gone for good, and a hail counts as heard from its first line: Orrin's warning before a one-way
+        /// warp could be lost to a pause.</summary>
         void Update()
         {
             if(text==null)return;
-            bool blocked=GameInput.Current.Blocked;if(canvas.enabled==blocked)canvas.enabled=!blocked;
+            if(cutIn==null)cutIn=GetComponent<ExtraCutIn>();
+            bool blocked=GameInput.Current.Blocked||cutIn!=null&&cutIn.Showing;if(canvas.enabled==blocked)canvas.enabled=!blocked;
             if(blocked){until+=Time.unscaledDeltaTime;return;}
-            if(Time.unscaledTime>until&&text.text.Length>0)text.text="";
+            if(text.text.Length>0&&(Time.unscaledTime>until||Elsewhere()))text.text="";
             if(text.text.Length==0)return;
             float wanted=Seat(slide);if(wanted==slide)return;
             slide=Mathf.MoveTowards(slide,wanted,Time.unscaledDeltaTime*SlidePerSecond);text.rectTransform.anchoredPosition=Rest+new Vector2(0,slide);
         }
-        /// <summary>The nearest place in the column clear of everyone. It stays where it's got to while that still works, and goes home only with room to spare, so nobody walking along an edge makes it twitch. With nowhere clear it stays put and fades, as any plate does.</summary>
+        /// <summary>The lead has launched or landed, or the party is in another zone, since the line was said.</summary>
+        bool Elsewhere()
+        {
+            var lead=PartyController.Current!=null?PartyController.Current.Active:null;
+            return lead!=null&&lead.flight!=saidFlying||ZoneController.Current!=saidIn;
+        }
+        /// <summary>The nearest place in the column clear of everyone, between the foot of the pickup feed over it and whatever the HUD has standing at the foot of the screen
+        /// under it (the hint bar, the skill row, a boss bar and the prompt over it, the current gauge: GameHud.FloorUnder). Taren's bark slid off the Mother of Doors' lanes
+        /// down to the hint bar, the one thing at the foot the column knew of, and lay across the bar's name (s63 072). It stays where it's got to while that still works,
+        /// and goes home only with room to spare, so nobody walking along an edge makes it twitch. With nowhere clear it stays put and fades, as any plate does, inside its room.</summary>
         float Seat(float now)
         {
             var camera=Camera.main;var party=PartyController.Current;if(camera==null||party==null||party.members==null)return now;
             float height=((RectTransform)canvas.transform).rect.height,top=height+Rest.y+plateHigh,bottom=height+Rest.y+plateLow;
             Measure(camera,party,top,bottom);
-            if(Clear(0,Air*2))return 0;
-            float most=Mathf.Max(0,height-(feed!=null?feed.Reach:311)-6-top),least=Mathf.Min(0,FootRoom-bottom);
+            float floor=Mathf.Max(FootRoom,hud!=null?hud.FloorUnder(Rest.x+plateLeft,Rest.x+plateRight)+Air:0);
+            // Its home is under the feed's five lines; a zone's gauge under the vitals carries the feed down, and the column's top with it.
+            float most=height-(feed!=null?feed.Reach:311)-6-top,least=Mathf.Min(0,floor-bottom);
+            // Too little room between the two: the feed's lines over it are the quieter, so the column keeps off the foot of the screen.
+            if(most<least)most=least;
+            if(least<=0&&0<=most&&Clear(0,Air*2))return 0;
             if(now>=least&&now<=most&&Clear(now,Air))return now;
-            float best=now,bestFar=float.MaxValue;
+            float best=Mathf.Clamp(now,least,most),bestFar=float.MaxValue;
+            if(Clear(Mathf.Clamp(0,least,most),Air)){best=Mathf.Clamp(0,least,most);bestFar=Mathf.Abs(best);}
             for(int i=0;i<shutCount;i++)
             {
                 float spot=shut[i]+(i%2==0?-Air-1:Air+1);

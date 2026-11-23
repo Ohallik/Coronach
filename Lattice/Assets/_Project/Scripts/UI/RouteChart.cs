@@ -298,13 +298,12 @@ namespace Lattice.UI
             int charted=marks.FindAll(m=>m.standing!=Standing.Uncharted).Count;
             string standing=(party==null?$"You're in {DisplayNames.Zone(state.zone)}":party.zone==state.zone?$"You're at {Name(party)}":$"You're in {DisplayNames.Zone(state.zone)}, out from {Name(party)}")+$"  ·  {charted} of {marks.Count} places charted";
             if(asking==null)return marks.Count==0?"The chart is blank.":standing+"\nSelect a lit place to travel there. The arrow is the party, the diamond the story's next step.";
-            // The question, over the chart: one press asks and the next goes, and the stops don't answer while it's up.
-            var dim=UiKit.Panel(panel,"ChartConfirmDim",new Color(0,0,0,.5f));dim.raycastTarget=false;UiKit.Rect(dim.gameObject,Mid,Mid,FieldCentre,FieldSize);
-            UiKit.SolidFrame(panel,"ChartConfirm",Mid,new Vector2(170,100),new Vector2(860,300));
-            var heading=UiKit.Heading(panel,"ChartConfirmTitle",Name(asking).ToUpperInvariant(),34,UiKit.GoldColor);UiKit.Rect(heading.gameObject,Mid,Mid,new Vector2(170,192),new Vector2(780,48));
-            var line2=UiKit.Text(panel,"ChartConfirmLine",asking.region+"  ·  "+Services(asking),24,UiKit.FrostColor);UiKit.Rect(line2.gameObject,Mid,Mid,new Vector2(170,146),new Vector2(780,32));
-            go=UiKit.Row(panel,"Travel","Travel — "+Name(asking),()=>Go(asking),26,TextAlignmentOptions.Center);UiKit.Rect(go.gameObject,Mid,Mid,new Vector2(170,80),new Vector2(640,56));
-            stay=UiKit.Row(panel,"Stay","Stay in "+DisplayNames.Zone(state.zone),()=>{asked=null;rebuild(StopPrefix+asking.id);},26,TextAlignmentOptions.Center);UiKit.Rect(stay.gameObject,Mid,Mid,new Vector2(170,14),new Vector2(640,56));
+            // The question, in the field's quiet lower band where the place under the cursor is described: one press asks and the next goes, and the stops don't answer while it's up.
+            // It was a frame over the middle of the chart, and covered the names it was asking among ("Sorrel Out…", "…ncharted"). The band names the place asked about already.
+            var about=marks.Find(m=>m.stop==asking);if(about!=null)Show(about);
+            blurb.text="";status.text="TRAVEL HERE?";
+            go=UiKit.Row(panel,"Travel","Travel — "+Name(asking),()=>Go(asking),26,TextAlignmentOptions.Center);UiKit.Rect(go.gameObject,Mid,Mid,new Vector2(-125,-212),new Vector2(560,56));
+            stay=UiKit.Row(panel,"Stay","Stay in "+DisplayNames.Zone(state.zone),()=>{asked=null;rebuild(StopPrefix+asking.id);},26,TextAlignmentOptions.Center);UiKit.Rect(stay.gameObject,Mid,Mid,new Vector2(465,-212),new Vector2(560,56));
             return standing+$"\nTravelling leaves {DisplayNames.Zone(state.zone)} as it stands. The game saves when you arrive at {Name(asking)}.";
         }
         /// <summary>After the menu has linked its own controls: the stops' links, the ways on and off the chart, and the cursor. Left of the westernmost stop is the page's tab, as on every

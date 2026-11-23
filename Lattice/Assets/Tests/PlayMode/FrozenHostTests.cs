@@ -281,6 +281,23 @@ namespace Lattice.Tests.PlayMode
             Set("hoar.idraJoined");yield return null;yield return null;Assert.IsFalse(guide.gameObject.activeInHierarchy,"Idra is still walking ahead once she has joined");
         }
 
+        /// <summary>Where Idra waits out the first whiteout is beside the party in vent pocket one, never where the party stops: her body has no collider, so a lead walked to the
+        /// pocket's middle stood inside her for the whole whiteout (s35/097, her spot half a metre from the route's). Every walker stops at the route's point, so that point is
+        /// what she has to stand clear of, by two bodies and a partner's room. Shown on her old spot first.</summary>
+        [UnityTest] public IEnumerator IdraWaitsOutTheFirstWhiteoutBesideThePartyAndNeverWhereItStops()
+        {
+            var route=JsonUtility.FromJson<QualityRoute>(System.IO.File.ReadAllText(System.IO.Path.Combine(Application.dataPath,"..","..","docs","quality","routes","chapter-35-frozen-host.json")));
+            var stop=route.steps.Last(s=>s.name.StartsWith("into the first vent pocket")).point;var stops=new Vector2(stop.x,stop.z);
+            const float Clear=2.5f;
+            bool Crowds(Vector2 idra)=>Vector2.Distance(idra,stops)<Clear;
+            Assert.IsTrue(Crowds(new Vector2(-26,104.5f)),"the check doesn't see the spot she had, where the lead stood in her");
+            yield return Zone();
+            var guide=Object.FindFirstObjectByType<Guide>();Assert.IsNotNull(guide,"Idra isn't ahead of the party on the Reach");
+            var leg=guide.legs.Single(l=>l.flag=="hoar.whiteoutMet");var end=leg.path[^1];var spot=new Vector2(end.x,end.z);
+            Assert.IsFalse(Crowds(spot),$"Idra waits out the whiteout at {spot}, {Vector2.Distance(spot,stops):0.00} m from where the party stops ({stops}); she needs {Clear}");
+            Assert.Less(Vector2.Distance(spot,new Vector2(-30,104)),5.5f,"Idra doesn't wait out the whiteout inside vent pocket one");
+        }
+
         // ------------------------------------------------------------------ the bottom gallery and its door
         [UnityTest] public IEnumerator TheBottomGalleryIsBuiltToTheBossContract()
         {

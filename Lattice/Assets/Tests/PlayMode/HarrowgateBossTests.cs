@@ -42,7 +42,12 @@ namespace Lattice.Tests.PlayMode
         {
             // The Slag Colossus: met at about Sync 23 (the chapter runs 22 to 25), in the Foundry's heart (docs/maps/BridleFoundry.md, "Boss arena contract"): Vessa has fallen back and the
             // cage has been seen from the door. In the yard it wears no plates (there are no sluices), so every move is stood in as it would be cooled.
-            book.Boss(new ContentRegistry.BossSheet{id="SlagColossus",zone="BridleFoundry",door="SlagColossus",doorFlags=new[]{"vask.vessaBeaten","vask.cageSeen"},sync=23,driverShare=.3f,
+            // driverShare .22, not .30 (D355, continued): the flat-out measure stood an edge .9 m off its capsule, where his blade didn't reach its broad body, and read 2,266 a second; from
+            // a quarter metre off it (BossReach.Edge) it reads 3,040, so the chain's own share of flat out is .30 x 2,266 / 3,040. The fight and its predicted length are unchanged.
+            // .27 since D362 (November 22): today's scouts felled 94,000 in 98.3 s (nov22-recon-g s49, the 12:35 build) and 195,000 in 231.0 s (nov22-recon-h-49, the 14:52 build)
+            // against 3,040 and 3,233 a second (d355-dome3, d355-lengths): .305 and .269, the lower. At 195,000 a plate (a twentieth of it) outlasted its 9 s dark three times and
+            // reheated, so the fight ran six sluice cycles where it had three: it is 135,000 now, where a plate goes inside its dark again. Its plates and arms grow with it.
+            book.Boss(new ContentRegistry.BossSheet{id="SlagColossus",zone="BridleFoundry",door="SlagColossus",doorFlags=new[]{"vask.vessaBeaten","vask.cageSeen"},sync=23,driverShare=.27f,
                 specials=new[]{("Pour",new Vector3(0,0,7)),("Stomp",new Vector3(0,0,5)),("SlagBombs",new Vector3(0,0,10)),("FurnaceBreath",new Vector3(0,0,8)),("Spill",new Vector3(0,0,5))},
                 // Its stomp leaves its feet in the floor; coming apart, its spill leaves it emptied.
                 windows=new[]{("Stomp",new Vector3(0,0,5)),("Spill",new Vector3(0,0,5))}});
@@ -52,7 +57,10 @@ namespace Lattice.Tests.PlayMode
             // Both chains' party wore a Refined Edge and Scrap parts (the driver put nothing on after chapter 2). Fought through the pad by chapter 8's floor party, from his real door
             // (FloorPartyBossReplayTests, November 15), 150,000 fell in 84.3 and 84.9 s: .500 and .486 of 3,562 and 3,631 a second, which put the duel test's arrival pair at 77 s.
             // He is 165,000, which fell the same way in 91.8, 110.3 and 97.4 s (.466, .410 and .448 of 3,860, 3,651 and 3,778): this is the lowest.
-            book.Boss(new ContentRegistry.BossSheet{id="DraskVaal",zone="Harrowgate",door="DraskVaal",doorFlags=new[]{"vask.parley","vask.draskMet","vask.fieldTaken"},sync=24,driverShare=.41f,
+            // .63 since D362 (November 22): today's scouts felled 165,000 in 60.6 s (nov22-recon-g s52, the 12:35 build) and 72.6 s (nov22-recon-h-52, the 14:52 build) against 3,565
+            // and 3,580 a second (d355-dome3, d355-lengths): .762 and .636, the lower; the floor party through the pad read .51 to .54 (d355-chapters, d362-ch3to7). 225,000 since
+            // D362 (continued): the slow pair's 267 s at a quarter (his 200 at four thirds) on the slowest reading (3,516) holds him there, about 83 s on the fastest scout.
+            book.Boss(new ContentRegistry.BossSheet{id="DraskVaal",zone="Harrowgate",door="DraskVaal",doorFlags=new[]{"vask.parley","vask.draskMet","vask.fieldTaken"},sync=24,driverShare=.63f,
                 minSeconds=80,maxSeconds=200,
                 specials=new[]{("Thrust",new Vector3(0,0,4)),("HaftSweep",new Vector3(0,0,2.5f)),("ShieldRush",new Vector3(0,0,8)),("Lunge",new Vector3(0,0,10))},
                 // His shout strikes nobody: what it marks is where his guard steps in (FewerAnswerEachShoutAndTheThirdIsAnsweredByNobody).
@@ -60,7 +68,9 @@ namespace Lattice.Tests.PlayMode
                 // A thrust at a hero past its 9 m line meets nobody and leaves him overreached; pressing, his lunge always ends overextended.
                 windows=new[]{("Thrust",new Vector3(0,0,12)),("Lunge",new Vector3(0,0,10))}});
             // His skiff, the pursuit, in flight over the war harbour (docs/maps/Harrowgate.md, "Pursuit contract"): 60 to 150 s on its own.
-            book.Boss(new ContentRegistry.BossSheet{id="DraskSkiff",zone="HarrowgateHarbour",door="DraskSkiff",doorFlags=new[]{"vask.duelWon"},flight=true,sync=24,driverShare=.29f,
+            // .27 since D362 (November 22): today's scouts felled 70,000 in 94.4 s (nov22-recon-g s52) and 105.7 s (nov22-recon-h-52) against 2,515 and 2,463 a second (d355-dome3,
+            // d355-lengths): .298 and .266, the lower.
+            book.Boss(new ContentRegistry.BossSheet{id="DraskSkiff",zone="HarrowgateHarbour",door="DraskSkiff",doorFlags=new[]{"vask.duelWon"},flight=true,sync=24,driverShare=.27f,
                 minSeconds=60,maxSeconds=150,
                 specials=new[]{("LanceRun",new Vector3(0,0,10)),("GunCall",new Vector3(0,0,10)),("Wake",new Vector3(0,0,-8))},
                 // Its run goes to the next waypoint, away from the party in the yard (AtEachQuarterHeRunsForTheNextWaypointAndAtTheSlipHeCanRunNoFurther).
@@ -591,7 +601,10 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ what the fights are sized on
-        const float FlatOutSeconds=15,DriverShare=.3f;
+        /// <summary>The Colossus's driver share of this class's own flat out: .39 since D362 (November 22), where .3 was the placeholder. Today's scouts felled 94,000 in 98.3 s
+        /// (Builds/quality/nov22-recon-g s49) and 195,000 in 231.0 s (nov22-recon-h-49), the pair out Taren and Idra, whom this class read at 2,900 a second that morning
+        /// (d355-chapters): with the four sluice cycles' 48 s beside it, the bar and its parts went at .693 and .395, the lower (at 195,000 its plates outlasted their dark).</summary>
+        const float FlatOutSeconds=15,DriverShare=.39f;
         /// <summary>The fewest frames a second any of a test's measures ran at, and the least a measure is believed at. A hero acts on a frame, so a machine too busy to draw sixty reads
         /// every pair slow (QaPlanCombatTests.FlatOutFrames is the same guard: on November 14, with a dozen Unitys at work, the shared measure read the Floodcrown a tenth slow). Under
         /// it a length test says it could not measure, which is neither a pass nor a failure.</summary>
@@ -607,7 +620,7 @@ namespace Lattice.Tests.PlayMode
             var at=flight?Sky(0,0):At(0,.1f,0);var heroes=PartyController.Current.members.ToArray();
             var enemy=Enemy(id,at);yield return Frames(3);var body=enemy.Health;
             enemy.GetComponent<BossController>().enabled=false;body.maximum=body.integrity=10000000;body.Holds=null;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var homes=new Vector3[heroes.Length];
+            float reach=BossReach.Edge(enemy);var homes=new Vector3[heroes.Length];
             for(int i=0;i<heroes.Length;i++)
             {
                 var side=i==0&&frontLead?Vector3.forward:Vector3.back;
@@ -694,7 +707,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var pair in Pairs)
             {
                 float duel=0,bare=0;yield return Rate("DraskVaal",pair,true,r=>duel=r);yield return Rate("DraskVaal",pair,false,r=>bare=r,judged:false);
-                // His own sheet's share (.42, measured off two chains on November 14), not the class's .3, which is the Colossus's and the skiff's placeholder.
+                // His own sheet's share (.42, measured off two chains on November 14; .63 off today's scouts since D362), not the class's DriverShare, which is the Colossus's.
                 var sheet=ContentRegistry.Boss("DraskVaal");
                 float seconds=integrity/(duel*sheet.driverShare);
                 string line=$"DRASK_RATE {pair[0]}+{pair[1]} sync=24 tempered duel={duel:0}/s bare={bare:0}/s total={seconds:0}s shared={integrity/(bare*sheet.driverShare):0}s quarter={integrity/(bare*.25f):0}s";
@@ -704,7 +717,7 @@ namespace Lattice.Tests.PlayMode
             }
             Measured();Assert.IsEmpty(failures,string.Join("\n",failures));
         }
-        /// <summary>The pursuit's length, its sheet's 60 to 150 s, for every pair flying, at Sync 24: its bar at the flight driver's .29 of flat out, and its three runs (the tell, the run and the
+        /// <summary>The pursuit's length, its sheet's 60 to 150 s, for every pair flying, at Sync 24: its bar at the driver's share of flat out (.37 since D362), and its three runs (the tell, the run and the
         /// chase after it, about seven seconds each).</summary>
         [UnityTest] public IEnumerator ThePursuitLastsWhatItsSheetSaysForEveryPair()
         {
@@ -715,8 +728,12 @@ namespace Lattice.Tests.PlayMode
             foreach(var pair in Pairs)
             {
                 float rate=0;yield return Rate("DraskSkiff",pair,false,r=>rate=r,true);
-                float seconds=integrity/(rate*.29f)+3*7;
-                string line=$"SKIFF_RATE {pair[0]}+{pair[1]} sync=24 tempered rate={rate:0}/s total={seconds:0}s shared={integrity/(rate*.29f):0}s quarter={integrity/(rate*.25f):0}s";
+                // .37 since D362 (November 22), where .29 was the flight placeholder: today's scouts felled 70,000 in 94.4 and 105.7 s (Builds/quality/nov22-recon-g s52,
+                // nov22-recon-h-52), the pair out Taren and Idra, whom this test last read at 2,204 a second (nov21b-part4): with the three runs' 21 s beside it the bar went at
+                // .433 and .375, the lower.
+                const float SkiffShare=.37f;
+                float seconds=integrity/(rate*SkiffShare)+3*7;
+                string line=$"SKIFF_RATE {pair[0]}+{pair[1]} sync=24 tempered rate={rate:0}/s total={seconds:0}s shared={integrity/(rate*SkiffShare):0}s quarter={integrity/(rate*.25f):0}s";
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(seconds<60||seconds>150)failures.Add($"{line}: its sheet asks 60 to 150");
                 // The sheet's bounds on the bare body are QaPlanCombatTests' own, on its own measure: held there, not here.

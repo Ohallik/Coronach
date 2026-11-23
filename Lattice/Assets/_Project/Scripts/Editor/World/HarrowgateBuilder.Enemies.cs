@@ -148,7 +148,7 @@ namespace Lattice.EditorTools
             // party (the floor, at the driver's share) and 92 to 122 s at a quarter of flat out (the ceiling), inside her sheet's own 50 to 140 s by about a sixth at each end.
             // She is chapter 6's Vessa as an enemy (no lance on the body: BossController.VessaKorl.cs draws it). A dig-master's frame grounds a shock and is built against heat: weak to
             // Pulse, resists Plasma (her sister, the other way round). She leaves, not falls: nothing of the rare (that is the Colossus's).
-            ArenaBuilder.Asset<EnemyDef>("VessaKorl",e=>{e.id="VessaKorl";e.displayName="VESSA KORL";e.prefab=Body("VessaKorl","HessaKorl");e.integrity=60000;e.breakThreshold=650;e.speed=3;e.attacks=new[]{vessaJab};
+            ArenaBuilder.Asset<EnemyDef>("VessaKorl",e=>{e.id="VessaKorl";e.displayName="VESSA KORL";e.prefab=Body("VessaKorl","HessaKorl");e.integrity=82000;e.breakThreshold=650;e.speed=3;e.attacks=new[]{vessaJab};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=420;e.scrip=240;e.scrap=12;e.boss=true;
                 e.yieldsOnDefeat=false;e.heavyDeath=true;
                 // A capsule can't stand shorter than it is wide: 2.6 m on her .8 m radius, her body's own height.

@@ -353,7 +353,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreNotEqual(GearSlot.Edge,DevLoadout.Weapon(sela.character),"fixture: the partner shoots, and stands back as the shared measure stands her");
             var at=new Vector3(200,.1f,0);var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Rotbloom"),at);enemy.Passive=true;
             for(int i=0;i<3;i++)yield return null;var body=enemy.Health;body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var tarenAt=at+Vector3.back*reach;var selaAt=at+Vector3.back*8+Vector3.right*2;
+            float reach=BossReach.Edge(enemy);var tarenAt=at+Vector3.back*reach;var selaAt=at+Vector3.back*8+Vector3.right*2;
             void Place(CombatActor actor,Vector3 position)
             {
                 var shape=actor.GetComponent<CharacterController>();shape.enabled=false;if(actor.motor is GroundMotor ground){ground.Halt();ground.KeepFacing(Vector3.forward);}

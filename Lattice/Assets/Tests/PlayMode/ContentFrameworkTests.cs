@@ -42,7 +42,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var (id,thresholds,moves,promised,radius,occludes,ending) in new[]
             {
                 ("Burrower",new[]{.6f,.3f},new[]{"DrillCharge","SpoilToss","TailSweep","Burrow","SeismicRings"},new[]{"Burrow","SeismicRings"},1.4f,true,BossController.Ending.ShutDown),
-                ("BellowsBelow",new[]{.5f,.3f},new[]{"Breath","RibStar","Bubbles","Crossing"},new[]{"Bubbles","Crossing"},1.4f,true,BossController.Ending.Destroyed),
+                ("BellowsBelow",new[]{.5f,.3f},new[]{"Breath","RibStar","Bubbles","Crossing"},new[]{"Bubbles","Crossing"},2.4f,true,BossController.Ending.Destroyed),
                 ("Cantor",new[]{.75f,.4f},new[]{"Choir","SongSpiral","CoilLash"},new[]{"SongSpiral","CoilLash"},1.4f,false,BossController.Ending.Released),
                 ("HessaKorl",new[]{.66f,.33f},new[]{"HookLance","Advance","GrappleChain","Sidearm","SweepingCut","Lampbreaker"},new[]{"SweepingCut","Lampbreaker"},.8f,true,BossController.Ending.Yields),
             })

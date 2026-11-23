@@ -30,10 +30,18 @@ namespace Lattice.UI
         public static string Title(PicketAlarm alarm,bool hidden)=>"PICKET   "+Name(alarm.Stage)+(alarm.Seen?"  ·  SEEN":hidden?"  ·  HIDDEN":"");
         /// <summary>Whether no live buoy could see this point at any turn of its sweep.</summary>
         public static bool Hidden(Vector3 point)=>SensorSweep.HiddenFromAll(point);
-        public void Build(Transform canvas)
+        /// <summary>The panel's size, and how far under the vitals' foot it hangs.</summary>
+        public static readonly Vector2 Size=new(564,110);
+        public const float UnderVitals=6;
+        /// <summary>Whether it is up, and its lower edge in units down from the top of the screen: the pickup feed hangs under it.</summary>
+        public bool Showing=>root!=null&&root.activeSelf;
+        public float Foot{get{var rect=(RectTransform)root.transform;return -(rect.anchoredPosition.y-rect.sizeDelta.y*.5f);}}
+        /// <param name="vitalsFoot">The vitals frame's lower edge, down from the top of the screen (GameHud.VitalsFoot). At a fixed 289 the panel's top stood 22 units up
+        /// into the frame and cut 'RESTING SELA' in half with a third hero resting (s45 095).</param>
+        public void Build(Transform canvas,float vitalsFoot)
         {
             root=new GameObject("PicketGauge",typeof(RectTransform));root.transform.SetParent(canvas,false);
-            UiKit.Rect(root,new Vector2(0,1),new Vector2(0,1),new Vector2(297,736)-new Vector2(0,1080),new Vector2(564,110));
+            UiKit.Rect(root,new Vector2(0,1),new Vector2(0,1),new Vector2(297,-(vitalsFoot+UnderVitals+Size.y*.5f)),Size);
             var frame=UiKit.DarkFrame(root.transform,"PicketFrame");frame.raycastTarget=false;frame.pixelsPerUnitMultiplier=2;UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
             title=UiKit.Legible(UiKit.Text(root.transform,"PicketTitle","PICKET",24,UiKit.LooseTextColor,TextAlignmentOptions.Left));
             UiKit.Rect(title.gameObject,new Vector2(.5f,.5f),new Vector2(.5f,.5f),new Vector2(10,30),new Vector2(510,30));

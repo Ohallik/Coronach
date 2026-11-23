@@ -71,13 +71,41 @@
       "expectedScene": "Rootmarket"
     },
     {
-      "name": "on toward the mooring",
+      "name": "past the lantern",
       "seconds": 8.27,
       "navigate": true,
       "point": {
         "x": 16,
         "y": 0,
         "z": 24.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "on toward the mooring",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": 26.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
+      "expectedScene": "Rootmarket"
+    },
+    {
+      "name": "up to where Ruva calls out",
+      "seconds": 4.57,
+      "navigate": true,
+      "point": {
+        "x": 23.2,
+        "y": 0,
+        "z": 25.1
       },
       "tolerance": 0.8,
       "until": "arrived",
@@ -274,32 +302,6 @@
     {
       "name": "release after the arrival on the rope",
       "seconds": 0.5,
-      "expectedScene": "Rootmarket"
-    },
-    {
-      "name": "on past the lantern",
-      "seconds": 3.14,
-      "navigate": true,
-      "point": {
-        "x": 16,
-        "y": 0,
-        "z": 24.4
-      },
-      "tolerance": 0.8,
-      "until": "arrived",
-      "expectedScene": "Rootmarket"
-    },
-    {
-      "name": "on toward the mooring",
-      "seconds": 3.61,
-      "navigate": true,
-      "point": {
-        "x": 20,
-        "y": 0,
-        "z": 26.5
-      },
-      "tolerance": 0.8,
-      "until": "arrived",
       "expectedScene": "Rootmarket"
     },
     {

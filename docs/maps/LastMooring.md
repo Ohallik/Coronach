@@ -193,3 +193,8 @@ What is weak, plainly:
 - **The dock** is a white square platform over the Continuance's bow; the spine down to it is short and hardly seen.
 - The north half of the overview is darker and emptier than the south (the convoy is moored in the lee; past chain D is the Compact's).
 - No ambience bed of its own (guide 14: the lead's).
+
+## Look pass (November 21, the chapter 10 zone engineer)
+
+- **The haze is measured from the plane** (`PlaneHaze`, D344; `Mooring.HazeFrom`/`HazeTo` 60 to 380 at the play distance): the views drawn back over the arenas and the Tollkeeper on show (s64/071 to 089, s65/009, 010, two and three hundred metres up) were navy fog with the convoy's lamps in it; they now show the convoy, the chains, the carrier and the Continuance. The soft glows fade in their alpha (no fogged squares). Stills as played: `LastMooringBuilder.EndingLook` shots `haze-mooring` (`-lens` and `-plane`).
+- **The anchor works far down** are machinery, not boxes with a lamp: halls with a roof ridge, a row of lit windows and a stack with a beacon, tank farms banded in teal with lit rims, crane gantries; pipes between them, a yard's lights along each plate's edge (s64/014, 019).

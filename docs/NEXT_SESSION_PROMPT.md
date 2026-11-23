@@ -1,8 +1,10 @@
-# Coronach - continuation prompt (November 14, 2026, during the finishing run)
+# Coronach - continuation prompt (November 22, 2026, during the finishing run)
+
+> **Start at "State on November 22" below.** The sections before it describe the tree and the rules and are still right; where "Where things stand" speaks of November 14 (the licence, parked engineers, chapters not yet played) it is history.
 
 > **For another QA pass, use [TESTER_PROMPT.md](TESTER_PROMPT.md)**, which hands the game to a tester session that plays through the replay driver and fixes what it finds, following [TEST_PLAN.md](TEST_PLAN.md). The November pass's log is [qa/ISSUES.md](qa/ISSUES.md). Take commands and state from this file.
 
-You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md` (next free number: D290).
+You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md` (next free number: D363; the file is CRLF and append-only).
 
 ## Read first
 
@@ -55,7 +57,34 @@ Nathan's instruction on November 11: finish the game without check-ins, fix rath
 - **Side stories (D199).** Steps advance on `ObjectiveKind.Flag` from `<<setFlag>>`; Sorrel's beacons are staged by `SideStoryStaging.Refresh`.
 - **Balance (D208).** 125 XP a level; the main path ends chapter 1 near Sync 7 and chapter 2 at Sync 8 to 10.
 
-## State at 08:30 on November 20 (the licence came back at 10:23)
+## State on November 22 (read this first)
+
+All ten chapters are built and have been played end to end. The last commit is `983be319` (pushed November 21): the game as it was captured on the night of November 20, 69 segments from a new save to the credits (`Builds/quality/nov20-whole`). Since then two rounds of look fixes sit uncommitted in the working tree; `docs/PROGRESS.md`'s newest entry lists them and D333 to D362 record them. Snapshots of the tree are kept as local refs (`git show-ref | findstr snapshots`, the latest `nov22-1355`; never push them).
+
+**How this run is worked.** A lead with engineers as subagents in one working tree (CHAPTER_GUIDE section 0). The loop that has found everything worth finding: capture the whole game in the player, have reviewers read the stills against a written fix list, fix by system (companion, fights, HUD and labels, menus, each chapter's zones), scout the changed routes windowless, run the suite, capture again. Tests and editor renders have been green through every fault a capture then showed, so nothing counts as fixed until a capture shows it.
+
+**What is true now.**
+- Every one of the 69 routes passed a windowless scout on one of the builds of November 22 (folders `Builds/quality/nov22-recon-*`; scouts are never evidence).
+- The second round's fixes (D353 to D361) have not been seen in a capture. `docs/qa/ISSUES.md` holds every finding of both looks (`W1-`, `W2-` rows); "Not re-seen" marks what the next capture has to show, and each engineer's "next capture should show" list is in D354 to D361. The fix-commit column of those rows holds the text `nov22`: replace it with the commit's hash when you commit.
+- Boss fights from chapter 3 on were found far under the two-minute floor in the player (`python tools/boss_durations.py <chain folder>`), with their length tests passing on stale shares. D362 recalibrates the shares and sizes the fights back into their tests' bars; check the fights' lengths in the next chain before trusting it.
+- Segments 42 to 69 have had one look (November 21) and their fixes have never been captured.
+
+**What to do next, in order.**
+1. A whole captured chain from segment 1 on the final build, alone on the machine at night (nothing else may run: no shell, no engineer, no other player window; check drive C: has 250 GB free first; about 85 GB and five hours). Then `boss_durations.py` on it.
+2. A third look: the "next capture should show" lists for segments 1 to 41, and a full second look at segments 42 to 69.
+3. A third round for what that finds, plus what is already waiting: Many Hands' garden pillar and slab, its lane and hangar floors, the Frozen Host's floor and ice walls (left for cost in D346), the Tollkeeper's pale hull patches (D342).
+4. The whole suite on the final tree, a last chain, then commit (the staging rules are under "Session-start safety"), push `origin main`, and a Workshop build with a note for Nathan.
+5. When Nathan has generated them: wire the fourteen music tracks (`docs/music/NEW_TRACKS.md`, `NEW_TRACKS_2.md`) and take in the four portrait sheets (`docs/art/NEW_PORTRAITS.md`).
+
+**Traps met this round.**
+- A replay step that is only just long enough fails when the party gets better: the Bellows' organ steps (12 s) and the Walking Canopy's last walk point (the same frame as a talk's trigger). When a route stops, read `frames.csv` round the step before blaming the game.
+- A rejected segment cannot be resumed from, and a leftover output folder stops a chain at once: resume from the last accepted segment into a clean folder.
+- Do not rebuild the player while a scout or a chain is running from it.
+- Route generators for chapters 3 to 10 may be rerun (`tools/xylos_routes.py`, `wendmire_routes.py`, `manyhands_routes.py`, `hoarfell_routes.py`, `oriel_routes.py`, `harrowgate_routes.py`, `home_routes.py`, `mooring_routes.py`, then `tools/route_lint.py`). The chapter 1 and 2 generators rewrite routes that are now kept by hand: do not run them.
+- `RuntimeStrideTests` count real frames and fail when the machine is busy; rerun the class alone before believing a failure.
+- A builder that repaints shared materials can strip what another zone's pieces need (the fade keyword): `SceneFadeMaterialTests` now checks every scene.
+
+## State at 08:30 on November 20 (history; the licence came back at 10:23)
 
 Unity's licence lapses thirty days after the Hub last signed in (it did on November 14 at 04:14; only Nathan can sign in, Hub at `D:\UnityDev\Unity Hub`). Nothing is committed since `ff8ddeb`; the latest local snapshot is `refs/snapshots/nov15-0640`. Several engineers work at once: a red tree stops every one of them (`python tools/typecheck.py`, and read every error line: the first can hide yours).
 
@@ -86,7 +115,7 @@ To go on scouting from a clean save (one unbroken line from a new game on one bu
 
 **Look.** Every zone of chapters 8 to 10 was judged from stills today, and two polish passes ran (D310, D311). Still weak: six of the Terminator's eighteen stills are sparse; three of the Broken Ring's fight frames have no district in them; the anchor chamber is cold blue-grey before its release; Sorrel's apertures are narrow notches. In-play stills need a window (`-Reconnaissance -Capture -Windowed`, with nobody at the machine): none have been taken of chapters 6 to 10.
 
-## What to do next, in order
+## What to do next, in order (history, as of November 20; the list under "State on November 22" replaces it)
 
 1. **Play chapter 6** (routes 32 to 37) on a build with D282, then **chapters 7 and 8** (routes 38 to 52), fixing the game, the route or the driver at each stop (D272 and guide section 10 list what the stops have been). **What reconnaissance on the 03:16 build showed of chapter 6** (`Builds/quality/nov14-recon*`, never evidence of a pass; the Shear was ridden through on a cut-down copy of route 32 under `Builds/quality/nov14-recon-routes`):
    - Routes 33, 34, 35 and 37 went through clean; route 36 went through on its second try.

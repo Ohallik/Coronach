@@ -232,5 +232,44 @@ namespace Lattice.Tests.PlayMode
             var road=All<Transform>().FirstOrDefault(t=>t.name=="The young's road");Assert.IsNotNull(road);Assert.IsTrue(road.gameObject.activeInHierarchy,"the road's marks aren't drawn once she is freed");
             var spawn=All<SpawnPoint>().First(s=>s.id=="Road");Assert.Less(Flat(spawn.transform.position,PartyController.Current.Active.transform.position),4,"the party doesn't arrive at the road's start");
         }
+
+        // ------------------------------------------------------------------ the haze, wherever the view stands
+        /// <summary>From the valley's head she is on show, and the view draws back two hundred metres and more to hold the party and her. The zone's fog was tuned for the flight camera's
+        /// 26 m and, from there, laid a flat pink sheet over everything, the shelves and her coil in it as pale cut-outs (whole-game capture, November 20, s63/010, the chapter's wide view of
+        /// its set piece). Drawn back, the plane under the view, her middle and her shelves are as clear as in play, and the crater's floor is hazed by its depth and no more.</summary>
+        [UnityTest] public IEnumerator FromTheValleysHeadTheViewDrawnBackToShowHerKeepsThePlaneClearAndHazesTheDepths()
+        {
+            yield return Zone();
+            foreach(var hero in PartyController.Current.members)
+            {
+                var body=hero.GetComponent<CharacterController>();body.enabled=false;if(hero.motor is FlightMotor ship)ship.Halt();
+                hero.transform.position=new Vector3(hero==PartyController.Current.Active?0:4.4f,Plane,232);body.enabled=true;
+            }
+            Physics.SyncTransforms();var lens=Camera.main;Assert.IsNotNull(lens,"fixture: no camera");
+            float Along()=>(lens.transform.position.y-Plane)/Mathf.Max(.01f,-lens.transform.forward.y);
+            for(float until=Time.unscaledTime+15;Time.unscaledTime<until&&Along()<150;)yield return null;
+            yield return new WaitForSecondsRealtime(1.5f);
+            Assert.Greater(Along(),150,"fixture: the view never drew back to show her from the valley's head");
+            // What the zone's fog stands at as this lens draws, read back after it has drawn.
+            float start=0,end=0;
+            float Fog(Vector3 p){float depth=Vector3.Dot(p-lens.transform.position,lens.transform.forward);return Mathf.Clamp01((depth-start)/Mathf.Max(.01f,end-start));}
+            var under=lens.transform.position+lens.transform.forward*Along();
+            var haze=All<PlaneHaze>().SingleOrDefault();Assert.IsNotNull(haze,"Sorrel has no haze measured from the plane: its fog is the lens's");
+            // The check first, on the zone's fog as the lens alone would have it (the haze off): from here it covers the plane.
+            haze.enabled=false;lens.Render();yield return null;lens.Render();start=RenderSettings.fogStartDistance;end=RenderSettings.fogEndDistance;
+            Assert.Greater(Fog(under),.5f,$"fixture: the zone's own fog ({start:0} to {end:0}) from {Along():0} m doesn't haze the plane, so the check can't see what s63/010 showed");
+            haze.enabled=true;lens.Render();yield return null;lens.Render();start=RenderSettings.fogStartDistance;end=RenderSettings.fogEndDistance;
+            under=lens.transform.position+lens.transform.forward*Along();
+            var floor=new Vector3(0,-86,356);float plane=Fog(under),her=Fog(new Vector3(C.x,Plane,C.y)),deep=Fog(floor);
+            float shelves=Bearings.Max(b=>Fog(Ring(b,27,ShelfY)));
+            TestContext.WriteLine($"SORREL_HAZE lens {Along():0} m from the plane, fog {start:0} to {end:0}: the plane under the view {plane:0.00}, her middle {her:0.00}, the shelves at most {shelves:0.00}, the moat's floor {deep:0.00}");
+            var failures=new List<string>();
+            if(plane>.05f)failures.Add($"the plane under the view is {plane:0.00} fog (clear in play)");
+            if(her>.1f)failures.Add($"her middle is {her:0.00} fog");
+            if(shelves>.12f)failures.Add($"a shelf is {shelves:0.00} fog");
+            if(deep>.55f)failures.Add($"the moat's floor, 87 m under the plane, is {deep:0.00} fog: more than its depth");
+            if(deep<.08f)failures.Add($"the moat's floor, 87 m under the plane, is {deep:0.00} fog: the crater has no depth in it");
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
     }
 }

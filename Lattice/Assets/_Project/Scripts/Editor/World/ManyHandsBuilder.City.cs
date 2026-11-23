@@ -154,7 +154,7 @@ namespace Lattice.EditorTools
             internal static readonly (string text,Vector2 at,float half)[] Signs=
             {
                 ("DOCK",new(-9,-63.4f),1.6f),("FREIGHT SPINE",new(-3.6f,-48),2.8f),("FREIGHT HALL",new(18,-56.6f),2.8f),("ARCADE",new(-6,-.4f),2),("GALLEY",new(57.4f,-1.6f),2),
-                ("GARDEN",new(21,22.8f),2),("RAFT BAY",new(-10.4f,-27.6f),2.2f),("LAMP GALLERY",new(-6,21),2.8f),("CABINS",new(-24,23.6f),2),("CHART TABLE",new(-3.4f,43),2.6f),
+                ("GARDEN",new(21,22.8f),2),("RAFT BAY",new(-12.6f,-27.6f),2.2f),("LAMP GALLERY",new(-6,21),2.8f),("CABINS",new(-24,23.6f),2),("CHART TABLE",new(-3.4f,43),2.6f),
             };
             static bool OnASign(Vector2 p){foreach(var (_,at,half) in Signs)if(Mathf.Abs(p.x-at.x)<half+.6f&&Mathf.Abs(p.y-at.y)<1.4f)return true;return false;}
             /// <summary>Everyone with a name, wherever they stand over the chapter: nothing is put down between the camera and any of them.</summary>
@@ -253,9 +253,14 @@ namespace Lattice.EditorTools
                 var kit=Kit=ZoneKit.Ground(City,Height,CliffTop);
                 var scene=WorldBuilder.Begin(kit.zone);
                 var land=kit.Terrain("Many Hands deck",XMin,XMax,ZMin,ZMax,.5f,Plate,HullPlate,Tone,new Color(.6f,.62f,.66f),new Color(.66f,.66f,.68f));
-                var hold=kit.Water("Hold water",-78,-12,-52,-10,1,HoldWater,Water,4);
-                var channel=kit.Water("Channel water",28,78,18,24,.5f,ChannelWater,Water,2);
-                foreach(var sheet in new[]{hold,channel}){var patch=sheet.AddComponent<BiomePatch>();patch.resourceKey="ManyHands-"+sheet.name.Replace(' ','-');patch.palette="River";patch.water=true;}
+                // The hold's water in six sheets of about 22 by 21 m: the renderer draws only the six lights nearest each thing it draws (forward, six to an object), and one sheet
+                // 66 m by 42 under a score of quay and raft lamps caught the glints of whichever six it was given, mostly none in frame (D359).
+                var sheets=new List<GameObject>();int part=0;
+                foreach(var (x0,x1) in new[]{(-78f,-56f),(-56f,-34f),(-34f,-12f)})foreach(var (z0,z1) in new[]{(-52f,-31f),(-31f,-10f)})sheets.Add(kit.Water("Hold water "+(++part),x0,x1,z0,z1,1,HoldWater,Water,4));
+                sheets.Add(kit.Water("Channel water",28,78,18,24,.5f,ChannelWater,Water,2));
+                // The licensed water's own setting for a station's indoor bay (LocalBiomeBake's "Hold"), baked for this zone since November 21: unbaked, the player drew the public
+                // water as navy camouflage (s28/197).
+                foreach(var sheet in sheets){var patch=sheet.AddComponent<BiomePatch>();patch.resourceKey="ManyHands-"+sheet.name.Replace(' ','-');patch.palette="Hold";patch.water=true;}
                 WorldBuilder.Spawn("Arrival",kit.On(Arrival.x,Arrival.y));WorldBuilder.Spawn("FreightHall",kit.On(FreightHallSpawn.x,FreightHallSpawn.y));
                 WorldBuilder.Spawn("Arcade",kit.On(ArcadeSpawn.x,ArcadeSpawn.y));
                 kit.DriftingSky();

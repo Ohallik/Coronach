@@ -73,6 +73,7 @@ namespace Lattice.Combat
             Vector3 movement=travelVelocity;
             if(dashing){DesiredVelocity=movement=dash;travelVelocity=Vector3.zero;dashTime-=dt;}
             Vector3 before=transform.position;
+            HeroCollision.ThroughParty(controller);
             var collisions=controller.Move((movement+Vector3.down*7)*dt);
             var displacement=transform.position-before;displacement.y=0;
             // Retain sub-pixel acceleration between very short frames. Replacing
@@ -120,7 +121,7 @@ namespace Lattice.Combat
             if(GameTime.Paused||!enabled||!controller.enabled||!actor.Health.Alive||actor.ChangingForm)return;
             transform.rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(heading),900*Time.unscaledDeltaTime);
             Facing=transform.forward;
-            Vector3 before=transform.position;controller.Move(displacement);var actual=transform.position-before;actual.y=0;
+            Vector3 before=transform.position;HeroCollision.ThroughParty(controller);controller.Move(displacement);var actual=transform.position-before;actual.y=0;
             if(movedFrame!=Time.frameCount)measuredVelocity=Vector3.zero;
             movedFrame=Time.frameCount;
             if(Time.unscaledDeltaTime>0)measuredVelocity+=actual/Time.unscaledDeltaTime;

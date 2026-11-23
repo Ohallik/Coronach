@@ -59,7 +59,11 @@ namespace Lattice.Tests.PlayMode
             // its real door (FloorPartyBossReplayTests, November 15), 115,000 fell in 107.0 and 122.1 s: .575 and .526 of 1,869 and 1,789 a second, under its two minutes. It is 125,000,
             // which fell the same way in 130.0, 141.9 and 135.4 s (.538, .497 and .494 of 1,788, 1,771 and 1,870): this is the lowest. The bar can't go much further: the slowest pair's
             // quarter of flat out (TheHostMarshalLastsWhatThePlanAsksForEveryPairAPlayerCanPutOut) stands at 266 to 280 s at 125,000, against 300.
-            book.Boss(new ContentRegistry.BossSheet{id="HostMarshal",zone="FrozenHost",door="HostMarshal",doorFlags=new[]{"hoar.idraJoined","hoar.marshalSeen"},sync=17,driverShare=.49f,
+            // .58 since D362 (November 22): today's scout of the 10:30 build felled 125,000 in 115.5 s (nov22-recon-e s36) against 1,798 and 1,879 a second (d355-dome3, d355-lengths),
+            // which is .589, rounded down; nov22-whole took 102.9 s. The floor party through the pad read .481 the same morning (d355-chapters): the player's party gets more.
+            // 155,000 since D362 (continued): the slow pair's 400 s at a quarter, on the slowest pair read today (Taren and Sela, 1,637 a second, d362c-ch3to7, where 165,000
+            // stood at 403), holds it there. Its fast case is set by its openings, not its integrity (it is open after every move): 75.3 s at 130,000 (nov22-recon-h-36) is about 90 s.
+            book.Boss(new ContentRegistry.BossSheet{id="HostMarshal",zone="FrozenHost",door="HostMarshal",doorFlags=new[]{"hoar.idraJoined","hoar.marshalSeen"},sync=17,driverShare=.58f,
                 specials=new[]{("SpearLunge",new Vector3(0,0,8)),("ShieldBash",new Vector3(0,0,3)),("CrackingSweep",new Vector3(0,0,5))},
                 // Its call strikes nobody: what it marks is where a rank steps out (TheMarshalsCouplingsAreShutUntilItWakesEachPutsItsRankBackToSleepAndTheThirdIsTheShift).
                 testedApart=new[]{"Rally"},
@@ -698,7 +702,9 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ what the fight is sized on
-        const float DriverShare=.3f,CouplingUptime=.5f,FlatOutSeconds=15;
+        /// <summary>The driver's share of this test's own flat out. .51 since D362 (November 22): at .3 the two terms gave 199 s for 125,000 at the 1,791 to 1,811 a second read
+        /// that morning (d355-chapters), and today's scout felled it in 115.5 s (Builds/quality/nov22-recon-e s36): .52, rounded down.</summary>
+        const float DriverShare=.51f,CouplingUptime=.5f,FlatOutSeconds=15;
         /// <summary>A pair flat out on a body that never moves, as QaPlanCombatTests measures it: both heroes attacking, every skill as its cooldown and Charge allow; one who fights with an
         /// Edge stands at its reach, one with an Emitter a few steps off.</summary>
         IEnumerator Rate(string[] pair,System.Action<float> measured)
@@ -707,7 +713,7 @@ namespace Lattice.Tests.PlayMode
             var at=At(0,.1f,0);var heroes=PartyController.Current.members.ToArray();
             var enemy=Enemy("HostMarshal",at);yield return Frames(3);var body=enemy.Health;
             enemy.GetComponent<BossController>().enabled=false;body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var homes=new Vector3[heroes.Length];
+            float reach=BossReach.Edge(enemy);var homes=new Vector3[heroes.Length];
             for(int i=0;i<heroes.Length;i++)homes[i]=DevLoadout.Weapon(heroes[i].character)==GearSlot.Edge?at+Quaternion.Euler(0,i==0?-20:20,0)*Vector3.back*reach:at+Vector3.back*(reach+5)+Vector3.right*(i==0?-2:2);
             for(int i=0;i<heroes.Length;i++){Put(heroes[i],homes[i]);heroes[i].target=body;heroes[i].charge=100;}
             yield return null;
@@ -754,7 +760,7 @@ namespace Lattice.Tests.PlayMode
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(seconds<120||seconds>300)failures.Add($"{line}: the plan asks 120 to 300");
                 if(integrity<rate*DriverShare*120)failures.Add($"{line}: the shared floor, 120 s at the driver's share");
-                if(integrity/(rate*.25f)>300)failures.Add($"{line}: the shared ceiling, 300 s at a quarter of flat out");
+                if(integrity/(rate*.25f)>ContentRegistry.SlowPairCeiling(300))failures.Add($"{line}: the shared ceiling, {ContentRegistry.SlowPairCeiling(300):0} s at a quarter of flat out (D362 continued)");
             }
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }

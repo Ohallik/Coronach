@@ -168,3 +168,7 @@ What is weak, plainly:
 - **The tug's fight is in no still** (its drones spawn in play); the tug herself is the Nacre-green cutter of chapter 9, not a squat working hull.
 - **The middle of the road after the turn is sparse** by design (Orrin empties it): the road's lanterns, the ribs and the convoy at the edges.
 - No ambience bed of its own (guide 14: the lead's).
+
+## Look pass (November 21, the chapter 10 zone engineer)
+
+- **The haze is measured from the plane** (`PlaneHaze`, D344; `Passage.HazeFrom`/`HazeTo` 70 to 480 at the play distance), and the soft glows fade in their alpha. No still of the capture drew back far here; the wide views (`EndingLook` shots `haze-passage`) show the deep's floor and streams where the lens's fog left a flat haze.

@@ -823,8 +823,10 @@ def homecoming():
         r.add(f"release Jun's last line line {i + 1}", 0.2, stopWhen="flag:game.complete")
     r.add("the last word", 20, buttons=["South"], pulseSeconds=1.0, until="flag:game.complete", expectedFlag="game.complete")
     r.add("let the last word go", 1.5, useItem="none")
-    for i in range(3):
-        r.add(f"the credits, held to hurry {i + 1}", 170, buttons=["South"], stopWhen="flag:credits.rolled", useItem="none")
+    # The roll at its own reading pace, a step (and so a still) every eight seconds, about half a screen of it: held to hurry in three steps that each ran to the roll's end, the
+    # capture of November 20 kept no still of the credits at all (its one still came after they had gone; s69/060 to 064). About 100 s, then its way home.
+    for i in range(14):
+        r.add(f"the credits, at their pace {i + 1}", 8, stopWhen="flag:credits.rolled", useItem="none")
     r.add("the credits end", 30, until="flag:credits.rolled", useItem="none", expectedFlag="credits.rolled")
     r.wait("back in the town under the new sky", 4, expectedFlag="game.complete", expectedUi="world")
     r.write()

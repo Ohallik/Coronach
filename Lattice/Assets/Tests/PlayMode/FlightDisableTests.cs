@@ -32,22 +32,28 @@ namespace Lattice.Tests.PlayMode
             actor.GetComponent<FlightMotor>().Halt();Physics.SyncTransforms();
         }
         static void Down(CombatActor actor)=>actor.Health.Receive(new DamagePacket{amount=100000,type=DamageType.Kinetic});
-        [UnityTest] public IEnumerator DisabledHullStopsItsLivePartnerWithoutRemainingDamageable()
+        /// <summary>No hero is a solid to another, down or not (D354): the live ship flies through its partner's disabled hull at its own pace, touching nothing, and comes within the
+        /// revive's reach of it on the way (PartyController: both hulls and half a metre). Until D354 this held that the disabled hull stopped the live ship at the two hulls' reach.
+        /// The disabled hull still takes no damage and lifts nothing while it is down, and is whole again once revived.</summary>
+        [UnityTest] public IEnumerator DisabledHullLetsItsLivePartnerThroughWithoutRemainingDamageable()
         {
             foreach(var disabled in members)
             {
                 var live=members.First(m=>m!=disabled);Place(live,new Vector3(200,1,0));Place(disabled,new Vector3(200,1,6));Down(disabled);
                 yield return new WaitForSecondsRealtime(.2f);
                 Assert.IsFalse(disabled.GetComponent<CapsuleCollider>().enabled,"disabled damage trigger remains active");
-                float deadline=Time.unscaledTime+1,minGap=float.PositiveInfinity;
+                float deadline=Time.unscaledTime+1,minGap=float.PositiveInfinity,beyond=float.NegativeInfinity;int touched=0;var hull=live.GetComponent<CharacterController>();
                 while(Time.unscaledTime<deadline)
                 {
                     live.motor.Move(Vector2.up,false,false);yield return null;
+                    if((hull.collisionFlags&CollisionFlags.Sides)!=0)touched++;
                     minGap=Mathf.Min(minGap,Vector3.Distance(live.transform.position,disabled.transform.position));
+                    beyond=Mathf.Max(beyond,live.transform.position.z-disabled.transform.position.z);
                 }
-                float envelope=HeroCollision.HullRadius(live.character)+HeroCollision.HullRadius(disabled.character);
-                Assert.GreaterOrEqual(minGap,envelope-.04f,"live craft passes through recoverable generated hull");
-                Assert.Less(minGap,envelope+.5f,"fixture never reached the disabled hull");
+                float reach=HeroCollision.HullRadius(live.character)+HeroCollision.HullRadius(disabled.character)+.5f;
+                Assert.AreEqual(0,touched,"the live craft met its partner's disabled hull side on");
+                Assert.Greater(beyond,0,"the live craft never went through its partner's disabled hull");
+                Assert.LessOrEqual(minGap,reach,"flying through, the live craft never came within the revive's reach of the disabled hull");
                 Assert.AreEqual(0,disabled.Health.integrity);Assert.IsFalse(disabled.Attack());
                 disabled.Health.Heal(disabled.Health.maximum*.35f);yield return new WaitForSecondsRealtime(1.3f);
                 Assert.IsTrue(disabled.GetComponent<CapsuleCollider>().enabled);Assert.IsTrue(disabled.CanAct);

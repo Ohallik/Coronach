@@ -99,3 +99,14 @@ Stills: `Builds/quality/look/chamber-polish-03` (editor, held) and the release a
 - **The grade**: a little less blue in the shadows, more contrast and saturation; the held chamber stays cold so the release's warm turn reads.
 
 What still reads badly, plainly: the chamber is still mostly cold blue-grey in the held state (the deck plates and the walls are the Continuance's pale blue plate under a cold key); the clamps' generated mesh still reads as carved stone up close; the gantry's frame stands north of the deck and is rarely in a fight's frame; the well's floor still fills the lower third of the release's frame (under the dialogue box).
+
+## Look pass (November 21, the chapter 10 zone engineer)
+
+After the whole-game capture (`Builds/quality/nov20-whole/s67`), re-rendered from its own camera positions by `LastMooringBuilder.EndingLook` (`Builds/quality/look/ch10-before`, `ch10-after*`):
+
+- **Meret in her emergency frame** read as a pale mannequin (s67/116). The editor drew her the same from the same camera, so her body reached the player as it was: the frame's Meshy repaint had painted her fronds a smooth white cap, her face a dark slate and her boots white. `tools/meret_grade.py` gives the frame her own body's head and neck (her portrait's lavender-grey face and grooved silver fronds; the two bodies share one mesh and UV layout), brushed-slate boots, a coat a little under paper white, and the frame's cyan lights in its emission. Her yielded person is the same body.
+- **The well's floor** is a deep slate-teal (.4, .48, .52; the collar's .36, .44, .48; the landing's .58, .62, .65), the rim band lighter than it: she and the heroes stand out on it.
+- **The lift's cage** is built: a tread floor with gold ends and the rail's shoes, grilles of bars down both long sides, gusseted corner posts, a lattice roof the camera sees through, two teal strip lamps under it and a control post (it was a bare frame with a white lamp box on its roof, s67/099). Still drawn only.
+- **The sign** `CONTROL WELL` is at (0, -16, 50) on the walk before the door: at (-3.6, 49.2) the cradle's east bollard stood in its middle.
+- **The road's rings** are a fine line of light (.26 m) with eighteen lamps strung on each, and woken a warm white-gold (`AnchorRelease.roadFree` 1.55, 1.22, .8): solid .9 m tubes in saturated yellow read as crude coils (s67/210).
+- **The smiths at the clamps**: the third wears Odrun's body, not a second Tovra (s67/203, 238).

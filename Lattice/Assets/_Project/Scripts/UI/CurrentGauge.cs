@@ -15,6 +15,9 @@ namespace Lattice.UI
         const float Width=400;
         static readonly Color With=new(.42f,1f,.86f),Against=new(1f,.7f,.32f),Back=new(.025f,.045f,.065f,.85f),Middle=new(.8f,.86f,.9f,.6f);
         GameObject root;Image fill;TMP_Text words;
+        /// <summary>Whether it is up, and the panel itself: a bark come down its column stops over it.</summary>
+        public bool Showing=>root!=null&&root.activeSelf;
+        public RectTransform Box=>root!=null?(RectTransform)root.transform:null;
         public static string Words(AuroraCurrent.Riding riding)=>riding switch
         {
             AuroraCurrent.Riding.With=>"CURRENT WITH YOU · THRUST FILLING",

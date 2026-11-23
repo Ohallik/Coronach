@@ -43,10 +43,10 @@ namespace Lattice.UI
         const float NamePixels=26,MarkPixels=32,OverHead=.32f;
         /// <summary>A heavy mark, not a tick: thin Cinzel's '!' read as a stray stroke before the name.</summary>
         const string Mark="<size=150%><b>!</b></size>  ";
-        sealed class Label{public TextMeshPro text;public string name;public Color color;public float size,markSize;public bool marked;}
+        sealed class Label{public TextMeshPro text;public string name,shows;public Color color;public float size,markSize;public bool marked,placed;public Npc npc;}
         readonly Dictionary<Npc,Label> labels=new();
-        readonly List<Label> shown=new();
-        float next;
+        readonly List<Label> shown=new();readonly List<TextMeshPro> upright=new();readonly HashSet<string> names=new();
+        float next;bool everyone;
         public static bool HasNews(Npc npc)
         {
             var service=GameServices.Current;
@@ -64,13 +64,33 @@ namespace Lattice.UI
         void Update()
         {
             if(Time.unscaledTime<next||GameServices.Current==null)return;next=Time.unscaledTime+.25f;
+            // Everyone's name from the first frame, their talk open or not: at the meeting Jun, Dace and Oda waited their turn with their talk shut, and their names lay on the
+            // floor as the builder had tilted them, turned with their bodies, DACE upside down by the grate (s57/055). One whose body isn't out yet is put over its head when it is.
+            if(!everyone)
+            {
+                everyone=true;
+                foreach(var npc in FindObjectsByType<Npc>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+                {
+                    LabelOf(npc);
+                    // And every name hanging over a person is held upright, shown yet or not: a second Jun at the meeting, hidden as the zone loaded, kept the builder's tilt.
+                    foreach(var name in npc.GetComponentsInChildren<TextMeshPro>(true))if(name.name.StartsWith("Sign_")&&!upright.Contains(name))upright.Add(name);
+                    names.Add("Sign_"+DisplayNames.Speaker(npc.speaker));
+                }
+                // And a sign named for someone and hung apart from them (Jun's at her stall on the day): it reads as their name, so it faces the camera as their name does.
+                foreach(var text in FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(names.Contains(text.name)&&!upright.Contains(text))upright.Add(text);
+            }
+            foreach(var label in shown)
+                if(!label.placed&&label.text!=null&&label.npc!=null&&label.npc.gameObject.activeInHierarchy){label.placed=true;if(label.text.transform.IsChildOf(label.npc.transform))OverTheHead(label.text,label.npc);}
             foreach(var prompt in InteractionPrompt.Active)
             {
                 if(prompt is not Npc npc)continue;
                 var label=LabelOf(npc);if(label==null)continue;
                 bool news=HasNews(npc);if(news==label.marked)continue;
-                label.marked=news;label.text.text=news?Mark+label.name:label.name;label.text.color=news?UiKit.GoldColor:label.color;
-                label.text.fontSize=news?label.markSize:label.size;
+                // The mark stands before the name as it is drawn (backed or not), so the name reads the same with or without it (QaUiFlowTests: the mark doesn't take the name's
+                // place). A backed name's mark has a tag as tall as the mark under both, the name keeping its own on top: the mark's tag alone stood taller than the name's,
+                // and the ground showed over the name between the two tops.
+                label.marked=news;label.text.fontSize=news?label.markSize:label.size;
+                label.text.text=news?(label.shows!=label.name?SignStyle.Backing(label.text,Mark+label.name)+Mark:Mark)+label.shows:label.shows;label.text.color=news?UiKit.GoldColor:label.color;
             }
         }
         /// <summary>A name reads level whichever way its person faces: as a child it turned with them, so CORRA stood on end.</summary>
@@ -81,6 +101,11 @@ namespace Lattice.UI
             {
                 var text=shown[i].text;
                 if(text==null)shown.RemoveAt(i);else text.transform.rotation=facing;
+            }
+            for(int i=upright.Count-1;i>=0;i--)
+            {
+                var text=upright[i];
+                if(text==null)upright.RemoveAt(i);else if(text.isActiveAndEnabled)text.transform.rotation=facing;
             }
         }
         /// <summary>The label the camera can see: a hailed person's own is switched off with their body, and a sign named for them hangs beside their ship.</summary>
@@ -97,12 +122,19 @@ namespace Lattice.UI
             Label label=null;
             if(found!=null)
             {
-                found.fontSharedMaterial=UiKit.LegibleMaterial(found.font);
-                // A name goes with the signs: '! Keeper Abri' printed through the box, and 'ORRIN' was cut in half by the vitals.
-                if(!found.TryGetComponent<SignFade>(out _))found.gameObject.AddComponent<SignFade>().bossOnly=true;
+                // Drawn nearer the camera than it hangs, like a sign (SignStyle.Reach): a post across MOTHER ODRUN, an awning over Ishen's name. In a full dark halo, so it reads
+                // over a notice board's lines and on snow.
+                found.fontSharedMaterial=SignStyle.NameFace(found.font)??UiKit.LegibleMaterial(found.font);
                 float scale=Mathf.Max(.01f,found.transform.lossyScale.y),size=Mathf.Max(found.fontSize,UiKit.WorldFontSize(NamePixels)/scale);found.fontSize=size;
-                if(found.transform.IsChildOf(npc.transform))OverTheHead(found,npc);
-                label=new Label{text=found,name=found.text,color=found.color,size=size,markSize=Mathf.Max(size,UiKit.WorldFontSize(MarkPixels)/scale)};shown.Add(label);
+                // Backed by a dark tag in its own text (SignStyle.Backed): ORRIN read as part of the notice board behind him, OLD TERN's gold was faint on snow. Only a name hanging
+                // over its own person: a sign named for someone and hung elsewhere (beside a hailed ship) keeps its words as they are, since a sign is known for a name by its words.
+                string words=found.text,shows=found.transform.IsChildOf(npc.transform)?SignStyle.Backed(found,words):words;found.text=shows;
+                // A name goes with the signs: '! Keeper Abri' printed through the box, and 'ORRIN' was cut in half by the vitals.
+                if(!found.TryGetComponent<SignFade>(out var fade)){fade=found.gameObject.AddComponent<SignFade>();fade.bossOnly=true;}
+                fade.keepsTurn=false;fade.nameTag=true;
+                bool placed=npc.gameObject.activeInHierarchy;
+                if(placed&&found.transform.IsChildOf(npc.transform))OverTheHead(found,npc);
+                label=new Label{text=found,name=words,shows=shows,color=found.color,size=size,markSize=Mathf.Max(size,UiKit.WorldFontSize(MarkPixels)/scale),npc=npc,placed=placed};shown.Add(label);
             }
             labels[npc]=label;return label;
         }

@@ -55,7 +55,7 @@ namespace Lattice.Tests.PlayMode
             // bar (its pods choose, they don't take). Its share is measured, not a flight boss's .29: chapter-61's first play (nov14-recon31) got .05 of flat out with the braked chase
             // (60% of 123,000 left after 471 s, a fault in the driver's hands, not a share), and with the hands this fight asks for (ContinuousReview.Home.cs, CutterHeading) the arrival pair
             // fought by the driver's pad in the Ring (HomeReplayHandsTests) took 854 to 905 a second: 123,000 fell in 144.1 s, .35 of that run's own flat out (2,431) and .39 of the shared
-            // test's (BOSS_RATE 2,214); 62 s samples .41 and .44. The lower is the sheet's. Taren with Sela out took 1,663 a second (.49) and Sela with Idra 1,075 (.29): at 155,000 (159,000 since November 20) about
+            // test's (BOSS_RATE 2,214); 62 s samples .41 and .44. The lower is the sheet's. Taren with Sela out took 1,663 a second (.49) and Sela with Idra 1,075 (.29): at 155,000 (160,500 since November 21) about
             // 95 s and 145 s, the arrival pair about three minutes.
             book.Boss(new ContentRegistry.BossSheet{id="DebrisCutter",zone="BrokenRing",door="DebrisCutter",doorFlags=new[]{"home.launched"},flight=true,sync=26,driverShare=CutterShare,
                 specials=new[]{("Beam",new Vector3(0,0,12)),("Mines",new Vector3(0,0,12)),("Tractor",new Vector3(0,0,12)),("Run",new Vector3(0,0,12))},
@@ -704,7 +704,7 @@ namespace Lattice.Tests.PlayMode
                 var road=boss.SaintArms.Where(a=>a.Resting).OrderBy(a=>Mathf.Abs(Mathf.DeltaAngle(a.Bearing,180))).First();
                 for(int i=0;i<heroes.Length;i++)homes[i]=heroes[i].character==climber?road.RoadPoint(.9f)+Vector3.up*.08f:at+Vector3.back*(BossController.SaintTune.Radius+.9f)+Vector3.right*4;
             }
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;
+            float reach=BossReach.Edge(enemy);
             boss.enabled=false;body.maximum=body.integrity=10000000;body.Holds=null;
             for(int i=0;i<heroes.Length;i++)
             {
@@ -714,8 +714,8 @@ namespace Lattice.Tests.PlayMode
             for(int i=0;i<heroes.Length;i++){Put(heroes[i],homes[i]);heroes[i].target=body;heroes[i].charge=100;}
             yield return null;
             float landed=0;System.Action<Health,DamagePacket,float> count=(_,packet,amount)=>{if(heroes.Any(h=>packet.source==h.Health))landed+=amount;};body.Damaged+=count;
-            int broke=Count("BREAK_OK");
-            for(float end=Time.unscaledTime+seconds;Time.unscaledTime<end;)
+            int broke=Count("BREAK_OK"),shown=0;
+            for(float end=Time.unscaledTime+seconds;Time.unscaledTime<end;shown++)
             {
                 for(int i=0;i<heroes.Length;i++)
                 {
@@ -734,10 +734,16 @@ namespace Lattice.Tests.PlayMode
                 yield return null;
             }
             body.Damaged-=count;Assert.Greater(landed,0,"fixture: "+string.Join(" and ",pair)+" are hitting it");measured(landed/seconds,(Count("BREAK_OK")-broke)/seconds);
+            RateFrames=shown/seconds;
             enemy.Passive=true;Object.Destroy(enemy.gameObject);
             foreach(var left in Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))if(left is GravityWell||left is PulseField||left is StarfallStrike||left is NetSeed)Object.Destroy(left.gameObject);
             yield return Frames(3);
         }
+        /// <summary>How many frames a second the last <see cref="Rate"/> ran at. A measure taken on a machine too busy to draw fifty is not a rate to judge a bar by (the shared length test's
+        /// rule, QaPlanCombatTests.FlatOutFrames): with a dozen engineers' Unitys at work on November 21 one pair's two readings in one run stood six per cent apart (3,924 and 4,177)
+        /// where a quiet machine had read them a tenth of a per cent apart the day before (3,900 and 3,897), and the Cutter failed a floor it stands inside, a different pair each run.</summary>
+        float RateFrames;
+        const float RateFramesFloor=50;
         static void Pinned(string id,int breakThreshold,out float integrity)
         {
             string source=System.IO.File.ReadAllText(System.IO.Path.Combine(Application.dataPath,"_Project/Scripts/Editor/World/HomeBuilder.Bosses.cs"));
@@ -746,16 +752,28 @@ namespace Lattice.Tests.PlayMode
         }
         static readonly string[][] Pairs={new[]{"Taren","Idra"},new[]{"Taren","Sela"},new[]{"Sela","Idra"}};
         /// <summary>What the replay driver gets of a pair's own flat out: at a planted boss, D272's .36 to .57 (the Seedthane, the Floodcrown, the Rotbloom), so .45 (the Cutter's is its own, <see cref="CutterShare"/>). A quarter is the person who spends most of the fight dodging, whom the five minutes are for.</summary>
-        const float PlantedShare=.45f,Dodging=.25f;
+        /// .59 since D362 (November 22), the Saint's own: today's scouts felled 88,000 in 60.6 s (Builds/quality/nov22-recon-g s59, the 12:35 build) and 123,000 in 144.5 s
+        /// (nov22-recon-h-59, the 14:52 build), the pair out Taren and Idra, for whom <see cref="SaintLength"/> gave 144 s at .45 for 88,000 on this class's rates that morning
+        /// (d355-saint: 3,008 a second, the climb 2,970). It solves to .967 and .595, the lower. The length is not smooth in integrity: each head lift unlocks every collar, and at
+        /// 88,000 one lift let two arms go, at 123,000 a collar took two or three lifts.
+        const float PlantedShare=.59f,Dodging=.25f;
         /// <summary>The Cutter's share, measured by the driver's own hands for it (the sheet's comment, HomeBosses): <see cref="TheCutterLastsAboutThreeMinutesForEveryPairAPlayerCanPutOut"/> reads it off the sheet.</summary>
-        const float CutterShare=.35f;
+        /// .70 since D362 (November 22): today's scout of the 12:35 build felled 160,500 in 93.6 s (Builds/quality/nov22-recon-g s61) against 2,492 and 2,382 a second (d355-dome3,
+        /// d355-lengths), which is .704; against this class's arrival pair (2,385, nov22a-part7) with its first five seconds and its shift it is .78. It is 210,000 since D362
+        /// (continued): the shared slow pair's 400 s on its slowest reading (2,171) holds it there, about 113 s on the fastest scout (86.3 s at 160,500, nov22-recon-h-61).
+        const float CutterShare=.7f;
         /// <summary>How long the Cutter's pairs are measured for, and how far apart two such readings have stood (a reading inside that of a bound is taken twice).</summary>
         const float CutterSeconds=60,CutterScatter=1.06f;
         /// <summary>The least a planted boss has given the driver (the Seedthane, .36): the Saint at that share of what lands while it is open is the slow fight the five minutes are for.
         /// (A quarter of what lands while it is open would be about a tenth of flat out overall, not the quarter the shared ceiling means.)</summary>
         const float PlantedLeast=.36f;
         /// <summary>The Saint's sheet share: what <see cref="TheSaintLastsAboutThreeMinutesForEveryPairAPlayerCanPutOut"/> expects the chain to measure against the shared test's flat out.</summary>
-        const float SaintExpectedShare=.28f;
+        /// .17, not .28 (D355, continued): the shared flat-out measure stood an edge .9 m off the Saint's capsule, where his blade didn't reach its broad body, and read 1,800 a second; from a
+        /// quarter metre off it (BossReach.Edge) it reads 2,922, so the chain's own share of flat out is .28 x 1,800 / 2,922. The fight and its predicted length are unchanged.
+        /// .29 since D362 (November 22), measured, no longer expected: today's scouts felled 88,000 in 60.6 s (Builds/quality/nov22-recon-g s59) and 123,000 in 144.5 s
+        /// (nov22-recon-h-59) against 2,922 and 2,889 a second (d355-dome3, d355-lengths): .50 and .293, the lower. It is 115,000 now: at 123,000 Sela and Idra read 2,429 a second
+        /// and their dodging fight (at <see cref="PlantedLeast"/>) stood at 302 s of 300 (d362-ch8to10); at 115,000 that is about 283.
+        const float SaintExpectedShare=.29f;
         /// <summary>How much of the bare phase a climber is up on a road and striking: a sweep about every seven seconds sends him down the road or off it.</summary>
         const float ClimbUptime=.65f;
         /// <summary>The Saint's move cycle with its arms up, from its own numbers and the chooser's weights for a hero at its back (slam 2, weld 1.3, head 1.4): how long a move takes with its
@@ -806,41 +824,39 @@ namespace Lattice.Tests.PlayMode
                 if(arrival&&(seconds<140||seconds>220))failures.Add($"{line}: about three minutes, for the pair the chapter arrives with, is 140 to 220");
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(seconds<120||seconds>300)failures.Add($"{line}: a boss is two to five minutes");
-                if(dodging>300)failures.Add($"{line}: at the least share a planted boss has given the driver it takes over five minutes");
+                if(dodging>ContentRegistry.SlowPairCeiling(300))failures.Add($"{line}: at the least share a planted boss has given the driver it takes over {ContentRegistry.SlowPairCeiling(300):0} s (D362 continued)");
             }
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
         /// <summary>The Cutter's length on today's build for every pair flying, at Sync 26. Its bar is honest (a blow on a venting pod comes off it as one on the hull does; its pods choose, they
         /// don't take), so it lasts its integrity at its sheet's share of the pair's flat out (measured by the driver's hands for this fight, <see cref="CutterShare"/>), with its first five seconds and its shift. About three minutes for the arrival pair, two to five for
         /// every pair, and no more than five at a quarter of flat out.</summary>
-        [UnityTest,Timeout(600000)] public IEnumerator TheCutterLastsAboutThreeMinutesForEveryPairAPlayerCanPutOut()
+        [UnityTest,Timeout(900000)] public IEnumerator TheCutterLastsAboutThreeMinutesForEveryPairAPlayerCanPutOut()
         {
             Pinned("DebrisCutter",800,out float integrity);
             if(Broken)integrity*=3;
-            yield return Zone("Arena_Flight");yield return Level(26);
-            var failures=new List<string>();
+            var failures=new List<string>();float slowest=float.MaxValue;
             foreach(var pair in Pairs)
             {
-                // A minute, as the shared length test takes (QaPlanCombatTests.FlatOutSeconds), not this class's fifteen seconds: over eight runs in a week fifteen seconds read
-                // Taren and Sela anywhere from 3,602 to 4,144 a second and Taren and Idra from 2,126 to 2,463, wider than the room the three pairs leave the bar between them
-                // (the whole suite of November 20 read Taren and Sela at 4,144 and failed a floor the pair sits inside).
-                float rate=0;yield return Rate("DebrisCutter",pair,(r,_)=>rate=r,true,null,CutterSeconds);
+                // Each pair from a game just started, two minute-long readings and their mean, always. Read one after another in one game the readings climbed with the
+                // minutes already fought (Sela and Idra: 3,910 as the fourth reading of a run, 4,171 as the seventh, 4,553 as the ninth, November 21), so a pair's number
+                // depended on how many readings stood before it, and a third reading taken to steady a mean pushed it over the floor it was steadying. A minute, as the
+                // shared length test takes (QaPlanCombatTests.FlatOutSeconds), not this class's fifteen seconds, which read Taren and Sela anywhere from 3,602 to 4,144.
+                Application.logMessageReceived-=Heard;yield return Boot();yield return Zone("Arena_Flight");yield return Level(26);
+                float rate=0;yield return Rate("DebrisCutter",pair,(r,_)=>rate=r,true,null,CutterSeconds);slowest=Mathf.Min(slowest,RateFrames);
+                float first=rate;yield return Rate("DebrisCutter",pair,(r,_)=>rate=r,true,null,CutterSeconds);slowest=Mathf.Min(slowest,RateFrames);
+                string readings=$"{first:0} and {rate:0}";rate=(first+rate)*.5f;
                 // Its own sheet's share (measured, HomeBossTests.HomeBosses), not the class's flight placeholder: D312's rule for the Warmaster.
                 float share=ContentRegistry.Boss("DebrisCutter").driverShare;
-                bool arrival=pair[0]=="Taren"&&pair[1]=="Idra";string readings=$"{rate:0}";
+                bool arrival=pair[0]=="Taren"&&pair[1]=="Idra";
                 float seconds=5+integrity/(rate*share)+2,dodging=5+integrity/(rate*Dodging)+2;
-                // And a reading within the measure's scatter of a bound is taken a second time and the two averaged (the shared test's rule, same bounds).
-                if(seconds<120*CutterScatter||dodging>300/CutterScatter||arrival&&(seconds<140*CutterScatter||seconds>220/CutterScatter))
-                {
-                    float first=rate;yield return Rate("DebrisCutter",pair,(r,_)=>rate=r,true,null,CutterSeconds);
-                    readings=$"{first:0} and {rate:0}";rate=(first+rate)*.5f;seconds=5+integrity/(rate*share)+2;dodging=5+integrity/(rate*Dodging)+2;
-                }
-                string line=$"CUTTER_RATE {pair[0]}+{pair[1]} sync=26 tempered rate={rate:0}/s share={share:0.00} total={seconds:0}s dodging={dodging:0}s read={readings}";
+                string line=$"CUTTER_RATE {pair[0]}+{pair[1]} sync=26 tempered rate={rate:0}/s share={share:0.00} total={seconds:0}s dodging={dodging:0}s read={readings} frames={RateFrames:0}/s";
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(arrival&&(seconds<140||seconds>220))failures.Add($"{line}: about three minutes, for the pair the chapter arrives with, is 140 to 220");
                 if(seconds<120||seconds>300)failures.Add($"{line}: a boss is two to five minutes");
-                if(dodging>300)failures.Add($"{line}: a pair at a quarter of flat out takes over five minutes");
+                if(dodging>ContentRegistry.SlowPairCeiling(300))failures.Add($"{line}: a pair at a quarter of flat out takes over {ContentRegistry.SlowPairCeiling(300):0} s (D362 continued)");
             }
+            if(slowest<RateFramesFloor)Assert.Inconclusive($"the Cutter's pairs were measured at as few as {slowest:0} frames a second (under {RateFramesFloor:0}), on a machine too busy to say how fast a pair is. Run it again with the machine quieter."+(failures.Count>0?"\nRead meanwhile:\n"+string.Join("\n",failures):""));
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
     }

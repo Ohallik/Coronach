@@ -45,7 +45,7 @@ namespace Lattice.Tests.PlayMode
                 ("Mira","MiraHomecoming",new(-18.8f,18.4f),110,true,new[]{("MiraHomeCrystals","MiraCrystals"),("MiraHomeTable","SecondInventory")}),
                 ("Ruva","RuvaPassageRules",new(-9.4f,57),120,false,new[]{("RuvaHomePost","MooringPost"),("RuvaHomeShoot","EmptyGardens")}),
                 ("Meret","MeretAccount",new(15.2f,58.4f),225,false,new (string,string)[0]),("Drask","DraskWatches",new(5,74.5f),180,false,new (string,string)[0]),
-                ("Orrin","OrrinDirectorship",new(-12.4f,70.4f),170,false,new (string,string)[0]),
+                ("Orrin","OrrinDirectorship",new(-12.4f,68.6f),170,false,new (string,string)[0]),   // 3.6 m clear of his board, so his name hangs over him and not printed on it (s69/031, D349)
                 ("Jask","JaskNewSky",new(-36,92),160,false,new[]{("JaskHomeThree","Questions"),("JaskHomeFare","StowawayFare")}),("Pip","PipRota",new(-13,91.6f),200,false,new[]{("PipHomeFile","PipsOath")}),
                 ("Tam","TamSkyGarden",new(36,94.4f),190,false,new (string,string)[0]),
                 ("Iru",null,new(3,61),160,false,new[]{("IruHomeLamps","ShrineLamps")}),("Pim",null,new(11.6f,55.2f),230,false,new[]{("PimHomeKey","FourthPump")}),

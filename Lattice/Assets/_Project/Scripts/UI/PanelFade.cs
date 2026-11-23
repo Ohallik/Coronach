@@ -22,6 +22,8 @@ namespace Lattice.UI
         }
         public bool Contains(Vector3 screen)=>up&&screen.z>0&&box.Contains(screen);
         public bool Showing=>up;
+        /// <summary>The plate itself, for what keeps clear of it (a damage number).</summary>
+        public RectTransform Frame=>rect;
         /// <summary>Where it stood on the screen when last measured, in pixels: what the partner keeps out from under (HudKeepOut).</summary>
         public Rect Box=>box;
         /// <summary>Whether something that reaches this far around a point touches the plate: the lock's brackets do, well before its middle is behind it.</summary>
@@ -41,8 +43,17 @@ namespace Lattice.UI
         // ---------- what the words keep when the plate has gone ----------
         /// <summary>How dark the words' own backing gets with the plate fully aside, and how far it reaches past their letters. With the plate at a third and nothing of their own,
         /// a panel's words lay straight on the world: 'Also: Mine Ridge Crystals' and the 9 m arrow read as painted on the launch pad they named. A soft band hugging the
-        /// letters keeps them type on a screen while the pad, the enemy or the partner still shows round and between the lines.</summary>
-        const float BandMost=.62f;
+        /// letters keeps them type on a screen while the pad, the enemy or the partner still shows round and between the lines.
+        /// <para>The rule: the plate steps aside so a body behind it is seen; its words never do. Behind each line it leaves at most a twentieth of the world's light. The
+        /// canvas blends in linear light, so a band at .62 over a plate at .35 still let a quarter of the light through, which reads as mid grey under white type: white words
+        /// on the Tollkeeper's white hull (s65 066), on pale ice (s35 298, s36 128), on a notice board's printed words (s57 155) and on the vine (s17 125). At .92 with the plate
+        /// at its floor, (1 - .35) x (1 - .92) is about .05.</para></summary>
+        public const float BandMost=.92f;
+        /// <summary>The most of the world's light behind a line of a panel's words at any moment of its fade, not only at the bottom of it (D356). The band came up in step with the
+        /// plate's going (a share of .92 by how far down the plate was), so for the half second the plate takes to come back the words stood on a grey of snow: at a plate of
+        /// .7 the band was at .42 and a sixth of the world came through behind white type ('TAREN · SYNC 17' and the objective over the White Reach, s35 101). Now the band is
+        /// whatever keeps this much out with the plate as it stands.</summary>
+        public const float MostThrough=.06f;
         static readonly Vector2 BandAir=new(16,8);
         TMP_Text[] words;Image[] bands;string[] measured;Rect[] inks;bool bandsUp;
         /// <summary>Gives these labels a band each, drawn between the plate and the words, that comes up as the plate goes down. A label that moves (a sliding card) takes its band with it.</summary>
@@ -60,7 +71,9 @@ namespace Lattice.UI
         }
         void StepBands()
         {
-            float backing=floor<1?Mathf.Clamp01((1-shown)/(1-floor))*BandMost:0;
+            // What the plate as it stands lets through, against what it lets through at rest (its frame's opening is solid, so that's next to nothing).
+            float solid=plate!=null?plate.color.a:1,plateLets=1-shown*solid,most=Mathf.Max(MostThrough,1-solid);
+            float backing=floor<1&&plateLets>most?Mathf.Min(BandMost,1-most/plateLets):0;
             if(backing<=.01f&&!bandsUp)return;
             bandsUp=false;
             for(int i=0;i<bands.Length;i++)

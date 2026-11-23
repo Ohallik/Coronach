@@ -316,8 +316,10 @@ namespace Lattice.EditorTools
                 // A rig's cable: unlit, its colour the line's own (cyan with a pulse running from the rig to the machine; dark once cut).
                 CableMat=ZoneKit.Toon("works-cable",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.25f,0,0,0));m.SetFloat("_ReceiveShadows",0);});
                 // The Compact's cyan (a rig's lamps, a driven press's), the plant's warm work light (a freed press, an open joint, the work lamps), and unlit glass.
-                LampCyan=ZoneKit.Toon("works-lamp-cyan",null,m=>{m.SetColor("_BaseColor",new Color(.6f,.95f,1));m.SetColor("_EmissionColor",new Color(.3f,1.5f,1.7f));});
-                LampWarm=ZoneKit.Toon("works-lamp-warm",null,m=>{m.SetColor("_BaseColor",new Color(1,.95f,.84f));m.SetColor("_EmissionColor",new Color(1.6f,1.36f,.96f));});
+                // Each lamp and strip in its own hue, its brightest channel a little over the bloom's threshold: at 1.5 to 1.7 over a pale base the joints' strips and the rigs' clamps clipped to
+                // flat white blocks in the player (the November 20 capture, s58 130 and 176).
+                LampCyan=ZoneKit.Toon("works-lamp-cyan",null,m=>{m.SetColor("_BaseColor",new Color(.32f,.62f,.68f));m.SetColor("_EmissionColor",new Color(.06f,.72f,.86f));});
+                LampWarm=ZoneKit.Toon("works-lamp-warm",null,m=>{m.SetColor("_BaseColor",new Color(.7f,.6f,.44f));m.SetColor("_EmissionColor",new Color(.95f,.66f,.3f));});
                 LampDim=ZoneKit.Toon("works-lamp-dim",null,m=>{m.SetColor("_BaseColor",new Color(.3f,.33f,.37f));m.SetColor("_EmissionColor",Color.black);m.SetFloat("_LightFloor",.3f);});
                 Glass=ZoneKit.Toon("works-porthole",null,m=>{m.SetColor("_BaseColor",new Color(.16f,.22f,.26f));m.SetColor("_EmissionColor",new Color(.04f,.08f,.1f));m.SetFloat("_LightFloor",.4f);});
                 // A torch cut in the keel where work is going on: unlit, white-gold at its core, coloured in its vertices; never a marking's orange.

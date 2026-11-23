@@ -40,7 +40,7 @@ MonoBehaviour:
   displayName: 
   bossMusicId: 
   capsuleRadius: 0
-  capsuleHeight: 0
+  capsuleHeight: 4.8
   motion: 0
-  drawnScale: 1
+  drawnScale: 0.88
   heavyDeath: 0

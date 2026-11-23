@@ -96,10 +96,13 @@ namespace Lattice.EditorTools
             // QA: a buried station read as open ground, with a hard sun, wall tops lit as if under the sky and an even lilac floor. Down here there's only a faint cold fill now, too weak for a
             // shadow to read: what light there is comes from the lamps and the Great Lantern, and the wall tops, above the lamps, stay dark.
             // The fill is lifted on the sides more than from above: the floor stays as dark as it reads now, about .19 on screen, and a body's flanks stop going black between lamps.
-            ["SunkenRelay"]=new Spec{sun=C(.62f,.66f,.85f),sunIntensity=.28f,sunPitch=62,shadowStrength=.25f,
-                sky=C(.18f,.19f,.27f),equator=C(.27f,.27f,.33f),ground=C(.16f,.15f,.17f),
-                exposure=.25f,contrast=12,saturation=-2,splitShadows=C(.44f,.46f,.6f),splitHighlights=C(.56f,.5f,.44f),
-                bloomThreshold=.85f,bloomIntensity=.8f,vignette=.3f},
+            // nov20-whole s15/049, 135: the floor that light gave was a near-black blue (about 25 of 255 on screen) whose courses, silt and water couldn't be told apart. The cold fill from above is
+            // the canyon's light coming down through the drowned roof, a watery blue-green, as strong as a buried station may take (TheSunkenRelayReadsAsUnderground); the camera opens to the
+            // dark the way an eye does, so the floor reads and the lamps, the Great Lantern and the heroes still burn over it.
+            ["SunkenRelay"]=new Spec{sun=C(.6f,.78f,.9f),sunIntensity=.38f,sunPitch=62,shadowStrength=.25f,
+                sky=C(.2f,.23f,.3f),equator=C(.3f,.31f,.36f),ground=C(.17f,.16f,.18f),
+                exposure=.75f,contrast=16,saturation=0,splitShadows=C(.44f,.48f,.6f),splitHighlights=C(.56f,.5f,.44f),
+                bloomThreshold=.9f,bloomIntensity=.8f,vignette=.3f},
             // QA: between lamps the floor went near black and the player lost the walls; the dark stays, the mud doesn't.
             ["Hushwell"]=new Spec{sun=C(.8f,.86f,1f),sunIntensity=.8f,shadowStrength=.6f,
                 sky=C(.28f,.31f,.44f),equator=C(.22f,.21f,.26f),ground=C(.13f,.12f,.13f),

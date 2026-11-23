@@ -33,7 +33,7 @@ namespace Lattice.EditorTools
             // haze takes the deep back in layers, so the convoy reads over the bore's floor and ribs; the lanterns and the windows are the gold, and bloom.
             ZoneLook.Register(PassageZone,new ZoneLook.Spec{sun=C(1f,.88f,.74f),sunIntensity=1.25f,sunPitch=40,shadowStrength=.7f,
                 sky=C(.46f,.42f,.54f),equator=C(.36f,.31f,.4f),ground=C(.18f,.14f,.22f),
-                fog=true,fogColor=C(.15f,.1f,.19f),fogStart=70,fogEnd=480,
+                fog=true,fogColor=C(.15f,.1f,.19f),fogStart=Passage.HazeFrom,fogEnd=Passage.HazeTo,
                 contrast=13,saturation=4,splitShadows=C(.42f,.4f,.6f),splitHighlights=C(.64f,.55f,.44f),
                 bloomThreshold=.9f,bloomIntensity=.8f,vignette=.22f});
         }
@@ -112,6 +112,8 @@ namespace Lattice.EditorTools
         {
             // ---------------------------------------------------------------- the numbers (docs/maps/ReturningPassage.md reads these; so do the tests and the routes)
             internal const float Plane=ZoneKit.FlightPlane;
+            /// <summary>The haze, tuned for the flight camera at its play distance and measured from the plane by <see cref="PlaneHaze"/> (D344), so any view drawn back keeps the convoy clear.</summary>
+            internal const float HazeFrom=70,HazeTo=480;
             /// <summary>The passage's line at the plane, the way the convoy flows (north), and the road's half width at each of its points: 30 m to the far end, narrowing to 14 at the
             /// far mouth, opening to 44 past it. Bends at s 210, 492 and 807.</summary>
             internal static readonly Vector3[] Line={new(0,Plane,-40),new(0,Plane,170),new(-36,Plane,450),new(20,Plane,760),new(0,Plane,1050),new(0,Plane,1170),new(0,Plane,1240),new(0,Plane,1300),new(0,Plane,1345)};
@@ -181,7 +183,8 @@ namespace Lattice.EditorTools
                 var planks=ZoneKit.Texture("Passage/float-planks",128,(u,v)=>{float board=Mathf.Abs(Mathf.Repeat(u*8,1)-.5f)<.04f?-.25f:0;float grain=.8f+.15f*(ZoneKit.Tile(u*8,v*32,8,81)-.5f);return new Color(grain+board,grain*.92f+board,grain*.84f+board,1);});
                 s.plank=ZoneKit.Tinted(ZoneKit.Toon("passage-planks",planks,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.36f);}));
                 s.rope=ZoneKit.Tinted(ZoneKit.Toon("passage-rope",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.5f);}));
-                var round=ZoneKit.Texture("Passage/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(a,a,a,1);},false);
+                // The falloff in the alpha (D344): with it in the colour, URP's particle shader mixed the fog's colour into a quad's corners and added it, a square in any far or wide view.
+                var round=ZoneKit.Texture("Passage/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(1,1,1,a);},false,true);
                 Material Soft(string asset,Color colour){var m=kit.Glow(asset,false,colour);m.SetTexture("_BaseMap",round);return m;}
                 s.warm=Soft("Window glow",new Color(1.4f,1.02f,.6f,1));s.cold=Soft("Running glow",new Color(.5f,1.1f,1.3f,1));s.young=Soft("Young glow",new Color(.35f,1.2f,1.25f,1));
                 s.lantern=Soft("Lantern glow",new Color(1.7f,1.15f,.55f,1));s.soft=Soft("Rib glow",new Color(1.1f,.55f,.6f,1));
@@ -273,6 +276,7 @@ namespace Lattice.EditorTools
                 Gate("From the turn: Idra on the flank",true,new[]{idra},"end.passageRun");
                 // What starts unseen is saved switched off (the stills see the zone as it is met), unless the stills are of it turned.
                 if(!turned)foreach(var g in new[]{tug,line.gameObject,idra})if(g!=null)g.SetActive(false);
+                var haze=new GameObject("The haze, from the plane",typeof(PlaneHaze)).GetComponent<PlaneHaze>();haze.plane=Plane;haze.start=HazeFrom;haze.end=HazeTo;
 
                 WorldBuilder.Save(scene,kit.zone);
                 string P(Vector3 p)=>"("+p.x.ToString("0.0")+","+p.y.ToString("0")+","+p.z.ToString("0.0")+")";

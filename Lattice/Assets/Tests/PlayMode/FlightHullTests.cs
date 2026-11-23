@@ -66,20 +66,24 @@ namespace Lattice.Tests.PlayMode
             Assert.GreaterOrEqual(spacing,1.4875f+1.325f+.1f,"arrival spawns the two visible hulls through each other");
             yield return null;
         }
-        [UnityTest] public IEnumerator HeadOnAndCrossHeadingCraftContactBeforeTheirNosesIntersect()
+        /// <summary>No hero is a solid to another (D354): a party craft flown head on at another, or across it, goes through it at its own pace, touching nothing. Until D354 the two hulls
+        /// met before their noses did (this test held that), and so the lead pressed against his partner's hull wherever she sat on his way (the Steward's middle gate, nov22-whole s42c).
+        /// The hull's reach still holds the nose against anything else solid: the wall below.</summary>
+        [UnityTest] public IEnumerator HeadOnAndCrossHeadingPartyCraftFlyThroughEachOther()
         {
             foreach(float yaw in new[]{0f,90f})
             {
                 Vector3 forward=Quaternion.Euler(0,yaw,0)*Vector3.forward,start=new Vector3(200,1,0);
                 Place(a,start,yaw);Place(b,start+forward*6,yaw+180);
-                float deadline=Time.unscaledTime+1.1f,minGap=float.PositiveInfinity;
+                float deadline=Time.unscaledTime+1.1f,beyond=float.NegativeInfinity;int touched=0;var hull=a.GetComponent<CharacterController>();
                 while(Time.unscaledTime<deadline)
                 {
                     a.motor.Move(new Vector2(forward.x,forward.z),false,false);yield return null;
-                    minGap=Mathf.Min(minGap,Vector3.Dot(Nose(b)-Nose(a),forward));
+                    if((hull.collisionFlags&CollisionFlags.Sides)!=0)touched++;
+                    beyond=Mathf.Max(beyond,Vector3.Dot(a.transform.position-b.transform.position,forward));
                 }
-                Assert.GreaterOrEqual(minGap,-.03f,"movement collision admits visibly interpenetrating noses");
-                Assert.Less(minGap,1,"fixture did not reach the other craft");
+                Assert.AreEqual(0,touched,$"at yaw {yaw} a party craft met another's hull side on");
+                Assert.Greater(beyond,0,$"at yaw {yaw} a party craft flown at another never went through it");
             }
         }
         [UnityTest] public IEnumerator OpaqueWallStopsTheActualNoseAtBothShipHeadings()

@@ -78,7 +78,7 @@ namespace Lattice.Tests.PlayMode
         static readonly Vector3 LaneArrival=new(0,1,6),HomeWarp=new(-16,1,-2),DeltaBeacon=new(969.9f,1,1177.3f),FromTown=new(945.7f,1,1174.8f);
         // Rootmarket's places, on the plan (docs/maps/Rootmarket.md; XylosBuilder.Rootmarket's RootArrival, RuvaAtMooring and the rest).
         static readonly Vector2 TownArrival=new(0,17),RuvaMooring=new(28.5f,21),RuvaSeedHouse=new(5.5f,68.5f),TeoPool=new(-8.5f,24.6f),JaskFerry=new(-25,47.6f),BinnaKitchen=new(24.6f,68),
-            HaddaPress=new(35.4f,46.6f),SennIsland=new(-46.4f,13.6f),Notice=new(-2.7f,72.3f),Door=new(2.5f,72.3f),RiverGate=new(60.2f,43),Crossing=new(14,24),IslandMoored=new(38.6f,13.2f),PressSpawn=new(34,41.2f);
+            HaddaPress=new(35.4f,46.6f),SennIsland=new(-46.4f,13.6f),Notice=new(-2.7f,72.3f),Door=new(2.5f,72.3f),RiverGate=new(60.2f,43),Crossing=new(23.5f,24),IslandMoored=new(38.6f,13.2f),PressSpawn=new(34,41.2f);
 
         // ------------------------------------------------------------------ fixtures
         static GameState State=>GameServices.Current.State;
@@ -593,11 +593,16 @@ namespace Lattice.Tests.PlayMode
             // The crossing between the pad and the mooring: the arrival talk, once.
             var crossing=Point("xylos.arrivalSeen");Assert.AreEqual("RuvaArrival",crossing.dialogueNode);Assert.IsTrue(crossing.startsOnCrossing,"the arrival talk can be walked round");
             Assert.Less(Flat(crossing.transform.position,Crossing),1.5f,"the arrival talk's line isn't between the pad and the mooring");
-            DialogueSystem.Current.AutoAdvance=true;Put(Lead,Floor(new Vector2(14,25.6f)));float deadline=Time.unscaledTime+3;while(!DialogueSystem.Current.Running&&Time.unscaledTime<deadline)yield return null;
+            // Close enough to Ruva that the talk's frame holds her and the party in its middle: where the way from the pad first meets the line, about seven metres from her.
+            // The line at x 14 opened the talk 16.6 m from her, and she spoke from the right edge of the frame (s18 010, November 22).
+            var box=crossing.GetComponent<BoxCollider>().bounds;float meets=box.min.x,along=Mathf.Lerp(26.5f,21,(meets-20)/8.5f);
+            Assert.Greater(Vector2.Distance(new Vector2(12.5f,25.5f),RuvaMooring),9,"fixture: the check can't see the line where it was until November 22");
+            Assert.LessOrEqual(Vector2.Distance(new Vector2(meets,along),RuvaMooring),8,"the arrival talk opens "+Vector2.Distance(new Vector2(meets,along),RuvaMooring).ToString("0.0")+" m from Ruva");
+            DialogueSystem.Current.AutoAdvance=true;Put(Lead,Floor(new Vector2(23.4f,25)));float deadline=Time.unscaledTime+3;while(!DialogueSystem.Current.Running&&Time.unscaledTime<deadline)yield return null;
             yield return Settle();
             Assert.AreEqual(1,heard.Count(h=>h=="RuvaArrival"),"walking from the pad to the mooring doesn't start the arrival talk: heard "+string.Join(", ",heard));
             Assert.IsTrue(Has("xylos.arrivalSeen"));
-            Put(Lead,Floor(new Vector2(8,24)));yield return new WaitForSecondsRealtime(.4f);Put(Lead,Floor(new Vector2(14,25.6f)));yield return new WaitForSecondsRealtime(1);
+            Put(Lead,Floor(new Vector2(17,26)));yield return new WaitForSecondsRealtime(.4f);Put(Lead,Floor(new Vector2(23.4f,25)));yield return new WaitForSecondsRealtime(1);
             Assert.AreEqual(1,heard.Count(h=>h=="RuvaArrival"),"the arrival talk played again on the way back across");
             // Three pulls. Two don't seat her; the third does, once.
             Assert.IsTrue(rope.Available,"the arrival talk ended with the rope in Taren's hands and the rope isn't offered");Assert.AreEqual(3,rope.pulls,"the rope takes other than three pulls");
@@ -755,7 +760,7 @@ namespace Lattice.Tests.PlayMode
             Assert.IsNotNull(Here("Teo"),"Teo isn't at the pool after Continue with the terms heard");
             Assert.IsFalse(Point("xylos.noticeRead").Available,"the read notice is offered again after Continue");
             Assert.IsFalse(Cache("xylos.walkway").gameObject.activeInHierarchy,"the opened cache is back after Continue");
-            Put(Lead,Floor(new Vector2(14,25.6f)));yield return new WaitForSecondsRealtime(1);Assert.IsFalse(DialogueSystem.Current.Running,"the arrival talk played again after Continue");
+            Put(Lead,Floor(new Vector2(Crossing.x-.1f,25)));yield return new WaitForSecondsRealtime(1);Assert.IsFalse(DialogueSystem.Current.Running,"the arrival talk played again after Continue");
         }
 
         // ================================================================== the Braided River, the Walking Canopy and the vote (wiring only: the water, the anchors' doors and
@@ -935,6 +940,74 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(faults,"Rootmarket's townsfolk stand in the way:\n"+string.Join("\n",faults.Distinct()));
         }
 
+        /// <summary>The town's laid floors, as the builder lays them (XylosBuilder.Rootmarket's FloorMats): middle, half size, turn.</summary>
+        static readonly (Vector2 at,Vector2 half,float yaw)[] FloorMats={(new(25.2f,65.6f),new(6.2f,4),-8),(new(1.4f,68.6f),new(6,3.4f),0),(new(-2.6f,21.6f),new(4.6f,4),0),(new(27.4f,22.2f),new(4.4f,3.4f),12),
+            (new(14.8f,24.6f),new(6,1.4f),-11.6f),(new(26,51.8f),new(6.1f,1.6f),67.4f)};
+        /// <summary>Points of a laid floor no triangle of the floors' mesh lies over, on the plan, sampled every half metre a hand in from its border.</summary>
+        static List<string> Bare(Vector3[] v,int[] t)
+        {
+            var tris=new List<(Vector2 a,Vector2 b,Vector2 c)>();for(int i=0;i<t.Length;i+=3)tris.Add((new Vector2(v[t[i]].x,v[t[i]].z),new Vector2(v[t[i+1]].x,v[t[i+1]].z),new Vector2(v[t[i+2]].x,v[t[i+2]].z)));
+            static float Side(Vector2 p,Vector2 a,Vector2 b)=>(b.x-a.x)*(p.y-a.y)-(b.y-a.y)*(p.x-a.x);
+            bool Over(Vector2 p){foreach(var (a,b,c) in tris){float s1=Side(p,a,b),s2=Side(p,b,c),s3=Side(p,c,a);if((s1>=0&&s2>=0&&s3>=0)||(s1<=0&&s2<=0&&s3<=0))return true;}return false;}
+            var bare=new List<string>();
+            foreach(var (at,half,yaw) in FloorMats)
+            {
+                var turn=Quaternion.Euler(0,yaw,0);
+                for(float x=-half.x+.3f;x<=half.x-.3f+.01f;x+=.5f)for(float z=-half.y+.3f;z<=half.y-.3f+.01f;z+=.5f)
+                {var q=turn*new Vector3(x,0,z);var p=new Vector2(at.x+q.x,at.y+q.z);if(!Over(p))bare.Add($"({p.x:0.0}, {p.y:0.0}) on the floor at {at}");}
+            }
+            return bare;
+        }
+        /// <summary>Every laid floor in Rootmarket is laid whole. A mat was left out wherever a floor sign's ground came near it, and a sign goes for every conversation: through the
+        /// whole arrival talk the mooring's and the seed house's floors showed a bare pale square in a corner (s18 010 and 051, s19 061, November 22).</summary>
+        [UnityTest] public IEnumerator EveryLaidFloorInRootmarketIsLaidWhole()
+        {
+            Landed();Flag("xylos.arrivalSeen");Flag("xylos.ropeHauled");yield return Zone("Rootmarket");
+            var laid=All<MeshFilter>().Where(f=>f.name=="Laid floors").ToArray();Assert.AreEqual(1,laid.Length,"fixture: Rootmarket's laid floors");
+            var mesh=laid[0].sharedMesh;Assert.IsTrue(mesh.isReadable,"fixture: the laid floors' mesh can be read");
+            var v=mesh.vertices.Select(p=>laid[0].transform.TransformPoint(p)).ToArray();var t=mesh.triangles;
+            // The check sees a mat left out: the same floors with the mooring's north-west corner mat taken away, as it was laid until November 22.
+            var off=Quaternion.Euler(0,12,0)*new Vector3(-3.7f,0,2.8f);var corner=new Vector2(27.4f+off.x,22.2f+off.z);
+            var without=new List<int>();for(int i=0;i<t.Length;i+=3){var mid=(v[t[i]]+v[t[i+1]]+v[t[i+2]])/3;if(Vector2.Distance(new Vector2(mid.x,mid.z),corner)>.9f)without.AddRange(new[]{t[i],t[i+1],t[i+2]});}
+            Assert.IsNotEmpty(Bare(v,without.ToArray()),"fixture: the check can't see a mat left out of the mooring's floor");
+            var bare=Bare(v,t);
+            Assert.IsEmpty(bare,bare.Count+" points of Rootmarket's laid floors have no mat over them: "+string.Join("; ",bare.Take(12)));
+        }
+        /// <summary>From wherever BINNA'S KITCHEN is read on the way past it (on the town's ways within six metres of it, the sign itself in the open middle of the screen), at least two of
+        /// the kitchen's oven, its pot on legs and its drying rack are on screen and clear of the corner panels: a kitchen that reads as one. Laid out across its north-east they stood
+        /// at the top of the frame and under the objective card (s22 014 and 017, November 22): the camera looks north-north-east, and the sign is at the kitchen's south-west corner.</summary>
+        [UnityTest] public IEnumerator BinnasKitchenIsOnScreenWhereverItsSignIsRead()
+        {
+            Landed();Flag("xylos.arrivalSeen");Flag("xylos.ropeHauled");yield return Zone("Rootmarket");
+            var sign=All<TextMeshPro>().Where(s=>s.name.StartsWith("Sign_")&&s.text=="BINNA'S KITCHEN").ToArray();Assert.AreEqual(1,sign.Length,"fixture: the kitchen's floor sign");
+            // The kitchen's own (the press has a drying rack of its own).
+            var works=new[]{"Clay oven","Cook pot","Drying rack"}.Select(n=>All<BoxCollider>().Where(b=>b.name==n&&b.transform.root.name=="Kitchen").ToArray()).ToArray();
+            foreach(var found in works)Assert.AreEqual(1,found.Length,"fixture: the kitchen's works, each once");
+            var at=works.Select(w=>{var b=w[0].bounds;return new Vector3(b.center.x,b.max.y,b.center.z);}).ToArray();
+            // Where they stood until November 22, on the same floor: what the check has to refuse.
+            float y=at[0].y;var before=new[]{new Vector3(32.2f,y,68.8f),new Vector3(28.8f,y,65.6f),new Vector3(32.8f,y,61.2f)};
+            var view=new GameObject("Kitchen check camera",typeof(Camera)).GetComponent<Camera>();view.fieldOfView=30;view.aspect=16f/9;view.enabled=false;
+            var rotation=Quaternion.Euler(SightlineAudit.Pitch,SightlineAudit.Yaw,0);
+            bool Open(Vector3 p){var s=view.WorldToViewportPoint(p);return s.z>0&&s.x>.03f&&s.x<.97f&&s.y>.03f&&s.y<.97f&&!(s.y>CameraRig.PanelFoot&&(s.x<CameraRig.PanelSide||s.x>1-CameraRig.PanelSide));}
+            var signAt=sign[0].transform.position;var faults=new List<string>();int stands=0,refused=0;
+            foreach(var way in RootWays)for(int i=1;i<way.Length;i++)
+            {
+                float length=Vector2.Distance(way[i-1],way[i]);
+                for(float s=0;s<=length;s+=1.5f)
+                {
+                    var p=Vector2.Lerp(way[i-1],way[i],s/length);if(Vector2.Distance(p,new Vector2(signAt.x,signAt.z))>6)continue;
+                    var hero=new Vector3(p.x,signAt.y-.1f,p.y);view.transform.SetPositionAndRotation(hero+Vector3.up*SightlineAudit.Chest-rotation*Vector3.forward*SightlineAudit.Distance,rotation);
+                    if(!Open(signAt))continue;stands++;
+                    int seen=at.Count(Open);if(seen<2)faults.Add($"from {p} only {seen} of the oven, the pot and the rack are on screen with the sign");
+                    if(before.Count(Open)<2)refused++;
+                }
+            }
+            Object.Destroy(view.gameObject);
+            Assert.Greater(stands,4,"fixture: places on the ways where the kitchen's sign is read");
+            Assert.Greater(refused,0,"fixture: the check can't see the kitchen as it was laid until November 22");
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+
         // ================================================================== the replay routes, checked against the built zones
         static readonly string[] ChapterThreeRoutes={"chapter-17-xylos-nearspace","chapter-18-rootmarket","chapter-19-rootmarket-errands","chapter-24-braided-river","chapter-25-walking-canopy","chapter-26-rootmarket-vote"};
         /// <summary>One straight leg the driver walks or flies: from where (unknown after a chase, and at a zone's first leg in flight), to where, and which barges are free by then.</summary>
@@ -1074,13 +1147,31 @@ namespace Lattice.Tests.PlayMode
             yield return Says(3,land.transform.position,"the delta beacon");
             land.Interact();yield return Arrive("Rootmarket");
             yield return Says(4,Here("Ruva").transform.position,"Ruva at the mooring");
-            DialogueSystem.Current.AutoAdvance=true;Put(Lead,Floor(new Vector2(14,25.6f)));float deadline=Time.unscaledTime+3;while(!DialogueSystem.Current.Running&&Time.unscaledTime<deadline)yield return null;
+            DialogueSystem.Current.AutoAdvance=true;Put(Lead,Floor(new Vector2(Crossing.x-.1f,25)));float deadline=Time.unscaledTime+3;while(!DialogueSystem.Current.Running&&Time.unscaledTime<deadline)yield return null;
             yield return Settle();
             yield return Haul(All<MooringHaul>().Single());
             yield return Says(4,Here("Ruva").transform.position,"Ruva, for her terms");
             yield return Talk(Here("Ruva"));
             var gate=All<WarpBeacon>().Single(w=>w.scene=="BraidedRiver");
             yield return Says(5,gate.transform.position,"the river gate to the Braided River");
+        }
+
+        /// <summary>The roots drawn across the basin's passage for the fight stand where the Floodcrown can't put its body. It is eight metres long on a capsule two round, so its head
+        /// or tail reaches four from wherever it stands in its basin: at 31.8 the seal stood 3.3 m off the rim, and a charge run aground there had the roots straight through its body
+        /// (nov20-whole s21 262 and 266).</summary>
+        [UnityTest] public IEnumerator TheBasinSealStandsBeyondTheFloodcrownsReachFromItsBasin()
+        {
+            yield return Zone("WalkingCanopy","Basin");
+            var seal=All<Membrane>().SingleOrDefault(m=>m.name=="Basin seal");Assert.IsNotNull(seal,"fixture: the basin seal");
+            var definition=GameCatalog.Find<EnemyDef>("Floodcrown");Assert.IsNotNull(definition,"fixture: the Floodcrown is defined");
+            var body=ActorFactory.Enemy(definition,new Vector3(200,0,200));body.Passive=true;yield return null;yield return null;
+            var drawn=new Bounds(body.transform.position,Vector3.zero);
+            foreach(var view in body.GetComponentsInChildren<Renderer>())if(view.enabled&&!(view is ParticleSystemRenderer))drawn.Encapsulate(view.bounds);
+            float reach=Mathf.Max(drawn.extents.x,drawn.extents.z);Object.Destroy(body.gameObject);
+            Assert.Greater(reach,2.5f,"fixture: the Floodcrown's drawn body was measured");
+            // The basin, as XylosBuilder.Canopy has it (copied: the tests can't see the editor assembly): 17 m round about (24, 52).
+            float fromBasin=Vector2.Distance(new Vector2(seal.transform.position.x,seal.transform.position.z),new Vector2(24,52))-17;
+            Assert.Greater(fromBasin,reach+.4f,$"the basin seal stands {fromBasin:0.0} m off the basin's rim, and the Floodcrown's body reaches {reach:0.0} m from where it stands");
         }
     }
 }

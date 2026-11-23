@@ -70,10 +70,25 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ---------------------------------------------------------------- Hessa Korl
+        /// <summary>She once turned into a different person at the yield. She fights in her captain's gear (D360: a lantern yoke, a mantle, the Muster's standard, which come off
+        /// as she yields) and stands under guard without it: the same body, the same materials, drawn at the same size, and nothing else of the fighter missing but that gear.</summary>
         [UnityTest] public IEnumerator HessaUnderGuardWearsHerOwnBody()
         {
-            yield return null;
-            Assert.AreEqual(GameCatalog.Find<EnemyDef>("HessaKorl").prefab,GameCatalog.Find<CharacterDef>("Hessa").natural,"the captain the party beat turns into someone else when she yields");
+            yield return Zone("SunkenRelay");
+            var person=All<Npc>().Single(n=>n.speaker=="Hessa");
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),new Vector3(0,-200,0));boss.Passive=true;yield return null;
+            var fighter=boss.GetComponent<DefeatPresentation>().visual;
+            static Mesh Mesh(Renderer r){if(r is SkinnedMeshRenderer skin)return skin.sharedMesh;var filter=r.GetComponent<MeshFilter>();return filter!=null?filter.sharedMesh:null;}
+            static bool Gear(Renderer r)=>r.GetComponentInParent<HessaRegalia>(true)!=null;
+            // Her body: each mesh it is drawn with, in its materials, at the size it is drawn.
+            static string Body(IEnumerable<Renderer> parts)=>string.Join("; ",parts.Where(r=>r is SkinnedMeshRenderer or MeshRenderer).Select(r=>
+                Mesh(r)?.name+" ["+string.Join(",",r.sharedMaterials.Select(m=>m!=null?m.name:"none"))+"] x"+r.transform.lossyScale.y.ToString("0.00")).OrderBy(s=>s));
+            string beaten=Body(fighter.GetComponentsInChildren<Renderer>(true).Where(r=>!Gear(r))),guarded=Body(person.GetComponentsInChildren<Renderer>(true).Where(r=>r is SkinnedMeshRenderer));
+            TestContext.WriteLine("HESSA_BODY fighter: "+beaten+" / under guard: "+guarded);
+            Assert.IsNotEmpty(guarded,"fixture: Hessa under guard has a body");
+            Assert.AreEqual(beaten,guarded,"the captain the party beat turns into someone else when she yields, or is drawn at another size");
+            Assert.IsNotEmpty(fighter.GetComponentsInChildren<Renderer>(true).Where(Gear),"fixture: the fighter carries her captain's gear");
+            Object.Destroy(boss.gameObject);
         }
         [UnityTest] public IEnumerator HessaStandsInTheRoomForHerOwnConfrontation()
         {

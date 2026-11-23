@@ -21,6 +21,8 @@ namespace Lattice.UI
             if(GameTime.Now-downAt<CombatActor.DownDuration+.15f)return;
             shown=true;GameServices.Current.Input.Blocked=true;GameTime.Paused=true;
             var canvas=UiKit.CreateCanvas("Defeat",60,transform);var panel=UiKit.Dim(canvas.transform,.9f);
+            // A framed plate behind the words and the two choices, as every menu has: 'LINK LOST' stood straight on the swarm that had just brought the party down (s03 012).
+            var plate=UiKit.SolidFrame(panel.transform,"DefeatPlate",new(.5f,.5f),new(0,25),new(820,420));plate.raycastTarget=false;
             var title=UiKit.Heading(panel.transform,"Heading","LINK LOST",54,UiKit.TextColor);UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,150),new(900,90));
             var retry=UiKit.Button(panel.transform,"Retry","Return to last autosave",()=>
             {

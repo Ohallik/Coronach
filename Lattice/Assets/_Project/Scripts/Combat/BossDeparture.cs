@@ -14,7 +14,7 @@ namespace Lattice.Combat
         public float speed=8;
         /// <summary>What it sounds like as it goes (water down a drain, a body through brush); empty for none.</summary>
         public string sound="water_rush";
-        Transform visual;Vector3 from,heading,rest,scale;Quaternion facing;float distance,depth;bool sinks,began,settled;
+        Transform visual;Vector3 from,heading,rest,scale;Quaternion facing;float distance,depth;bool sinks,began,settled,upright;
         public bool Leaving=>began;
         public void Begin(Transform visual,DamagePacket packet)
         {
@@ -27,6 +27,8 @@ namespace Lattice.Combat
             }
             heading=heading.sqrMagnitude>.01f?heading.normalized:-transform.forward;
             depth=TryGetComponent<CharacterController>(out var capsule)?capsule.height+1:4;
+            // Someone on their own feet (a humanoid rig) walks out bowed, feet on the floor: no sag through it and no sinking under it, unless the way out is a drain.
+            var rig=GetComponentInChildren<Animator>();upright=rig!=null&&rig.isHuman;
             if(!string.IsNullOrEmpty(sound))AudioManager.PlayAt(sound,null,from,.3f,AudioBus.SFX,50,.2f);
             Debug.Log("BOSS_LEAVES "+GetComponent<Health>().id);
         }
@@ -37,11 +39,11 @@ namespace Lattice.Combat
             if(!settled){settled=true;rest=visual.localPosition;}
             float k=Mathf.Clamp01((elapsed-reel)/Mathf.Max(.1f,Duration-reel)),gone=Mathf.SmoothStep(0,1,Mathf.InverseLerp(sinks?.55f:.8f,1,k));
             // Reeling: it sags where it stands. Then it turns in under half a second and goes, faster as it gets clear.
-            float sag=elapsed<reel?Mathf.Sin(Mathf.Clamp01(elapsed/reel)*Mathf.PI)*.25f:0;
+            float sag=!upright&&elapsed<reel?Mathf.Sin(Mathf.Clamp01(elapsed/reel)*Mathf.PI)*.25f:0;
             var at=from+heading*(distance*k*k*(3-2*k));
             var zone=ZoneController.Current;if(zone==null||!zone.Flight){var ground=CombatCover.Ground(at+Vector3.up*3);if(Mathf.Abs(ground.y-at.y)<2.5f)at.y=ground.y;}
             transform.SetPositionAndRotation(at,Quaternion.Slerp(facing,Quaternion.LookRotation(heading),Mathf.Clamp01((elapsed-reel*.5f)/.45f)));
-            visual.localPosition=rest+Vector3.down*(sag+depth*gone);
+            visual.localPosition=rest+Vector3.down*(sag+(upright&&!sinks?0:depth*gone));
             // What walks out of sight is small when it gets there; what goes down a drain is simply under.
             if(!sinks)transform.localScale=scale*(1-.85f*gone);
         }

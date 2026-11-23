@@ -90,6 +90,8 @@ namespace Lattice.Combat
             wardenClamps.Clear();
             foreach(var clamp in BridleClamp.All)if(clamp!=null&&(string.IsNullOrEmpty(clamp.settledBy)||clamp.settledBy==health.id))wardenClamps.Add(clamp);
             BridleClamp.Opened+=WardenClampOpened;hearsClamps=true;
+            // Struck open it staggers on its feet, bowed over its staff (WardenStagger): the shared Stagger frame alone left it as it stood.
+            if(!TryGetComponent<WardenStagger>(out _))gameObject.AddComponent<WardenStagger>();
             // Its hold stops at the line of the next clamp still shut. At the line a blow takes nothing and reads as resisted; a break still drops its staff, and a blow in that opening
             // takes nothing off it either (Health.Holds), so a held line is never a kill.
             health.Holds=()=>HoldFloor;

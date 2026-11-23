@@ -62,7 +62,7 @@ namespace Lattice.EditorTools
                     // line through, D281). Hard to break (900 broke her nine times in 92 s, a third of the fight standing stunned): she is the frame that out-builds you, and fights.
                     // Through the pad, a third in blows on the plated frame, a held line, a collar, and again: 110,000 lasted 118 to 148 s on five runs (.20 to .27 of flat out). 104,000 is 112 to
                     // 140 s on those, and 125 s at a quarter of the lowest flat out read for her (3,338 to 3,786 a second).
-                    e.integrity=104000;e.breakThreshold=2000;e.speed=2.2f;e.attacks=new[]{frameShove};
+                    e.integrity=122000;e.breakThreshold=2000;e.speed=2.2f;e.attacks=new[]{frameShove};
                     e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1300;e.scrip=480;e.scrap=24;e.boss=true;
                     e.bossMusicId="Final Stand";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;
                     e.capsuleRadius=0;e.capsuleHeight=3.2f;
@@ -73,7 +73,7 @@ namespace Lattice.EditorTools
                     // Sized on what the replay driver's pad gets of flat out (MeretReplayTests, November 15; her sheet's share), under the shared ceiling (a quarter of flat out inside 150 s).
                     // Hard to break (750 broke her six times in a 70 s duel, a quarter of it standing stunned): the woman who will not stop doesn't stand about. 150,000 lasted 104 and 92 s
                     // through the pad (.33 and .42 of 4,328 and 3,887 a second): 140,000 stays under the ceiling down to 3,733 a second flat out.
-                    e.integrity=140000;e.breakThreshold=2200;e.speed=3.8f;e.attacks=new[]{wellCut};
+                    e.integrity=190000;e.breakThreshold=2200;e.speed=3.8f;e.attacks=new[]{wellCut};
                     e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1400;e.scrip=0;e.scrap=0;e.boss=true;
                     e.bossMusicId="Final Stand";e.yieldsOnDefeat=true;e.heavyDeath=false;e.drawnScale=1;
                     e.capsuleRadius=0;e.capsuleHeight=2;

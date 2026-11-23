@@ -91,7 +91,7 @@ namespace Lattice.EditorTools
                 MiraAt=new(-18.8f,18.4f),MiraCounter=new(-17.6f,17.8f),ShopAt=new(-16.2f,16.2f),RailMendAt=new(-20.6f,26.1f),Forge=new(-21.4f,35.4f),Anvil=new(-19.2f,35.8f),TovraAt=new(-16.8f,33.2f),
                 TeoAt=new(40.6f,25.2f),BinnaAt=new(26.6f,37.6f),HalAt=new(33.8f,35.4f),IloAt=new(39.6f,37.6f),
                 RibAt=new(1,64),HaskAt=new(-1.6f,63.4f),IruAt=new(3,61),RuvaAt=new(-9.4f,57),Table=new(-12.4f,57),Board=new(7,56.6f),PimAt=new(11.6f,55.2f),
-                OrrinBoard=new(-12.4f,72.2f),OrrinAt=new(-12.4f,70.4f),DraskAt=new(5,74.5f),DraskWindow=new(5,73.4f),MeretAt=new(15.2f,58.4f),
+                OrrinBoard=new(-12.4f,72.2f),OrrinAt=new(-12.4f,68.6f),DraskAt=new(5,74.5f),DraskWindow=new(5,73.4f),MeretAt=new(15.2f,58.4f),
                 MaruAt=new(-39.4f,64),CorraAt=new(-30,73),BrekkAt=new(-33.4f,70.4f),CorraStall=new(-30,71.4f),DovAt=new(-31.9f,56),Smokehouse=new(-31.6f,56),HarbourLamp=new(-41.4f,51.4f),
                 AbriAt=new(35.8f,67.4f),OdaAt=new(48.4f,58),NeveAt=new(31,55.4f),DaceAt=new(46,51.6f),IshenAt=new(47.6f,66.6f),
                 PellAt=new(-26,91.2f),GalleryLantern=new(-20,95.6f),AumiLanternAt=new(-20,93.4f),JaskAt=new(-36,92),PipAt=new(-13,91.6f),
@@ -155,7 +155,7 @@ namespace Lattice.EditorTools
             internal static readonly (string text,Vector2 at,float half)[] Signs=
             {
                 ("MOORINGS",new(-4,-8.6f),1.8f),("TRAVEL TERMINAL",new(6.6f,-6.8f),3),("THE SQUARE",new(-2.4f,53.4f),2.2f),("MESSAGE BOARD",new(3.2f,52.4f),2.8f),
-                ("EAST TERRACE",new(30.4f,61.6f),2.6f),("GARDEN ARCADE",new(24,22.8f),2.8f),("LOW STREET",new(-30.4f,60),2.2f),("LANTERN GALLERY",new(-30,86.6f),3),
+                ("EAST TERRACE",new(30.4f,61.6f),2.6f),("GARDEN ARCADE",new(24,22.8f),2.8f),("LOW STREET",new(-28.6f,62.4f),2.2f),("LANTERN GALLERY",new(-30,86.6f),3),
                 ("SKY-GARDEN",new(22,85.4f),2.2f),("PITCH ELEVEN",new(-12.4f,16.6f),2.4f),("GARDEN STAIR",new(-13.2f,27.2f),2.4f),
             };
             static bool OnASign(Vector2 p){foreach(var (_,at,half) in Signs)if(Mathf.Abs(p.x-at.x)<half+.6f&&Mathf.Abs(p.y-at.y)<1.4f)return true;return false;}
@@ -381,6 +381,23 @@ namespace Lattice.EditorTools
                 var go=kit.Prop(ZoneKit.Kit(key,fallback),new Vector3(at.x,up,at.y),size,yaw,solid);if(parent!=null)go.transform.SetParent(parent,true);return go;
             }
             static void Tint(GameObject go,Color tint){var t=go.GetComponent<PropTint>()??go.AddComponent<PropTint>();t.tint=tint;}
+            /// <summary>One of the town's painted faces (tools/afloat_boards.py), or null if it hasn't been painted.</summary>
+            static Texture2D Painting(string name)=>AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Afloat/"+name+".png");
+            /// <summary>A painted face on a board, facing south (the camera's side), its picture across it once: a quad of its own in a material of its own, lit a little from within so
+            /// what is written on it reads in the board's shade; <paramref name="cutout"/> for a picture with clear ground.</summary>
+            static GameObject Face(string name,Vector3 centre,float width,float height,Texture2D map,float glow,Transform parent,bool cutout)
+            {
+                string slug="afloat-face-"+new string(name.ToLowerInvariant().Where(c=>char.IsLetterOrDigit(c)||c==' ').ToArray()).Trim().Replace(' ','-');
+                var mat=ZoneKit.Toon(slug,map,m=>{m.SetColor("_BaseColor",Color.white);m.SetTexture("_EmissionMap",map);m.SetColor("_EmissionColor",new Color(glow,glow,glow));m.SetFloat("_ReceiveShadows",0);
+                    if(cutout){ZoneKit.With(m,"_ALPHATEST_ON","_AlphaTest");m.SetFloat("_Cutoff",.5f);}});
+                float w=width*.5f,h=height*.5f;
+                var mesh=new Mesh{name="Afloat face "+name};
+                mesh.SetVertices(new List<Vector3>{centre+new Vector3(-w,-h,0),centre+new Vector3(w,-h,0),centre+new Vector3(w,h,0),centre+new Vector3(-w,h,0)});
+                mesh.SetUVs(0,new List<Vector2>{new(0,0),new(1,0),new(1,1),new(0,1)});mesh.SetNormals(Enumerable.Repeat(Vector3.back,4).ToList());mesh.SetTriangles(new[]{0,2,1,0,3,2},0);mesh.RecalculateBounds();
+                var saved=ZoneKit.SaveMesh(mesh,"Assets/_Project/Scenes/"+kit.zone+"-"+slug+".asset");
+                var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer));go.GetComponent<MeshFilter>().sharedMesh=saved;var r=go.GetComponent<MeshRenderer>();r.sharedMaterial=mat;
+                r.shadowCastingMode=ShadowCastingMode.Off;if(parent!=null)go.transform.SetParent(parent,true);return go;
+            }
             /// <summary>The height to give a kit piece so that its longest side on the plan is <paramref name="length"/> (Lastlight's own rule for its longhouses).</summary>
             static float Tall(string key,float length)
             {
@@ -401,8 +418,11 @@ namespace Lattice.EditorTools
                 if(light){var l=kit.Lamp(new Vector3(at.x+.55f,tall-.5f,at.y),range,intensity,colour??new Color(1,.8f,.54f));l.transform.SetParent(go.transform,true);}
                 return go;
             }
-            /// <summary>A stall: a counter on posts, a striped awning pitched to the back, goods on the counter (Many Hands' make, which every market in the convoy copied).</summary>
-            static GameObject Stall(string name,Vector2 at,float yaw,Color awning,Color edge,Color goods,Transform parent,float wide=3.6f)
+            /// <summary>What a stall sells, drawn on its counter so a player can name it from the street.</summary>
+            internal enum Wares{Fruit,Greens,Cloth,Tinker,Fish,Spice,Bread,Oil}
+            /// <summary>A stall: a counter on posts, a striped awning pitched to the back, its goods on the counter (Many Hands' make, which every market in the convoy copied). The goods are
+            /// drawn in their own colours (the look pass of November 21: they were lumps in the town's dark iron, grey under every awning in s69/052 and s69/064).</summary>
+            static GameObject Stall(string name,Vector2 at,float yaw,Color awning,Color edge,Color goods,Transform parent,float wide=3.6f,Wares wares=Wares.Fruit)
             {
                 var s=new ZoneKit.Shape();var foot=At(at);var t=Quaternion.Euler(0,yaw,0);Color wood=new(.82f,.66f,.46f),dark=new(.5f,.4f,.3f);float h=wide*.5f;
                 s.Slot(0).Box(foot+t*new Vector3(0,.52f,0),new Vector3(wide-.2f,.94f,1),t,dark,wood).Box(foot+t*new Vector3(0,1.02f,0),new Vector3(wide+.1f,.08f,1.25f),t,wood);
@@ -410,8 +430,71 @@ namespace Lattice.EditorTools
                 Vector3 A=foot+t*new Vector3(-h-.25f,3.05f,1.2f),B=foot+t*new Vector3(h+.25f,3.05f,1.2f),C=foot+t*new Vector3(h+.25f,2.2f,-1.05f),D=foot+t*new Vector3(-h-.25f,2.2f,-1.05f);
                 for(int k=0;k<6;k++){float a0=k/6f,a1=(k+1)/6f;s.Slot(1).Quad(Vector3.Lerp(A,B,a0),Vector3.Lerp(A,B,a1),Vector3.Lerp(D,C,a1),Vector3.Lerp(D,C,a0),t*new Vector3(0,1,-.5f),k%2==0?awning:Color.Lerp(awning,Color.white,.55f),.8f);}
                 s.Slot(1).Quad(D,C,C+Vector3.down*.34f,D+Vector3.down*.34f,t*Vector3.back,edge,.8f);
-                int n=Mathf.RoundToInt(wide/.6f);for(int k=0;k<n;k++)s.Slot(2).Lump(foot+t*new Vector3(-h+.4f+k*(wide-.8f)/Mathf.Max(1,n-1),1.16f,.06f*(k%2)),new Vector3(.18f,.13f,.18f),k+(int)(at.x*7),.15f,Color.Lerp(goods,Color.white,.15f*(k%3)),ZoneKit.Shape.Dim(goods,.55f),7,4);
-                var go=Made(name,s,parent,true,Wood,Cloth,Dark);ZoneKit.Block(go,foot+Vector3.up*.55f,new Vector3(wide,1.1f,1.2f),yaw,"Stall counter");return go;
+                LayWares(s.Slot(2),foot+t*new Vector3(0,1.06f,0),t,wide,goods,wares,(int)(at.x*7+at.y*3));
+                var go=Made(name,s,parent,true,Wood,Cloth,Paint);ZoneKit.Block(go,foot+Vector3.up*.55f,new Vector3(wide,1.1f,1.2f),yaw,"Stall counter");return go;
+            }
+            /// <summary>A counter's goods, by what is sold: crates heaped with fruit or with greens, bolts and folds of cloth, a tinker's tins and coils, fish laid on ice, bowls of spice,
+            /// loaves in baskets, bottles of oil. <paramref name="top"/> is the counter's top at its middle; the counter runs along <paramref name="t"/>'s x.</summary>
+            static void LayWares(ZoneKit.Shape s,Vector3 top,Quaternion t,float wide,Color goods,Wares wares,int seed)
+            {
+                var rng=new System.Random(seed);float R(float a,float b)=>a+(float)rng.NextDouble()*(b-a);
+                Color crate=new(.74f,.58f,.4f),crateDark=new(.52f,.4f,.28f);int slots=Mathf.Max(2,Mathf.RoundToInt((wide-.4f)/.62f));
+                for(int k=0;k<slots;k++)
+                {
+                    float x=-wide*.5f+.32f+(k+.5f)*(wide-.64f)/slots;var c=top+t*new Vector3(x,0,R(-.08f,.12f));
+                    switch(wares)
+                    {
+                        case Wares.Fruit:case Wares.Greens:
+                        {
+                            s.Box(c+Vector3.up*.07f,new Vector3(.5f,.14f,.42f),t,crateDark,crate);
+                            // Fruit in its own colours, never pale (pale fruit under an awning read as eggs): the stall's own (Jun's pears), oranges, greens, red apples, in turn.
+                            var pear=Color.Lerp(goods,new Color(.62f,.74f,.2f),.5f);
+                            var tone=wares==Wares.Greens?new Color(.34f,.62f,.3f):new[]{pear,new Color(.95f,.52f,.12f),new Color(.42f,.66f,.3f),new Color(.76f,.18f,.14f)}[k%4];
+                            if(wares==Wares.Greens||k%4==2)for(int f=0;f<4;f++)s.Frond(c+Vector3.up*.12f+t*new Vector3(R(-.15f,.15f),0,R(-.1f,.1f)),t*new Vector3(R(-.6f,.6f),0,R(-.6f,.6f)),.36f,.12f,.2f,.35f,new Color(.3f,.5f,.24f),new Color(.6f,.82f,.42f));
+                            else for(int f=0;f<9;f++)s.Lump(c+Vector3.up*.17f+t*new Vector3((f%3-1)*.13f+R(-.02f,.02f),(f/3)*.025f,(f/3-1)*.11f),new Vector3(.065f,k%4==0?.085f:.07f,.065f),f+seed,.05f,tone,ZoneKit.Shape.Dim(tone,.55f),7,4);
+                            break;
+                        }
+                        case Wares.Cloth:
+                        {
+                            var tone=Color.Lerp(goods,new[]{new Color(.92f,.88f,.76f),new Color(.34f,.5f,.8f),new Color(.72f,.32f,.36f)}[k%3],.55f);
+                            if(k%2==0){var a=c+t*new Vector3(-.24f,.09f,0);var b=c+t*new Vector3(.24f,.09f,0);s.Tube(new[]{a,b},new[]{.09f,.09f},10,tone,ZoneKit.Shape.Dim(tone,.8f),1,.3f);}
+                            else for(int f=0;f<3;f++)s.Box(c+Vector3.up*(.03f+f*.05f),new Vector3(.44f,.045f,.34f),t*Quaternion.Euler(0,R(-6,6),0),ZoneKit.Shape.Dim(tone,.85f+f*.06f),tone);
+                            break;
+                        }
+                        case Wares.Tinker:
+                        {
+                            Color tin=new(.66f,.7f,.74f),brass=new(.86f,.7f,.4f);
+                            if(k%3==0)s.Post(c,.22f,.09f,.09f,10,ZoneKit.Shape.Dim(tin,.8f),tin).Post(c+t*new Vector3(.18f,0,.05f),.14f,.07f,.07f,10,ZoneKit.Shape.Dim(brass,.8f),brass);
+                            else if(k%3==1){var ring=new List<Vector3>();var rr=new List<float>();for(int j=0;j<=16;j++){float a=j*Mathf.PI/8;ring.Add(c+Vector3.up*.05f+t*new Vector3(Mathf.Sin(a)*.16f,0,Mathf.Cos(a)*.16f));rr.Add(.03f);}s.Tube(ring,rr,6,brass,brass,1,.3f,false);}
+                            else s.Box(c+Vector3.up*.06f,new Vector3(.34f,.12f,.24f),t,new Color(.36f,.4f,.44f),tin).Beam(c+t*new Vector3(-.2f,.13f,.1f),c+t*new Vector3(.22f,.13f,-.06f),.03f,.03f,new Color(.3f,.3f,.32f));
+                            break;
+                        }
+                        case Wares.Fish:
+                        {
+                            s.Box(c+Vector3.up*.04f,new Vector3(.54f,.08f,.44f),t,new Color(.7f,.82f,.88f),new Color(.86f,.94f,.98f));
+                            for(int f=0;f<3;f++)s.Lump(c+Vector3.up*.11f+t*new Vector3(0,0,(f-1)*.12f),new Vector3(.2f,.035f,.05f),f+seed,.03f,new Color(.82f,.86f,.9f),new Color(.44f,.52f,.6f),8,4,.25f,t*Quaternion.Euler(0,R(-12,12),0));
+                            break;
+                        }
+                        case Wares.Spice:
+                        {
+                            var tone=new[]{new Color(.9f,.5f,.16f),new Color(.78f,.2f,.14f),new Color(.92f,.78f,.22f),new Color(.5f,.32f,.18f)}[k%4];
+                            s.Post(c,.08f,.18f,.2f,12,crateDark,crate).Lump(c+Vector3.up*.1f,new Vector3(.15f,.07f,.15f),k+seed,.06f,Color.Lerp(tone,Color.white,.12f),ZoneKit.Shape.Dim(tone,.7f),9,4);
+                            break;
+                        }
+                        case Wares.Bread:
+                        {
+                            s.Box(c+Vector3.up*.05f,new Vector3(.5f,.1f,.38f),t,new Color(.6f,.46f,.28f),new Color(.74f,.6f,.38f));
+                            for(int f=0;f<3;f++)s.Lump(c+Vector3.up*.14f+t*new Vector3(0,0,(f-1)*.11f),new Vector3(.17f,.06f,.06f),f+seed,.05f,new Color(.86f,.62f,.3f),new Color(.56f,.36f,.16f),8,4,.25f,t*Quaternion.Euler(0,R(-15,15),0));
+                            break;
+                        }
+                        default:
+                        {
+                            var tone=k%2==0?new Color(.82f,.6f,.2f):new Color(.5f,.66f,.36f);
+                            foreach(float dx in new[]{-.14f,0,.14f})s.Post(c+t*new Vector3(dx,0,0),.24f,.055f,.04f,8,ZoneKit.Shape.Dim(tone,.7f),tone).Post(c+t*new Vector3(dx,.24f,0),.06f,.02f,.02f,6,new Color(.3f,.26f,.22f),new Color(.3f,.26f,.22f));
+                            break;
+                        }
+                    }
+                }
             }
             /// <summary>A bench of boards on brass legs, drawn into a shape.</summary>
             static void Bench(ZoneKit.Shape s,Vector3 foot,float yaw)
@@ -669,7 +752,7 @@ namespace Lattice.EditorTools
             {
                 var root=Root("The market");var rng=new System.Random(31);
                 // Jun's fruit stall: her counter facing the street, a green-and-cream awning, pears and greens in crates on it; Jun behind it.
-                Stall("Jun's fruit stall",JunStall,270,new Color(.5f,.72f,.4f),new Color(.3f,.46f,.26f),new Color(.86f,.84f,.4f),root,3.4f);
+                Stall("Jun's fruit stall",JunStall,270,new Color(.5f,.72f,.4f),new Color(.3f,.46f,.26f),new Color(.86f,.84f,.4f),root,3.4f,Wares.Fruit);
                 Body("JunBody",JunAt,90,"Jun, behind her pears",root);
                 // The pear tree, leaning toward the market's lamp for thirty years: chapter 2's orchard tree in a station planter.
                 var planter=Prop("DressPlanter",PearTree,.8f,0,root);planter.name="The pear tree's planter";
@@ -684,8 +767,28 @@ namespace Lattice.EditorTools
                 // Mira's pitch eleven, next door: a counter of her lots, the shop's front at its south end.
                 var mira=new ZoneKit.Shape();var mf=At(MiraCounter);Color crate=new(.84f,.74f,.56f),cloth=new(.62f,.36f,.42f);
                 mira.Slot(0).Box(mf+Vector3.up*.5f,new Vector3(1.1f,1,3.2f),Quaternion.identity,crate,ZoneKit.Shape.Dim(crate,1.1f)).Slot(1).Box(mf+new Vector3(0,1.03f,0),new Vector3(1.2f,.06f,3.3f),Quaternion.identity,cloth);
-                for(int k=0;k<6;k++)mira.Slot(2).Box(mf+new Vector3(((k%2)-.5f)*.5f,1.16f,-1.2f+k*.5f),new Vector3(.32f,.2f+.06f*(k%3),.26f),Quaternion.Euler(0,k*13,0),Color.Lerp(new Color(.9f,.82f,.6f),new Color(.6f,.74f,.86f),k/6f));
-                var counter=Made("Mira's counter at pitch eleven",mira,root,true,Panel,Cloth,Dark);ZoneKit.Block(counter,mf+Vector3.up*.5f,new Vector3(1.1f,1,3.2f),0,"Counter");
+                // Her lots on the cloth (the look pass of November 21: six blocks in the town's dark iron read as black cubes on a pink cloth, s69/064): open crates of the Halo's
+                // crystals in straw, parcels in brown paper tied with string, a tray of lamp glass, each in its own colours.
+                for(int k=0;k<6;k++)
+                {
+                    var c=mf+new Vector3(((k%2)-.5f)*.5f,1.06f,-1.2f+k*.48f);var turn=Quaternion.Euler(0,k*13-6,0);
+                    if(k%3==0)
+                    {
+                        mira.Slot(2).Box(c+Vector3.up*.08f,new Vector3(.36f,.16f,.3f),turn,new Color(.56f,.42f,.28f),new Color(.82f,.7f,.42f));
+                        for(int j=0;j<5;j++)mira.Slot(2).Lump(c+Vector3.up*.22f+turn*new Vector3((j%3-1)*.09f,0,(j/3-.5f)*.1f),new Vector3(.035f,.11f+.03f*(j%2),.035f),j+k,.02f,j%2==0?new Color(.36f,.78f,.96f):new Color(.6f,.46f,.92f),new Color(.14f,.36f,.6f),5,3);
+                    }
+                    else if(k%3==1)
+                    {
+                        mira.Slot(2).Box(c+Vector3.up*.11f,new Vector3(.3f,.22f,.26f),turn,new Color(.62f,.48f,.32f),new Color(.78f,.64f,.44f));
+                        mira.Slot(2).Box(c+Vector3.up*.225f,new Vector3(.31f,.012f,.03f),turn,new Color(.92f,.88f,.78f)).Box(c+Vector3.up*.225f,new Vector3(.03f,.012f,.27f),turn,new Color(.92f,.88f,.78f));
+                    }
+                    else
+                    {
+                        mira.Slot(2).Box(c+Vector3.up*.03f,new Vector3(.36f,.06f,.3f),turn,new Color(.4f,.32f,.26f),new Color(.5f,.4f,.32f));
+                        foreach(float dx in new[]{-.1f,0,.1f})mira.Slot(2).Post(c+Vector3.up*.06f+turn*new Vector3(dx,0,0),.12f,.05f,.04f,8,new Color(.96f,.84f,.5f),new Color(1,.94f,.7f));
+                    }
+                }
+                var counter=Made("Mira's counter at pitch eleven",mira,root,true,Panel,Cloth,Paint);ZoneKit.Block(counter,mf+Vector3.up*.5f,new Vector3(1.1f,1,3.2f),0,"Counter");
                 var shop=new GameObject("Mira's counter: the shop",typeof(Shop)).GetComponent<Shop>();shop.transform.position=At(ShopAt,.5f);shop.transform.SetParent(counter.transform,true);
                 shop.prompt="Trade — Pitch Eleven";shop.range=2.2f;shop.inventory=Find<ShopInventory>(AfloatZone);
                 if(shop.inventory==null)throw new InvalidOperationException("NeighbourhoodAfloat: pitch eleven has no stock (NeighbourhoodDefinition stocks ShopInventory/"+AfloatZone+")");
@@ -703,12 +806,12 @@ namespace Lattice.EditorTools
                 HalsBench(new Vector2(-22.6f,38.6f),90,root);
                 foreach(var (x,z,yaw) in new[]{(-23f,37.2f,0f),(-23f,32.8f,20f)}){var h=Prop("DressCargoPallet",new Vector2(x,z),.5f,yaw,root);h.name="Hoes and hinges, the anchor's metal";Tint(h,new Color(.7f,.66f,.62f));}
                 // The rest of the market: stalls along its north side facing the street, a kiosk and a stall by the arcade, crates and barrels at their backs.
-                Stall("A greengrocer's stall",new Vector2(-15.6f,37.2f),0,new Color(.86f,.54f,.3f),new Color(.6f,.36f,.2f),new Color(.6f,.8f,.4f),root);
-                Stall("A cloth stall",new Vector2(-1,37.2f),0,new Color(.34f,.5f,.8f),new Color(.2f,.3f,.5f),new Color(.86f,.5f,.6f),root);
-                Stall("A tinker's stall",new Vector2(4.2f,37.2f),0,new Color(.82f,.3f,.3f),new Color(.5f,.18f,.18f),new Color(.7f,.72f,.76f),root,3.2f);
+                Stall("A greengrocer's stall",new Vector2(-15.6f,37.2f),0,new Color(.86f,.54f,.3f),new Color(.6f,.36f,.2f),new Color(.6f,.8f,.4f),root,3.6f,Wares.Greens);
+                Stall("A cloth stall",new Vector2(-1,37.2f),0,new Color(.34f,.5f,.8f),new Color(.2f,.3f,.5f),new Color(.86f,.5f,.6f),root,3.6f,Wares.Cloth);
+                Stall("A tinker's stall",new Vector2(4.2f,37.2f),0,new Color(.82f,.3f,.3f),new Color(.5f,.18f,.18f),new Color(.7f,.72f,.76f),root,3.2f,Wares.Tinker);
                 if(ZoneKit.Landed("DressKiosk")){var k=Prop("DressKiosk",new Vector2(5.4f,21.6f),2.6f,270,root);k.name="A kiosk";}
-                Stall("A fishmonger's stall",new Vector2(3.6f,27.4f),90,new Color(.26f,.5f,.66f),new Color(.16f,.3f,.42f),new Color(.56f,.66f,.76f),root);Stall("A spice stall",new Vector2(3.6f,33.4f),90,new Color(.86f,.42f,.22f),new Color(.56f,.26f,.14f),new Color(.86f,.6f,.3f),root);
-                Stall("A baker's stall",new Vector2(-11.2f,36.6f),0,new Color(.92f,.82f,.5f),new Color(.6f,.5f,.3f),new Color(.86f,.7f,.46f),root);Stall("A lamp-oil stall",new Vector2(-4,17.4f),0,new Color(.4f,.34f,.6f),new Color(.26f,.22f,.4f),new Color(.9f,.8f,.5f),root);
+                Stall("A fishmonger's stall",new Vector2(3.6f,27.4f),90,new Color(.26f,.5f,.66f),new Color(.16f,.3f,.42f),new Color(.56f,.66f,.76f),root,3.6f,Wares.Fish);Stall("A spice stall",new Vector2(3.6f,33.4f),90,new Color(.86f,.42f,.22f),new Color(.56f,.26f,.14f),new Color(.86f,.6f,.3f),root,3.6f,Wares.Spice);
+                Stall("A baker's stall",new Vector2(-11.2f,36.6f),0,new Color(.92f,.82f,.5f),new Color(.6f,.5f,.3f),new Color(.86f,.7f,.46f),root,3.6f,Wares.Bread);Stall("A lamp-oil stall",new Vector2(-4,17.4f),0,new Color(.4f,.34f,.6f),new Color(.26f,.22f,.4f),new Color(.9f,.8f,.5f),root,3.6f,Wares.Oil);
                 Goods(new(-12.4f,38.8f),0,23,root);Goods(new(7,36),90,24,root);Goods(new(-22.6f,17.6f),0,25,root);
                 var ps=new ZoneKit.Shape();foreach(var (x,z) in new[]{(-8f,16.6f),(2.4f,16.8f),(-22.8f,30.8f)})Planter(ps,At(x,z),.9f,new Color(.44f,.5f,.56f),rng);
                 Made("Market planters",ps,root,true,Panel,Leaf);
@@ -906,7 +1009,10 @@ namespace Lattice.EditorTools
                 b.Slot(0).Box(bf+new Vector3(0,1.55f,0),new Vector3(6.6f,1.7f,.18f),Quaternion.identity,frame,ZoneKit.Shape.Dim(frame,1.1f)).Box(bf+new Vector3(0,2.6f,-.1f),new Vector3(7,.12f,.6f),Quaternion.Euler(-14,0,0),new Color(.4f,.32f,.26f));
                 foreach(float x in new[]{-3.2f,3.2f})b.Slot(0).Post(bf+new Vector3(x,0,0),2.6f,.09f,.08f,6,frame,frame);
                 b.Slot(1).Box(bf+new Vector3(0,1.55f,-.1f),new Vector3(6.2f,1.5f,.02f),Quaternion.identity,new Color(.82f,.74f,.6f));
-                for(int k=0;k<14;k++)b.Slot(2).Box(bf+new Vector3(-2.9f+(k*1.37f)%5.8f,1.0f+(k*.53f)%1.1f,-.13f),new Vector3(.32f,.4f,.01f),Quaternion.Euler(0,0,(k*17)%16-8),Color.Lerp(new Color(.96f,.94f,.88f),new Color(.88f,.84f,.7f),(k%3)/2f));
+                // What is pinned to it, painted (tools/afloat_boards.py: fourteen notes at a slant, each in its own paper and ink, a pin each); blank cards only if the painting is missing.
+                var notices=Painting("afloat-noticeboard");
+                if(notices!=null)Face("The message board's notes",bf+new Vector3(0,1.55f,-.115f),6.2f,1.5f,notices,.18f,root,false);
+                else for(int k=0;k<14;k++)b.Slot(2).Box(bf+new Vector3(-2.9f+(k*1.37f)%5.8f,1.0f+(k*.53f)%1.1f,-.13f),new Vector3(.32f,.4f,.01f),Quaternion.Euler(0,0,(k*17)%16-8),Color.Lerp(new Color(.96f,.94f,.88f),new Color(.88f,.84f,.7f),(k%3)/2f));
                 // The cord, the seed tag, the valve drawings, each on its own peg.
                 var m0=Messages[0].on;b.Slot(3).Rope(new Vector3(m0.x-.3f,1.9f,m0.y-.2f),new Vector3(m0.x+.3f,1.4f,m0.y-.2f),.08f,.02f,new Color(.7f,.5f,.3f)).Rope(new Vector3(m0.x,1.9f,m0.y-.2f),new Vector3(m0.x-.1f,1.2f,m0.y-.2f),.05f,.02f,new Color(.7f,.5f,.3f));
                 var m1=Messages[1].on;b.Slot(2).Box(new Vector3(m1.x,1.6f,m1.y-.22f),new Vector3(.22f,.12f,.01f),Quaternion.Euler(0,0,8),new Color(.86f,.74f,.46f));
@@ -917,9 +1023,15 @@ namespace Lattice.EditorTools
                 var o=new ZoneKit.Shape();var of=At(OrrinBoard);Color dark=new(.16f,.2f,.18f);
                 o.Slot(0).Box(of+new Vector3(0,1.6f,0),new Vector3(4.2f,2,.14f),Quaternion.identity,frame).Slot(1).Box(of+new Vector3(0,1.6f,-.08f),new Vector3(3.9f,1.8f,.02f),Quaternion.identity,dark);
                 foreach(float x in new[]{-2f,2f})o.Slot(0).Post(of+new Vector3(x,0,0),2.7f,.07f,.06f,6,frame,frame);
-                for(int c=0;c<3;c++)for(int r=0;r<7;r++)if(Hash(c,r,2)>.15f)o.Slot(2).Box(of+new Vector3(-1.6f+c*1.25f+Hash(r,c,5)*.2f,2.3f-r*.22f,-.1f),new Vector3(.6f+Hash(c,r,7)*.4f,.04f,.01f),Quaternion.identity,new Color(.92f,.92f,.88f));
+                // The chalk, painted (tools/afloat_boards.py: three columns under their headings in a hand, a rota's tallies, a line struck through, the convoy drawn as beads; the look pass of
+                // November 21 found plain white bars there in s69/014 and s69/031); the bars only if the painting is missing.
+                var slate=Painting("afloat-chalkboard");
+                if(slate!=null)Face("Orrin's chalk",of+new Vector3(0,1.6f,-.095f),3.9f,1.8f,slate,.3f,root,false);
+                else for(int c=0;c<3;c++)for(int r=0;r<7;r++)if(Hash(c,r,2)>.15f)o.Slot(2).Box(of+new Vector3(-1.6f+c*1.25f+Hash(r,c,5)*.2f,2.3f-r*.22f,-.1f),new Vector3(.6f+Hash(c,r,7)*.4f,.04f,.01f),Quaternion.identity,new Color(.92f,.92f,.88f));
                 var obody=Made("Orrin's new board",o,root,true,Wood,Dark,Chalk);ZoneKit.Block(obody,of+Vector3.up*1.3f,new Vector3(4.2f,2.6f,.3f),0,"Board");
-                var line=new ZoneKit.Shape().Box(of+new Vector3(.5f,.82f,-.1f),new Vector3(1.6f,.05f,.01f),Quaternion.identity,new Color(.96f,.96f,.9f));chalked=Made("Orrin's line: the handrail, Vosk",line,root,false,Chalk);
+                var lineArt=Painting("afloat-chalkline");
+                if(lineArt!=null)chalked=Face("Orrin's line: the handrail, Vosk",of+new Vector3(.5f,.82f,-.1f),1.6f,.2f,lineArt,.3f,root,true);
+                else{var line=new ZoneKit.Shape().Box(of+new Vector3(.5f,.82f,-.1f),new Vector3(1.6f,.05f,.01f),Quaternion.identity,new Color(.96f,.96f,.9f));chalked=Made("Orrin's line: the handrail, Vosk",line,root,false,Chalk);}
                 Gate("Orrin chalks the handrail up",new[]{chalked},"end.handrail",true,root);chalked.SetActive(false);
                 Bunting(new[]{new Vector2(-17.2f,55.2f),new Vector2(-17.2f,70.2f)},new[]{new Vector2(17.2f,55.2f),new Vector2(17.2f,70.2f)},root);
                 // Meret's plain room off the square: two walls standing, two low (the camera's side), the door open; a table with the list on it, a chair she doesn't use.
@@ -1002,7 +1114,7 @@ namespace Lattice.EditorTools
                 var smoke=Made("Dov's smokehouse",s,root,true,Weave,Wood,Cloth);ZoneKit.Block(smoke,sf+new Vector3(-2,1.4f,0),new Vector3(2.2f,2.8f,3.6f),0,"Smokehouse");ZoneKit.Block(smoke,sf+new Vector3(.6f,.5f,0),new Vector3(.6f,1,3),0,"Counter");
                 showsFor["DovHomeSmokehouse"]=Array.Empty<GameObject>();
                 // Corra's stall on the low street, Brekk's awning over it (the first one he's put on a wall that's staying), three kettles on her hob if she kept three.
-                Stall("Corra's stall, Brekk's awning",CorraStall,0,new Color(.42f,.3f,.56f),new Color(.26f,.18f,.36f),new Color(.66f,.66f,.7f),root,3.6f);
+                Stall("Corra's stall, Brekk's awning",CorraStall,0,new Color(.42f,.3f,.56f),new Color(.26f,.18f,.36f),new Color(.66f,.66f,.7f),root,3.6f,Wares.Tinker);
                 var kettles=new ZoneKit.Shape();for(int k=0;k<3;k++){var kp=At(CorraStall.x-.9f+k*.9f,CorraStall.y,1.07f);kettles.Lump(kp+Vector3.up*.14f,new Vector3(.17f,.14f,.17f),k,.02f,new Color(.78f,.62f,.4f),new Color(.5f,.38f,.26f),10,6).Beam(kp+new Vector3(.16f,.18f,0),kp+new Vector3(.3f,.28f,0),.03f,.03f,new Color(.6f,.46f,.3f));}
                 showsFor["CorraHomeKettles"]=new[]{Made("Three kettles on Corra's hob",kettles,root,true,Brass)};
                 

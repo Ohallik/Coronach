@@ -33,7 +33,7 @@ namespace Lattice.EditorTools
                     e.bodySegment=ZoneKit.Prefab("Enemies","TollkeeperOutrigger");e.tailSegment=null;
                     // Sized from the shared length test's flat out against it in the flight yard (BOSS_RATE Tollkeeper 1,221 a second at Sync 28 in Choirwrought, November 14):
                     // 68,000 lasts 186 s at the assumed .3 and 223 s at a quarter, inside its sheet's 120 to 300.
-                    e.integrity=68000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{still};
+                    e.integrity=77000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{still};
                     e.weakness=DamageType.Kinetic;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1600;e.scrip=0;e.scrap=0;e.boss=true;
                     e.bossMusicId="Glitch Boss";e.yieldsOnDefeat=false;e.heavyDeath=false;e.drawnScale=1;e.motion=EnemyMotion.None;
                     e.capsuleRadius=0;e.capsuleHeight=BossController.TollTune.Height;e.lootTable=null;});

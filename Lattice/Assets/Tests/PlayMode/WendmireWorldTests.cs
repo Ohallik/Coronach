@@ -502,6 +502,22 @@ namespace Lattice.Tests.PlayMode
             frame.Interact();yield return Frames(2);Assert.AreEqual(frame.saveSpawn,State.spawn,"the mending frame didn't save the party's place");
         }
 
+        /// <summary>How far down the licensed water's pale line at a raft or a bank reaches, in metres of water. Stylized Water 3 draws it where 1 - e^(depth) / length is over nothing,
+        /// so it reaches ln(length) metres and at a length of 1 or less it is nowhere at all.</summary>
+        static float LineReach(Material water)=>water!=null&&water.IsKeywordEnabled("_INTERSECTION_FOAM")&&water.GetFloat("_IntersectionSource")!=1&&water.GetColor("_IntersectionColor").a>.3f
+            ?Mathf.Max(0,Mathf.Log(Mathf.Max(1e-4f,water.GetFloat("_IntersectionLength")))):0;
+        /// <summary>The mire's water, where the licensed water is installed (LocalBiomeBake's Mire), draws a pale line at every raft and bank: at a length of .55 it drew none anywhere, in
+        /// the player or the editor, and the boardwalks met the water with no waterline (s24 117 and 125, s27 098, November 22).</summary>
+        [Test] public void TheMiresWaterDrawsAWaterlineAtEveryRaftAndBank()
+        {
+            var keys=new[]{"Driftreed-mire","DrownedWaystation-Mire-water","DrownedWaystation-Station-water","DrownedWaystation-Great-hall-water","DrownedWaystation-Vault-sump-water"};
+            var found=keys.Select(k=>(k,art:Resources.Load<BiomeVisualAsset>("LocalBiomes/"+k))).Where(f=>f.art!=null&&f.art.material!=null).ToArray();
+            if(found.Length==0)Assert.Ignore("the licensed water isn't installed here: the public toon water draws the mire");
+            // The check sees the fault: the material as it was baked until November 22.
+            var was=new Material(found[0].art.material);was.SetFloat("_IntersectionLength",.55f);
+            Assert.AreEqual(0,LineReach(was),.001f,"fixture: the check can't see a waterline that reaches nowhere");Object.Destroy(was);
+            foreach(var (key,art) in found)Assert.GreaterOrEqual(LineReach(art.material),.4f,key+"'s waterline reaches "+LineReach(art.material).ToString("0.00")+" m of water: it can't be seen at a raft's edge");
+        }
         [UnityTest] public IEnumerator DriftreedIsLivedInByIluInSeveralCoatsWhoStandOffTheWaysAndNeverTwoAlikeSideBySide()
         {
             Heard();yield return Zone("Driftreed");

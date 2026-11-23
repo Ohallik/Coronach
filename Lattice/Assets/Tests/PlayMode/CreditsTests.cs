@@ -414,6 +414,48 @@ namespace Lattice.Tests.PlayMode
             foreach(var id in ids)Assert.IsFalse(System.Text.RegularExpressions.Regex.IsMatch(text,"\\b"+System.Text.RegularExpressions.Regex.Escape(id)+"\\b"),"the roll prints an id: "+id);
         }
 
+        /// <summary>Every screen of the roll, kept as a still (chapter 10's look pass, November 21: the whole-game capture took none while the credits ran, its route holding them in one
+        /// step whose still came after they had ended), from the two lines through every section to the last line and the title, a screen's height of the roll apart with a fifth over. And
+        /// every line stands centred in its column: a heading, its role, a name and its detail on the column's middle, each track title on the middle of its half, measured from the letters.
+        /// The measure is first shown to catch a line set off its middle.</summary>
+        [UnityTest] public IEnumerator EveryScreenOfTheRollIsKeptAsAStillAndEveryLineStandsCentredInItsColumn()
+        {
+            Told(true);yield return Load();var roll=Roll;
+            yield return Until(()=>roll.Running,6);Assert.IsTrue(roll.Running,"fixture: the roll");
+            var canvas=(RectTransform)roll.Roll.GetComponentInParent<Canvas>().transform;
+            float Off(TMP_Text t){var (ink,_)=Measure(t,canvas);float middle=t.name=="CreditsTrack"?Mathf.Sign(t.rectTransform.anchoredPosition.x)*290:0;return ink.center.x-middle;}
+            var lines=roll.Words.Where(t=>t.name!="CreditsHint"&&!string.IsNullOrEmpty(t.text)).ToList();
+            // The measure catches a line set forty units off its middle.
+            var probe=Word("CreditsHeading");var home=probe.rectTransform.anchoredPosition;probe.rectTransform.anchoredPosition=home+new Vector2(40,0);Canvas.ForceUpdateCanvases();
+            Assert.Greater(Mathf.Abs(Off(probe)),20,"fixture: the measure lets a heading forty units off its middle through");probe.rectTransform.anchoredPosition=home;Canvas.ForceUpdateCanvases();
+            var off=lines.Select(t=>(t,d:Off(t))).Where(x=>Mathf.Abs(x.d)>4).Select(x=>$"'{x.t.text}' ({x.t.name}) stands {x.d:0.0} off its middle").ToList();
+            Assert.IsEmpty(off,string.Join("\n",off));
+            // The tracks read down each column in the roll's own order, the left column first (set row by row, each column skipped every other title). Shown failing first on the
+            // same titles laid row by row.
+            static string Order(IEnumerable<(string title,float x,float y)> laid,string[] own)
+            {
+                var read=laid.OrderBy(l=>l.x<0?0:1).ThenBy(l=>-l.y).Select(l=>l.title).ToArray();
+                return read.SequenceEqual(own)?null:"the tracks read down their columns as "+string.Join(", ",read.Take(6))+"…, not in order";
+            }
+            var own=CreditsRoll.Tracks;
+            Assert.IsNotNull(Order(own.Select((title,i)=>(title,(i%2==0?-1f:1f)*290,-(float)(i/2)*40)),own),"fixture: the order check lets titles laid row by row through");
+            Assert.IsNull(Order(roll.Words.Where(t=>t.name=="CreditsTrack").Select(t=>(t.text,t.rectTransform.anchoredPosition.x,t.rectTransform.anchoredPosition.y)),own));
+            // A detail too wide for one line breaks at one of its dots, never wherever its width runs out: shown failing first on a long line with no break of its own.
+            static string Wrapped(TMP_Text t){t.ForceMeshUpdate();int lines=t.textInfo.lineCount,own=t.text.Count(c=>c=='\n')+1;return lines>own?$"'{t.text}' wraps where its width runs out ({lines} lines, {own} of its own)":null;}
+            var detail=Word("CreditsDetail");string kept=detail.text;detail.text=string.Join(" and ",Enumerable.Repeat("a licence with a long name",8));
+            Assert.IsNotNull(Wrapped(detail),"fixture: the wrap check lets a line wider than its box through");detail.text=kept;
+            var wrapped=roll.Words.Where(t=>t.name=="CreditsDetail").Select(Wrapped).Where(f=>f!=null).ToList();
+            Assert.IsEmpty(wrapped,string.Join("\n",wrapped));
+            // The stills: the opening, a screen at a time through the roll, the last section held, the last line, the title.
+            float half=Mathf.Max(540,canvas.rect.height*.5f);float screen=canvas.rect.height/Credits.Speed*.8f;int n=0;
+            yield return At(Credits.LinesGo-.5f);Still("credits-roll-"+(n++).ToString("D2")+"-lines");
+            for(float t=Credits.RollAt+half/Credits.Speed;t<roll.RollEnd+Credits.LastHold;t+=screen){yield return At(t);Still("credits-roll-"+(n++).ToString("D2"));}
+            yield return At(roll.RollEnd+Credits.LastHold*.8f);Still("credits-roll-"+(n++).ToString("D2")+"-held");
+            yield return At(roll.LastLineAt+2);Still("credits-roll-"+(n++).ToString("D2")+"-last");
+            yield return At(roll.TitleAt+3);Still("credits-roll-"+(n++).ToString("D2")+"-title");
+            TestContext.WriteLine($"CREDITS_SCREENS {n} roll {Credits.RollAt:0.0}..{roll.RollEnd:0.0} s, title at {roll.TitleAt:0.0}, end {roll.TitleEnd:0.0}");
+        }
+
         // ------------------------------------------------------------------ the title
         static readonly FieldInfo SavesField=typeof(GameServices).GetField("<Saves>k__BackingField",BindingFlags.NonPublic|BindingFlags.Instance);
         SaveSystem savesSwapped;

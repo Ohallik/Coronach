@@ -39,6 +39,8 @@ namespace Lattice.World
         /// <summary>What is drawn: the metal in the trough (lit by property block from crust to molten), the falling stream (shown while it pours), the ladle and where it rests and
         /// pours from (world points; it tips about its own forward axis by <see cref="tip"/> degrees), and the light over the trough.</summary>
         public Renderer[] metal=System.Array.Empty<Renderer>();public GameObject stream;public Transform ladle;public Vector3 ladleRest,ladleOver;public float tip=62;public Light glow;
+        /// <summary>What a ladle hangs by, when its rail runs over the camera (the Foundry's ladle line L2): moved with the ladle along its run, never tipped with it.</summary>
+        public Transform hanger;
         /// <summary>The metal's emission at full heat, its colour as crust and as melt, and its light's brightness at full heat. Yellow-white, not the marking's orange, and held
         /// near the bloom's threshold so its halo doesn't reach the marking's rim on the kerb.</summary>
         public Color molten=new(1.1f,.94f,.66f,1),crust=new(.16f,.13f,.12f,1),hot=new(1,.93f,.78f,1);
@@ -162,6 +164,7 @@ namespace Lattice.World
             float out_=stage switch{Stage.Out=>Mathf.SmoothStep(0,1,t/travel),Stage.Warning or Stage.Pouring=>1,Stage.Back=>1-Mathf.SmoothStep(0,1,(t-travel-warn-pour)/travel),_=>0};
             float lean=stage switch{Stage.Warning=>Mathf.SmoothStep(0,1,(t-travel)/warn),Stage.Pouring=>1,Stage.Back=>Mathf.Clamp01(1-(t-travel-warn-pour)/.4f),_=>0};
             ladle.SetPositionAndRotation(Vector3.Lerp(ladleRest,ladleOver,out_),upright*Quaternion.AngleAxis(lean*tip,Vector3.forward));
+            if(hanger!=null)hanger.position=Vector3.Lerp(ladleRest,ladleOver,out_);
         }
         /// <summary>The metal, its stream and its light. A ladle's: <paramref name="amount"/> of the melt over <paramref name="warm"/> of ember. A tap run's (<paramref name="surge"/>
         /// nought or more): ember, warming to <see cref="emberHot"/> through a surge.</summary>

@@ -204,7 +204,13 @@ namespace Lattice.Combat
                     rate=GameTime.CombatHeld?0:length>0?length*EnemyBrain.TellShare/Mathf.Max(.1f,enemy.TellDuration):1;
                 }
             }
-            bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive&&!enemy.definition.yieldsOnDefeat;
+            // What leaves beaten (BossDeparture: driven off, or a warden standing aside) isn't down: it stands, bowed (the slump), and walks out on its feet. Only what dies falls.
+            // It played its Down and was slid out lying, one leg in the air (Vessa Korl, s48/232).
+            bool leaves=enemy!=null&&!enemy.Health.Alive&&enemy.TryGetComponent<BossDeparture>(out _);
+            // A boss that shuts down (a frame, a commander whose heat fails) stops where it stands, bowed: a body the height of a house falling full length swept the floor.
+            bool stops=enemy!=null&&!enemy.Health.Alive&&enemy.definition.boss&&BossController.EndingOf(enemy.definition.id)==BossController.Ending.ShutDown;
+            if(stops&&!leaves){wanted="Idle";rate=0;}
+            bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive&&!enemy.definition.yieldsOnDefeat&&!leaves&&!stops;
             // She gives up low, and the person who takes over holds the same frame.
             if(enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat)
             {

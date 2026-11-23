@@ -100,14 +100,37 @@ namespace Lattice.EditorTools
             if(edge<RimWide-.3f&&Opening(p)<.5f)tone=new Color(.3f,.25f,.19f);
             return new Color(tone.r*mottle,tone.g*mottle,tone.b*mottle,1);
         }
+        /// <summary>The town's laid floors: woven-root mats in courses, edged with a root, on the places it gathers (centre, half its size, turn). The forecourts were bare trodden earth,
+        /// blotches of sand and moss as wide as the place (s18 034, s19 060, s22 015 and 063, November 20); a floor somebody laid says who laid it.</summary>
+        // Each clear of the floor signs beside it (BINNA'S KITCHEN, SEED HOUSE, LANDING POOL): a sign is painted on the earth.
+        internal static readonly (Vector2 at,Vector2 half,float yaw)[] FloorMats={(new(25.2f,65.6f),new(6.2f,4),-8),(new(1.4f,68.6f),new(6,3.4f),0),(new(-2.6f,21.6f),new(4.6f,4),0),(new(27.4f,22.2f),new(4.4f,3.4f),12),
+            // And the two ways the town walks most, laid as runs of mat: the landing to the mooring, and the kitchen down past the press.
+            (new(14.8f,24.6f),new(6,1.4f),-11.6f),(new(26,51.8f),new(6.1f,1.6f),67.4f)};
+        static float OnFloorMat(Vector2 p)
+        {
+            float best=0;
+            foreach(var (at,half,yaw) in FloorMats)
+            {
+                var q=Quaternion.Euler(0,-yaw,0)*new Vector3(p.x-at.x,0,p.y-at.y);float out_=Mathf.Max(Mathf.Abs(q.x)-half.x,Mathf.Abs(q.z)-half.y);
+                best=Mathf.Max(best,1-ZoneKit.Smooth(-.2f,.6f,out_));
+            }
+            return best;
+        }
         /// <summary>Where the ground is trodden pale: each forecourt and doorstep, with how far the wear reaches.</summary>
         static readonly (Vector2 at,float reach)[] Worn={(new(0,21),9),(new(0,70),8),(new(25,64),7.5f),(new(37,44),7.5f),(new(28,21.5f),7),(new(-28,44),6),(new(-45.5f,13.5f),5),(new(54,43),5)};
 
         // ---------------------------------------------------------------- who and what stands where (plan coordinates; routes and tests read these)
         internal static readonly Vector2 RootArrival=new(0,17),PadAt=new(0,24.2f),RuvaAtMooring=new(28.5f,21),RuvaAtSeedHouse=new(5.5f,68.5f),RopeAt=new(32.4f,18.8f),TeoAt=new(-8.5f,24.6f),JaskAt=new(-25,47.6f),PoleAt=new(-22.3f,46.4f),
             BinnaAt=new(24.6f,68),HaddaAt=new(35.4f,46.6f),PressAt=new(41,48.6f),CradleAt=new(41.6f,40.4f),SennAt=new(-46.4f,13.6f),GateAt=new(60.2f,43),RiverSpawn=new(54,43),NoticeAt=new(-2.7f,72.3f),DoorAt=new(2.5f,72.3f),
-            SeedHouseAt=new(0,78.2f),CounterAt=new(36.3f,49.9f),WalkCacheAt=new(0,102.3f),IslandCacheAt=new(-51.2f,11),IslandMoored=new(38.6f,13.2f),IslandAdrift=new(50,4.5f);
+            SeedHouseAt=new(0,78.2f),CounterAt=new(36.3f,49.9f),WalkCacheAt=new(0,102.3f),IslandCacheAt=new(-51.2f,11),IslandMoored=new(38.6f,13.2f),IslandAdrift=new(50,4.5f),
+            // ArrivalLine: the middle of the line across the way to the mooring that starts Ruva's arrival talk (2 m deep, 22 across).
+            ArrivalLine=new(23.5f,24);
         static readonly Vector2[] RootPeople={RuvaAtMooring,RuvaAtSeedHouse,TeoAt,JaskAt,BinnaAt,HaddaAt,SennAt};
+        /// <summary>The kitchen's oven, its pot on legs, its woodpile and its drying rack: in the kitchen's south-west half, where they are on screen with the sign. Laid out across its
+        /// north-east they stood at the top of the frame and under the objective card from wherever BINNA'S KITCHEN could be read (s22 014 and 017, November 22): the camera looks
+        /// north-north-east, and the sign is at the kitchen's south-west corner. Each keeps the bake's clearance from the ways past Binna (NothingStandsOnTheWays), and a metre or more
+        /// from the replay routes' walks past the kitchen (chapter-19's up to Binna and on to the seed house, chapter-26's up past the kitchen and back down), which run between them.</summary>
+        static readonly Vector2[] KitchenWorks={new(21,61.3f),new(27,63),new(29.7f,61.6f),new(18.8f,61)};
         /// <summary>The floor signs, for whatever is scattered to keep off: their spots and half their widths.</summary>
         static readonly (Vector2 at,float half)[] RootSigns={(new(5.2f,21.6f),2.6f),(new(-25.4f,52.4f),2.4f),(new(-7.4f,66.4f),2.4f),(new(20.4f,59.4f),3.2f),(new(32.6f,37.8f),2.2f),(new(23.6f,25.6f),1.8f),(new(-43.4f,9.4f),2.8f),(new(51.5f,41.2f),2.2f),(new(56.6f,45f),3.4f)};
         /// <summary>What someone with no name wears or carries. All of them are the one grower's body, so who is who is told by outline: a hat's cone, a pannier on the back, a yoke
@@ -142,6 +165,8 @@ namespace Lattice.EditorTools
             if(ZoneKit.OnASign(p,RootSigns))return true;
             foreach(var folk in RootFolk)if(Vector2.Distance(p,new Vector2(folk.x,folk.z))<2.2f)return true;
             foreach(var spot in new[]{RootArrival,PadAt,RopeAt,PoleAt,PressAt,CradleAt,GateAt,RiverSpawn,NoticeAt,DoorAt,WalkCacheAt,IslandCacheAt,CounterAt})if(Vector2.Distance(p,spot)<3)return true;
+            // The kitchen's fires, its wood and its rack (Kitchen).
+            foreach(var spot in KitchenWorks)if(Vector2.Distance(p,spot)<2.6f)return true;
             return Vector2.Distance(p,SeedHouseAt)<7.5f;
         }
         /// <summary>The ways feet go between the town's places: nothing is scattered within reach of these, and the ground kit keeps them clear.</summary>
@@ -269,6 +294,7 @@ namespace Lattice.EditorTools
             Timber(kit);
             SeedHouse(kit);
             Kitchen(kit);
+            FloorMatsLaid(kit);
             Press(kit);
             Jungle(kit);
 
@@ -341,7 +367,7 @@ namespace Lattice.EditorTools
             var flit=midges.noise;flit.enabled=true;flit.strength=1.4f;flit.frequency=.9f;flit.scrollSpeed=.6f;
             NoBrokenMeshes(kit.zone);
             WorldBuilder.Save(scene,kit.zone);
-            Debug.Log("XYLOS_COORDS Rootmarket arrival="+RootArrival+" pad="+PadAt+" ruva-mooring="+RuvaAtMooring+" rope="+RopeAt+" crossing=(14,24) teo="+TeoAt+" jask="+JaskAt+" pole="+PoleAt+" ruva-seedhouse="+RuvaAtSeedHouse
+            Debug.Log("XYLOS_COORDS Rootmarket arrival="+RootArrival+" pad="+PadAt+" ruva-mooring="+RuvaAtMooring+" rope="+RopeAt+" crossing="+ArrivalLine+" teo="+TeoAt+" jask="+JaskAt+" pole="+PoleAt+" ruva-seedhouse="+RuvaAtSeedHouse
                 +" notice="+NoticeAt+" door="+DoorAt+" binna="+BinnaAt+" hadda="+HaddaAt+" press="+PressAt+" cradle="+CradleAt+" gate="+GateAt+" river-spawn="+RiverSpawn+" senn="+SennAt+" walk-cache="+WalkCacheAt+" island-cache="+IslandCacheAt);
             Debug.Log("ROOTMARKET_OK");
         }
@@ -428,8 +454,10 @@ namespace Lattice.EditorTools
             var rope=new GameObject("The mooring line",typeof(MooringHaul)).GetComponent<MooringHaul>();rope.transform.position=kit.On(RopeAt.x,RopeAt.y);
             rope.prompt="Haul the mooring line";rope.range=2.8f;rope.island=island.transform;rope.adrift=adrift;rope.moored=moored;rope.lines=lines.ToArray();rope.cleats=cleats.ToArray();rope.hands=hands.ToArray();
             rope.held=new[]{ruva,binna};rope.holdNodes=new[]{"RuvaRopeHold","BinnaRopeHold"};
-            // Across the whole width of the way from the pad to the mooring: the talk can't be walked round, and it is over before the rope is in reach.
-            kit.Crossing("Ruva puts a visitor on the rope",new Vector3(14,0,24),new Vector3(3,5,22),"xylos.arrivalSeen","RuvaArrival","Ruva");
+            // Across the whole width of the way from the pad to the mooring: the talk can't be walked round, and it is over before the rope is in reach. About seven metres short of
+            // Ruva, so she and the party share the middle of the frame: at x 14 the talk opened 16.6 m from her, and the camera held her at the right edge and them at the left
+            // through the whole talk (s18 010, November 22).
+            kit.Crossing("Ruva puts a visitor on the rope",new Vector3(ArrivalLine.x,0,ArrivalLine.y),new Vector3(2,5,22),"xylos.arrivalSeen","RuvaArrival","Ruva");
         }
 
         // ---------------------------------------------------------------- what the town is built of
@@ -691,8 +719,9 @@ namespace Lattice.EditorTools
             kit.Lamp(new Vector3(21.6f,.7f,71.6f),4,.8f,new Color(1,.6f,.3f));
             // Tables: a round of boards on a stump, stools round it, a bowl or two left out.
             int number=0;
-            // The first stood across the way from the seed house to Binna's counter; it is south of it now, by the ring's edge.
-            foreach(var (x,z,r) in new[]{(20.2f,60.2f,1.05f),(27.8f,61.6f,1.2f),(30.8f,58.6f,.95f),(18.6f,67.6f,.9f)})
+            // The first stood across the way from the seed house to Binna's counter; it is south of it now, by the ring's edge. Three stand clear of the oven, the pot and the woodpile
+            // that came down to the kitchen's front (KitchenWorks).
+            foreach(var (x,z,r) in new[]{(27.4f,58f,1.05f),(29.4f,65.6f,1.2f),(30.8f,58.6f,.95f),(19.4f,69f,.9f)})
             {
                 var t=kit.On(x,z);var table=new ZoneKit.Shape();
                 table.Slot(0).Post(t,.7f,.3f,.24f,8,dark,wood).Disc(t+Vector3.up*.74f,Vector3.up,r,14,wood,0,new Color(.74f,.6f,.4f),.5f).Tube(new[]{t+Vector3.up*.66f,t+Vector3.up*.74f},new[]{r,r},14,dark,dark,3,1,false);
@@ -701,7 +730,84 @@ namespace Lattice.EditorTools
                 kit.Built("Kitchen table "+(++number),table,Plank,Cloth).transform.SetParent(blocks.transform,true);
                 ZoneKit.Block(blocks,t+Vector3.up*.4f,new Vector3(r*1.6f,.8f,r*1.6f),0,"Kitchen table");
             }
+            // What cooks, where the sign is read from: a clay oven with its mouth alight and its smoke, a pot over a fire of its own on three legs, wood stacked to feed both,
+            // a rack of river fish and split pods drying, and the pit's smoke. A kitchen read as two tables in a field (s22 015, November 20).
+            var cook=new ZoneKit.Shape();var oven=kit.On(KitchenWorks[0].x,KitchenWorks[0].y);Color clay=new(.62f,.4f,.28f),soot=new(.26f,.2f,.17f);
+            // In packed earth (the town's loam, its grain and its four steps of light): in plain cloth it was a pale flat dome.
+            cook.Slot(3).Dome(oven,1.15f,1.45f,6,12,clay,ZoneKit.Shape.Dim(clay,.75f)).Tube(new[]{oven+new Vector3(-.2f,1.3f,.3f),oven+new Vector3(-.2f,2.25f,.3f)},new[]{.24f,.18f},8,clay,soot,1,.5f,false);
+            // Its hearth under it, and its mouth alight toward the camera: turned away, the fire was the one thing a player never saw of it.
+            cook.Slot(3).Tube(new[]{oven,oven+new Vector3(0,.16f,0)},new[]{1.22f,1.16f},14,ZoneKit.Shape.Dim(clay,.7f),clay,4,.6f,false);
+            var facing=Quaternion.Euler(0,215,0)*Vector3.forward;var mouth=oven+facing*1.1f;
+            cook.Slot(1).Disc(mouth+Vector3.up*.42f,facing,.36f,10,new Color(1,.62f,.3f));
+            var pot=kit.On(KitchenWorks[1].x,KitchenWorks[1].y);
+            for(int k=0;k<3;k++){float a=k*2.09f+.4f;cook.Slot(2).Tube(new[]{pot+new Vector3(Mathf.Cos(a)*.95f,0,Mathf.Sin(a)*.95f),pot+Vector3.up*1.7f},new[]{.06f,.04f},5,new Color(.5f,.4f,.3f),new Color(.74f,.6f,.44f),1,.6f);}
+            cook.Slot(0).Lump(pot+Vector3.up*.78f,new Vector3(.46f,.4f,.46f),11,.03f,new Color(.34f,.34f,.36f),new Color(.18f,.18f,.2f),11,6).Tube(new[]{pot+Vector3.up*1.7f,pot+Vector3.up*1.12f},new[]{.015f,.015f},4,soot,soot,1,1,false);
+            for(int k=0;k<7;k++)cook.Slot(0).Lump(pot+new Vector3(Mathf.Cos(k*.9f)*.55f,.08f,Mathf.Sin(k*.9f)*.55f),new Vector3(.16f,.12f,.14f),k+30,.3f,new Color(.44f,.42f,.4f),new Color(.26f,.25f,.25f),6,4);
+            cook.Slot(1).Disc(pot+Vector3.up*.06f,Vector3.up,.42f,10,new Color(1,.5f,.22f));
+            // The wood: split logs stacked between two stakes, by the pot and the rack.
+            var logs=kit.On(KitchenWorks[2].x,KitchenWorks[2].y);
+            for(int row=0;row<3;row++)for(int k=0;k<5-row;k++){var at=logs+new Vector3(-.9f+k*.42f+row*.21f,.16f+row*.3f,0);cook.Slot(2).Tube(new[]{at+Vector3.forward*-.5f,at+Vector3.forward*.5f},new[]{.15f,.14f},7,new Color(.56f,.42f,.3f),new Color(.86f,.7f,.5f),2,.8f,true);}
+            foreach(float x in new[]{-1.25f,1.25f})cook.Slot(2).Post(logs+new Vector3(x,0,0),1.2f,.06f,.05f,5,new Color(.5f,.4f,.3f),new Color(.7f,.58f,.42f));
+            // The drying rack: two forks and a pole, fish and split pods hung along it.
+            // Beside the oven on its west, broadside to the camera, so its fish hang across the screen: from the west end of the way past the sign the pot is under the objective card.
+            var rack=kit.On(KitchenWorks[3].x,KitchenWorks[3].y);var along=Vector3.right;
+            foreach(int side in new[]{-1,1})cook.Slot(2).Post(rack+along*side*.85f,1.9f,.06f,.05f,5,new Color(.5f,.4f,.3f),new Color(.74f,.6f,.44f));
+            cook.Slot(2).Beam(rack-along*.95f+Vector3.up*1.85f,rack+along*.95f+Vector3.up*1.85f,.06f,.06f,new Color(.6f,.48f,.34f));
+            for(int k=0;k<6;k++){var hang=rack+along*(-.75f+k*.3f)+Vector3.up*1.82f;bool fish=k%2==0;
+                cook.Slot(0).Tube(new[]{hang,hang+Vector3.down*(fish?.42f:.3f)},new[]{fish?.06f:.09f,fish?.03f:.05f},6,fish?new Color(.7f,.72f,.76f):new Color(.96f,.74f,.36f),fish?new Color(.46f,.5f,.56f):new Color(.7f,.44f,.2f),1,1);}
+            var cooking=kit.Built("Kitchen fires",cook.Slot(3),Cloth,Lantern,Plank,Loam);cooking.transform.SetParent(blocks.transform,true);
+            ZoneKit.Block(blocks,oven+Vector3.up*.75f,new Vector3(2.2f,1.5f,2.2f),0,"Clay oven");ZoneKit.Block(blocks,pot+Vector3.up*.6f,new Vector3(1.6f,1.2f,1.6f),0,"Cook pot");
+            ZoneKit.Block(blocks,logs+Vector3.up*.5f,new Vector3(2.6f,1,1.1f),0,"Woodpile");ZoneKit.Block(blocks,rack+Vector3.up*.9f,new Vector3(1.9f,1.8f,.5f),0,"Drying rack");
+            kit.Lamp(mouth+facing*.5f+Vector3.up*.5f,5,1,new Color(1,.62f,.32f));kit.Lamp(pot+Vector3.up*.4f,4,.9f,new Color(1,.6f,.3f));
+            var smokeGlow=kit.Glow("Smoke",false,new Color(.66f,.64f,.62f,1));
+            // A soft puff of its own, as Driftreed's smokehouse has: the shared glow's hard disc read as grey coins.
+            var smokeMat=new Material(Resources.Load<Material>("Effects/flare_01"));smokeMat.SetColor("_BaseColor",new Color(.74f,.72f,.7f,.45f));
+            UnityEditor.AssetDatabase.CreateAsset(smokeMat,"Assets/_Project/Scenes/"+kit.zone+"-Smoke-soft.mat");
+            foreach(var (at,count) in new[]{(oven+new Vector3(-.2f,2.4f,.3f),50),(pit+Vector3.up*1.2f,40),(pot+Vector3.up*1.9f,30)})
+            {
+                var smoke=kit.Drift("Kitchen smoke",at,new Vector3(.4f,.3f,.4f),smokeGlow,new Color(.74f,.72f,.7f,.3f),count,.8f,1.8f,.7f,6);
+                var main=smoke.main;main.startSpeed=.7f;var shapeModule=smoke.shape;shapeModule.shapeType=ParticleSystemShapeType.Cone;shapeModule.angle=14;smoke.transform.rotation=Quaternion.Euler(-80,60,0);
+                smoke.GetComponent<ParticleSystemRenderer>().sharedMaterial=smokeMat;
+            }
             kit.Sign("BINNA'S KITCHEN",RootSigns[3].at.x,RootSigns[3].at.y);
+        }
+        /// <summary>The laid floors (<see cref="FloorMats"/>): woven-root mats a stride or so across, set in courses of uneven widths with a dark joint between, each its own tone,
+        /// inside a border of root. Drawn only, a hand over the earth: what walks on them meets the ground they lie on.</summary>
+        static void FloorMatsLaid(ZoneKit kit)
+        {
+            var shape=new ZoneKit.Shape();var rng=new System.Random(29);int n=0;
+            foreach(var (at,half,yaw) in FloorMats)
+            {
+                var turn=Quaternion.Euler(0,yaw,0);int across=Mathf.Max(2,Mathf.RoundToInt(half.x/.95f)),deep=Mathf.Max(2,Mathf.RoundToInt(half.y/.95f));
+                float cw=half.x*2/across,cd=half.y*2/deep;
+                Vector3 On(float x,float z,float up){var p=new Vector3(at.x,0,at.y)+turn*new Vector3(x,0,z);return kit.On(p.x,p.z,up);}
+                for(int k=0;k<deep;k++)
+                {
+                    // Courses: each row's mats of their own widths, a stride or so, so the joints never line up across rows.
+                    float x0=-half.x,z0=-half.y+k*cd,z1=z0+cd-.045f;
+                    while(x0<half.x-.3f)
+                    {
+                        float x1=Mathf.Min(half.x,x0+cw*(.7f+.65f*(float)rng.NextDouble()));if(half.x-x1<.5f)x1=half.x;
+                        float shade=.82f+.26f*(float)rng.NextDouble();float right=x1-(x1<half.x?.045f:0);
+                        LayMat(x0,right,z0,z1,shade);x0=x1;
+                    }
+                }
+                void LayMat(float x0,float x1,float z0,float z1,float shade)
+                {
+                    // Every mat is laid, a floor sign's corner or not. A mat was left out wherever a sign's ground came near it, and the sign goes for every conversation (SignFade):
+                    // through the whole arrival talk the mooring's and the seed house's floors showed a bare pale square in a corner (s18 010 and 051, s19 061, November 22). A sign
+                    // stands on its own dark plate, over a mat as over earth.
+                    var tone=new Color(.92f*shade,.8f*shade,.6f*shade);float lift=.035f+.008f*(float)rng.NextDouble();
+                    shape.Slot(0).Quad(On(x0,z0,lift),On(x1,z0,lift),On(x1,z1,lift),On(x0,z1,lift),Vector3.up,tone,.55f);
+                    // Under each mat, the dark its joints show: a gap of pale earth between them read as a grid of light lines.
+                    shape.Slot(1).Quad(On(x0-.05f,z0-.05f,.026f),On(x1+.05f,z0-.05f,.026f),On(x1+.05f,z1+.05f,.026f),On(x0-.05f,z1+.05f,.026f),Vector3.up,new Color(.3f,.23f,.16f),.5f);
+                }
+                // The border: a root laid round the edge.
+                var ring=new List<Vector3>();foreach(var (x,z) in new[]{(-1f,-1f),(1f,-1f),(1f,1f),(-1f,1f),(-1f,-1f)})ring.Add(On(x*(half.x+.12f),z*(half.y+.12f),.05f));
+                var edge=new List<Vector3>();for(int s=0;s<4;s++)for(int t=0;t<6;t++)edge.Add(Vector3.Lerp(ring[s],ring[s+1],t/6f)+Vector3.up*.02f*Mathf.Sin(t*2.1f+n));edge.Add(ring[4]);
+                shape.Slot(1).Tube(edge,new[]{.11f},6,new Color(.52f,.4f,.28f),new Color(.66f,.52f,.36f),1,.4f,false);n++;
+            }
+            kit.Built("Laid floors",shape,Weave,Bark).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
         }
         /// <summary>The mender's press, east: a screw press taller than a door (the fabrication bench), the cradle a Shaper is mended in (repair and save), and Hadda's counter.
         /// Both are built here, so they are built as carpentry: whole logs, posts with carved heads, joints bound with line, a thread on the screw, a sling that is woven.</summary>
@@ -1098,11 +1204,13 @@ namespace Lattice.EditorTools
             var ground=GroundKit.Open(kit.zone,land.FloorFilter,31,3.2f);
             foreach(var way in RootWays)ground.ClearLane(way,1.5f);
             float Inside(Vector2 p){float low=LowLand(p),walk=FromWalk(p,out _)-WalkHalf;return Mathf.Max(-low,walk<0?-walk:-99);}
-            float Open(Vector2 p)=>ZoneKit.Smooth(RimWide+.2f,RimWide+1.2f,Inside(p));
+            // Nothing of the kit's is laid or sown on a laid floor (FloorMats).
+            float Open(Vector2 p)=>ZoneKit.Smooth(RimWide+.2f,RimWide+1.2f,Inside(p))*(1-OnFloorMat(p));
             ground.Layers(new Vector4(.05f,.34f,.4f,.28f),1.2f,new GroundKit.Layer("sand",new Color(.86f,.74f,.52f,1),3.2f),new GroundKit.Layer("litter",new Color(.74f,.66f,.36f,1),2.6f),new GroundKit.Layer("damp",new Color(.3f,.42f,.3f,.92f),3.4f));
             // Trodden earth where feet go: the ways between the town's places, worn through in patches, and each doorstep.
-            foreach(var way in RootWays)ground.PaintPath(0,way,1.7f,1,.35f,.7f,way.Length);
-            foreach(var (at,reach) in Worn)ground.PaintAround(0,at,reach*.62f,1,(int)at.x);
+            // Narrower than it was (1.7): the laid floors carry the trodden places now, and the path layer laid as wide as a place read as a beach (s22 063).
+            foreach(var way in RootWays)ground.PaintPath(0,way,1.15f,1,.35f,.7f,way.Length);
+            foreach(var (at,reach) in Worn)ground.PaintAround(0,at,reach*.42f,1,(int)at.x);
             // Litter drifts off the ways, thickest toward the back; damp ground along every rim.
             ground.PaintPatches(1,5.5f,.42f,p=>Open(p)*ZoneKit.Smooth(1.6f,3.4f,FromWays(p)),3);
             float OnTheRidge(Vector2 p)=>FromWalk(p,out float along)<WalkHalf&&WalkHeight(along)>.4f?1:0;

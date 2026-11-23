@@ -118,7 +118,7 @@ namespace Lattice.EditorTools
             // A coupling takes a sixth of its bar with it; like every other number of its moves that is in BossController.HostMarshal.cs's own table. It drops the region's rare,
             // the Marshal's Seal. 125,000 (November 15): fought through the pad by chapter 6's floor party (Prime parts) it fell at 115,000 in 107 and 122 s, a share of .53 to .58 and not
             // the .45 an under-geared replay party had measured: under its two minutes. Its slowest pair's quarter of flat out (265 s at 115,000) caps it near 130,000 (FloorPartyBossReplayTests).
-            ArenaBuilder.Asset<EnemyDef>("HostMarshal",e=>{e.id="HostMarshal";e.displayName="THE HOST MARSHAL";e.prefab=Body("HostMarshal","AncelaneGuard");e.integrity=125000;e.breakThreshold=800;e.speed=1.6f;e.attacks=new[]{marshalButt};
+            ArenaBuilder.Asset<EnemyDef>("HostMarshal",e=>{e.id="HostMarshal";e.displayName="THE HOST MARSHAL";e.prefab=Body("HostMarshal","AncelaneGuard");e.integrity=155000;e.breakThreshold=800;e.speed=1.6f;e.attacks=new[]{marshalButt};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=700;e.scrip=420;e.scrap=20;e.boss=true;
                 e.bossMusicId="Boss of the Ages";
                 // A capsule can't stand shorter than it is wide: 4.8 m on its 1.5 m radius, the body's own height.

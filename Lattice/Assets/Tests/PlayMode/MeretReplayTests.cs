@@ -166,7 +166,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var hero in new[]{taren,idra}){hero.GetComponent<PlayerBrain>().AutoPilot=true;hero.GetComponent<PartnerBrain>().enabled=false;}
             var at=new Vector3(200,flight?1:.1f,0);var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),at);enemy.Passive=true;yield return Frames(3);
             var body=enemy.Health;body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;bool blade=!flight&&DevLoadout.Weapon(idra.character)==GearSlot.Edge;
+            float reach=BossReach.Edge(enemy);bool blade=!flight&&DevLoadout.Weapon(idra.character)==GearSlot.Edge;
             var homes=new[]{flight?at+new Vector3(-2,0,-6):at+Vector3.back*reach,flight?at+new Vector3(2,0,-6):blade?at+Quaternion.Euler(0,-70,0)*Vector3.back*reach:at+Vector3.back*8+Vector3.right*2};
             var heroes=new[]{taren,idra};
             void Home(int i){Place(heroes[i],homes[i]);var face=at-homes[i];face.y=0;if(heroes[i].motor is FlightMotor ship)ship.KeepFacing(face);else if(heroes[i].motor is GroundMotor feet)feet.KeepFacing(face);}

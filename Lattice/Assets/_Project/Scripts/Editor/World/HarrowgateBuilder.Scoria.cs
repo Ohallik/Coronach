@@ -269,7 +269,8 @@ namespace Lattice.EditorTools
                 Crust=ZoneKit.Toon("scoria-crust",crust,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",3);m.SetColor("_BaseColor",new Color(.5f,.47f,.47f));m.SetColor("_ShadowTint",new Color(.4f,.4f,.52f));
                     m.SetColor("_RimColor",new Color(.5f,.48f,.5f));m.SetFloat("_LightFloor",.16f);m.SetColor("_EmissionColor",Color.black);});
                 // The melt is almost all its own light: lit by the sun it would be one flat orange in shade and in sun alike. Pale yellow-white, never a marking's orange or red.
-                Melt=ZoneKit.Toon("scoria-melt",melt,m=>{m.SetColor("_BaseColor",new Color(.16f,.1f,.08f));m.SetTexture("_EmissionMap",melt);m.SetColor("_EmissionColor",new Color(1.35f,.75f,.3f));
+                // Tinted: its vertex alpha is its light, which falls off to a chilled margin along each flow's bank (BuildPlate).
+                Melt=ZoneKit.Toon("scoria-melt",melt,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.16f,.1f,.08f));m.SetTexture("_EmissionMap",melt);m.SetColor("_EmissionColor",new Color(1.35f,.75f,.3f));
                     m.SetFloat("_LightFloor",.5f);m.SetTextureScale("_BaseMap",Vector2.one);});
                 Setts=ZoneKit.Toon("scoria-setts",setts,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.78f,.74f,.7f));m.SetColor("_ShadowTint",new Color(.44f,.45f,.58f));m.SetFloat("_LightFloor",.24f);});
                 Iron=ZoneKit.Toon("scoria-iron",iron,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.82f,.84f,.88f));m.SetColor("_ShadowTint",new Color(.42f,.44f,.56f));m.SetColor("_RimColor",new Color(.5f,.5f,.54f));m.SetFloat("_LightFloor",.26f);});
@@ -333,7 +334,7 @@ namespace Lattice.EditorTools
             /// <summary>One plate's two renderers, both meshes of its own cells: the melt under it (a sheet at the bed, its texture rafts of dark skin with the glow in the cracks between
             /// them) and its slabs (each cell a slab with a dark join round it whose vertex alpha carries the seam's light, fading into the slab). Both lie lower than a danger marking is
             /// laid (six centimetres over the floor), so a marking is never under them.</summary>
-            static (Renderer melt,Renderer slabs) BuildPlate(ZoneKit kit,Plate plate,List<List<Vector2>> cells,Transform under,int seed)
+            static (Renderer melt,Renderer slabs) BuildPlate(ZoneKit kit,Plate plate,List<List<Vector2>> cells,Transform under,int seed,Func<Vector2,float> fromBank)
             {
                 var rng=new System.Random(seed);float R()=>(float)rng.NextDouble();
                 GameObject Body(string name,List<Vector3> points,List<Color> tones,List<int> tris,Material material)
@@ -347,12 +348,15 @@ namespace Lattice.EditorTools
                 var points=new List<Vector3>();var tones=new List<Color>();var tris=new List<int>();
                 int V(Vector3 q,Color tone){points.Add(q);tones.Add(tone);return points.Count-1;}
                 void Tri(int a,int b,int c){bool up=Vector3.Cross(points[b]-points[a],points[c]-points[a]).y>=0;tris.Add(a);tris.Add(up?b:c);tris.Add(up?c:b);}
-                // The melt: each cell's own fan, so the open melt has the slabs' outline.
+                // The melt: each cell's own fan, so the open melt has the slabs' outline. Where a cell meets the flow's own bank its light falls off toward the rock (the melt's
+                // material reads the vertex alpha as its light), unevenly along the bank: the open melt meets the rock along a chilled, ragged margin and not a straight cut (s47/153).
+                Color Chill(Vector2 q){float d=fromBank(q);if(d>.7f)return Color.white;float n=Mathf.PerlinNoise(q.x*.8f+5,q.y*.8f+11),a=Mathf.Lerp(.08f+.42f*n,1,ZoneKit.Smooth(.05f,.7f,d));return new Color(1,1,1,a);}
                 foreach(var cell in cells)
                 {
                     var mid=Vector2.zero;foreach(var q in cell)mid+=q;mid/=cell.Count;int centre=V(new Vector3(mid.x,Bed+.015f,mid.y),Color.white);
-                    var ring=cell.Select(q=>V(new Vector3(q.x,Bed+.015f,q.y),Color.white)).ToArray();
-                    for(int k=0;k<ring.Length;k++)Tri(centre,ring[k],ring[(k+1)%ring.Length]);
+                    var inner=cell.Select(q=>{var at=Vector2.Lerp(mid,q,.6f);return V(new Vector3(at.x,Bed+.015f,at.y),Chill(at));}).ToArray();
+                    var ring=cell.Select(q=>V(new Vector3(q.x,Bed+.015f,q.y),Chill(q))).ToArray();
+                    for(int k=0;k<ring.Length;k++){int l=(k+1)%ring.Length;Tri(centre,inner[k],inner[l]);Tri(inner[k],ring[k],ring[l]);Tri(inner[k],ring[l],inner[l]);}
                 }
                 var meltBody=Body("Crust "+plate.name+" melt",points,tones,tris,Melt);
                 // The slabs. A Shape gives a triangle one tone, and a uniform join read as a marking's outline (blockout still first-crossing): so a join's light fades into its slab.
@@ -372,6 +376,42 @@ namespace Lattice.EditorTools
                 return (meltBody.GetComponent<Renderer>(),slabBody.GetComponent<Renderer>());
             }
 
+            /// <summary>The levee along every flow's bank (its plates' unshared edges, each with its outward side): a band of black ropy crust from the bank's foot out over the slope and
+            /// a little onto the shelf, between half a metre and a metre and a half wide as the noise has it, its colour going from the crust's near-black to the ash's grey at its outer
+            /// edge, three centimetres over the ground's own collider (a marking is laid six over it). The flows' plates had ended in straight cuts against the sand (s47/152 to 154).</summary>
+            static void Levees(ZoneKit kit,List<(Vector2 a,Vector2 b,Vector2 n)> bank,Transform under)
+            {
+                var ground=UnityEngine.Object.FindObjectsByType<MeshCollider>(FindObjectsSortMode.None).FirstOrDefault(c=>c.name=="Scoria valley");
+                if(ground==null){Debug.LogWarning("SCORIA_LEVEES no valley collider");return;}
+                Physics.SyncTransforms();
+                float On(Vector2 p,float fallback){var ray=new Ray(new Vector3(p.x,30,p.y),Vector3.down);return ground.Raycast(ray,out var hit,80)?hit.point.y:fallback;}
+                var points=new List<Vector3>();var tones=new List<Color>();var tris=new List<int>();int strips=0;
+                int V(Vector2 p,float lift,Color tone){points.Add(new Vector3(p.x,On(p,Bed)+lift,p.y));tones.Add(tone);return points.Count-1;}
+                void Tri(int a,int b,int c){bool up=Vector3.Cross(points[b]-points[a],points[c]-points[a]).y>=0;tris.Add(a);tris.Add(up?b:c);tris.Add(up?c:b);}
+                var black=new Color(.2f,.19f,.2f,1);var crust=new Color(.3f,.29f,.3f,1);var ash=new Color(.46f,.44f,.43f,1);
+                foreach(var (a,b,n) in bank)
+                {
+                    float length=Vector2.Distance(a,b);if(length<.05f)continue;var along=(b-a)/length;int steps=Mathf.Max(2,Mathf.CeilToInt((length+.6f)/.45f));
+                    float lift=.028f+.004f*(strips%2);int[] inner=null,mid=null,outer=null;
+                    for(int i=0;i<=steps;i++)
+                    {
+                        float s=-.3f+(length+.6f)*i/steps;var q=a+along*s;float taper=Mathf.Clamp01(Mathf.Min(s+.3f,length+.3f-s)/.3f);
+                        float wide=(.4f+.95f*Mathf.PerlinNoise(q.x*.6f+3,q.y*.6f+7)+.3f*Mathf.Max(0,Mathf.PerlinNoise(q.x*1.7f+1,q.y*1.7f+9)-.55f))*Mathf.Lerp(.35f,1,taper);
+                        // Its skin a little apart in tone along the bank, as cooled lava is (one even black read as a strip of tar).
+                        float own=.82f+.36f*Mathf.PerlinNoise(q.x*1.9f+4,q.y*1.9f+2);
+                        int ii=V(q+n*.02f,lift,ZoneKit.Shape.Dim(black,own)),mm=V(q+n*wide*(.45f+.1f*Mathf.PerlinNoise(q.x*2.3f,q.y*2.3f)),lift,ZoneKit.Shape.Dim(crust,.9f+.3f*Mathf.PerlinNoise(q.x*3.1f,q.y*3.1f+5))),oo=V(q+n*wide,lift-.008f,ash);
+                        if(inner!=null){Tri(inner[0],mid[0],ii);Tri(ii,mid[0],mm);Tri(mid[0],outer[0],mm);Tri(mm,outer[0],oo);}
+                        inner=new[]{ii};mid=new[]{mm};outer=new[]{oo};
+                    }
+                    strips++;
+                }
+                if(tris.Count==0)return;
+                var mesh=new Mesh{name="Flow levees",indexFormat=UnityEngine.Rendering.IndexFormat.UInt32};mesh.SetVertices(points);mesh.SetColors(tones);mesh.SetUVs(0,points.Select(p=>new Vector2(p.x,p.z)*.3f).ToList());
+                mesh.SetTriangles(tris,0);mesh.RecalculateNormals();mesh.RecalculateBounds();mesh=ZoneKit.SaveMesh(mesh,"Assets/_Project/Scenes/"+kit.zone+"-Levees.asset");
+                var body=new GameObject("Flow levees",typeof(MeshFilter),typeof(MeshRenderer));body.GetComponent<MeshFilter>().sharedMesh=mesh;var view=body.GetComponent<MeshRenderer>();
+                view.sharedMaterial=Crust;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;body.transform.SetParent(under,true);
+                Debug.Log("SCORIA_LEVEES strips="+strips+" vertices="+points.Count);
+            }
             /// <summary>The whole crust: every plate's renderers under one root and the field that runs them, with the blisters over the hides. Each flow's crack pattern is laid across
             /// the whole flow at once (seeds plate by plate, cells against every seed of the flow), so neighbouring plates interlock along their cracks.</summary>
             static CrustField Crusts(ZoneKit kit,IEnumerable<Vector2> hides)
@@ -381,13 +421,23 @@ namespace Lattice.EditorTools
                 var flows=Plates.GroupBy(p=>p.field).ToDictionary(g=>g.Key,g=>g.ToList());
                 var allOf=flows.ToDictionary(f=>f.Key,f=>f.Value.SelectMany(p=>seedsOf[p]).ToList());
                 seed=1900;
+                // Each flow's bank: the edges of its plates no other plate of the flow shares, each with its outward side.
+                var banks=flows.ToDictionary(f=>f.Key,f=>{var edges=new List<(Vector2 a,Vector2 b,Vector2 n)>();foreach(var plate in f.Value)for(int k=0;k<plate.corners.Length;k++){var a=plate.corners[k];var b=plate.corners[(k+1)%plate.corners.Length];
+                    if(!Shared(plate,a,b,f.Value)){var ab=b-a;edges.Add((a,b,new Vector2(ab.y,-ab.x).normalized));}}return edges;});
                 foreach(var plate in Plates)
                 {
-                    var cells=Cells(plate,flows[plate.field],seedsOf[plate],allOf[plate.field]);
-                    var (melt,slabs)=BuildPlate(kit,plate,cells,root.transform,seed++);
+                    var cells=Cells(plate,flows[plate.field],seedsOf[plate],allOf[plate.field]);var bank=banks[plate.field];
+                    var (melt,slabs)=BuildPlate(kit,plate,cells,root.transform,seed++,q=>{float d=99;foreach(var (a,b,_) in bank)d=Mathf.Min(d,ZoneKit.Segment(q,a,b));return d;});
                     list.Add(new CrustField.Plate{name=plate.name,corners=plate.corners,floor=Bed,offset=plate.offset,dark=plate.dark,seam=plate.seam,bright=plate.bright,melt=melt,slabs=slabs,seeds=seedsOf[plate].ToArray()});
                 }
                 field.plates=list.ToArray();field.islands=Islands;
+                // Hotter than its crust (s47/153): the open melt yellower than any seam and the brightest thing in the valley, a seam about to go no more than orange, so a field reads
+                // dark crust, red seam, yellow melt. A seam once ended brighter and whiter than the melt it opened onto. The melt's own brightness is what it was (a marking on it has to
+                // read: ScoriaTests.AMarkingOnBrightFlowStillReadsAsAMarking); its hue is what is hotter.
+                field.open=new Color(1.22f,.88f,.4f);field.seamEnd=new Color(1.15f,.52f,.17f);
+                // The levee: where a flow meets the rock it has chilled and set in a ragged band of black ropy crust over the bank, wider and narrower as it ran, its outer edge going
+                // into the ash. Drawn a hand under any marking, on the ground's own collider.
+                Levees(kit,banks.Values.SelectMany(e=>e).ToList(),root.transform);
                 // A blister of heaved crust over each hide: lifted while something is under it, flat (not drawn) while nothing is.
                 var heaves=new List<Transform>();int n=0;
                 foreach(var at in hides)
@@ -463,9 +513,13 @@ namespace Lattice.EditorTools
             /// The hand is the kettle stone's discovery, offered only while Quiet Hands is at its first step.</summary>
             static void Cookfire(ZoneKit kit,string name,Vector2 at,float yaw,string flag)
             {
-                var shape=new ZoneKit.Shape();var rng=new System.Random(name.Length*17);var turn=Quaternion.Euler(0,yaw,0);
-                for(int k=0;k<9;k++){float a=k*40+(float)rng.NextDouble()*12;var d=Quaternion.Euler(0,a,0)*Vector3.forward*.62f;shape.Slot(0).Lump(d+Vector3.up*.08f,new Vector3(.17f,.13f,.15f),k+3,.3f,new Color(.7f,.66f,.62f),new Color(.44f,.42f,.4f),7,4);}
-                shape.Slot(2).Lump(Vector3.up*.05f,new Vector3(.46f,.08f,.46f),5,.4f,Color.white,new Color(.6f,.5f,.4f),9,4);
+                var shape=new ZoneKit.Shape();var turn=Quaternion.Euler(0,yaw,0);
+                // The ring of smoke-blackened stones round a bed of ash, an iron tripod over it with the garrison's pot, and the fire itself (Hearths.Fire): it was a flat orange
+                // polygon in the stones (s46/166), and a kettle-stone errand is built round three of them.
+                Hearths.Ring(shape.Slot(0),Vector3.zero,.64f,9,name.Length*17,new Color(.7f,.66f,.62f),new Color(.28f,.26f,.25f));
+                shape.Slot(0).Lump(Vector3.up*.01f,new Vector3(.54f,.05f,.54f),5,.3f,new Color(.6f,.58f,.56f),new Color(.36f,.34f,.33f),10,4);
+                for(int k=0;k<3;k++){float a=(k*120+yaw+30)*Mathf.Deg2Rad;var leg=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*.78f;shape.Slot(1).Beam(leg,Vector3.up*1.25f,.04f,.04f,IronDark,IronPale);}
+                shape.Slot(1).Beam(Vector3.up*1.25f,Vector3.up*.92f,.02f,.02f,IronPale).Post(Vector3.up*.62f,.3f,.2f,.24f,10,IronDark,IronDark);
                 // The kettle stone: a flat slab beside the fire with the kettle on it.
                 var stone=turn*new Vector3(1.05f,0,.15f);shape.Slot(0).Box(stone+Vector3.up*.1f,new Vector3(.62f,.2f,.5f),turn,new Color(.6f,.58f,.56f),new Color(.74f,.72f,.7f));
                 shape.Slot(1).Post(stone+Vector3.up*.2f,.26f,.16f,.12f,8,IronDark,IronPale).Disc(stone+Vector3.up*.47f,Vector3.up,.12f,8,IronPale);
@@ -473,9 +527,9 @@ namespace Lattice.EditorTools
                 var rack=turn*new Vector3(-1.3f,0,.7f);var across=turn*Vector3.right;
                 shape.Slot(1).Post(rack-across*.7f,1.3f,.05f,.05f,6,IronDark,IronPale).Post(rack+across*.7f,1.3f,.05f,.05f,6,IronDark,IronPale).Beam(rack-across*.75f+Vector3.up*1.1f,rack+across*.75f+Vector3.up*1.1f,.06f,.06f,IronDark);
                 for(int k=0;k<5;k++){var foot=rack-across*.55f+across*(k*.28f)+turn*Vector3.back*.25f;shape.Slot(1).Tube(new[]{foot,foot+Vector3.up*1.2f+turn*Vector3.forward*.25f,foot+Vector3.up*2.5f+turn*Vector3.forward*.5f},new[]{.025f,.025f,.012f},4,IronDark,IronPale,1,1,false);}
-                var body=kit.Built(name,shape,Setts,Iron,Coals);body.transform.position=kit.On(at.x,at.y);
+                var body=kit.Built(name,shape,Setts,Iron);body.transform.position=kit.On(at.x,at.y);
                 ZoneKit.Block(body,kit.On(at.x,at.y,.15f),new Vector3(1.4f,.3f,1.4f),yaw,"Fire ring");
-                var light=kit.Lamp(new Vector3(at.x,.7f,at.y),6,1.4f,new Color(1,.6f,.32f));light.name=name+" light";light.transform.SetParent(body.transform,true);
+                Hearths.Fire(kit,name+" fire",kit.On(at.x,at.y,.07f),.36f,.6f,6,1.5f,name.Length*31).transform.SetParent(body.transform,true);
                 var hand=kit.On(at.x,at.y)+stone+turn*Vector3.back*.9f;
                 var point=kit.Discovery(name+" kettle stone",new Vector3(hand.x,0,hand.z),"Leave it under the kettle stone",flag,"KettleStone",null,"Taren","QuietHands",0,2.6f);point.situation="message";
             }
@@ -485,11 +539,29 @@ namespace Lattice.EditorTools
             {
                 var shape=new ZoneKit.Shape();var turn=Quaternion.Euler(0,yaw,0);var foot=kit.On(at.x,at.y);Vector3 P(float x,float y,float z)=>foot+turn*new Vector3(x,y,z);
                 foreach(var (x,z) in new[]{(-1.5f,-.9f),(1.5f,-.9f),(-1.5f,.9f),(1.5f,.9f)})shape.Slot(0).Post(P(x,0,z),z<0?2.5f:2.1f,.06f,.06f,6,IronDark,IronPale);
-                var soot=new Color(.17f,.15f,.15f);var hide=new Color(.3f,.2f,.15f);
+                // The roof: rafters front to back, and between them hides that sag in their bays with their hems rolled at the front, under iron plates riveted down over every
+                // other bay, their front edges turned down, gone black with soot. Laid as five flat boards it read from above as one brown plane (whole-game capture s49/194).
+                var soot=new Color(.2f,.18f,.18f);var hide=new Color(.38f,.25f,.17f);
+                for(int k=0;k<6;k++){float x=-2f+k*.8f;shape.Slot(0).Beam(P(x,2.56f,-1.14f),P(x,2.16f,1.12f),.07f,.07f,IronDark,IronPale);}
+                float Roof(float x,float z,float bay){float t=Mathf.Clamp01((z+1.1f)/2.2f),across=1-Mathf.Pow(Mathf.Clamp((x-bay)/.42f,-1,1),2);return Mathf.Lerp(2.55f,2.15f,t)-.17f*across*(.35f+.65f*Mathf.Sin(t*Mathf.PI));}
                 for(int k=0;k<5;k++)
                 {
-                    float x=-1.6f+k*.8f;var tone=k%2==0?soot:hide;
-                    shape.Slot(1).Quad(P(x-.46f,2.52f,-1.05f),P(x+.46f,2.52f,-1.05f),P(x+.46f,2.12f,1.05f),P(x-.46f,2.12f,1.05f),Vector3.up,tone,.5f);
+                    float x=-1.6f+k*.8f;
+                    if(k%2==1)
+                    {
+                        var slope=turn*Quaternion.Euler(Mathf.Atan2(.4f,2.26f)*Mathf.Rad2Deg,0,0);
+                        shape.Slot(0).Box(P(x,2.4f,0),new Vector3(1.02f,.035f,2.34f),slope,ZoneKit.Shape.Dim(soot,.8f),soot).Box(P(x,2.5f,-1.18f),new Vector3(1.02f,.16f,.035f),turn,ZoneKit.Shape.Dim(soot,.7f),soot);
+                        for(int i=0;i<6;i++)foreach(int e in new[]{-1,1})shape.Slot(0).Box(P(x+e*.43f,2.42f-i*.072f,-1.05f+i*.42f),new Vector3(.05f,.03f,.05f),slope,IronPale,IronPale);
+                    }
+                    else
+                    {
+                        for(int i=0;i<5;i++)for(int j=0;j<4;j++)
+                        {
+                            float z0=-1.1f+i*.44f,z1=z0+.44f,xa=x-.44f+j*.22f,xb=xa+.22f;var tone=ZoneKit.Shape.Dim(hide,.74f+.08f*((i*3+j*5+k)%4));
+                            shape.Slot(1).Quad(P(xa,Roof(xa,z0,x),z0),P(xb,Roof(xb,z0,x),z0),P(xb,Roof(xb,z1,x),z1),P(xa,Roof(xa,z1,x),z1),turn*Vector3.up,tone,.5f);
+                        }
+                        shape.Slot(1).Tube(new[]{P(x-.45f,2.53f,-1.13f),P(x+.45f,2.53f,-1.13f)},new[]{.05f,.05f},6,ZoneKit.Shape.Dim(hide,.7f),ZoneKit.Shape.Dim(hide,.7f));
+                    }
                 }
                 shape.Slot(0).Box(P(0,.5f,-.6f),new Vector3(2.8f,.12f,.7f),turn,IronDark,IronPale).Box(P(0,.22f,-.6f),new Vector3(2.6f,.44f,.62f),turn,new Color(.5f,.48f,.46f),new Color(.6f,.58f,.56f));
                 foreach(float x in new[]{-.9f,-.2f,.6f})shape.Slot(0).Box(P(x,.66f,-.6f),new Vector3(.36f,.22f,.3f),turn*Quaternion.Euler(0,x*30,0),IronPale,Rust);
@@ -665,14 +737,24 @@ namespace Lattice.EditorTools
                 // The stall: a canvas awning on poles over a trestle of crates, behind Brekk.
                 Stall(kit,new Vector2(BrekkStall.x+.4f,BrekkStall.y+2.4f),200);
                 // The forge: a stone hearth with its coals, an anvil, a quench trough; the pike-head he dressed lies on the anvil.
-                var forge=new ZoneKit.Shape();var at=kit.On(ForgeAt.x,ForgeAt.y);
-                forge.Slot(0).Box(at+new Vector3(0,.45f,0),new Vector3(1.8f,.9f,1.3f),Quaternion.Euler(0,15,0),new Color(.6f,.58f,.56f),new Color(.7f,.68f,.66f));
-                forge.Slot(2).Lump(at+new Vector3(0,.93f,0),new Vector3(.62f,.1f,.42f),9,.4f,Color.white,new Color(.6f,.5f,.4f),9,4);
-                forge.Slot(1).Box(at+new Vector3(-1.8f,.32f,-.7f),new Vector3(1.4f,.5f,.6f),Quaternion.Euler(0,15,0),IronDark,IronPale);
+                // The hearth's top was a flat orange polygon on a stone block, read as slag on a crate (s49/194): a fire on its hearth now, under an iron hood on its chimney, the bellows
+                // at its side.
+                var forge=new ZoneKit.Shape();var at=kit.On(ForgeAt.x,ForgeAt.y);var hearthTurn=Quaternion.Euler(0,15,0);
+                forge.Slot(0).Box(at+new Vector3(0,.45f,0),new Vector3(1.8f,.9f,1.3f),hearthTurn,new Color(.6f,.58f,.56f),new Color(.7f,.68f,.66f));
+                foreach(int k in new[]{-1,1}){forge.Slot(1).Box(at+hearthTurn*new Vector3(k*.84f,.94f,0),new Vector3(.12f,.08f,1.3f),hearthTurn,IronDark,IronPale);forge.Slot(1).Box(at+hearthTurn*new Vector3(0,.94f,k*.6f),new Vector3(1.8f,.08f,.12f),hearthTurn,IronDark,IronPale);}
+                forge.Slot(1).Box(at+new Vector3(-1.8f,.32f,-.7f),new Vector3(1.4f,.5f,.6f),hearthTurn,IronDark,IronPale);
                 forge.Slot(1).Box(at+new Vector3(-1.4f,.65f,-1.3f),new Vector3(.9f,.14f,.08f),Quaternion.Euler(0,40,0),IronPale);
                 forge.Slot(1).Post(at+new Vector3(.6f,.9f,.4f),2.4f,.12f,.08f,8,IronDark,Rust);
-                var forgeBody=kit.Built("Camp forge",forge,Setts,Iron,Coals);ZoneKit.Block(forgeBody,at+new Vector3(-.6f,.45f,-.3f),new Vector3(3.4f,.9f,2),15,"Forge");
-                kit.Lamp(new Vector3(ForgeAt.x,1.5f,ForgeAt.y),8,1.8f,new Color(1,.58f,.3f)).name="Forge light";
+                var hood=at+hearthTurn*new Vector3(.25f,2.05f,.15f);
+                forge.Slot(1).Box(hood,new Vector3(1.5f,.08f,1.1f),hearthTurn*Quaternion.Euler(8,0,0),IronDark,Rust).Box(hood+Vector3.up*.22f,new Vector3(.8f,.36f,.6f),hearthTurn,IronDark,IronPale);
+                foreach(int k in new[]{-1,1})forge.Slot(1).Beam(at+hearthTurn*new Vector3(k*.8f,.94f,-.55f),hood+hearthTurn*new Vector3(k*.7f,-.04f,-.5f),.04f,.04f,IronDark);
+                var bellows=at+hearthTurn*new Vector3(1.35f,0,.1f);
+                forge.Slot(1).Box(bellows+Vector3.up*.75f,new Vector3(.5f,.06f,.9f),hearthTurn*Quaternion.Euler(0,0,-6),new Color(.36f,.26f,.2f),new Color(.48f,.36f,.26f))
+                    .Box(bellows+Vector3.up*1.05f,new Vector3(.48f,.06f,.86f),hearthTurn*Quaternion.Euler(0,0,10),new Color(.36f,.26f,.2f),new Color(.5f,.38f,.26f))
+                    .Box(bellows+Vector3.up*.36f,new Vector3(.5f,.72f,.1f),hearthTurn,IronDark,IronPale);
+                forge.Slot(2).Lump(bellows+Vector3.up*.9f,new Vector3(.22f,.13f,.4f),73,.12f,new Color(.5f,.34f,.24f),new Color(.3f,.2f,.14f),10,5,.25f,hearthTurn);
+                var forgeBody=kit.Built("Camp forge",forge,Setts,Iron,Canvas);ZoneKit.Block(forgeBody,at+new Vector3(-.6f,.45f,-.3f),new Vector3(3.4f,.9f,2),15,"Forge");
+                Hearths.Fire(kit,"Camp forge fire",at+Vector3.up*.96f,.44f,.72f,8,1.9f,57).transform.SetParent(forgeBody.transform,true);
                 var pike=kit.Discovery("The camp forge's pike-head",new Vector3(PikeHead.x,0,PikeHead.y),"Look at the pike-head","brekk.pikeDressed","",null,"Brekk",null,0,2.6f);pike.dialogueNode="BrekkPikeHead";pike.requiredFlag="vask.unswornMet";
                 // Shelter along the camp's north side, the tents' backs to the hill.
                 LeanTo(kit,"Camp tent west",new Vector2(37.5f,214),185,4.2f,3,2.3f);LeanTo(kit,"Camp tent east",new Vector2(62,211.5f),175,4,3,2.2f);
@@ -681,19 +763,20 @@ namespace Lattice.EditorTools
                 kit.Lamp(new Vector3(46,2.6f,207),11,1.2f,new Color(1,.7f,.45f)).name="Camp light";
                 // The camp's own fire in the yard's middle (no kettle stone: the camp's families are here), and its barrels and crates.
                 var fire=new ZoneKit.Shape();var fireAt=kit.On(44.5f,205.6f);
-                for(int k=0;k<9;k++){var d=Quaternion.Euler(0,k*40,0)*Vector3.forward*.7f;fire.Slot(0).Lump(fireAt+d+Vector3.up*.08f,new Vector3(.18f,.13f,.16f),k+30,.3f,new Color(.7f,.66f,.62f),new Color(.44f,.42f,.4f),7,4);}
-                fire.Slot(1).Lump(fireAt+Vector3.up*.05f,new Vector3(.5f,.09f,.5f),31,.4f,Color.white,new Color(.6f,.5f,.4f),9,4);
-                var fireBody=kit.Built("Camp fire",fire,Setts,Coals);ZoneKit.Block(fireBody,fireAt+Vector3.up*.15f,new Vector3(1.5f,.3f,1.5f),0,"Fire ring");
-                kit.Lamp(new Vector3(44.5f,.8f,205.6f),6,1.3f,new Color(1,.6f,.32f)).name="Camp fire light";
+                Hearths.Ring(fire.Slot(0),fireAt,.72f,10,30,new Color(.7f,.66f,.62f),new Color(.28f,.26f,.25f));
+                fire.Slot(0).Lump(fireAt+Vector3.up*.01f,new Vector3(.6f,.05f,.6f),31,.3f,new Color(.6f,.58f,.56f),new Color(.36f,.34f,.33f),10,4);
+                var fireBody=kit.Built("Camp fire",fire,Setts);ZoneKit.Block(fireBody,fireAt+Vector3.up*.15f,new Vector3(1.5f,.3f,1.5f),0,"Fire ring");
+                Hearths.Fire(kit,"Camp fire flames",fireAt+Vector3.up*.07f,.44f,.82f,7,1.6f,31).transform.SetParent(fireBody.transform,true);
                 foreach(var (x,z,yaw,key,size) in new[]{(34f,207.5f,0f,"DressWaterBarrels",1.1f),(57.5f,203f,20f,"DressWaterBarrels",1.1f),(39f,213.2f,-10f,"DressShelfRack",1.6f),(53.5f,201.5f,15f,"MusterCrate",.8f)})
                     if(ZoneKit.Landed(key))kit.Prop(key,new Vector3(x,0,z),size,yaw);
                 if(greybox)return;
                 // The camp's people: smiths at the forge and the tents, a family by the hut, two who come and go.
-                var smiths=new Color(.86f,.8f,.76f);
-                kit.Townsfolk(new[]{("BrekkBody",58.6f,212.6f,200f,new Color(.78f,.74f,.7f)),("OdrunBody",48.3f,214.6f,170f,new Color(.92f,.9f,.86f)),("PipBody",52.6f,214.2f,210f,new Color(.9f,.86f,.82f)),
-                    ("VessaBody",35.8f,211.4f,160f,new Color(.76f,.72f,.7f))});
-                kit.Walker("BrekkBody",new[]{new Vector2(57.5f,214.5f),new Vector2(60.5f,209.5f),new Vector2(57,206.6f)},1.3f,2.6f,smiths);
-                kit.Walker("TovraBody",new[]{new Vector2(40,212.8f),new Vector2(44.6f,213.4f)},1.1f,3.2f,new Color(.7f,.68f,.66f));
+                // Each in a body of nobody named here, and no two alike in one frame (Folk): Brekk's body twice beside Brekk, and Vessa's, Tovra's, Odrun's and Pip's on strangers.
+                var smiths=new Color(.86f,.8f,.76f);var folk=Folk.Bodies;int nth=0;
+                foreach(var (x,z,yaw,tint) in new[]{(58.6f,212.6f,200f,new Color(.78f,.74f,.7f)),(48.3f,214.6f,170f,new Color(.92f,.9f,.86f)),(52.6f,214.2f,210f,new Color(.9f,.86f,.82f)),(35.8f,211.4f,160f,new Color(.76f,.72f,.7f))})
+                {Folk.Set(kit,kit.Townsperson(folk[11+nth],new Vector3(x,0,z),yaw,tint),nth);nth++;}
+                Folk.Set(kit,kit.Walker(folk[11+nth],new[]{new Vector2(57.5f,214.5f),new Vector2(60.5f,209.5f),new Vector2(57,206.6f)},1.3f,2.6f,smiths).gameObject,nth);nth++;
+                Folk.Set(kit,kit.Walker(folk[11+nth],new[]{new Vector2(40,212.8f),new Vector2(44.6f,213.4f)},1.1f,3.2f,new Color(.7f,.68f,.66f)).gameObject,nth);
             }
 
             // ---------------------------------------------------------------- weather
@@ -804,13 +887,39 @@ namespace Lattice.EditorTools
                 LeanTo(kit,"Battery lean-to",new Vector2(-4,200.5f),180,4,2.6f,2.1f);
                 foreach(var (x,z,yaw) in new[]{(9.5f,101f,20f),(11f,99.5f,-15f),(13.5f,198.5f,30f),(-9f,253f,10f),(10.5f,252f,40f)})kit.Prop(ZoneKit.Kit("MusterCrate","DeckCrate"),new Vector3(x,0,z),.9f,yaw);
                 if(ZoneKit.Landed("DressSpoilHeap"))foreach(var (x,z) in new[]{(-11f,98.5f),(15f,200f),(11.5f,255.5f)})kit.Prop("DressSpoilHeap",new Vector3(x,0,z),1.3f,R()*360,false).AddComponent<PropTint>().tint=new Color(.5f,.42f,.4f);
-                var work=new ZoneKit.Shape();
+                // The breastwork: three courses of the garrison's bags of ash laid in bond, a ragged top, and an iron mantlet at each end of the ramp's opening; and below it the
+                // terrace's face revetted in squared basalt laid in courses, battered back, and the ramp's two side walls the same. The face was the hills' red scoria on a bare
+                // riser and the breastwork a row of dark boxes: a red slab with boxes on it (whole-game capture s46/127, s46/135).
+                var work=new ZoneKit.Shape();var bag=new Color(.62f,.56f,.46f);var bagDark=new Color(.42f,.38f,.32f);
                 for(float x=-16;x<16;x+=1.3f)
                 {
-                    if(Mathf.Abs(x)<3.6f)continue;var foot=kit.On(x,192.2f);
-                    work.Slot(0).Box(foot+new Vector3(0,.32f,0),new Vector3(1.24f,.64f,.7f),Quaternion.Euler(0,R()*6-3,0),new Color(.6f,.58f,.56f),new Color(.72f,.7f,.68f));
+                    if(Mathf.Abs(x)<3.6f)continue;var foot=kit.On(x,192.2f);float lean=R()*6-3;
+                    for(int course=0;course<3;course++)for(int k=0;k<3;k++)
+                    {
+                        float bx=-.43f+k*.43f+(course%2)*.2f;if(bx>.55f)continue;float seedf=x*31+course*7+k;var at=foot+Quaternion.Euler(0,lean,0)*new Vector3(bx,.12f+course*.21f,(course%2)*.04f-.02f);
+                        work.Slot(1).Lump(at,new Vector3(.24f,.12f-.01f*course,.33f),Mathf.RoundToInt(seedf),.14f,ZoneKit.Shape.Dim(bag,.86f+.05f*((k+course)%3)),bagDark,8,4,.4f,Quaternion.Euler(0,90+lean+(k-1)*4,0));
+                    }
                 }
-                var breastwork=kit.Built("Battery breastwork",work,Setts);
+                foreach(int side in new[]{-1,1})
+                {
+                    var foot=kit.On(side*3.9f,192.2f);work.Slot(2).Box(foot+new Vector3(0,.55f,0),new Vector3(.12f,1.1f,.9f),Quaternion.Euler(0,side*8,0),IronDark,IronPale);
+                    foreach(float h in new[]{.25f,.85f})work.Slot(2).Box(foot+new Vector3(side*.07f,h,0),new Vector3(.04f,.08f,.92f),Quaternion.identity,Rust);
+                }
+                var stone=new Color(.5f,.48f,.46f);var stoneLight=new Color(.64f,.62f,.6f);
+                for(float x=-27.6f;x<17.6f;x+=.62f)
+                {
+                    if(Mathf.Abs(x)<3.3f||Open(new Vector2(x,191.5f))>-.2f)continue;float baseY=kit.Y(x,190.6f);
+                    for(int course=0;course<3;course++){float y=course*.3f+.15f,z=191.16f+.52f*(y/Terrace)-.08f;
+                        work.Slot(0).Box(new Vector3(x+(course%2)*.31f,baseY+y,z),new Vector3(.6f,.28f,.22f),Quaternion.Euler(29,(x*13+course*7)%3-1.5f,0),ZoneKit.Shape.Dim(stone,.9f+.08f*((Mathf.RoundToInt(x*10)+course)%3)),stoneLight);}
+                }
+                // The ramp climbs before the terrace's face does, so its two sides stand over the shelf beside it, facing out: revetted the same.
+                foreach(int side in new[]{-1,1})for(float z=188;z<191.6f;z+=.62f)
+                {
+                    float rise=Terrace*(ZoneKit.Smooth(187.6f,191.8f,z)-ZoneKit.Smooth(191.2f,191.7f,z));if(rise<.12f)continue;float baseY=kit.Y(side*3.7f,z);
+                    for(int course=0;course*.3f<rise;course++){float y=Mathf.Min(course*.3f+.15f,rise-.12f);
+                        work.Slot(0).Box(new Vector3(side*3.4f,baseY+y,z+(course%2)*.31f),new Vector3(.26f,.28f,.6f),Quaternion.Euler(0,0,side*20),ZoneKit.Shape.Dim(stone,.92f+.06f*(course%2)),stoneLight);}
+                }
+                var breastwork=kit.Built("Battery breastwork",work,Setts,Canvas,Iron);
                 ZoneKit.BlockAlong(breastwork,kit.On(-16,192.2f,.32f),kit.On(-3.6f,192.2f,.32f),.7f,.64f,"Breastwork");ZoneKit.BlockAlong(breastwork,kit.On(3.6f,192.2f,.32f),kit.On(16,192.2f,.32f),.7f,.64f,"Breastwork");
                 // The sled: a Muster supply sled run off the terrace's west end, on its side, its load spilt.
                 var sled=new ZoneKit.Shape();var s0=kit.On(SledCache.x-1.8f,SledCache.y+1.6f);var tilt=Quaternion.Euler(0,24,18);
@@ -866,6 +975,9 @@ namespace Lattice.EditorTools
                 new("battery",new Vector3(0,0,170)),new("battery-terrace",new Vector3(0,.9f,195)),new("sled",new Vector3(-18,.9f,195)),new("junction",new Vector3(Junction.x,0,Junction.y)),
                 new("camp",new Vector3(42,0,203)),new("camp-forge",new Vector3(52,0,206)),new("last-tongue",new Vector3(1,0,215)),new("gate",new Vector3(0,0,246)),
                 new("overview-south",new Vector3(2,0,48),false,4.2f),new("overview-delta",new Vector3(-4,0,128),false,4.2f),new("overview-north",new Vector3(10,0,200),false,4.2f),
+                // Where the whole-game capture's stills stood (November 20, segments 46, 47 and 49), at the play camera's zoom, for the stills beside them.
+                new("s46-124",new Vector3(1.2f,0,165.7f)),new("s46-127",new Vector3(-.6f,0,186.3f)),new("s46-166",new Vector3(40.1f,0,203.7f)),new("s47-029",new Vector3(46,0,208)),
+                new("s47-117",new Vector3(-12,1.2f,197.7f)),new("s47-153",new Vector3(-.8f,0,176.5f)),new("s49-194",new Vector3(48.6f,0,207.8f)),new("causeway-fire",new Vector3(4,0,95)),
             };
         }
     }

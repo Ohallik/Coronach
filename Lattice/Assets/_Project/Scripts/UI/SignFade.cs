@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Lattice.Combat;
 using Lattice.Core;
 using Lattice.World;
@@ -7,50 +8,80 @@ namespace Lattice.UI
 {
     /// <summary>A word lying in the world keeps out of the way of what's on the screen. It goes for a conversation, a menu or the chapter's card, which printed it through the box and under the panels. It goes
     /// for a boss bar, which sits over the lower middle of the screen. It goes while it's cut, by a fixed plate or by the screen's edge: half a word under the hint bar read as a fault.
-    /// And a floor sign thins out under the hero who's standing on it, and only then: it was a ghost 2 m off, at the very moment the party had reached the place it names.</summary>
+    /// And a floor sign thins out under the hero who's standing on it, and only then: it was a ghost 2 m off, at the very moment the party had reached the place it names.
+    /// <para>Since the November 20 capture: it goes at once, not over a tenth of a second, for a conversation, a menu, the card or a boss's bar (a still caught GREAT LANTERN between the
+    /// bar and the hints, and ILO half gone through Ilo's own talk); it keeps a margin from the screen's edge and from a plate (KEEPER ABRI eight pixels from the edge, PIM against the
+    /// zone's tag); a place's name steps aside while a fight is on round the party (CUT CORRIDOR under a scavenger's telegraphs); a body over a floor word's letters takes it down to a
+    /// trace, whoever's body it is and wherever they stand (LAST LANTERN through Taren and Idra, at a third); a word too small on the screen to read isn't drawn (the Orrery's gate
+    /// names as specks in the wide view); and a sign keeps reading level whatever turns what it hangs on.</para>
+    /// <para>Since the November 22 capture (D356): a word is read or gone, never between. It goes at once and comes back at once, after a quarter second clear of whatever took it
+    /// (a plate, the screen's edge, a speck's size, a fight, a body over its letters), so a word on the edge of one doesn't flicker. Fading in a tenth of a second and back over a
+    /// third, the capture caught names and floor words at a fifth to a half of their strength again and again: RUVA OKH, KEEPER ABRI and ILO the frame a conversation closed
+    /// (s30 277), TEO MARROW (s31 125), FIRST ARCH, STILT MARKET, LAMP GALLERY, PILOTS' STAGE and LOWER GALLERY as the party ran past a panel's edge (s20 019, s25 090, s30 118,
+    /// s27 013, s26 512), HADDA by the objective (s22 014). The one level between is the trace a body over a floor word's letters leaves. And a hanging sign steps aside for a
+    /// hero's body over its letters as a floor word does (PRESSURE LIFT across Sela in the lift's door, s16 144); a person's name doesn't.</para></summary>
     [DefaultExecutionOrder(910)]
     public sealed class SignFade:MonoBehaviour
     {
-        // At the sign's centre it's under the hero's own feet. Out to 4.5 m a sign beside the party read at a quarter of its strength.
-        const float HeroFloor=.2f,HeroFar=1.6f;
-        /// <summary>A tenth of a second. At a fifth, slower than the plates' own fade, a sign that had started to go was still there at half strength under the skill icons ('E RY ALL') and through a plate that had stepped aside.</summary>
+        /// <summary>A tenth of a second. At a fifth, slower than the plates' own fade, a sign that had started to go was still there at half strength under the skill icons ('E RY ALL') and through a plate that had stepped aside.
+        /// Now only how far ahead a moving word is looked for: it goes at once.</summary>
         const float AsidePerSecond=10;
+        /// <summary>How long a word stays gone, or a trace, after what took it has let it be.</summary>
+        const float BackAfter=.25f;
+        /// <summary>A person's name over their head (PeopleMarks): it keeps to its person, and no body takes it away.</summary>
+        [System.NonSerialized] public bool nameTag;
+        float goneUntil=-1,tracedUntil=-1;
         /// <summary>How far ahead a moving sign is looked for, as a share of the screen's height: enough for a run and the camera catching up, and no more, since a jump isn't a heading.</summary>
         const float MostAhead=.12f;
         static readonly int FadeId=Shader.PropertyToID("_Fade");
         static MaterialPropertyBlock block;
-        /// <summary>A hero standing between the camera and a floor sign's letters: legs through the middle of a word read 'LO R CHAMBER' (E4-hushwell-03). He stands in front
-        /// of the word, not on it, so measured from its middle he was too far off to thin it. Covered, it thins as it would under his feet, quickly, and comes back gently.</summary>
-        const float CoveredFloor=.25f,UnveilPerSecond=3,BodyTall=1.8f,BodyHalfWide=.45f,InFront=.2f;
+        /// <summary>A body over a floor word's letters: legs through the middle of a word read 'LO R CHAMBER' (E4-hushwell-03), and two heroes standing on LAST LANTERN left it at a third,
+        /// through both of them (s43/044). It goes down to a trace at once, and comes back at once a moment after the body has gone: not to nothing (AWordUnderAHerosLegsStepsAside tells it from a word cut by a plate
+        /// that way). A body counts when it covers a quarter of the letters' height: one standing behind the word, its feet above it on the screen, or past its end, is beside it.</summary>
+        const float CoveredFloor=.08f,BodyTall=1.8f,BodyHalfWide=.4f,LeastOver=.25f;
         /// <summary>A sign below this lies on the floor under the ships, and how much bigger than made a held sign may grow at most. In a flight zone a lying sign grows only as far as its
         /// letters stay over the floor: grown three times at the farthest pull, SALVAGE EDDY's outer letters went into the Gullet's curving bed (QA-037).</summary>
         const float LyingBelow=1,MostLying=3.4f,GrowthStep=.1f;
-        /// <summary>A sign that hangs over the party, a person's name, or a sign lying below the ships: nobody stands on it, so no hero moves it.</summary>
+        /// <summary>The room a word keeps from the screen's edge and from a plate, in 1080p pixels.</summary>
+        const float Margin=16;
+        /// <summary>Under this share of the type floor (an em of <see cref="SignStyle.TypeFloorPixels"/> at 1080p) a word isn't drawn: drawn back fourteen times for the Orrery's wide view,
+        /// a held gate name grown its most was an em of ten pixels.</summary>
+        const float LeastOfTheFloor=.75f;
+        /// <summary>A sign that hangs over the party, a person's name, or a sign lying below the ships: nobody stands on it, so no hero moves it, and a fight doesn't take it away.</summary>
         public bool bossOnly;
-        TextMeshPro text;Renderer plate;float full,clear=1,halfWide,halfHigh,held=1,veil,mostGrowth=-1;string measured;
-        bool holdsSize,tracked;Vector3 sized;Vector2 lastAt;
+        /// <summary>Whether it keeps reading level as it was laid, whatever turns what it hangs on. A person's name is turned to the camera by PeopleMarks instead, which says so.</summary>
+        [System.NonSerialized] public bool keepsTurn;
+        TextMeshPro text;Renderer plate;float full,halfWide,halfHigh,held=1,mostGrowth=-1;string measured;
+        bool holdsSize,tracked;Vector3 sized;Vector2 lastAt;Quaternion reading;
         static readonly RaycastHit[] floors=new RaycastHit[8];
         /// <summary>How far this sign may grow to hold its size: as far as the camera asks, unless it lies on a floor.</summary>
         public float MostGrowth{get{if(mostGrowth<0)mostGrowth=MeasureGrowth();return mostGrowth;}}
         void Awake()
         {
-            text=GetComponent<TextMeshPro>();full=text.alpha;sized=transform.localScale;
-            var backing=transform.Find(SignStyle.PlateName);if(backing!=null)plate=backing.GetComponent<Renderer>();
-            var zone=ZoneController.Current;holdsSize=zone!=null&&zone.Flight&&zone.definition!=null&&zone.definition.cameraProfile!=null&&GetComponentInParent<Npc>(true)==null;
+            text=GetComponent<TextMeshPro>();full=text.alpha;sized=transform.localScale;reading=transform.rotation;
+            FindPlate();
+            var zone=ZoneController.Current;bool named=GetComponentInParent<Npc>(true)!=null;
+            holdsSize=zone!=null&&zone.Flight&&zone.definition!=null&&zone.definition.cameraProfile!=null&&!named;
+            // A person's name faces the camera by PeopleMarks; a sign reads level as SignStyle laid it, whatever it hangs on turns (a district flying out, a seated crowd).
+            keepsTurn=!named;nameTag|=named;
         }
+        /// <summary>Its plate, when one was put behind it after it woke.</summary>
+        public void FindPlate(){var backing=transform.Find(SignStyle.PlateName);plate=backing!=null?backing.GetComponent<Renderer>():null;}
         void LateUpdate()
         {
             var party=PartyController.Current;if(party==null||party.Active==null)return;
             var lead=party.Active.transform.position;var input=GameInput.Current;var view=Camera.main;
+            if(keepsTurn&&transform.rotation!=reading)transform.rotation=reading;
             if(holdsSize&&view!=null)HoldSize(view,lead.y);
-            clear=Mathf.MoveTowards(clear,input!=null&&input.Blocked||QuestToast.CardUp||BossController.Focus(lead)!=null||Cut(view)?0:1,Time.unscaledDeltaTime*AsidePerSecond);
-            float shown=clear;
-            if(!bossOnly)
-            {
-                bool covered=Covered(view,party);veil=Mathf.MoveTowards(veil,covered?1:0,Time.unscaledDeltaTime*(covered?AsidePerSecond:UnveilPerSecond));
-                var offset=transform.position-lead;offset.y=0;
-                shown*=Mathf.Min(Mathf.Lerp(HeroFloor,1,Mathf.Clamp01(offset.magnitude/HeroFar)),Mathf.Lerp(1,CoveredFloor,veil));
-            }
+            bool away=input!=null&&input.Blocked||QuestToast.CardUp||BossController.Focus(lead)!=null;
+            // Read or gone. Away (a conversation, a menu, the card, a boss's bar) it's gone for that frame and back the frame it ends; set aside by where it stands, it stays gone
+            // a moment after, so a word riding the edge of a plate doesn't flicker; a body over its letters leaves the trace, and that too lifts a moment after it's gone.
+            float now=Time.unscaledTime;
+            if(away)tracked=false;
+            else if(Cut(view)||Speck(view)||!bossOnly&&Fighting(lead))goneUntil=now+BackAfter;
+            float shown=away||now<goneUntil?0:1;
+            if(shown>0&&!nameTag&&Covered(view,bossOnly))tracedUntil=now+BackAfter;
+            if(shown>0&&now<tracedUntil)shown=CoveredFloor;
             float alpha=full*shown;
             if(Mathf.Abs(text.alpha-alpha)<=.01f&&alpha>0)return;
             if(text.alpha==alpha)return;
@@ -97,19 +128,67 @@ namespace Lattice.UI
             }
             return true;
         }
-        /// <summary>Whether a hero on foot stands between the camera and the sign's letters, by the box his body takes on the screen. Only in front of the word: one standing on its
-        /// line, even at its end, is beside it, and a word gone to a quarter with the hero merely beside it was the older complaint. A body behind a floor sign stands higher on the
-        /// screen than it does, so that doesn't count either.</summary>
-        bool Covered(Camera view,PartyController party)
+
+        // ---------- bodies and fights, read once a frame for every sign ----------
+        static int bodiesAt=-1,foughtAt=-1,heroes;static bool fought;
+        /// <summary>The party's bodies first (<see cref="heroes"/> of them), then everyone else's.</summary>
+        static readonly List<Rect> bodies=new();
+        static ZoneController peopleOf;static Transform[] people=System.Array.Empty<Transform>();
+        /// <summary>Everyone who can stand over a word, as the screen has them this frame: the party on foot, the named, and the townsfolk who walk.</summary>
+        static List<Rect> Bodies(Camera view)
         {
-            if(view==null||party.members==null||!Box(view,out var box,out float front))return false;
-            foreach(var member in party.members)
+            if(bodiesAt==Time.frameCount)return bodies;bodiesAt=Time.frameCount;bodies.Clear();
+            var zone=ZoneController.Current;
+            if(zone!=peopleOf)
             {
-                if(member==null||!member.gameObject.activeInHierarchy||member.flight)continue;
-                var at=member.transform.position;var feet=view.WorldToScreenPoint(at);if(feet.z<=0||feet.z>front-InFront)continue;
-                var head=view.WorldToScreenPoint(at+Vector3.up*BodyTall);float half=Mathf.Abs(view.WorldToScreenPoint(at+view.transform.right*BodyHalfWide).x-feet.x);
-                var body=Rect.MinMaxRect(feet.x-half,Mathf.Min(feet.y,head.y),feet.x+half,Mathf.Max(feet.y,head.y));
-                if(body.Overlaps(box))return true;
+                peopleOf=zone;var found=new HashSet<Transform>();
+                foreach(var npc in FindObjectsByType<Npc>(FindObjectsInactive.Include,FindObjectsSortMode.None))found.Add(npc.transform);
+                foreach(var walk in FindObjectsByType<WalkLoop>(FindObjectsInactive.Include,FindObjectsSortMode.None))found.Add(walk.transform);
+                foreach(var walk in FindObjectsByType<ScriptedWalk>(FindObjectsInactive.Include,FindObjectsSortMode.None))found.Add(walk.transform);
+                people=new Transform[found.Count];found.CopyTo(people);
+            }
+            var party=PartyController.Current;
+            // A ship counts by its hull as the screen has it: a word lying under the plane (a gate's name, a pad's) was drawn over the ship flying across it, since it is drawn
+            // nearer the camera than it lies (D356).
+            if(party!=null&&party.members!=null)foreach(var member in party.members)
+            {
+                if(member==null||!member.gameObject.activeInHierarchy)continue;
+                if(!member.flight)Add(view,member.transform.position);
+                else{float hull=HeroCollision.HullRadius(member.character);if(PanelFade.ScreenBounds(view,new Bounds(member.transform.position,new Vector3(hull*2,hull*.5f,hull*2)),out var ship))bodies.Add(ship);}
+            }
+            heroes=bodies.Count;
+            foreach(var person in people)if(person!=null&&person.gameObject.activeInHierarchy)Add(view,person.position);
+            return bodies;
+        }
+        /// <summary>How far in front of the lens a body has to stand to count. A steep camera has ground just in front of its lens under it, and a body there projects to a rect larger
+        /// than the screen: a grower walking his rope line 21 m short of THE PRESS stood .07 m in front of the lens and took the word to its trace in half the frames, with nobody on
+        /// it (s18 091, D356).</summary>
+        const float LensClear=1;
+        static void Add(Camera view,Vector3 at)
+        {
+            var feet=view.WorldToScreenPoint(at);if(feet.z<view.nearClipPlane+LensClear)return;
+            var seen=view.WorldToViewportPoint(at);if(seen.x<-.5f||seen.x>1.5f||seen.y<-.5f||seen.y>1.5f)return;
+            var head=view.WorldToScreenPoint(at+Vector3.up*BodyTall);float half=Mathf.Abs(view.WorldToScreenPoint(at+view.transform.right*BodyHalfWide).x-feet.x);
+            bodies.Add(Rect.MinMaxRect(feet.x-half,Mathf.Min(feet.y,head.y),feet.x+half,Mathf.Max(feet.y,head.y)));
+        }
+        /// <summary>A fight round the party: a boss's under way, or an awake enemy as near as quiet interactions wait for.</summary>
+        static bool Fighting(Vector3 lead)
+        {
+            if(foughtAt!=Time.frameCount){foughtAt=Time.frameCount;fought=BossController.AnyFightUnderway||EnemyBrain.AwakeNear(lead,EnemyBrain.InteractionCalm);}
+            return fought;
+        }
+        /// <summary>Whether a body stands over the word's letters on the screen, by a quarter of their height or more: anyone's over a floor word, a hero's over a hanging sign.</summary>
+        bool Covered(Camera view,bool heroesOnly)
+        {
+            if(view==null||!Box(view,out var box,out _))return false;
+            float least=box.height*LeastOver;
+            var all=Bodies(view);int count=heroesOnly?heroes:all.Count;
+            for(int i=0;i<count;i++)
+            {
+                var body=all[i];
+                if(!body.Overlaps(box))continue;
+                float over=Mathf.Min(body.yMax,box.yMax)-Mathf.Max(body.yMin,box.yMin);
+                if(over>=least)return true;
             }
             return false;
         }
@@ -117,7 +196,13 @@ namespace Lattice.UI
         bool Box(Camera view,out Rect box,out float front)
         {
             box=default;front=0;
-            if(!ReferenceEquals(measured,text.text)){measured=text.text;var size=text.GetPreferredValues();halfWide=size.x*.5f;halfHigh=size.y*.5f;}
+            if(!ReferenceEquals(measured,text.text))
+            {
+                measured=text.text;var size=text.GetPreferredValues();halfWide=size.x*.5f;halfHigh=size.y*.5f;
+                // A name's dark tag stands nine tenths of an em past its letters (SignStyle.Backed): the tag is what a plate or the edge cuts first, and HADDA's lay half under the
+                // objective while its letters kept their margin (s22 014).
+                if(text.text.Contains("<mark")){float tag=text.fontSize*.1f*.9f;halfWide+=tag;halfHigh+=tag;}
+            }
             var scale=transform.lossyScale;
             Vector3 at=transform.position,across=transform.right*(halfWide*scale.x),up=transform.up*(halfHigh*scale.y);
             Vector3 one=view.WorldToScreenPoint(at-across-up),two=view.WorldToScreenPoint(at+across+up);
@@ -125,17 +210,27 @@ namespace Lattice.UI
             box=Rect.MinMaxRect(Mathf.Min(one.x,two.x),Mathf.Min(one.y,two.y),Mathf.Max(one.x,two.x),Mathf.Max(one.y,two.y));front=view.WorldToScreenPoint(at-up).z;
             return true;
         }
-        /// <summary>Its letters' rect on the screen against the plates: two points a frame, for the few signs in a zone. A sign reads level to the camera, so two corners are its rect. A name's words change with its mark, so they're measured when they do.
-        /// Where it's heading counts as well as where it is, by as far as it'll go while it fades, so at a run it has gone by the time it gets there.</summary>
+        /// <summary>Its letters' rect on the screen against the plates, with room kept round it: two points a frame, for the few signs in a zone. A sign reads level to the camera, so two corners
+        /// are its rect. A name's words change with its mark, so they're measured when they do. Where it's heading counts as well as where it is, by as far as it'll go while it fades,
+        /// so at a run it has gone by the time it gets there.</summary>
         bool Cut(Camera view)
         {
             if(view==null||!Box(view,out var box,out _))return false;
             float width=view.pixelWidth,height=view.pixelHeight;var middle=box.center;
+            float room=Margin*height/1080f;box=Rect.MinMaxRect(box.xMin-room,box.yMin-room,box.xMax+room,box.yMax+room);
             var ahead=tracked?(middle-lastAt)/(Mathf.Max(Time.unscaledDeltaTime,.001f)*AsidePerSecond):Vector2.zero;lastAt=middle;tracked=true;
             if(PanelFade.Cuts(box,width,height))return true;
             if(ahead.sqrMagnitude<1)return false;
             float most=height*MostAhead;if(ahead.sqrMagnitude>most*most)ahead=ahead.normalized*most;
             box.position+=ahead;return PanelFade.Cuts(box,width,height);
+        }
+        /// <summary>Whether it's on the screen at an em too small to read.</summary>
+        bool Speck(Camera view)
+        {
+            if(view==null)return false;
+            var at=view.WorldToScreenPoint(transform.position);if(at.z<=0||at.x<0||at.y<0||at.x>view.pixelWidth||at.y>view.pixelHeight)return false;
+            float em=text.fontSize*.1f*transform.lossyScale.y;var top=view.WorldToScreenPoint(transform.position+view.transform.up*em);
+            return Vector2.Distance(at,top)/view.pixelHeight*1080<SignStyle.TypeFloorPixels*LeastOfTheFloor;
         }
     }
 }

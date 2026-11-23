@@ -49,6 +49,8 @@ namespace Lattice.EditorTools
                 new[]{new Vector2(42.4f,44),new Vector2(38,51.5f)},
                 new[]{new Vector2(39.6f,41),new Vector2(45,42.6f),new Vector2(48.5f,46.4f),new Vector2(55.4f,44.6f)},
                 new[]{new Vector2(58.5f,57.8f),new Vector2(55,60.5f),HighLamps[1],new Vector2(56,64.8f),HighLamps[2]},
+                // The ledge itself, trodden as the ways are (D359: unpainted it was the same pale snow as its rim and the drop, s34/068).
+                Climb.Select(c=>new Vector2(c.x,c.z)).ToArray(),
             };
             internal static readonly (Vector2 at,float half)[] Signs={(new(14.8f,56.4f),2.4f),(new(3.6f,56.2f),2.6f),(new(-33,36.6f),2.6f),(new(-17,40.8f),2.8f),(new(31.6f,32),3.2f),(new(47,40.6f),2.6f),(new(-59.5f,37.4f),2.6f)};
             static readonly string[] SignWords={"FOURTH RIB","TERN'S HALL","BEAST PENS","CARVING YARD","VENT BATH-HOUSE","LAMP SHRINE","REACH GATE"};
@@ -85,7 +87,11 @@ namespace Lattice.EditorTools
                 new LookDev.View("tern",new Vector3(8,0,57.5f)),new LookDev.View("fourth-rib",new Vector3(13,0,56.5f)),new LookDev.View("longhouses",new Vector3(-16,0,58)),new LookDev.View("west",new Vector3(-46,0,46)),
                 new LookDev.View("shrine",new Vector3(46,0,44)),new LookDev.View("skull",new Vector3(56,0,44)),new LookDev.View("climb",new Vector3(47.5f,2.4f,53.8f)),new LookDev.View("high-hall",new Vector3(52,4.8f,63)),
                 new LookDev.View("knoll",new Vector3(60,6.2f,68)),new LookDev.View("reach-gate",new Vector3(-58,0,42)),new LookDev.View("overview",new Vector3(0,0,36),false,3.6f),
-                new LookDev.View("overview-east",new Vector3(40,0,52),false,2.4f)};
+                new LookDev.View("overview-east",new Vector3(40,0,52),false,2.4f),
+                // Where the whole-game capture's stills stood (nov20-whole s34 010 and s37 007: the Reach way's west end; s37 010: the commons; s33 105: Hask at the pens;
+                // s34 068: the high rib-hall by the second lamp).
+                new LookDev.View("carvers-s37-008",new Vector3(-24.4f,0,42)),new LookDev.View("reach-s34-010",new Vector3(-40.3f,0,42)),new LookDev.View("commons-s37-010",new Vector3(-2.2f,0,34.3f)),
+                new LookDev.View("pens-s33-105",new Vector3(-23.1f,0,26.4f)),new LookDev.View("hall-s34-068",new Vector3(53.5f,4.8f,63.6f))};
             // ---------------------------------------------------------------- the ground
             static float Smooth(float a,float b,float x)=>ZoneKit.Smooth(a,b,x);
             /// <summary>How far a plan point is from the climb's ledge (negative on it; its landings wider), and the ledge's height there.</summary>
@@ -141,7 +147,9 @@ namespace Lattice.EditorTools
             static Color Tone(Vector2 p)
             {
                 float hollow=Mathf.PerlinNoise(p.x*.08f+7,p.y*.08f+3),fine=Mathf.PerlinNoise(p.x*.31f,p.y*.31f+5);
-                var snow=Color.Lerp(new Color(.8f,.86f,.96f),new Color(.97f,.98f,1),Smooth(.3f,.7f,hollow)*.8f+.2f*fine);
+                // The hollows shade gently into the drifts: blue patches a dozen metres across with an edge a few metres wide read in the player as pale sheets of film laid over the
+                // snow (s34/068, the high rib-hall), so the blue is half as deep and goes over twice the distance.
+                var snow=Color.Lerp(new Color(.87f,.91f,.98f),new Color(.97f,.98f,1),Smooth(.15f,.85f,hollow)*.8f+.2f*fine);
                 // Worn ways mottled, packed grey here and fresh snow kicked over it there: one flat grey where three ways met by the shrine was the town's largest plain stretch.
                 float worn=(1-Smooth(.8f,2.6f,FromWays(p)))*(.55f+.45f*Mathf.PerlinNoise(p.x*.45f+13,p.y*.45f+2));
                 var tone=Color.Lerp(snow,Color.Lerp(new Color(.6f,.6f,.64f),new Color(.74f,.74f,.76f),Mathf.PerlinNoise(p.x*.9f,p.y*.9f+7)),worn*.7f);
@@ -158,7 +166,7 @@ namespace Lattice.EditorTools
             }
 
             // ---------------------------------------------------------------- what the town is made of
-            internal static Material Snow,SnowWall,Bone,Hide,Stone,Rope,Lamp,Fur,Water;
+            internal static Material Snow,SnowWall,Bone,Hide,Stone,Rope,Lamp,Fur,Water,Hearth;
             static void Materials(ZoneKit kit)
             {
                 // Snow from about two metres up: wind-cut ridges (sastrugi) running north-east, each lit on its windward side and shadowed in its lee, a crust that breaks into plates,
@@ -168,7 +176,8 @@ namespace Lattice.EditorTools
                     // Whole numbers of ridges across the sheet each way, so a ridge carries on over the tile's edge: at .7 and .3 of 22 every edge was a straight seam.
                     float ridge=Mathf.Repeat(u*15+v*6+.08f*22*ZoneKit.Cloud(u,v,6,3)+ZoneKit.Cloud(u,v,9,5)*2.2f,1);
                     float lit=ZoneKit.Smooth(.0f,.12f,ridge)*(1-ZoneKit.Smooth(.18f,.6f,ridge)),lee=ZoneKit.Smooth(.6f,.96f,ridge)*.6f;
-                    float crust=1-Mathf.Abs(2*ZoneKit.Tile(u*10,v*10,10,7)-1),plate=Mathf.Pow(crust,24)*.18f;
+                    // The crust's breaks are faint: drawn at .18 they ran over the whole town as dark wandering lines, a contour map and not snow (s34/010).
+                    float crust=1-Mathf.Abs(2*ZoneKit.Tile(u*10,v*10,10,7)-1),plate=Mathf.Pow(crust,24)*.08f;
                     float sparkle=ZoneKit.Tile(u*400,v*400,400,9)>.985f?.12f:0;
                     float tone=.86f+.1f*lit-.12f*lee-plate+sparkle+.05f*(ZoneKit.Cloud(u,v,4,11)-.5f);
                     return new Color(tone,tone,tone,1);
@@ -213,6 +222,8 @@ namespace Lattice.EditorTools
                 Stone=ZoneKit.Toon("hoar-ventstone",stone,m=>{ZoneKit.Tinted(m);m.SetColor("_ShadowTint",new Color(.42f,.44f,.6f));m.SetColor("_RimColor",new Color(.7f,.8f,.9f));});
                 Rope=ZoneKit.Toon("hoar-rope",null,m=>m.SetColor("_BaseColor",new Color(.62f,.5f,.36f)),"Universal Render Pipeline/Unlit");
                 Lamp=ZoneKit.Toon("hoar-lamp-warm",null,m=>{m.SetColor("_BaseColor",new Color(1,.84f,.56f));m.SetColor("_EmissionColor",new Color(2.4f,1.6f,.8f));});
+                // A lodge's fire seen through its door: deep orange, lit from within but well under a lamp (drawn with the lamp's light the doors read as white cards, ch45-after-1).
+                Hearth=ZoneKit.Toon("hoar-lodge-fire",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.86f,.5f,.28f));m.SetColor("_EmissionColor",new Color(.62f,.26f,.08f));});
                 // The bath's water: clear and green-blue over dark stone, its glints small (chapter 3's rule).
                 Water=ZoneKit.Toon("hoar-bathwater",null,m=>ZoneKit.WaterLook(m,new Color(.34f,.52f,.56f,.84f),new Color(.12f,.2f,.24f,.96f),new Color(.86f,.92f,.94f,1),.9f,3.2f,.06f,.3f));
                 // Where feet go: snow packed to a dull crust, boot prints and the beasts' split hooves pressed into it. A ground-kit layer of Lastlight's own.
@@ -240,8 +251,15 @@ namespace Lattice.EditorTools
 
                 // ---- the landing: a pad of packed snow ringed with bone posts and hide pennants, and the way back up to the Shear
                 var padAt=kit.On(Pad.x,Pad.y);var pad=new ZoneKit.Shape();Color bone=new(.92f,.88f,.78f),dark=new(.62f,.58f,.5f),hideTone=new(.62f,.46f,.34f);
-                pad.Slot(0).Disc(padAt+Vector3.up*.06f,Vector3.up,3,28,new Color(.74f,.78f,.86f),0,new Color(.6f,.64f,.72f),.4f).Slot(1).Disc(padAt+Vector3.up*.07f,Vector3.up,2.4f,28,new Color(.98f,.7f,.38f),2.1f);
-                for(int k=0;k<6;k++){float a=k*Mathf.PI/3;var q=padAt+new Vector3(Mathf.Cos(a)*3.3f,0,Mathf.Sin(a)*3.3f);pad.Slot(2).Post(q,1.3f,.1f,.06f,6,dark,bone).Slot(3).Triangle(q+Vector3.up*1.25f,q+Vector3.up*.85f,q+Vector3.up*1.05f+new Vector3(Mathf.Cos(a+1.4f)*.6f,0,Mathf.Sin(a+1.4f)*.6f),Vector3.up,new Color(.9f,.56f,.3f),1);}
+                // Packed snow, thawed in its middle by the engines that set down on it and frozen again to a dull blue glaze; a ring of old bone slabs laid flat round its edge, four
+                // strokes of hide dye pointing in, and a horn lamp on every other post. Its ring was a band of the lamp's own light drawn at full glow: from the play camera a thick
+                // white ring on a pale disc, half off the screen, that read as a debug marker (s32/200, D359).
+                pad.Slot(0).Disc(padAt+Vector3.up*.05f,Vector3.up,3.2f,32,new Color(.58f,.63f,.74f),0,new Color(.7f,.75f,.85f),.4f).Disc(padAt+Vector3.up*.058f,Vector3.up,1.7f,28,new Color(.46f,.54f,.68f),0,new Color(.56f,.62f,.74f),.4f);
+                for(int k=0;k<14;k++){float a=k*Mathf.PI*2/14;var c=padAt+new Vector3(Mathf.Cos(a)*2.75f,.08f,Mathf.Sin(a)*2.75f);pad.Slot(2).Box(c,new Vector3(.66f,.12f,.32f),Quaternion.Euler(0,-(a*Mathf.Rad2Deg+90),0),k%2==0?ZoneKit.Shape.Dim(bone,.86f):ZoneKit.Shape.Dim(bone,.78f),bone);}
+                for(int k=0;k<4;k++){float a=k*Mathf.PI*.5f+Mathf.PI/6;var r=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));var t=new Vector3(-r.z,0,r.x);var o=padAt+Vector3.up*.075f;
+                    pad.Slot(3).Quad(o+r*1.55f-t*.16f,o+r*1.55f+t*.16f,o+r*2.3f+t*.24f,o+r*2.3f-t*.24f,Vector3.up,new Color(.86f,.5f,.28f),.5f);}
+                for(int k=0;k<6;k++){float a=k*Mathf.PI/3;var q=padAt+new Vector3(Mathf.Cos(a)*3.3f,0,Mathf.Sin(a)*3.3f);pad.Slot(2).Post(q,1.3f,.1f,.06f,6,dark,bone).Slot(3).Triangle(q+Vector3.up*1.25f,q+Vector3.up*.85f,q+Vector3.up*1.05f+new Vector3(Mathf.Cos(a+1.4f)*.6f,0,Mathf.Sin(a+1.4f)*.6f),Vector3.up,new Color(.9f,.56f,.3f),1);
+                    if(k%2==0)pad.Slot(1).Lump(q+Vector3.up*1.4f,new Vector3(.1f,.13f,.1f),k,.04f,Color.white,Color.white,7,4);}
                 var padView=kit.Built("Landing pad",pad,Snow,Lamp,Bone,Hide);
                 var launch=new GameObject("Landing pad point",typeof(DockingPad));launch.transform.position=padAt;padView.transform.SetParent(launch.transform,true);
                 var dock=launch.GetComponent<DockingPad>();dock.prompt="Launch — The Aurora Shear";dock.range=4;dock.scene=Shear;dock.spawn=Town;
@@ -255,6 +273,9 @@ namespace Lattice.EditorTools
                 VentsAndSteam(kit);
                 Lamps(kit);
                 Gate(kit);
+                LodgesAndYards(kit);
+                ClimbWay(kit);
+                CarversFloor(kit);
                 for(int i=0;i<Signs.Length;i++)kit.Sign(SignWords[i],Signs[i].at.x,Signs[i].at.y);
 
                 // ---- people
@@ -398,6 +419,8 @@ namespace Lattice.EditorTools
                 foreach(var spot in new[]{Arrival,Pad,BenchAt,Cradle,BathSpawn,VentSeat,RibTally,LowLamp,ScarsAt,ReachSpawn,ReachGate,MapStand,TallyAt,IruHall})if(Vector2.Distance(p,spot)<3)return true;
                 foreach(var v in Vents)if(Vector2.Distance(p,v)<3.4f)return true;
                 foreach(var l in HighLamps)if(Vector2.Distance(p,l)<3)return true;
+                foreach(var lodge in Lodges)if(Vector2.Distance(p,new Vector2(lodge.x,lodge.z))<lodge.r+1.2f)return true;
+                foreach(var yard in Yards())if(Vector2.Distance(p,yard.at)<1.9f)return true;
                 if(Ledge(p,out _)<RimWide+1.2f)return true;
                 return FromWays(p)<2.2f;
             }
@@ -612,12 +635,13 @@ namespace Lattice.EditorTools
                 }
                 kit.Built("Vent stones",s,Stone,Stone).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
             }
+            static readonly Vector2[] LampPosts={new(-4.2f,14.4f),new(5.4f,14.6f),new(-10.6f,30.6f),new(10.6f,33.4f),new(-21.6f,38.6f),new(1.2f,52.4f),new(15.8f,50.8f),
+                new(-34.4f,38.8f),new(24.6f,52),new(40.6f,37.6f),new(53,37.4f),new(-51.6f,38.4f),new(-26.8f,11.6f),new(19,26.4f)};
             /// <summary>Lamp posts of bone along the ways, each a horn lamp hung from a crook; one in three gives a light.</summary>
             static void Lamps(ZoneKit kit)
             {
                 var s=new ZoneKit.Shape();var blocks=new GameObject("Lamp posts");int n=0;var posts=new List<Vector3>();
-                foreach(var p in new[]{new Vector2(-4.2f,14.4f),new Vector2(5.4f,14.6f),new Vector2(-10.6f,30.6f),new Vector2(10.6f,33.4f),new Vector2(-21.6f,38.6f),new Vector2(1.2f,52.4f),new Vector2(15.8f,50.8f),
-                    new Vector2(-34.4f,38.8f),new Vector2(24.6f,52),new Vector2(40.6f,37.6f),new Vector2(53,37.4f),new Vector2(-51.6f,38.4f),new Vector2(-26.8f,11.6f),new Vector2(19,26.4f)})
+                foreach(var p in LampPosts)
                 {
                     if(FromWays(p)<1.6f)throw new InvalidOperationException("Lastlight: a lamp post at "+p+" stands on a way");
                     var foot=kit.On(p.x,p.y);
@@ -684,6 +708,190 @@ namespace Lattice.EditorTools
                 // Under the arch they hang from: as a mesh of their own they stood four metres off the ground (QaPlanWorldTests.NothingFloatsOrSinksIn).
                 kit.Built("Gate charms",charms,Rope,Bone).transform.SetParent(arch.transform,true);
             }
+            // ---------------------------------------------------------------- where the herders live
+            /// <summary>The herders' lodges round the commons, where the Kept sleep when the herds are in: a cone of hides on bone poles, the poles standing out of the smoke hole, a
+            /// door to the nearest way with the fire showing through it, snow banked round the foot and guy ropes to stakes. Where (plan), how wide, which way the door faces
+            /// (bearing, 0 north), what stands in its yard (0 nothing, 1 a frame of hides drying, 2 a sledge loaded and lashed) and on which side (bearing). The town's ribs, halls
+            /// and skull stand at its back, out of the frame for most of the walk: without these the commons read as an empty snowfield (s34/010, s37/007 to 010).</summary>
+            internal static readonly (float x,float z,float r,float door,int yard,float toward)[] Lodges=
+            {
+                (-15.5f,.5f,2.4f,90,1,250),(12.5f,3.5f,2.2f,270,2,120),(-13.5f,9,2.2f,100,0,0),(27,9,2.6f,200,1,60),(38,15,2.6f,220,0,0),(49,22,2.4f,240,2,100),(-28,4,2.2f,150,0,0),(-38,5,2.6f,170,2,280),
+                (-58,28,2.8f,110,1,200),(-59,15,2.4f,120,0,0),(-36,53.5f,2.6f,190,1,80),(-58,54,2.4f,170,2,270),(-24,51,2.2f,210,0,0),(16,45,2.4f,200,1,100),(-24,33,2.2f,160,0,0),
+                (-14,20,2.2f,150,2,250),(44,6,2.4f,200,0,0),(56,28,2.2f,230,1,120),
+                // Round the commons' crossing, where three ways meet and nothing stood in a frame (s37/010), and south of the Reach way by the gate.
+                (6,44,2.2f,200,0,0),(-7,30,1.8f,60,0,0),(-13.5f,34,2.4f,110,1,200),(-52.5f,31,2.2f,20,0,0),
+            };
+            static IEnumerable<(Vector2 at,int kind,float yaw,int lodge)> Yards()
+            {
+                for(int i=0;i<Lodges.Length;i++){var l=Lodges[i];if(l.yard==0)continue;float b=l.toward*Mathf.Deg2Rad;
+                    yield return (new Vector2(l.x+Mathf.Sin(b)*(l.r+1.9f),l.z+Mathf.Cos(b)*(l.r+1.9f)),l.yard,l.toward+90,i);}
+            }
+            /// <summary>Why something <paramref name="r"/> round can't stand at <paramref name="p"/>, or null: within reach of a way, a resident, an errand, a beast, a vent, a lamp, a sign,
+            /// a hall or the pens, beside a talk or on the floor between the fixed camera and one, or off the commons.</summary>
+            static string Crowds(Vector2 p,float r,int self=-1)
+            {
+                if(FromWays(p)<r+1.8f)return $"{FromWays(p):0.0} m from a way";
+                for(int i=0;i<Lodges.Length;i++)if(i!=self&&Vector2.Distance(p,new Vector2(Lodges[i].x,Lodges[i].z))<r+Lodges[i].r+1)return $"against lodge {i+1}";
+                foreach(var (_,x,z,_,_) in Folk)if(Vector2.Distance(p,new Vector2(x,z))<r+1.8f)return $"beside the resident at ({x}, {z})";
+                foreach(var (_,x,z,_,_) in Children)if(Vector2.Distance(p,new Vector2(x,z))<r+1.8f)return $"beside the child at ({x}, {z})";
+                foreach(var errand in Errands)for(int k=0;k<errand.loop.Length-(errand.back?1:0);k++)
+                    if(ZoneKit.Segment(p,errand.loop[k],errand.loop[(k+1)%errand.loop.Length])<r+1.8f)return "on "+errand.name+"'s loop";
+                foreach(var (x,z,_,_) in Beasts)if(Vector2.Distance(p,new Vector2(x,z))<r+2.4f)return $"beside the beast at ({x}, {z})";
+                foreach(var v in Vents)if(Vector2.Distance(p,v)<r+3.6f)return "beside the vent at "+v;
+                foreach(var l in LampPosts)if(Vector2.Distance(p,l)<r+1.2f)return "beside the lamp post at "+l;
+                foreach(var (at,half) in Signs)if(Mathf.Abs(p.x-at.x)<half+2+r&&p.y>at.y-3.5f-r&&p.y<at.y+2+r)return "on the sign at "+at;
+                foreach(var h in Longhouses.Append(BathHouse))if(Mathf.Abs(p.x-h.x)<6+r&&Mathf.Abs(p.y-h.y)<6+r)return "beside the hall at "+h;
+                if(p.x>PenMin.x-r-1.5f&&p.x<PenMax.x+r+1.5f&&p.y>PenMin.y-r-1.5f&&p.y<PenMax.y+r+1.5f)return "at the pens";
+                var talks=new List<Vector2>{Tern,Hask,IruShrine,IdraYard,IdraArguing,PensCrossing,RibTally,VentSeat,ScarsAt,TallyAt,BenchAt,Cradle,Pad,LowLamp,IruHall,MapStand,ReachGate,new(0,12)};
+                talks.AddRange(HighLamps);
+                foreach(var t in talks)if(ZoneKit.InSightOf(p,t,r+3,13,r+1.8f))return "between the camera and the talk at "+t;
+                if(p.x<-63||p.x>62||p.y<-1.5f||p.y>58||BankTop(p)>0)return "off the commons";
+                return null;
+            }
+            static void LodgesAndYards(ZoneKit kit)
+            {
+                var s=new ZoneKit.Shape();var faults=new List<string>();var boxes=new List<(Vector3 at,Vector3 size,float yaw,string name)>();var lights=new List<Vector3>();
+                Color[] coats={new(.66f,.5f,.38f),new(.8f,.72f,.6f),new(.56f,.44f,.34f),new(.74f,.62f,.48f)};Color bone=new(.92f,.88f,.78f),boneDark=new(.62f,.58f,.5f),rope=new(.56f,.42f,.3f);
+                Color snowTop=new(.97f,.98f,1),snowFoot=new(.78f,.84f,.95f),stone=new(.42f,.42f,.46f),dark=new(.07f,.06f,.06f);
+                for(int i=0;i<Lodges.Length;i++)
+                {
+                    var (x,z,r,door,_,_)=Lodges[i];var at=new Vector2(x,z);var why=Crowds(at,r,i);if(why!=null){faults.Add($"lodge {i+1} at {at}: {why}");continue;}
+                    var foot=kit.On(x,z);float tall=r*1.6f;var coat=coats[i%coats.Length];
+                    // The cover: full at its foot, drawn in to the smoke hole, darker toward the top where the smoke goes.
+                    float[] up={0,.2f,.48f,.76f,.94f},wide={r,r*.9f,r*.66f,r*.34f,r*.14f};
+                    float Around(float h){float t=h/tall;for(int k=1;k<up.Length;k++)if(t<=up[k])return Mathf.Lerp(wide[k-1],wide[k],(t-up[k-1])/(up[k]-up[k-1]));return wide[^1];}
+                    s.Slot(0).Tube(up.Select(t=>foot+Vector3.up*(t*tall-.06f)).ToArray(),wide,18,ZoneKit.Shape.Dim(coat,.9f),ZoneKit.Shape.Dim(coat,.5f),3,.6f,false);
+                    s.Slot(2).Disc(foot+Vector3.up*(tall*.9f),Vector3.up,r*.16f,10,dark);
+                    // The poles, crossed in the smoke hole and standing out of it, each its own length.
+                    var apex=foot+Vector3.up*tall*.9f;
+                    for(int k=0;k<7;k++)
+                    {
+                        float a=(k*51.4f+i*17)*Mathf.Deg2Rad;var lean=(apex-(foot+new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*r)).normalized;
+                        s.Slot(1).Tube(new[]{apex-lean*.5f,apex+lean*(.6f+.25f*(k%3))},new[]{.07f,.05f},5,boneDark,bone,1,.5f);
+                    }
+                    // The door: a dark opening on the cone with the fire's light inside it, the flap rolled up over it.
+                    float d=door*Mathf.Deg2Rad;var outward=new Vector3(Mathf.Sin(d),0,Mathf.Cos(d));var side=Vector3.Cross(Vector3.up,outward);
+                    Vector3 On(float h,float across,float proud)=>foot+Vector3.up*h+outward*(Around(h)+proud)+side*across;
+                    s.Slot(2).Quad(On(.02f,-.6f,.03f),On(.02f,.6f,.03f),On(1.55f,.34f,.03f),On(1.55f,-.34f,.03f),outward,dark);
+                    s.Slot(3).Quad(On(.06f,-.42f,.06f),On(.06f,.42f,.06f),On(1.2f,.24f,.06f),On(1.2f,-.24f,.06f),outward,new Color(1,.7f,.42f));
+                    s.Slot(0).Tube(new[]{On(1.62f,-.46f,.1f),On(1.62f,.46f,.1f)},new[]{.1f,.1f},7,coat,ZoneKit.Shape.Dim(coat,.8f),1,.6f);
+                    if(i%2==0)lights.Add(foot+outward*(r+.6f));
+                    // Snow banked round the foot, never across the door.
+                    for(int k=0;k<7;k++)
+                    {
+                        float a=d+(40+k*40)*Mathf.Deg2Rad;var dir=new Vector3(Mathf.Sin(a),0,Mathf.Cos(a));
+                        s.Slot(4).Lump(foot+dir*(r+.08f)+Vector3.up*.06f,new Vector3(.7f+.12f*(k%3),.3f,.42f),i*11+k,.2f,snowTop,snowFoot,10,5,.25f,Quaternion.LookRotation(Vector3.Cross(Vector3.up,dir)));
+                    }
+                    // Guy ropes to stakes of stone.
+                    for(int k=0;k<3;k++)
+                    {
+                        float a=d+(60+k*120)*Mathf.Deg2Rad;var dir=new Vector3(Mathf.Sin(a),0,Mathf.Cos(a));var stake=foot+dir*(r+1.1f);stake.y=kit.Y(stake.x,stake.z);
+                        s.Slot(5).Rope(foot+dir*(Around(tall*.55f)+.02f)+Vector3.up*tall*.55f,stake+Vector3.up*.18f,.12f,.025f,rope);
+                        s.Slot(2).Lump(stake+Vector3.up*.12f,new Vector3(.22f,.16f,.2f),i*7+k,.3f,stone,ZoneKit.Shape.Dim(stone,.6f),8,4);
+                    }
+                    boxes.Add((foot+Vector3.up*tall*.36f,new Vector3(r*1.4f,tall*.72f,r*1.4f),door,"Lodge"));
+                }
+                foreach(var (at,kind,yaw,lodge) in Yards())
+                {
+                    var why=Crowds(at,1.3f,lodge);if(why!=null){faults.Add($"lodge {lodge+1}'s yard at {at}: {why}");continue;}
+                    var c=kit.On(at.x,at.y);var turn=Quaternion.Euler(0,yaw,0);var coat=coats[(lodge+1)%coats.Length];
+                    if(kind==1)
+                    {
+                        // A frame of hides drying: two bone posts and a pole across, two skins hung from it and one thrown over.
+                        var a=c+turn*new Vector3(-1.2f,0,0);var b=c+turn*new Vector3(1.2f,0,0);
+                        s.Slot(1).Post(a,2.2f,.08f,.06f,6,boneDark,bone).Post(b,2.2f,.08f,.06f,6,boneDark,bone).Beam(a+Vector3.up*2.1f,b+Vector3.up*2.1f,.1f,.1f,bone);
+                        var normal=turn*Vector3.forward;
+                        foreach(float t in new[]{.28f,.7f}){var hang=Vector3.Lerp(a,b,t)+Vector3.up*2.05f;var w=turn*Vector3.right*.5f;
+                            s.Slot(0).Quad(hang-w,hang+w,hang+w*.8f+Vector3.down*1.3f+normal*.04f,hang-w*.85f+Vector3.down*1.4f+normal*.04f,normal,t<.5f?coat:ZoneKit.Shape.Dim(coat,.75f),.6f);}
+                        s.Slot(0).Lump(Vector3.Lerp(a,b,.5f)+Vector3.up*2.12f,new Vector3(.5f,.12f,.18f),lodge,.15f,ZoneKit.Shape.Dim(coat,1.1f),coat,10,4,.25f,turn);
+                        boxes.Add((c+Vector3.up*1.1f,new Vector3(2.6f,2.2f,.35f),yaw,"Hide frame"));
+                    }
+                    else
+                    {
+                        // A sledge: runners of bone turned up at the front, slats across them, two bundles of hide lashed on.
+                        foreach(float x in new[]{-.45f,.45f})
+                            s.Slot(1).Tube(new[]{c+turn*new Vector3(x,.08f,-1.3f),c+turn*new Vector3(x,.08f,.9f),c+turn*new Vector3(x,.2f,1.25f),c+turn*new Vector3(x,.5f,1.4f)},new[]{.05f,.05f,.045f,.04f},5,boneDark,bone,1,.5f);
+                        for(int k=0;k<6;k++){var slat=c+turn*new Vector3(0,.18f,-1.15f+k*.42f);s.Slot(1).Box(slat,new Vector3(1.04f,.05f,.2f),turn,ZoneKit.Shape.Dim(bone,.9f),bone,.6f);
+                            foreach(float x in new[]{-.45f,.45f})s.Slot(1).Box(c+turn*new Vector3(x,.12f,-1.15f+k*.42f),new Vector3(.06f,.1f,.06f),turn,boneDark);}
+                        s.Slot(0).Lump(c+turn*new Vector3(0,.42f,-.45f),new Vector3(.42f,.22f,.5f),lodge*3,.2f,coat,ZoneKit.Shape.Dim(coat,.7f),10,5,.25f,turn)
+                            .Lump(c+turn*new Vector3(.05f,.4f,.5f),new Vector3(.38f,.2f,.42f),lodge*3+1,.2f,ZoneKit.Shape.Dim(coat,1.12f),coat,10,5,.25f,turn);
+                        foreach(float zz in new[]{-.45f,.5f})s.Slot(5).Rope(c+turn*new Vector3(-.5f,.2f,zz),c+turn*new Vector3(.5f,.2f,zz),-.36f,.02f,rope);
+                        boxes.Add((c+Vector3.up*.35f,new Vector3(1.1f,.7f,2.8f),yaw,"Sledge"));
+                    }
+                }
+                if(faults.Count>0)throw new InvalidOperationException("Lastlight: a lodge or its yard is crowded:\n"+string.Join("\n",faults));
+                var view=kit.Built("Lodges",s,Hide,Bone,Stone,Hearth,Snow,Rope);
+                // Nothing to fade: every lodge stands at least four metres off a way, where the line from a hero's chest to the camera is already higher than its smoke hole.
+                foreach(var (at,size,yaw,name) in boxes)ZoneKit.Block(view,at,size,yaw,name);
+                foreach(var at in lights)kit.Lamp(new Vector3(at.x,1.2f,at.z),5,.8f,new Color(1,.7f,.42f));
+            }
+            /// <summary>The way up to the high lamps made plain (s34/068: from the play camera the high rib-hall's floor, its drop and the town below were one sheet of snow): plates
+            /// of old bone laid a stride apart up the ledge and across the hall to each lamp, and a rail of bone posts and hide rope along the hall's south and west lips, where it
+            /// drops to the town.</summary>
+            static void ClimbWay(ZoneKit kit)
+            {
+                var s=new ZoneKit.Shape();var rng=new System.Random(53);Color bone=new(.9f,.86f,.76f),boneDark=new(.62f,.58f,.5f),rope=new(.56f,.42f,.3f);
+                var line=Climb.Select(c=>new Vector2(c.x,c.z)).Concat(Ways[9].Skip(1)).ToList();
+                float run=0;for(int i=1;i<line.Count;i++)run+=Vector2.Distance(line[i-1],line[i]);
+                for(float at=.6f;at<run-.4f;at+=.95f)
+                {
+                    float walked=0;Vector2 p=line[0],along=Vector2.up;
+                    for(int i=1;i<line.Count;i++){float leg=Vector2.Distance(line[i-1],line[i]);if(walked+leg>=at){along=(line[i]-line[i-1]).normalized;p=line[i-1]+along*(at-walked);break;}walked+=leg;}
+                    var across=new Vector2(along.y,-along.x)*(((float)rng.NextDouble()-.5f)*.16f);var tone=ZoneKit.Shape.Dim(bone,.86f+.18f*(float)rng.NextDouble());
+                    var a=p-along*.24f+across;var b=p+along*.24f+across;
+                    s.Slot(0).Beam(kit.On(a.x,a.y,.035f),kit.On(b.x,b.y,.035f),.78f+.14f*(float)rng.NextDouble(),.07f,ZoneKit.Shape.Dim(tone,.7f),tone,.6f);
+                }
+                var holder=new GameObject("The high hall's rail");var posts=new List<Vector3>();
+                void Rail(Vector2 from,Vector2 to)
+                {
+                    int n=Mathf.CeilToInt(Vector2.Distance(from,to)/2.2f);Vector3? last=null;
+                    for(int k=0;k<=n;k++)
+                    {
+                        var q=Vector2.Lerp(from,to,k/(float)n);var foot=kit.On(q.x,q.y);s.Slot(0).Post(foot,1.15f,.08f,.06f,6,boneDark,bone);posts.Add(foot);
+                        if(last is Vector3 l){s.Slot(1).Rope(l+Vector3.up*1.02f,foot+Vector3.up*1.02f,.1f,.03f,rope).Rope(l+Vector3.up*.55f,foot+Vector3.up*.55f,.08f,.03f,rope);}
+                        last=foot;
+                    }
+                }
+                Rail(new Vector2(TerraceWest+.5f,TerraceSouth+.5f),new Vector2(54.6f,TerraceSouth+.5f));
+                Rail(new Vector2(TerraceWest+.5f,TerraceSouth+.5f),new Vector2(TerraceWest+.5f,76));
+                // The ledge's own drop, on the camera's side of it, all the way up: the hall's lips were railed and the ledge wasn't, so from the play camera the ledge, its rim and
+                // the snow below were one pale mass (s34/068, D359). Posts and two ropes along the rim's crest, from where the ledge stands a metre up to where it meets the hall's
+                // lip; and a kerb of bone slabs laid along the ledge's edge and the hall's lips, so the edge is a line even where a rail is seen end on.
+                Vector2 Outside(int i,float t,float off){var a=new Vector2(Climb[i-1].x,Climb[i-1].z);var b=new Vector2(Climb[i].x,Climb[i].z);var d=(b-a).normalized;return Vector2.Lerp(a,b,t)+new Vector2(d.y,-d.x)*off;}
+                // Round the first lamp's landing (a disc wider than the ledge) the rail leaves off, so nothing stands on the landing's floor.
+                Rail(Outside(1,.35f,LedgeHalf+RimWide*.5f),Outside(2,.3f,LedgeHalf+RimWide*.5f));Rail(Outside(3,.55f,LedgeHalf+RimWide*.5f),Outside(4,1,LedgeHalf+RimWide*.5f));
+                void Kerb(Vector2 from,Vector2 to)
+                {
+                    float length=Vector2.Distance(from,to);var along=(to-from)/length;
+                    for(float at=.3f;at<length;at+=.62f)
+                    {
+                        var p=from+along*at;if(Vector2.Distance(p,HighLamps[0])<Landing+.2f)continue;
+                        var a=kit.On(p.x-along.x*.27f,p.y-along.y*.27f,.05f);var b=kit.On(p.x+along.x*.27f,p.y+along.y*.27f,.05f);
+                        var tone=ZoneKit.Shape.Dim(boneDark,.9f+.24f*(float)rng.NextDouble());s.Slot(0).Beam(a,b,.34f,.12f,tone,ZoneKit.Shape.Dim(bone,.92f+.1f*(float)rng.NextDouble()),.6f);
+                    }
+                }
+                for(int i=2;i<=4;i++)Kerb(Outside(i,0,LedgeHalf-.2f),Outside(i,1,LedgeHalf-.2f));
+                Kerb(new Vector2(TerraceWest+.9f,TerraceSouth+.9f),new Vector2(56.6f,TerraceSouth+.9f));Kerb(new Vector2(TerraceWest+.9f,TerraceSouth+.9f),new Vector2(TerraceWest+.9f,76));
+                var view=kit.Built("The climb's way",s,Bone,Rope);view.transform.SetParent(holder.transform,true);
+                for(int i=1;i<posts.Count;i++)if(Vector3.Distance(posts[i-1],posts[i])<2.6f)ZoneKit.BlockAlong(view,posts[i-1]+Vector3.up*.55f,posts[i]+Vector3.up*.55f,.25f,1.1f,"Rail");
+            }
+            /// <summary>Where the carvers split bone: flags of dark vent basalt laid flush in the snow at the carving yard's mouth, chipped at their edges, with bone flakes in the joints.
+            /// The yard's name lies on them. On the trodden way's grey beside the lamp post the name stood 3.0 to 1 (WorldLabelTests, nov22b; s37/008), its letters on a ground neither
+            /// pale enough for the full plate nor dark enough for the light one (D359). Floor only: no solid, nothing a route walks round.</summary>
+            static void CarversFloor(ZoneKit kit)
+            {
+                var s=new ZoneKit.Shape();var rng=new System.Random(61);var at=Signs[Array.IndexOf(SignWords,"CARVING YARD")].at;
+                Color basalt=new(.2f,.21f,.24f),bone=new(.9f,.86f,.76f);
+                float[] edges={-3.4f,-1.6f,.2f,1.9f,3.4f};
+                for(int i=1;i<edges.Length;i++)
+                {
+                    float x0=edges[i-1]+.05f,x1=edges[i]-.05f,cx=(x0+x1)*.5f,cz=(float)(rng.NextDouble()-.5)*.16f;var tone=ZoneKit.Shape.Dim(basalt,.85f+.3f*(float)rng.NextDouble());
+                    s.Slot(0).Box(kit.On(at.x+cx,at.y+.1f+cz,.015f),new Vector3(x1-x0,.05f,2.1f-(float)rng.NextDouble()*.25f),Quaternion.Euler(0,(float)(rng.NextDouble()-.5)*5,0),tone,ZoneKit.Shape.Dim(tone,1.08f),.6f);
+                }
+                for(int k=0;k<14;k++){float x=at.x-3.2f+(float)rng.NextDouble()*6.4f,z=at.y+(float)(rng.NextDouble()-.5)*2;s.Slot(1).Lump(kit.On(x,z,.045f),new Vector3(.07f,.02f,.05f),k,.3f,bone,ZoneKit.Shape.Dim(bone,.7f),6,3);}
+                // Not named "... floor": the shared checks find the zone's ground by that ending.
+                var flags=kit.Built("The carvers' flags",s,Stone,Bone);flags.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+            }
             /// <summary>The Kept: standing at their work, children by a vent, and seven on errands, each carrying what the errand is about.</summary>
             static void Townsfolk(ZoneKit kit)
             {
@@ -725,8 +933,13 @@ namespace Lattice.EditorTools
                     if(kind==0){s.Slot(0).Lump(foot+Vector3.up*size*.3f,new Vector3(size*.8f,size*.32f,size*.55f),kept,.2f,new Color(.64f,.5f,.38f),new Color(.4f,.32f,.26f),10,5,.3f,turn);s.Slot(0).Lump(foot+Vector3.up*size*.62f,new Vector3(size*.7f,size*.26f,size*.5f),kept+1,.2f,new Color(.86f,.82f,.74f),new Color(.56f,.52f,.48f),10,5,.3f,turn);}
                     else if(kind==1){for(int k=0;k<4;k++)s.Slot(1).Tube(new[]{foot+turn*new Vector3(-size,.15f+k*.17f,(k%2)*.22f-.1f),foot+turn*new Vector3(size,.15f+k*.17f,(k%2)*.22f-.1f)},new[]{.09f,.08f},6,new Color(.86f,.82f,.72f),new Color(.96f,.94f,.88f),1,.5f);}
                     else if(kind==2){s.Slot(1).Box(foot+Vector3.up*.25f,new Vector3(size*1.1f,.12f,size*2.4f),turn,new Color(.82f,.78f,.7f),null,.6f);foreach(int side in new[]{-1,1})s.Slot(1).Tube(new[]{foot+turn*new Vector3(side*size*.5f,.08f,-size*1.3f),foot+turn*new Vector3(side*size*.5f,.08f,size*1.1f),foot+turn*new Vector3(side*size*.5f,.4f,size*1.45f)},new[]{.05f,.05f,.04f},5,new Color(.9f,.86f,.78f),new Color(.9f,.86f,.78f),1,.5f);}
-                    else if(kind==3){s.Slot(2).Box(foot+Vector3.up*size*.35f,new Vector3(size*.9f,size*.7f,size*.7f),turn,new Color(.62f,.78f,.94f),new Color(.86f,.94f,1f),.5f);}
-                    else{s.Slot(1).Lump(foot+Vector3.up*size*.45f,new Vector3(size*.32f,size*.45f,size*.32f),kept,.04f,new Color(.74f,.6f,.44f),new Color(.5f,.4f,.32f),10,6);}
+                    // Cut ice stacked as it comes off the wall, a big block and a smaller one on it askew (one block alone read as an ice cube dropped on the snow, s34/010).
+                    else if(kind==3){s.Slot(2).Box(foot+Vector3.up*size*.3f,new Vector3(size*1.1f,size*.6f,size*.7f),turn,new Color(.62f,.78f,.94f),new Color(.86f,.94f,1f),.5f)
+                        .Box(foot+Vector3.up*size*.82f+turn*new Vector3(size*.12f,0,-size*.05f),new Vector3(size*.66f,size*.44f,size*.52f),turn*Quaternion.Euler(0,24,0),new Color(.66f,.8f,.95f),new Color(.9f,.96f,1f),.5f);}
+                    // Lamp oil in a jar of fired clay: a body, a neck and a stopper of hide tied on (a plain egg read as an egg, s34/010).
+                    else{s.Slot(1).Lump(foot+Vector3.up*size*.36f,new Vector3(size*.32f,size*.36f,size*.32f),kept,.04f,new Color(.74f,.6f,.44f),new Color(.5f,.4f,.32f),10,6)
+                        .Tube(new[]{foot+Vector3.up*size*.66f,foot+Vector3.up*size*.84f,foot+Vector3.up*size*.9f},new[]{size*.13f,size*.1f,size*.14f},9,new Color(.6f,.48f,.36f),new Color(.66f,.54f,.4f),1,.5f);
+                        s.Slot(0).Lump(foot+Vector3.up*size*.93f,new Vector3(size*.15f,size*.07f,size*.15f),kept+3,.2f,new Color(.56f,.42f,.32f),new Color(.4f,.3f,.24f),8,4);}
                     boxes.Add((foot+Vector3.up*.35f,new Vector3(size*1.4f,.7f,kind==2?size*2.4f:size*1.2f),yaw));
                 }
                 var view=kit.Built("Goods",s,Hide,Bone,SnowWall);view.transform.SetParent(blocks.transform,true);
@@ -752,7 +965,10 @@ namespace Lattice.EditorTools
                 ground.PaintPatches(0,5,.32f,p=>ZoneKit.Smooth(1.6f,3.4f,FromWays(p))*(InPens(p)?0:1),3);
                 ground.Shade(p=>.08f*(1-ZoneKit.Smooth(1.4f,4,FromWays(p)))-.04f*Bare(p));
                 Color snowTint=new(.78f,.84f,.96f,.85f),boneTint=new(.9f,.86f,.78f,1);
-                ground.Decals(new[]{"Tracks","Ruts"},18,p=>1-ZoneKit.Smooth(1.6f,3.6f,FromWays(p)),.9f,2.4f,new Color(.5f,.54f,.66f,.8f),false,.12f,5);
+                // Prints only: the kit's wheel ruts, each turned its own way across the ways, read in the player as dark bars and shadows of nothing (s34/010, s37/010).
+                // The sledges' runners down the Reach way to the gate, where the herds go out: ruts that run with the way and lead somewhere.
+                ground.Strip("Ruts",Ways[5],0,1.5f,new Color(.58f,.64f,.78f,.6f));
+                ground.Decals(new[]{"Tracks"},18,p=>1-ZoneKit.Smooth(1.6f,3.6f,FromWays(p)),.9f,2.4f,new Color(.5f,.54f,.66f,.8f),false,.12f,5);
                 ground.Decals(new[]{"CracksA","CracksB"},4,p=>ZoneKit.Smooth(3,5,FromWays(p))*(InPens(p)?0:1),1.6f,3.2f,new Color(.7f,.76f,.88f,.75f),false,.1f,9);
                 ground.Decals(new[]{"PebblesA","PebblesB"},5,p=>Bare(p)+(1-ZoneKit.Smooth(5,8,Vector2.Distance(p,new Vector2(-13,46))))*.6f,.5f,1.2f,boneTint,true,.1f,11);
                 ground.Decals(new[]{"Litter","Stain"},9,p=>InPens(p)?1:0,.8f,1.8f,new Color(.56f,.5f,.38f,.85f),false,.12f,13);

@@ -225,7 +225,10 @@ namespace Lattice.EditorTools
         /// walls are what stop a ship. It starts behind the mouth, so the way in stays open to space.</summary>
         static void OuterTissue()
         {
-            const int Rows=9;const float Reach=72;
+            // Wider, and lit further out (nov20-whole s10b/049): drawn back three times over for the eddy's fight, the camera saw sixty metres past the rim, and this went to black
+            // twenty-six metres out, so two fifths of the frame was a black void beside the tube. It is the animal's body now as far as that camera reaches, its folds lit and its veins
+            // faint, and only its far edge goes dark.
+            const int Rows=15;const float Reach=118;
             var vertices=new List<Vector3>();var uv=new List<Vector2>();var colors=new List<Color>();var triangles=new List<int>();
             var stations=new List<float>();for(float z=GulletProfile.Start+6;z<GulletProfile.End;z+=5)stations.Add(z);stations.Add(GulletProfile.End);
             foreach(int side in new[]{-1,1})
@@ -238,10 +241,14 @@ namespace Lattice.EditorTools
                     {
                         float t=i/(float)Rows,x=rim+side*Reach*t*t;
                         float lump=Mathf.PerlinNoise(x*.11f+7,z*.11f)*2.4f*Mathf.Sin(Mathf.Clamp01(t*2)*Mathf.PI);
-                        vertices.Add(new Vector3(x,4+lump-Mathf.SmoothStep(0,14,Mathf.InverseLerp(.3f,1,t)),z));uv.Add(new Vector2(x/9,z/9));
+                        // Broad folds out across the body, so the lit tissue has a shape and isn't a sheet.
+                        float folds=(Mathf.PerlinNoise(x*.045f+3,z*.03f+11)-.35f)*7*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.08f,.4f,t));
+                        vertices.Add(new Vector3(x,4+lump+folds-Mathf.SmoothStep(0,16,Mathf.InverseLerp(.35f,1,t)),z));uv.Add(new Vector2(x/9,z/9));
                         // Dark at its two ends as well: each is a straight cut across the void, and a lit one would be the ruled line over again.
                         float ends=Mathf.Min(Mathf.InverseLerp(GulletProfile.Start+6,GulletProfile.Start+30,z),Mathf.InverseLerp(GulletProfile.End,GulletProfile.End-24,z));
-                        var shade=Color.Lerp(new Color(.46f,.42f,.6f),new Color(.015f,.012f,.03f),Mathf.Max(1-ends,Mathf.SmoothStep(0,1,Mathf.Clamp01(t*1.6f))));shade.a=0;colors.Add(shade);
+                        var shade=Color.Lerp(new Color(.46f,.42f,.6f),new Color(.015f,.012f,.03f),Mathf.Max(1-ends,Mathf.SmoothStep(0,1,Mathf.InverseLerp(.5f,1,t))));
+                        // A little of the veins' glow carries out with it, less the further out.
+                        shade.a=.32f*ends*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.15f,.85f,t)));colors.Add(shade);
                         if(s==stations.Count-1||i==Rows)continue;
                         int a=first+s*(Rows+1)+i,b=a+1,c=a+Rows+1,d=c+1;
                         if(side>0)triangles.AddRange(new[]{a,c,b,b,c,d});else triangles.AddRange(new[]{a,b,c,b,d,c});

@@ -55,7 +55,10 @@ namespace Lattice.Combat
             public const int Lamps=4,Stages=3;
             /// <summary>Sized on the fight played through the replay driver's pad at its door (MooringBossReplayTests): at 9,500 and 11,000 a brace went in about 13 s of the pair's fire and a
             /// stage in about 4 s on foot, the whole fight in 101 s against its sheet's 120 to 300, and the arm's clock never mattered.</summary>
-            public const float BraceIntegrity=19000,MotorIntegrity=22000,Tended=.25f;
+            /// The braces 24,000 since D362 (November 22), from 19,000: at 19,000 the replay was through the room in 116.6 and 122.4 s (nov22-recon-a-65, nov22-recon-g). At 26,500
+            /// the plain hand's third brace took 51.9 s of the 60 its length test allows (d362-ch8to10). The motor stays: its stage is worked on the arm's clock (18 s in the third,
+            /// where the plain hand spent 14.9 to 15.3 s on the arm), which a slower motor would run out.
+            public const float BraceIntegrity=24000,MotorIntegrity=22000,Tended=.25f;
             /// <summary>The fall: the bars swing out past lying open to this angle, pitched down, dropped, over these seconds; the view holds the gate this long.</summary>
             public const float HangAngle=100,HangPitch=32,HangDrop=2.5f,HangSeconds=3.2f,FrameSeconds=6;
             /// <summary>The arm: its clock on the deck by stage, its last clock once the stage is stopped, how long it takes to run out or draw in, how long after drawing in it runs out
@@ -322,7 +325,8 @@ namespace Lattice.Combat
             if(TollDocked)return tollFinal?"Launch before the arm draws in":"Stop the gate motor before the arm draws in";
             if(CurrentMove=="Contract")return "Weave out before the cage closes";
             if(TollOwed)return "Dock on the arm while it is out";
-            return $"Break a brace on the cage ({Mathf.Min(tollStages+1,TollTune.Stages)}/{TollTune.Stages})";
+            // The motor's stages stopped so far, as Meret's projectors and her couplings count what is done (it counted the one under way: "1/3" with nothing yet done).
+            return $"Break a brace on the cage ({tollStages}/{TollTune.Stages})";
         }
 
         // ---------------------------------------------------------------- choosing

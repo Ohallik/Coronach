@@ -27,6 +27,8 @@ namespace Lattice.UI
         const float Here=3;
         /// <summary>Room at the head of the distance line for the arrow.</summary>
         const string ArrowRoom="<space=44>";
+        /// <summary>'Here' is in the arrow's gold: it is the arrow's answer when there's nowhere left to point.</summary>
+        static readonly string HereColor=ColorUtility.ToHtmlStringRGB(UiKit.GoldColor);
         /// <summary>What floating numbers keep clear of.</summary>
         public RectTransform Frame{get;private set;}
         public PanelFade Fade{get;private set;}
@@ -281,16 +283,59 @@ namespace Lattice.UI
             if(down!=null){label=$"Get {DisplayNames.Speaker(down.character)} back up";goal=party.ReviveTarget==down?null:down.transform.position;}
             static int Lantern(GameState state)=>state.questSteps.TryGetValue("LanternRoad",out var step)?step:-1;
             string direction="";goalAt=goal;
+            // Within reach the distance line says so in the distance's own place and the arrow's gold: a bare 'Here' at the line's head read as a stray word left at the end
+            // of the sentence ('see Keeper Abri / Here', s11 117; '…and then Orrin / Here', s69 031). Indented past the arrow's room it stands where the metres stood.
             if(goal.HasValue)
             {
                 var delta=goal.Value-hero;delta.y=0;
-                direction=delta.sqrMagnitude<hereAt*hereAt?"\nHere":$"\n{ArrowRoom}{delta.magnitude:0} m";
+                direction=delta.sqrMagnitude<hereAt*hereAt?$"\n{ArrowRoom}<color=#{HereColor}>Here</color>":$"\n{ArrowRoom}{delta.magnitude:0} m";
             }
+            label=Styled(label);
             string words=label+direction+Also(state,hero);
             if(text.text==words)return;
-            text.text=words;SeatArrows(label.Length+1+ArrowRoom.Length);
+            text.text=words;Balance(label.Length);SeatArrows(label.Length+1+ArrowRoom.Length);
             // By its lines, not its letters: a tail on a new word mustn't make the frame breathe, and only a change of words can move it.
             float high=Mathf.Max(FrameLeast,text.textInfo.lineCount*LinePitch+FrameAir);if(Frame.sizeDelta.y!=high)Frame.sizeDelta=new(Frame.sizeDelta.x,high);
+        }
+        /// <summary>The ships the story names, set as names: 'Go back up the lane for the tug Welcome Back' read as two stray words at its end (s68 062).</summary>
+        static readonly string[] ShipNames={"Welcome Back"};
+        static string Styled(string label)
+        {
+            foreach(string ship in ShipNames)if(label.Contains(ship)&&!label.Contains("<i>"+ship))label=label.Replace(ship,"<i>"+ship+"</i>");
+            return label;
+        }
+        /// <summary>How wide the words may run, and the least the box is narrowed to so the sentence's last line isn't one word: 'Find the hauler on line nine hundred and
+        /// / four' (s54 020). The box narrows until the last line holds two words or more.</summary>
+        const float WordsWide=480,WordsLeast=300,WordsStep=16;
+        void Balance(int labelLength)
+        {
+            Narrow(WordsWide);text.ForceMeshUpdate();
+            if(!Widowed(labelLength))return;
+            // Never at the cost of a line: the label keeps its count and the Also line under it still fits on one.
+            int lines=text.textInfo.lineCount;
+            for(float wide=WordsWide-WordsStep;wide>=WordsLeast;wide-=WordsStep)
+            {
+                Narrow(wide);text.ForceMeshUpdate();
+                if(text.textInfo.lineCount>lines)break;
+                if(!Widowed(labelLength))return;
+            }
+            Narrow(WordsWide);text.ForceMeshUpdate();
+        }
+        /// <summary>The box narrowed from its right: the words keep the frame's left margin.</summary>
+        void Narrow(float wide)
+        {
+            var box=text.rectTransform;if(box.sizeDelta.x==wide)return;
+            box.sizeDelta=new Vector2(wide,box.sizeDelta.y);box.anchoredPosition=new Vector2(-(WordsWide-wide)*.5f,box.anchoredPosition.y);
+        }
+        /// <summary>Whether the label wraps and its last line is a single word.</summary>
+        bool Widowed(int labelLength)
+        {
+            var info=text.textInfo;int last=-1;
+            for(int i=0;i<info.characterCount;i++){var c=info.characterInfo[i];if(c.index<labelLength&&c.isVisible)last=i;}
+            if(last<0)return false;int line=info.characterInfo[last].lineNumber;if(line==0)return false;
+            var row=info.lineInfo[line];
+            for(int i=row.firstCharacterIndex;i<=last&&i<info.characterCount;i++)if(info.characterInfo[i].character==' '&&i>row.firstCharacterIndex)return false;
+            return true;
         }
         /// <summary>The nearest thing an active side quest wants in this zone, as a dim line under the main objective, with its distance.
         /// The den, the crate and the plates were otherwise found from the log's words alone. A boss fight has the player's whole attention.</summary>

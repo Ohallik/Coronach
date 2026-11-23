@@ -14,12 +14,12 @@ namespace Lattice.EditorTools
     /// lies large under the field. Nothing here is solid: the lane's rocks keep their sphere bodies and shadows, the wall its two boxes, the lane its walls.</summary>
     public static partial class HarrowgateBuilder
     {
-        static Material RockLook,RockDeep;
+        static Material RockLook,RockDeep,LaneRock,LaneRockDeep;
         /// <summary>Basalt for every rock of the Vaskar Reach (the Picket's and the harbour's shore): fine dark grain, vesicles, pale flecks and faint bands, painted near neutral and toned in the
-        /// vertices, lighter where a face looks up.</summary>
+        /// vertices, lighter where a face looks up. The Picket's own stone (<see cref="LaneRock"/>) is drawn apart from the harbour's since the whole-game capture.</summary>
         static void RockMaterials()
         {
-            var basalt=ZoneKit.Texture("Vaskar/picket-basalt",512,(u,v)=>
+            var reach=ZoneKit.Texture("Vaskar/picket-basalt",512,(u,v)=>
             {
                 float grain=ZoneKit.Tile(u*160,v*160,160,71),coarse=ZoneKit.Cloud(u,v,8,72),band=Mathf.Sin((v*9+coarse*1.4f)*Mathf.PI*2)*.5f+.5f;
                 float pit=ZoneKit.Tile(u*96,v*96,96,73)>.86f?-.18f:0,fleck=ZoneKit.Tile(u*220,v*220,220,74)>.94f?.14f:0;
@@ -27,9 +27,39 @@ namespace Lattice.EditorTools
                 float fissure=ZoneKit.Smooth(.9f,.97f,1-Mathf.Abs(2*ZoneKit.Cloud(u+.2f*coarse,v,6,75)-1));
                 float tone=.6f+.2f*(grain-.5f)+.2f*(coarse-.5f)+.07f*(band-.5f)+pit+fleck-.3f*fissure;return new Color(tone,tone*.99f,tone*1.02f,1);
             });
-            RockLook=ZoneKit.Toon("vaskar-rock",basalt,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.4f,.42f,.56f));m.SetFloat("_LightFloor",.3f);m.SetColor("_RimColor",new Color(.6f,.66f,.8f));});
+            RockLook=ZoneKit.Toon("vaskar-rock",reach,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.4f,.42f,.56f));m.SetFloat("_LightFloor",.3f);m.SetColor("_RimColor",new Color(.6f,.66f,.8f));});
+            RockDeep=ZoneKit.Toon("vaskar-rock-deep",reach,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",new Color(.8f,.8f,.84f));m.SetColor("_ShadowTint",new Color(.36f,.38f,.52f));m.SetFloat("_LightFloor",.24f);m.SetColor("_RimColor",Color.black);});
+            // The Picket's stone at the flight camera's scale: fine grain, gas holes with a lit lip on their lower side, a fracture network of short straight cracks (a cell pattern's
+            // edges, not a ridged noise), and chips of a paler stone. The ridged fissures and soft blotches read close up as smeared, stretched marble (whole-game capture s45/177).
+            static float H(int a,int b,int s)=>Mathf.Repeat(Mathf.Sin(a*12.9898f+b*78.233f+s*37.719f)*43758.5453f,1);
+            float Cells(float u,float v,int n,int seed)
+            {
+                float x=u*n,y=v*n;int cx=Mathf.FloorToInt(x),cy=Mathf.FloorToInt(y);float f1=9,f2=9;
+                for(int j=-1;j<=1;j++)for(int i=-1;i<=1;i++)
+                {
+                    int gx=cx+i,gy=cy+j,wx=((gx%n)+n)%n,wy=((gy%n)+n)%n;float px=gx+.1f+.8f*H(wx,wy,seed),py=gy+.1f+.8f*H(wx,wy,seed+1);
+                    float d=(px-x)*(px-x)+(py-y)*(py-y);if(d<f1){f2=f1;f1=d;}else if(d<f2)f2=d;
+                }
+                return Mathf.Sqrt(f2)-Mathf.Sqrt(f1);
+            }
+            var basalt=ZoneKit.Texture("Vaskar/picket-lane-rock",512,(u,v)=>
+            {
+                float grain=ZoneKit.Tile(u*180,v*180,180,71),mid=ZoneKit.Tile(u*40,v*40,40,72);
+                float crack=Cells(u,v,9,75),fine=Cells(u,v,23,77);
+                float tone=.58f+.16f*(grain-.5f)+.1f*(mid-.5f);
+                // Gas holes: a dark round hollow with its lower lip catching the light.
+                float hx=u*70,hy=v*70;int ix=Mathf.FloorToInt(hx),iy=Mathf.FloorToInt(hy);float own=H(ix%70,iy%70,73);
+                if(own>.8f){float ox=H(ix%70,iy%70,78),oy=H(ix%70,iy%70,79);var off=new Vector2(hx-ix-.25f-.5f*ox,hy-iy-.25f-.5f*oy);float r=.12f+.14f*(own-.8f)/.2f;
+                    float d=off.magnitude;if(d<r)tone-=.26f*(1-d/r)+.05f;else if(d<r*1.35f&&off.y<0)tone+=.12f;}
+                if(crack<.03f)tone-=.28f*(1-crack/.03f);else if(crack<.055f)tone+=.05f;
+                if(fine<.025f)tone-=.12f*(1-fine/.025f);
+                if(ZoneKit.Tile(u*260,v*260,260,74)>.95f)tone+=.12f;
+                return new Color(tone,tone*.99f,tone*1.02f,1);
+            });
+            basalt=ZoneKit.Exact(basalt);
+            LaneRock=ZoneKit.Toon("vaskar-lane-rock",basalt,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.4f,.42f,.56f));m.SetFloat("_LightFloor",.3f);m.SetColor("_RimColor",new Color(.6f,.66f,.8f));});
             // Debris further down: the same stone a little dimmer and with no rim, so it stays behind the lane's own rocks.
-            RockDeep=ZoneKit.Toon("vaskar-rock-deep",basalt,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",new Color(.8f,.8f,.84f));m.SetColor("_ShadowTint",new Color(.36f,.38f,.52f));m.SetFloat("_LightFloor",.24f);m.SetColor("_RimColor",Color.black);});
+            LaneRockDeep=ZoneKit.Toon("vaskar-lane-rock-deep",basalt,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",new Color(.8f,.8f,.84f));m.SetColor("_ShadowTint",new Color(.36f,.38f,.52f));m.SetFloat("_LightFloor",.24f);m.SetColor("_RimColor",Color.black);});
         }
 
         // ---------------------------------------------------------------- rock in code
@@ -90,11 +120,16 @@ namespace Lattice.EditorTools
         static void Rock(ZoneKit.Shape shape,Vector3 centre,float radius,Quaternion turned,int build,int seed,Color tone)
         {
             var under=ZoneKit.Shape.Dim(tone,.38f);var top=ZoneKit.Shape.Dim(tone,1.32f);var rng=new System.Random(seed);
+            // Faces about a metre and a half across whatever the rock's size: at twelve round, a lane rock's faces were three metres of flat slab filling half the frame (s45/177).
+            int around=Mathf.Clamp(Mathf.RoundToInt(radius*2.6f),12,20),rings=Mathf.Clamp(Mathf.RoundToInt(radius*1.5f),7,11);
             switch(build%6)
             {
-                case 0:Crag(shape,centre,new Vector3(1,.8f,.92f)*radius,turned,seed,.22f,top,under,12,7);break;
+                case 0:Crag(shape,centre,new Vector3(1,.8f,.92f)*radius,turned,seed,.22f,top,under,around,rings);
+                    // Spalls: a few slabs broken off and lying against its flank, so the outline isn't one round lump.
+                    for(int s=0;s<3;s++){var d=turned*Quaternion.Euler(rng.Next(360),rng.Next(360),0)*Vector3.up;Crag(shape,centre+d*radius*.56f,new Vector3(.32f,.18f,.28f)*radius,turned*Quaternion.LookRotation(d),seed+11+s,.26f,top,under,8,5);}
+                    break;
                 case 1:
-                    Crag(shape,centre,new Vector3(.84f,.74f,.8f)*radius,turned,seed,.2f,top,under,10,6);
+                    Crag(shape,centre,new Vector3(.84f,.74f,.8f)*radius,turned,seed,.2f,top,under,Mathf.Max(10,around-2),Mathf.Max(6,rings-1));
                     for(int s=0;s<3;s++){var d=turned*Quaternion.Euler(rng.Next(360),rng.Next(360),0)*Vector3.up;Fang(shape,centre+d*radius*.35f,d,radius*.72f,radius*.3f,1,5,seed+s+1,top,under);}
                     break;
                 case 2:
@@ -104,10 +139,10 @@ namespace Lattice.EditorTools
                     Crag(shape,centre+split*radius*.42f,new Vector3(.56f,.76f,.82f)*radius,turned*Quaternion.Euler(0,0,12),seed+1,.18f,top,under,8,5);
                     break;
                 }
-                case 3:Crag(shape,centre,new Vector3(1,.46f,.9f)*radius,turned,seed,.24f,top,under,11,5);break;
+                case 3:Crag(shape,centre,new Vector3(1,.46f,.9f)*radius,turned,seed,.24f,top,under,around,Mathf.Max(5,rings-2));break;
                 case 4:
                 {
-                    Crag(shape,centre,new Vector3(.86f,.7f,.78f)*radius,turned,seed,.2f,top,under,10,6);
+                    Crag(shape,centre,new Vector3(.86f,.7f,.78f)*radius,turned,seed,.2f,top,under,Mathf.Max(10,around-2),Mathf.Max(6,rings-1));
                     var d=turned*Vector3.forward;Fang(shape,centre-d*radius*.9f,d,radius*2,radius*.36f,.55f,5,seed+3,top,under);
                     break;
                 }
@@ -174,14 +209,36 @@ namespace Lattice.EditorTools
         /// <summary>Scoria from orbit, for the half of the ball the camera sees: old crust in broad tones, obsidian lowlands nearly black, a few long lava rivers with finer branches, the hot
         /// rings of its calderas, and ash blown off them that dims what lies under it. Every line of melt is thin and hard-edged so it holds at the screen's pixel; deep red, not orange,
         /// because orange on the plane is a danger marking's colour and this lies behind them. <paramref name="heat"/> is the glow.</summary>
+        static float PicketHash(int a,int b,int s)=>Mathf.Repeat(Mathf.Sin(a*12.9898f+b*78.233f+s*37.719f)*43758.5453f,1);
+        /// <summary>Craters in a grid of <paramref name="n"/> cells (wrapping in u): a dark floor, a hard bright rim on the lit side, a little ejecta; about one cell in three has one.</summary>
+        static float PicketCrater(float u,float v,int n,int seed)
+        {
+            float x=u*n,y=v*n;int cx=Mathf.FloorToInt(x),cy=Mathf.FloorToInt(y);float shade=0;
+            for(int j=-1;j<=1;j++)for(int i=-1;i<=1;i++)
+            {
+                int gx=cx+i,gy=cy+j,wx=((gx%n)+n)%n;if(PicketHash(wx,gy,seed)>.36f)continue;
+                float r=.18f+.3f*PicketHash(wx,gy,seed+1),px=gx+.5f+(PicketHash(wx,gy,seed+2)-.5f)*.5f,py=gy+.5f+(PicketHash(wx,gy,seed+3)-.5f)*.5f;
+                float dx=x-px,dy=y-py,d=Mathf.Sqrt(dx*dx+dy*dy)/r;if(d>1.8f)continue;
+                if(d<.78f)shade-=.09f*(1-d*.5f);else if(d<1)shade+=(dy<0?.16f:.06f)*ZoneKit.Smooth(.78f,.9f,d);else shade+=.03f*(1-ZoneKit.Smooth(1,1.8f,d));
+            }
+            return shade;
+        }
         static Color ScoriaFrom(float u,float v,(float u,float v,float r)[] calderas,out float heat)
         {
             float wu=u+.04f*(ZoneKit.Cloud(u,v,4,51)-.5f),wv=v+.04f*(ZoneKit.Cloud(u,v,4,52)-.5f);
-            float region=ZoneKit.Cloud(wu,wv,4,53),low=ZoneKit.Smooth(.57f,.61f,ZoneKit.Cloud(wu,wv,3,54));
-            float rock=.19f+.1f*(region-.5f)+.06f*(ZoneKit.Cloud(u,v,20,55)-.5f)+.05f*(ZoneKit.Tile(u*384,v*384,384,56)-.5f);rock=Mathf.Lerp(rock,.07f,low*.85f);
+            // Hard coasts between the old crust and the obsidian lowlands, craters on the old crust, and thin dark rilles across it: a world with edges at the flight camera's
+            // scale, where soft blotches read as a blurred ball with red squiggles on it (whole-game capture s45/066, s45/095).
+            float region=ZoneKit.Cloud(wu,wv,4,53),low=ZoneKit.Smooth(.588f,.6f,ZoneKit.Cloud(wu,wv,3,54));
+            float rock=.21f+.11f*(region-.5f)+.05f*(ZoneKit.Cloud(u,v,20,55)-.5f)+.07f*(ZoneKit.Tile(u*512,v*512,512,56)-.5f);
+            rock+=(PicketCrater(u,v,22,61)+PicketCrater(u,v,58,63)*.8f)*(1-low);
+            float rille=1-Mathf.Abs(2*ZoneKit.Cloud(u,v,13,64)-1);rock-=.06f*ZoneKit.Smooth(.975f,.99f,rille)*(1-low);
+            rock=Mathf.Lerp(rock,.07f,low*.85f);
             float ridge=1-Mathf.Abs(2*ZoneKit.Cloud(wu,wv,5,57)-1),branch=1-Mathf.Abs(2*ZoneKit.Cloud(wu,wv,11,58)-1);
-            float river=ZoneKit.Smooth(.972f,.988f,ridge)*ZoneKit.Smooth(.38f,.5f,ZoneKit.Cloud(u,v,3,59));
-            float twig=ZoneKit.Smooth(.982f,.993f,branch)*ZoneKit.Smooth(.44f,.56f,ZoneKit.Cloud(u,v,4,60))*.7f;
+            // Thin: at its old width a river swelled into a red blob wherever the noise's crest went flat.
+            float river=ZoneKit.Smooth(.985f,.992f,ridge)*ZoneKit.Smooth(.38f,.5f,ZoneKit.Cloud(u,v,3,59));
+            float twig=ZoneKit.Smooth(.988f,.994f,branch)*ZoneKit.Smooth(.44f,.56f,ZoneKit.Cloud(u,v,4,60))*.6f;
+            // A dark margin of new rock either side of every river, so its line is crisp against the crust.
+            rock*=1-.55f*Mathf.Max(ZoneKit.Smooth(.94f,.972f,ridge)*ZoneKit.Smooth(.38f,.5f,ZoneKit.Cloud(u,v,3,59)),ZoneKit.Smooth(.962f,.982f,branch)*.6f);
             // Calderas: dark pits. Rings of melt round them read, beside a ship, as marked circles, and so did an ember at the bottom of each.
             float pit=0,ember=0;
             foreach(var (cu,cv,r) in calderas)
@@ -245,7 +302,7 @@ namespace Lattice.EditorTools
                 glow.transform.position=at+Vector3.up*.6f;glow.transform.rotation=Quaternion.Euler(ZoneKit.FlightPitch,0,0);glow.transform.localScale=Vector3.one*2.2f;
                 var view=glow.GetComponent<Renderer>();view.sharedMaterial=HaloGlow;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
             }
-            Stone(kit,"Way floats",floats,RockDeep,false,root.transform);Stone(kit,"Way lamps",heads,lamp,false,root.transform);
+            Stone(kit,"Way floats",floats,LaneRockDeep,false,root.transform);Stone(kit,"Way lamps",heads,lamp,false,root.transform);
         }
         /// <summary>Ash and dust far under the lane, lying the way it runs and faded in at both ends, so the dark between the teeth is never bare: ash grey, steel, and a dull ember, faint. Haze
         /// behind the rule, never a marking's colour on the plane.</summary>

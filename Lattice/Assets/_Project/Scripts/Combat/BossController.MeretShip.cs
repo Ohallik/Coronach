@@ -151,26 +151,23 @@ namespace Lattice.Combat
                 part.Damaged+=(_,packet,amount)=>ShipProjectorStruck(projector,packet,amount);
                 part.Died+=(_,packet)=>ShipProjectorDown(projector,packet,false);
             }
-            // Her shield's two relays, masts on the hull's back in front of each wing, lit while the dome stands.
+            // Her shield's two relays, masts on the hull's back in front of each wing, lit while the dome stands. The room stands their masts (MeretRelay.MastName, at the heads'
+            // own places, which are these); the relay's head, its ring and its beam are the fight's (MeretRelay.Draw), its head drawn as big as its target.
             shipRelays.Clear();
             if(!ShipRelaysOff)
             {
                 var frame=Quaternion.LookRotation(shipFacing);
                 for(int i=0;i<ShipTune.Relays.Length;i++)
                 {
-                    var at=shipHome+frame*ShipTune.Relays[i];at.y=transform.position.y;bool west=at.x<shipHome.x;
+                    var at=shipHome+frame*ShipTune.Relays[i];at.y=transform.position.y;bool west=at.x<shipHome.x;int index=west?0:1;
+                    var standing=GameObject.Find(MeretRelay.MastName(index));
                     var go=new GameObject(west?"West shield relay":"East shield relay");go.transform.position=at;
                     var part=go.AddComponent<Health>();part.id=go.name;part.maximum=part.integrity=health.maximum*ShipTune.RelayShare;
                     part.weakness=health.weakness;part.resistance=health.resistance;part.breakThreshold=1e9f;part.Damageable=false;
                     var shape=go.AddComponent<SphereCollider>();shape.isTrigger=true;shape.radius=ShipTune.RelayTarget;shape.enabled=false;
                     go.AddComponent<Hurtbox>().owner=part;
-                    var relay=go.AddComponent<MeretRelay>();relay.boss=this;relay.index=west?0:1;relay.health=part;relay.shape=shape;
-                    var head=GameObject.CreatePrimitive(PrimitiveType.Sphere);head.name="Relay head";Destroy(head.GetComponent<Collider>());head.transform.SetParent(go.transform,false);
-                    var headR=head.GetComponent<Renderer>();headR.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;headR.receiveShadows=false;relay.head=headR;
-                    var mast=GameObject.CreatePrimitive(PrimitiveType.Cylinder);mast.name="Relay mast";Destroy(mast.GetComponent<Collider>());mast.transform.SetParent(go.transform,false);
-                    mast.transform.localPosition=Vector3.down*1.6f;mast.transform.localScale=new Vector3(.45f,1.6f,.45f);mast.GetComponent<Renderer>().sharedMaterial=ActorFactory.Energy(new Color(.5f,.55f,.6f,1));
-                    var beam=go.AddComponent<LineRenderer>();beam.positionCount=2;beam.useWorldSpace=true;beam.startWidth=.3f;beam.endWidth=.6f;
-                    beam.sharedMaterial=ActorFactory.Energy(ShieldTone);beam.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;relay.beam=beam;
+                    var relay=MeretRelay.Draw(go,index,standing!=null?0:3.2f);relay.boss=this;relay.health=part;relay.shape=shape;
+                    relay.beam.sharedMaterial=ActorFactory.Energy(ShieldTone);
                     part.Died+=(_,packet)=>ShipRelayFalls(relay);
                     relay.Light(false,transform.position);shipRelays.Add(relay);
                 }
@@ -385,7 +382,9 @@ namespace Lattice.Combat
         {
             if(health==null||!health.Alive||shipProjectors.Count==0)return label;
             if(ShipShieldUp)return AnyRelayLit?"Shoot a shield relay: her shield gives back what reaches it":"Hold your fire: her shield gives it back";
-            return $"Put out a shield projector ({Mathf.Min(shipDown+1,ShipTune.Projectors.Length)}/{ShipTune.Projectors.Length})";
+            // What is down, as the gantry's couplings and most counted fights say it: counting the one being struck read "(3/3)" while the third still stood under "STRIKE A
+            // PROJECTOR" (s66/162).
+            return $"Put out a shield projector ({shipDown}/{ShipTune.Projectors.Length})";
         }
         /// <summary>A relay shot through: it goes dark and recharges, and her dome is down for her lance's time (the projectors open with it). Not an opening of her body: she fights on.</summary>
         void ShipRelayFalls(MeretRelay relay)

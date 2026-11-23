@@ -233,6 +233,10 @@ namespace Lattice.UI
             if (now - wantAt < .5) return wanted != null && wanted.Targetable ? wanted : null;
             wantAt = now; wanted = null; namedFar = null;
             var at = lead.transform.position; var current = lead.target != null && lead.target.Targetable ? lead.target : null;
+            // A step that ends when the thing it locked falls keeps to that thing: the route chose it (an organ the boss is braced on), and a boss that breaks
+            // meanwhile is not what the step is for. The Bellows broke twice while its east organ stood, the lock went to its body each time, and the organ was
+            // never struck in thirty seconds (November 22, two builds).
+            if (step != null && step.until == "targetDown" && stepTarget != null && stepTarget.Alive && stepTarget.Targetable && !EnemyBrain.OtherForm(lead, stepTarget)) { wanted = stepTarget; return wanted; }
             var boss = BossController.Focus(at);
             if (boss != null && boss.TryGetComponent<Health>(out var body) && body.Alive && body.Targetable && !EnemyBrain.OtherForm(lead, body))
             {
@@ -266,6 +270,19 @@ namespace Lattice.UI
                 if (wanted != null) { gainAt = now; Debug.Log("QUALITY_CHASE_GAVE_UP " + current.name + " for " + wanted.name); }
             }
             return wanted;
+        }
+        /// <summary>The nearest standing thing of the enemy's that is not a boss's own body, within fifteen metres: the part a route has just walked the lead up to
+        /// (ContinuousReview.BeginStep, a targetDown step whose lock press took nothing or took the boss).</summary>
+        static Health NearestPart(CombatActor lead)
+        {
+            Health best = null; float least = 15f * 15f; var at = lead.transform.position;
+            foreach (var thing in Health.All)
+            {
+                if (thing == null || thing.friendly || !thing.Alive || !thing.Targetable || EnemyBrain.OtherForm(lead, thing) || thing.GetComponent<BossController>() != null) continue;
+                float d = (thing.transform.position - at).sqrMagnitude;
+                if (d < least) { least = d; best = thing; }
+            }
+            return best;
         }
         /// <summary>What the bar names that stands further off than the lock reaches, with nothing named within it.</summary>
         Health namedFar;

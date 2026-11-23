@@ -147,7 +147,9 @@ namespace Lattice.Tests.PlayMode
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static Button[] Rows()=>Buttons().Where(b=>b.name.StartsWith("Row_")).OrderBy(b=>int.Parse(b.name.Substring(4))).ToArray();
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
+        /// <summary>The words a Gear row is found by: who has the part on, then its name (ListRow.Key). The row says the wearer in its last column.</summary>
+        static string FoundBy(Component c)=>ListRow.Key(c.gameObject);
         static Button With(string words)
         {
             var found=Buttons().FirstOrDefault(b=>Words(b).Contains(words));
@@ -558,23 +560,23 @@ namespace Lattice.Tests.PlayMode
             var menu=Menu;menu.Open(PauseMenu.GearPage);yield return null;
             var rows=Rows();
             StringAssert.StartsWith("Action:",Words(rows[0]),"fixture: the Action row leads");
-            StringAssert.StartsWith("Equipped · Scrap Edge",Words(rows[1]),"what the hero wears doesn't lead the list");StringAssert.StartsWith("Equipped · Scrap Frame",Words(rows[2]),"what the hero wears isn't grouped");
-            StringAssert.StartsWith("Refined Edge",Words(rows[3]),"the spare worth a look doesn't come next");StringAssert.StartsWith("Scrap Edge",Words(rows[4]),"the spares aren't grouped");
-            StringAssert.StartsWith("Sela · Scrap Edge",Words(rows[5]),"the partner's part comes before the spares");
+            StringAssert.StartsWith("Equipped · Scrap Edge",FoundBy(rows[1]),"what the hero wears doesn't lead the list");StringAssert.StartsWith("Equipped · Scrap Frame",FoundBy(rows[2]),"what the hero wears isn't grouped");
+            StringAssert.StartsWith("Refined Edge",FoundBy(rows[3]),"the spare worth a look doesn't come next");StringAssert.StartsWith("Scrap Edge",FoundBy(rows[4]),"the spares aren't grouped");
+            StringAssert.StartsWith("Sela · Scrap Edge",FoundBy(rows[5]),"the partner's part comes before the spares");
             // On: it moves up, and the cursor goes with it.
             EventSystem.current.SetSelectedGameObject(rows[3].gameObject);yield return null;rows[3].onClick.Invoke();yield return null;
             Assert.AreEqual(better.instanceId,taren.equipped[GearSlot.Edge],"fixture: the refined edge is on");
-            StringAssert.StartsWith("Equipped · Refined Edge",Words(Selected().transform),"the part moved up the list and the cursor stayed behind, so the next A lands on another part");
+            StringAssert.StartsWith("Equipped · Refined Edge",FoundBy(Selected().transform),"the part moved up the list and the cursor stayed behind, so the next A lands on another part");
             // Off: down it goes, and the cursor still has it.
             Selected().GetComponent<Button>().onClick.Invoke();yield return null;
-            StringAssert.StartsWith("Refined Edge",Words(Selected().transform),"the part moved down the list and the cursor stayed behind");
+            StringAssert.StartsWith("Refined Edge",FoundBy(Selected().transform),"the part moved down the list and the cursor stayed behind");
             // Across a page: the list's last spare, equipped, comes to the first page with the cursor on it.
             for(int i=0;i<7;i++)inventory.GivePart(module);
             menu.Close();yield return null;menu.Open(PauseMenu.GearPage);yield return null;
             Row("Pager").onClick.Invoke();yield return null;
-            var far=Rows().First(r=>Words(r).StartsWith("Scrap Module"));EventSystem.current.SetSelectedGameObject(far.gameObject);yield return null;far.onClick.Invoke();yield return null;
+            var far=Rows().First(r=>FoundBy(r).StartsWith("Scrap Module"));EventSystem.current.SetSelectedGameObject(far.gameObject);yield return null;far.onClick.Invoke();yield return null;
             Assert.IsTrue(taren.equipped.ContainsKey(GearSlot.Module),"fixture: the module is on");
-            StringAssert.StartsWith("Equipped · Scrap Module",Words(Selected().transform),"the part went to another page and the cursor didn't");
+            StringAssert.StartsWith("Equipped · Scrap Module",FoundBy(Selected().transform),"the part went to another page and the cursor didn't");
             menu.Close();
         }
 

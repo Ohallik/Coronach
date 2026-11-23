@@ -985,8 +985,15 @@ Shader "Lattice/Toon"
                 }
                 #endif
 
-                // A struck body goes toward the flash's colour over everything it was, lit or shaded: before the fog, so a far body flashes no brighter than the air lets it.
-                color = lerp(color, _HitFlash.rgb, saturate(_HitFlash.a));
+                // A struck body keeps its form: its light lifts a little and the blow burns along its silhouette in the flash's colour, most where it turns from the camera.
+                // It used to go toward the flash's colour over everything it was, lit or shaded, and a boss in it was one flat colour with no shading, which four reviewers
+                // read as a missing material (whole-game capture, November 20). Before the fog, so a far body flashes no brighter than the air lets it.
+                {
+                    half flash = saturate(_HitFlash.a);
+                    half turned = 1.0h - saturate(dot(viewDir, normalWS));
+                    half burn = 0.14h + 0.86h * smoothstep(0.4h, 0.9h, turned);
+                    color += _HitFlash.rgb * (flash * burn);
+                }
                 color = MixFog(color, input.fogFactor);
                 return half4(color, alphaOut);
             }

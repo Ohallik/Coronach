@@ -32,7 +32,7 @@ MonoBehaviour:
   shaped: {fileID: 6613448602070658444, guid: 17016d78c8532c54bb3693f7eacc2327, type: 3}
   flight: {fileID: 115615832862808568, guid: 28be51a2962bf0c44bcfcfc61c8e0a00, type: 3}
   portraitNatural: {fileID: 11400000, guid: a71b6235ee31f1f4d8347daaf45fed2d, type: 2}
-  portraitShaped: {fileID: 11400000, guid: fad32213b990c7e4f86ce49a9051bbb7, type: 2}
+  portraitShaped: {fileID: 11400000, guid: a71b6235ee31f1f4d8347daaf45fed2d, type: 2}
   skills:
   - {fileID: 11400000, guid: 33c7e24eaef0bc64c99fac984ec35044, type: 2}
   - {fileID: 11400000, guid: 436f7e7b55a805740bcdd8faafa327b1, type: 2}

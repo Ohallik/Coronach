@@ -274,6 +274,48 @@ namespace Lattice.EditorTools
             // Mire water: dark and still, tea-brown under the green, glints kept small (chapter 3: a big ripple read as slabs of white).
             // Ripples small and soft: at a slower ripple the dark water broke into blotches a few metres across, like camouflage.
             Water=ZoneKit.Toon("wend-water",null,m=>ZoneKit.WaterLook(m,new Color(.3f,.42f,.34f,.86f),new Color(.11f,.17f,.15f,.97f),new Color(.74f,.82f,.7f,1),1.1f,3.4f,.07f,.3f));
+            // A notice: reed paper with lines of brush-hand across it, a word or two heavier, a ring stamped at its foot, foxed at the edges. Painted on the market post's sheets,
+            // which were three flat pale squares (s25 092, November 20). One repeat is one sheet at the post's scale.
+            var paper=ZoneKit.Texture("Wendmire/wend-notice",256,(u,v)=>
+            {
+                float fibre=ZoneKit.Cloud(u,v,22,13),fox=ZoneKit.Cloud(u,v,5,7),edge=Mathf.Min(Mathf.Min(u,1-u),Mathf.Min(v,1-v));
+                float tone=.86f+.06f*(fibre-.5f)-.14f*ZoneKit.Smooth(.55f,.8f,fox)-.18f*ZoneKit.Smooth(.07f,0,edge);
+                float line=v*11;int row=Mathf.FloorToInt(line);float within=line-row;
+                if(row>=1&&row<=8&&within>.38f&&within<.62f)
+                {
+                    // Words: runs of ink with gaps, each row its own length, the first a heavier heading.
+                    float word=Mathf.Repeat(u*(row==8?4:7)+ZoneKit.Tile(row*3.1f,.5f,11,5)*3,1);float stop=.12f+.8f*ZoneKit.Tile(row*1.7f,.2f,11,9);
+                    if(word<.78f&&u>.12f&&u<stop+.1f)tone=row==8?.2f:.32f+.1f*ZoneKit.Tile(u*60,row,60,3);
+                }
+                var c=new Vector2(u-.7f,v-.12f);float ring=Mathf.Abs(c.magnitude-.07f);
+                var ink=new Color(tone*1.02f,tone*.97f,tone*.86f,1);
+                return ring<.014f?Color.Lerp(ink,new Color(.62f,.22f,.18f,1),.8f):ink;
+            });
+            Notice=ZoneKit.Toon("wend-notice",paper,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.54f,.52f,.66f));m.SetFloat("_LightFloor",.3f);});
+            // A lily pad, laid round the corner of the texture (a disc's uv is centred on it): veins fanning out, a pale heart, a darker rim, a little mottle.
+            LilyLeaf=ZoneKit.Texture("Wendmire/wend-lily",256,(u,v)=>
+            {
+                float x=u>.5f?u-1:u,y=v>.5f?v-1:v,r=Mathf.Sqrt(x*x+y*y)/.46f,angle=Mathf.Atan2(y,x);
+                float vein=Mathf.Abs(Mathf.Sin(angle*11+r*.8f)),fine=Mathf.Abs(Mathf.Sin(angle*33+r*2.2f));
+                float tone=.66f+.1f*(ZoneKit.Cloud(u,v,7,19)-.5f)+(vein<.07f&&r>.08f?.12f:0)+(fine<.04f&&r>.2f?.05f:0)+.14f*ZoneKit.Smooth(.2f,0,r)-.16f*ZoneKit.Smooth(.82f,1,r);
+                return new Color(tone*.98f,tone,tone*.9f,1);
+            });
+            Lily=ZoneKit.Toon("wend-lily",LilyLeaf,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.44f,.5f,.58f));m.SetFloat("_LightFloor",.32f);});
+            // A doorway's hanging: strips of dyed mat on a pole, the town's own weave, with the house's warm dark showing between them.
+            Hearth=ZoneKit.Toon("wend-hearth-dark",null,m=>{m.SetColor("_BaseColor",new Color(.3f,.17f,.1f));m.SetColor("_EmissionColor",new Color(.34f,.13f,.04f));m.SetFloat("_ReceiveShadows",0);});
+            // Every material a fading piece is made of carries the fade's variant from its paint, so no later paint of it can take it away (D359: these drew their pieces solid while the rest faded).
+            foreach(var fadeMat in new[]{Plank,Cloth,Lantern,ReedBundle,ReedThatch,MatDye,Hearth}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
+        }
+        internal static Material Notice,Hearth,Lily;
+        internal static Texture2D LilyLeaf;
+        /// <summary>A lily pad, round, on the water: veins out from its middle (its texture is laid round the disc's own centre), a notch cut to the middle at its own turn, and a slightly
+        /// darker rim. Nine-sided and flat, the mire's pads read as faceted octagons (s24 151, November 20). Leaf in <paramref name="leafSlot"/>, the notch (the water's dark) in
+        /// <paramref name="notchSlot"/>.</summary>
+        internal static void LilyPad(ZoneKit.Shape shape,int leafSlot,int notchSlot,Vector3 centre,float radius,float spin,Color tone)
+        {
+            shape.Slot(leafSlot).Disc(centre,Vector3.up,radius,20,tone,0,ZoneKit.Shape.Dim(tone,.82f),.46f/radius);
+            var a=new Vector3(Mathf.Cos(spin),0,Mathf.Sin(spin));var b=new Vector3(Mathf.Cos(spin+.34f),0,Mathf.Sin(spin+.34f));
+            shape.Slot(notchSlot).Triangle(centre+Vector3.up*.006f+(a+b)*radius*.03f,centre+Vector3.up*.006f+a*radius*1.01f,centre+Vector3.up*.006f+b*radius*1.01f,Vector3.up,new Color(.12f,.15f,.11f),.5f);
         }
 
         static void Driftreed()
@@ -282,7 +324,8 @@ namespace Lattice.EditorTools
             var scene=WorldBuilder.Begin(kit.zone);
             var land=kit.Terrain("Reed rafts",-66,82,-14,120,.5f,ReedMat,ReedBundle,ReedTone,new Color(.62f,.6f,.5f),new Color(1,.98f,.92f));
             var water=kit.Water("Mire water",-66,82,-14,120,1,ReedWater,Water,5);
-            var patch=water.AddComponent<BiomePatch>();patch.resourceKey="Driftreed-mire";patch.palette="River";patch.water=true;
+            // The licensed water takes this sheet over where it is installed (LocalBiomeBake, palette Mire); the public look under it is the one above.
+            var patch=water.AddComponent<BiomePatch>();patch.resourceKey="Driftreed-mire";patch.palette="Mire";patch.water=true;
             WorldBuilder.Spawn("Arrival",kit.On(ReedArrival.x,ReedArrival.y));WorldBuilder.Spawn("Mire",kit.On(MireSpawn.x,MireSpawn.y));WorldBuilder.Spawn("Pump",kit.On(PumpSpawn.x,PumpSpawn.y));
 
             OnTheRaft("someone with a name",ReedPeople);OnTheRaft("a floor sign",ReedSigns.Select(s=>s.at).ToArray());OnTheRaft("a townsperson",ReedFolk.Select(f=>new Vector2(f.x,f.z)).ToArray());
@@ -559,9 +602,11 @@ namespace Lattice.EditorTools
             // The market post: a pole with a crossbar of notices, the Compact's pinned on with a fish hook.
             var postFoot=kit.On(NoticeAt.x,NoticeAt.y+.9f);
             var postShape=new ZoneKit.Shape().Slot(0).Post(postFoot,3.2f,.14f,.11f,7,dark,wood).Beam(postFoot+new Vector3(-.9f,2.5f,0),postFoot+new Vector3(.9f,2.5f,0),.1f,.08f,dark)
-                .Slot(1).Box(postFoot+new Vector3(0,1.55f,-.16f),new Vector3(.62f,.82f,.03f),Quaternion.Euler(0,0,3),new Color(.95f,.94f,.88f)).Box(postFoot+new Vector3(-.55f,1.95f,-.14f),new Vector3(.4f,.5f,.03f),Quaternion.Euler(0,0,-6),new Color(.86f,.74f,.52f))
-                .Box(postFoot+new Vector3(.56f,2,-.14f),new Vector3(.36f,.46f,.03f),Quaternion.Euler(0,0,8),new Color(.9f,.8f,.6f));
-            var post=kit.Built("Market post",postShape,Plank,Cloth);ZoneKit.Block(post,postFoot+Vector3.up*1.2f,new Vector3(.4f,2.4f,.4f),0,"Market post");
+                .Slot(1).Box(postFoot+new Vector3(0,1.55f,-.16f),new Vector3(.62f,.82f,.03f),Quaternion.Euler(0,0,3),new Color(.95f,.94f,.88f),null,1.25f).Box(postFoot+new Vector3(-.55f,1.95f,-.14f),new Vector3(.4f,.5f,.03f),Quaternion.Euler(0,0,-6),new Color(.86f,.74f,.52f),null,2f)
+                .Box(postFoot+new Vector3(.56f,2,-.14f),new Vector3(.36f,.46f,.03f),Quaternion.Euler(0,0,8),new Color(.9f,.8f,.6f),null,2.2f)
+                // A thorn of a hook through each, and a strip of the old notices under them, torn.
+                .Slot(0).Post(postFoot+new Vector3(0,1.95f,-.2f),.06f,.02f,.015f,4,new Color(.3f,.26f,.22f),new Color(.5f,.44f,.36f)).Slot(1).Box(postFoot+new Vector3(.1f,1.02f,-.12f),new Vector3(.3f,.16f,.02f),Quaternion.Euler(0,0,-14),new Color(.78f,.72f,.58f),null,2.4f);
+            var post=kit.Built("Market post",postShape,Plank,Notice);ZoneKit.Block(post,postFoot+Vector3.up*1.2f,new Vector3(.4f,2.4f,.4f),0,"Market post");
             kit.Sign("STILT MARKET",ReedSigns[1].at.x,ReedSigns[1].at.y);
             // Baskets and crates of what's sold, at the stalls' feet and along the rim.
             var goods=new ZoneKit.Shape();
@@ -610,14 +655,16 @@ namespace Lattice.EditorTools
         static bool OpeningNear(Vector2 p,float reach){foreach(var (from,to) in OpeningList)if(ZoneKit.Segment(p,from,to)<reach)return true;return false;}
         /// <summary>A stall under a reed awning: a counter of boards on posts, four poles and an awning of woven reed pitched to the back, its edge dyed. Each its own small mesh, so the ground kit
         /// keeps its details off it and not off a bare rectangle the size of the market.</summary>
-        static void ReedStall(ZoneKit kit,string name,GameObject blocks,Vector3 at,float yaw,Color awning,Color edge)
+        static void ReedStall(ZoneKit kit,string name,GameObject blocks,Vector3 at,float yaw,Color awning,Color edge,bool covered=true)
         {
             var shape=new ZoneKit.Shape();var foot=kit.On(at);var turn=Quaternion.Euler(0,yaw,0);Color wood=new(.86f,.72f,.5f),dark=new(.58f,.46f,.32f);
             shape.Slot(0).Box(foot+turn*new Vector3(0,.5f,0),new Vector3(3.2f,.9f,1),turn,dark,wood).Box(foot+turn*new Vector3(0,.99f,0),new Vector3(3.5f,.08f,1.25f),turn,wood);
-            foreach(var (x,z,tall) in new[]{(-1.7f,-.75f,2.2f),(1.7f,-.75f,2.2f),(-1.7f,1.1f,2.9f),(1.7f,1.1f,2.9f)})shape.Slot(0).Post(foot+turn*new Vector3(x,0,z),tall,.08f,.07f,6,dark,wood);
+            if(covered)foreach(var (x,z,tall) in new[]{(-1.7f,-.75f,2.2f),(1.7f,-.75f,2.2f),(-1.7f,1.1f,2.9f),(1.7f,1.1f,2.9f)})shape.Slot(0).Post(foot+turn*new Vector3(x,0,z),tall,.08f,.07f,6,dark,wood);
             // The awning: a woven sheet from the high back poles forward and down over the counter, its front edge a dyed band.
             Vector3 A=foot+turn*new Vector3(-1.95f,2.95f,1.2f),B=foot+turn*new Vector3(1.95f,2.95f,1.2f),C=foot+turn*new Vector3(1.95f,2.15f,-1.05f),D=foot+turn*new Vector3(-1.95f,2.15f,-1.05f);
-            shape.Slot(1).Quad(A,B,C,D,turn*new Vector3(0,1,-.5f),awning,.8f).Quad(D,C,C+Vector3.down*.32f,D+Vector3.down*.32f,turn*Vector3.back,edge,.8f);
+            if(covered)shape.Slot(1).Quad(A,B,C,D,turn*new Vector3(0,1,-.5f),awning,.8f).Quad(D,C,C+Vector3.down*.32f,D+Vector3.down*.32f,turn*Vector3.back,edge,.8f);
+            // Bare, its front is hung with the trade's own: a dyed cloth over the counter's face.
+            else shape.Slot(1).Quad(foot+turn*new Vector3(-1.6f,.9f,-.52f),foot+turn*new Vector3(1.6f,.9f,-.52f),foot+turn*new Vector3(1.6f,.34f,-.53f),foot+turn*new Vector3(-1.6f,.34f,-.53f),turn*Vector3.back,awning,.8f);
             for(int k=0;k<4;k++)shape.Slot(2).Lump(foot+turn*new Vector3(-1.2f+k*.8f,1.14f,.05f*(k%2)),new Vector3(.2f,.13f,.2f),k+(int)at.x,.2f,k%2==0?new Color(.6f,.86f,.42f):new Color(.96f,.7f,.36f),new Color(.4f,.3f,.2f),7,4);
             kit.Built(name,shape,Plank,MatDye,Cloth).transform.SetParent(blocks.transform,true);
             ZoneKit.Block(blocks,foot+turn*new Vector3(0,.55f,0),new Vector3(3.4f,1.1f,1.2f),yaw,"Stall counter");
@@ -632,20 +679,32 @@ namespace Lattice.EditorTools
             shape.Slot(1).Quad(foot+new Vector3(-3.6f,2.6f,-3.1f),foot+new Vector3(3.6f,2.6f,-3.1f),foot+new Vector3(3.6f,4.9f,0),foot+new Vector3(-3.6f,4.9f,0),new Vector3(0,1,-1),new Color(.86f,.8f,.56f),.6f)
                 .Quad(foot+new Vector3(3.6f,2.6f,3.1f),foot+new Vector3(-3.6f,2.6f,3.1f),foot+new Vector3(-3.6f,4.9f,0),foot+new Vector3(3.6f,4.9f,0),new Vector3(0,1,1),new Color(.8f,.74f,.52f),.6f);
             shape.Slot(0).Triangle(foot+new Vector3(-3,2.8f,-2.5f),foot+new Vector3(-3,2.8f,2.5f),foot+new Vector3(-3,4.7f,0),Vector3.left,wall,.7f).Triangle(foot+new Vector3(3,2.8f,-2.5f),foot+new Vector3(3,2.8f,2.5f),foot+new Vector3(3,4.7f,0),Vector3.right,wall,.7f);
-            shape.Slot(2).Box(foot+new Vector3(-3.02f,1.1f,0),new Vector3(.08f,2.2f,1.4f),Quaternion.identity,new Color(.1f,.08f,.07f));
+            // The doorway on the west: a frame of poles under a lintel, a hanging of dyed mat strips, and the smokehouse's warm dark between them. A box of flat black here read as
+            // a purple rectangle stuck on a textured wall (s25 066, November 20).
+            var door=foot+new Vector3(-3,0,0);Color[] hung={new(.5f,.66f,.86f),new(.86f,.56f,.36f),new(.9f,.8f,.5f)};
+            shape.Slot(5).Quad(door+new Vector3(-.015f,0,-.72f),door+new Vector3(-.015f,0,.72f),door+new Vector3(-.015f,2.25f,.72f),door+new Vector3(-.015f,2.25f,-.72f),Vector3.left,Color.white,.5f);
+            foreach(float z in new[]{-.8f,.8f})shape.Slot(3).Post(door+new Vector3(-.07f,0,z),2.42f,.075f,.065f,6,dark,wood);
+            shape.Slot(3).Beam(door+new Vector3(-.08f,2.34f,-1),door+new Vector3(-.08f,2.34f,1),.1f,.09f,dark);
+            for(int k=0;k<6;k++)
+            {
+                float z0=-.7f+k*.235f,z1=z0+.2f,bottom=k%3==1?.34f:.14f;var lift=new Vector3(-.015f*(k%2),0,0);
+                shape.Slot(2).Quad(door+new Vector3(-.05f,bottom,z0)+lift,door+new Vector3(-.05f,bottom,z1)+lift,door+new Vector3(-.05f,2.26f,z1),door+new Vector3(-.05f,2.26f,z0),Vector3.left,hung[k%3],.9f);
+            }
             // The smoke hole's cowl at the ridge.
             shape.Slot(3).Tube(new[]{foot+new Vector3(.8f,4.6f,0),foot+new Vector3(.8f,5.5f,0)},new[]{.42f,.3f},8,dark,new Color(.4f,.32f,.26f),1,.5f,false);
             // The eel rack under the south eave: a pole on two forks, eels hanging blue.
             shape.Slot(3).Post(foot+new Vector3(-2.6f,0,-3.4f),2.2f,.07f,.06f,6,dark,wood).Post(foot+new Vector3(2.6f,0,-3.4f),2.2f,.07f,.06f,6,dark,wood).Beam(foot+new Vector3(-2.7f,2.15f,-3.4f),foot+new Vector3(2.7f,2.15f,-3.4f),.08f,.08f,dark);
             for(int k=0;k<11;k++){float x=-2.3f+k*.46f;shape.Slot(4).Tube(new[]{foot+new Vector3(x,2.1f,-3.4f),foot+new Vector3(x+.04f,1.5f,-3.42f),foot+new Vector3(x,.95f,-3.4f)},new[]{.07f,.09f,.04f},6,new Color(.34f,.56f,.8f),new Color(.2f,.36f,.56f),1,1);}
-            var house=kit.Built("Smokehouse",shape.Slot(4),ReedBundle,ReedThatch,Cloth,Plank,Cloth);ZoneKit.Fadeable(house);
+            var house=kit.Built("Smokehouse",shape.Slot(5),ReedBundle,ReedThatch,MatDye,Plank,Cloth,Hearth);ZoneKit.Fadeable(house);
             ZoneKit.Block(house,foot+Vector3.up*1.4f,new Vector3(6,2.8f,5),0,"Smokehouse wall");ZoneKit.Block(house,foot+new Vector3(0,1.1f,-3.4f),new Vector3(5.6f,2.2f,.4f),0,"Eel rack");
             // Smoke: from the cowl, all day, drifting east.
             var smoke=kit.Drift("Smokehouse smoke",foot+new Vector3(.8f,6.6f,0),new Vector3(.6f,.4f,.6f),kit.Glow("Smoke",false,new Color(.62f,.62f,.66f,1)),new Color(.7f,.7f,.74f,.35f),60,.8f,1.8f,.7f,6);
             var main=smoke.main;main.startSpeed=.9f;var shapeModule=smoke.shape;shapeModule.shapeType=ParticleSystemShapeType.Cone;shapeModule.angle=12;smoke.transform.rotation=Quaternion.Euler(-80,90,0);
             var view=smoke.GetComponent<ParticleSystemRenderer>();var smokeMat=new Material(Resources.Load<Material>("Effects/flare_01"));smokeMat.SetColor("_BaseColor",new Color(.7f,.7f,.74f,.5f));
             UnityEditor.AssetDatabase.CreateAsset(smokeMat,"Assets/_Project/Scenes/"+kit.zone+"-Smoke-soft.mat");view.sharedMaterial=smokeMat;
-            ReedStall(kit,"Dov's counter",house,new Vector3(17.6f,0,41.2f),-90,new Color(.6f,.52f,.42f),new Color(.34f,.56f,.8f));
+            // No awning on his counter: it stands on the camera's side of where Dov is talked to, and its sheet hid whoever talked to him to the hips, like a raised gangplank
+            // (s25 066, November 20). The smokehouse's own eave is his shade.
+            ReedStall(kit,"Dov's counter",house,new Vector3(17.6f,0,41.2f),-90,new Color(.6f,.52f,.42f),new Color(.34f,.56f,.8f),false);
             kit.Lamp(new Vector3(SmokehouseAt.x-3.2f,2.3f,SmokehouseAt.y-2.4f),7,1.1f,new Color(1,.7f,.42f));
             kit.Sign("SMOKEHOUSE",ReedSigns[2].at.x,ReedSigns[2].at.y);
         }
@@ -750,8 +809,9 @@ namespace Lattice.EditorTools
             var poles=kit.Built("Poles locked in the store",locked,Plank,Plank);var outPoles=kit.Built("Poles out by the door",open,Plank);
             var shut=new GameObject("The reed store is locked",typeof(FlagGate)).GetComponent<FlagGate>();shut.flag="wend.decided";shut.showWhenSet=false;shut.targets=new[]{poles};
             var opened=new GameObject("The reed store is open",typeof(FlagGate)).GetComponent<FlagGate>();opened.flag="wend.decided";opened.targets=new[]{outPoles};outPoles.SetActive(false);
-            // Pim's bench at the hall's front: a low frame with a half-woven mat on it and a comb.
-            var benchFoot=kit.On(PimAt.x+1,PimAt.y+1.2f);var bench=new ZoneKit.Shape().Slot(0).Box(benchFoot+Vector3.up*.35f,new Vector3(1.8f,.7f,.8f),Quaternion.Euler(0,-20,0),new Color(.58f,.46f,.32f),new Color(.86f,.72f,.5f))
+            // Pim's bench at the hall's front: a low frame with a half-woven mat on it and a comb. A stride behind Pim, not at Pim's back: 1.6 m off, its corner stood in Pim's
+            // body from the camera (s27 038, November 20).
+            var benchFoot=kit.On(PimAt.x+2,PimAt.y+1.9f);var bench=new ZoneKit.Shape().Slot(0).Box(benchFoot+Vector3.up*.35f,new Vector3(1.8f,.7f,.8f),Quaternion.Euler(0,-20,0),new Color(.58f,.46f,.32f),new Color(.86f,.72f,.5f))
                 .Slot(1).Box(benchFoot+Vector3.up*.73f,new Vector3(1.2f,.03f,.6f),Quaternion.Euler(0,-20,0),new Color(.5f,.66f,.86f)).Slot(0).Box(benchFoot+new Vector3(.6f,.76f,.1f),new Vector3(.24f,.03f,.08f),Quaternion.Euler(0,30,0),new Color(.9f,.82f,.6f));
             var benchBody=kit.Built("Pim's bench",bench,Plank,MatDye);ZoneKit.Block(benchBody,benchFoot+Vector3.up*.35f,new Vector3(1.8f,.7f,.8f),-20,"Bench");
             kit.Lamp(new Vector3(HallAt.x+4,3,HallAt.y-6),9,1.3f,new Color(1,.8f,.5f));
@@ -863,8 +923,8 @@ namespace Lattice.EditorTools
                 {
                     for(int r=0;r<1+rng.Next(3);r++)
                     {
-                        var c=at+new Vector3(Mathf.Cos(turn+r*2)*size*.9f,.03f+.004f*r,Mathf.Sin(turn+r*2)*size*.9f);float green=.46f+.26f*(float)rng.NextDouble();
-                        pads.Slot(0).Disc(c,Vector3.up,size*(.5f+.2f*r),9,new Color(.34f,green,.34f),0,new Color(.26f,green*.8f,.26f));
+                        var c=at+new Vector3(Mathf.Cos(turn+r*2)*size*.9f,.03f+.004f*r,Mathf.Sin(turn+r*2)*size*.9f);float green=(float)rng.NextDouble();
+                        LilyPad(pads,0,2,c,size*(.5f+.2f*r),turn*3+r,Color.Lerp(new Color(.4f,.56f,.3f),new Color(.56f,.66f,.34f),green));
                         // Wendmire's lilies glow faintly at dusk: one in four.
                         if(rng.Next(4)==0)pads.Slot(1).Lump(c+Vector3.up*.08f,new Vector3(.14f,.1f,.14f),k,.2f,new Color(.7f,1,.86f),new Color(.4f,.7f,.6f),7,4);
                     }
@@ -884,7 +944,7 @@ namespace Lattice.EditorTools
                 gear.Slot(2).Tube(new[]{at+Vector3.up*.2f,at+Vector3.up*1.2f},new[]{.42f,.12f},9,new Color(.8f,.7f,.48f),new Color(.9f,.8f,.56f),2,.8f,false);
             }
             kit.Built("Reed beds",reeds,ReedThatch).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-            kit.Built("Lily rafts",pads,Cloth,Lantern).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+            kit.Built("Lily rafts",pads.Slot(2),Lily,Lantern,Cloth).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
             kit.Built("Moored canoes and traps",gear,Weave,Plank,Weave);
         }
         /// <summary>What a town that drifts on the tide has under it and between its rafts, beyond the lilies and reeds: lines strung raft to raft over the water, hung with lanterns,
@@ -952,6 +1012,9 @@ namespace Lattice.EditorTools
                     if(FromWalks(p)<5||Opening(p)>0||ZoneKit.Segment(p,LineMoored,LineAdrift)<9||Vector2.Distance(p,LineAt)<8||ReedHeight(p)>ReedWater-.4f)continue;
                     bool crowded=false;foreach(var q in placed)if(Vector2.Distance(p,q)<6){crowded=true;break;}if(crowded)continue;
                     placed.Add(p);here++;moored++;
+                    // None lies where the school shelter's roof stands over it on the screen: one moored off the school raft's east rim showed through the roof's corner (s24 178,
+                    // November 22). Counted as placed, so every later skiff and weed drift lies where it did.
+                    if(Vector2.Distance(p,new Vector2(46.2f,58.6f))<7.5f)continue;
                     var out2=Outward(p);var along=new Vector3(-out2.y,0,out2.x);var at=new Vector3(p.x,ReedWater+.04f,p.y);var turn=Quaternion.LookRotation(along);
                     Color wood=moored%3==0?new Color(.62f,.5f,.36f):moored%3==1?new Color(.8f,.68f,.48f):new Color(.56f,.6f,.5f);
                     // The hull, and its well a shade darker inside it: from above, an open boat and not a stone.
@@ -974,14 +1037,15 @@ namespace Lattice.EditorTools
                 float out2=RaftLand(p);if(out2<1.6f||out2>11||FromWalks(p)<3.4f||ReedHeight(p)>ReedWater-.4f||ZoneKit.Segment(p,LineMoored,LineAdrift)<7)continue;
                 bool clash=false;foreach(var q in placed)if(Vector2.Distance(p,q)<2.6f){clash=true;break;}if(clash)continue;
                 drifts++;var run=Turn(tide,swing*57.3f);var across=new Vector2(-run.y,run.x);
-                Color c=tone==0?new Color(.28f,.34f,.18f):tone==1?new Color(.34f,.27f,.18f):new Color(.2f,.28f,.2f);
+                // Olive, straw-gold and dark green, each a little leaf with its veins (the lily's): flat seven-sided discs in a plain colour read as pink and grey octagons (s24 151).
+                Color c=tone==0?new Color(.42f,.5f,.26f):tone==1?new Color(.56f,.52f,.28f):new Color(.3f,.42f,.26f);
                 // A drift is a loose mat of small floating rosettes, thickest a little behind its head and thinning along the run: as strips, the tide's way toward the camera, it
                 // read as sticks stood in the water.
                 int blobs=9+rng.Next(7);
                 for(int s=0;s<blobs;s++)
                 {
                     float t=(float)rng.NextDouble(),side=((float)rng.NextDouble()-.5f)*wide*(1.2f-.6f*t),r=(.16f+.3f*(float)rng.NextDouble())*(1.1f-.6f*t);var at=p+run*t*length+across*side;
-                    weed.Slot(0).Disc(new Vector3(at.x,ReedWater+.015f+s*.0015f,at.y),Vector3.up,r,7,ZoneKit.Shape.Dim(c,.85f+.3f*(float)rng.NextDouble()),0,ZoneKit.Shape.Dim(c,.7f));
+                    weed.Slot(0).Disc(new Vector3(at.x,ReedWater+.015f+s*.0015f,at.y),Vector3.up,r,14,ZoneKit.Shape.Dim(c,.85f+.3f*(float)rng.NextDouble()),0,ZoneKit.Shape.Dim(c,.75f),.46f/r);
                 }
                 if(rng.Next(5)==0)weed.Slot(0).Lump(new Vector3(p.x,ReedWater+.05f,p.y)+new Vector3(run.x,0,run.y)*length*.4f,new Vector3(.07f,.05f,.07f),k,.2f,new Color(.96f,.94f,.86f),new Color(.8f,.78f,.7f),6,4);
             }
@@ -991,7 +1055,7 @@ namespace Lattice.EditorTools
             foreach(var child in hanging)child.SetParent(lineView.transform,true);
             var hungView=kit.Built("Hung on the lines",hung,Cloth,Weave);hungView.transform.SetParent(root.transform,true);hungView.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.TwoSided;
             var skiffView=kit.Built("Skiffs moored along the rims",skiffs,Plank,Weave,ReedBundle);skiffView.transform.SetParent(root.transform,true);
-            var weedView=kit.Built("Weed on the tide",weed,Cloth);weedView.transform.SetParent(root.transform,true);weedView.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+            var weedView=kit.Built("Weed on the tide",weed,Lily);weedView.transform.SetParent(root.transform,true);weedView.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
             Debug.Log($"DRIFTREED_TIDE_LIFE lines=5 skiffs={moored} lanterns={lanterns} weed={drifts}");
         }
         /// <summary>Driftreed's lamps: the generated pulse beacon on posts round the rafts, every one keeping the town's count; one in three with a real light, the rest a painted pool.</summary>

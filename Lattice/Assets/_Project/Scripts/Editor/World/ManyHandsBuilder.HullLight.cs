@@ -165,6 +165,14 @@ namespace Lattice.EditorTools
                         // The short block by the galley: one tier, its roof a radio room's (a mast, a dish, lamps at its corners).
                         var top=new Vector3(r.center.x,y1,r.center.y);s.Slot(1).Box(top+new Vector3(-1,1,1),new Vector3(3.6f,2,3),Quaternion.identity,roofTone,null,.5f);
                         for(int i=0;i<2;i++){var wc=top+new Vector3(-2+i*1.8f,1.2f,-.53f);Pane(s,2,wc,Vector3.right,1.2f,.8f,Vector3.back,Lit(rng,.3f));}
+                        // Its frame, so it reads as the liner's radio room and not a pale box with two windows (s29/046, 052): teal corner posts and cornice in the liner's
+                        // paint, a dark plinth, its door with a lamp on the east end, louvres under the windows.
+                        var room=top+new Vector3(-1,1,1);
+                        foreach(float sx in new[]{-1f,1f})foreach(float sz in new[]{-1f,1f})s.Slot(1).Box(room+new Vector3(sx*1.78f,0,sz*1.48f),new Vector3(.16f,2,.16f),Quaternion.identity,teal);
+                        s.Slot(1).Box(room+Vector3.up*1.02f,new Vector3(3.8f,.16f,3.2f),Quaternion.identity,teal).Box(room+Vector3.down*.86f,new Vector3(3.66f,.28f,3.06f),Quaternion.identity,m.trim);
+                        for(int k=0;k<4;k++)s.Slot(1).Box(room+new Vector3(-1.1f+k*.5f,-.38f,-1.52f),new Vector3(.36f,.05f,.04f),Quaternion.identity,m.trim);
+                        Pane(s,1,room+new Vector3(1.81f,-.1f,.2f),Vector3.forward,.8f,1.7f,Vector3.right,new Color(.24f,.3f,.32f));
+                        s.Slot(2).Lump(room+new Vector3(1.95f,.9f,.2f),new Vector3(.1f,.1f,.12f),b+3,.05f,new Color(1,.86f,.6f),new Color(1,.8f,.5f),6,3);
                         s.Slot(1).Post(top+new Vector3(2.5f,0,2),4.4f,.08f,.05f,5,m.trim,m.trim).Disc(top+new Vector3(3,2.2f,1.4f),new Vector3(.3f,.5f,-.8f),.9f,14,new Color(.86f,.86f,.82f));
                         s.Slot(2).Lump(top+new Vector3(2.5f,4.5f,2),Vector3.one*.13f,b,.05f,new Color(.5f,.95f,1f),new Color(.5f,.95f,1f),6,3);
                         foreach(var (dx,dz) in new[]{(r.xMin+.5f,r.yMin+.5f),(r.xMax-.5f,r.yMin+.5f)}){s.Slot(2).Lump(new Vector3(dx,y1+.35f,dz),Vector3.one*.16f,(int)dx,.05f,new Color(1,.9f,.7f),new Color(1,.9f,.7f),6,3);PoolAt(new Vector3(dx,y1,dz+.4f),1.6f,PoolWarm);}

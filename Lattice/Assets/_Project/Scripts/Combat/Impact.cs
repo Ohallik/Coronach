@@ -44,9 +44,12 @@ namespace Lattice.Combat
             // ---- the body struck
             public static readonly int[] SparkCount={0,5,8,11,15,22};
             public static readonly float[] SparkSize={0,.14f,.2f,.24f,.3f,.38f},SparkSpeed={0,5,6,7,8.5f,10};
-            /// <summary>How white a body goes, and for how long after the stop lets go. A tick's is faint: under a stream of needles a body would strobe.</summary>
+            /// <summary>How strongly a struck body lights (HitFlash), and for how long from the blow, through any stop it brings; a boss by this share of it. A tick's is faint: under a
+            /// stream of needles a body would strobe.</summary>
             public static readonly float[] Flash={0,.25f,.55f,.65f,.75f,.9f};
-            public const float FlashSeconds=.09f;
+            public const float FlashSeconds=.09f,BossFlash=.6f;
+            /// <summary>A killing blow's flash goes out with the body, over this long; and no frame, however long, moves a dying body's paint or flash by more than this (a hitch is not a pop).</summary>
+            public const float DyingFlashSeconds=.5f,MostStepAFrame=.06f;
             /// <summary>An unrigged body is pressed flat by this share and set back this far, for this long; a boss by this much of both.</summary>
             public static readonly float[] Squash={0,0,.05f,.07f,.1f,.14f},Recoil={0,0,.08f,.12f,.18f,.25f};
             public const float PoseSeconds=.14f,BossPose=.4f,BreakSquash=.18f;
@@ -58,7 +61,7 @@ namespace Lattice.Combat
             public const float FlinchSeconds=.24f,JoltSeconds=.32f;
             // ---- the screen's edge (ImpactHud): how red a hit goes by its class and how long it takes to clear, when the low-integrity pulse starts and how strong it is
             public static readonly float[] Vignette={.25f,.4f,.55f};
-            public const float VignetteSeconds=.45f,DownedVignette=.7f,LowIntegrity=.3f,LowPulse=.2f,LowPulseEvery=1.1f,FlashMoveTint=.22f;
+            public const float VignetteSeconds=.3f,DownedVignette=.7f,LowIntegrity=.3f,LowPulse=.2f,LowPulseEvery=1.1f,FlashMoveTint=.1f;
             // ---- the accents, under the skills' cue ceiling of .26 except a boss going down. The Flash Move's swell is the densest clip of the set (twice the others' RMS), so it sits lowest.
             public const float ThumpVolume=.2f,FinisherThumpVolume=.24f,FinisherThumpPitch=.86f,CritVolume=.18f,BreakVolume=.24f,KillVolume=.2f,LastKillPitch=.85f,BossDownVolume=.3f,
                 GuardBlockVolume=.2f,GuardBreakPitch=.82f,HullHitVolume=.22f,HurtThumpPitch=.8f,FlashMoveVolume=.16f,SwapStrikeVolume=.2f,LevelUpVolume=.22f;

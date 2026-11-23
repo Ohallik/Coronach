@@ -15,7 +15,7 @@ MonoBehaviour:
   yieldsOnDefeat: 1
   collarPlate: {fileID: 0}
   id: HessaKorl
-  prefab: {fileID: 4328696755841274204, guid: 82333fb5fcfca3246bd6a3c6e801ce02, type: 3}
+  prefab: {fileID: 5244678499961603480, guid: 18a9211a1d34b224598b3d6aae4cf91e, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:
@@ -42,7 +42,7 @@ MonoBehaviour:
   capsuleRadius: 0
   capsuleHeight: 0
   motion: 0
-  drawnScale: 1
+  drawnScale: 1.55
   heavyDeath: 0
   behaviour: 0
   tune:
@@ -68,3 +68,7 @@ MonoBehaviour:
     bark: 
     pair: 0
     heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

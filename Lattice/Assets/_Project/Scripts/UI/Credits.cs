@@ -192,16 +192,18 @@ namespace Lattice.UI
                 foreach(var (name,detail) in section.people)
                 {
                     y=Place(UiKit.Text(roll,"CreditsName",name,NameSize,UiKit.LooseTextColor,TextAlignmentOptions.Top),0,y,ColumnWidth)+4;
-                    if(!string.IsNullOrEmpty(detail))y=Place(UiKit.Text(roll,"CreditsDetail",detail,DetailSize,UiKit.FrostColor,TextAlignmentOptions.Top),0,y,DetailWidth);
+                    if(!string.IsNullOrEmpty(detail)){var line=UiKit.Legible(UiKit.Text(roll,"CreditsDetail",detail,DetailSize,UiKit.FrostColor,TextAlignmentOptions.Top));line.text=AtItsDots(line,detail,DetailWidth);y=Place(line,0,y,DetailWidth);}
                     y+=30;
                 }
-                // The music's titles, two to a row, each in its own half of the column.
-                for(int i=0;i<section.titles.Length;i+=2)
+                // The music's titles in two columns, each in its own half and each read down in order (set row by row, each column skipped every other title).
+                int down=(section.titles.Length+1)/2;
+                for(int i=0;i<down;i++)
                 {
                     float row=0;
-                    for(int j=i;j<i+2&&j<section.titles.Length;j++)
+                    foreach(int j in new[]{i,i+down})
                     {
-                        float end=Place(UiKit.Text(roll,"CreditsTrack",section.titles[j],TitleSize,UiKit.LooseTextColor,TextAlignmentOptions.Top),(j-i==0?-1:1)*290,y,560);
+                        if(j>=section.titles.Length)continue;
+                        float end=Place(UiKit.Text(roll,"CreditsTrack",section.titles[j],TitleSize,UiKit.LooseTextColor,TextAlignmentOptions.Top),(j<down?-1:1)*290,y,560);
                         row=Mathf.Max(row,end-y);
                     }
                     y+=row+8;
@@ -235,6 +237,20 @@ namespace Lattice.UI
             Headings[heading]=(start+y)*.5f;
             if(!string.IsNullOrEmpty(role))y=Place(UiKit.Text(roll,"CreditsRole",role,RoleSize,UiKit.FrostColor,TextAlignmentOptions.Top),0,y,ColumnWidth);
             return y+30;
+        }
+        /// <summary>A detail too wide for its line breaks at one of its dots, the last that leaves the first line fitting, not wherever the width runs out (it broke "Zope Public License"
+        /// from its "2.1" and left "skies and planets" alone on a line).</summary>
+        static string AtItsDots(TMP_Text text,string said,float width)
+        {
+            // Measured on one unbroken line (a width of nothing is read as wrapping at every word).
+            const float Unbroken=100000;
+            if(text.GetPreferredValues(said,Unbroken,0).x<=width)return said;
+            for(int at=said.LastIndexOf(" · ");at>0;at=at>0?said.LastIndexOf(" · ",at-1):-1)
+            {
+                string first=said.Substring(0,at);
+                if(text.GetPreferredValues(first,Unbroken,0).x<=width)return first+"\n"+said.Substring(at+3);
+            }
+            return said;
         }
         /// <summary>Stands a piece of type in the roll at <paramref name="y"/> down from its top, as tall as its words are at that width, and says where the next may start.</summary>
         float Place(TMP_Text text,float x,float y,float width)

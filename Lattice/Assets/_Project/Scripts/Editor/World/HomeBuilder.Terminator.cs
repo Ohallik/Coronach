@@ -30,12 +30,81 @@ namespace Lattice.EditorTools
         /// The light behind the line is the Lattice/Dawn shader's, brighter than anything else in the frame; the bloom's threshold sits under it.</summary>
         [ZoneLook.Source] static void TerminatorLooks()
         {
+            // The night side slate-blue, not lavender: with as much red as green in the fill and the split, and the saturation pushed, the plain read flat purple in the player
+            // (the November 20 capture, s56).
             ZoneLook.Register(TerminatorZone,new ZoneLook.Spec{sun=C(1f,.8f,.62f),sunIntensity=.75f,sunPitch=Terminator.SunPitch,shadowStrength=.9f,
-                sky=C(.3f,.36f,.58f),equator=C(.34f,.34f,.46f),ground=C(.12f,.12f,.17f),
-                fog=true,fogColor=C(.36f,.38f,.54f),fogStart=55,fogEnd=230,
-                contrast=13,saturation=8,splitShadows=C(.36f,.42f,.66f),splitHighlights=C(.68f,.55f,.42f),
+                sky=C(.26f,.35f,.54f),equator=C(.3f,.35f,.43f),ground=C(.12f,.13f,.16f),
+                fog=true,fogColor=C(.32f,.38f,.5f),fogStart=55,fogEnd=230,
+                contrast=13,saturation=0,splitShadows=C(.33f,.43f,.6f),splitHighlights=C(.68f,.55f,.42f),
                 bloomThreshold=1.05f,bloomIntensity=.7f,vignette=.24f});
         }
+
+        /// <summary>The dawn line nearer to how it is played. LookDev's stills never run a particle, and the white band along s56's line in the November 20 capture was in no editor still.
+        /// This opens the zone with the live pipeline, stands the line where each named view has it, runs its sparks and steam six seconds there (their count is logged) and draws the
+        /// view at the play zoom with Taren in it; with <c>-dawn-before</c> each view again with the light and steam as they were before November 21. Unverified: on November 21 the
+        /// simulated particles did not show in these draws, and the lit ground stayed far under the player's white, so the player still differs in something these draws lack. Run:
+        /// exec-when-green.ps1 -Method Lattice.EditorTools.HomeBuilder.TerminatorDawnStills -Marker TERMINATOR_DAWN_STILLS_OK -Graphics -ExtraArgs @('-look-run','name').</summary>
+        public static void TerminatorDawnStills()=>BatchTools.Run(()=>
+        {
+            string run=DevArgs.Value("-look-run")??throw new ArgumentException("-look-run <name> is required");
+            string folder=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,"../../Builds/quality/look",run));
+            if(System.IO.Directory.Exists(folder))throw new InvalidOperationException("Preserve earlier look run: "+folder);
+            System.IO.Directory.CreateDirectory(folder);
+            var before=GraphicsSettings.defaultRenderPipeline;var beforeQuality=QualitySettings.renderPipeline;
+            var pipeline=Resources.Load<RenderPipelineAsset>("LocalBiomes/LocalPipeline")??throw new InvalidOperationException("TERMINATOR_DAWN_STILLS the live pipeline is missing");
+            try
+            {
+                GraphicsSettings.defaultRenderPipeline=pipeline;QualitySettings.renderPipeline=pipeline;
+                UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+TerminatorZone+".unity");
+                foreach(var text in UnityEngine.Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+                var def=Find<ZoneDef>(TerminatorZone);if(def!=null)RenderSettings.skybox=def.skybox;
+                var dawn=UnityEngine.Object.FindFirstObjectByType<DawnLine>()??throw new InvalidOperationException("TERMINATOR_DAWN_STILLS no dawn line in the scene");
+                var profile=AssetDatabase.LoadAssetAtPath<CameraProfile>("Assets/_Project/Resources/Definitions/CameraProfile/Ground.asset");
+                var camera=new GameObject("Dawn camera",typeof(Camera),typeof(UnityEngine.Rendering.Universal.UniversalAdditionalCameraData)).GetComponent<Camera>();
+                camera.clearFlags=RenderSettings.skybox!=null?CameraClearFlags.Skybox:CameraClearFlags.SolidColor;camera.nearClipPlane=.3f;camera.farClipPlane=1500;camera.fieldOfView=profile.fov;
+                var data=camera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();data.renderPostProcessing=true;data.antialiasing=UnityEngine.Rendering.Universal.AntialiasingMode.None;
+                var rotation=Quaternion.Euler(profile.pitch,profile.yaw,0);int count=0;
+                var taren=(GameObject)PrefabUtility.InstantiatePrefab(ZoneKit.Prefab("Characters","TarenNatural"));
+                var rig=taren.GetComponentInChildren<Animator>();var idle=rig!=null&&rig.runtimeAnimatorController!=null?rig.runtimeAnimatorController.animationClips.FirstOrDefault(c=>c!=null&&c.name.ToLowerInvariant().Contains("idle")):null;
+                var effects=dawn.GetComponentsInChildren<ParticleSystem>(true);
+                // With -dawn-before each view is drawn a second time as the zone stood before November 21 (the light added at .9 with a 2.4 edge, the steam additive, 80 a second of
+                // 1.4 to 3.2 m puffs), the scene's own objects changed in memory only and the light's material put back after: the band as the capture had it, beside the band now.
+                var light=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/terminator-dawn-light.mat");
+                var kept=(l:light.GetColor("_Light"),e:light.GetColor("_Edge"),w:light.GetFloat("_EdgeWidth"),s:light.GetFloat("_Shimmer"));
+                var steam=effects.FirstOrDefault(p=>p.name=="The dawn's steam");
+                void Old()
+                {
+                    light.SetColor("_Light",new Color(.9f,.76f,.54f));light.SetColor("_Edge",new Color(2.4f,2.1f,1.6f));light.SetFloat("_EdgeWidth",.55f);light.SetFloat("_Shimmer",.6f);
+                    if(steam==null)return;var m=steam.main;m.startLifetime=new ParticleSystem.MinMaxCurve(3,5.5f);m.startSize=new ParticleSystem.MinMaxCurve(1.4f,3.2f);m.startColor=new Color(1,.93f,.82f,.2f);m.maxParticles=480;
+                    var e=steam.emission;e.rateOverTime=80;var r=steam.GetComponent<ParticleSystemRenderer>();var add=new Material(r.sharedMaterial);add.SetFloat("_DstBlend",(float)BlendMode.One);add.SetFloat("_DstBlendAlpha",(float)BlendMode.One);add.SetColor("_BaseColor",new Color(1.05f,1,.92f,1));r.sharedMaterial=add;
+                }
+                var passes=DevArgs.Has("-dawn-before")?new[]{false,true}:new[]{false};
+                try
+                {
+                    foreach(bool old in passes)
+                    {
+                        if(old)Old();
+                        foreach(var name in new[]{"s56-009","s56-040","arrival","coupling-1","spines-2"})
+                        {
+                            var still=Terminator.Stills.First(s=>s.name==name);var at=new Vector3(still.at.x,Terminator.Height(still.at),still.at.y);
+                            taren.transform.SetPositionAndRotation(at,Quaternion.Euler(0,180,0));if(idle!=null)idle.SampleAnimation(rig.gameObject,.3f);
+                            camera.transform.SetPositionAndRotation(at+Vector3.up-rotation*Vector3.forward*profile.distance*Mathf.Max(1,still.zoom),rotation);
+                            var rt=new RenderTexture(1920,1080,24,RenderTextureFormat.ARGB32){antiAliasing=4};camera.targetTexture=rt;
+                            // The first draw stands the line, its veil and its emitters where this view has them; the sparks and steam then run there as they would in play.
+                            camera.Render();foreach(var ps in effects)ps.Simulate(6,false,true,true);camera.Render();camera.Render();
+                            var prior=RenderTexture.active;RenderTexture.active=rt;var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();
+                            System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder,TerminatorZone+"-"+name+(old?"-as-played-before":"-as-played")+".png"),image.EncodeToPNG());
+                            RenderTexture.active=prior;camera.targetTexture=null;UnityEngine.Object.DestroyImmediate(image);UnityEngine.Object.DestroyImmediate(rt);count++;
+                            Debug.Log($"TERMINATOR_DAWN_STILL {name}{(old?" before":"")} particles={effects.Sum(p=>p.particleCount)}");
+                        }
+                    }
+                }
+                finally{light.SetColor("_Light",kept.l);light.SetColor("_Edge",kept.e);light.SetFloat("_EdgeWidth",kept.w);light.SetFloat("_Shimmer",kept.s);}
+                UnityEngine.Object.DestroyImmediate(camera.gameObject);UnityEngine.Object.DestroyImmediate(taren);
+                Debug.Log($"TERMINATOR_DAWN_STILLS_OK count={count} folder={folder}");
+            }
+            finally{GraphicsSettings.defaultRenderPipeline=before;QualitySettings.renderPipeline=beforeQuality;}
+        });
 
         internal static class Terminator
         {
@@ -114,7 +183,7 @@ namespace Lattice.EditorTools
             static Color Tone(Vector2 p)
             {
                 float mottle=.88f+.24f*Mathf.PerlinNoise(p.x*.11f+2,p.y*.11f+8),broad=Mathf.PerlinNoise(p.x*.025f+5,p.y*.02f+1);
-                var c=Color.Lerp(new Color(.56f,.56f,.62f),new Color(.66f,.61f,.6f),broad);
+                var c=Color.Lerp(new Color(.55f,.56f,.6f),new Color(.64f,.6f,.56f),broad);
                 c=Color.Lerp(c,new Color(.72f,.68f,.64f),(1-Smooth(1.3f,3.4f,FromWay(p)))*.42f);
                 c=Color.Lerp(c,new Color(.42f,.4f,.42f),Lane(p)*.45f);
                 c=Color.Lerp(c,new Color(.66f,.7f,.8f),Frost(p)*.35f);
@@ -136,11 +205,13 @@ namespace Lattice.EditorTools
                 ("spines-1",new(2,532),9,1),("frost",new(4,472),5,1),("coupling-2",Seat(1),9,1),("gulls",new(1,332),9,1),("spines-2",new(5,264),9,1),("coupling-3",Seat(2),9,1),
                 ("gallery",Board,9,1),("ride-end",Tail,80,1),("crawler",CrawlerHand,80,1),
                 ("overview-start",new(0,700),11,3.6f),("overview-middle",new(0,420),11,3.6f),("overview-end",new(-2,160),11,3f),
+                // Where the November 20 capture's stills stood (s56 009 and 040), the line about as far behind as it was.
+                ("s56-009",new(2.7f,687),6,1),("s56-040",new(3.1f,351),6,1),
             };
             internal static LookDev.View[] Views=>Stills.Select(s=>new LookDev.View(s.name,new Vector3(s.at.x,Height(s.at),s.at.y),false,s.zoom)).ToArray();
 
             // ---------------------------------------------------------------- materials
-            static Material Floor,Hills,SpineRock,EngineLamp,Light,Rime,RutRime,Veil;
+            static Material Floor,Hills,SpineRock,EngineLamp,Light,Rime,RutRime,Veil;static Texture2D StrataMap;
             static Material DawnMaterial(string name,int kind,BlendMode src,BlendMode dst)
             {
                 string path="Assets/_Project/Resources/WorldMaterials/"+name+".mat";var shader=Shader.Find("Lattice/Dawn");
@@ -168,7 +239,7 @@ namespace Lattice.EditorTools
                     if(ZoneKit.Tile(u*420,v*420,420,4)>.82f)tone-=.14f;if(ZoneKit.Tile(u*180,v*180,180,21)>.9f)tone+=.12f;
                     return new Color(tone,tone*.97f,tone*1.02f,1);
                 });
-                Floor=ZoneKit.Toon("terminator-floor",plain,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.42f,.44f,.62f));m.SetTextureScale("_BaseMap",new Vector2(.45f,.45f));});
+                Floor=ZoneKit.Toon("terminator-floor",plain,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.4f,.46f,.6f));m.SetTextureScale("_BaseMap",new Vector2(.45f,.45f));});
                 // Strata of the band's edge: dark basalt in level beds, a pale ash bed now and then, frost in the cracks.
                 var strata=ZoneKit.Texture("Terminator/terminator-strata",512,(u,v)=>
                 {
@@ -177,14 +248,18 @@ namespace Lattice.EditorTools
                     if(across<.06f)tone-=.18f;if(k%4==1)tone+=.12f;if(ZoneKit.Tile(u*256,v*256,256,5)>.93f)tone+=.18f;
                     return new Color(tone,tone*.97f,tone*1.02f,1);
                 });
-                Hills=ZoneKit.Toon("terminator-hills",strata,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.4f,.42f,.6f));});
-                SpineRock=ZoneKit.Toon("terminator-spine",strata,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.4f,.42f,.6f));m.SetTextureScale("_BaseMap",new Vector2(1,2));});
+                Hills=ZoneKit.Toon("terminator-hills",strata,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.38f,.44f,.58f));});
+                SpineRock=ZoneKit.Toon("terminator-spine",strata,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.38f,.44f,.58f));m.SetTextureScale("_BaseMap",new Vector2(1,2));});
+                StrataMap=strata;
                 // The engine car's lamps are dark until the third coupling wakes it (TreadRide lights them by property block).
                 EngineLamp=ZoneKit.Toon("terminator-engine-lamp",null,m=>{m.SetColor("_BaseColor",new Color(.3f,.28f,.24f));m.SetColor("_EmissionColor",new Color(.05f,.04f,.02f));});
                 // The light added over the ground, not multiplied into it: multiplied, a dusk floor a few hundredths bright stayed dusk, and the first stills of the run showed
                 // no sunrise at all behind the line (look pass 04). Pale gold-white, under a marking's orange.
+                // Added at .9 over ground the near sun already lights at 1.15, the light behind the line was white past the top of the range in the player and bloomed into one band
+                // with the edge (the November 20 capture, s56 009 to 040): at this it is lit ground, gold, its plates and rocks still read, and only the edge's band is over the
+                // bloom's threshold.
                 Light=DawnMaterial("terminator-dawn-light",0,BlendMode.One,BlendMode.One);
-                Light.SetColor("_Light",new Color(.9f,.76f,.54f));Light.SetColor("_Edge",new Color(2.4f,2.1f,1.6f));Light.SetFloat("_EdgeWidth",.55f);Light.SetFloat("_Shimmer",.6f);
+                Light.SetColor("_Light",new Color(.58f,.46f,.28f));Light.SetColor("_Edge",new Color(1.16f,.86f,.48f));Light.SetFloat("_EdgeWidth",.4f);Light.SetFloat("_Shimmer",.5f);
                 Rime=DawnMaterial("terminator-dawn-frost",1,BlendMode.SrcAlpha,BlendMode.OneMinusSrcAlpha);
                 // Rime is a dusting in the hollows: at the shader's own strength it lay over the lesson stretch as a sheet of fog.
                 Rime.SetColor("_Frost",new Color(.6f,.7f,.88f,.3f));
@@ -387,6 +462,9 @@ namespace Lattice.EditorTools
                 var c3=seatGo.AddComponent<TreadCoupling>();c3.index=i+1;c3.flag=flag;c3.requiredFlag=i==0?"":Cars[i-1].flag;c3.spawn=spawn;c3.seatRadius=1.8f;c3.prompt="Re-mate the coupling";c3.range=1.8f;
                 c3.drawbar=eye.transform;c3.parted=new Vector3(.9f,0,-1.1f);c3.slew=-14;c3.pin=pin.transform;c3.wheel=wheel.transform;c3.chocks=chocks.ToArray();c3.slack=slack;c3.taut=taut;
                 c3.lamp=new[]{lampBody.GetComponent<Renderer>()};c3.lampLight=glow;
+                // Amber waiting, pale once mated, each a little over the bloom's threshold: TreadCoupling's own 1.5 to 1.7 white over the lamp's pale glass was a white blob with no body
+                // on the engine car's gantry (the November 20 capture, s56 060).
+                c3.waiting=new Color(.95f,.6f,.2f);c3.mated=new Color(.82f,.86f,.8f);
                 casters.Add(new DawnLine.Caster{min=new Vector2(socket.x-1.5f,socket.y-1.7f),max=new Vector2(socket.x+2.3f,socket.y+1.7f),height=1.4f});
                 return c3;
             }
@@ -433,7 +511,7 @@ namespace Lattice.EditorTools
                     var fittings=engine.transform.Find("The engine car fittings");
                     lamps.Add(Make(kit,"Engine car lamp "+(k+1),l,new Vector3(Gallery.xMin+1+k*2.9f,GalleryTop+1.25f,Gallery.yMin+.1f),Quaternion.identity,fittings!=null?fittings:engine.transform,EngineLamp).GetComponent<Renderer>());
                 }
-                ride.lamps=lamps.ToArray();
+                ride.lamps=lamps.ToArray();ride.lampsOn=new Color(1.0f,.64f,.26f);
                 var stack=new GameObject("Engine car smoke",typeof(ParticleSystem));stack.transform.position=new Vector3(Cars[2].at.x+3.5f,ZoneKit.Drawn(engine).max.y+.2f,Cars[2].at.y+2);stack.transform.SetParent(engine.transform,true);
                 var ps=stack.GetComponent<ParticleSystem>();ps.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);var main=ps.main;main.loop=true;main.startLifetime=5;main.startSpeed=1.6f;main.startSize=new ParticleSystem.MinMaxCurve(1.2f,2.6f);
                 main.startColor=new Color(.32f,.3f,.3f,.55f);main.simulationSpace=ParticleSystemSimulationSpace.World;main.playOnAwake=false;main.maxParticles=120;var em=ps.emission;em.rateOverTime=12;
@@ -566,19 +644,25 @@ namespace Lattice.EditorTools
                 main.startLifetime=new ParticleSystem.MinMaxCurve(.6f,1.6f);main.startSpeed=new ParticleSystem.MinMaxCurve(.4f,1.4f);main.startSize=new ParticleSystem.MinMaxCurve(.05f,.16f);
                 main.startColor=new Color(1,.9f,.7f,.9f);main.gravityModifier=-.15f;main.simulationSpace=ParticleSystemSimulationSpace.World;main.maxParticles=500;main.playOnAwake=true;
                 var em=ps.emission;em.rateOverTime=90;var sh=ps.shape;sh.shapeType=ParticleSystemShapeType.Box;sh.scale=new Vector3(70,.2f,.6f);
-                var pr=edge.GetComponent<ParticleSystemRenderer>();pr.sharedMaterial=kit.Glow("Dawn sparks",false,new Color(2.2f,1.8f,1.2f,1));pr.shadowCastingMode=ShadowCastingMode.Off;pr.receiveShadows=false;
+                var pr=edge.GetComponent<ParticleSystemRenderer>();pr.sharedMaterial=kit.Glow("Dawn sparks",false,new Color(1.5f,1.0f,.5f,1));pr.shadowCastingMode=ShadowCastingMode.Off;pr.receiveShadows=false;
                 dawn.edge=ps;
                 // Steam off the ground the light has taken: wisps rising for a metre or two behind the edge, left where they rose as the line moves on, so the dawn has a body in the
                 // frame and not only an edge (the lead, November 14: the dawn more present in the frame during the run).
                 var steam=new GameObject("The dawn's steam",typeof(ParticleSystem));steam.transform.SetParent(go.transform,false);steam.transform.localPosition=new Vector3(0,.4f,1.5f);
                 var sp=steam.GetComponent<ParticleSystem>();sp.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);var sm=sp.main;sm.loop=true;sm.prewarm=true;sm.duration=6;
                 sm.startLifetime=new ParticleSystem.MinMaxCurve(3,5.5f);sm.startSpeed=new ParticleSystem.MinMaxCurve(.05f,.2f);sm.startSize=new ParticleSystem.MinMaxCurve(1.4f,3.2f);
-                sm.startColor=new Color(1,.93f,.82f,.2f);sm.simulationSpace=ParticleSystemSimulationSpace.World;sm.maxParticles=480;sm.playOnAwake=true;
-                var se=sp.emission;se.rateOverTime=80;var ss=sp.shape;ss.shapeType=ParticleSystemShapeType.Box;ss.scale=new Vector3(70,.3f,2.6f);
+                // Wisps, not a wall: three hundred additive puffs two metres wide overlapping eight deep along a 2.6 m strip summed to white in the player (an editor still never runs
+                // a particle, so only the November 20 capture showed it: the blown-out band along s56's dawn line). Fewer, smaller, and laid over the ground, not added to it.
+                sm.startLifetime=new ParticleSystem.MinMaxCurve(2.6f,4.4f);sm.startSize=new ParticleSystem.MinMaxCurve(1.1f,2.4f);
+                sm.startColor=new Color(1,.95f,.88f,.18f);sm.simulationSpace=ParticleSystemSimulationSpace.World;sm.maxParticles=160;sm.playOnAwake=true;
+                var se=sp.emission;se.rateOverTime=24;var ss=sp.shape;ss.shapeType=ParticleSystemShapeType.Box;ss.scale=new Vector3(70,.3f,2.6f);
                 var rise=sp.velocityOverLifetime;rise.enabled=true;rise.space=ParticleSystemSimulationSpace.World;rise.x=new ParticleSystem.MinMaxCurve(-.15f,.15f);rise.y=new ParticleSystem.MinMaxCurve(.5f,1.1f);rise.z=new ParticleSystem.MinMaxCurve(.1f,.3f);
                 var fade=sp.colorOverLifetime;fade.enabled=true;var ramp=new Gradient();
                 ramp.SetKeys(new[]{new GradientColorKey(Color.white,0),new GradientColorKey(Color.white,1)},new[]{new GradientAlphaKey(0,0),new GradientAlphaKey(1,.3f),new GradientAlphaKey(0,1)});fade.color=ramp;
-                var sr=steam.GetComponent<ParticleSystemRenderer>();sr.sharedMaterial=kit.Glow("Dawn steam",false,new Color(1.05f,1f,.92f,1));sr.shadowCastingMode=ShadowCastingMode.Off;sr.receiveShadows=false;
+                var steamLook=kit.Glow("Dawn steam",false,new Color(.94f,.9f,.84f,1));
+                steamLook.SetFloat("_Blend",0);steamLook.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);steamLook.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);
+                steamLook.SetFloat("_SrcBlendAlpha",(float)BlendMode.One);steamLook.SetFloat("_DstBlendAlpha",(float)BlendMode.OneMinusSrcAlpha);EditorUtility.SetDirty(steamLook);
+                var sr=steam.GetComponent<ParticleSystemRenderer>();sr.sharedMaterial=steamLook;sr.shadowCastingMode=ShadowCastingMode.Off;sr.receiveShadows=false;
                 dawn.casters=casters.ToArray();
                 dawn.stills=Stills.Select(s=>new Vector3(s.at.x,0,s.at.y)).ToArray();dawn.stillGaps=Stills.Select(s=>s.gap).ToArray();dawn.stillGap=9;
                 go.SetActive(true);
@@ -634,7 +718,8 @@ namespace Lattice.EditorTools
             /// <summary>The road a town has driven for generations (the lead, November 14: long stretches of the run were empty ground, six stills of eighteen plain floor). Cairns the
             /// crews have stacked along it, some with a marker pole and a lamp; what the halls have shed on it (links, a sled's runner, an axle, a coil of drag cable, a spent fuel can);
             /// the tread units of a hall abandoned long ago, left where they gave out; and, as the light reaches each, the cairns warm with the rest. Drawn only, low, and off the way,
-            /// the drag lane and every fight's middle: nothing is solid, nothing throws shade (the burrowers' cover is the spines' and the cars').</summary>
+            /// the drag lane and every fight's middle: nothing is solid, nothing throws shade (the burrowers' cover is the spines' and the cars'), but for two whole halls the town
+            /// left east of the way, which are solid (and throw no shade a burrower reads).</summary>
             static void Road(ZoneKit kit)
             {
                 var rng=new System.Random(313);float R()=>(float)rng.NextDouble();var holder=new GameObject("The road the halls have driven");
@@ -650,15 +735,21 @@ namespace Lattice.EditorTools
                     var s=new ZoneKit.Shape();float y=0,tall=0;int stones=4+(int)(R()*4);
                     for(int k=0;k<stones;k++){float w=.62f-k*.07f+R()*.08f,h=.16f+R()*.08f;s.Slot(0).Lump(new Vector3((R()-.5f)*.12f,y+h*.5f,(R()-.5f)*.12f),new Vector3(w,h*.5f,w*.85f),k+n*7,.2f,stoneTop,stone,8,4);y+=h*.82f;}
                     tall=y;
-                    if(n%2==0)
                     {
-                        // The marker: a pole out of the cairn's top, a band of the Crawl's cream at its head, a strip of cloth that the wind has had for years.
-                        s.Slot(1).Post(new Vector3(0,tall-.2f,0),2.1f,.05f,.04f,6,iron,iron).Box(new Vector3(0,tall+1.7f,0),new Vector3(.13f,.3f,.13f),Quaternion.identity,new Color(.9f,.86f,.72f));
-                        s.Slot(2).Quad(new Vector3(.06f,tall+1.82f,0),new Vector3(.62f,tall+1.7f,.08f),new Vector3(.62f,tall+1.48f,.08f),new Vector3(.06f,tall+1.56f,0),Vector3.back,new Color(.36f,.56f,.62f));
-                        if(n%4==0)s.Slot(3).Lump(new Vector3(0,tall+2.0f,0),new Vector3(.1f,.13f,.1f),n,.03f,Color.white,Color.white,6,4);
+                        // The marker: a pole out of every cairn's top, a band of the Crawl's cream at its head, a strip of cloth that the wind has had for years, and on every second
+                        // a lantern the crews keep lit for the halls behind. Tall enough that the low sun lays each one's shadow down the plain ahead of the party: half the cairns had
+                        // a pole and one in four a lamp, and the run's stills showed nothing that stood up from the plain or said who drives it (the November 20 capture, s56).
+                        const float Pole=3.4f;
+                        s.Slot(1).Post(new Vector3(0,tall-.2f,0),Pole,.06f,.045f,6,iron,iron).Box(new Vector3(0,tall+Pole-.5f,0),new Vector3(.15f,.34f,.15f),Quaternion.identity,new Color(.9f,.86f,.72f));
+                        s.Slot(2).Quad(new Vector3(.06f,tall+Pole-.36f,0),new Vector3(.7f,tall+Pole-.5f,.08f),new Vector3(.7f,tall+Pole-.74f,.08f),new Vector3(.06f,tall+Pole-.62f,0),Vector3.back,new Color(.36f,.56f,.62f));
+                        if(n%2==0)
+                        {
+                            var head=new Vector3(0,tall+Pole-.12f,0);s.Slot(1).Beam(head,head+new Vector3(.42f,0,0),.04f,.04f,iron).Box(head+new Vector3(.42f,.02f,0),new Vector3(.24f,.04f,.24f),Quaternion.identity,new Color(.92f,.72f,.42f));
+                            s.Slot(3).Lump(head+new Vector3(.42f,-.2f,0),new Vector3(.13f,.17f,.13f),n,.03f,Color.white,Color.white,6,4);
+                        }
                     }
                     s.Slot(3).Slot(0);var go=Make(kit,"Cairn "+n,s,kit.On(p.x,p.y,-.06f),Quaternion.Euler(0,R()*360,0),holder.transform,SpineRock,Crawl.Iron,Crawl.Cloth,Crawl.Lamp);
-                    Warms(go,Color.white);if(n%2==0)ZoneKit.Fadeable(go);cairns++;
+                    Warms(go,Color.white);ZoneKit.Fadeable(go);cairns++;
                 }
                 // ---- what the halls have shed: low iron off the way, in twos and threes
                 for(int k=0;k<320;k++)
@@ -691,6 +782,24 @@ namespace Lattice.EditorTools
                     for(int k=0;k<5;k++)s.Slot(0).Disc(turn*new Vector3(1.22f,.42f,-2.8f+k*1.4f),turn*Vector3.right,.45f,12,rust,.16f,iron);
                     for(float zz=-3.5f;zz<=3.5f;zz+=.7f)s.Slot(0).Box(turn*new Vector3(0,.82f,zz),new Vector3(2.5f,.08f,.36f),turn,new Color(.34f,.3f,.28f));
                     var hulk=Make(kit,"A hall's tread unit, abandoned",s,kit.On(at.x,at.y,-.08f),Quaternion.identity,holder.transform,Crawl.Iron);Warms(hulk,Color.white);
+                }
+                // ---- halls the town left where they gave out: whole, stripped, settled into the regolith, east of the way where the frame is widest (never between the camera, south-west
+                // of the party, and anyone on the way). From the arrival to the first car nothing on the run was bigger than a buggy, and nothing in its stills said machine (the
+                // November 20 capture, s56 009 and 020). Solid.
+                foreach(var (at,yaw,sink) in new[]{(new Vector2(19.5f,692f),8f,.7f),(new Vector2(19.5f,574f),-5f,.9f)})
+                {
+                    var corners=new[]{at,at+new Vector2(-2.6f,-7.4f),at+new Vector2(-2.6f,7.4f),at+new Vector2(2.6f,-7.4f),at+new Vector2(2.6f,7.4f)};
+                    if(!corners.All(p=>Free(p,7))){Debug.Log("TERMINATOR_DERELICT_DROPPED "+at);continue;}
+                    var c=kit.On(at.x,at.y);var tint=new Color(.64f,.6f,.58f);
+                    var hall=Crawl.CrawlTread(kit,"A hall the town left, drawn",c,CarLength,0,tint);
+                    hall.transform.RotateAround(c,Vector3.up,90+yaw);hall.transform.RotateAround(c,Quaternion.Euler(0,yaw,0)*Vector3.forward,4);
+                    var b=ZoneKit.Drawn(hall);hall.transform.position+=new Vector3(at.x-b.center.x,c.y-sink-b.min.y,at.y-b.center.z);b=ZoneKit.Drawn(hall);
+                    UnityEngine.Object.DestroyImmediate(hall.GetComponent<PropTint>());
+                    var derelict=new GameObject("A hall the town left where it gave out");derelict.transform.position=c;hall.transform.SetParent(derelict.transform,true);derelict.transform.SetParent(holder.transform,true);
+                    ZoneKit.Block(derelict,new Vector3(b.center.x,c.y+(b.max.y-c.y)*.5f,b.center.z),new Vector3(b.size.x-.6f,b.max.y-c.y,b.size.z-.4f),0,"A hall the town left");
+                    // Not counted as shade (Casts): its shadow would lie beside the first spines' fight, and the fights stay as they are tuned.
+                    Warms(hall,tint);
+                    Debug.Log($"TERMINATOR_DERELICT {at} size={b.size}");
                 }
                 // ---- where the halls are met: the Crawl's crew keep a dump of spares at the run's end, by the crawler (ride-end and the crawler's stills were bare plain).
                 var camp=new ZoneKit.Shape();int kept=0;
@@ -780,7 +889,35 @@ namespace Lattice.EditorTools
                 float Trodden(Vector2 p){float best=0;foreach(var (x,phase,fresh) in ruts){float c=RutX(x,phase,p.y);foreach(float side in new[]{-6.5f,6.5f})best=Mathf.Max(best,(1-GroundKit.Smooth(.85f,1.25f,Mathf.Abs(p.x-c-side)))*(.55f+fresh));}
                     return Mathf.Clamp01(best*GroundKit.Smooth(.3f,.48f,ground.Noise(p,6,31)));}
                 ground.Paint(0,Trodden);
-                ground.Rocks(32,p=>(1-Lane(p))*(.4f+.6f*GroundKit.Smooth(.4f,.6f,ground.Noise(p,7,15))),.1f,.48f,new Color(.5f,.5f,.58f),3,.12f,17);
+                // The freshest ruts in the Crawl's own tread prints (Crawl.Track: a grouser's print every plate across a pressed band). As pale dust alone the road the halls drive read
+                // as footpaths in the player (the November 20 capture, s56), not as anything a machine made.
+                var prints=new List<Vector3>();var printUv=new List<Vector2>();var printTris=new List<int>();int strips=0;
+                foreach(var (x,phase,fresh) in ruts)
+                {
+                    if(fresh<.36f)continue;
+                    foreach(float side in new[]{-6.5f,6.5f})
+                    {
+                        // Not up the scarp's foot.
+                        if(x+side>24)continue;
+                        float run=0;Vector2 last=default;bool first=true;strips++;
+                        for(float z=766;z>=32;z-=1.5f)
+                        {
+                            var c=new Vector2(RutX(x,phase,z)+side,z);if(!first)run+=Vector2.Distance(last,c);last=c;
+                            foreach(float across in new[]{-1.3f,1.3f}){var q=new Vector2(c.x+across,c.y);prints.Add(new Vector3(q.x,Height(q)+.05f,q.y));printUv.Add(new Vector2(run/Crawl.PlainTile,across<0?0:1));}
+                            // Wound clockwise seen from above (left, right; the next row south): a quad facing down is culled and never drawn.
+                            if(!first){int a=prints.Count-4;printTris.AddRange(new[]{a,a+3,a+2,a,a+1,a+3});}
+                            first=false;
+                        }
+                    }
+                }
+                var printMesh=new Mesh{name="Terminator tread prints",indexFormat=IndexFormat.UInt32};printMesh.SetVertices(prints);printMesh.SetUVs(0,printUv);printMesh.SetTriangles(printTris,0);
+                printMesh.RecalculateNormals();printMesh.RecalculateBounds();printMesh=ZoneKit.SaveMesh(printMesh,"Assets/_Project/Scenes/"+kit.zone+"-Tread-prints.asset");
+                var printed=new GameObject("Floor detail tread prints",typeof(MeshFilter),typeof(MeshRenderer));printed.GetComponent<MeshFilter>().sharedMesh=printMesh;
+                var printView=printed.GetComponent<MeshRenderer>();printView.sharedMaterial=Crawl.Track;printView.shadowCastingMode=ShadowCastingMode.Off;
+                Debug.Log("TERMINATOR_TREAD_PRINTS strips="+strips);
+                // Rocks in the band's own strata, not flat-shaded lumps in one dye (the November 20 capture, s56 009), and half as many.
+                ground.Look("Canyon",StrataMap);
+                ground.Rocks(16,p=>(1-Lane(p))*(.4f+.6f*GroundKit.Smooth(.4f,.6f,ground.Noise(p,7,15))),.1f,.48f,new Color(.58f,.58f,.62f),3,.12f,17);
                 ground.Cover(new[]{"Shards"},5,p=>(1-Lane(p))*GroundKit.Smooth(.55f,.7f,ground.Noise(p,10,19)),.1f,.22f,new Color(.44f,.46f,.56f),2);
                 ground.Finish();
             }

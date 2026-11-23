@@ -101,7 +101,7 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsTrue(dialogue.StartNode(node,speaker),"fixture: "+node+" starts");
                 float deadline=Time.unscaledTime+20;while(!shop.IsOpen&&Time.unscaledTime<deadline)yield return null;
                 Assert.IsTrue(shop.IsOpen,"fixture: "+node+" opens the shop");yield return null;
-                string Under(){var row=EventSystem.current.currentSelectedGameObject;Assert.IsNotNull(row,"nothing has focus: a pad player is stuck");return row.GetComponentInChildren<TMP_Text>().text;}
+                string Under(){var row=EventSystem.current.currentSelectedGameObject;Assert.IsNotNull(row,"nothing has focus: a pad player is stuck");return ListRow.Words(row.transform);}
                 StringAssert.DoesNotContain("scrip",Under(),$"{speaker}'s shop comes up under a thumb still tapping through her lines with the cursor on something for sale: one more A spends it");
                 Assert.AreNotEqual("ShopBack",EventSystem.current.currentSelectedGameObject.name,"the next tap would close the stall she has just opened");
                 // That thumb, going on past the hold, as far as it likes: nothing is spent, nothing is sold, and the stall stays up.

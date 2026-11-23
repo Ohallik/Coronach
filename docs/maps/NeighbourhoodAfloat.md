@@ -143,3 +143,12 @@ Every constant is in `LastMooringBuilder.Neighbourhood` and logged by the build 
 - The build refuses a hand-placed townsperson standing inside anything (the sky-garden's child stood in a bed: `NothingFloatsOrSinksIn`, "sunk 0.77 m"), and the crowd's spots are checked from the feet up.
 - Stills: `Builds/quality/look/afloat-07` (28 views).
 - Tests: `NeighbourhoodAfloatTests` (10) and the zone's shared cases, label `afloat5` in a test mirror (Builds/quality/focused/afloat5-playmode.xml).
+
+## Look pass (November 21, the chapter 10 zone engineer)
+
+After the whole-game capture (`Builds/quality/nov20-whole/s69`):
+
+- **Orrin's board** carries his chalk, painted (`tools/afloat_boards.py`, `Art/Generated/Afloat/afloat-chalkboard.png`: three columns under underlined headings in a hand, a rota's tallies, a line struck through, the convoy drawn as beads); his line after the handrail is a line of the same hand (`afloat-chalkline.png`, cut out). It was rows of plain white bars (s69/014, 031).
+- **The message board** carries fourteen notes pinned at a slant, each its own paper and ink (`afloat-noticeboard.png`); the three messages a player reads stay in front of it as they were.
+- **The stalls' goods** were drawn in the town's dark iron (`hands-dark`), so every counter showed grey lumps and Mira's black cubes on a pink cloth (s69/052, 064). Each stall now lays out what it sells in its own colours (`Neighbourhood.Wares`): Jun's crates of pears and greens, the greengrocer's, the cloth stall's bolts and folds, the tinker's tins and coils (and Corra's), fish on ice, bowls of spice, loaves in baskets, bottles of oil; Mira's counter has open crates of the Halo's crystals in straw, parcels in brown paper tied with string and a tray of lamp glass.
+- **Orrin** wears his own body as before; `tools/orrin_grade.py` gives it his portrait's silver fronds and his reference's charcoal trousers (Meshy had painted them slate and tan, and under this sun he read as a tan man with a dark head).

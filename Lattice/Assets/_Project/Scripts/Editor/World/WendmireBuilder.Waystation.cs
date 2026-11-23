@@ -72,6 +72,8 @@ namespace Lattice.EditorTools
                 (-24.4f,-21.6f,208,211,Low),(-24.4f,-21.6f,236,239,Low),(-17.5f,-14.5f,249.6f,252.4f,Low),(-11.5f,-8.5f,249.6f,252.4f,Low),(15,18,249.6f,252.4f,Terrace),
             };
             static readonly (Vector2 at,float radius)[] Sumps={(new(-12,214.5f),2.8f),(new(-6.5f,232),3.2f)};
+            /// <summary>Where the low floor's two Drowned Sentries stand: in the two alcoves of its north wall, at their mouths.</summary>
+            internal static readonly Vector2[] FloorSentries={new(-16,250.6f),new(-10,250.6f)};
             /// <summary>The plinths, compass bearings from C (45 north-east, then clockwise), as the contract has them; and the order the boss counts them in (0 NE, 1 NW, 2 SW, 3 SE).</summary>
             internal static readonly float[] PlinthBearings={45,135,225,315};
             internal static Vector2 Plinth(float bearing)=>C+new Vector2(Mathf.Sin(bearing*Mathf.Deg2Rad),Mathf.Cos(bearing*Mathf.Deg2Rad))*PlinthOut;
@@ -184,15 +186,29 @@ namespace Lattice.EditorTools
                 return floor;
             }
             internal static float FloorAt(Vector2 p,out float level){float clear=Nearest(p,out var room,out int alcove);level=Level(p,room,alcove);return clear;}
-            static readonly Vector2 Away=new(Mathf.Sin(SightlineAudit.Yaw*Mathf.Deg2Rad),Mathf.Cos(SightlineAudit.Yaw*Mathf.Deg2Rad));
+            static readonly Vector2 Away=new(Mathf.Sin(SightlineAudit.Yaw*Mathf.Deg2Rad),Mathf.Cos(SightlineAudit.Yaw*Mathf.Deg2Rad)),Side=new(Away.y,-Away.x);
+            /// <summary>Either side of the camera's line through a point of masonry, the ground camera's sphere (CameraRig: .4 m from a hero's chest back along the line) and a little more.</summary>
+            static readonly float[] Band={-.5f,-.25f,0,.25f,.5f};
+            /// <summary>The first floor along the camera's line from a point, and how far: marched by the distance to the nearest floor, which never steps over one, so it is found to two
+            /// centimetres. Stepped by half metres it was found up to half a metre late, and the wall stood up to four tenths over the line it was meant to keep under.</summary>
+            static bool Probe(Vector2 from,out float d,out float there)
+            {
+                d=0;there=0;
+                for(int i=0;i<96&&d<=14;i++){float c=FloorAt(from+Away*d,out there);if(c<.02f)return true;d+=Mathf.Max(c,.02f);}
+                return false;
+            }
             /// <summary>The ground. A floor is its room's level; between floors is the station's masonry (or, round the mire, its banks), which, with a floor beyond it along the camera's line,
-            /// stays under the sightline to a hero at that floor's edge (measured from the lower of the two levels, as the Walking Canopy's root does, D119) and climbs away too steep to stand on.</summary>
+            /// stays under the sightline to a hero at that floor's edge (measured from the lower of the two levels, as the Walking Canopy's root does, D119) and climbs away too steep to stand on.
+            /// In the station that holds for the camera's sphere, not only its line: every point of masonry within half a metre either side of a line to a floor is kept under it. Kept
+            /// only along a single line at half-metre steps, a hero at the back of the lower gallery's west alcove stood .41 m beside a corner of full-height wall, the camera's sphere met
+            /// it at half a metre and dived into the slope in front of the alcove, and the frame showed space through the back of the ground (s26 301 to 306, November 20).</summary>
             internal static float Height(Vector2 p)
             {
                 float clear=FloorAt(p,out float level);if(clear<=0)return level;
                 bool station=p.y>165;
                 float allowed=float.PositiveInfinity;
-                for(float d=.5f;d<=14;d+=.5f){if(FloorAt(p+Away*d,out float there)<0){allowed=Mathf.Min(level,there)+.6f+.82f*d;break;}}
+                if(station){foreach(float s in Band)if(Probe(p+Side*s,out float d,out float there))allowed=Mathf.Min(allowed,Mathf.Min(level,there)+.6f+.82f*d);}
+                else for(float d=.5f;d<=14;d+=.5f){if(FloorAt(p+Away*d,out float there)<0){allowed=Mathf.Min(level,there)+.6f+.82f*d;break;}}
                 float rough=Mathf.PerlinNoise((p.x+70)*.11f,(p.y+20)*.09f);
                 float top=Mathf.Min(allowed,level+(station?4.4f+2.2f*rough:1.6f+1.4f*rough));
                 return level+(top-level)*Mathf.SmoothStep(0,1,Mathf.Clamp01(clear/(station?.9f:2.4f)));
@@ -293,7 +309,7 @@ namespace Lattice.EditorTools
                 Bark=ZoneKit.Toon("waystation-bark",bark,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.78f,.74f,.66f));m.SetColor("_ShadowTint",new Color(.48f,.5f,.64f));m.SetFloat("_LightFloor",.28f);});
                 Leaf=ZoneKit.Toon("waystation-leaf",leaf,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);ZoneKit.Swaying(m,.06f,1.1f,1.6f);m.SetColor("_ShadowTint",new Color(.42f,.5f,.58f));m.SetFloat("_LightFloor",.3f);});
                 // What floats (pads, scum): drawn after the water and before danger markings, writing no depth, so a marking on the floor under a pad still shows over it.
-                Pad=ZoneKit.Toon("waystation-pad",leaf,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.42f,.5f,.58f));m.SetFloat("_LightFloor",.3f);
+                Pad=ZoneKit.Toon("waystation-pad",LilyLeaf??leaf,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.42f,.5f,.58f));m.SetFloat("_LightFloor",.3f);
                     m.SetFloat("_SrcBlend",(float)UnityEngine.Rendering.BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);
                     m.SetOverrideTag("RenderType","Transparent");m.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent-14;});
                 Reed=ZoneKit.Toon("waystation-reed",null,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);ZoneKit.Swaying(m,.05f,1.3f,1.2f);m.SetFloat("_LightFloor",.32f);});
@@ -418,9 +434,9 @@ namespace Lattice.EditorTools
                 {
                     float a=turn+k*2.4f,far=(.25f+.42f*Mathf.Sqrt(k))*size*2.2f,r=size*(.6f+.6f*(float)rng.NextDouble());var at=new Vector3(centre.x+Mathf.Cos(a)*far,level+.02f+.004f*k,centre.y+Mathf.Sin(a)*far);
                     float under=depth(new Vector2(at.x,at.z));if(under<shallowest||under>deepest)continue;
-                    // A pad is a disc with a wedge out of it: eight of nine segments, turned at random.
+                    // A pad is a round leaf with its notch, turned at random (Driftreed's own: eight wedges read as faceted octagons).
                     var tone=Color.Lerp(new Color(.42f,.56f,.32f),new Color(.6f,.64f,.36f),(float)rng.NextDouble());float spin=(float)rng.NextDouble()*6.28f;
-                    for(int s=0;s<8;s++){float a0=spin+s*.7f,a1=a0+.7f;shape.Slot(0).Triangle(at,at+new Vector3(Mathf.Cos(a0),0,Mathf.Sin(a0))*r,at+new Vector3(Mathf.Cos(a1),0,Mathf.Sin(a1))*r,Vector3.up,s%2==0?tone:ZoneKit.Shape.Dim(tone,.9f),.6f);}
+                    LilyPad(shape,0,0,at,r,spin,tone);
                     if(rng.Next(6)==0)shape.Slot(1).Lump(at+Vector3.up*.07f,new Vector3(.12f,.08f,.12f),k+(int)(centre.x*7),.25f,new Color(1.2f,1.1f,1.15f),new Color(1.1f,.8f,1),6,4);
                     laid++;
                 }
@@ -430,6 +446,8 @@ namespace Lattice.EditorTools
             /// the Walking Canopy's root doors are, so whatever opens every seal to read the baked floor opens it too; a FlagGate takes it away.</summary>
             /// <summary>How far Pim's talk reaches: across the grille and a good stride of the stair's head in front of it.</summary>
             internal const float PimHeardFrom=6;
+            /// <summary>Seconds from the Rotbloom's fall to Sela's first word in the hall: its body's 3.6 s and the kill's hit-stop, with room.</summary>
+            internal const float RotbloomTalkWaits=4.6f;
             static GameObject GrilleDoor(ZoneKit kit,string name,Vector3 from,Vector3 to,float tall)
             {
                 var shape=new ZoneKit.Shape();var run=to-from;float length=run.magnitude;var along=run/length;var across=Vector3.Cross(Vector3.up,along);
@@ -495,19 +513,19 @@ namespace Lattice.EditorTools
 
                 // ---- water. The mire never moves. The station's is one body the pumps take down a stage at a time (StagedWater); the vault's sump is its own, behind its sill; the
                 // great hall's is the arena's (FloodBasin), drained by the Rotbloom at its shift and for good once it is dead.
-                var mireSheet=WaterKit.Sheet(kit,"Mire water",-64,78,-18,166,1,MireWater,MireLook,InMire,float.NaN,"River");
+                var mireSheet=WaterKit.Sheet(kit,"Mire water",-64,78,-18,166,1,MireWater,MireLook,InMire,float.NaN,"Mire");
                 var mire=WaterKit.Volume(mireSheet,MireWater,(new Vector2(7,74),new Vector2(142,184),0));
                 WaterKit.Deep(kit,mire,-64,78,-18,166,p=>p.y<164.5f);
-                var stationSheet=WaterKit.Sheet(kit,"Station water",-30,26,166,266,.5f,MireWater,StationLook,p=>p.y>167&&p.y<265.6f&&!InPocket(p)&&!InVaultSide(p),float.NaN,"River");
+                var stationSheet=WaterKit.Sheet(kit,"Station water",-30,26,166,266,.5f,MireWater,StationLook,p=>p.y>167&&p.y<265.6f&&!InPocket(p)&&!InVaultSide(p),float.NaN,"Mire");
                 var station=WaterKit.Volume(stationSheet,MireWater,(new Vector2(0,181.5f),new Vector2(32,24),0),(new Vector2(12,199),new Vector2(8,16),0),(new Vector2(-2,228),new Vector2(54,48),0),(new Vector2(0,258),new Vector2(24,14),0));
                 var stageOne=WaterKit.Deep(kit,station,-30,26,166,266,p=>p.y>167&&kit.height(p)>StageOne-.55f&&!InPocket(p)&&!InVaultSide(p));
                 station.level=StageOne;var stageTwo=WaterKit.Deep(kit,station,-30,26,166,266,p=>p.y>167&&!InPocket(p)&&!InVaultSide(p));station.level=MireWater;
                 var holders=station.deep.ToArray();station.deep=Array.Empty<GameObject>();
                 var staged=station.gameObject.AddComponent<StagedWater>();staged.water=station;staged.flags=new[]{"wend.pump1","wend.pump2"};staged.levels=new[]{StageOne,StageTwo};staged.blockers=holders;staged.seconds=4;
-                var anteSheet=WaterKit.Sheet(kit,"Vault sump water",28,39,209,227,.5f,AnteWater,StationLook,p=>p.x>29.2f&&p.x<37.6f&&p.y>210&&p.y<226,float.NaN,"River");
+                var anteSheet=WaterKit.Sheet(kit,"Vault sump water",28,39,209,227,.5f,AnteWater,StationLook,p=>p.x>29.2f&&p.x<37.6f&&p.y>210&&p.y<226,float.NaN,"Mire");
                 var ante=WaterKit.Volume(anteSheet,AnteWater,(new Vector2(33.4f,218),new Vector2(8.6f,15),0));ante.drainFlag="wend.pump4";ante.drainedLevel=AnteDrained;ante.drainSeconds=3.2f;
                 WaterKit.Deep(kit,ante,28,39,209,227,p=>p.x>29.2f&&p.x<37.6f);
-                var hallSheet=WaterKit.Sheet(kit,"Great hall water",-20,20,265,309,.5f,GreatFull,HallLook,InArenaSide,float.NaN,"River");
+                var hallSheet=WaterKit.Sheet(kit,"Great hall water",-20,20,265,309,.5f,GreatFull,HallLook,InArenaSide,float.NaN,"Mire");
                 var hall=WaterKit.Volume(hallSheet,GreatFull,(new Vector2(0,288.5f),new Vector2(40,45),0));hall.drainFlag="bossdown.Rotbloom";hall.drainedLevel=GreatEmpty;hall.drainSeconds=3;
                 var basin=new GameObject("Great hall flood",typeof(FloodBasin)).GetComponent<FloodBasin>();basin.water=hall;basin.fullLevel=GreatFull;basin.emptyLevel=GreatEmpty;basin.seconds=3;basin.followsGates=false;
                 // A basin that doesn't follow gates fills itself on its first reading: a won hall loads with it taken away, so the water stays where its drain flag left it.
@@ -584,7 +602,10 @@ namespace Lattice.EditorTools
                 Pump(kit,"Pump two",PumpTwo,200,PumpTwoHand,"wend.pump2","Pump",null,"Taren",null,0,null,new Bounds(new Vector3(-7,-4,228),new Vector3(30,4,44)),"pump");
                 var terraceFight=Fight(kit,"Gallery_Terrace",new Vector2(15,229),new Vector2(14,40),"wend.pump1",("DrownedSentry",1,new Vector2(23.2f,226.5f),270),("RotPod",1,new Vector2(17.5f,237.5f),200),("RotPod",1,new Vector2(11.5f,219),160));
                 var terraceView=new GameObject("Terrace view");terraceView.transform.position=OnFloor(kit,new Vector2(12,207));terraceFight.previewPoint=terraceView.transform;terraceFight.previewRadius=6;
-                var floorFight=Fight(kit,"Gallery_Floor",new Vector2(-7,228),new Vector2(30,44),"wend.pump2",("DrownedSentry",1,new Vector2(-23.2f,209.5f),90),("DrownedSentry",1,new Vector2(-23.2f,237.5f),90),
+                // The low floor's sentries stand drowned in the alcoves of its north wall, facing the room, as the hall's do: the fight is on the floor in front of them, with the wall
+                // behind it. In the west wall's alcoves a Guardian's back was taken from inside the niche, and the camera framed that corner from the south-west: the top of the
+                // masonry beside it filled two thirds of the screen and the fight was a strip down one side (s26 301 to 311, November 22). The box takes in the north alcoves.
+                var floorFight=Fight(kit,"Gallery_Floor",new Vector2(-7,229.4f),new Vector2(30,46.8f),"wend.pump2",("DrownedSentry",1,FloorSentries[0],180),("DrownedSentry",1,FloorSentries[1],180),
                     ("MireLeeches",1,Sumps[0].at,0),("MireLeeches",1,Sumps[1].at,0));
                 var floorView=new GameObject("Low floor view");floorView.transform.position=OnFloor(kit,PumpTwoHand);floorFight.previewPoint=floorView.transform;floorFight.previewRadius=6;
 
@@ -632,7 +653,9 @@ namespace Lattice.EditorTools
                 var post=duel.spawners[0];post.transform.SetPositionAndRotation(kit.On(C.x,C.y),Quaternion.Euler(0,180,0));post.faceAsPlaced=true;post.radius=0;
                 duel.requiredFlag="wend.bloomSeen";duel.checkpointSpawn="Door";
                 var door=new GameObject("Rotbloom preview (the door)");door.transform.position=OnFloor(kit,new Vector2(0,266));duel.previewPoint=door.transform;duel.previewRadius=26;confront.previewEncounter=duel;
-                var dead=new GameObject("The hall after the Rotbloom",typeof(AfterTalk)).GetComponent<AfterTalk>();dead.flag="bossdown.Rotbloom";dead.node="SelaBloomDead";dead.speaker="Sela";dead.heardFlag="wend.rotbloomDead";dead.delay=3;
+                // The talk waits for the body to be gone. A boss's body falls for 1.5 s, lies 1.65 s and goes in .45 s (DefeatPresentation), on the game's clock, which a conversation
+                // stops: at three seconds the talk opened over it lying on its side, and the heroes stood in its petals for all four lines (s26 457 to 470, November 20).
+                var dead=new GameObject("The hall after the Rotbloom",typeof(AfterTalk)).GetComponent<AfterTalk>();dead.flag="bossdown.Rotbloom";dead.node="SelaBloomDead";dead.speaker="Sela";dead.heardFlag="wend.rotbloomDead";dead.delay=RotbloomTalkWaits;
                 var plinths=new GameObject("Plinths");
                 foreach(float bearing in PlinthBearings)PlinthStone(kit,plinths,bearing);
                 Stalks(kit);
@@ -657,7 +680,7 @@ namespace Lattice.EditorTools
                 var reach=new List<Vector2>{Arrival,Cradle+new Vector2(1.6f,0),new(-6,-.6f),MaruIsland+new Vector2(-1.6f,-1.6f),StriderPocket,new(16,42),new(20,52),LureLesson,RealLamp+new Vector2(-1.6f,-1.6f),
                     BellHand,BellCache+new Vector2(0,-1.4f),new(12,90),LeechMiddle,new(-4,100),DryCache+new Vector2(1.4f,0),new(-16,88),ThirdPocket,new(0,146),Bench+new Vector2(1.6f,0),
                     new(0,160),new(-4,164),new(2.5f,158),new(0,174),PumpOneHand,new(-4,186),new(-9,192.2f),new(12,196),new(12,207),PumpTwoHand,new(23,226.5f),new(15,240),new(4,245),
-                    new(-7,228),new(-23,209.5f),new(-23,237.5f),new(-24,221.5f),new(-26.8f,221.5f),new(-32,224),PimCache+new Vector2(1.4f,0),PumpFourHand,new(33.3f,218),new(42,218),
+                    new(-7,228),new(-23,209.5f),new(-23,237.5f),FloorSentries[0],FloorSentries[1],new(-24,221.5f),new(-26.8f,221.5f),new(-32,224),PimCache+new Vector2(1.4f,0),PumpFourHand,new(33.3f,218),new(42,218),
                     new(VaultMark.x-1.6f,VaultMark.y),VaultChest+new Vector2(0,1.4f),new(0,255),DoorSpawn,DoorCradle+new Vector2(-1.6f,0),PumpThreeHand,new(0,266),C,new(0,301),new(12,289),new(0,277),new(-12,289)};
                 foreach(float bearing in PlinthBearings)reach.Add(Plinth(bearing));
                 reach.AddRange(new Vector2[]{new(-7.8f,36.3f),new(32.6f,82.2f),new(-14.6f,90),new(-24.8f,109.8f),new(53.4f,67)});
@@ -1082,13 +1105,15 @@ namespace Lattice.EditorTools
                     foreach(int side in new[]{-1,1})niches.Slot(0).Post(foot+across*side*wide,2.6f,.12f,.12f,6,StoneDark,BarkPale);
                 }
                 kit.Built("Alcove shells",niches,Bronze);
-                // ---- a girder of the fallen roof across the hall's west end, and its fellows lying in the gallery: bronze ribs once, green now.
+                // ---- a girder of the fallen roof across the hall's west end, and its fellows lying in the gallery: bronze ribs once, green now. The third lies along the low floor's west
+                // wall: across the north wall's foot it lay between the camera and the alcoves the floor's sentries are fought at (D358).
                 var ribs=new ZoneKit.Shape();
-                foreach(var (a,b) in new[]{(new Vector3(-14.6f,HallSunk+.2f,183),new Vector3(-6,HallSunk+1.6f,191)),(new Vector3(-21,Low+.3f,226),new Vector3(-15,Low+.9f,231)),(new Vector3(-21.5f,Low+.4f,246),new Vector3(-13,Low+1.8f,248.8f))})
+                foreach(var (a,b) in new[]{(new Vector3(-14.6f,HallSunk+.2f,183),new Vector3(-6,HallSunk+1.6f,191)),(new Vector3(-21,Low+.3f,226),new Vector3(-15,Low+.9f,231)),(new Vector3(-20.8f,Low+.35f,235.5f),new Vector3(-19.6f,Low+1.5f,244))})
                 {ribs.Slot(0).Beam(a,b,.42f,.56f,StoneDark,BarkPale);ribs.Slot(0).Beam(a+Vector3.up*.5f,b+Vector3.up*.5f,.16f,.16f,BarkPale);}
                 kit.Built("Fallen girders",ribs,Bronze);
-                // ---- lamps of the old engineers': shards of their glass on brackets, still faintly lit. One lights each room; glow-fungus does the rest.
-                foreach(var (x,z,yaw) in new[]{(-14f,174f,90f),(-6.5f,193.4f,180f),(21.4f,211f,270f),(21.4f,240f,270f),(-21.4f,215f,90f),(-21.4f,230f,90f),(-16f,249.4f,180f),(-35.6f,218f,90f),(48.4f,223f,270f),(-9.5f,259.6f,0f)})
+                // ---- lamps of the old engineers': shards of their glass on brackets, still faintly lit. One lights each room; glow-fungus does the rest. The low floor's north one stands
+                // on the pier between its two alcoves, not in the mouth of one.
+                foreach(var (x,z,yaw) in new[]{(-14f,174f,90f),(-6.5f,193.4f,180f),(21.4f,211f,270f),(21.4f,240f,270f),(-21.4f,215f,90f),(-21.4f,230f,90f),(-13f,249.4f,180f),(-35.6f,218f,90f),(48.4f,223f,270f),(-9.5f,259.6f,0f)})
                     HallLamp(kit,new Vector2(x,z),yaw);
                 var fungus=new ZoneKit.Shape();
                 for(int k=0;k<90;k++)
@@ -1139,27 +1164,66 @@ namespace Lattice.EditorTools
                 float Causeway(Vector2 p)=>1-Smooth(2.2f,3.4f,ZoneKit.Segment(p,Fords[2].a,Fords[2].b));
                 foreach(var way in Ways)ground.ClearLane(way,1.5f);
                 ground.Look("River",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Wendmire/waystation-bark.png"));
-                ground.Layers(new Vector4(.05f,.34f,.4f,.3f),1.2f,new GroundKit.Layer("pavers",new Color(.86f,.66f,.54f),5.5f),new GroundKit.Layer("damp",new Color(.74f,.82f,.72f),4.6f),new GroundKit.Layer("litter",new Color(.82f,.74f,.5f),3.6f));
-                // Paving: whole in the station's rooms, broken toward their walls and in the low rooms where silt lies on it; the causeway's under the water.
+                // The old engineers' floor: flagstones laid in courses, each course its own depth, each stone its own length and tone, a dark joint between and the arrises worn round.
+                // The ground kit's pavers (irregular stones on sand, a wild path's) were broken up across the low rooms over dark damp and drifted sand in blotches a few metres
+                // across: black, olive and terracotta camouflage over whole rooms (s26 290, 301, 357 and 508, November 22). Its alpha is a stone's height, so where the layer
+                // gives out it gives out a whole stone at a time.
+                ZoneKit.Texture("Ground/ground-way-flags",512,(u,v)=>
+                {
+                    float H(int a,int b,int salt)=>ZoneKit.Tile(a,b,61,salt);
+                    // Five courses to a repeat, of their own depths.
+                    float[] depth={1.1f,.86f,1.04f,.92f,1.08f};float total=0;foreach(float d in depth)total+=d;
+                    int course=0;float from=0;while(course<4&&v*total>from+depth[course]){from+=depth[course];course++;}
+                    float up=(v*total-from)/depth[course];
+                    // Four or five stones along it, each its own length, the joints moved from course to course.
+                    int stones=4+(H(course,1,3)>.5f?1:0);float shift=H(course,2,5),along=Mathf.Repeat(u+shift,1)*stones;int k=Mathf.FloorToInt(along);
+                    float Joint(int n)=>n+.28f*(H(course,(n%stones+stones)%stones+10,7)-.5f);
+                    float j0=Joint(k),j1=Joint(k+1);if(along<j0){k--;j1=j0;j0=Joint(k);}else if(along>j1){k++;j0=j1;j1=Joint(k+1);}
+                    float across=(along-j0)/(j1-j0);int stone=course*7+((k%stones)+stones)%stones;
+                    // How near an edge, in metres of a 4.8 m repeat (a stone is about a metre by one).
+                    float edge=Mathf.Min(Mathf.Min(up,1-up)*depth[course]*4.8f/total,Mathf.Min(across,1-across)*(j1-j0)*4.8f/stones);
+                    float own=H(stone,3,11),grain=ZoneKit.Cloud(u,v,24,9),wear=ZoneKit.Cloud(u,v,6,13),pit=ZoneKit.Tile(u*120,v*120,120,17);
+                    float tone=.6f+.2f*(own-.5f)+.07f*(grain-.5f)+.06f*(wear-.5f)-(pit>.9f?.06f:0);
+                    // A crack across one stone in eight, nearly straight, from one side most of the way to the other (a wavy one on every third stone read as a squiggle drawn on a tile).
+                    if(H(stone,4,19)>.875f){float line=Mathf.Abs(up-.5f-(across-.5f)*(H(stone,5,23)-.5f)*1.2f-.02f*Mathf.Sin(across*5));if(line<.008f&&across>.08f&&across<.8f)tone-=.14f;}
+                    // The arris rounded off and darker into the joint; the joint itself dark with silt.
+                    tone-=.12f*(1-Mathf.Clamp01(edge/.06f));bool joint=edge<.018f;if(joint)tone=.2f+.05f*own;
+                    return new Color(tone*1.02f,tone,tone*.94f,joint?.12f:.78f+.12f*own);
+                },true,true);
+                ground.Layers(new Vector4(.05f,.34f,.4f,.3f),1.2f,new GroundKit.Layer("way-flags",new Color(.92f,.86f,.8f),4.8f),new GroundKit.Layer("damp",new Color(.74f,.82f,.72f),4.6f),new GroundKit.Layer("litter",new Color(.82f,.74f,.5f),3.6f));
+                // Flags: whole over every station floor (broken up over the peat they were the camouflage); the causeway's under the water.
                 // The station's forecourt paving runs out over the portico's shore, broken and grown over toward the water.
                 float Forecourt(Vector2 p)=>p.y>153&&p.y<=166.5f&&Mathf.Abs(p.x)<15?Smooth(153,159,p.y)*(1-Smooth(10,15,Mathf.Abs(p.x)))*Smooth(.34f,.5f,ground.Noise(p,3,19)):0;
-                ground.Paint(0,p=>Station(p)?(.55f+.45f*Smooth(.3f,.55f,ground.Noise(p,6,3)))*(p.y<180&&p.x<WalkEdge?.85f:1):Mathf.Max(Causeway(p)*.9f,Forecourt(p)));
-                ground.Erase(0,p=>Station(p)?Smooth(-2.8f,-4.3f,Lvl(p))*Smooth(.42f,.62f,ground.Noise(p,5,11))*.8f:0);
-                // Damp: every waterline in the mire, and in the station where the water stood longest (the lower, the more).
-                ground.Paint(1,p=>Station(p)?Smooth(-1,-4.2f,Lvl(p))*(.35f+.5f*Smooth(.4f,.6f,ground.Noise(p,4,7))):Wet(p)*.9f).PaintFoot(1,1.6f,.5f,3);
+                ground.Paint(0,p=>Station(p)?1:Mathf.Max(Causeway(p)*.9f,Forecourt(p)));
+                // Wet and drying: the flags darker where the water lay last, a few metres across, which also breaks the layer's repeat.
+                ground.Shade(p=>Station(p)?.2f*(Smooth(.38f,.62f,ground.Noise(p,6,15))-.35f)*Smooth(-.6f,-3.4f,Lvl(p)):0);
+                // Damp: every waterline in the mire; in the station, a dark wet band along the foot of each wall and round each sump, where the water stood longest. Not blotches
+                // across a room: those were the camouflage.
+                float NearSump(Vector2 p){float d=float.PositiveInfinity;foreach(var (at,r) in Sumps)d=Mathf.Min(d,Vector2.Distance(p,at)-r);return d;}
+                ground.Paint(1,p=>Station(p)?(1-Smooth(.1f,1.1f,NearSump(p)))*.9f:Wet(p)*.9f).PaintFoot(1,1.6f,.5f,3);
                 // Reed litter: the islands' own floor, in drifts.
                 ground.Paint(2,p=>Station(p)?0:Dry(p)*(.15f+.85f*Smooth(.4f,.6f,ground.Noise(p,6,21)))).PaintPatches(2,4,.24f,p=>Station(p)?0:Dry(p),5);
                 ground.Shade(p=>Station(p)?.12f*Smooth(1.6f,.3f,ground.Edge(p)):.1f*Wet(p)).ShadeRelief(p=>Station(p)?0:Tussocks(p));
-                ground.Decals(new[]{"CracksA","CracksB"},6,p=>Station(p)?.7f:0,1.4f,2.8f,new Color(.5f,.42f,.36f,.9f));
-                ground.Decals(new[]{"Slabs","Flagstones"},2.4f,p=>Station(p)?.6f*Smooth(.5f,.62f,ground.Noise(p,9,13)):Causeway(p)*.4f,1.2f,2.2f,new Color(.9f,.72f,.6f));
-                ground.Decals(new[]{"SandDrift"},4,p=>Station(p)?Smooth(-2.5f,-4f,Lvl(p)):0,2,3.6f,new Color(.66f,.68f,.58f,.6f),false);
-                ground.Decals(new[]{"Stain"},3,p=>Station(p)?.7f:Wet(p),2.2f,4,new Color(.3f,.34f,.28f,.6f),false);
+                ground.Decals(new[]{"CracksA","CracksB"},6,p=>Station(p)?.3f:0,1.4f,2.8f,new Color(.5f,.42f,.36f,.9f));
+                // Loose slabs lie on the causeway's old road only: on a floor laid in courses an irregular paver reads as a patch of some other floor.
+                ground.Decals(new[]{"Slabs","Flagstones"},2.4f,p=>Station(p)?0:Causeway(p)*.4f,1.2f,2.2f,new Color(.9f,.72f,.6f));
+                // Silt: what the water left as it went down, drifted against the wall feet, into the corners and round the sumps, grey-olive and thin enough that the flags show
+                // through it. Spread across the middle of a room in beige ripples it read as a sand floor's patches (s26 290).
+                // A drift lies whole on level floor (one hanging off onto a wall foot or a sump's lip is refused), so the band starts a hand out from the wall.
+                float Drifted(Vector2 p)=>Station(p)?Smooth(-2.2f,-3.8f,Lvl(p))*Mathf.Max(Smooth(.5f,1f,ground.Edge(p))*(1-Smooth(2.4f,3.6f,ground.Edge(p))),Smooth(.9f,1.4f,NearSump(p))*(1-Smooth(2.2f,3.2f,NearSump(p)))):0;
+                ground.Decals(new[]{"SandDrift"},16,Drifted,.9f,1.8f,new Color(.58f,.6f,.52f,.5f),false,.1f,91);
+                ground.Decals(new[]{"Stain"},3,p=>Station(p)?.25f:Wet(p),2.2f,4,new Color(.3f,.34f,.28f,.45f),false);
+                // Puddles where the floor holds the last of the water: the low rooms, out from the walls, never in a sump.
+                int puddles=0;ground.Sow(1.6f,p=>Station(p)&&Lvl(p)<-2.3f&&ground.Edge(p)>1.4f&&NearSump(p)>1.4f?1:0,97,(p,roll)=>{if(ground.Puddle(p,.7f+.9f*roll.x,.5f+.6f*roll.y,roll.z*180))puddles++;});
+                Debug.Log("WAYSTATION_PUDDLES "+puddles);
                 ground.Decals(new[]{"Lichen"},6,p=>Smooth(.44f,.62f,ground.Noise(p,11,4))*(Station(p)?.6f:Dry(p)),1.1f,2.4f,new Color(.5f,.6f,.4f,.85f),false);
                 ground.Decals(new[]{"Litter"},10,p=>Station(p)?.15f:Dry(p),1,2,new Color(.72f,.64f,.4f,.9f),false);
                 ground.Decals(new[]{"PebblesA","PebblesB"},4,p=>Station(p)?.5f:Dry(p)*.6f,.8f,1.6f,new Color(.7f,.64f,.56f));
                 ground.Decals(new[]{"Tracks"},.8f,p=>Station(p)?0:Wet(p)*Dry(p),.8f,1.4f,new Color(.3f,.3f,.24f,.6f),false);
                 // The ways across the mire are trodden: darker, wetter peat along the line, broken where the ground is firmer, with tracks in it.
-                foreach(var way in Ways)if(way[0].y<170){ground.PaintPath(1,way,1.1f,.85f,.45f,.7f,(int)way[0].x+90);ground.Strip("Tracks",way,.3f,1.2f,new Color(.32f,.28f,.2f,.5f));}
+                // Only the mire's: the walk from the portico down through the hall, the terrace and the low floor starts at y 168, under the old test's 170, and laid two dark bands
+                // of trodden peat the length of every room it crosses (the strips down the terrace and the hall, November 22).
+                foreach(var way in Ways)if(way.All(q=>q.y<166.5f)){ground.PaintPath(1,way,1.1f,.85f,.45f,.7f,(int)way[0].x+90);ground.Strip("Tracks",way,.3f,1.2f,new Color(.32f,.28f,.2f,.5f));}
                 ground.Decals(new[]{"Stain"},4,p=>Station(p)?0:Dry(p)*Smooth(.5f,.66f,ground.Noise(p,6,29)),1.6f,3,new Color(.28f,.26f,.18f,.55f),false,.1f,41);
                 ground.Decals(new[]{"Lichen"},5,p=>Station(p)?0:Dry(p)*Smooth(.4f,.56f,ground.Noise(p,8,31)),.9f,1.8f,new Color(.62f,.66f,.42f,.8f),false,.1f,43);
                 // Moss in broad cushions on the peat, greener than anything else on an island: what makes one island's floor several things.
@@ -1187,6 +1251,19 @@ namespace Lattice.EditorTools
                 ground.Glows(3,p=>Station(p)?Foot(p):Wet(p)*.6f,.06f,.14f,new Color(.4f,1,.85f,.8f));
                 ground.MovingShade("cloud",22,new Vector2(.18f,.08f),.38f,.5f,.04f);
                 ground.Finish();
+                // The kit's puddle is the sky lying in a hollow: under this dusk it read as lilac slime with white blotches on the flags. Here the water the pumps left is the
+                // station's own, olive-dark with a faint glint: a copy of the kit's, the zone's alone.
+                var kitPuddle=AssetDatabase.LoadAssetAtPath<Material>(GroundKit.WorldMaterials+"ground-puddle.mat");
+                if(kitPuddle!=null)
+                {
+                    string path=GroundKit.WorldMaterials+"waystation-puddle.mat";var still=AssetDatabase.LoadAssetAtPath<Material>(path);
+                    if(still==null){still=new Material(kitPuddle){name="waystation-puddle"};AssetDatabase.CreateAsset(still,path);}
+                    else{still.shader=kitPuddle.shader;still.CopyPropertiesFromMaterial(kitPuddle);}
+                    still.shaderKeywords=kitPuddle.shaderKeywords;still.renderQueue=kitPuddle.renderQueue;still.SetOverrideTag("RenderType","Transparent");
+                    still.SetColor("_BaseColor",new Color(.3f,.34f,.32f,.55f));still.SetColor("_DeepColor",new Color(.14f,.18f,.17f,.85f));still.SetColor("_FoamColor",new Color(.6f,.64f,.58f,.4f));
+                    still.SetVector("_WaterParams",new Vector4(1.4f,.1f,.35f,.12f));EditorUtility.SetDirty(still);AssetDatabase.SaveAssetIfDirty(still);
+                    foreach(var pool in UnityEngine.Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))if(pool.name=="Floor detail puddle")pool.sharedMaterial=still;
+                }
             }
         }
     }

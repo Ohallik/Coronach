@@ -25,7 +25,9 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _Band: 0
     - _Fade: 1
+    - _Reach: 0
     m_Colors:
     - _BaseColor: {r: 0.02, g: 0.025, b: 0.05, a: 0.62}
   m_BuildTextureStacks: []

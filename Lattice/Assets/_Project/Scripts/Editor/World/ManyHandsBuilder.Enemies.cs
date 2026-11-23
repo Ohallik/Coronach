@@ -54,7 +54,7 @@ namespace Lattice.EditorTools
                 // A capsule can't stand shorter than it is wide (the Rotbloom hung 1.8 m in the air): its registration makes it 2.4 m round, so 5 m tall.
                 e.capsuleHeight=5;
                 e.lootTable=Loot("Hulljack",Drop("ScrapAlloy",8,1),Drop("LatticeFilament",3,1),Drop("ChargeCell",2,1),ProgressionBuilder.AnyPart(3,1));});
-            ArenaBuilder.Asset<EnemyDef>("DessikVarn",e=>{e.id="DessikVarn";e.displayName="DESSIK VARN";e.prefab=Body("DessikVarn","SentinelHusk");e.integrity=44000;e.breakThreshold=700;e.speed=0;e.attacks=new[]{suitSwipe};
+            ArenaBuilder.Asset<EnemyDef>("DessikVarn",e=>{e.id="DessikVarn";e.displayName="DESSIK VARN";e.prefab=Body("DessikVarn","SentinelHusk");e.integrity=58000;e.breakThreshold=700;e.speed=0;e.attacks=new[]{suitSwipe};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=360;e.scrip=260;e.scrap=16;e.boss=true;e.yieldsOnDefeat=true;
                 e.bossMusicId="Glitch Boss";e.drawnScale=1;e.heavyDeath=true;
                 // 1.8 m round by its registration, so 4 m tall.

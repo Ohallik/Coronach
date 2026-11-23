@@ -91,14 +91,83 @@ namespace Lattice.UI
             string effects=Effects(wornDef,worn)!=""?", which has effects of its own":"";
             return $"Against {who}'s {wornDef.displayName}{effects}: {(changes.Length>0?string.Join(", ",changes):"the same stats")}.";
         }
-        /// <summary>A price in materials and scrip, each against what's held, the short ones marked as the bench marks them: "Scrap Alloy 40/12, Rootfibre 0/2, 150 scrip".</summary>
+        /// <summary>A price in materials and scrip, each with what's held, the short ones marked as the bench marks them: "Scrap Alloy ×12 (have 40), Rootfibre ×2 (have 0), 150 scrip".
+        /// It read "Scrap Alloy 40/12", held over needed, and a player of the first capture took it for a fraction.</summary>
         public static string Price(GameState state,Ingredient[] materials,int scrip)
         {
             var inventory=new Inventory(state);
             string Short(string words,bool lacking)=>lacking?$"<color=#FFB08A>{words}</color>":words;
-            var parts=(materials??System.Array.Empty<Ingredient>()).Select(m=>Short($"{DisplayNames.Item(m.id)} {inventory.Count(m.id)}/{m.count}",inventory.Count(m.id)<m.count)).ToList();
+            var parts=(materials??System.Array.Empty<Ingredient>()).Select(m=>Short($"{DisplayNames.Item(m.id)} ×{m.count} (have {inventory.Count(m.id)})",inventory.Count(m.id)<m.count)).ToList();
             if(scrip>0)parts.Add(Short($"{scrip} scrip",state.scrip<scrip));
             return string.Join(", ",parts);
+        }
+        /// <summary>What a recipe takes, for its row: "Scrap Alloy ×6, Ridge Crystal ×2", what's short in the bench's warm red. What's held is the strip's (Holding).
+        /// <paramref name="lean"/> 1 leaves the count off what's taken one at a time ("Amber Sap, Glowspore, Scrap Alloy ×2"); 2 names the materials alone, for a row of three, and the strip gives the counts.</summary>
+        public static string Takes(GameState state,Ingredient[] inputs,int lean=0)
+        {
+            var inventory=new Inventory(state);
+            return string.Join(", ",(inputs??System.Array.Empty<Ingredient>()).Select(m=>{string words=lean>=2||lean==1&&m.count==1?DisplayNames.Item(m.id):$"{DisplayNames.Item(m.id)} ×{m.count}";return inventory.Count(m.id)<m.count?$"<color={MenuList.Worse}>{words}</color>":words;}));
+        }
+        /// <summary>What a recipe takes against what's held, for its row: "Scrap Alloy ×6 (have 45), Ridge Crystal ×2 (have 0)", each one short in the bench's warm red.
+        /// <paramref name="lean"/> leaves the count off what's taken one at a time.</summary>
+        public static string TakesHeld(GameState state,Ingredient[] inputs,bool lean=false)
+        {
+            var inventory=new Inventory(state);
+            return string.Join(", ",(inputs??System.Array.Empty<Ingredient>()).Select(m=>
+            {
+                int held=inventory.Count(m.id);string words=(lean&&m.count==1?DisplayNames.Item(m.id):$"{DisplayNames.Item(m.id)} ×{m.count}")+$" (have {held})";
+                return held<m.count?$"<color={MenuList.Worse}>{words}</color>":words;
+            }));
+        }
+        /// <summary>A consumable's effect at its shortest, for a column that can't hold the whole: "40% Integrity, 40 Charge", "a draught, 60 s". The strip says the rest.</summary>
+        public static string Brief(ConsumableDef def)
+        {
+            if(def==null)return "";if(def.revive)return "raises a partner";if(def.seconds>0)return $"{(def.meal?"a meal":"a draught")}, {def.seconds:0} s";
+            var said=new List<string>();if(def.healPercent>0)said.Add(Percent(def.healPercent)+" Integrity");else if(def.heal>0)said.Add($"{def.heal:0} Integrity");if(def.charge>0)said.Add($"{def.charge:0} Charge");
+            return said.Count>0?string.Join(", ",said):def.displayName;
+        }
+        /// <summary>What's held of each thing a recipe takes, in a sentence: "You have 45 Scrap Alloy and 0 Ridge Crystal."</summary>
+        public static string Holding(GameState state,Ingredient[] inputs)
+        {
+            var inventory=new Inventory(state);var held=(inputs??System.Array.Empty<Ingredient>()).Select(m=>$"{inventory.Count(m.id)} {DisplayNames.Item(m.id)}").ToArray();
+            return held.Length==0?"":"You have "+(held.Length==1?held[0]:string.Join(", ",held.Take(held.Length-1))+" and "+held[held.Length-1])+".";
+        }
+        /// <summary>What a slot's part is for, in a sentence: the stat it's worn for and what that stat does in a fight.</summary>
+        public static string SlotSays(GearSlot slot)=>slot switch
+        {
+            GearSlot.Emitter=>"An Emitter's Output drives beams and flight fire.",GearSlot.Edge=>"An Edge's Output drives melee and the lunge.",
+            GearSlot.Frame=>"A Frame's Plating takes weight off every hit.",GearSlot.Drive=>"A Drive's Response is how fast a hero moves, on foot and in flight.",
+            _=>"A Module's Resonance powers skills and Charge, and its Fortune brings drops.",
+        };
+        /// <summary>A part in a sentence or two: its slot's job, then what it does beyond its stats.</summary>
+        public static string About(TechPartDef def,PartInstance item=null){string effects=Effects(def,item);return SlotSays(def.slot)+(effects!=""?" "+effects+".":"");}
+        /// <summary>A consumable in a sentence: what it does, and what kind of thing it is where that changes how it's used.</summary>
+        public static string About(ConsumableDef def)
+        {
+            if(def==null)return "";string does=Restores(def);
+            return char.ToUpperInvariant(does[0])+does.Substring(1)+"."+KindSays(def);
+        }
+        /// <summary>What kind of thing a consumable is, where that changes how it's used: " A meal: one at a time." (with its leading space), or nothing.</summary>
+        public static string KindSays(ConsumableDef def)=>def==null?"":def.revive?" Only for a partner who is down.":def.meal?" A meal: one at a time.":def.seconds>0?" A draught: one at a time.":"";
+        /// <summary>A material in a sentence: what it's for.</summary>
+        public static string About(MaterialDef def)
+        {
+            if(def==null)return "";
+            bool made=GameCatalog.All<RecipeDef>().Any(r=>r!=null&&r.inputs!=null&&r.inputs.Any(i=>i.id==def.id)),upgrades=GameCatalog.All<TechPartDef>().Any(p=>p!=null&&(p.upgradeMaterial==def.id||p.upgradeRare==def.id));
+            string use=made&&upgrades?"The bench fabricates with it and upgrades parts with it.":made?"The bench fabricates with it.":upgrades?"The bench upgrades parts with it.":"Nothing uses it yet.";
+            return use+(def.rare?" Rare.":"")+(def.value>0?$" A shop pays {def.value} scrip each.":"");
+        }
+        /// <summary>A part against what the hero wears in its slot, as Compare says it, with each change in colour: what's better in green, what's worse in warm red.</summary>
+        public static string CompareInk(GameState state,MemberState member,TechPartDef def,PartInstance item=null,bool secondModule=false)
+        {
+            string who=DisplayNames.Speaker(member.id);
+            string wornId=secondModule?member.module2:member.equipped.TryGetValue(def.slot,out string id)?id:null;
+            var worn=string.IsNullOrEmpty(wornId)?null:state.parts.Find(p=>p.instanceId==wornId);var wornDef=worn!=null?GameCatalog.Find<TechPartDef>(worn.definitionId):null;
+            if(wornDef==null||item!=null&&worn==item)return Compare(state,member,def,item,secondModule);
+            var mine=Lines(Total(def,item)).ToArray();var theirs=Lines(Total(wornDef,worn)).ToArray();
+            var changes=mine.Select((line,i)=>(line.name,delta:line.value-theirs[i].value)).Where(c=>Mathf.Abs(c.delta)>=.05f).Select(c=>MenuList.Ink($"{c.name} {Signed(c.delta)}",c.delta>0?MenuList.Better:MenuList.Worse)).ToArray();
+            string effects=Effects(wornDef,worn)!=""?", which has effects of its own":"";
+            return $"Against {who}'s {wornDef.displayName}{effects}: {(changes.Length>0?string.Join(", ",changes):"the same stats")}.";
         }
         /// <summary>What the next upgrade costs, or that there isn't one.</summary>
         public static string UpgradePrice(GameState state,TechPartDef def,PartInstance item)
@@ -148,15 +217,33 @@ namespace Lattice.UI
         }
         /// <summary>The same numbers once it's paid: with the row promising +32.4, the line under it said +32.</summary>
         public static string Upgraded(TechPartDef def,PartInstance item)=>string.Join(", ",Lines(Total(def,item)).Where(Counts).Select(line=>$"{line.name} +{One(line.value)}"));
-        /// <summary>"  ·  now +8": what the hero has in that slot, in the stat this part leads with, or that the slot is free.</summary>
-        public static string Against(GameState state,MemberState member,TechPartDef def,PartInstance item=null)
+        /// <summary>This part's leading stat against what the hero wears in its slot: the stat, the worn part's value in it, this part's, whether the slot is empty, and whether
+        /// this is the part worn. The row used to say only the worn value ("now +8") in a column headed WORN, and nobody could tell what it meant (nov22 s05 034).</summary>
+        public static (string stat,float worn,float offered,bool empty,bool same) Versus(GameState state,MemberState member,TechPartDef def,PartInstance item=null)
         {
-            var lead=Lines(Total(def,item)).FirstOrDefault(Counts);if(lead.name==null)return "";
-            if(!member.equipped.TryGetValue(def.slot,out string id))return "  ·  slot empty";
+            var lead=Lines(Total(def,item)).FirstOrDefault(Counts);if(lead.name==null)return (null,0,0,false,false);
+            if(!member.equipped.TryGetValue(def.slot,out string id))return (lead.name,0,lead.value,true,false);
             var worn=state.parts.Find(p=>p.instanceId==id);var wornDef=worn!=null?GameCatalog.Find<TechPartDef>(worn.definitionId):null;
-            if(wornDef==null)return "  ·  slot empty";
-            if(worn==item)return "";
-            return $"  ·  now +{Lines(Total(wornDef,worn)).First(l=>l.name==lead.name).value:0}";
+            if(wornDef==null)return (lead.name,0,lead.value,true,false);
+            return (lead.name,Lines(Total(wornDef,worn)).First(l=>l.name==lead.name).value,lead.value,false,worn==item);
+        }
+        /// <summary>What wearing it instead would change, for a column headed VS WORN: "+22" in green, "-4" in warm red, "same", "slot free" where nothing is worn, and nothing
+        /// for the part that is the one worn. The stat is the DOES column's first; the strip under the list says every stat.</summary>
+        public static string VersusWorn(GameState state,MemberState member,TechPartDef def,PartInstance item=null)
+        {
+            var (stat,worn,offered,empty,same)=Versus(state,member,def,item);
+            if(stat==null||same)return "";
+            if(empty)return MenuList.Ink("slot free",MenuList.Better);
+            float delta=offered-worn;if(Mathf.Abs(delta)<.5f)return "same";
+            return MenuList.Ink((delta>0?"+":"-")+Mathf.Abs(delta).ToString("0"),delta>0?MenuList.Better:MenuList.Worse);
+        }
+        /// <summary>The same for one hero, in a sentence's piece: "Output +8 → +30", "free slot → Output +30", "wears this".</summary>
+        public static string VersusLine(GameState state,MemberState member,TechPartDef def,PartInstance item=null)
+        {
+            var (stat,worn,offered,empty,same)=Versus(state,member,def,item);
+            if(stat==null)return "";if(same)return "wears this";
+            string now=$"{stat} +{offered:0}",ink=empty||offered>worn+.5f?MenuList.Better:offered<worn-.5f?MenuList.Worse:null;
+            return (empty?$"{def.slot} slot free":$"{stat} +{worn:0}")+" → "+(ink!=null?MenuList.Ink(empty?now:$"+{offered:0}",ink):empty?now:$"+{offered:0}");
         }
         /// <summary>Who has it on, in words: the bracketed E read as a key prompt, and a partner's parts looked free.</summary>
         public static string Mark(MemberState wearer,MemberState viewer)=>wearer==null?"":wearer==viewer?"Equipped · ":DisplayNames.Speaker(wearer.id)+" · ";

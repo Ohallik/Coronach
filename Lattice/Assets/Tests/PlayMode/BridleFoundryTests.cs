@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Lattice.Combat;
 using Lattice.Core;
+using Lattice.Data;
 using Lattice.UI;
 using Lattice.World;
 using NUnit.Framework;
@@ -47,6 +48,7 @@ namespace Lattice.Tests.PlayMode
         // ------------------------------------------------------------------ fixtures
         static void Set(params string[] keys){foreach(var key in keys)GameServices.Current.Flags.SetBool(key,true);}
         static bool Flag(string key)=>GameServices.Current.Flags.GetBool(key);
+        static GameState State=>GameServices.Current.State;
         static IEnumerator Zone(string spawn="Arrival")
         {
             SceneFlow.Current.LoadZone(Foundry,spawn);float deadline=Time.unscaledTime+30;
@@ -232,7 +234,9 @@ namespace Lattice.Tests.PlayMode
             foreach(var (name,at,lead) in new[]{("furnace-mouth",new Vector2(9,110.2f),new Vector2(3,-2.6f)),("furnace-east",new Vector2(18,110.2f),new Vector2(-3,-2.6f)),
                 ("under-the-charging-crucible",new Vector2(4.4f,107.6f),new Vector2(3,-1.5f)),("charge-buckets",new Vector2(13.5f,108.8f),new Vector2(-3,-2)),
                 ("under-the-gallery-crucible",new Vector2(-7.5f,196.2f),new Vector2(3,-1.5f)),("by-the-cooling-rings",new Vector2(-21.2f,183.6f),new Vector2(3,-1.5f)),
-                ("under-a-heart-vent",new Vector2(9.15f,268.2f),new Vector2(-2.2f,-2.6f)),("under-the-east-vents",new Vector2(19.2f,247.6f),new Vector2(-3.2f,-1))})
+                ("under-a-heart-vent",new Vector2(9.15f,268.2f),new Vector2(-2.2f,-2.6f)),("under-the-east-vents",new Vector2(19.2f,247.6f),new Vector2(-3.2f,-1)),
+                // Over the grated runners let into the fights' floors (November 21): a marking laid across one reads over its glow.
+                ("over-the-gallery-runner",new Vector2(4,169.5f),new Vector2(3,-2.6f)),("over-the-heart-runner",new Vector2(2.87f,267.25f),new Vector2(-2.2f,-2.6f))})
             {
                 Put(Lead,at+lead);Put(Partner,at+lead+new Vector2(1.8f*Mathf.Sign(lead.x),0));yield return new WaitForSecondsRealtime(1.4f);
                 var centre=Ground(at)+Vector3.up*.05f;var marking=Telegraph.Circle(centre,1.6f,4,Telegraph.Threat);marking.Steady=true;
@@ -249,7 +253,7 @@ namespace Lattice.Tests.PlayMode
             yield return Until(()=>b.SurgeAt(b.Clock)<.02f,b.surgeEvery+1,"the run never settles to its ember");yield return new WaitForSecondsRealtime(.4f);
             var (ember,emberGlow)=Grab(folder,"tap-run-ember",OnGround(rim),OnGround(floor),OnGround(rim+Vector3.forward*.35f),OnGround(metal));Judge("tap-run-ember",ember,new Vector2(-13,south));
             Assert.Greater(surgeGlow,emberGlow,"fixture: the run's surge is brighter than its ember");
-            Assert.AreEqual(10,read,"fixture: every hot place was photographed");
+            Assert.AreEqual(12,read,"fixture: every hot place was photographed");
             Assert.IsEmpty(weak,"a marking doesn't read over the forge's heat: "+string.Join("; ",weak));
         }
         struct Shot{public float rimOrange,rimLuma,floorLuma;}
@@ -337,7 +341,7 @@ namespace Lattice.Tests.PlayMode
             var anvil=Point(p=>p.dialogueNode=="BrekkAnvil","BrekkAnvil");Assert.AreEqual(("vask.anvilSeen","vask.juvenileFreed","Stand by the anvil",""),(anvil.flag,anvil.requiredFlag,anvil.prompt,anvil.situation),"the anvil isn't the manifest's");
             var talks=Object.FindObjectsByType<AfterTalk>(FindObjectsSortMode.None);
             var falls=talks.SingleOrDefault(t=>t.node=="VessaFallsBack");Assert.IsNotNull(falls,"nothing plays VessaFallsBack");
-            Assert.AreEqual((BossController.FallingBackFlag,"vask.vessaBeaten","Vessa",true,1.6f),(falls.flag,falls.heardFlag,falls.speaker,falls.duringFight,falls.delay),"Vessa's talk isn't on her falling back at half (the contract, revised)");
+            Assert.AreEqual((BossController.FallingBackFlag,BossController.FallBackHeardFlag,"Vessa",true,1.6f),(falls.flag,falls.heardFlag,falls.speaker,falls.duringFight,falls.delay),"Vessa's talk isn't on her falling back at half (the contract, revised)");
             var release=talks.SingleOrDefault(t=>t.node=="TovraRelease");Assert.IsNotNull(release,"nothing plays TovraRelease");Assert.AreEqual(("bossdown.SlagColossus","vask.juvenileFreed","Tovra"),(release.flag,release.heardFlag,release.speaker));
             var tubes=Object.FindObjectsByType<RadioHail>(FindObjectsSortMode.None).Where(h=>h.speaker=="Tovra").ToArray();
             Assert.IsTrue(tubes.All(h=>h.situations.SequenceEqual(new[]{"hail.sluice"})),"Tovra's speaking tube says something other than her sluice lines");
@@ -359,10 +363,85 @@ namespace Lattice.Tests.PlayMode
             yield return Until(()=>offered.Contains("VessaFallsBack"),5,"Vessa's talk isn't offered as she falls back at half");
             Assert.GreaterOrEqual(Time.unscaledTime-at,1.4f,"Vessa's talk doesn't wait its beat after she falls back");
             // Its last line is heard (the script sets the flag); then at nought she leaves.
-            Set("vask.vessaBeaten");var dialogue=Lattice.Dialogue.DialogueSystem.Current;if(dialogue!=null&&dialogue.Running)dialogue.Cancel();
+            Set(BossController.FallBackHeardFlag);var dialogue=Lattice.Dialogue.DialogueSystem.Current;if(dialogue!=null&&dialogue.Running)dialogue.Cancel();
             yield return new WaitForSecondsRealtime(.5f);
-            Set("bossdown.VessaKorl","clear.VessaKorl");yield return new WaitForSecondsRealtime(4);
+            Set("bossdown.VessaKorl","clear.VessaKorl",BossController.BeatenFlag);yield return new WaitForSecondsRealtime(4);
             Assert.AreEqual(1,offered.Count(n=>n=="VessaFallsBack"),"Vessa's talk is offered again as she leaves at nought");
+        }
+
+        /// <summary>The whole-game capture (November 20): with a third of Vessa's bar to go the card already said "Cool the Slag Colossus" (s48/221: her fall-back talk set the
+        /// gallery's step), and at nought she lay sprawled on the gallery floor, one leg in the air, and slid away lying (s48/232: her body's own driver played its fall under her
+        /// leaving). Now her talk at half sets nothing the main quest waits on, the step moves as she leaves, and she walks out on her feet. The body's fault is built into the fixture
+        /// first and seen: a Vessa whose driver is left on as she falls goes down.</summary>
+        [UnityTest] public IEnumerator TheGalleryIsTakenAsVessaWalksOutNotAsSheFallsBack()
+        {
+            Set("vask.sluice1","vask.sluice2","clear.Gallery_Drones");
+            yield return Zone("Gallery");
+            var quest=GameCatalog.Find<Lattice.Data.QuestDef>("Harrowgate");int step=System.Array.FindIndex(quest.steps,s=>s.target==BossController.BeatenFlag);
+            Assert.Greater(step,0,"fixture: the main quest has the gallery's step");
+            // The script and the room: hearing her talk sets nothing that step waits on.
+            var falls=Object.FindObjectsByType<AfterTalk>(FindObjectsSortMode.None).Single(t=>t.node=="VessaFallsBack");
+            Assert.AreNotEqual(quest.steps[step].target,falls.heardFlag,"hearing Vessa's fall-back talk completes the gallery's step");
+            var yarn=File.ReadAllText(Path.Combine(Application.dataPath,"_Project/Resources/Dialogue/Harrowgate.yarn"));int from=yarn.IndexOf("title: VessaFallsBack");Assert.GreaterOrEqual(from,0,"fixture: the node is in the script");
+            StringAssert.DoesNotContain("<<setFlag "+quest.steps[step].target+">>",yarn.Substring(from,yarn.IndexOf("===",from)-from),"VessaFallsBack's last line sets the gallery's step");
+            State.questSteps["Harrowgate"]=step;
+            GameServices.Current.Flags.SetBool(falls.heardFlag,true);Lattice.Rpg.RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Flag,falls.heardFlag);
+            Assert.AreEqual(step,State.questSteps["Harrowgate"],"the main quest moves on as Vessa falls back, with half her bar to go");
+            var hero=Lead;Put(hero,new Vector2(0,150));hero.Health.InvulnerableUntil=GameTime.Now+60;Put(Partner,new Vector2(-2,150));Partner.Health.InvulnerableUntil=GameTime.Now+60;
+            var exit=BossExit.For("VessaKorl");Assert.IsNotNull(exit,"fixture: her way out is in the gallery");
+            var definition=GameCatalog.Find<Lattice.Data.EnemyDef>("VessaKorl");
+            bool Down(EnemyBrain body){var rig=body!=null?body.GetComponentInChildren<Animator>():null;return rig!=null&&rig.GetCurrentAnimatorStateInfo(0).IsName("Down");}
+            bool Walking(EnemyBrain body){var rig=body!=null?body.GetComponentInChildren<Animator>():null;if(rig==null)return false;var now=rig.GetCurrentAnimatorStateInfo(0);var next=rig.GetNextAnimatorStateInfo(0);return now.IsName("Walk")||rig.IsInTransition(0)&&next.IsName("Walk");}
+            // The fault, built: her driver left on as she falls, with nothing telling it she leaves (the shared driver now stands a body up that has a departure, so that goes too).
+            var fallen=ActorFactory.Enemy(definition,Ground(new Vector2(-8,146))+Vector3.up*.1f);yield return new WaitForSecondsRealtime(.4f);
+            fallen.Health.Receive(new DamagePacket{source=hero.Health,amount=fallen.Health.maximum*20,type=DamageType.Kinetic});
+            foreach(var leaving in fallen.GetComponents<BossDeparture>())Object.DestroyImmediate(leaving);
+            foreach(var rig in fallen.GetComponentsInChildren<GeneratedAnimator>())rig.enabled=true;
+            float deadline=Time.unscaledTime+2;while(fallen!=null&&!Down(fallen)&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsTrue(fallen==null||Down(fallen),"fixture: the check can't see a Vessa whose own driver puts her down as she leaves");
+            yield return new WaitForSecondsRealtime(4);
+            // As she is: the step waits for her leaving, and moves with it; she walks out toward her door and never lies down.
+            foreach(var key in new[]{BossController.BeatenFlag,BossController.FallBackHeardFlag,"bossdown.VessaKorl"})GameServices.Current.Flags.SetBool(key,false);State.questSteps["Harrowgate"]=step;
+            var vessa=ActorFactory.Enemy(definition,Ground(new Vector2(8,146))+Vector3.up*.1f);yield return new WaitForSecondsRealtime(.4f);var started=vessa.transform.position;
+            Assert.AreEqual(step,State.questSteps["Harrowgate"],"fixture: the main quest is at the gallery's step while she stands");
+            vessa.Health.Receive(new DamagePacket{source=hero.Health,amount=vessa.Health.maximum*20,type=DamageType.Kinetic});yield return null;
+            Assert.IsTrue(Flag(BossController.BeatenFlag),"at nought the gallery's step isn't done");Assert.AreEqual(step+1,State.questSteps["Harrowgate"],"the main quest doesn't move on as she leaves");
+            Assert.IsTrue(Flag(BossController.FallBackHeardFlag),"her fall-back talk is still owed after she has gone");
+            bool lay=false,walked=false;float moved=0;
+            for(float until=Time.unscaledTime+3.2f;vessa!=null&&Time.unscaledTime<until;)
+            {
+                if(Down(vessa))lay=true;if(Walking(vessa))walked=true;
+                moved=Mathf.Max(moved,Vector3.Dot(Flat(vessa.transform.position-started)>0?vessa.transform.position-started:Vector3.zero,(exit.transform.position-started).normalized));yield return null;
+            }
+            Assert.IsFalse(lay,"Vessa lies down on the gallery floor as she leaves");Assert.IsTrue(walked,"Vessa doesn't walk out");Assert.Greater(moved,1.5f,"Vessa doesn't go toward her way out");
+        }
+
+        /// <summary>The whole-game capture (s49/033, s49/046): the Colossus's crust was a grey, see-through disc in its own grey steam with no edge of a colour, and nobody could tell it
+        /// from steam, from hazard or from safe ground. A crust is now a body of black slag lying under its boundary (a slow, so a boundary: D222), under every marking, the size of what
+        /// slows; bright slag is the danger and is drawn as one. The old crust (a grey ring and nothing under it) is laid in the fixture first and fails the same check.</summary>
+        [UnityTest] public IEnumerator TheColossussCrustIsBlackSlagUnderItsBoundary()
+        {
+            Set("vask.sluice1","vask.sluice2","bossdown.VessaKorl","clear.VessaKorl",BossController.BeatenFlag);
+            yield return Zone("Heart");Put(Lead,new Vector2(0,221));Put(Partner,new Vector2(2,221));
+            string Plain(LingeringArea area)
+            {
+                var body=area.GetComponentsInChildren<MeshRenderer>().FirstOrDefault(r=>r.name=="Slag crust");if(body==null)return "nothing is drawn under it";
+                if(body.sharedMaterial==null||!body.sharedMaterial.name.Contains("crust"))return "its body isn't crust ("+(body.sharedMaterial!=null?body.sharedMaterial.name:"none")+")";
+                var floor=Ground(new Vector2(area.transform.position.x,area.transform.position.z)).y;
+                if(body.bounds.max.y>floor+.058f)return "its body stands over the height a marking is laid at ("+(body.bounds.max.y-floor).ToString("0.000")+" m)";
+                if(Mathf.Min(body.bounds.extents.x,body.bounds.extents.z)<area.Radius*.7f)return "its body is smaller than the ground that slows";
+                return null;
+            }
+            // The fault, built: the crust as it was laid.
+            var old=LingeringArea.Lay(Ground(new Vector2(-6,236)),2.4f,6,AreaEffect.Slow,.6f,0,null,DamageType.Plasma,new Color(.6f,.62f,.68f,.38f));yield return null;
+            Assert.IsNotNull(Plain(old),"fixture: the check can't tell the old crust (a grey ring over nothing) from slag");old.Dismiss();
+            var colossus=ActorFactory.Enemy(GameCatalog.Find<Lattice.Data.EnemyDef>("SlagColossus"),Ground(new Vector2(0,245))+Vector3.up*.1f);yield return new WaitForSecondsRealtime(.5f);
+            var boss=colossus.GetComponent<BossController>();Lead.Health.InvulnerableUntil=GameTime.Now+60;Partner.Health.InvulnerableUntil=GameTime.Now+60;
+            Assert.IsTrue(boss.Perform("Pour"),"fixture: the Colossus pours");
+            yield return Until(()=>LingeringArea.All.Any(a=>a!=null&&a.Effect==AreaEffect.Slow),4,"its pour lays no crust");
+            var crusts=LingeringArea.All.Where(a=>a!=null&&a.Effect==AreaEffect.Slow).ToArray();
+            foreach(var crust in crusts){var fault=Plain(crust);Assert.IsNull(fault,"the Colossus's crust at "+crust.transform.position+": "+fault);}
+            Object.Destroy(colossus.gameObject);yield return null;
         }
 
         // ------------------------------------------------------------------ the casting gallery and its door
@@ -524,11 +603,24 @@ namespace Lattice.Tests.PlayMode
             Vector3 End(Guide g,int leg)=>g.legs[leg].path[^1];
             var smithWalkers=smiths.GetComponentsInChildren<Guide>();
             yield return Until(()=>smithWalkers.All(g=>Flat(g.transform.position-End(g,1))<.3f),12,"the smiths never reach their clamps");
+            // Each faces the cage it holds: with no face for a last leg's end a Guide stands as its walk in left it, and five smiths stood in a row facing nothing (whole-game capture s49/140).
+            float Facing(GameObject who,Vector3 target){var look=who.transform.forward;look.y=0;var to=target-who.transform.position;to.y=0;return Vector3.Angle(look,to);}
+            // Within reach of its clamp a smith may still be on its last step (a Guide stops a tenth of a metre short and turns to its face the frame after): read them stood.
+            yield return Until(()=>smithWalkers.All(g=>Flat(g.transform.position-End(g,1))<.1f),4,"the smiths never stop at their clamps");
+            for(int frame=0;frame<3;frame++)yield return null;var cage=new Vector3(0,Deep,279);
+            // Built wrong on purpose, from their own paths: with the old faces, one short, each would stand as its last leg brought it in, and the check must catch that.
+            float WalkedIn(Guide g){var path=g.legs[^1].path;var from=path.Length>1?path[^2]:g.legs.Length>1?g.legs[^2].path[^1]:starts[g];var look=path[^1]-from;look.y=0;var to=cage-path[^1];to.y=0;return Vector3.Angle(look,to);}
+            Assert.IsTrue(smithWalkers.Any(g=>WalkedIn(g)>=40),"fixture: standing as their walk in left them the smiths would face the cage anyway, so the check below can't fail");
+            foreach(var g in smithWalkers)Assert.Greater(g.faces.Length,g.legs.Length,g.name+" has no face for its last leg's end");
+            foreach(var g in smithWalkers)Assert.Less(Facing(g.gameObject,cage),40,g.name+" at its clamp doesn't face the cage");
             foreach(var w in new[]{tovra,brekk,vessa}){var g=w.GetComponent<Guide>();yield return Until(()=>g.Stage==2&&Flat(w.transform.position-End(g,2))<.3f,16,w.name+" never walks on after the release");}
             Assert.IsTrue(smiths.activeInHierarchy,"the smiths leave with the release");
             // A built piece's mesh is laid in the world's own space (its transform at the origin): where it is is where it is drawn.
             var anvil=GameObject.Find("Tovra's anvil").GetComponent<Renderer>().bounds.center;
             Assert.Less(Flat(tovra.transform.position-anvil),1.6f,"Tovra isn't at the anvil after the release");Assert.Less(Flat(brekk.transform.position-anvil),2.8f,"Brekk isn't beside her");
+            foreach(var w in new[]{tovra,brekk}){var g=w.GetComponent<Guide>();yield return Until(()=>Flat(w.transform.position-End(g,2))<.1f,4,w.name+" never stops at the anvil");}
+            for(int frame=0;frame<3;frame++)yield return null;
+            foreach(var w in new[]{tovra,brekk})Assert.Less(Facing(w,anvil),45,w.name+" doesn't turn to the anvil after the release");
             var stand=Point(p=>p.dialogueNode=="BrekkAnvil","BrekkAnvil");Assert.IsTrue(stand.Available,"Brekk's line by the anvil can't be heard after the release");
             Assert.Less(Flat(stand.transform.position-anvil),4,"Brekk's line is offered away from the anvil");
             // Loaded after it: everyone where the story put them, nothing walked again, and Vessa gone.
@@ -564,6 +656,78 @@ namespace Lattice.Tests.PlayMode
             }
             Assert.Greater(samples,400,"fixture: the fights' floors were sampled");
             Assert.IsEmpty(hidden,hidden.Count+" of "+samples+" fight floor points are hidden from the camera: "+string.Join("; ",hidden.Take(12)));
+        }
+        /// <summary>The camera engineer's check of November 21 (HeroInSightTests.TheFoundrysHangingIronHidesNoHeroItDoesNotDrawThrough): the charging cranes' girders and crucibles and the ladle
+        /// line L2's rail hung across two fights under the camera, and a band of each fight's floor lay out of the play view behind them, so a danger marking painted there would not be seen
+        /// (the guide: a marking is never hidden by anything). From the play camera's line at every metre of every fight's floor, nothing hung overhead (drawn, opaque, 2.4 m or more over
+        /// the floor under it, with nothing solid there) hides the floor there: of a patch the width of a marking's rim (a ring 20 cm round the point, and the point), most of it. A slender
+        /// rail or a hanger the floor reads past is not a hiding piece; the drones' rails, that were girders, are such (and are measured: they are out of the static batch). Heroes are drawn
+        /// through what hides them; a marking is not. A girder hung as the east charging crane's was is laid in the fixture first and must be caught.</summary>
+        [UnityTest] public IEnumerator NothingHungOverheadHidesAFightsFloorFromTheCamera()
+        {
+            Set("vask.sluice1","vask.sluice2");
+            yield return Zone("Gallery");
+            var toCamera=-(Quaternion.Euler(SightlineAudit.Pitch,SightlineAudit.Yaw,0)*Vector3.forward);
+            // Built wrong on purpose: a girder across the charging floor ten and a half metres up, drawn and not solid, where the east charging crane's was.
+            var girder=GameObject.CreatePrimitive(PrimitiveType.Cube);Object.DestroyImmediate(girder.GetComponent<Collider>());girder.name="Fixture girder";
+            girder.GetComponent<MeshFilter>().sharedMesh=Object.Instantiate(girder.GetComponent<MeshFilter>().sharedMesh);
+            girder.transform.position=new Vector3(0,10.5f,88);girder.transform.localScale=new Vector3(46,.8f,.5f);
+            // What is drawn, made solid for this measure only, on a layer of its own so it is never taken for the solid world it is measured against.
+            const int Sight=2;int world=~(1<<Sight);var named=new Dictionary<Collider,string>();var seen=new HashSet<Mesh>();var unread=new List<string>();
+            foreach(var view in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None))
+            {
+                if(!view.enabled||!view.gameObject.activeInHierarchy||view.GetComponentInParent<Health>()!=null||view.GetComponentInParent<Telegraph>()!=null)continue;
+                if(view.sharedMaterials.All(m=>m==null||m.renderQueue>=2500))continue;
+                var filter=view.GetComponent<MeshFilter>();if(filter==null||filter.sharedMesh==null)continue;
+                // A static body's filter holds its batch in play, which can't be read: named, so what this measure could not take is seen.
+                if(!filter.sharedMesh.isReadable){if(view.bounds.size.y<6&&view.bounds.min.y>-12)unread.Add(view.name);continue;}
+                if(!seen.Add(filter.sharedMesh))continue;
+                var solid=new GameObject("Sight fixture: "+view.name){layer=Sight};solid.transform.SetParent(filter.transform,false);
+                var body=solid.AddComponent<MeshCollider>();body.sharedMesh=filter.sharedMesh;named[body]=(view.isPartOfStaticBatch?"(a static batch with) ":"")+view.name;
+            }
+            // The ladle lines' ladles at rest, as the floor sees them between pours: a ladle and its stream over the trough as it pours are the hazard itself, read by watching them come.
+            var pours=Object.FindObjectsByType<PourChannel>(FindObjectsSortMode.None).Where(p=>p.ladle!=null).ToArray();
+            foreach(var pour in pours){pour.enabled=false;pour.ladle.position=pour.ladleRest;if(pour.hanger!=null)pour.hanger.position=pour.ladleRest;if(pour.stream!=null)pour.stream.SetActive(false);}
+            Physics.SyncTransforms();
+            // What hung overhead stands between the lens and this point of the floor, if anything.
+            string HungOver(Vector3 point)
+            {
+                foreach(var hit in Physics.RaycastAll(point,toCamera,SightlineAudit.Distance,1<<Sight,QueryTriggerInteraction.Ignore))
+                {
+                    // Hung, not stood: well over the floor beneath it, and nothing solid where the line meets it (a wall's face, a rack's, is the wall test's).
+                    var outside=hit.point+toCamera*.05f;
+                    if(!Physics.Raycast(outside,Vector3.down,out var beneath,40,world,QueryTriggerInteraction.Ignore)||outside.y-beneath.point.y<2.4f)continue;
+                    if(Physics.CheckSphere(hit.point,.2f,world,QueryTriggerInteraction.Ignore))continue;
+                    // A column or a post stands on its own foot: it is there, a body's width round, at the floor straight under where the line meets it.
+                    if(Physics.OverlapCapsule(beneath.point+Vector3.up*.1f,beneath.point+Vector3.up*.8f,.35f,1<<Sight,QueryTriggerInteraction.Ignore).Contains(hit.collider))continue;
+                    return named.TryGetValue(hit.collider,out var n)?n:hit.collider.name;
+                }
+                return null;
+            }
+            var hidden=new Dictionary<string,List<string>>();int samples=0;
+            foreach(var fight in Object.FindObjectsByType<EncounterVolume>(FindObjectsSortMode.None))
+            {
+                var box=fight.GetComponent<BoxCollider>().bounds;
+                for(float x=box.min.x+.5f;x<box.max.x;x+=1)for(float z=box.min.z+.5f;z<box.max.z;z+=1)
+                {
+                    if(!Physics.Raycast(new Vector3(x,box.max.y+8,z),Vector3.down,out var floor,40,world,QueryTriggerInteraction.Ignore)||!NavMesh.SamplePosition(floor.point,out var on,.4f,NavMesh.AllAreas))continue;
+                    if(Mathf.Abs(on.position.y-(box.center.y-1.5f))>1.7f)continue;
+                    samples++;var centre=on.position+Vector3.up*.1f;var by=new List<string>();
+                    for(int k=-1;k<8;k++){var from=k<0?centre:centre+Quaternion.Euler(0,k*45,0)*Vector3.forward*.2f;var one=HungOver(from);if(one!=null)by.Add(one);}
+                    if(by.Count<5)continue;
+                    string piece=by.GroupBy(b=>b).OrderByDescending(g=>g.Count()).First().Key;
+                    if(!hidden.TryGetValue(piece,out var where))hidden[piece]=where=new List<string>();
+                    where.Add(fight.encounterId+" ("+x.ToString("0")+", "+z.ToString("0")+")");
+                }
+            }
+            foreach(var body in named.Keys)Object.Destroy(body.gameObject);Object.Destroy(girder);foreach(var pour in pours)pour.enabled=true;yield return null;
+            TestContext.WriteLine($"FOUNDRY_HUNG measured {named.Count} drawn pieces over {samples} fight floor points; unreadable (static batches, not measured): {string.Join(", ",unread.Distinct().Take(40))}");
+            foreach(var pair in hidden)TestContext.WriteLine($"FOUNDRY_HUNG {pair.Key} hides {pair.Value.Count}: {string.Join(", ",pair.Value.Take(10))}");
+            Assert.Greater(samples,400,"fixture: the fights' floors were sampled");
+            Assert.IsTrue(named.Values.Any(v=>v.StartsWith("Drone rail girder")),"fixture: the drones' rails, hung over their fight, aren't measured (a static batch can't be read in play)");
+            Assert.IsTrue(hidden.ContainsKey("Fixture girder"),"fixture: the check can't see a girder hung across the charging floor under the camera");
+            hidden.Remove("Fixture girder");
+            Assert.IsEmpty(hidden,"fight floor hidden from the camera by what hangs over it ("+samples+" points): "+string.Join("; ",hidden.Select(p=>p.Key+" over "+p.Value.Count+", "+string.Join(", ",p.Value.Take(4)))));
         }
     }
 }

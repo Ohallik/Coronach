@@ -28,7 +28,9 @@ namespace Lattice.EditorTools
             /// it reads as an arch over the rail, and the moon passes under it.</summary>
             internal const float Tilt=28;
             static float Sin(float degrees)=>Mathf.Sin(degrees*Mathf.Deg2Rad);static float Cos(float degrees)=>Mathf.Cos(degrees*Mathf.Deg2Rad);
-            internal const float HailZ=20,TalkZ=90,FarGateZ=850,FromCampZ=866,LandZ=880;
+            // Ishen's talk stands 24 m short of the Steward's gates (it stood at 90, 62 m short): the view that holds over it takes in the ship and those gates and no more, and from
+            // 62 m short it could only do that by standing 337 m back, where the ship was a speck (s38/080, D359; from 30 m short it stood 95 m back and the ship was 55 px).
+            internal const float HailZ=20,TalkZ=128,FarGateZ=850,FromCampZ=866,LandZ=880;
             /// <summary>The three gates of a row inside the lane, and the rings that go on round the rail past the lane's walls (drawn only), as arc lengths along the row.</summary>
             internal static readonly float[] LaneGates={-24,0,24},PastWalls={-52,52,-80,80,-108,108};
             /// <summary>One rail: its moon's name, where it crosses the lane, its moon's speed, radius and direction (+1 east), what it looks like, and what else it carries.</summary>
@@ -98,13 +100,18 @@ namespace Lattice.EditorTools
             {
                 get
                 {
-                    var views=new List<LookDev.View>{new("arrival",new Vector3(0,1,8),true),new("hail",new Vector3(0,1,26),true),new("talk",new Vector3(0,1,86),true),new("machine",new Vector3(0,1,190),true,5.2f)};
+                    var views=new List<LookDev.View>{new("arrival",new Vector3(0,1,8),true),new("hail",new Vector3(0,1,26),true),new("talk",new Vector3(0,1,TalkZ-4),true),new("machine",new Vector3(0,1,190),true,5.2f)};
                     for(int i=0;i<Rails.Length;i++){var g=Gate(i,1);views.Add(new($"rail-{i+1}",g+new Vector3(0,0,-4),true));views.Add(new($"rail-{i+1}-east",Gate(i,2)+new Vector3(0,0,-3),true));
                         // Where the routes wait in the moon's lee: the frame a player stops in at every rail.
                         views.Add(new($"lee-{i+1}",LeeWait(i),true));}
                     views.Add(new("between-5-6",new Vector3(0,1,532),true));views.Add(new("lane-0380",new Vector3(-10,1,380),true));views.Add(new("lane-0600",new Vector3(12,1,595),true));
                     views.Add(new("far-gate",new Vector3(0,1,852),true));views.Add(new("landing",new Vector3(0,1,876),true));
                     views.Add(new("inner-wide",new Vector3(0,1,760),true,6));views.Add(new("overview",new Vector3(0,1,480),true,16));
+                    // Where November 20's stills stood (nov20-whole s38 and s42), to set beside them; and the middle of two stretches between rows, where the dials lie.
+                    views.Add(new("s38-086",new Vector3(0,1,221.7f),true));views.Add(new("s38-088",new Vector3(0,1,258.9f),true));views.Add(new("s42-232",new Vector3(0,1,411.3f),true));
+                    views.Add(new("between-1-2",new Vector3(0,1,205),true));views.Add(new("between-3-4",new Vector3(0,1,385),true));
+                    // Ishen's talk as its view holds it (D359): about 80 m back over the ship and the Steward's gates (nov22-whole s38 080 stood 337 m back).
+                    views.Add(new("talk-held",new Vector3(0,1,TalkZ+10),true,3.1f));
                     return views.ToArray();
                 }
             }
@@ -138,10 +145,13 @@ namespace Lattice.EditorTools
                 // ---- the story along it
                 Hail("Lume",new[]{"hail.pod"},HailZ,"oriel.podHailed",30);
                 var talk=kit.Crossing("Ishen names the moons",new Vector3(0,0,TalkZ),new Vector3(Half*2+2,8,4),"oriel.lightsRead","IshenMoonNames","Ishen");
-                // As the lead comes up to the talk the view draws back over the first two rails, so the machine is on screen whole while Ishen names its parts and teaches its lights.
+                // As the lead comes up to the talk the view draws back over the first rail's gates, so its lights are on screen while Ishen names the moons and teaches them. Over
+                // the first two rails as well it stood 337 m from the ship, and the ship was a speck of 28 pixels for the whole talk (s38/080, D359): it takes in the Steward's three
+                // gates and the lane between them and no more, and the ship stays at least 60 pixels long.
                 var vantage=new GameObject("The machine in view",typeof(VantageView));vantage.transform.position=new Vector3(0,1,TalkZ);
                 var view=vantage.GetComponent<VantageView>();view.enter=TalkZ-40;view.exit=TalkZ-25;view.untilFlag="oriel.lightsRead";
-                view.shows=new Bounds(new Vector3(0,0,(Rails[0].z+Rails[1].z)*.5f-10),new Vector3(130,10,Rails[1].z-Rails[0].z+40));
+                float stewardGates=Rails[0].z-Rails[0].GateOut;
+                view.shows=new Bounds(new Vector3(0,0,stewardGates-3),new Vector3(LaneGates[2]*2+4,2,6));
                 string needed="oriel.lightsRead";
                 foreach(var (rail,flag) in LaterNames){Hail("Ishen",new[]{"hail.moon"},Rails[rail].z-Rails[rail].GateOut-26,flag,30,needed);needed=flag;}
                 var far=kit.Crossing("The far gate",new Vector3(0,0,FarGateZ),new Vector3(Half*2+2,8,4),"oriel.crossed","","Sela");far.report="FarGate";far.situation="";
@@ -381,8 +391,11 @@ namespace Lattice.EditorTools
                 // ---- the names, the wardens, the shards
                 if(rail.named)
                 {
-                    var keystone=Gate(index,1)+Vector3.up*(ring.outer+.4f-RingDrop);
-                    WorldBuilder.Label(rail.name.ToUpperInvariant(),new Vector3(keystone.x,Plane-.5f,keystone.z-2.4f),2.4f).transform.SetParent(root.transform,true);
+                    // On the plane again, centred on the lane, 5 m before its middle gate and 0.7 m under the ships (the labels engineer's placement, docs/maps/Orrery.md, D356, D359).
+                    // Hung 10.8 m over the keystone it stood above the top of the play frame from every place a ship waits at the gate, and showed only in the wide view over Ishen's
+                    // talk, small and cut by a truss (s38/080, s38/087). What moved it up is answered at run time: a ship over a word under the plane takes it to its trace
+                    // (SignFade), and at 5 m out the ring's lit rim is no longer behind its letters (at 2.4 m it read 2 to 1).
+                    WorldBuilder.Label(rail.name.ToUpperInvariant(),At(LaneGates[1],rail.Radius+rail.GateOut+5,Plane-.7f),2.4f).transform.SetParent(root.transform,true);
                     // What the objective's arrow finds for the Names of the Moons, never offered (range nought): the rail reads it as the ship passes, open and slow, and no button can.
                     var point=kit.Discovery(rail.name+"'s keystone",Gate(index,1)-Vector3.up*Plane,"Read the keystone",rail.flag,"NamedGate",null,"Sela","MoonNames",0,0);
                     point.requiredFlag=index==0?"":Rails.Take(index).Last(x=>x.named).flag;point.transform.SetParent(root.transform,true);
@@ -436,16 +449,36 @@ namespace Lattice.EditorTools
                     spans.Add((LaneGates[LaneGates.Length-1]+rim,Half+6));return spans;
                 }
                 solid.AddRange(Spans(ring.outer));
-                var tone=new Color(.74f,.54f,.32f);
+                // A deeper, richer bronze than the tan it was, so the plate, its seams and its rivets read as metal (November 21).
+                var tone=new Color(.6f,.4f,.2f);
                 // Drawn out to the slimmed ring's own rim, so all the solid between its band and the next has truss over it.
                 foreach(var (from,to) in Spans(Mathf.Min(drawnRim,ring.outer)))
                 {
-                    // Two chords, braced: a lattice girder the frame reads as machinery, not a wall.
-                    for(int c=0;c<2;c++){float y=Plane+(c==0?-.7f:.9f);var path=new List<Vector3>();for(float u=from;u<=to+.01f;u+=Mathf.Max(.5f,(to-from)/8))path.Add(At(u,rowRadius,y));
-                        for(int k=1;k<path.Count;k++)shape.Beam(path[k-1],path[k],.5f,.4f,ZoneKit.Shape.Dim(tone,.9f+.1f*c),null,.5f);}
+                    // Two chords, braced: a lattice girder the frame reads as machinery, not a wall. Each chord is a flanged beam (a web between two plates, the top plate paler where
+                    // the light finds it), each brace meets it on a riveted gusset, and a boss caps every joint: built, not boxed.
+                    for(int c=0;c<2;c++)
+                    {
+                        float y=Plane+(c==0?-.7f:.9f);var path=new List<Vector3>();for(float u=from;u<=to+.01f;u+=Mathf.Max(.5f,(to-from)/8))path.Add(At(u,rowRadius,y));
+                        for(int k=1;k<path.Count;k++)
+                        {
+                            shape.Beam(path[k-1],path[k],.16f,.34f,ZoneKit.Shape.Dim(tone,.72f),null,.5f);
+                            shape.Beam(path[k-1]+Vector3.up*.19f,path[k]+Vector3.up*.19f,.56f,.08f,ZoneKit.Shape.Dim(tone,.86f+.08f*c),ZoneKit.Shape.Dim(tone,1.12f),.5f);
+                            shape.Beam(path[k-1]+Vector3.down*.19f,path[k]+Vector3.down*.19f,.56f,.08f,ZoneKit.Shape.Dim(tone,.78f),null,.5f);
+                        }
+                    }
                     int braces=Mathf.Max(1,Mathf.RoundToInt((to-from)/1.8f));
-                    for(int k=0;k<braces;k++){float a=Mathf.Lerp(from,to,k/(float)braces),b=Mathf.Lerp(from,to,(k+1)/(float)braces);
-                        shape.Beam(At(k%2==0?a:b,rowRadius,Plane-.7f),At(k%2==0?b:a,rowRadius,Plane+.9f),.22f,.22f,ZoneKit.Shape.Dim(tone,.8f),null,.5f);}
+                    var inward=new Vector3(Centre.x,0,Centre.y)-At((from+to)*.5f,rowRadius,0);inward.y=0;inward.Normalize();
+                    for(int k=0;k<braces;k++)
+                    {
+                        float a=Mathf.Lerp(from,to,k/(float)braces),b=Mathf.Lerp(from,to,(k+1)/(float)braces);
+                        var low=At(k%2==0?a:b,rowRadius,Plane-.7f);var high=At(k%2==0?b:a,rowRadius,Plane+.9f);
+                        shape.Beam(low,high,.2f,.14f,ZoneKit.Shape.Dim(tone,.76f),null,.5f);
+                        foreach(var joint in new[]{low,high})
+                        {
+                            shape.Box(joint,new Vector3(.62f,.62f,.06f),Quaternion.LookRotation(inward,Vector3.up)*Quaternion.Euler(0,0,45),ZoneKit.Shape.Dim(tone,.9f),null,.5f);
+                            shape.Tube(new[]{joint-inward*.12f,joint+inward*.12f},new[]{.13f,.11f},8,ZoneKit.Shape.Dim(tone,1.15f),ZoneKit.Shape.Dim(tone,.9f),1,.5f);
+                        }
+                    }
                 }
                 var girder=kit.Built(rail.name+" truss",shape,stuff.bronze);girder.transform.SetParent(root.transform,true);Unshadowed(girder);
                 foreach(var (from,to) in solid)
@@ -493,7 +526,7 @@ namespace Lattice.EditorTools
             /// and under the lane where each row crosses it, a gear wheel lying flat, turning (<see cref="Turning"/>) the way its rail does.</summary>
             static void Armature(ZoneKit kit,Stuff stuff,RingFit ring,float footBelow)
             {
-                var shape=new ZoneKit.Shape();var tone=new Color(.66f,.48f,.3f);
+                var shape=new ZoneKit.Shape();var tone=new Color(.56f,.38f,.2f);
                 foreach(var rail in Rails)
                 {
                     // The plinths' feet once the rings lean (and are slimmed: footBelow is how far under the ring's middle the plinth now ends): south of the ring's middle,
@@ -504,12 +537,20 @@ namespace Lattice.EditorTools
                 }
                 foreach(var (x,y) in new[]{(-20f,-46f),(20f,-46f),(-74f,-38f),(74f,-38f)})
                 {
-                    // Two chords a spoke's depth apart, braced every six metres.
+                    // Two chords a spoke's depth apart, braced every six metres: each chord a flanged beam, each brace on a gusset, a boss at every joint.
                     for(float z=-60;z<1080;z+=12)
                     {
-                        foreach(float c in new[]{-1.6f,1.6f})shape.Beam(new Vector3(x+c,y,z),new Vector3(x+c,y,z+12),.7f,.7f,ZoneKit.Shape.Dim(tone,.82f+.18f*Mathf.Repeat(z*.07f,1)),null,.3f);
-                        shape.Beam(new Vector3(x-1.6f,y,z),new Vector3(x+1.6f,y,z+6),.32f,.32f,ZoneKit.Shape.Dim(tone,.72f),null,.3f);
-                        shape.Beam(new Vector3(x+1.6f,y,z+6),new Vector3(x-1.6f,y,z+12),.32f,.32f,ZoneKit.Shape.Dim(tone,.72f),null,.3f);
+                        foreach(float c in new[]{-1.6f,1.6f})
+                        {
+                            var a=new Vector3(x+c,y,z);var b=new Vector3(x+c,y,z+12);float shade=.82f+.18f*Mathf.Repeat(z*.07f,1);
+                            shape.Beam(a,b,.22f,.62f,ZoneKit.Shape.Dim(tone,shade*.72f),null,.3f);
+                            shape.Beam(a+Vector3.up*.34f,b+Vector3.up*.34f,.86f,.12f,ZoneKit.Shape.Dim(tone,shade),ZoneKit.Shape.Dim(tone,shade*1.18f),.3f);
+                            shape.Beam(a+Vector3.down*.34f,b+Vector3.down*.34f,.86f,.12f,ZoneKit.Shape.Dim(tone,shade*.8f),null,.3f);
+                            foreach(var joint in new[]{a,a+Vector3.forward*6})shape.Box(joint+Vector3.up*.42f,new Vector3(1.1f,.1f,1.1f),Quaternion.Euler(0,45,0),ZoneKit.Shape.Dim(tone,.92f),ZoneKit.Shape.Dim(tone,1.05f),.3f)
+                                .Post(joint+Vector3.up*.46f,.16f,.24f,.2f,8,ZoneKit.Shape.Dim(tone,1.1f),ZoneKit.Shape.Dim(tone,1.2f));
+                        }
+                        shape.Beam(new Vector3(x-1.6f,y,z),new Vector3(x+1.6f,y,z+6),.3f,.22f,ZoneKit.Shape.Dim(tone,.72f),null,.3f);
+                        shape.Beam(new Vector3(x+1.6f,y,z+6),new Vector3(x-1.6f,y,z+12),.3f,.22f,ZoneKit.Shape.Dim(tone,.72f),null,.3f);
                     }
                 }
                 var frame=kit.Built("The orrery's frame",shape,stuff.bronze);Unshadowed(frame);
@@ -517,13 +558,90 @@ namespace Lattice.EditorTools
                 for(int i=0;i<Rails.Length;i++)
                 {
                     var rail=Rails[i];var hub=new Vector3(0,-40,rail.z-rail.GateOut);float R=7+i%3;
-                    var wheel=new ZoneKit.Shape();
-                    wheel.Disc(Vector3.zero,Vector3.up,R,48,ZoneKit.Shape.Dim(tone,1.05f),R*.3f,ZoneKit.Shape.Dim(tone,.8f));
-                    for(int s=0;s<6;s++){float a=s*Mathf.PI/3;wheel.Beam(new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*R*.3f,new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*R*.92f,.8f,.5f,ZoneKit.Shape.Dim(tone,.9f),null,.4f);}
-                    for(int t=0;t<28;t++){float a=t*Mathf.PI*2/28;var dir=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));wheel.Box(dir*(R+.5f),new Vector3(1,1.2f,1.1f),Quaternion.LookRotation(dir),ZoneKit.Shape.Dim(tone,.95f));}
-                    wheel.Post(Vector3.down*2,3,R*.3f,R*.26f,16,ZoneKit.Shape.Dim(tone,.7f),ZoneKit.Shape.Dim(tone,1.1f));
-                    var gear=kit.Built(rail.name+" gear",wheel,stuff.bronze);gear.transform.SetParent(gears.transform,false);gear.transform.position=hub;Unshadowed(gear);
+                    var gear=kit.Built(rail.name+" gear",Gear(R,tone,i),stuff.bronze);gear.transform.SetParent(gears.transform,false);gear.transform.position=hub;Unshadowed(gear);
                     var turning=gear.AddComponent<Turning>();turning.axis=Vector3.up;turning.degrees=-rail.direction*rail.speed*.9f;
+                }
+                Dials(kit,stuff,tone);
+            }
+            /// <summary>A gear wheel of the machine, lying flat: a rim of real depth with its teeth cut square and bevelled, six tapered spokes with the dark of the space under it showing
+            /// between them, a hub and its boss, bolt heads round the rim and a pale ring cut in its face. It was a flat disc with boxes round it, a toothed cylinder in tan.</summary>
+            static ZoneKit.Shape Gear(float R,Color tone,int seed)
+            {
+                var wheel=new ZoneKit.Shape();float rim=R*.8f;const float Half=.55f;
+                // The rim: its face, a cut ring and its edge, outside and in.
+                wheel.Disc(Vector3.up*Half,Vector3.up,R,72,ZoneKit.Shape.Dim(tone,1.08f),rim,ZoneKit.Shape.Dim(tone,.94f));
+                wheel.Disc(Vector3.up*(Half+.01f),Vector3.up,R*.91f,72,ZoneKit.Shape.Dim(tone,1.3f),R*.885f);
+                wheel.Tube(new[]{Vector3.down*Half,Vector3.up*Half},new[]{R,R},72,ZoneKit.Shape.Dim(tone,.66f),ZoneKit.Shape.Dim(tone,.86f),6,.5f,false);
+                wheel.Tube(new[]{Vector3.up*Half,Vector3.down*Half},new[]{rim,rim},72,ZoneKit.Shape.Dim(tone,.7f),ZoneKit.Shape.Dim(tone,.5f),6,.5f,false);
+                // Teeth, each a block with a narrower block on it: square-cut and bevelled, lit on top.
+                int teeth=Mathf.RoundToInt(R*5);
+                for(int t=0;t<teeth;t++)
+                {
+                    float a=t*Mathf.PI*2/teeth;var dir=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));var turn=Quaternion.LookRotation(dir);
+                    wheel.Box(dir*(R+.42f),new Vector3(.8f,Half*2,.9f),turn,ZoneKit.Shape.Dim(tone,.8f),ZoneKit.Shape.Dim(tone,1.02f));
+                    wheel.Box(dir*(R+.95f)+Vector3.up*.05f,new Vector3(.5f,Half*1.7f,.3f),turn,ZoneKit.Shape.Dim(tone,.86f),ZoneKit.Shape.Dim(tone,1.18f));
+                }
+                // Bolt heads round the rim's face.
+                for(int b=0;b<24;b++){float a=(b+.5f)*Mathf.PI*2/24;var at=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*(rim+R)*.5f;wheel.Post(at+Vector3.up*Half,.12f,.2f,.17f,6,ZoneKit.Shape.Dim(tone,1.1f),ZoneKit.Shape.Dim(tone,1.25f));}
+                // Six spokes, thick at the hub and thin at the rim, each with a rib along its top.
+                for(int s=0;s<6;s++)
+                {
+                    float a=s*Mathf.PI/3+seed*.2f;var dir=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));
+                    wheel.Tube(new[]{dir*R*.2f,dir*R*.55f,dir*(rim+.2f)},new[]{.7f,.5f,.4f},10,ZoneKit.Shape.Dim(tone,.84f),ZoneKit.Shape.Dim(tone,.96f),1,.5f);
+                    wheel.Beam(dir*R*.22f+Vector3.up*.42f,dir*(rim+.1f)+Vector3.up*.3f,.2f,.16f,ZoneKit.Shape.Dim(tone,1.12f));
+                }
+                // The hub: a drum, its boss, and a ring of bolts.
+                wheel.Post(Vector3.down*1.4f,2.2f,R*.22f,R*.2f,24,ZoneKit.Shape.Dim(tone,.7f),ZoneKit.Shape.Dim(tone,1.02f));
+                wheel.Post(Vector3.up*.8f,.5f,R*.11f,R*.08f,16,ZoneKit.Shape.Dim(tone,1.05f),ZoneKit.Shape.Dim(tone,1.3f));
+                for(int b=0;b<10;b++){float a=b*Mathf.PI*2/10;wheel.Post(new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*R*.16f+Vector3.up*.8f,.1f,.16f,.14f,6,ZoneKit.Shape.Dim(tone,1.15f),ZoneKit.Shape.Dim(tone,1.3f));}
+                return wheel;
+            }
+            /// <summary>Between each pair of rails, far under the lane, one of the machine's dial plates: a broad bronze disc engraved with the rails' circles, its hours, its nine moons'
+            /// marks and a pointer, turning slowly on its own boss, with a smaller wheel meshing at its rim. The ninety metres of lane between two gate rows were open space with a few
+            /// stones in it (November 20, s38/088): now each stretch has the machine's face under it, deep enough never to stand in the way of a ship or a marking.</summary>
+            static void Dials(ZoneKit kit,Stuff stuff,Color tone)
+            {
+                var face=ZoneKit.Texture("Oriel/orrery-dial",1024,(u,v)=>
+                {
+                    var p=new Vector2(u-.5f,v-.5f)*2;float r=p.magnitude,a=Mathf.Atan2(p.y,p.x)/(Mathf.PI*2)+.5f;
+                    float t=.7f+.08f*(ZoneKit.Cloud(u,v,8,5)-.5f)+.04f*(ZoneKit.Tile(u*200,v*200,200,6)-.5f);
+                    // Nine engraved circles, one for each rail, and the bands between them alternately pale and dark.
+                    for(int k=1;k<=9;k++){float ring=.12f+k*.088f;if(Mathf.Abs(r-ring)<.004f)t=.3f;}
+                    if(r>.2f&&r<.92f&&Mathf.FloorToInt((r-.2f)/.088f)%2==1)t*=.88f;
+                    // The hours: a tick every fifteen degrees on the outer band, longer every forty-five, and a mark for each moon on its own circle.
+                    float tick=Mathf.Abs(Mathf.Repeat(a*24+.5f,1)-.5f);if(r>.93f&&r<.985f&&tick<.06f)t=.28f;
+                    float major=Mathf.Abs(Mathf.Repeat(a*8+.5f,1)-.5f);if(r>.88f&&r<.985f&&major<.03f)t=.25f;
+                    for(int k=1;k<=9;k++){float ring=.12f+k*.088f,at=Mathf.Repeat(k*.381f,1);var m=new Vector2(Mathf.Cos((at-.5f)*Mathf.PI*2),Mathf.Sin((at-.5f)*Mathf.PI*2))*ring;
+                        float d=(p-m).magnitude;if(d<.022f)t=1;else if(d<.03f)t=.32f;}
+                    // The rim, and the boss's collar.
+                    if(r>.985f)t=.42f;if(r<.12f&&r>.1f)t=.3f;
+                    var c=new Color(t*1.04f,t,t*.92f,1);
+                    float verd=ZoneKit.Smooth(.6f,.72f,ZoneKit.Cloud(u,v,4,17));return Color.Lerp(c,new Color(t*.6f,t*1.02f,t*.94f,1),verd*.6f);
+                },false);
+                var plate=ZoneKit.Toon("orrery-dial",face,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetFloat("_LightFloor",.3f);m.SetColor("_RimColor",new Color(1.1f,.86f,.5f));
+                    m.SetColor("_ShadowTint",new Color(.42f,.36f,.46f));m.SetTexture("_EmissionMap",face);m.SetColor("_EmissionColor",new Color(.09f,.065f,.035f));});
+                var root=new GameObject("The orrery's dials");
+                for(int i=0;i+1<Rails.Length;i++)
+                {
+                    float mid=(Rails[i].z+Rails[i+1].z)*.5f,span=Rails[i+1].z-Rails[i].z;if(span<60)continue;
+                    // Alternately west and east of the lane's middle, deep under it, shown on screen where the stretch is flown.
+                    float side=i%2==0?-1:1,R=Mathf.Min(14,span*.17f),deep=30+4*(i%3);
+                    var at=ShowingAt(new Vector2(side*(Half*.8f),mid),deep);
+                    var disc=new ZoneKit.Shape();
+                    disc.Slot(0).Disc(Vector3.up*.4f,Vector3.up,R,96,ZoneKit.Shape.Dim(tone,1.25f),0,null,.5f/R);
+                    disc.Slot(1).Tube(new[]{Vector3.down*.6f,Vector3.up*.4f},new[]{R,R},96,ZoneKit.Shape.Dim(tone,.7f),ZoneKit.Shape.Dim(tone,.9f),8,.5f,false);
+                    // Its pointer: a long tapered blade from the boss to the rim, and the boss over it.
+                    disc.Slot(1).Beam(Vector3.up*.55f,new Vector3(R*.95f,.55f,0),.7f,.2f,ZoneKit.Shape.Dim(tone,1.2f)).Post(Vector3.up*.4f,.9f,R*.1f,R*.07f,20,ZoneKit.Shape.Dim(tone,.9f),ZoneKit.Shape.Dim(tone,1.25f));
+                    var dial=kit.Built("Dial "+(i+1),disc,plate,stuff.bronze);dial.transform.SetParent(root.transform,false);dial.transform.position=at;Unshadowed(dial);
+                    // Planar uvs on the disc's face, so its engraving lies the right way round.
+                    var mesh=dial.GetComponent<MeshFilter>().sharedMesh;var points=mesh.vertices;var uv=mesh.uv;var normals=mesh.normals;var parts=mesh.GetTriangles(0);var onFace=new HashSet<int>(parts);
+                    for(int v=0;v<points.Length;v++)if(onFace.Contains(v))uv[v]=new Vector2(points[v].x/(2*R)+.5f,points[v].z/(2*R)+.5f);
+                    mesh.uv=uv;EditorUtility.SetDirty(mesh);
+                    var turning=dial.AddComponent<Turning>();turning.axis=Vector3.up;turning.degrees=(i%2==0?1:-1)*1.6f;
+                    // A wheel meshing at its rim, turning the other way.
+                    float r=R*.32f;var wheelAt=at+new Vector3(-side*(R+r+1.4f)*.7f,-.4f,(R+r+1.4f)*.7f);
+                    var wheel=kit.Built("Dial "+(i+1)+" wheel",Gear(r,tone,i+20),stuff.bronze);wheel.transform.SetParent(root.transform,false);wheel.transform.position=wheelAt;Unshadowed(wheel);
+                    var spin=wheel.AddComponent<Turning>();spin.axis=Vector3.up;spin.degrees=-turning.degrees*R/r;
                 }
             }
             /// <summary>What the moons have shed: cratered fragments, a split half-moon now and then, bronze collar pieces and lengths of old rail, 3 to 26 m down, thickest in the broken
@@ -687,10 +805,26 @@ namespace Lattice.EditorTools
             static Stuff Materials(ZoneKit kit)
             {
                 var s=new Stuff();
-                // Bronze: brushed metal with a little grain, its colour in the vertices, so one material covers rails, truss, collars and the frame.
-                var brushed=ZoneKit.Texture("Oriel/orrery-bronze",512,(u,v)=>{float grain=ZoneKit.Tile(u*256,v*12,256,3),patch=ZoneKit.Cloud(u,v,6,9);float t=.7f+.12f*(grain-.5f)+.16f*(patch-.5f);return new Color(t,t,t,1);});
-                s.bronze=ZoneKit.Toon("orrery-bronze",brushed,m=>{ZoneKit.Tinted(m);m.SetFloat("_LightFloor",.32f);m.SetColor("_RimColor",new Color(1f,.82f,.56f));m.SetColor("_ShadowTint",new Color(.5f,.42f,.48f));
-                    m.SetTexture("_EmissionMap",brushed);m.SetColor("_EmissionColor",new Color(.06f,.045f,.03f));});
+                // Bronze: plate on plate, the way the gates' own coat is made, its colour in the vertices, so one material covers rails, truss, collars, gears and the frame. A metre's
+                // panels with dark seams and a bright lip, rows of rivet heads along every seam, brushed grain, wear and a verdigris that gathers in blotches. It was brushed grain
+                // alone, and the trusses and gears read as plain tan boxes beside the finely made gates (November 20, s38/086 and 088, s42/232).
+                var brushed=ZoneKit.Texture("Oriel/orrery-bronze",512,(u,v)=>
+                {
+                    float grain=ZoneKit.Tile(u*256,v*12,256,3),patch=ZoneKit.Cloud(u,v,6,9),fine=ZoneKit.Tile(u*96,v*96,96,4);
+                    float t=.68f+.1f*(grain-.5f)+.2f*(patch-.5f)+.05f*(fine-.5f);
+                    float su=Mathf.Repeat(u*2,1),sv=Mathf.Repeat(v*2,1),edge=Mathf.Min(Mathf.Min(su,1-su),Mathf.Min(sv,1-sv));
+                    if(edge<.012f)t*=.38f;else if(edge<.028f)t*=1.16f;
+                    // Rivets: a row along each seam, a sixteenth of the sheet apart: a bright head with a dark ring round it.
+                    float across=Mathf.Min(sv,1-sv),along=Mathf.Repeat(u*16,1)-.5f,acrossU=Mathf.Min(su,1-su),alongV=Mathf.Repeat(v*16,1)-.5f;
+                    float r1=new Vector2(along*.125f,across-.06f).magnitude,r2=new Vector2(alongV*.125f,acrossU-.06f).magnitude,r=Mathf.Min(r1,r2);
+                    if(r<.011f)t=Mathf.Lerp(1.05f,.8f,r/.011f);else if(r<.016f)t*=.55f;
+                    // Verdigris in the old plate's hollows, and the metal bright where hands and moons have worn it.
+                    float green=ZoneKit.Smooth(.58f,.7f,ZoneKit.Cloud(u+.3f,v,5,23)*.7f+fine*.3f),worn=ZoneKit.Smooth(.62f,.75f,patch);
+                    var metal=new Color(t*1.02f,t,t*.96f,1);var verd=new Color(t*.62f,t*1.04f,t*.96f,1);
+                    var c=Color.Lerp(metal,verd,green*.75f);return Color.Lerp(c,new Color(Mathf.Min(1,t*1.25f),Mathf.Min(1,t*1.2f),Mathf.Min(1,t*1.1f),1),worn*.35f*(1-green));
+                });
+                s.bronze=ZoneKit.Toon("orrery-bronze",brushed,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetFloat("_LightFloor",.26f);m.SetColor("_RimColor",new Color(1.15f,.9f,.55f));m.SetFloat("_RimPower",2.6f);
+                    m.SetColor("_ShadowTint",new Color(.42f,.36f,.46f));m.SetTexture("_EmissionMap",brushed);m.SetColor("_EmissionColor",new Color(.07f,.05f,.03f));});
                 // The rail-gate's own coat with its lamp panels made a lamp: the panels go a pale neutral in the albedo (so an unlit panel reads as glass, not as a colour) and are the mask
                 // the gate's light shines through, green or amber as the machine says (OrreryRail.GateColour, by property block in play; these two for a still).
                 string albedoPath=Path.Combine(Application.dataPath,"_Project/Art/Generated/Models/RailGate/RailGate_base_color.png");

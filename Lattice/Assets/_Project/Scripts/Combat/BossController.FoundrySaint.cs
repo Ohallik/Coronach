@@ -54,8 +54,9 @@ namespace Lattice.Combat
             /// <summary>Where its arms' collars stand when the room has none of its own: across its back (x), behind its middle, and their bearings from its front.</summary>
             public static readonly float[] ArmX={-4.3f,-2.6f,-.9f,.9f,2.6f,4.3f},ArmBearing={225,205,188,172,155,135};
             public const float ArmBack=2.8f;
-            /// <summary>Its legs, solid: the drawn frame stands wider than its capsule, from the capsule's edge out to here, this deep.</summary>
-            public const float LegInner=2.6f,LegOuter=5.05f,LegHalfDepth=2.45f,Height=12;
+            /// <summary>Its legs, solid: the drawn frame stands wider than its capsule, from the capsule's edge out to here, this deep. 5.8 across from its middle, not 5.05: its feet are drawn
+            /// 5.78 m out at the floor on either side, and a hero stopped against the old frame stood .65 m inside them (D355, continued). Its depth is as it was: its arms' collars stand at its back.</summary>
+            public const float LegInner=2.6f,LegOuter=5.8f,LegHalfDepth=2.45f,Height=12;
             /// <summary>A collar's integrity, as a share of the press's: the fifth its arm holds, so a collar struck through by itself goes at its line and never takes bar with it.</summary>
             public const float CollarShare=ArmShare;
             /// <summary>How long a slammed arm lies planted with its collar unlocked, and how long the head takes to lift after a drop (every collar unlocked, the press open). With the bar paid in

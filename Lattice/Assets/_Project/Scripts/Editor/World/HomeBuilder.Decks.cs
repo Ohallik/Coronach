@@ -141,7 +141,7 @@ namespace Lattice.EditorTools
                 var keep=StripChapterOne();
                 day=new GameObject(DayRoot).transform;meeting=new GameObject(MeetingRoot).transform;carrying=new GameObject(CarryingRoot).transform;
                 keep.SetParent(day,true);
-                Office();Market();Repair();Promenade();WayDown();Errands();StillThings();
+                DaySigns();Office();Market();Repair();Promenade();WayDown();Errands();StillThings();
                 HalsBench();HalsScene(named.First(n=>n.speaker=="Hal"));Meeting();
                 NothingStandsOnTheWays();
                 District();
@@ -276,6 +276,135 @@ namespace Lattice.EditorTools
             static GameObject Made(string name,ZoneKit.Shape shape,Transform parent,params Material[] materials)
             {var go=kit.Built(name+" "+(++built),shape,materials);go.name=name;go.transform.SetParent(parent,true);return go;}
             static GameObject Solid(GameObject drawn,Vector3 centre,Vector3 size,float yaw=0){ZoneKit.Block(drawn,centre,size,yaw);return drawn;}
+
+            /// <summary>The notice board's cork as one painted sheet facing the room: a heading strip with NOTICES on it, and three columns of the day's notices pinned up, each paper with a
+            /// title and rows of small print, the Compact's evacuation notice stamped, departure lists ruled, cards written by hand and one child's drawing; in the middle column the clean
+            /// patch and four pin holes where the capacity line hung. From the camera it reads as a board of notices with nothing to read on it but its heading.</summary>
+            static void NoticeFace(Vector3 centre,Vector2 size,Transform parent)
+            {
+                var map=ZoneKit.Texture("Home/decks-notice-board",512,(u,v)=>NoticePaint(u*size.x,v*size.y,size),false);
+                var face=ZoneKit.Toon("decks-notice-board",map,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.36f);m.SetColor("_ShadowTint",new Color(.56f,.56f,.64f));});
+                float hx=size.x*.5f,hy=size.y*.5f;
+                var mesh=new Mesh{name=DecksZone+" notice board face"};
+                mesh.vertices=new[]{centre+new Vector3(-hx,-hy,0),centre+new Vector3(hx,-hy,0),centre+new Vector3(hx,hy,0),centre+new Vector3(-hx,hy,0)};
+                mesh.uv=new[]{new Vector2(0,0),new Vector2(1,0),new Vector2(1,1),new Vector2(0,1)};mesh.normals=new[]{Vector3.back,Vector3.back,Vector3.back,Vector3.back};
+                mesh.colors32=new Color32[]{Color.white,Color.white,Color.white,Color.white};mesh.triangles=new[]{0,3,2,0,2,1};mesh.RecalculateBounds();
+                mesh=ZoneKit.SaveMesh(mesh,"Assets/_Project/Scenes/"+DecksZone+"-Notice-board-face.asset");
+                var go=new GameObject("Notice board's notices",typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(parent,false);go.transform.SetPositionAndRotation(Vector3.zero,Quaternion.identity);
+                go.GetComponent<MeshFilter>().sharedMesh=mesh;var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=face;view.shadowCastingMode=ShadowCastingMode.Off;
+            }
+            /// <summary>One notice: its middle and size on the board (metres, from the board's lower left), its turn, its paper, what is on it, how many pins and their colour.</summary>
+            readonly struct PinnedNotice
+            {
+                public readonly float x,y,w,h,turn;public readonly Color paper,head,pin;public readonly int kind,pins;
+                public PinnedNotice(float x,float y,float w,float h,float turn,Color paper,Color head,int kind,int pins,Color pin){this.x=x;this.y=y;this.w=w;this.h=h;this.turn=turn;this.paper=paper;this.head=head;this.kind=kind;this.pins=pins;this.pin=pin;}
+            }
+            /// <summary>Print (0), a ruled list (1), a hand-written card (2), a child's drawing (3), the Compact's stamped notice (4).</summary>
+            static readonly PinnedNotice[] BoardNotices=
+            {
+                new(.4f,.74f,.56f,.62f,-1.6f,new Color(.95f,.95f,.92f),new Color(.72f,.2f,.18f),4,2,new Color(.85f,.2f,.16f)),
+                new(.37f,.22f,.5f,.3f,2.2f,new Color(.96f,.92f,.76f),new Color(0,0,0,0),2,1,new Color(.2f,.55f,.85f)),
+                new(1.02f,.36f,.42f,.56f,1.2f,new Color(.93f,.94f,.95f),new Color(.24f,.5f,.52f),1,2,new Color(.95f,.75f,.2f)),
+                new(1.46f,.3f,.36f,.32f,-3f,new Color(.82f,.9f,.96f),new Color(0,0,0,0),2,1,new Color(.85f,.2f,.16f)),
+                new(1.5f,.79f,.32f,.42f,2.6f,new Color(.97f,.96f,.9f),new Color(0,0,0,0),3,1,new Color(.3f,.7f,.35f)),
+                new(1.97f,.72f,.6f,.58f,-1f,new Color(.94f,.94f,.9f),new Color(.24f,.5f,.52f),1,2,new Color(.95f,.75f,.2f)),
+                new(2.02f,.2f,.5f,.28f,1.8f,new Color(.95f,.95f,.92f),new Color(.36f,.38f,.44f),0,2,new Color(.2f,.55f,.85f)),
+            };
+            /// <summary>The capacity line's place, now bare: the cork there is less faded, with a pin hole at each corner.</summary>
+            static readonly Rect CapacityLine=new(.76f,.66f,.5f,.36f);
+            /// <summary>The heading's letters, five wide and seven tall, rows from the top.</summary>
+            static readonly Dictionary<char,string[]> BoardLetters=new()
+            {
+                ['N']=new[]{"10001","11001","10101","10011","10001","10001","10001"},['O']=new[]{"01110","10001","10001","10001","10001","10001","01110"},
+                ['T']=new[]{"11111","00100","00100","00100","00100","00100","00100"},['I']=new[]{"11111","00100","00100","00100","00100","00100","11111"},
+                ['C']=new[]{"01111","10000","10000","10000","10000","10000","01111"},['E']=new[]{"11111","10000","10000","11110","10000","10000","11111"},
+                ['S']=new[]{"01111","10000","10000","01110","00001","00001","11110"},
+            };
+            static float BoardHash(int a,int b,int c){unchecked{uint h=(uint)a*374761393u+(uint)b*668265263u+(uint)c*2246822519u;h=(h^(h>>13))*1274126177u;h^=h>>16;return (h&0xFFFFFF)/16777216f;}}
+            /// <summary>The board's colour at a point of it, in metres from its lower left.</summary>
+            static Color NoticePaint(float x,float y,Vector2 size)
+            {
+                // Cork, speckled, a little darker toward the frame.
+                float grain=ZoneKit.Tile(x/size.x*40,y/size.x*40,40,71)*.5f+ZoneKit.Tile(x/size.x*140,y/size.x*140,140,73)*.5f;
+                float edge=Mathf.Min(Mathf.Min(x,size.x-x),Mathf.Min(y,size.y-y));float rim=Mathf.Lerp(.82f,1,Mathf.Clamp01(edge/.08f));
+                var c=new Color(.6f,.45f,.31f)*(.86f+.24f*grain)*rim;
+                if(BoardHash((int)(x*300),(int)(y*300),5)>.93f)c*=.78f;
+                // The heading: a painted strip across the top with the word on it in cream.
+                float headFrom=size.y-.17f;
+                if(y>headFrom&&y<size.y-.03f&&x>.06f&&x<size.x-.06f)
+                {
+                    c=new Color(.17f,.33f,.37f)*(.94f+.08f*grain);
+                    const string word="NOTICES";float cell=.016f,letter=5*cell,gap=2*cell,wide=word.Length*letter+(word.Length-1)*gap,left=(size.x-wide)*.5f,top=size.y-.06f;
+                    int col=Mathf.FloorToInt((x-left)/(letter+gap)),row=Mathf.FloorToInt((top-y)/cell);float inX=(x-left)-col*(letter+gap);
+                    if(col>=0&&col<word.Length&&inX<letter&&row>=0&&row<7&&BoardLetters[word[col]][row][Mathf.Clamp((int)(inX/cell),0,4)]=='1')c=new Color(.95f,.9f,.76f);
+                    return c;
+                }
+                // Where the capacity line hung: cleaner cork, and its four pin holes.
+                if(CapacityLine.Contains(new Vector2(x,y)))
+                {
+                    c=Color.Lerp(c,new Color(.68f,.53f,.38f)*(.9f+.16f*grain),.7f);
+                    foreach(var corner in new[]{new Vector2(CapacityLine.xMin+.03f,CapacityLine.yMax-.03f),new Vector2(CapacityLine.xMax-.03f,CapacityLine.yMax-.03f),new Vector2(CapacityLine.xMin+.03f,CapacityLine.yMin+.03f),new Vector2(CapacityLine.xMax-.03f,CapacityLine.yMin+.03f)})
+                        if(Vector2.Distance(new Vector2(x,y),corner)<.008f)c=new Color(.16f,.12f,.1f);
+                }
+                for(int i=BoardNotices.Length-1;i>=0;i--)
+                {
+                    var n=BoardNotices[i];float a=-n.turn*Mathf.Deg2Rad,dx=x-n.x,dy=y-n.y;
+                    float lx=dx*Mathf.Cos(a)-dy*Mathf.Sin(a),ly=dx*Mathf.Sin(a)+dy*Mathf.Cos(a);
+                    // Its pins first, standing proud of the paper: a bead with a highlight.
+                    for(int p=0;p<n.pins;p++)
+                    {
+                        var at=new Vector2(n.pins==1?0:(p==0?-1:1)*n.w*.36f,n.h*.5f-.035f);float d=Vector2.Distance(new Vector2(lx,ly),at);
+                        if(d<.017f)return d<.006f&&lx<at.x&&ly>at.y?Color.Lerp(n.pin,Color.white,.6f):n.pin*(1-.35f*d/.017f);
+                        if(d<.026f&&ly<at.y&&lx>at.x-.004f)c*=.8f;
+                    }
+                    bool on=Mathf.Abs(lx)<n.w*.5f&&Mathf.Abs(ly)<n.h*.5f;
+                    // Its shadow on the cork, down and to the right of it.
+                    if(!on){if(Mathf.Abs(lx-.012f)<n.w*.5f&&Mathf.Abs(ly+.016f)<n.h*.5f)c*=.66f;continue;}
+                    var paper=n.paper*(.96f+.06f*grain);float fromTop=n.h*.5f-ly,fromLeft=lx+n.w*.5f,inner=n.w-.08f;
+                    // A curl of shade at its lower corners.
+                    if(fromTop>n.h-.03f&&Mathf.Abs(lx)>n.w*.5f-.05f)paper*=.9f;
+                    Color ink=new(.28f,.28f,.32f);
+                    switch(n.kind)
+                    {
+                        case 4:case 1:case 0:
+                        {
+                            // A title bar or a title line, then rows of small print in words.
+                            if(n.head.a>0&&fromTop>.05f&&fromTop<.11f&&fromLeft>.04f&&fromLeft<n.w-.04f)return n.head;
+                            if(n.head.a<=0&&fromTop>.06f&&fromTop<.085f&&fromLeft>.05f&&fromLeft<n.w*.7f)return ink;
+                            float rowAt=fromTop-.14f;int row=Mathf.FloorToInt(rowAt/.042f);float inRow=rowAt-row*.042f;
+                            if(rowAt>0&&inRow<.012f&&fromLeft>.04f&&fromLeft<.04f+inner)
+                            {
+                                float length=inner*(.55f+.45f*BoardHash(i,row,1));int word=Mathf.FloorToInt((fromLeft-.04f)/.06f);
+                                if(fromLeft-.04f<length&&BoardHash(i,row,word+7)>.2f&&Mathf.Repeat(fromLeft-.04f,.06f)<.05f&&fromTop<n.h-.06f)return n.kind==1&&fromLeft<.08f?n.head:ink;
+                            }
+                            // A ruled list's lines between its rows.
+                            if(n.kind==1&&rowAt>0&&Mathf.Abs(inRow-.028f)<.002f&&fromTop<n.h-.05f&&fromLeft>.04f&&fromLeft<n.w-.04f)return Color.Lerp(paper,n.head,.45f);
+                            // The Compact's stamp: a red ring with a bar across it, low on the right.
+                            if(n.kind==4){float s=Vector2.Distance(new Vector2(lx,ly),new Vector2(n.w*.22f,-n.h*.3f));if(Mathf.Abs(s-.06f)<.008f||s<.06f&&Mathf.Abs(ly+n.h*.3f)<.008f)return Color.Lerp(paper,new Color(.8f,.16f,.14f),.85f);}
+                            return paper;
+                        }
+                        case 2:
+                        {
+                            // Hand-written: a few wavering lines in pencil or blue ink.
+                            float rowAt=fromTop-.06f;int row=Mathf.FloorToInt(rowAt/.05f);float wave=.006f*Mathf.Sin(fromLeft*70+row*2.3f);float inRow=rowAt-row*.05f-.025f-wave;
+                            float length=inner*(.5f+.5f*BoardHash(i,row,3));
+                            if(rowAt>0&&Mathf.Abs(inRow)<.0055f&&fromLeft>.04f&&fromLeft<.04f+length&&fromTop<n.h-.04f&&BoardHash(i,row,Mathf.FloorToInt(fromLeft*22))>.12f)return i%2==0?new Color(.22f,.3f,.62f):new Color(.32f,.3f,.3f);
+                            return paper;
+                        }
+                        default:
+                        {
+                            // A child's drawing: a sun, a ship, the station's ring, in crayon.
+                            var q=new Vector2(lx,ly);
+                            if(Vector2.Distance(q,new Vector2(n.w*.26f,n.h*.24f))<.05f)return new Color(.98f,.78f,.2f);
+                            if(Mathf.Abs(Vector2.Distance(q,new Vector2(-n.w*.06f,-n.h*.1f))-.1f)<.009f)return new Color(.3f,.55f,.85f);
+                            if(Mathf.Abs(ly+n.h*.1f)<.012f&&Mathf.Abs(lx+n.w*.06f)<.06f)return new Color(.85f,.3f,.25f);
+                            if(Mathf.Abs(ly+n.h*.38f)<.008f&&Mathf.Abs(lx)<n.w*.4f)return new Color(.35f,.65f,.35f);
+                            return paper;
+                        }
+                    }
+                }
+                return c;
+            }
             static GameObject Prop(string key,Vector2 at,float size,float yaw,Transform parent,bool solid=true,float up=0)
             {var go=kit.Prop(key,new Vector3(at.x,up,at.y),size,yaw,solid);go.transform.SetParent(parent,true);return go;}
             static void Tint(GameObject go,Color tint){var t=go.GetComponent<PropTint>()??go.AddComponent<PropTint>();t.tint=tint;}
@@ -363,6 +492,15 @@ namespace Lattice.EditorTools
                 if(windows.Length>0)npc.gameObject.AddComponent<TurnToSpeak>().windows=windows;
                 named.Add(npc);return npc;
             }
+            /// <summary>Three of chapter 1's floor signs a step nearer the camera on the day, in front of the arches they stood behind: a pillar stood across CABINS 01-04 and a
+            /// doorway's frame across MARKET / GALLEY (s57/055, WorldLabelTests), and ARRIVALS / DOCK OFFICE lay six metres past the arrivals hall's inner arch, half under its
+            /// lintel from GATE SIX and the notice board (WorldLabelTests, November 21): it lies in the hall, in front of that arch. Hub_Decks keeps them where they were.
+            /// Both ways DecksLeaving is saved (BuildZones and the chapter9.decks-leaving restage) go through <see cref="BuildDay"/>, which moves them.</summary>
+            static void DaySigns()
+            {
+                foreach(var (text,to) in new[]{("CABINS 01–04",new Vector3(-28,.12f,14.5f)),("MARKET / GALLEY",new Vector3(0,.12f,-3.5f)),("ARRIVALS / DOCK OFFICE",new Vector3(-28,.12f,-8.4f))})
+                    foreach(var sign in Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(sign.name.StartsWith("Sign_")&&sign.text==text)sign.transform.position=to;
+            }
             static TurnToSpeak.Window W(string from,string until)=>new(){from=from??"",until=until??""};
             /// <summary>Here or not by the story, decided as the scene loads unless <paramref name="live"/> (then only where it happens out of the party's sight).</summary>
             static Whereabouts When(string name,GameObject who,string from,string awayFrom,string backAt,string goneAt,bool live,Transform parent)
@@ -376,6 +514,26 @@ namespace Lattice.EditorTools
                 var person=kit.Townsperson(TownLife.Body(body),new Vector3(at.x,up,at.y),yaw,tint);person.name="Townsperson: "+what;person.transform.localScale=Vector3.one*build;
                 TownLife.Carry(kit,person,carries);person.transform.SetParent(parent,true);return person;
             }
+            /// <summary>The lowest point of a body's skin under its hips, as it is posed now: within .16 m either side of the hips' line (not the hands hanging beside them), from .22
+            /// behind to .1 ahead of them (the seat itself: from .25 the backs of the calves hanging from the knees were in it, and read as the seat on the floor) and no more than .3 under them. Infinity if the body has no skin there, or if it has
+            /// skin lower still in that column (a robe's or a long coat's skirt, hanging past the seat: that body's seat can't be read from its skin, and it keeps the fixed height).</summary>
+            internal static float SeatOf(GameObject person,Transform hips,Vector3 right,Vector3 forward)
+            {
+                float low=float.PositiveInfinity;var at=hips.position;bool skirt=false;
+                foreach(var skin in person.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+                {
+                    if(skin.sharedMesh==null)continue;var baked=new Mesh();skin.BakeMesh(baked);var world=skin.transform.localToWorldMatrix;
+                    foreach(var v in baked.vertices)
+                    {
+                        var w=world.MultiplyPoint3x4(v);var d=w-at;if(d.y>0)continue;
+                        float side=Vector3.Dot(d,right),ahead=Vector3.Dot(d,forward);
+                        if(Mathf.Abs(side)>=.16f||ahead<=-.22f||ahead>=.1f)continue;
+                        if(d.y<-.3f)skirt=true;else low=Mathf.Min(low,w.y);
+                    }
+                    Object.DestroyImmediate(baked);
+                }
+                return skirt?float.PositiveInfinity:low;
+            }
             /// <summary>Holds a body in poses no clip has, measured on the body itself from its own idle (<see cref="Posed"/>): seated on something <paramref name="seat"/> high, a hand
             /// up, bent over a hatch. Its first pose is how it loads and how an editor still shows it.</summary>
             static Posed Pose(GameObject person,float seat,params string[] poses)
@@ -385,12 +543,19 @@ namespace Lattice.EditorTools
                 var idle=clips.FirstOrDefault(c=>c!=null&&c.name.ToLowerInvariant().Contains("idle"));
                 using var handler=new HumanPoseHandler(rig.avatar,rig.transform);
                 var right=person.transform.right;var forward=person.transform.forward;float floor=person.transform.position.y;
+                // Every humanoid bone the rig has, the hips first: each pose keeps their turns as well as its muscles (Posed.Pose.turns), since a human pose is held to the avatar's
+                // muscle limits and the seat's level thighs came back half-raised in play.
+                var bones=Enumerable.Range(0,(int)HumanBodyBones.LastBone).Select(b=>rig.GetBoneTransform((HumanBodyBones)b)).Where(b=>b!=null).Distinct().ToList();
+                var hipsBone=rig.GetBoneTransform(HumanBodyBones.Hips);if(hipsBone!=null){bones.Remove(hipsBone);bones.Insert(0,hipsBone);}
                 void Turn(HumanBodyBones bone,Vector3 axis,float degrees){var t=rig.GetBoneTransform(bone);if(t!=null)t.rotation=Quaternion.AngleAxis(degrees,axis)*t.rotation;}
                 void Sit(float height)
                 {
                     foreach(var (thigh,shin) in new[]{(HumanBodyBones.LeftUpperLeg,HumanBodyBones.LeftLowerLeg),(HumanBodyBones.RightUpperLeg,HumanBodyBones.RightLowerLeg)}){Turn(thigh,right,-84);Turn(shin,right,86);}
                     var hips=rig.GetBoneTransform(HumanBodyBones.Hips);if(hips!=null)hips.position=new Vector3(hips.position.x,floor+height+.1f,hips.position.z)-forward*.12f;
                     Turn(HumanBodyBones.Spine,right,6);
+                    // Down onto the seat by the body's own skin: the hips a fixed .1 over the seat sank a heavy body's seat into the bench and floated a slight one over it (the November
+                    // 20 capture's town meeting). Whatever of it is lowest under the hips (the seat of its trousers, the backs of its thighs) rests on the slats.
+                    if(hips!=null){float low=SeatOf(person,hips,right,forward);if(!float.IsInfinity(low))hips.position+=Vector3.up*Mathf.Clamp(floor+height+.01f-low,-.12f,.12f);}
                 }
                 void Hand(){Turn(HumanBodyBones.RightUpperArm,forward,158);Turn(HumanBodyBones.RightLowerArm,forward,8);}
                 void Bend(){Turn(HumanBodyBones.Spine,right,20);Turn(HumanBodyBones.Chest,right,16);Turn(HumanBodyBones.Neck,right,10);Turn(HumanBodyBones.Head,right,18);}
@@ -399,14 +564,17 @@ namespace Lattice.EditorTools
                     if(idle!=null)idle.SampleAnimation(rig.gameObject,.3f);
                     bool seated=seat>0&&name!="stand"&&name!="standhand";
                     if(seated)Sit(seat);
+                    // Up off the seat, a step forward clear of it: stood where they sat, Oda and Jun stood in the bench's slats (the meeting's still, November 21).
+                    else if(seat>0){var hips=rig.GetBoneTransform(HumanBodyBones.Hips);if(hips!=null)hips.position+=forward*.4f;}
                     if(name=="hand"||name=="standhand")Hand();
                     if(name=="bend")Bend();
                     var hp=new HumanPose();handler.GetHumanPose(ref hp);
-                    return new Posed.Pose{name=name,body=hp.bodyPosition,turn=hp.bodyRotation,muscles=hp.muscles.ToArray()};
+                    return new Posed.Pose{name=name,body=hp.bodyPosition,turn=hp.bodyRotation,muscles=hp.muscles.ToArray(),turns=bones.Select(b=>b.localRotation).ToArray(),hips=hipsBone!=null?hipsBone.localPosition:Vector3.zero};
                 }
                 var made=poses.Select(Capture).ToArray();
-                var posed=person.AddComponent<Posed>();posed.poses=made;posed.current=poses[0];
-                var first=made[0];var show=new HumanPose{bodyPosition=first.body,bodyRotation=first.turn,muscles=first.muscles.ToArray()};handler.SetHumanPose(ref show);
+                var posed=person.AddComponent<Posed>();posed.poses=made;posed.current=poses[0];posed.seat=Mathf.Max(0,seat);posed.bones=hipsBone!=null?bones.ToArray():Array.Empty<Transform>();
+                if(posed.bones.Length==0){var first=made[0];var show=new HumanPose{bodyPosition=first.body,bodyRotation=first.turn,muscles=first.muscles.ToArray()};handler.SetHumanPose(ref show);}
+                else posed.Hold();
                 // The rig holds the pose by itself: no clip plays over it, and nothing turns its arms to hang.
                 foreach(var animated in person.GetComponentsInChildren<GeneratedAnimator>(true))animated.enabled=false;
                 rig.enabled=false;rig.runtimeAnimatorController=null;
@@ -464,13 +632,17 @@ namespace Lattice.EditorTools
                 var thanks=new GameObject("The board's answer").transform;thanks.SetParent(office,true);Chalk("BERTH: DECLINED",new Vector3(at.x,.9f,at.y-.02f),Quaternion.identity,.24f,thanks);
                 When("The board's answer",thanks.gameObject,Held,null,null,null,true,office);
 
-                // The notice board in the arrivals vestibule, where the capacity line was pinned: four pin holes where it was, and the day's notices.
-                var n=new ZoneKit.Shape();var nb=NoticeBoard.at;
-                n.Box(new Vector3(nb.x,1.3f,nb.y),new Vector3(2.4f,1.3f,.08f),Quaternion.identity,new Color(.55f,.44f,.32f)).Box(new Vector3(nb.x,1.3f,nb.y+.03f),new Vector3(2.56f,1.46f,.06f),Quaternion.identity,new Color(.3f,.32f,.36f));
-                var rng=new System.Random(71);
-                for(int i=0;i<9;i++){float px=nb.x-1+(float)rng.NextDouble()*2,py=.9f+(float)rng.NextDouble()*.8f;n.Box(new Vector3(px,py,nb.y-.05f),new Vector3(.28f+(float)rng.NextDouble()*.18f,.36f,.01f),Quaternion.Euler(0,0,(float)(rng.NextDouble()-.5)*8),new Color(.9f,.88f,.8f));}
-                foreach(var (px,py) in new[]{(-.3f,1.62f),(.3f,1.62f),(-.3f,1.22f),(.3f,1.22f)})n.Disc(new Vector3(nb.x+px,py,nb.y-.045f),Vector3.back,.025f,6,new Color(.12f,.1f,.1f));
+                // The notice board in the arrivals vestibule, where the capacity line was pinned: four pin holes where it was, and the day's notices. Its face is one painted sheet (NoticeFace):
+                // nine paper boxes thrown on at random overlapped into blurry white smears on beige, and from the camera it read as a stained panel (whole-game capture, November 20,
+                // s60/120, 188, 202). The frame is the station's grey steel, with a lip under the cork and the board's two posts down to the deck.
+                var n=new ZoneKit.Shape();var nb=NoticeBoard.at;var frameGrey=new Color(.3f,.32f,.36f);
+                n.Box(new Vector3(nb.x,1.3f,nb.y+.03f),new Vector3(2.62f,1.52f,.07f),Quaternion.identity,frameGrey);
+                foreach(float dy in new[]{-.71f,.71f})n.Box(new Vector3(nb.x,1.3f+dy,nb.y-.03f),new Vector3(2.62f,.08f,.08f),Quaternion.identity,ZoneKit.Shape.Dim(frameGrey,1.15f));
+                foreach(float dx in new[]{-1.27f,1.27f})n.Box(new Vector3(nb.x+dx,1.3f,nb.y-.03f),new Vector3(.08f,1.5f,.08f),Quaternion.identity,ZoneKit.Shape.Dim(frameGrey,1.15f));
+                n.Box(new Vector3(nb.x,.58f,nb.y-.06f),new Vector3(2.5f,.05f,.14f),Quaternion.identity,ZoneKit.Shape.Dim(frameGrey,.9f));
+                foreach(float dx in new[]{-1.1f,1.1f})n.Box(new Vector3(nb.x+dx,.28f,nb.y+.02f),new Vector3(.09f,.56f,.09f),Quaternion.identity,frameGrey);
                 var notice=Made("Notice board",n,office,paint);ZoneKit.Block(notice,new Vector3(nb.x,1,nb.y),new Vector3(2.56f,2,.2f));
+                NoticeFace(new Vector3(nb.x,1.3f,nb.y-.06f),new Vector2(2.4f,1.3f),office);
                 Sign("NOTICE BOARD",new Vector2(-20.6f,-9.8f),office);
 
                 // Gate six: the dock office's own dock, where departures went. A family waits at it with what they could carry: a grandmother sitting on the trunk.
@@ -905,40 +1077,46 @@ namespace Lattice.EditorTools
                 Pose(mOda.gameObject,.45f,"base","stand");Pose(mJun.gameObject,.45f,"base","stand");
                 // The footnotes in Ilo's hand, the bound copy in Meret's (it goes to Mira on the manifest's second line).
                 Papers(mIlo.transform,"The footnotes",new Color(.94f,.92f,.84f));var copy=Papers(meret.transform,"The bound copy",new Color(.56f,.22f,.2f));
-                // The town, seated and standing. No two neighbours alike; each turns to whoever has the floor.
+                // The town, seated and standing: thirty people in thirty bodies, none of them anyone named in the room (Dace's crew wore Dace's body, three times; the November 20
+                // capture counted four of one woman and four of one man in one screen). Some bodies are one figure in another's colours (Binna, Dabb, Garo, Senn and the Okhari grower;
+                // Hask, Iru, Tern and the herder; Dov, Maru and Quill: TownsfolkLookTests reads them as copies when they stand at one height), so each of those stands a tenth or more
+                // taller or shorter than any other of its figure in the room, or sits while the other stands. Everyone faces the board, where Orrin calls the meeting; each turns to
+                // whoever has the floor, the seated as far as a seat lets them (Posed.WithinSeat).
                 crowd=new GameObject("The town at the meeting").transform;crowd.SetParent(meeting,true);
-                var seated=new (string body,float x,float z,Color tint,float build)[]
+                var front=Board.stand;
+                float Facing(Vector2 at,int seed){var to=front-at;return Mathf.Atan2(to.x,to.y)*Mathf.Rad2Deg+((seed*37)%13-6);}
+                var seated=new (string body,float x,float z,Color tint,float build,bool berth)[]
                 {
-                    ("BrekkBody",-33.5f,4.0f,new(.66f,.58f,.5f),1),("AumiBody",-32.2f,4.0f,new(.58f,.66f,.74f),.94f),("PellBody",-30.9f,4.0f,new(.82f,.66f,.56f),.97f),
-                    ("IshenBody",-33.5f,2.3f,new(.64f,.62f,.7f),1.02f),("CorraBody",-22.1f,4.0f,new(.72f,.6f,.56f),.98f),("AumiBody",-23.4f,2.3f,new(.6f,.72f,.6f),.95f),
-                    ("BrekkBody",-24.8f,2.3f,new(.78f,.7f,.56f),1.03f),("PellBody",-22.1f,2.3f,new(.56f,.62f,.76f),.93f),("IshenBody",-23.4f,4.0f,new(.7f,.7f,.6f),.96f),
+                    ("LumeBody",-32.2f,4.0f,new(.58f,.66f,.74f),.94f,true),("PipBody",-30.9f,4.0f,new(.82f,.66f,.56f),.97f,false),("OdrunBody",-33.5f,2.3f,new(.64f,.62f,.7f),1.02f,false),
+                    ("OnaBody",-22.1f,4.0f,new(.72f,.6f,.56f),.98f,true),("MaruBody",-23.4f,2.3f,new(.6f,.72f,.6f),.95f,false),("BinnaBody",-24.8f,2.3f,new(.78f,.7f,.56f),.97f,true),
+                    ("TernBody",-22.1f,2.3f,new(.56f,.62f,.76f),.93f,false),
                 };
-                for(int i=0;i<seated.Length;i++){var s=seated[i];var p=Folk("Sitting at the meeting",s.body,new Vector2(s.x,s.z),0,s.tint,crowd,s.build);Pose(p,.45f,"base","hand");if(i==1||i==4||i==6)forBerth.Add(p.transform);}
+                foreach(var s in seated){var p=Folk("Sitting at the meeting",s.body,new Vector2(s.x,s.z),0,s.tint,crowd,s.build);Pose(p,.45f,"base","hand");if(s.berth)forBerth.Add(p.transform);}
                 var mother=Folk("Oda's mother","CorraBody",new Vector2(-32.2f,2.3f),0,new Color(.78f,.62f,.7f),meeting,.84f);Pose(mother,.45f,"base","stand");
-                var standing=new (string body,float x,float z,float yaw,Color tint,float build)[]
+                var standing=new (string body,float x,float z,Color tint,float build)[]
                 {
-                    ("CorraBody",-25.4f,-.4f,10,new(.84f,.72f,.5f),1.02f),("IshenBody",-23.6f,-.2f,350,new(.6f,.7f,.66f),.99f),("PellBody",-21.8f,-.5f,330,new(.74f,.62f,.78f),.95f),
-                    ("BrekkBody",-37.0f,6.2f,90,new(.7f,.66f,.6f),1),
+                    ("SennBody",-25.4f,-.4f,new(.84f,.72f,.5f),1.1f),("IruBody",-23.6f,-.2f,new(.6f,.7f,.66f),1.03f),("DabbBody",-21.8f,-.5f,new(.74f,.62f,.78f),.9f),
+                    ("AumiBody",-37.0f,6.2f,new(.7f,.66f,.6f),1),
                 };
-                foreach(var s in standing){var p=Folk("Standing at the back of the meeting",s.body,new Vector2(s.x,s.z),s.yaw,s.tint,crowd,s.build,null,s.x<-36.2f?.5f:0);Pose(p,0,"base","hand");if(s.x>-24&&s.x<-23)forBerth.Add(p.transform);}
-                // Hal's nine apprentices behind him: three born on the ring, six off the convoy.
+                int k0=0;foreach(var s in standing){var p=Folk("Standing at the back of the meeting",s.body,new Vector2(s.x,s.z),Facing(new Vector2(s.x,s.z),k0++),s.tint,crowd,s.build,null,s.x<-36.2f?.5f:0);Pose(p,0,"base","hand");if(s.x>-24&&s.x<-23)forBerth.Add(p.transform);}
+                // Hal's nine apprentices behind him: three born on the ring, six off the convoy (two of them Okhari).
                 apprentices=new GameObject("Hal's apprentices at the meeting").transform;apprentices.SetParent(meeting,true);
                 var nine=new (string body,float x,float z,Color tint,float build)[]
                 {
-                    ("PellBody",-20.4f,3.9f,new(.86f,.7f,.52f),.9f),("IshenBody",-18.6f,4.2f,new(.6f,.66f,.74f),.94f),("CorraBody",-17.0f,3.6f,new(.76f,.6f,.66f),.92f),
-                    ("TeoBody",-20.0f,2.4f,new(.62f,.74f,.56f),.96f),("JaskBody",-18.2f,2.6f,new(.84f,.72f,.6f),.9f),("DovBody",-16.8f,1.9f,new(.58f,.66f,.8f),.93f),
-                    ("PimBody",-19.6f,.9f,new(.8f,.62f,.5f),.88f),("GaroBody",-18.0f,1.0f,new(.66f,.7f,.6f),.95f),("QuillBody",-16.9f,.2f,new(.74f,.66f,.78f),.91f),
+                    ("PellBody",-20.4f,3.9f,new(.86f,.7f,.52f),.9f),("IshenBody",-18.6f,4.2f,new(.6f,.66f,.74f),.94f),("OkhariBody",-17.0f,3.6f,new(.76f,.6f,.66f),.92f),
+                    ("TeoBody",-20.0f,2.4f,new(.62f,.74f,.56f),.96f),("JaskBody",-18.2f,2.6f,new(.84f,.72f,.6f),.9f),("DovBody",-16.8f,1.9f,new(.58f,.66f,.8f),.86f),
+                    ("KeptHerder",-19.6f,.9f,new(.8f,.62f,.5f),.84f),("GaroBody",-18.0f,1.0f,new(.66f,.7f,.6f),1.0f),("QuillBody",-16.9f,.2f,new(.74f,.66f,.78f),1.07f),
                 };
-                foreach(var a in nine){var p=Folk("One of Hal's apprentices",a.body,new Vector2(a.x,a.z),305,a.tint,apprentices,a.build);Pose(p,0,"base","hand");}
-                // Dace's ten at the back, by the promenade.
+                foreach(var a in nine){var p=Folk("One of Hal's apprentices",a.body,new Vector2(a.x,a.z),Facing(new Vector2(a.x,a.z),k0++),a.tint,apprentices,a.build);Pose(p,0,"base","hand");}
+                // Dace's ten at the back, by the promenade: Dace and nine of his crew, none of them in his body.
                 crewRoom=new GameObject("Dace's crew at the meeting").transform;crewRoom.SetParent(meeting,true);
                 var ten=new (string body,float x,float z,Color tint,float build)[]
                 {
-                    ("SurvivorNatural",-39.2f,-.1f,new(.74f,.68f,.56f),1.02f),("BrekkBody",-38.2f,-.9f,new(.6f,.66f,.54f),.98f),("AumiBody",-37.2f,-.2f,new(.7f,.6f,.5f),.95f),
-                    ("SurvivorNatural",-36.2f,-.9f,new(.66f,.72f,.76f),.96f),("CorraBody",-35.2f,-.3f,new(.74f,.66f,.54f),1.03f),("IshenBody",-34.2f,-.9f,new(.62f,.6f,.66f),1),
-                    ("PellBody",-35.4f,1.0f,new(.72f,.7f,.6f),.92f),("SurvivorNatural",-34.6f,1.6f,new(.7f,.62f,.5f),1.05f),("BrekkBody",-35.3f,2.2f,new(.56f,.6f,.66f),.99f),
+                    ("BrekkBody",-39.2f,-.1f,new(.74f,.68f,.56f),1.02f),("TovraBody",-38.2f,-.9f,new(.6f,.66f,.54f),.98f),("PimBody",-37.2f,-.2f,new(.7f,.6f,.5f),.95f),
+                    ("HaskBody",-36.2f,-.9f,new(.66f,.72f,.76f),1.14f),("OkhariGrower",-35.2f,-.3f,new(.74f,.66f,.54f),1.2f),("HaddaBody",-34.2f,-.9f,new(.62f,.6f,.66f),1),
+                    ("RuvaBody",-35.4f,1.0f,new(.72f,.7f,.6f),.96f),("PatrolBody",-34.6f,1.6f,new(.7f,.62f,.5f),1.0f),("Gardener",-35.3f,2.2f,new(.56f,.6f,.66f),.97f),
                 };
-                foreach(var c in ten){var p=Folk("One of Dace's crew at the meeting",c.body,new Vector2(c.x,c.z),20,c.tint,crewRoom,c.build);Pose(p,0,"base","hand");}
+                foreach(var c in ten){var p=Folk("One of Dace's crew at the meeting",c.body,new Vector2(c.x,c.z),Facing(new Vector2(c.x,c.z),k0++),c.tint,crewRoom,c.build);Pose(p,0,"base","hand");}
                 When("The town meeting",meeting.gameObject,Gathered,null,null,Held,false,day);
                 // What points the main quest's arrow at whoever's turn it is (report Meeting; never offered: range 0).
                 foreach(var (who,flag,after) in new[]{(orrin,"home.meetingOpened",Gathered),(meret,"home.offerMade","home.meetingOpened"),(mHal,"home.halAsked","home.offerMade"),(mMira,"home.manifestShown","home.halAsked"),
@@ -1196,7 +1374,8 @@ namespace Lattice.EditorTools
                     foreach(var body in crowd.Cast<Transform>().Concat(apprentices.Cast<Transform>()).Concat(crewRoom.Cast<Transform>()))
                     {
                         var p=body.GetComponent<Posed>();if(p!=null&&!forBerth.Contains(body))Turned(p,"hand");
-                        var look=orrin.transform.position-body.position;look.y=0;body.rotation=Quaternion.LookRotation(look);
+                        // Seated, as far as a seat lets them (Posed.WithinSeat; its Awake hasn't run in the editor, so it measures from the yaw as placed).
+                        var look=orrin.transform.position-body.position;look.y=0;var want=Quaternion.LookRotation(look);body.rotation=p!=null?p.WithinSeat(want):want;
                     }
                     Turned(mOda.GetComponent<Posed>(),"stand");Turned(mJun.GetComponent<Posed>(),"stand");
                 }
@@ -1214,9 +1393,7 @@ namespace Lattice.EditorTools
             }
             static void Turned(Posed posed,string pose)
             {
-                if(posed==null)return;var shown=posed.poses.FirstOrDefault(p=>p.name==pose);if(shown==null)return;
-                var rig=posed.GetComponentInChildren<Animator>(true);using var handler=new HumanPoseHandler(rig.avatar,rig.transform);
-                var hp=new HumanPose{bodyPosition=shown.body,bodyRotation=shown.turn,muscles=shown.muscles.ToArray()};handler.SetHumanPose(ref hp);posed.current=pose;
+                if(posed==null||!posed.Has(pose))return;posed.current=pose;posed.Hold();
             }
 
             // ---------------------------------------------------------------- LookDev's views (LookDev.Views names these)

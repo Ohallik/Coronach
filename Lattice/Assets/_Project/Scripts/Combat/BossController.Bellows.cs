@@ -22,6 +22,11 @@ namespace Lattice.Combat
             status=boss=>PressureOrgan.AnyPumping?"BRACED ON ITS ORGANS  ·  BREAK THEM":"",
             fightGoal=(boss,label)=>PressureOrgan.AnyPumping?"Break the pressure organs bracing the Bellows":"Bring down the Bellows",
             occlusion=true,
+            // As wide as its dome is drawn at the floor (D355, continued). On a rig's 1.4 m a hero stopped 1.75 m from its middle, inside a dome drawn 2.6 m out there, and the
+            // see-through door showed him standing in it (nov22-whole s08/067, 068, 075). Its dome is drawn at .88 (EnemyDef.drawnScale: 2.37 m at the floor at rest, 2.65 at a tell's swell), so a hero stopped
+            // against 2.4 m stands just outside it at rest and where he stands is clear of it at its fullest; its capsule is twice that tall (EnemyDef.capsuleHeight), or Unity rounds it to a ball and the body floats. Its hurtbox is this
+            // capsule, and its weak spots stand on its flanks and front, proud of it (WeakSpotAt), instead of inside the dome.
+            capsuleRadius=2.4f,
         });
         float BellowsRest=>Phase>=3?3.2f:Phase>=2?3.8f:4.6f;
         /// <summary>The colour of the markings they burst in. In hot orange, against the ribs, they read as a fireball or a weak spot on the boss.</summary>

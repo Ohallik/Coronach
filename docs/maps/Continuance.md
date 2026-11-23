@@ -204,3 +204,11 @@ What reads: the spine (a white gangway across open space, its rings, the two bra
 - The crews off watch are the civilians other zones use (Neve, Hal, Mira, Lume, Dace's suit), so a player who knows them may see a face from elsewhere; the Compact has no civilian grade of its own.
 - The welding line's jig is still one long bed under its four sections.
 - The flight berth's edges are lane lamps and buoys; nothing but those marks the berth's south, west and east edges.
+
+## Look pass (November 21, the chapter 10 zone engineer)
+
+After the whole-game capture of November 20 (`Builds/quality/nov20-whole/s66`; stills re-rendered from that capture's own camera positions by `LastMooringBuilder.EndingLook`, `Builds/quality/look/ch10-after*`):
+
+- **Her shield relays** were drawn (s66/157 shows the east one locked) but as a 1.25 m ball on a thin grey pole, under half the 2.8 m their shots are judged against (`ShipTune.RelayTarget`), grey on the grey deck. The room now stands both relays' **masts** (`MeretRelay.MastName`: "Her west shield relay's mast", "Her east shield relay's mast"), at the heads' own places (`Continuance.Relays`, from `ShipTune.Relays` and her station: (-18, 19, 242) and (10, 19, 242)): a plinth in a painted gold-and-teal seat as her clamps' are, a white column banded in teal, a gold cradle under the plane, four teal lamps; nothing solid, seen before she wakes. The fight finds them by name and draws only the head (2.8 m lit, as big as its target; 2.1 m dark), a ring at the plane (2.4 m, cyan lit, amber dark) and the beam (`MeretRelay.Draw`); with no mast (a yard) it stands a plain one. What can be hit is unchanged (the 1.4 m trigger).
+- **The working deck** under her lanes: every 8 m plate has a dark seam with a pale lip, a panel line, rows of fixings and here and there a service hatch or gold chevrons; the skylights are teal panes in dark frames every 6.8 m (they were bare white boxes every 3.4 m, the brightest thing over the deck, s66/154).
+- **The hull's south flank** behind the spine's head (s66/013): its plates in courses of whites and the Compact's pale teal-grey, darker toward the dark under the spine, a rib every four strips; one window in three lit, the rest dark glass, each in a dark frame.

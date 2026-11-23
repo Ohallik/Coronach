@@ -1204,7 +1204,7 @@ namespace Lattice.Tests.PlayMode
             var collar=enemy.GetComponent<CantorCollar>();
             if(collar!=null)foreach(var link in collar.Links)link.Receive(new DamagePacket{source=taren.Health,amount=link.maximum*100,type=DamageType.Beam});
             body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;
+            float reach=BossReach.Edge(enemy);
             // The second hero stands where her weapon works from: an emitter eight metres back, an edge at the body, round its side from Taren. Until November 14 she stood
             // eight metres back whoever she was, and from chapter 7 on she is Idra with a hammer (DevLoadout's arrival pair): she never landed a blow, and every boss since
             // was measured at about half of what the pair deals (two engineers found it from their own bosses' numbers).
@@ -1257,12 +1257,12 @@ namespace Lattice.Tests.PlayMode
             yield return FlatOut(id,sync,false);
             float integrity=GameCatalog.Find<EnemyDef>(id).integrity,rate=flatOutRate,share=DriverShare(id);
             // Two to five minutes, unless its sheet says another bar (a mini-boss).
-            float least=ContentRegistry.Boss(id).minSeconds,most=ContentRegistry.Boss(id).maxSeconds;
+            float least=ContentRegistry.Boss(id).minSeconds,most=ContentRegistry.Boss(id).maxSeconds,slow=ContentRegistry.SlowPairCeiling(most);
             // One minute of a party's blows is not one number: over the whole suites of November 14, 15 and 20 the same boss on the same bar read 5 to 9% apart (the Rotbloom 1,082
             // and 982, the Host Marshal 1,915 and 1,772, the Bellows 515, 487 and 465, the last of which put a bar that sits 7% inside its ceiling .8 s over it). A reading within
             // that scatter of either bound is taken a second time and the two averaged: the bounds are the same, the measure near them is twice as long.
             string readings=$"{rate:0}";
-            if(flatOutFrames>=FlatOutFrames&&(integrity/(rate*share)<least*Scatter||integrity/(rate*.25f)>most/Scatter))
+            if(flatOutFrames>=FlatOutFrames&&(integrity/(rate*share)<least*Scatter||integrity/(rate*.25f)>slow/Scatter))
             {
                 float first=rate,frames=flatOutFrames;yield return FlatOut(id,sync,false);
                 rate=(first+flatOutRate)*.5f;readings=$"{first:0} and {flatOutRate:0}";flatOutFrames=Mathf.Min(frames,flatOutFrames);
@@ -1271,8 +1271,9 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine($"BOSS_RATE {id} sync={sync} loadout={MeasuredIn(id)} rate={rate:0}/s flatOut={integrity/rate:0}s atDriverShare={seconds:0}s frames={flatOutFrames:0}/s read={readings} bar={least:0}-{most:0}s quarter={integrity/(rate*.25f):0}s");
             if(flatOutFrames<FlatOutFrames)Assert.Inconclusive($"{id}: the measure ran at {flatOutFrames:0} frames a second (under {FlatOutFrames:0}), on a machine too busy to say how fast a party is: {rate:0} a second read then is not a rate to size or judge a bar by. Run it again with the machine quieter.");
             Assert.GreaterOrEqual(integrity,rate*share*least,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out and the replay party gets {share:P0} of that: {integrity:0} integrity lasts {seconds:0} s, and the bar is {least:0} s");
-            // The old ceiling stays: a person who spends most of the fight dodging is who the five minutes are for, and the driver's share is no measure of them.
-            Assert.LessOrEqual(integrity/(rate*.25f),most,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out, so {integrity/(rate*.25f):0} s at a quarter of that: the bar is {most:0} s");
+            // The old ceiling stays: a person who spends most of the fight dodging is who the five minutes are for, and the driver's share is no measure of them. It is held on this
+            // measure at ContentRegistry.SlowPairAllowance of the bar (D362 continued: the measure spends no EXTRA and reads skills at their first mastery).
+            Assert.LessOrEqual(integrity/(rate*.25f),slow,$"{id} at Sync {sync} takes {rate:0} integrity a second flat out, so {integrity/(rate*.25f):0} s at a quarter of that: the slow pair's ceiling is {slow:0} s (its bar's {most:0} on a measure with no EXTRA or mastery)");
         }
 
         // ------------------------------------------------------------------ the boss table: retry

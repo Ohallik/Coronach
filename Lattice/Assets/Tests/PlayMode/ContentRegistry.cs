@@ -83,6 +83,15 @@ namespace Lattice.Tests.PlayMode
         /// <summary>On a static method taking a <see cref="Book"/>, in a chapter's own test class: it writes that chapter's expectations, so no chapter edits a shared table.
         /// <code>[ContentRegistry.Expectations] static void Xylos(ContentRegistry.Book book){book.Tell("Thornback",3);book.Boss(new ContentRegistry.BossSheet{id="Floodcrown",...});}</code></summary>
         [AttributeUsage(AttributeTargets.Method)] public sealed class ExpectationsAttribute:Attribute{}
+        /// <summary>How far past its bar's ceiling a boss's modelled slow pair (a quarter of the measure's flat out, the Saint's dodging fight, the Cutter's dodging pair) may run,
+        /// measured on the present flat-out measure: four thirds, so 300 s becomes 400. D362 (continued), November 22: the measure is not flat out. It spends no EXTRA (10 to 33%
+        /// of several late bars in that day's scouts) and reads every skill at its first mastery (D353: up to 40% more power by the time a player meets these bosses), so what a
+        /// player's pair can really do is about a third above it, and a quarter of it inside 300 s held fights to a player slower than the plan meant. 400 s of this measure is the
+        /// plan's 300 for a pair with its EXTRA and its mastery. Owed: a flat-out measure that spends the EXTRA and reads skills at the mastery a player has by that chapter, after
+        /// which this goes back to 1. The floors, the bars' lower ends and every share check are untouched.</summary>
+        public const float SlowPairAllowance=4f/3;
+        /// <summary>The ceiling a modelled slow pair is held to for a bar whose ceiling is <paramref name="planSeconds"/> (<see cref="SlowPairAllowance"/>).</summary>
+        public static float SlowPairCeiling(float planSeconds)=>planSeconds*SlowPairAllowance;
         /// <summary>One boss's fight as its tests need it told. The first four leave the tables they always had in QaPlanCombatTests and give only their door here.</summary>
         public sealed class BossSheet
         {

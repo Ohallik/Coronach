@@ -41,10 +41,10 @@ namespace Lattice.EditorTools
         });
 
         /// <summary>Every zone that carries BiomePatches: chapter 1's landscapes, and the zones whose ground kit sows tufts (GroundStaging).</summary>
-        static readonly string[] Zones={"Sorrel_Ridges","Arena_Ground","Hushwell","TallowDrift","Lanternwick","LanternGorge","Rootmarket"};
+        static readonly string[] Zones={"Sorrel_Ridges","Arena_Ground","Hushwell","TallowDrift","Lanternwick","LanternGorge","Rootmarket","Driftreed","DrownedWaystation","ManyHands"};
         public static void Build()=>BatchTools.Run(()=>Bake(true,Zones));
         /// <summary>The patches of some zones only, after their ground was restaged (<c>-biome-zones a,b</c>). The local render settings are left as they are.</summary>
-        [Restage.Step("local-biomes","Sorrel_Ridges,Arena_Ground,Hushwell,TallowDrift,Lanternwick,LanternGorge,Rootmarket",After="ground,chapter1.surfaces",Chapter=2,ScenesArg="-biome-zones",Needs="Packages/xyz.staggart-creations.stylized-grass",Check="LocalBiomesBaked")]
+        [Restage.Step("local-biomes","Sorrel_Ridges,Arena_Ground,Hushwell,TallowDrift,Lanternwick,LanternGorge,Rootmarket,Driftreed,DrownedWaystation,ManyHands",After="ground,chapter1.surfaces",Chapter=2,ScenesArg="-biome-zones",Needs="Packages/xyz.staggart-creations.stylized-grass",Check="LocalBiomesBaked")]
         public static void BuildPatches()=>BatchTools.Run(()=>
         {
             string only=Lattice.Core.DevArgs.Value("-biome-zones");
@@ -139,6 +139,54 @@ namespace Lattice.EditorTools
                 Float(material,"_SpecularReflectionsOn",1);material.DisableKeyword("_SPECULARHIGHLIGHTS_OFF");
                 Float(material,"_SunReflectionStrength",.12f);Float(material,"_PointSpotLightReflectionStrength",.3f);
                 Float(material,"_SparkleIntensity",.015f);Float(material,"_CausticsOn",0);
+                if(palette=="Mire")
+                {
+                    // Wendmire's mire (Driftreed's rafts, the Drowned Waystation): tea-dark and still, a dusk sheen on it, a pale scum line working at every raft's and bank's edge.
+                    // These zones fell back to the public toon water in the player (they were never baked), which read as navy camouflage (s24 022, s25 066, November 20).
+                    material.SetColor("_BaseColor",new Color(.18f,.2f,.13f,.96f).linear);material.SetColor("_ShallowColor",new Color(.4f,.39f,.25f,1).linear);
+                    material.SetColor("_HorizonColor",new Color(.5f,.46f,.56f,0));material.SetColor("_FoamColor",new Color(.66f,.63f,.48f,.32f).linear);
+                    material.SetColor("_IntersectionColor",new Color(.94f,.92f,.82f,.85f).linear);
+                    Float(material,"_DepthVertical",16);Float(material,"_DepthHorizontal",20);Float(material,"_EdgeFade",.35f);
+                    Float(material,"_NormalStrength",.38f);Float(material,"_Speed",.28f);material.SetVector("_NormalTiling",new Vector4(.42f,.42f,0,0));
+                    Float(material,"_FoamBaseAmount",.22f);Float(material,"_FoamStrength",.3f);
+                    // The line is near white: tan at .55 it took the reed rims' own olive under the dusk sun and was a murky band, not a line (ch3-d358-a, November 22).
+                    // The line's reach. Stylized Water 3 draws it where 1 - e^(depth)/length is over nothing, so it reaches ln(length) metres down and at a length of 1 or less it is
+                    // nowhere: at .55 the mire had no waterline at any raft or bank in the player or the editor (s24 125, November 22). 1.9 reaches .64 m of water.
+                    Float(material,"_IntersectionLength",1.9f);Float(material,"_IntersectionFalloff",.4f);Float(material,"_IntersectionRippleStrength",.14f);
+                    // The sheen: a fresnel of 2.4 weighs reflection at a few per cent from the fixed camera, 50 degrees off straight down, so the dusk sky and the lanterns were never in
+                    // the water (s24 117 and 125). At 1.2, with ripples that catch the light at twenty metres, the dusk lies in it (at .9 the mire went navy) and each lantern makes its own glint.
+                    Float(material,"_ReflectionStrength",.5f);Float(material,"_ReflectionFresnel",1.2f);Float(material,"_ReflectionDistortion",.2f);
+                    Float(material,"_NormalStrength",.55f);Float(material,"_SunReflectionStrength",.2f);Float(material,"_SparkleIntensity",.04f);
+                    Float(material,"_PointSpotLightReflectionStrength",2.4f);Float(material,"_PointSpotLightReflectionSize",.5f);Float(material,"_PointSpotLightReflectionExp",24);
+                }
+                if(palette=="Hold")
+                {
+                    // Many Hands' raft bay and the garden's channel: a station's indoor water, still and deep, green-dark under the rafts, the lamps along the quays caught
+                    // in it, a pale ripple line working at every raft and quay edge. Never baked before, so the player drew the public toon water: navy camouflage
+                    // (s28/197, s31/107, s31/283, November 20).
+                    material.SetColor("_BaseColor",new Color(.07f,.15f,.16f,.97f).linear);material.SetColor("_ShallowColor",new Color(.2f,.34f,.32f,1).linear);
+                    material.SetColor("_HorizonColor",new Color(.34f,.4f,.44f,0));material.SetColor("_FoamColor",new Color(.62f,.72f,.68f,.24f).linear);
+                    material.SetColor("_IntersectionColor",new Color(.74f,.82f,.76f,.6f).linear);
+                    Float(material,"_DepthVertical",18);Float(material,"_DepthHorizontal",22);Float(material,"_EdgeFade",.3f);
+                    Float(material,"_NormalStrength",.3f);Float(material,"_Speed",.2f);material.SetVector("_NormalTiling",new Vector4(.5f,.5f,0,0));
+                    Float(material,"_FoamBaseAmount",.12f);Float(material,"_FoamStrength",.2f);
+                    Float(material,"_IntersectionLength",.45f);Float(material,"_IntersectionFalloff",.35f);Float(material,"_IntersectionRippleStrength",.16f);
+                    Float(material,"_ReflectionStrength",.55f);Float(material,"_ReflectionFresnel",2.2f);
+                    Float(material,"_SunReflectionStrength",.05f);Float(material,"_PointSpotLightReflectionStrength",.8f);Float(material,"_SparkleIntensity",.01f);
+                    // November 22 (s31/285, s28/201 to 222, D359): the player drew all that as a flat navy fill, and so does an editor still (ch45-water), so it was never the player.
+                    // Near black, ripples at .3, reflections weighed by a fresnel of 2.2 (about 6 per cent at the fixed camera's 50 degrees from straight down) and lamp glints at an
+                    // exponent of 64 were all there and none of them could be seen from the play camera. Now: a teal that reads as water, ripples big enough to catch the light at
+                    // twenty metres, the quays and lamps reflected (screen space) and rippled, broad lamp glints, and a pale line working at every raft and quay.
+                    material.SetColor("_BaseColor",new Color(.1f,.24f,.25f,.95f).linear);material.SetColor("_ShallowColor",new Color(.3f,.48f,.43f,1).linear);
+                    material.SetColor("_IntersectionColor",new Color(.8f,.88f,.82f,.85f).linear);
+                    Float(material,"_DepthVertical",7);Float(material,"_DepthHorizontal",9);
+                    Float(material,"_NormalStrength",.85f);Float(material,"_NormalTiling",.5f);Float(material,"_NormalSpeed",.45f);Float(material,"_Speed",.35f);
+                    // The line reaches ln(length) metres down and at a length of 1 or less is nowhere (the chapter 3 engineer's finding, D358): at .45 and .75 the hold drew none. 1.9 reaches .64 m.
+                    Float(material,"_IntersectionLength",1.9f);Float(material,"_IntersectionFalloff",.4f);Float(material,"_IntersectionRippleStrength",.35f);
+                    Float(material,"_ReflectionStrength",.9f);Float(material,"_ReflectionFresnel",.8f);Float(material,"_ReflectionDistortion",.3f);Float(material,"_ReflectionBlur",.05f);
+                    Float(material,"_PointSpotLightReflectionStrength",4);Float(material,"_PointSpotLightReflectionSize",.6f);Float(material,"_PointSpotLightReflectionExp",24);
+                    Float(material,"_PointSpotLightReflectionDistortion",.8f);Float(material,"_SunReflectionStrength",.25f);Float(material,"_SparkleIntensity",.08f);
+                }
                 // Water draws before danger markings, as WaterKit's does: at its shader's own transparent queue it lay over any marking on it (November 12).
                 material.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent-30;
             }

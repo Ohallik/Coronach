@@ -49,7 +49,7 @@ North up, metres. `~` water, `=` built deck, `#` the bank the jungle stands on.
 | Ferry stage | west, (-30, 44) | the stage head and its post, the ferry (a small seed pod of a boat) and a canoe, the queue up the ring's inner side, Jask | the west end of the raft crossing |
 | Raft crossing | across the pool at z 44 | five rafts lashed end to end, rope rails | the lower way between the stage and the press |
 | Seed house | north, (0, 78) | the hall, its door and lantern, the Compact's notice, trays and hands, a child after a pod | the tallest thing, at the back; the forecourt is where the town meets |
-| Binna's kitchen | north-east, (26, 65) | two stalls under leaf awnings, the cooking pit, four tables | beside the seed house and at the foot of the upper walk: everyone passes it |
+| Binna's kitchen | north-east, (26, 65) | two stalls under leaf awnings, the cooking pit, four tables; at its front, where BINNA'S KITCHEN is read from the ways, a clay oven (21, 61.3) with its mouth alight toward the camera, a drying rack of fish and pods (18.8, 61) beside it, a pot on a tripod (27, 63) and the woodpile (29.7, 61.6) east of the walk up to Binna; kitchen table 1 moved to (27.4, 58) (D358) | beside the seed house and at the foot of the upper walk: everyone passes it |
 | The press | east, (37, 43) | the screw press (`Fabricate — The Press`), the mender's cradle (`repair and save`), a drying rack, Hadda | the east end of the raft crossing and the way to the river gate: the last stop before the river |
 | River gate | far east, (60, 43) | a root arch on a causeway into the gap in the bank; `River gate — The Braided River` written on the causeway four metres short of it, at (56.6, 45), and the floor sign RIVER GATE at (51.5, 41.2) | where the river leaves |
 | Senn's island | south-west, (-46, 13) | his hut, his seat, the post he carved, an old mooring box | apart, on purpose: he isn't going |
@@ -63,7 +63,7 @@ Walking pace is 6.7 m/s. Lengths are the straight legs the builder keeps clear (
 
 | Leg | Metres | Seconds |
 |---|---|---|
-| arrival to the rope (the crossing that starts `RuvaArrival` is on the way, at x 14) | 36 | 5 |
+| arrival to the rope (the crossing that starts `RuvaArrival` is on the way, at x 23.5, about 7 m short of Ruva: D358) | 36 | 5 |
 | mooring back to Teo by the landing | 43 | 6 |
 | Teo to Jask at the ferry stage | 34 | 5 |
 | Jask to the seed house door | 42 | 6 |
@@ -110,7 +110,7 @@ The licensed water is plainer than ours: under it the lagoon east of the upper w
 | Place | At | Place | At |
 |---|---|---|---|
 | spawn `Arrival` | (0, 17) | the pad (`Launch — Xylos Nearspace`) | (0, 24.2) |
-| the crossing that starts `RuvaArrival` | (14, 24), 3 x 22 m | the mooring line (`Haul the mooring line`) | (32.4, 18.8) |
+| the crossing that starts `RuvaArrival` | (23.5, 24), 2 x 22 m (at (14, 24), 3 x 22, until November 22) | the mooring line (`Haul the mooring line`) | (32.4, 18.8) |
 | Ruva at the mooring | (28.5, 21) | Ruva at the seed house | (5.5, 68.5) |
 | Teo | (-8.5, 24.6) | Jask / his pole after the vote | (-25, 47.6) / (-22.3, 46.4) |
 | the Compact notice / the seed house door | (-2.7, 72.3) / (2.5, 72.3) | Binna | (24.6, 68) |

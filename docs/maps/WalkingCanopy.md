@@ -93,8 +93,8 @@ Read from the built scene (`WalkingCanopy.unity`, November 12 rebuild) with the 
 | Prompt | `Vault window slot` (`SelaSeedVault`) | 0.2, 0, 52 | 3 | sets `xylos.vaultSeen` | Shows the dormant Floodcrown (`previewPoint`) |
 | Switch | `Anchor root 3 cut point` | -10.6, 0, 76.4 | 3.2 | sets `xylos.anchor3` | Opens the basin door (z 23.6, x 18.2 to 25.8) |
 | Service | `Root cradle — repair and save` | 13.2, -2.8, 20.4 | | | Free; saves at `Basin` |
-| Crossing | `Look at what holds the basin` (`SelaFloodcrownBasin`) | 22, -4.0, 28.6 | box 9 x 3 | sets `xylos.basinSeen` | In the passage down to the basin; saves at `Basin` |
-| Boss door | `Floodcrown` | 24, -5.2, 52 | 36 x 34 | needs `xylos.basinSeen`; checkpoint `Basin` | Seal `Basin seal` across the passage at z 31.8 (x 17.6 to 26.4) while it fights; spawner (14.5, 53) facing east; `BossExit` (38.6, -5.3, 58) |
+| Crossing | `Look at what holds the basin` (`SelaFloodcrownBasin`) | 22, -3.7, 27.1 | box 9 x 3 | sets `xylos.basinSeen` | In the passage down to the basin; saves at `Basin` |
+| Boss door | `Floodcrown` | 24, -5.2, 52 | 36 x 34 | needs `xylos.basinSeen`; checkpoint `Basin` | Seal `Basin seal` across the passage at z 29.6 (x 17.6 to 26.4) while it fights (at 31.8 the boss's head stood in it, November 21); spawner (14.5, 53) facing east; `BossExit` (38.6, -5.3, 58) |
 | Gates | `Flood gate north/west/east` | (24, 68.4), (8.6, 46.4), (39.4, 46.4), y -5.26 | | `xylos.gate.north/west/east` | `FloodGate` index 0, 1, 2 |
 | Talk | `SelaFloodcrownGone` | anywhere | | after `bossdown.Floodcrown`, sets `xylos.floodcrownGone` | `AfterTalk`, 3 s once nothing fights |
 | Cache | `xylos.canopy.porch` "Keepers' basket" | -9.6, 0, 37.4 | 2.6 | | On the porch at the stair's head |
@@ -123,7 +123,7 @@ All positions are world x, z; heights are world y.
 | Thing | Where | Notes |
 |---|---|---|
 | Centre, radius | **(24, 52)**, **17 m** | Floor is a bowl: y = -6 + 0.8 (r/17)^2, so -6 at the centre and -5.2 at the rim |
-| Way in | Passage x 18 to 26, from the hall (z 23, y -2.8) down to the south rim (z 35, y -5.2) | The seal (`Basin seal`, a Membrane with roots drawn across) is at z 31.8 |
+| Way in | Passage x 18 to 26, from the hall (z 23, y -2.8) down to the south rim (z 35, y -5.2) | The seal (`Basin seal`, a Membrane with roots drawn across) is at z 29.6 |
 | Rim | South and west: low (1.5 m at the edge, rising away from the floor under the camera's sightline). North and east: the island's wall, 8 m | West of the west rim, 5 m back, is the vault's window |
 | Platforms (dry while full) | Bearings 30, 150, 270 at 9.5 m: **(32.2, 56.75), (15.8, 56.75), (24, 42.5)** | Each a mound: flat top radius 2.4 m at y -4.7, sides falling at 1 in 2 to the bowl. Walkable from any side |
 | Flood gates | Bearings 90, 200, 340 at 16.4 m: north **(24, 68.4)**, west **(8.6, 46.4)**, east **(39.4, 46.4)** | `FloodGate`, index 0, 1, 2: north, then west, then east, which is anticlockwise round the rim as the camera sees it, so the next gate is always the next one round; integrity 2400; hurtbox a sphere radius 1.7 at 1.6 m; flags `xylos.gate.north/west/east`; settled by `bossdown.Floodcrown` |
@@ -144,7 +144,7 @@ Scene `WalkingCanopy` (ZoneKind GroundCombat, profile Cave, no sky, threat 1.1).
 | Spawns | `Arrival` (2, 2), `Basin` (19.5, 18.5) |
 | Way out | `Mooring roots — The Braided River` (11.5, -1.4) to spawn `Canopy` |
 | Anchors | Points `Anchor root 1 cut point` (8.6, 13), `2` (-36.4, 57.6), `3` (-10.6, 76.4): prompt "Cut the anchor root", report `AnchorRoot`, flags `xylos.anchor1..3`; B and C bark `anchor`. `ShiftAnchor` on each root; log `ANCHOR_CUT <flag>` |
-| Talks | `SelaCanopyMooring` crossing at (2, 7.6) (`xylos.canopyEntered`); `SelaCanopyAnchor` after A's lurch (`xylos.anchorHeard`); `SelaSeedVault` at the window slot (0.2, 52) (`xylos.vaultSeen`); `SelaFloodcrownBasin` crossing at (22, 28.6) (`xylos.basinSeen`); `SelaFloodcrownGone` after `bossdown.Floodcrown` (sets `xylos.floodcrownGone`) |
+| Talks | `SelaCanopyMooring` crossing at (2, 7.6) (`xylos.canopyEntered`); `SelaCanopyAnchor` after A's lurch (`xylos.anchorHeard`); `SelaSeedVault` at the window slot (0.2, 52) (`xylos.vaultSeen`); `SelaFloodcrownBasin` crossing at (22, 27.1) (`xylos.basinSeen`); `SelaFloodcrownGone` after `bossdown.Floodcrown` (sets `xylos.floodcrownGone`) |
 | Fights | `Canopy_0` (0, 14), `Canopy_1` (-37.5, 25), `Canopy_2` (-37.5, 40), `Canopy_3` (-36.5, 57), `Canopy_4` (-11, 74), `Canopy_Return` (-6, 14; needs `xylos.anchor2`), `Floodcrown` |
 | Water | `Gallery water` (rest -7.08, top -3.76; `RisingWater` on `Gallery flood`), `Basin water` |
 | Service | `Root cradle — repair and save` (free, spawn `Basin`) |

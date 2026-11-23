@@ -34,7 +34,8 @@ namespace Lattice.EditorTools
         /// shadow away from it, and the body's ribs lay bands of shade across the floor. The fill is low and cool, so the court's stone is dim beside the glass. Fog stays off.</summary>
         [ZoneLook.Source] static void GlassChoirLooks()
         {
-            ZoneLook.Register(ChoirZone,new ZoneLook.Spec{sun=new Color(.88f,.93f,1f),sunIntensity=1.3f,sunPitch=Choir.SunPitch,shadowStrength=.9f,
+            // The sun a little lower than it was (1.3), so the glass, not the sunlit paving, is the brightest broad thing in a frame (November 21).
+            ZoneLook.Register(ChoirZone,new ZoneLook.Spec{sun=new Color(.86f,.92f,1f),sunIntensity=1.12f,sunPitch=Choir.SunPitch,shadowStrength=.9f,
                 sky=new Color(.25f,.3f,.42f),equator=new Color(.18f,.2f,.27f),ground=new Color(.09f,.09f,.11f),
                 exposure=.08f,contrast=16,saturation=4,splitShadows=new Color(.36f,.44f,.6f),splitHighlights=new Color(.55f,.55f,.54f),
                 bloomThreshold=.9f,bloomIntensity=.7f,vignette=.32f});
@@ -177,7 +178,9 @@ namespace Lattice.EditorTools
             {
                 float mottle=.92f+.16f*Mathf.PerlinNoise(p.x*.17f+3,p.y*.17f+7);
                 // Under the body: the court's floor the body lies on, lit cool by the glass over it (it read as a dark grey field through the breach).
-                if(InTrench(p)&&FloorAt(p,out _)>0)return new Color(.5f*mottle,.58f*mottle,.66f*mottle,1);
+                // Dark now (November 21): seen through the glass, a pale floor seven metres down flattened the whole body to one sheet of pale cyan. Over a deep floor the glass has
+                // depth, and its rims, its light and the bones and fibres in it stand out of it.
+                if(InTrench(p)&&FloorAt(p,out _)>0)return new Color(.14f*mottle,.2f*mottle,.3f*mottle,1);
                 var tone=new Color(.86f,.8f,.68f);
                 // Worn smooth and paler down the middle, where a thousand years of feet went.
                 float walked=1-Mathf.Clamp01(Mathf.Abs(p.x+1.5f)/5);if(p.y<266){tone=Color.Lerp(tone,new Color(.94f,.9f,.8f),.5f*walked);mottle=Mathf.Lerp(mottle,1,.6f*walked);}
@@ -189,7 +192,7 @@ namespace Lattice.EditorTools
             }
 
             // ---------------------------------------------------------------- what it is made of
-            internal static Material Paving,Masonry,Bronze,Glass,Core,Rib,Fibre,Bone,Lamp,Shaft,Tablet,Heart,HeartWarm;
+            internal static Material Paving,Masonry,Bronze,Glass,Core,Rib,CasingGlass,Fibre,Bone,Lamp,Shaft,Tablet,Heart,HeartWarm,Caustic;
             static readonly Color StoneWarm=new(1,.95f,.86f),StoneDark=new(.72f,.66f,.58f),BronzeLight=new(1,.96f,.9f),BronzeDark=new(.62f,.6f,.56f);
             static void Materials()
             {
@@ -238,32 +241,52 @@ namespace Lattice.EditorTools
                 // the room is dimmer than the glass beside it, and a shadow across the floor is a band you see, not a tint.
                 Paving=ZoneKit.Toon("choir-floor",flags,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",new Color(1,.94f,.84f));m.SetFloat("_BaseMapStrength",.85f);m.SetColor("_ShadowTint",new Color(.3f,.34f,.47f));m.SetFloat("_LightFloor",.07f);});
                 Masonry=ZoneKit.Toon("choir-masonry",courses,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.9f,.82f,.68f));m.SetColor("_ShadowTint",new Color(.3f,.33f,.46f));m.SetFloat("_LightFloor",.08f);});
-                Bronze=ZoneKit.Toon("choir-bronze",bronze,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.92f,.84f,.66f));m.SetColor("_ShadowTint",new Color(.34f,.36f,.47f));m.SetColor("_RimColor",new Color(.66f,.56f,.4f));m.SetFloat("_LightFloor",.12f);});
+                // Metal and not wood: a warmer gold in the light, a bright sharp rim, more steps to its light.
+                Bronze=ZoneKit.Toon("choir-bronze",bronze,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",new Color(1,.86f,.6f));m.SetColor("_ShadowTint",new Color(.32f,.34f,.47f));
+                    m.SetColor("_RimColor",new Color(1.15f,.95f,.62f));m.SetFloat("_RimPower",2.4f);m.SetFloat("_LightFloor",.12f);m.SetColor("_EmissionColor",new Color(.05f,.04f,.025f));});
                 Tablet=ZoneKit.Toon("choir-tablet",hand,m=>{m.SetColor("_BaseColor",new Color(.98f,.84f,.6f));m.SetFloat("_LightFloor",.32f);});
                 // The body's glass. See-through at the heart of a facet and dense at its rim (the gel's optics), its own slow light drifting through it, a cold sheen and sharp glints
                 // on the facets (the ice's), and drawn after everything solid and before every danger marking, writing no depth, so a marking or a body behind it is never lost.
+                // November 20 (s40/010, 157): it read as flat pale-cyan planes beside a stone terrace, no brighter or richer than the paving. Now it is the room's light: deep blue
+                // and teal in its mass, white-blue at its rims, its core glowing through every facet, each facet its own hue (the skin's vertices), and brighter than the stone.
                 Glass=ZoneKit.Toon("choir-glass",null,m=>
                 {
                     ZoneKit.Tinted(m);ZoneKit.With(m,"_GEL_ON","_Gel");ZoneKit.With(m,"_ICE_ON","_Ice");
                     // Lit through: the low light comes from beyond the body, so the face the gallery sees is the lit one too (no dark side to translucent glass), and its own
                     // light reads at the middle of every facet. It is the brightest broad thing in any frame of the gallery.
-                    m.SetColor("_BaseColor",new Color(.74f,.88f,.96f,1));m.SetColor("_RimColor",new Color(.84f,.97f,1.08f));m.SetFloat("_RimPower",2.4f);m.SetFloat("_RimUnlit",.7f);
-                    m.SetColor("_ShadowTint",new Color(.96f,1,1.06f));
-                    m.SetVector("_GelParams",new Vector4(2.4f,.24f,.78f,.06f));m.SetColor("_GelDeepColor",new Color(.6f,.78f,.95f,.45f));m.SetColor("_GelCoreColor",new Color(.2f,.34f,.46f));
-                    m.SetVector("_IceParams",new Vector4(2.2f,.34f,.25f,.55f));m.SetColor("_IceDeepColor",new Color(.36f,.56f,.72f));m.SetColor("_IceRimColor",new Color(.7f,.9f,1.1f));
+                    // Its rims a little under what they were (1.05 to 1.45, with the ice's 1.15 to 1.8): where the body is seen edge on, layers of them summed to white (D359).
+                    m.SetColor("_BaseColor",new Color(.56f,.8f,.98f,1));m.SetColor("_RimColor",new Color(.86f,1.04f,1.2f));m.SetFloat("_RimPower",2.3f);m.SetFloat("_RimUnlit",.8f);
+                    m.SetColor("_ShadowTint",new Color(.96f,1,1.06f));m.SetColor("_EmissionColor",new Color(.08f,.2f,.32f));
+                    m.SetVector("_GelParams",new Vector4(2.2f,.36f,.88f,.06f));m.SetColor("_GelDeepColor",new Color(.34f,.62f,.98f,.72f));m.SetColor("_GelCoreColor",new Color(.42f,.86f,1.3f));
+                    m.SetVector("_IceParams",new Vector4(2.2f,.5f,.42f,.9f));m.SetColor("_IceDeepColor",new Color(.1f,.32f,.56f));m.SetColor("_IceRimColor",new Color(.92f,1.16f,1.4f));
                     m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");
                     m.renderQueue=(int)RenderQueue.Transparent-40;m.SetFloat("_ReceiveShadows",0);
                 });
-                // A rib and a casing: the same glass, thicker (more of it is rim), so a rib pressed across the way reads as a solid thing in the way.
+                // A rib: the same glass, thicker (more of it is rim), so a rib pressed across the way reads as a solid thing in the way. Its rims and its light are kept under white
+                // (November 22, D359): drawn over a metre and more of glass seen edge on, rims of 1.1 to 1.7 summed to a white band across the bay (s40/056).
                 Rib=ZoneKit.Toon("choir-rib",null,m=>
                 {
                     ZoneKit.Tinted(m);ZoneKit.With(m,"_GEL_ON","_Gel");ZoneKit.With(m,"_ICE_ON","_Ice");
-                    m.SetColor("_BaseColor",new Color(.8f,.92f,1f,1));m.SetColor("_RimColor",new Color(.88f,.98f,1.08f));m.SetFloat("_RimPower",2.2f);m.SetFloat("_RimUnlit",.7f);
-                    m.SetColor("_ShadowTint",new Color(.96f,1,1.06f));
-                    m.SetVector("_GelParams",new Vector4(1.8f,.42f,.9f,.3f));m.SetColor("_GelDeepColor",new Color(.62f,.8f,.96f,.5f));m.SetColor("_GelCoreColor",new Color(.18f,.32f,.44f));
-                    m.SetVector("_IceParams",new Vector4(2f,.4f,.3f,.6f));m.SetColor("_IceDeepColor",new Color(.4f,.6f,.76f));m.SetColor("_IceRimColor",new Color(.76f,.94f,1.1f));
+                    m.SetColor("_BaseColor",new Color(.56f,.82f,.94f,1));m.SetColor("_RimColor",new Color(.72f,.92f,1.05f));m.SetFloat("_RimPower",2.4f);m.SetFloat("_RimUnlit",.6f);
+                    m.SetColor("_ShadowTint",new Color(.96f,1,1.06f));m.SetColor("_EmissionColor",new Color(.05f,.12f,.2f));
+                    m.SetVector("_GelParams",new Vector4(1.8f,.46f,.88f,.3f));m.SetColor("_GelDeepColor",new Color(.36f,.62f,.94f,.7f));m.SetColor("_GelCoreColor",new Color(.24f,.52f,.8f));
+                    m.SetVector("_IceParams",new Vector4(2.2f,.42f,.5f,.8f));m.SetColor("_IceDeepColor",new Color(.12f,.3f,.52f));m.SetColor("_IceRimColor",new Color(.76f,.96f,1.12f));
                     m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");
                     m.renderQueue=(int)RenderQueue.Transparent-36;m.SetFloat("_ReceiveShadows",0);
+                    // The Skyfields stand the Choir's ribs over its front in this glass, faded as tall scenery: the variant is the paint's, so a rebuild here doesn't take it away (D359).
+                    ZoneKit.With(m,"_OCCFADE_ON","_OccFadeToggle");m.SetFloat("_OccFade",0);
+                });
+                // A Glass Sentinel's casing: shards of the body's glass in teal and violet, see-through in their middles so the sentinel shows dark inside, a cool rim on each facet
+                // and no glow of their own. In the rib's glass (and the sentinel's own light inside) seven shards a metre across summed to a formless white slab (s40/056, s40/057).
+                CasingGlass=ZoneKit.Toon("choir-casing",null,m=>
+                {
+                    ZoneKit.Tinted(m);ZoneKit.With(m,"_GEL_ON","_Gel");ZoneKit.With(m,"_ICE_ON","_Ice");
+                    m.SetColor("_BaseColor",new Color(.62f,.8f,.86f,1));m.SetColor("_RimColor",new Color(.5f,.72f,.82f));m.SetFloat("_RimPower",3f);m.SetFloat("_RimUnlit",.35f);
+                    m.SetColor("_ShadowTint",new Color(.72f,.78f,.96f));m.SetColor("_EmissionColor",new Color(.02f,.05f,.07f));m.SetFloat("_RampSteps",4);
+                    m.SetVector("_GelParams",new Vector4(2.6f,.34f,.8f,.45f));m.SetColor("_GelDeepColor",new Color(.42f,.5f,.86f,.6f));m.SetColor("_GelCoreColor",new Color(.08f,.2f,.26f));
+                    m.SetVector("_IceParams",new Vector4(2.6f,.22f,.7f,.45f));m.SetColor("_IceDeepColor",new Color(.14f,.26f,.42f));m.SetColor("_IceRimColor",new Color(.62f,.86f,.96f));
+                    m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");
+                    m.renderQueue=(int)RenderQueue.Transparent-35;m.SetFloat("_ReceiveShadows",0);
                 });
                 // A fibre: unlit, its colour the line's own (a stay's pulse, a slack fibre's amber), bright enough to bloom white while it holds.
                 Fibre=ZoneKit.Toon("choir-fibre",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.35f,0,0,0));m.SetFloat("_ReceiveShadows",0);});
@@ -289,11 +312,26 @@ namespace Lattice.EditorTools
                 Core=ZoneKit.Toon("choir-core",null,m=>
                 {
                     ZoneKit.Tinted(m);ZoneKit.With(m,"_GEL_ON","_Gel");ZoneKit.TwoSided(m);
-                    m.SetColor("_BaseColor",new Color(.6f,.8f,.92f,1));m.SetColor("_RimColor",new Color(.6f,.8f,.94f));m.SetFloat("_RimPower",3f);m.SetColor("_ShadowTint",new Color(.96f,1,1.06f));
-                    m.SetVector("_GelParams",new Vector4(1.6f,.46f,.74f,.05f));m.SetColor("_GelDeepColor",new Color(.5f,.72f,.92f,.6f));m.SetColor("_GelCoreColor",new Color(.14f,.27f,.38f));
+                    m.SetColor("_BaseColor",new Color(.2f,.42f,.78f,1));m.SetColor("_RimColor",new Color(.5f,.86f,1.2f));m.SetFloat("_RimPower",2.4f);m.SetColor("_ShadowTint",new Color(.96f,1,1.06f));
+                    m.SetColor("_EmissionColor",new Color(.04f,.12f,.26f));
+                    m.SetVector("_GelParams",new Vector4(1.6f,.62f,.86f,.05f));m.SetColor("_GelDeepColor",new Color(.24f,.46f,.95f,.8f));m.SetColor("_GelCoreColor",new Color(.26f,.6f,1.05f));
                     m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");
                     m.renderQueue=(int)RenderQueue.Transparent-44;m.SetFloat("_ReceiveShadows",0);
                 });
+                // The light the body throws on the court's floor: a net of bright wavering lines as light through moving glass lays on stone, gone soft at the patch's edges, added
+                // to the paving (it lightens and never hides) and drawn under every danger marking. Its colour is in the vertices: the body's blues and teals, now and then a violet.
+                var net=ZoneKit.Texture("Oriel/choir-caustic",512,(u,v)=>
+                {
+                    // Soft-edged cells of light with brighter seams where they meet, as light through rippled glass falls (thin sharp lines alone read as lightning).
+                    float wu=u+.06f*(ZoneKit.Cloud(u,v,3,7)-.5f),wv=v+.06f*(ZoneKit.Cloud(u,v,3,9)-.5f);
+                    float a=1-Mathf.Abs(2*ZoneKit.Cloud(wu,wv,4,11)-1),b=1-Mathf.Abs(2*ZoneKit.Cloud(wu*1.5f+.3f,wv*1.5f,6,13)-1);
+                    float lines=Mathf.Pow(a,3.2f)*.55f+Mathf.Pow(b,4)*.3f,wash=.18f+.28f*ZoneKit.Smooth(.35f,.75f,ZoneKit.Cloud(u,v,3,15));
+                    float edge=ZoneKit.Smooth(0,.28f,Mathf.Min(Mathf.Min(u,1-u),Mathf.Min(v,1-v)));float t=Mathf.Clamp01((lines+wash)*edge);
+                    return new Color(t,t,t,1);
+                },false);
+                Caustic=ZoneKit.Toon("choir-caustic",net,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");ZoneKit.TwoSided(m);m.SetVector("_GlowParams",new Vector4(1.15f,0,0,0));
+                    m.SetFloat("_SrcBlend",(float)BlendMode.One);m.SetFloat("_DstBlend",(float)BlendMode.One);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");
+                    m.renderQueue=(int)RenderQueue.Transparent-33;m.SetFloat("_ReceiveShadows",0);});
                 AssetDatabase.SaveAssets();
             }
 
@@ -541,7 +579,11 @@ namespace Lattice.EditorTools
                         if(Broken(mid)&&(scale>=1||mid.x<(mid.z<210?13.5f:10)))continue;
                         var outward=mid-Vector3.Lerp(rings[r-1].at,rings[r].at,.5f);
                         int region=Mathf.FloorToInt(mid.z/40);if(!skins.TryGetValue(region,out var skin))skins[region]=skin=new ZoneKit.Shape();
-                        float shade=.86f+.2f*R();var tone=new Color(.86f*shade,.95f*shade,1.05f*shade,1);
+                        // Each facet its own hue of the body's glass (from where it lies, so the body's other draws stay as they were): ice white-blue, a deep sea blue, teal, and
+                        // now and then a cold violet, as light through cut glass takes colour.
+                        float shade=.72f+.36f*R(),hue=Mathf.PerlinNoise(r*.23f+k*.71f,k*.37f+r*.05f);
+                        var tint=hue<.36f?new Color(.66f,.86f,1.05f):hue<.5f?new Color(.92f,.98f,1.05f):hue<.64f?new Color(.55f,.92f,.95f):hue<.74f?new Color(.48f,.66f,1.02f):new Color(.74f,.7f,1.04f);
+                        var tone=new Color(tint.r*shade,tint.g*shade,tint.b*shade,1);
                         skin.Slot(0).Triangle(a,b,c,outward,tone,.2f).Triangle(a,c,d,outward,ZoneKit.Shape.Dim(tone,.94f),.2f);
                     }
                     foreach(var (region,skin) in skins){var drawn=kit.Built(name+" "+region,skin,glass);drawn.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;}
@@ -664,11 +706,19 @@ namespace Lattice.EditorTools
                 // The seat: a bronze ratchet post a stride from the rib's end on the near side: its stone foot, its drum the stay winds on, two hand seats on its face.
                 var seatPost=new Vector3(seat.x,0,seat.y)+(new Vector3(pivot.x,0,pivot.y)+dir*length*.9f-new Vector3(seat.x,0,seat.y)).normalized*1.2f;
                 var post=new ZoneKit.Shape();var foot=kit.On(seatPost.x,seatPost.z);var face=(new Vector3(seat.x,0,seat.y)-seatPost).normalized;var beside=Vector3.Cross(Vector3.up,face);
-                post.Slot(0).Post(foot+Vector3.down*.1f,.42f,.52f,.44f,12,StoneDark,StoneWarm);
-                post.Slot(1).Post(foot+Vector3.up*.3f,1.45f,.2f,.17f,10,BronzeDark,BronzeLight)
-                    .Tube(new[]{foot+Vector3.up*1.32f-beside*.38f,foot+Vector3.up*1.32f+beside*.38f},new[]{.34f,.34f},14,BronzeLight,BronzeDark,1,.5f)
-                    .Post(foot+Vector3.up*1.72f,.16f,.24f,.12f,10,BronzeLight,BronzeLight);
-                foreach(int side in new[]{-1,1})post.Slot(1).Beam(foot+Vector3.up*.95f+beside*side*.24f,foot+Vector3.up*.95f+beside*side*.24f+face*.34f,.12f,.1f,BronzeLight).Box(foot+Vector3.up*.95f+beside*side*.24f+face*.38f,new Vector3(.2f,.06f,.16f),Quaternion.LookRotation(face),BronzeLight);
+                // A machine of the court's and not a stack of blocks (November 20, s40/056 read as a wooden toy): a moulded stone foot, a fluted bronze post banded at its foot and
+                // neck, the drum between two flanges with a ring of ratchet teeth and its pawl, a cap with a finial, and two hand grips turned on the post.
+                post.Slot(0).Post(foot+Vector3.down*.1f,.3f,.56f,.5f,16,StoneDark,StoneWarm).Post(foot+Vector3.up*.2f,.14f,.46f,.4f,16,StoneWarm,StoneWarm);
+                post.Slot(1).Post(foot+Vector3.up*.3f,1.45f,.17f,.15f,16,BronzeDark,BronzeLight).Post(foot+Vector3.up*.32f,.12f,.25f,.23f,16,BronzeLight,BronzeDark).Post(foot+Vector3.up*1.02f,.08f,.21f,.21f,16,BronzeLight,BronzeLight);
+                for(int f=0;f<8;f++){var round=Quaternion.AngleAxis(f*45,Vector3.up)*face;post.Slot(1).Beam(foot+Vector3.up*.46f+round*.16f,foot+Vector3.up*1f+round*.15f,.035f,.035f,BronzeDark);}
+                var axle=beside;var drumAt=foot+Vector3.up*1.32f;
+                post.Slot(1).Tube(new[]{drumAt-axle*.3f,drumAt+axle*.3f},new[]{.3f,.3f},20,BronzeLight,BronzeDark,1,.5f);
+                foreach(int side in new[]{-1,1})post.Slot(1).Disc(drumAt+axle*side*.31f,axle*side,.42f,24,BronzeLight,0,BronzeDark).Tube(new[]{drumAt+axle*side*.3f,drumAt+axle*side*.36f},new[]{.42f,.42f},24,BronzeDark,BronzeDark,1,.5f,false);
+                for(int t=0;t<16;t++){var round=Quaternion.AngleAxis(t*22.5f,axle)*Vector3.up;post.Slot(1).Box(drumAt+round*.33f,new Vector3(.5f,.07f,.09f),Quaternion.LookRotation(Vector3.Cross(axle,round),round),BronzeDark,BronzeLight);}
+                post.Slot(1).Beam(drumAt+Vector3.up*.52f-face*.06f,drumAt+Vector3.up*.38f+face*.2f,.08f,.06f,BronzeLight);
+                post.Slot(1).Post(foot+Vector3.up*1.72f,.12f,.22f,.18f,16,BronzeLight,BronzeLight).Post(foot+Vector3.up*1.84f,.14f,.08f,.02f,10,BronzeLight,BronzeLight);
+                foreach(int side in new[]{-1,1})post.Slot(1).Tube(new[]{foot+Vector3.up*.95f+beside*side*.18f,foot+Vector3.up*.95f+beside*side*.24f+face*.34f},new[]{.05f,.04f},8,BronzeDark,BronzeLight,1,.5f)
+                    .Post(foot+Vector3.up*.91f+beside*side*.24f+face*.4f,.1f,.06f,.06f,10,BronzeLight,BronzeLight);
                 // The stay's own object stands at its seat (a sound, a test and a clamp tender find it there); what is drawn is a child, its mesh in the world's space.
                 var holder=new GameObject("Stay "+(index+1));holder.transform.position=foot;
                 var seatBody=kit.Built("Stay seat "+(index+1),post,Masonry,Bronze);seatBody.transform.SetParent(holder.transform,true);ZoneKit.Block(seatBody,foot+Vector3.up*.9f,new Vector3(.9f,1.8f,.9f),0,"Stay seat");
@@ -700,9 +750,11 @@ namespace Lattice.EditorTools
                 {
                     float a=k*Mathf.PI*2/7+(float)rng.NextDouble()*.4f,tall=2.6f+(float)rng.NextDouble()*.9f;var c=foot+new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*1.05f;
                     var lean=new Vector3(-Mathf.Cos(a)*.18f,1,-Mathf.Sin(a)*.18f).normalized;
-                    shape.Slot(0).Tube(new[]{c+Vector3.down*.1f,c+lean*tall*.55f,c+lean*tall},new[]{.42f,.34f,.06f},5,new Color(.84f,.96f,1.04f),new Color(1,1.06f,1.1f));
+                    // Teal and violet shard by shard, darker at the foot where the glass is thickest.
+                    var tint=k%2==0?new Color(.56f,.94f,.9f):new Color(.78f,.62f,1f);
+                    shape.Slot(0).Tube(new[]{c+Vector3.down*.1f,c+lean*tall*.55f,c+lean*tall},new[]{.42f,.34f,.06f},5,ZoneKit.Shape.Dim(tint,.62f),tint);
                 }
-                var casing=kit.Built(name,shape,Rib);casing.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;return casing;
+                var casing=kit.Built(name,shape,CasingGlass);casing.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;return casing;
             }
 
             // ---------------------------------------------------------------- the first clamp
@@ -756,8 +808,15 @@ namespace Lattice.EditorTools
                     GameObject Body(string state,float swung)
                     {
                         var body=kit.Prop(ZoneKit.Kit("BridleClamp","AncelanePump"),new Vector3(bodyAt.x,0,bodyAt.y),4.2f,facing+ClampYaw,false);body.name="Clamp "+(i+1)+" "+state;
+                        // The box is as wide as the clamp's plinth is drawn (measured off its lower metre before anything swings): 2.6 m left the plinth's ends outside it, and after
+                        // the Warden the partner stood inside one (November 20, s41/119). Its depth toward the seat stays as it was, so the seat in front is as it was.
+                        var across=new Vector3(toC.y,0,-toC.x);float half=1.3f;var foot=kit.On(bodyAt.x,bodyAt.y);
+                        foreach(var mesh in body.GetComponentsInChildren<MeshFilter>())if(mesh.sharedMesh!=null)foreach(var v in mesh.sharedMesh.vertices)
+                        {var w=mesh.transform.TransformPoint(v);if(w.y-foot.y<1.1f&&Mathf.Abs(Vector3.Dot(w-foot,new Vector3(toC.x,0,toC.y)))<1.2f)half=Mathf.Max(half,Mathf.Abs(Vector3.Dot(w-foot,across)));}
+                        half=Mathf.Min(half,2.4f);
                         if(swung!=0&&!OpenJaw(body,swung))Swing(body,kit.On(bodyAt.x,bodyAt.y)-new Vector3(toC.x,0,toC.y)*.9f,new Vector3(-toC.x,0,-toC.y),swung*.27f);
-                        ZoneKit.Block(body,kit.On(bodyAt.x,bodyAt.y,2),new Vector3(2.6f,4,1.8f),facing,"Clamp body");
+                        ZoneKit.Block(body,kit.On(bodyAt.x,bodyAt.y,2),new Vector3(half*2,4,1.8f),facing,"Clamp body");
+                        if(state=="shut"&&i==0)Debug.Log("CHOIR_CLAMP_FOOT half="+half.ToString("0.00"));
                         // All four fade, not only the camera's two: a hero on the floor behind the north clamps (r 15 to 18) stands behind 4 m of bronze from the camera too.
                         ZoneKit.Fadeable(body);
                         body.transform.SetParent(seatObject.transform,true);return body;
@@ -878,7 +937,10 @@ namespace Lattice.EditorTools
                 var root=new GameObject("Ishen, with the party");root.transform.SetPositionAndRotation(On(kit,new Vector2(-3.5f,-1.5f)),Quaternion.identity);
                 var body=(GameObject)PrefabUtility.InstantiatePrefab(prefab);body.transform.SetParent(root.transform,false);body.name="Ishen's body";
                 foreach(var rig in body.GetComponentsInChildren<Animator>()){rig.cullingMode=AnimatorCullingMode.CullUpdateTransforms;PrefabUtility.RecordPrefabInstancePropertyModifications(rig);}
-                var keeps=root.AddComponent<KeepsPace>();keeps.gap=6;keeps.walk=3;keeps.hurry=6.6f;keeps.calm=14;
+                // Put at his place, out of the camera's view, once he is twelve metres of path from it (the shared forty was more than the whole walk from the stair to the record wall):
+                // he is frozen through the Warden's last words, and the party reached the wall and pressed for his reading before he did, so he read it from off the screen
+                // (November 20, s41/119).
+                var keeps=root.AddComponent<KeepsPace>();keeps.gap=6;keeps.walk=3;keeps.hurry=6.6f;keeps.calm=14;keeps.tooFar=12;
                 keeps.stages=new[]
                 {
                     new KeepsPace.Stage{when="",follows=true},
@@ -1003,7 +1065,9 @@ namespace Lattice.EditorTools
                 hold.shafts=shafts.ToArray();
                 // ---- the light still inside the body: a few cool lamps in the glass beside the gallery, and the heart's
                 // Brighter than they were, and more of them: the body is the room's light, and what stands near the balustrade takes its cool from it.
-                foreach(float z in new[]{18f,40f,62f,84f,104f,128f,150f,168f,190f,208f,226f,244f}){var l=kit.Lamp(new Vector3(8.6f,RouteLevel(z)+1.2f-kit.Y(8.6f,z),z),12,2.3f,new Color(.6f,.84f,1));l.name="Light in the glass";lights.Add(l);}
+                // Brighter again (November 21), and lower, so the glass's own colour lies on the paving beside it.
+                foreach(float z in new[]{18f,40f,62f,84f,104f,128f,150f,168f,190f,208f,226f,244f}){var l=kit.Lamp(new Vector3(7.8f,RouteLevel(z)+.9f-kit.Y(7.8f,z),z),13,3.4f,new Color(.5f,.8f,1));l.name="Light in the glass";lights.Add(l);}
+                LightThroughTheGlass(kit);ChoirFloor(kit);
                 var heartLight=kit.Lamp(new Vector3(1,HallFloor+2-kit.Y(1,316),316),16,3.2f,new Color(.74f,.9f,1));heartLight.name="The road's knot's light";lights.Add(heartLight);
                 hold.lights=lights.ToArray();
                 // ---- the engine at C: a bronze ring let into the floor, a socket for each fibre at its rim; drawn only, flush, so the Warden's floor stays its own
@@ -1162,6 +1226,77 @@ namespace Lattice.EditorTools
                 Back(16.3f,181.5f,197.5f,RibFloor,3.6f);Back(12.3f,224.6f,236.2f,GalleryFloor,3.2f);
                 var drawn=kit.Built("The hollows' backs",shape,Rib);drawn.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
             }
+            /// <summary>The light through the body on the court's floor: the low key light comes from the east through the glass, so the paving beside the balustrade lies in nets of
+            /// its colour, long toward the west where the light goes, brightest by the glass and gone a few metres out; round the hall's open rim the same, falling in toward the
+            /// engine. November 20: the hall was "a stone terrace beside pale blue shards" (s40/010), the guide's own example of a place not lit by what it is about. Drawn only, flush
+            /// on the floor, added to it, under every danger marking, and off the flights (each patch lies on one level).</summary>
+            static void LightThroughTheGlass(ZoneKit kit)
+            {
+                var points=new List<Vector3>();var uv=new List<Vector2>();var tones=new List<Color32>();var tris=new List<int>();
+                var rng=new System.Random(4401);float R()=>(float)rng.NextDouble();int laid=0;
+                Color[] hues={new(.3f,.62f,1),new(.26f,.78f,.86f),new(.5f,.74f,1),new(.48f,.42f,.96f),new(.36f,.86f,.98f)};
+                // Each patch its own whole sheet of the net (its uvs nought to one), on one level of floor, a little off square.
+                void Patch(Vector2 at,float across,float deep,float yaw,float strength)
+                {
+                    var hue=hues[rng.Next(hues.Length)];float flip=R();
+                    if(Nearest(at,out var room)>-.4f||room==Room.FlightA||room==Room.FlightB||room==Room.StairA||room==Room.StairB||room==Room.StairC)return;
+                    float level=Level(at,room);var turn=Quaternion.Euler(0,yaw,0);var tone=(Color32)new Color(hue.r*strength,hue.g*strength,hue.b*strength,1);int first=points.Count;
+                    foreach(var (x,z,u,v) in new[]{(-.5f,-.5f,0f,0f),(.5f,-.5f,1f,0f),(.5f,.5f,1f,1f),(-.5f,.5f,0f,1f)})
+                    {
+                        var d=turn*new Vector3(x*across,0,z*deep);points.Add(new Vector3(at.x+d.x,level+.016f,at.y+d.z));uv.Add(flip<.5f?new Vector2(u,v):new Vector2(v,1-u));tones.Add(tone);
+                    }
+                    bool up=Vector3.Cross(points[first+2]-points[first],points[first+1]-points[first]).y>=0;
+                    tris.AddRange(up?new[]{first,first+2,first+1,first,first+3,first+2}:new[]{first,first+1,first+2,first,first+2,first+3});laid++;
+                }
+                // Down the route beside the body: the light comes in at the balustrade and runs west across the floor, three or four patches deep at each beat.
+                for(float z=6;z<262;z+=3.2f+R()*1.6f)
+                {
+                    float near=EastEdge-1.6f-R()*.8f;
+                    Patch(new Vector2(near,z),3.6f+R()*1.6f,2.2f+R()*1.2f,90+(R()-.5f)*14,.62f+.2f*R());
+                    if(R()<.75f)Patch(new Vector2(near-3.2f-R()*1.4f,z+(R()-.5f)*1.6f),3.2f+R()*1.6f,1.8f+R()*1,90+(R()-.5f)*18,.36f+.16f*R());
+                    if(R()<.35f)Patch(new Vector2(near-6.4f-R()*1.4f,z+(R()-.5f)*2),2.8f+R()*1.2f,1.4f+R()*.8f,90+(R()-.5f)*20,.2f+.1f*R());
+                }
+                // Round the overlook, where the glass is a stride from its rail.
+                for(float z=OverlookFrom+.6f;z<OverlookTo-.6f;z+=2.4f)Patch(new Vector2(OverlookEdge-1.3f,z),2.4f,2,90+(R()-.5f)*10,.7f);
+                // Round the hall's open rim (its north and east, where the chest comes down), falling in toward the engine and kept off its middle.
+                for(float bearing=-56;bearing<=122;bearing+=11+R()*5)
+                {
+                    Patch(Polar(bearing,HallRadius-2.4f-R()*.8f),3.4f+R()*1.4f,2.2f+R()*1,bearing+90+(R()-.5f)*12,.58f+.2f*R());
+                    if(R()<.6f)Patch(Polar(bearing+(R()-.5f)*4,HallRadius-5.6f-R()*1.2f),2.8f+R()*1.2f,1.8f+R()*.8f,bearing+90+(R()-.5f)*16,.3f+.12f*R());
+                }
+                var mesh=new Mesh{name="Light through the glass"};mesh.SetVertices(points);mesh.SetUVs(0,uv);mesh.SetColors(tones);mesh.SetNormals(points.Select(_=>Vector3.up).ToList());mesh.SetTriangles(tris,0);mesh.RecalculateBounds();
+                mesh=ZoneKit.SaveMesh(mesh,"Assets/_Project/Scenes/"+kit.zone+"-Light-through-the-glass.asset");
+                var drawn=new GameObject("Light through the glass",typeof(MeshFilter),typeof(MeshRenderer));drawn.GetComponent<MeshFilter>().sharedMesh=mesh;
+                var view=drawn.GetComponent<MeshRenderer>();view.sharedMaterial=Caustic;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
+                Debug.Log("CHOIR_GLASS_LIGHT patches="+laid);
+            }
+            /// <summary>The court's floor laid for a choir: down the walked middle of every level floor a medallion of the court's ring-and-bar every ten metres or so, bronze in the
+            /// paving with a boss of the body's glass at its heart, faintly lit; and along the balustrade's foot a band of glass tesserae set in the stone, catching the body's light.
+            /// Flush and drawn only, so nothing about the floor a body walks on changes.</summary>
+            static void ChoirFloor(ZoneKit kit)
+            {
+                var bronze=new ZoneKit.Shape();var tesserae=new ZoneKit.Shape();var rng=new System.Random(4501);float R()=>(float)rng.NextDouble();int medallions=0,tiles=0;
+                bool Laid(Vector2 p,out float y){y=0;if(Nearest(p,out var room)>-.6f||room==Room.FlightA||room==Room.FlightB||room==Room.StairA||room==Room.StairB||room==Room.StairC||room==Room.Hall)return false;y=Level(p,room);return true;}
+                foreach(float z in new[]{8f,23f,48f,70f,84f,106f,124f,142f,162f,180f,198f,220f,238f,256f})
+                {
+                    var at=new Vector2(-1.5f,z);if(!Laid(at,out float y))continue;var c=new Vector3(at.x,y+.014f,at.y);
+                    bronze.Slot(0).Disc(c,Vector3.up,1.32f,40,BronzeLight,1.18f,BronzeDark).Disc(c+Vector3.up*.002f,Vector3.up,.86f,32,BronzeDark,.78f,BronzeLight);
+                    // The bar through the ring, the court's mark, and four short spokes at the quarters.
+                    bronze.Slot(0).Box(c+Vector3.up*.004f,new Vector3(2.5f,.008f,.12f),Quaternion.identity,BronzeLight);
+                    for(int k=0;k<4;k++){var d=Quaternion.Euler(0,45+k*90,0)*Vector3.forward;bronze.Slot(0).Box(c+d*1.0f+Vector3.up*.004f,new Vector3(.08f,.008f,.34f),Quaternion.LookRotation(d),BronzeLight);}
+                    tesserae.Slot(0).Disc(c+Vector3.up*.006f,Vector3.up,.42f,24,new Color(.62f,.9f,1.05f),0,new Color(.32f,.62f,.94f));medallions++;
+                }
+                // Tesserae of glass along the balustrade's foot: small squares in rows, each its own blue, some missing.
+                for(float z=-4;z<264;z+=.46f)for(int row=0;row<2;row++)
+                {
+                    // Either side of the bronze border (at a metre and a tenth in), clear of the balustrade's plinth.
+                    var at=new Vector2(EastEdge-(row==0?.78f:1.46f)+(R()-.5f)*.04f,z+(row%2)*.23f);if(R()<.18f||!Laid(at,out float y))continue;
+                    float t=.42f+.3f*R();var tone=R()<.6f?new Color(.4f*t,.74f*t,1f*t):R()<.7f?new Color(.32f*t,.86f*t,.9f*t):new Color(.6f*t,.56f*t,1f*t);
+                    tesserae.Slot(0).Box(new Vector3(at.x,y+.008f,at.y),new Vector3(.34f,.012f,.34f),Quaternion.Euler(0,(R()-.5f)*8,0),tone);tiles++;
+                }
+                kit.Built("The choir's floor inlay",bronze,Bronze);var lit=kit.Built("The choir's floor glass",tesserae,Heart);lit.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                Debug.Log($"CHOIR_FLOOR medallions={medallions} tesserae={tiles}");
+            }
             /// <summary>The heart, beside the landing that is named for it: a dense knot deep in the milky core, the one warm light in the building, its veins running out along the
             /// body (so it reads as alive and not as a lamp). Returns its light, which drifts with the others once the Bridle lets go.</summary>
             static Light WarmHeart(ZoneKit kit)
@@ -1228,6 +1363,11 @@ namespace Lattice.EditorTools
                 new LookDev.View("gallery",On0(new Vector2(-4,222))),new LookDev.View("gallery-north",On0(new Vector2(-4,240))),new LookDev.View("niche",On0(new Vector2(1,228))),new LookDev.View("landing",On0(new Vector2(0,257))),new LookDev.View("overlook",On0(new Vector2(4.6f,96))),
                 new LookDev.View("stair",On0(new Vector2(0,270))),new LookDev.View("hall",On0(new Vector2(0,282))),new LookDev.View("hall-north",On0(new Vector2(0,300))),new LookDev.View("record-wall",On0(RecordWall)),
                 new LookDev.View("overview-nave",On0(new Vector2(2,70)),false,4),new LookDev.View("overview-descent",On0(new Vector2(0,200)),false,4),new LookDev.View("overview-hall",On0(new Vector2(0,290)),false,3),
+                // Where November 20's stills stood (nov20-whole s40 and s41), to set beside them.
+                new LookDev.View("s40-056",On0(new Vector2(-4,189.8f))),new LookDev.View("s40-098",On0(new Vector2(-3,223.7f))),new LookDev.View("s40-157",On0(new Vector2(-6.3f,255.3f))),
+                new LookDev.View("s41-030",On0(new Vector2(0,289.5f))),new LookDev.View("s41-119",On0(new Vector2(-12.5f,301.2f))),
+                // November 22's (nov22-whole s40 056: under rib 1 into the sentinel bay, the casings at the left).
+                new LookDev.View("s40-056-nov22",On0(new Vector2(-8.5f,200.7f))),
             };
             static Vector3 On0(Vector2 p){FloorAt(p,out float level);return new Vector3(p.x,level,p.y);}
         }

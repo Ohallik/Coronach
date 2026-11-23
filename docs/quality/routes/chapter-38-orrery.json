@@ -431,12 +431,12 @@
     },
     {
       "name": "on until Ishen names the moons",
-      "seconds": 9.27,
+      "seconds": 14.8,
       "navigate": true,
       "point": {
         "x": 0,
         "y": 1,
-        "z": 100.0
+        "z": 138.0
       },
       "tolerance": 3,
       "until": "arrived",

@@ -352,6 +352,13 @@ namespace Lattice.Tests.PlayMode
         // ------------------------------------------------------------------ item 5: numbers, and the feed
         static Health Dummy(Vector3 at)
         {var body=new GameObject("Body fixture").AddComponent<Health>();body.id="Fixture";body.maximum=body.integrity=1000000;body.breakThreshold=1e9f;body.transform.position=at;return body;}
+        /// <summary>One of seven hands on the party's side, by turns: a body carries one number for each attacker (D356).</summary>
+        static Health Striker(int hit)
+        {
+            string name="Striker fixture "+hit%7;var found=GameObject.Find(name);
+            if(found==null){found=new GameObject(name);var hand=found.AddComponent<Health>();hand.id="Striker";hand.friendly=true;hand.maximum=hand.integrity=100;found.transform.position=new Vector3(0,-500,0);}
+            return found.GetComponent<Health>();
+        }
         static Rect Glyphs(TMP_Text text)
         {
             text.ForceMeshUpdate();var b=text.textBounds;
@@ -386,7 +393,8 @@ namespace Lattice.Tests.PlayMode
             var types=System.Enum.GetValues(typeof(DamageType)).Cast<DamageType>().ToArray();
             for(int hit=0;hit<14;hit++)
             {
-                body.Receive(new DamagePacket{amount=100+hit*37,type=types[hit%types.Length]},hit%2==0?2:1);
+                // Seven hands striking: since D356 a body carries one number for each attacker, so a crowd of numbers is a crowd of attackers.
+                body.Receive(new DamagePacket{source=Striker(hit),amount=100+hit*37,type=types[hit%types.Length]},hit%2==0?2:1);
                 for(float until=Time.unscaledTime+.13f;Time.unscaledTime<until;)
                 {
                     yield return null;
@@ -404,7 +412,7 @@ namespace Lattice.Tests.PlayMode
             yield return null;
             var camera=Camera.main;var body=Dummy(camera.ScreenToWorldPoint(new Vector3(-camera.pixelWidth*.2f,camera.pixelHeight*.5f,20))-Vector3.up*1.9f);
             var types=System.Enum.GetValues(typeof(DamageType)).Cast<DamageType>().ToArray();
-            for(int hit=0;hit<6;hit++){body.Receive(new DamagePacket{amount=100+hit*37,type=types[hit%types.Length]});yield return new WaitForSecondsRealtime(.08f);}
+            for(int hit=0;hit<6;hit++){body.Receive(new DamagePacket{source=Striker(hit),amount=100+hit*37,type=types[hit%types.Length]});yield return new WaitForSecondsRealtime(.08f);}
             var numbers=Live("Damage");Assert.GreaterOrEqual(numbers.Length,3,"fixture: several numbers are up");
             float units=numbers[0].rectTransform.lossyScale.x;var xs=numbers.Select(n=>Box(n.rectTransform).center.x/units).ToArray();
             Assert.Greater(xs.Max()-xs.Min(),40,"the numbers of a body off the screen pile up in a dead-straight column against its edge");
@@ -539,7 +547,7 @@ namespace Lattice.Tests.PlayMode
 
         // ------------------------------------------------------------------ item 7: Fabricate
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static IEnumerator FindRow(string words,System.Action<Button> found)
         {
@@ -556,13 +564,13 @@ namespace Lattice.Tests.PlayMode
             var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(PauseMenu.FabricatePage,true);yield return null;
             Button can=null,locked=null;
             yield return FindRow("Scrap Emitter",b=>can=b);Color canColor=can.GetComponentInChildren<TMP_Text>().color;StringAssert.DoesNotContain("Needs",Words(can),"a row that can be made talks about what it needs");
-            yield return FindRow("Refined Emitter",b=>locked=b);var words=locked.GetComponentInChildren<TMP_Text>();
+            yield return FindRow("Refined Emitter",b=>locked=b);var words=locked.GetComponent<ListRow>().Cell("Does");
             EventSystem.current.SetSelectedGameObject(Row("Close").gameObject);yield return null;
             Assert.Greater(Mathf.Abs(canColor.r-words.color.r)+Mathf.Abs(canColor.g-words.color.g)+Mathf.Abs(canColor.b-words.color.b),.3f,"fixture: the row can't be made, so it's grey");
             StringAssert.DoesNotContain("<color",System.Text.RegularExpressions.Regex.Replace(words.text,"<color=[^>]*>Needs[^<]*</color>",""),"fixture: every material is met");
             StringAssert.Contains("Needs Emitters 2",words.text,"a grey row with every material met doesn't say why: the Emitters rank is only in the footer");
             // The row holds that on its one line, at the longest it can run.
-            yield return FindRow("Refined Module",b=>locked=b);words=locked.GetComponentInChildren<TMP_Text>();
+            yield return FindRow("Refined Module",b=>locked=b);words=locked.GetComponent<ListRow>().Cell("Does");
             StringAssert.Contains("Needs Modules 2",words.text,"fixture: the longest locked row");
             // TMP's measure doesn't take the label's margins off the width it's given.
             Assert.LessOrEqual(words.GetPreferredValues(words.text,words.rectTransform.rect.width-words.margin.x-words.margin.z,0).y,locked.GetComponent<RectTransform>().rect.height,"the reason wraps the row off its line");

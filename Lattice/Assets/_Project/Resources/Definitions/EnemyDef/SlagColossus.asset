@@ -24,7 +24,7 @@ MonoBehaviour:
     response: 0
     resonance: 0
     fortune: 0
-  integrity: 94000
+  integrity: 135000
   breakThreshold: 900
   speed: 1.4
   attacks:

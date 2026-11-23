@@ -21,7 +21,7 @@ Everything below is drawn, and the same rule is what the code does (`OrreryRail`
 7. **The rails counter-turn, like gears**, and every moon goes round in the same twenty seconds. The moons cross the lane one after another inward, about eleven metres a second apart, so a party flying in at the stick's pace behind the first moon meets each next gate just as it goes green: the green wave. Missed, it comes round again.
 8. **The Clerk of Roads is broken.** As it comes into the lane it calves a shard off its leading face (the combat engineer's `Moonshard`, below), which runs ahead of it on a marked track: ahead of a moon is doubly where not to be.
 
-The lights are taught in words once, by Ishen, before the first gate (`IshenMoonNames`: "Amber and standing, the gate is shut. Green and running, it's open. Wait in a moon's lee, and go on green."), and as he says it the view draws back over the first two rails, so the machine is on screen whole while he names its parts. Everything after that is the same machine, a little faster each rail.
+The lights are taught in words once, by Ishen, before the first gate (`IshenMoonNames`: "Amber and standing, the gate is shut. Green and running, it's open. Wait in a moon's lee, and go on green."), and as he says it the view draws back over the Steward's gates, so its lights are on screen while he names the moons, with the ship still a ship and not a speck (D359: drawn back over the first two rails it stood 337 m off and the ship was 28 pixels long). Everything after that is the same machine, a little faster each rail.
 
 ## Rules of construction
 
@@ -48,7 +48,7 @@ North up, toward the planet. The lane is 72 m wide (x -36 to 36), from the arriv
  z 340  rail 3  THE CLERK OF ROADS E->W  9, broken: calves Moonshards              gates z 333
  z 250  rail 2  THE WEIGHER       W->E  9.5     named gate (middle ring)           gates z 243
  z 160  rail 1  THE STEWARD       E->W  8, the slowest: the first to read           gates z 153   named gate (middle ring)
- z  90  IshenMoonNames (crossing across the lane); the view draws back over rails 1 and 2 from z 45
+ z 128  IshenMoonNames (crossing across the lane); the view draws back over the Steward's gates from z 88
  z  20  Lume's hail (hail.pod); the courier pod falls in behind the party
  z   6  ARRIVAL     warp home (-14, -4) - The Hull of Many Hands
 ```
@@ -59,8 +59,8 @@ North up, toward the planet. The lane is 72 m wide (x -36 to 36), from the arriv
 |---|---|---|
 | 0 | Arrival (spawn `Arrival`), `Warp — The Hull of Many Hands` (open) | to ManyHandsHull spawn `Oriel` |
 | 20 | Lume on the radio (`hail.pod`), once; the courier pod trails the party from here to the landing | `oriel.podHailed` |
-| 45-90 | The view draws back over rails 1 and 2 (`VantageView`) until Ishen has taught the lights | |
-| 90 | **Ishen names the moons** (`IshenMoonNames`, a line across the lane) | `oriel.lightsRead` |
+| 88-128 | The view draws back over the Steward's gates (`VantageView`) until Ishen has taught the lights | |
+| 128 | **Ishen names the moons** (`IshenMoonNames`, a line across the lane) | `oriel.lightsRead` |
 | 153 / 160 | Rail 1, the Steward: three gates, the moon, two wardens (`Rail_1`). Middle ring: `THE STEWARD` on its keystone | MoonNames: `Pass the named gate on green` (report `NamedGate`, `oriel.stewardRead`) |
 | 243 / 250 | Rail 2, the Weigher (`Rail_2`). Middle ring `THE WEIGHER` | `oriel.weigherRead` (offered once the Steward's is read) |
 | 333 / 340 | Rail 3, the Clerk of Roads (`Rail_3`), calving into `Shards_0..2` in turn as it comes into the lane | `moonshard` bark |
@@ -92,7 +92,7 @@ World x, y, z. The builder logs every number below as `ORIEL_COORDS Orrery ...`;
 | Arrival | (0, 1, 6) | spawn `Arrival` |
 | Warp home | (-14, 1, -4) | `Warp — The Hull of Many Hands` -> ManyHandsHull spawn `Oriel` |
 | Lume's hail | (0, 1, 20), range 30 | `hail.pod`, `oriel.podHailed` |
-| Ishen's talk (line across the lane) | (0, 1, 90) | `IshenMoonNames`, `oriel.lightsRead` |
+| Ishen's talk (line across the lane) | (0, 1, 128) | `IshenMoonNames`, `oriel.lightsRead` |
 | Rail 1, The Steward: gates | (-24.0, 1, 152.5), (0.0, 1, 152.3), (24.0, 1, 152.5); rail z 160 | `Rail_1`: wardens (+-30, 1, 168.9) on the warden track |
 | Rail 2, The Weigher: gates | (-24.0, 1, 242.6), (0.0, 1, 242.3), (24.0, 1, 242.6); rail z 250 | `Rail_2`: wardens (+-30, 1, 258.9) on the warden track |
 | Rail 3, The Clerk of Roads: gates | (-24.0, 1, 333.2), (0.0, 1, 332.9), (24.0, 1, 333.2); rail z 340 | `Rail_3`: wardens (+-30, 1, 349.0) on the warden track; `Shards_0..2` |
@@ -156,3 +156,7 @@ What is weak, plainly:
 
 - **`RailWarden`** is a `Rider` on a rail: placed as written above (facing along the rail toward the lane's middle, `faceAsPlaced`), it rides a line from where it stands **ahead along its heading** (18 m) and fires only down that line: a ship on it, ahead of the drone within 16 m, sees the line marked 3 m wide for .9 s, then a bolt comes down it (96, Beam). A ship beside the line is never fired at, however near. It glides along its line toward the ship's place on it. Asleep on show it does nothing; woken it fights as above. If the rails themselves are wanted as its line, lay a `ForceLine` along the rail at the plane within 20 m of each warden and it rides that instead (`end` the far end; the rail's curve is fine as a chord a lane wide). Integrity 950, weak Pulse, resists Beam, 90 XP.
 - **`Moonshard`** is a `Charger` on a track (`tune.count` 1): begun as written above (2 m off the moon's leading face, facing the moon's way along the rail), it marks a lane **ahead along its heading**, 30 m long and 3.4 m wide, for 1.1 s, runs it at 20 m/s whoever is about, strikes what it touches inside the lane (98), and is spent at the end: it breaks up and pays nothing. A wall in the lane ends it there. Shot down before it runs (180 integrity, a few shots), it is a kill (20 XP). So the stretch ahead of a moon is the marked danger and its lee is calm, as the section above wants, provided the shard (20 m/s) outruns its moon.
+
+## The gate names (labels engineer's request, D356, November 22)
+
+From the play camera (Flight profile: 26 m, 48 degrees, fov 30) the frame at the plane runs from about 7.6 m behind the ship to 12.3 m ahead of it. THE STEWARD, THE WEIGHER and THE LAMPLIGHTER hang 10.8 m over the middle gate's keystone (`keystone+Vector3.up*1.2f`), so from 14, 8 and 3 m short of their gates they stand above the top of the frame (a probe in run nov22-hud1, since removed); they are only on screen in the wide view over Ishen's talk, small and behind the trusses (nov22-whole s38/080, s38/087). Asked of the zone's engineer: lay each name on the plane again, centred on the lane, 5 m before its middle gate: `WorldBuilder.Label(rail.name.ToUpperInvariant(),At(LaneGates[1],rail.Radius+rail.GateOut+5,Plane-.7f),2.4f)`. The two reasons it was moved up on November 21 are answered at run time: a ship over a word lying under the plane now takes it to its trace (`SignFade`, D356), and at 5 m out the ring's lit rim is no longer behind its letters (at 2.4 m it read 2 to 1); `SignStyle` gives it the full plate if what is behind it is bright. It then reads from about 17 m short of the gate until the ship crosses it.

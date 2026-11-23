@@ -32,7 +32,7 @@ namespace Lattice.EditorTools
                 bloomThreshold=.88f,bloomIntensity=.7f,vignette=.22f});
         }
 
-        internal static class Town
+        internal static partial class Town
         {
             // ---------------------------------------------------------------- levels (the floor's height on each terrace)
             internal const float Quay=0,Lower=2.4f,Upper=4.8f,Podium=7.2f,Cells=1f,Sea=-1.6f,Bed=-4.5f,CliffTop=8;
@@ -212,8 +212,18 @@ namespace Lattice.EditorTools
                     float left=u-breaks[k],right=(k+1<breaks.Length?breaks[k+1]:1+breaks[1])-u,side=Mathf.Min(left,right)*10;
                     float tone=tones[Mathf.Min(k,tones.Length-1)]+.1f*(ZoneKit.Tile(u*128,v*128,128,7)-.5f)+.05f*(ZoneKit.Cloud(u,v,8,2)-.5f);
                     // Each block's face is pillowed: lit along its top edge, shaded along its bottom; a dark recessed joint all round.
-                    tone+=.06f*(up-.5f);if(up<.06f||up>.95f||side<.05f)tone-=.3f;else if(up<.12f||side<.1f)tone-=.08f;
-                    return new Color(tone,tone*.98f,tone*.965f,1);
+                    tone+=.06f*(up-.5f);
+                    // Weather (s53/014: plain grey brick with no wear): a block here and there sooted or bleached, grime run down from the joints in streaks, lichen on some faces,
+                    // pits, and arrises knocked off at the corners showing paler stone.
+                    int block=r*31+k;float own=Hash(block);
+                    if(own>.86f)tone-=.07f;else if(own<.1f)tone+=.05f;
+                    float streak=ZoneKit.Smooth(.58f,.9f,ZoneKit.Tile(u*70,r*3.3f+.5f,70,8))*(.35f+.65f*(1-up));tone-=.08f*streak;
+                    if(ZoneKit.Tile(u*300,v*300,300,9)>.92f)tone-=.06f;
+                    bool chipped=Hash(block*3+(up<.5f?1:2)+(left<right?4:8))>.72f;
+                    if(chipped&&side<.16f&&(up<.2f||up>.82f)&&side+(up<.5f?up:1-up)*.8f<.2f)tone+=.09f;
+                    if(up<.06f||up>.95f||side<.05f)tone=tones[Mathf.Min(k,tones.Length-1)]*.42f+.04f*(ZoneKit.Tile(u*200,v*200,200,10)-.5f);else if(up<.12f||side<.1f)tone-=.08f;
+                    float lichen=ZoneKit.Smooth(.58f,.78f,ZoneKit.Cloud(u,v,6,9))*(own>.5f?1:.3f);
+                    return new Color(tone*(1-.06f*lichen),tone*(.98f+.01f*lichen),tone*(.965f-.09f*lichen),1);
                 });
                 // Slate: roofs in overlapping courses, each slate's tail a shade darker.
                 var slate=ZoneKit.Texture("Harrowgate/harrow-slate",512,(u,v)=>
@@ -245,12 +255,16 @@ namespace Lattice.EditorTools
                 Rope=ZoneKit.Toon("harrow-rope",null,m=>m.SetColor("_BaseColor",new Color(.78f,.72f,.6f)),"Universal Render Pipeline/Unlit");
                 // The harbour: slate-teal, paler for five metres out from every wall with a line of foam where it laps, the ripple's grain small enough to read as a sheen and glints on it.
                 // Near black with a third-of-a-metre ripple (harrow-06) it read as dark camouflage, not water: no colour, no edge, nothing catching the light.
-                Water=ZoneKit.Toon("harrow-water",null,m=>ZoneKit.WaterLook(m,new Color(.36f,.53f,.56f,.9f),new Color(.15f,.27f,.31f,.96f),new Color(.84f,.9f,.9f,1),5,7,.07f,.5f));
-                // Fire: tongues that flicker from the root up (the cloth's sway, quick and fluttering), bright orange outside and near white within.
-                Flame=ZoneKit.Toon("harrow-flame",null,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(1,.56f,.2f));m.SetColor("_EmissionColor",new Color(3.4f,1.3f,.28f));ZoneKit.Swaying(m,.07f,3.6f,.7f,.95f);});
-                FlameCore=ZoneKit.Toon("harrow-flame-core",null,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(1,.9f,.6f));m.SetColor("_EmissionColor",new Color(4,3,1.4f));ZoneKit.Swaying(m,.05f,4.2f,.5f,.95f);});
+                // The ripple is a swell a metre or so across, and its glints are few: at a seventh of a metre (harrow-08 to harrow-10) the second octave was under eight pixels at the
+                // play camera, and the glints thresholded off it shimmered as static over the whole harbour (s51/107, s51/123).
+                Water=ZoneKit.Toon("harrow-water",null,m=>ZoneKit.WaterLook(m,new Color(.36f,.53f,.56f,.9f),new Color(.15f,.27f,.31f,.96f),new Color(.84f,.9f,.9f,1),5,1f,.022f,.5f));
+                // Fire: tongues that flicker from the root up (the cloth's sway, quick and fluttering), deep orange at the root going to yellow at the tip in their vertex colours, and a
+                // near-white core. Lit to one emission the tongues read as a flat yellow card (s53/014): the outside glows less, so the core is what's brightest.
+                Flame=ZoneKit.Toon("harrow-flame",null,m=>{ZoneKit.TwoSided(m);ZoneKit.Tinted(m);m.SetColor("_BaseColor",Color.white);m.SetColor("_EmissionColor",new Color(1.5f,.5f,.1f));ZoneKit.Swaying(m,.07f,3.6f,.7f,.95f);});
+                FlameCore=ZoneKit.Toon("harrow-flame-core",null,m=>{ZoneKit.TwoSided(m);ZoneKit.Tinted(m);m.SetColor("_BaseColor",Color.white);m.SetColor("_EmissionColor",new Color(2.6f,1.8f,.8f));ZoneKit.Swaying(m,.05f,4.2f,.5f,.95f);});
                 // The field's inlay: polished stone, flat colour with no coursing (drawn with the town's masonry it read as brickwork laid in the paving).
                 Inlay=ZoneKit.Toon("harrow-inlay",null,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",3);m.SetColor("_ShadowTint",new Color(.6f,.6f,.7f));m.SetColor("_RimColor",new Color(.9f,.9f,.94f));});
+                LookMaterials();
                 AssetDatabase.SaveAssets();
             }
 
@@ -273,6 +287,7 @@ namespace Lattice.EditorTools
                     OdrunVerdictAt,DraskVerdictAt,PipAfterAt);
                 foreach(var way in Ways)OnTheFloor(kit,"a way's corner",way);
                 OnTheFloor(kit,"a townsperson",Folk.Select(f=>f.at).ToArray());
+                OnTheFloor(kit,"the parley flag",ParleyAt);OnTheFloor(kit,"a guard at the cells",CellGuards.Select(g=>g.at).ToArray());
 
                 Parapets(kit);
                 Quayside(kit);
@@ -296,6 +311,7 @@ namespace Lattice.EditorTools
                 Story(kit);
                 Duel(kit);
                 Smoke(kit);
+                FaceSomething();
 
                 SeatBlocks();
                 NothingStandsOnTheWays();
@@ -370,17 +386,14 @@ namespace Lattice.EditorTools
                 shape.Slot(capSlot).Box(at+Vector3.up*.33f,new Vector3(.34f,.06f,.34f),Quaternion.identity,new Color(.3f,.3f,.32f));
                 if(light){var l=kit.Lamp(new Vector3(at.x,0,at.z),range,intensity,new Color(1,.8f,.52f));l.transform.position=at;}
             }
-            /// <summary>A banner of the Muster's: dark crimson cloth with an iron-grey crest-sail on it, hung from a bar.</summary>
+            /// <summary>A banner of the Muster's: dark crimson cloth hung in folds from a bar with knobbed ends, a darker hem, a gold fringe on its pointed tail and the iron-grey crest-sail on
+            /// its face (<see cref="Hang"/>; one flat plane until November 21, s53/014).</summary>
             static void Banner(ZoneKit.Shape shape,Vector3 top,float wide,float tall,Vector3 facing,int barSlot,int clothSlot)
             {
-                var across=Vector3.Cross(Vector3.up,facing).normalized*wide*.5f;var down=Vector3.down*tall;var out_=facing.normalized*.02f;
+                var across=Vector3.Cross(Vector3.up,facing).normalized*wide*.5f;
                 shape.Slot(barSlot).Beam(top-across*1.15f,top+across*1.15f,.08f,.08f,new Color(.3f,.28f,.26f));
-                shape.Slot(clothSlot).Quad(top-across,top+across,top+across+down+Vector3.up*.25f,top-across+down+Vector3.up*.25f,facing,new Color(.46f,.12f,.12f),.5f)
-                    .Triangle(top-across+down+Vector3.up*.25f,top+across+down+Vector3.up*.25f,top+down*1.08f,facing,new Color(.46f,.12f,.12f),.5f);
-                // The crest-sail: two swept vanes, the Vaskar's own shape, in iron grey.
-                var c=top+down*.45f+out_;
-                shape.Slot(clothSlot).Triangle(c,c+across*.7f+Vector3.up*tall*.28f,c+across*.25f-Vector3.up*tall*.12f,facing,new Color(.62f,.62f,.64f),.5f)
-                    .Triangle(c,c-across*.7f+Vector3.up*tall*.28f,c-across*.25f-Vector3.up*tall*.12f,facing,new Color(.62f,.62f,.64f),.5f);
+                foreach(int s in new[]{-1,1})shape.Slot(barSlot).Box(top+across*1.2f*s,new Vector3(.13f,.13f,.13f),Quaternion.LookRotation(facing),new Color(.62f,.5f,.32f));
+                Hang(shape,top+Vector3.down*.04f+facing.normalized*.03f,wide,tall*.9f,facing,clothSlot,new Color(.48f,.11f,.11f),new Color(.64f,.64f,.66f),new Color(.3f,.07f,.07f),new Color(.78f,.62f,.34f));
             }
             static Vector3 At(ZoneKit kit,Vector2 p,float up=0)=>kit.On(p.x,p.y,up);
 
@@ -418,9 +431,9 @@ namespace Lattice.EditorTools
                 scales.Slot(0).Post(foot,3.6f,.18f,.14f,8,dark,new Color(.56f,.52f,.5f)).Beam(foot+new Vector3(-2.2f,3.5f,0),foot+new Vector3(2.2f,3.5f,0),.16f,.16f,dark);
                 foreach(int side in new[]{-1,1}){var hang=foot+new Vector3(side*2,3.4f,0);scales.Slot(1).Rope(hang,hang+Vector3.down*2,0,.02f,dark,4,2);scales.Slot(0).Disc(hang+Vector3.down*2.05f,Vector3.up,.55f,14,new Color(.6f,.5f,.36f));}
                 var sackLump=new Color(.86f,.82f,.72f);
-                foreach(var (dx,dz,s) in new[]{(-1.6f,-.4f,.5f),(-2.2f,.4f,.46f),(-1.1f,.6f,.44f),(2.4f,.2f,.5f),(2.9f,-.5f,.42f)})scales.Slot(2).Lump(foot+new Vector3(dx,s*.8f,dz),new Vector3(s,s*.8f,s*.8f),(int)(dx*10),.12f,sackLump,ZoneKit.Shape.Dim(sackLump,.7f),9,5);
+                scales.Slot(2);foreach(var (dx,dz,s) in new[]{(-1.6f,-.4f,.5f),(-2.2f,.4f,.46f),(-1.1f,.6f,.44f),(2.4f,.2f,.5f),(2.9f,-.5f,.42f)})Sack(scales,foot+new Vector3(dx,0,dz),s*1.9f,ZoneKit.Shape.Dim(sackLump,.92f+.08f*Mathf.Abs(dx%1)),(int)(dx*10)+20);
                 scales.Slot(3).Box(foot+new Vector3(0,.5f,1.4f),new Vector3(2.4f,1,.7f),Quaternion.identity,wood,new Color(.88f,.78f,.6f),.5f);
-                var scalesBody=kit.Built("Harbour scales",scales,Timber,Iron,Cloth,Timber);ZoneKit.Block(scalesBody,foot+new Vector3(0,.8f,.4f),new Vector3(6.2f,1.6f,2.4f),0,"Harbour scales");
+                var scalesBody=kit.Built("Harbour scales",scales,Timber,Iron,Burlap,Timber);ZoneKit.Block(scalesBody,foot+new Vector3(0,.8f,.4f),new Vector3(6.2f,1.6f,2.4f),0,"Harbour scales");
 
                 // ---- cranes on the quay's east edge, jibs out over the water
                 Crane(kit,"Quay crane",new Vector3(44.2f,Quay,1.6f),14,80,new Color(.42f,.38f,.36f));Crane(kit,"Quay crane",new Vector3(44.2f,Quay,15.2f),12,100,new Color(.46f,.4f,.36f));
@@ -465,13 +478,13 @@ namespace Lattice.EditorTools
                     Banner(shape,foot+new Vector3(0,6.8f,-2.6f),1.8f,3.6f,Vector3.back,1,2);
                     ZoneKit.Block(body,foot+new Vector3(0,3.6f,0),new Vector3(3,7.2f,5),0,"Gate tower");
                 }
-                // The guard's door in the east tower's south face.
-                shape.Slot(3).Box(new Vector3(13,1.1f,19.48f),new Vector3(1.2f,2.2f,.06f),Quaternion.identity,new Color(.06f,.055f,.06f));
-                shape.Slot(1).Box(new Vector3(13,2.3f,19.46f),new Vector3(1.5f,.18f,.1f),Quaternion.identity,wood);
+                // The guard's door in the east tower's south face: a framed doorway with its leaf open and the lit passage behind (a flat black rectangle until November 21, s50/052).
+                GuardDoor(kit,body.transform);
                 // The arch over the ramp, its soffit high enough to see under.
                 shape.Slot(0).Box(new Vector3(8,6.2f,22),new Vector3(7,1.8f,3.2f),Quaternion.identity,stone,cap,.2f).Box(new Vector3(8,7.2f,22),new Vector3(7.6f,.3f,3.6f),Quaternion.identity,cap,cap,.2f);
                 Banner(shape,new Vector3(8,6.9f,20.3f),3,2,Vector3.back,1,2);
-                var drawn=kit.Built("Harbour gate drawn",shape,Stone,Timber,Cloth,Dark);drawn.transform.SetParent(body.transform,true);ZoneKit.Fadeable(drawn);
+                // Three slots: with the guard's door drawn on its own, a fourth material (Dark) would draw again over the cloth's slot, and the banners came out black.
+                var drawn=kit.Built("Harbour gate drawn",shape,Stone,Timber,Cloth);drawn.transform.SetParent(body.transform,true);ZoneKit.Fadeable(drawn);
                 var fade=drawn.GetComponent<SceneryOcclusion>();if(fade!=null)fade.opening=new Bounds(new Vector3(8,2.6f,22),new Vector3(7.4f,5.2f,4));
                 // The leaves: shut across the ramp until the flag is vouched (solid, and carving the paths while they stand), then swung back against the towers.
                 // The shut leaves are a seal (a Membrane, as Many Hands' cargo door is): solid and carving while shut, and the world tests open every seal. As a plain blocker it made the
@@ -501,6 +514,8 @@ namespace Lattice.EditorTools
                 var lamps=new ZoneKit.Shape();Lantern(kit,lamps,new Vector3(4.9f,4.2f,19.2f),true,9,1.2f);Lantern(kit,lamps,new Vector3(11.1f,4.2f,19.2f),false);
                 lamps.Slot(0).Beam(new Vector3(4.6f,4.6f,19.4f),new Vector3(4.9f,4.6f,19.2f),.06f,.06f,iron);
                 kit.Built("Gate lanterns",lamps,Iron,Iron,Lamp).transform.SetParent(body.transform,true);
+                // The party's parley flag, planted beside the ramp's foot where they ask to be let in.
+                ParleyFlag(kit,ParleyAt);
             }
             /// <summary>Shows its targets while a flag is set (or while it isn't), from an always-active object of its own.</summary>
             static FlagGate Gate(string name,string flag,bool showWhenSet,params GameObject[] targets)
@@ -679,8 +694,10 @@ namespace Lattice.EditorTools
                 var bench=kit.Prop("LatticeAnvil",new Vector3(AnvilAt.x,0,AnvilAt.y+1.3f),1.6f,180).AddComponent<Bench>();bench.prompt="Fabricate — The Armourers' Anvil";
                 // ---- the quartermaster's store at the stair's foot: sacks of garrison salt stencilled with the Muster's mark, a counter.
                 var store=new ZoneKit.Shape();var foot=At(kit,new Vector2(46.2f,51));
-                for(int k=0;k<6;k++)store.Slot(0).Lump(foot+new Vector3((k%2)*.6f-.3f,.3f+(k/2)*.5f,(k/2)*.1f),new Vector3(.4f,.28f,.32f),k,.1f,new Color(.84f,.84f,.86f),new Color(.6f,.6f,.64f),8,4);
-                kit.Built("Salt store",store,Cloth);
+                // Sacks of sacking stacked on a pallet, their necks tied, each stencilled with the Muster's bar (untextured white lumps on a crate until November 21, s51/107).
+                store.Slot(1).Box(foot+Vector3.up*.08f,new Vector3(1.5f,.16f,1.1f),Quaternion.identity,new Color(.58f,.46f,.34f),new Color(.66f,.54f,.4f));store.Slot(0);
+                for(int k=0;k<6;k++)Sack(store,foot+new Vector3((k%2)*.62f-.31f,.16f+(k/2)*.42f,(k/2)*.08f-.1f),.62f-.04f*(k/2),ZoneKit.Shape.Dim(new Color(.9f,.88f,.84f),.94f+.04f*(k%3)),k+11,Quaternion.Euler(90,0,(k%2==0?-1:1)*(8+k*3)),new Color(.36f,.34f,.36f));
+                kit.Built("Salt store",store,Burlap,Timber);
             }
 
             // ---------------------------------------------------------------- the upper terrace: the forecourt, the cadet yard, the armoury, the bastion
@@ -763,11 +780,11 @@ namespace Lattice.EditorTools
                 ZoneKit.Block(body,P(0,118.4f,4),new Vector3(30,8,12.4f),0,"Oath hall");ZoneKit.Block(body,table+Vector3.down*.4f,new Vector3(7,.9f,1.2f),0,"Warmaster's table");
                 // The roof hides nobody: the portico is six metres deep under a roof eleven metres up. The columns fade.
                 ZoneKit.Fadeable(drawn);
-                // Braziers at the steps' feet, one lit.
+                // Braziers at the steps' feet, both burning on the day of a duel: the chapter's fire in each bowl (HarrowgateBuilder.Hearths), its light breathing with its coals.
                 var fires=new ZoneKit.Shape();
-                foreach(int side in new[]{-1,1}){var b=At(kit,new Vector2(side*15.4f,99.2f));fires.Slot(0).Tube(new[]{b,b+Vector3.up*1.3f},new[]{.22f,.55f},10,dark,new Color(.4f,.38f,.36f),1,1);fires.Slot(1).Lump(b+Vector3.up*1.36f,new Vector3(.45f,.18f,.45f),side+2,.3f,Color.white,Color.white,10,3);}
-                var fireBody=kit.Built("Hall braziers",fires,Iron,Coal);foreach(int side in new[]{-1,1})ZoneKit.Block(fireBody,At(kit,new Vector2(side*15.4f,99.2f),.65f),new Vector3(1.1f,1.3f,1.1f),0,"Brazier");
-                kit.Lamp(new Vector3(-15.4f,0,99.2f),9,1.3f,new Color(1,.78f,.5f)).transform.position=At(kit,new Vector2(-15.4f,99.4f),2.2f);
+                foreach(int side in new[]{-1,1}){var b=At(kit,new Vector2(side*15.4f,99.2f));fires.Slot(0).Tube(new[]{b,b+Vector3.up*1.3f},new[]{.22f,.55f},10,dark,new Color(.4f,.38f,.36f),1,1);}
+                var fireBody=kit.Built("Hall braziers",fires,Iron);foreach(int side in new[]{-1,1})ZoneKit.Block(fireBody,At(kit,new Vector2(side*15.4f,99.2f),.65f),new Vector3(1.1f,1.3f,1.1f),0,"Brazier");
+                foreach(int side in new[]{-1,1})Hearths.Fire(kit,"Hall brazier fire "+(side<0?"west":"east"),At(kit,new Vector2(side*15.4f,99.2f),1.3f),.44f,1.1f,9,1.6f,side+41).transform.SetParent(fireBody.transform,true);
                 // The oath bell: a bronze bell in a frame of two basalt posts and an iron beam, its rope to hand.
                 var bell=new ZoneKit.Shape();var bFoot=At(kit,BellAt);
                 foreach(int side in new[]{-1,1})bell.Slot(0).Box(bFoot+new Vector3(side*1.6f,2.8f,0),new Vector3(.7f,5.6f,.7f),Quaternion.identity,stone,pale,.2f);
@@ -841,6 +858,8 @@ namespace Lattice.EditorTools
                 var caseBody=kit.Built("Oath hall case",caseShape,Stone,Iron,Cloth);if(hall!=null)caseBody.transform.SetParent(hall.transform,true);
                 ZoneKit.Block(caseBody,c3+Vector3.up*.9f,new Vector3(2.2f,1.8f,1.2f),0,"Trophy case");
                 GlassIn[Case3]=RelayGlass(kit,c3,caseBody.transform);
+                // Before each gallery case a slab let into the walk: where its trophy was taken (the walks were bare flagstone from the cases to the camera, s50/131).
+                CampaignStones(kit,Cases.Select(c=>c.at.x));
             }
             /// <summary>A plate of Lanternwick's relay glass in its case: the generated shard where it is taken in, else a pane of pale gold glass; shown only while it can be taken.</summary>
             static GameObject RelayGlass(ZoneKit kit,Vector3 caseAt,Transform parent)
@@ -873,28 +892,10 @@ namespace Lattice.EditorTools
                     ZoneKit.Block(body,new Vector3(21.85f,Upper+.6f,(z0+z1)*.5f),new Vector3(3.2f,1.2f,z1-z0),0,"Stand");
                 }
                 kit.Built("Muster field drawn",shape,Stone,Iron,Timber).transform.SetParent(body.transform,true);
-                // The field's own floor, inlaid flat in the paving (drawn only; "Floor detail" so the box checks read it as flat): a band of dark stone a metre wide inside the kerb, a pale ring
-                // round its middle and the Muster's crest-sail in dark and pale stone inside it, where the town looks down from the steps. Grey and white: never a danger's colour (D217).
-                var inlay=new ZoneKit.Shape();Color darkStone=new(.13f,.14f,.17f),paleStone=new(.95f,.93f,.88f);float y0=Upper+.012f,y1=Upper+.016f,y2=Upper+.02f;
-                foreach(var (a,b,c2,d) in new[]{(new Vector2(-FieldHalfX,FieldSouth),new Vector2(FieldHalfX,FieldSouth),new Vector2(FieldHalfX-1,FieldSouth+1),new Vector2(-FieldHalfX+1,FieldSouth+1)),
-                    (new Vector2(FieldHalfX,FieldSouth),new Vector2(FieldHalfX,FieldNorth),new Vector2(FieldHalfX-1,FieldNorth-1),new Vector2(FieldHalfX-1,FieldSouth+1)),
-                    (new Vector2(FieldHalfX,FieldNorth),new Vector2(-FieldHalfX,FieldNorth),new Vector2(-FieldHalfX+1,FieldNorth-1),new Vector2(FieldHalfX-1,FieldNorth-1)),
-                    (new Vector2(-FieldHalfX,FieldNorth),new Vector2(-FieldHalfX,FieldSouth),new Vector2(-FieldHalfX+1,FieldSouth+1),new Vector2(-FieldHalfX+1,FieldNorth-1))})
-                    inlay.Slot(0).Quad(new Vector3(a.x,y0,a.y),new Vector3(b.x,y0,b.y),new Vector3(c2.x,y0,c2.y),new Vector3(d.x,y0,d.y),Vector3.up,darkStone,.25f);
-                var mid=new Vector3(DuelMiddle.x,y0,DuelMiddle.y);
-                inlay.Slot(0).Disc(mid,Vector3.up,6.4f,48,paleStone,5.7f,null,.25f).Disc(new Vector3(mid.x,y1,mid.z),Vector3.up,1.6f,24,darkStone,0,null,.25f);
-                var tip=new Vector3(mid.x,y2,mid.z);
-                inlay.Slot(0).Triangle(tip+new Vector3(-.6f,0,.3f),tip+new Vector3(-4.6f,0,3.2f),tip+new Vector3(-2.2f,0,-1.8f),Vector3.up,darkStone,.25f).Triangle(tip+new Vector3(.6f,0,.3f),tip+new Vector3(4.6f,0,3.2f),tip+new Vector3(2.2f,0,-1.8f),Vector3.up,darkStone,.25f)
-                    .Disc(new Vector3(mid.x,y2+.002f,mid.z),Vector3.up,.9f,20,paleStone,0,null,.25f);
-                // A pale line inside the dark band, as an inlay is edged, and a dark line round the pale ring.
-                foreach(var (a,b) in new[]{(new Vector2(-FieldHalfX+1.25f,FieldSouth+1.25f),new Vector2(FieldHalfX-1.25f,FieldSouth+1.25f)),(new Vector2(FieldHalfX-1.25f,FieldSouth+1.25f),new Vector2(FieldHalfX-1.25f,FieldNorth-1.25f)),
-                    (new Vector2(FieldHalfX-1.25f,FieldNorth-1.25f),new Vector2(-FieldHalfX+1.25f,FieldNorth-1.25f)),(new Vector2(-FieldHalfX+1.25f,FieldNorth-1.25f),new Vector2(-FieldHalfX+1.25f,FieldSouth+1.25f))})
-                {
-                    var along=(b-a).normalized;var side=new Vector2(-along.y,along.x)*.09f;
-                    inlay.Slot(0).Quad(new Vector3(a.x-side.x,y1,a.y-side.y),new Vector3(b.x-side.x,y1,b.y-side.y),new Vector3(b.x+side.x,y1,b.y+side.y),new Vector3(a.x+side.x,y1,a.y+side.y),Vector3.up,paleStone,.25f);
-                }
-                inlay.Slot(0).Disc(new Vector3(mid.x,y1,mid.z),Vector3.up,6.9f,56,darkStone,6.4f,null,.25f);
-                var inlaid=kit.Built("Floor detail muster field inlay",inlay,Inlay);inlaid.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;inlaid.transform.SetParent(body.transform,true);
+                // The field's own floor, laid in the paving (drawn only; "Floor detail" so the box checks read it as flat): the Muster's ground mark at its middle, a border of slate slabs
+                // between kerbstones inside the kerb, the Muster's standards at its corners (TownLook's FieldMark). Until November 21 the mark was a flat white ring, grey wings and a
+                // white disc: colour on a mesh, no stone in it (s51/180).
+                FieldMark(kit,body.transform);
                 // The skiff's cradle: iron trestles; the skiff on it until he takes it.
                 var cradle=new ZoneKit.Shape();var c=At(kit,SkiffAt);
                 foreach(float dx in new[]{-2.2f,0f,2.2f}){cradle.Slot(0).Box(c+new Vector3(dx,.5f,0),new Vector3(.3f,1,2.6f),Quaternion.identity,iron).Box(c+new Vector3(dx,1.05f,0),new Vector3(.5f,.12f,3),Quaternion.identity,iron);}
@@ -1037,11 +1038,9 @@ namespace Lattice.EditorTools
                 {
                     Color c0=cloth??crimson,c1=mark??new Color(.62f,.62f,.64f);
                     var f=kit.On(at.x,at.y);shape.Slot(1).Post(f,4.6f,.09f,.06f,6,dark,iron).Beam(f+new Vector3(-.7f,4.3f,0),f+new Vector3(.7f,4.3f,0),.06f,.06f,iron);
-                    shape.Slot(3).Quad(f+new Vector3(-.6f,4.25f,-.04f),f+new Vector3(.6f,4.25f,-.04f),f+new Vector3(.6f,2.2f,-.04f),f+new Vector3(-.6f,2.2f,-.04f),Vector3.back,c0,.5f)
-                        .Triangle(f+new Vector3(-.6f,2.2f,-.04f),f+new Vector3(.6f,2.2f,-.04f),f+new Vector3(0,1.8f,-.04f),Vector3.back,c0,.5f);
-                    if(cloth!=null)shape.Slot(3).Quad(f+new Vector3(-.6f,2.62f,-.05f),f+new Vector3(.6f,2.62f,-.05f),f+new Vector3(.6f,2.36f,-.05f),f+new Vector3(-.6f,2.36f,-.05f),Vector3.back,c1,.5f);
-                    var c=f+new Vector3(0,3.3f,-.06f);
-                    shape.Slot(3).Triangle(c,c+new Vector3(.42f,.36f,0),c+new Vector3(.16f,-.2f,0),Vector3.back,c1,.5f).Triangle(c,c+new Vector3(-.42f,.36f,0),c+new Vector3(-.16f,-.2f,0),Vector3.back,c1,.5f);
+                    shape.Slot(1).Lump(f+Vector3.up*4.66f,Vector3.one*.07f,(int)at.x,.05f,new Color(.62f,.5f,.32f),new Color(.42f,.34f,.22f),6,4);
+                    // In folds, hemmed, fringed (one flat plane until November 21): the house's two colours or the Muster's crimson with its crest-sail.
+                    Hang(shape,f+new Vector3(0,4.25f,-.05f),1.2f,2.1f,Vector3.back,3,c0,c1,cloth!=null?c1:ZoneKit.Shape.Dim(c0,.62f),cloth!=null?ZoneKit.Shape.Dim(c1,.9f):new Color(.78f,.62f,.34f));
                     Solid(at,new Vector3(.3f,2,.3f));
                 }
                 // Pennants on a cord between two poles' heads, for the day the town holds a duel.
@@ -1100,7 +1099,13 @@ namespace Lattice.EditorTools
                 var coils=new ZoneKit.Shape();
                 foreach(var (x,z) in new[]{(-40.6f,-2.6f),(-22.6f,-2.4f),(6.4f,-2.4f),(33.6f,-2.6f),(48,6.4f)})for(int turn=0;turn<3;turn++){var ring=new Vector3[13];var thick=new float[13];for(int k=0;k<13;k++){float a=k*Mathf.PI*2/12;ring[k]=kit.On(x+Mathf.Cos(a)*(.5f-turn*.11f),z+Mathf.Sin(a)*(.5f-turn*.11f),.05f+turn*.08f);thick[k]=.05f;}coils.Tube(ring,thick,5,new Color(.74f,.66f,.5f),new Color(.74f,.66f,.5f),1,1,false);}
                 kit.Built("Floor detail rope coils",coils,Timber).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-                foreach(var (x,z,fish) in new[]{(-31.8f,11.4f,new Color(.62f,.66f,.7f)),(-33,10.8f,new Color(.7f,.6f,.5f)),(-10.6f,-.6f,new Color(.6f,.66f,.7f))}){var f=kit.On(x,z);shape.Slot(0).Tube(new[]{f,f+Vector3.up*.5f},new[]{.32f,.4f},10,new Color(.6f,.5f,.36f),new Color(.72f,.6f,.44f),2,1,false).Slot(3).Lump(f+Vector3.up*.5f,new Vector3(.34f,.12f,.34f),(int)x,.3f,fish,ZoneKit.Shape.Dim(fish,.7f),8,3);Solid(new Vector2(x,z),new Vector3(.8f,.6f,.8f));}
+                // (-4.9, 2.2): the catch the woman with the basket is sorting (she stood facing open paving).
+                foreach(var (x,z,fish) in new[]{(-31.8f,11.4f,new Color(.62f,.66f,.7f)),(-33,10.8f,new Color(.7f,.6f,.5f)),(-10.6f,-.6f,new Color(.6f,.66f,.7f)),(-4.9f,2.2f,new Color(.66f,.68f,.72f))}){var f=kit.On(x,z);shape.Slot(0).Tube(new[]{f,f+Vector3.up*.5f},new[]{.32f,.4f},10,new Color(.6f,.5f,.36f),new Color(.72f,.6f,.44f),2,1,false).Slot(3).Lump(f+Vector3.up*.5f,new Vector3(.34f,.12f,.34f),(int)x,.3f,fish,ZoneKit.Shape.Dim(fish,.7f),8,3);Solid(new Vector2(x,z),new Vector3(.8f,.6f,.8f));}
+                // The quay sergeant's tally desk: a standing desk with the ledger open on it and a lamp-less inkwell, by the harbourmaster's house.
+                var desk=kit.On(21.3f,17.3f);shape.Slot(0).Box(desk+Vector3.up*1.02f,new Vector3(1.1f,.06f,.6f),Quaternion.Euler(-12,0,0),wood,new Color(.7f,.58f,.42f));
+                foreach(int s in new[]{-1,1})shape.Slot(0).Box(desk+new Vector3(s*.48f,.5f,0),new Vector3(.08f,1,.5f),Quaternion.identity,wood);
+                shape.Slot(3).Box(desk+new Vector3(-.12f,1.07f,0),new Vector3(.5f,.03f,.36f),Quaternion.Euler(-12,0,0),new Color(.9f,.88f,.8f)).Slot(1).Tube(new[]{desk+new Vector3(.36f,1.06f,.08f),desk+new Vector3(.36f,1.14f,.08f)},new[]{.04f,.035f},6,iron,iron,1,1);
+                Solid(new Vector2(21.3f,17.3f),new Vector3(1.1f,1.1f,.6f));
                 var table=kit.On(-12.4f,1.2f);shape.Slot(0).Box(table+Vector3.up*.8f,new Vector3(2,.1f,.9f),Quaternion.identity,wood,new Color(.7f,.6f,.46f)).Box(table+new Vector3(-.85f,.4f,0),new Vector3(.12f,.8f,.8f),Quaternion.identity,wood).Box(table+new Vector3(.85f,.4f,0),new Vector3(.12f,.8f,.8f),Quaternion.identity,wood)
                     .Slot(3).Lump(table+new Vector3(-.3f,.92f,0),new Vector3(.4f,.08f,.14f),3,.1f,new Color(.62f,.66f,.7f),new Color(.5f,.52f,.56f),8,3);Solid(new Vector2(-12.4f,1.2f),new Vector3(2.1f,.9f,1));
                 // ---- the lower terrace: the walk's banners and lamps, the family quarter's well and wood, the armourers' work yard
@@ -1139,10 +1144,11 @@ namespace Lattice.EditorTools
             {
                 ("BrekkBody",new(39.8f,13.6f),200,new(.92f,.94f,1f),"a sack",1),("OdrunBody",new(30.6f,14.4f),160,new(1f,.96f,.9f),"a slate",1),
                 ("TovraBody",new(-14,-2.8f),160,new(1f,.98f,.94f),"a net",1),
-                ("MusterPikeguard",new(-1.6f,15.8f),200,new(1,1,1),"",1),("MusterSergeant",new(21.4f,18.6f),190,new(1,1,1),"",1),
+                // The gate's sentry keeps an eye on the party's parley flag; the sergeant by the harbourmaster's house keeps the quay's tally at his desk (both stood facing open paving).
+                ("MusterPikeguard",new(-.6f,15.8f),155,new(1,1,1),"",1),("MusterSergeant",new(21.4f,18.6f),190,new(1,1,1),"",1),
                 ("TovraBody",new(-48.6f,43),170,new(.94f,.98f,1.04f),"a basket",1),("DraskBody",new(-4.6f,44.6f),200,new(.86f,.84f,.86f),"a pot",1),
                 ("BrekkBody",new(23.6f,50.2f),340,new(1.02f,.96f,.9f),"a hammer",1),("TovraBody",new(36.6f,50.2f),20,new(.92f,.92f,.98f),"tongs",1),("PipBody",new(13.2f,45.6f),210,new(.96f,1f,1.04f),"",.84f),
-                ("MusterPikeguard",new(28.4f,71.2f),220,new(.96f,.96f,1),"",1),("MusterSergeant",new(-52.4f,101.2f),60,new(1,1,1),"",1),
+                ("MusterPikeguard",new(28.4f,71.2f),220,new(.96f,.96f,1),"",1),("MusterSergeant",new(-48.6f,97.8f),133,new(1,1,1),"",1),
                 ("OdrunBody",new(-48.6f,68.8f),150,new(.94f,.98f,1.04f),"a basket",1),("BrekkBody",new(-46.2f,70.6f),210,new(.9f,.92f,.98f),"",1),
                 ("MusterScav",new(57.4f,123.4f),20,new(1,1,1),"",1),("DraskBody",new(-28.4f,96),200,new(.92f,.9f,.92f),"a tray",1),
                 // ---- the town at its work on the day of a duel (the look pass of November 14): every one of these stands in a body, off the ways by more than a body's reach, off the
@@ -1176,7 +1182,7 @@ namespace Lattice.EditorTools
             /// <summary>Children: playing parley on the family stair's foot (one is the Shapers, and is being pelted with washing pegs), and two at the cadet yard's trough.</summary>
             static readonly (string body,Vector2 at,float yaw,Color tint,float scale)[] Children=
             {
-                ("PipBody",new(-41.4f,52.6f),60,new(1.04f,.98f,.94f),.68f),("TovraBody",new(-36,52.2f),280,new(.96f,1f,1.06f),.62f),("OdrunBody",new(-40.8f,55.6f),160,new(.94f,.96f,1.04f),.62f),
+                ("PipBody",new(-41.4f,52.6f),60,new(1.04f,.98f,.94f),.68f),("TovraBody",new(-36.6f,54.4f),280,new(.96f,1f,1.06f),.62f),("OdrunBody",new(-40.8f,55.6f),160,new(.94f,.96f,1.04f),.62f),
                 ("OdrunBody",new(-27.6f,94.4f),120,new(1.02f,1f,.96f),.64f),
             };
             /// <summary>People on errands (WalkLoop): body, the loop on the plan, pace, the wait at each stop, tint, there-and-back, and what they are about. Each loop is off every way and
@@ -1208,17 +1214,19 @@ namespace Lattice.EditorTools
             {
                 if(string.IsNullOrEmpty(doing))return;
                 ZoneKit.Shape load=new();Material[] stuff;
-                if(doing.Contains("sack")){load.Lump(new Vector3(.05f,1.55f,.05f),new Vector3(.36f,.24f,.3f),3,.1f,new Color(.86f,.82f,.72f),new Color(.66f,.62f,.52f),9,5,.25f,Quaternion.Euler(0,0,20));stuff=new[]{Cloth};}
+                // A sack of sacking over the shoulder, its neck tied (an untextured pale lump until November 21).
+                if(doing.Contains("sack")){Sack(load,new Vector3(-.1f,1.36f,.05f),.6f,new Color(.84f,.76f,.6f),3,Quaternion.Euler(0,0,-70));stuff=new[]{Burlap};}
                 else if(doing.Contains("basket")){load.Slot(0).Tube(new[]{new Vector3(.32f,.78f,.12f),new Vector3(.32f,1.06f,.12f)},new[]{.24f,.3f},10,new Color(.66f,.56f,.42f),new Color(.78f,.66f,.48f),2,.8f).Slot(1).Lump(new Vector3(.32f,1.08f,.12f),new Vector3(.26f,.1f,.26f),2,.3f,new Color(.58f,.58f,.6f),new Color(.82f,.8f,.74f),8,3);stuff=new[]{Timber,Cloth};}
                 else if(doing.Contains("net")){load.Lump(new Vector3(0,.95f,.4f),new Vector3(.5f,.2f,.3f),4,.4f,new Color(.7f,.66f,.54f),new Color(.5f,.46f,.38f),10,4);stuff=new[]{Cloth};}
                 else if(doing.Contains("slate")){load.Box(new Vector3(.18f,1.2f,.38f),new Vector3(.4f,.3f,.03f),Quaternion.Euler(-30,0,0),new Color(.22f,.22f,.24f));stuff=new[]{Iron};}
                 else if(doing.Contains("hammer")||doing.Contains("tongs")){load.Tube(new[]{new Vector3(.34f,.9f,.18f),new Vector3(.36f,1.4f,.42f)},new[]{.03f,.03f},5,new Color(.5f,.42f,.34f),new Color(.4f,.38f,.38f),1,1).Box(new Vector3(.36f,1.44f,.44f),new Vector3(.12f,.12f,.24f),Quaternion.identity,new Color(.3f,.3f,.32f));stuff=new[]{Iron};}
                 else if(doing.Contains("pikes")){for(int k=0;k<3;k++)load.Tube(new[]{new Vector3(.3f+k*.06f,.6f,-1.2f),new Vector3(.3f+k*.06f,1.5f,1.4f)},new[]{.03f,.03f},5,new Color(.56f,.46f,.36f),new Color(.66f,.66f,.68f),1,1);stuff=new[]{Iron};}
                 else if(doing.Contains("pike")){load.Tube(new[]{new Vector3(.36f,0,.1f),new Vector3(.36f,3,.1f),new Vector3(.36f,3.5f,.1f)},new[]{.035f,.03f,.01f},5,new Color(.5f,.42f,.34f),new Color(.72f,.72f,.74f),1,1);stuff=new[]{Iron};}
-                else if(doing.Contains("pot")){load.Tube(new[]{new Vector3(0,1.04f,.42f),new Vector3(0,1.34f,.42f)},new[]{.26f,.24f},10,new Color(.26f,.24f,.24f),new Color(.34f,.32f,.3f),1,1);stuff=new[]{Iron};}
+                // A copper cook-pot held before them, and below an iron kettle on its bail: a flat grey cylinder each until November 21 (s50/201, s52/254).
+                else if(doing.Contains("pot")){CookPot(load,new Vector3(0,.98f,.44f),.5f);stuff=new[]{Iron};}
                 else if(doing.Contains("jar")){load.Tube(new[]{new Vector3(.3f,1.5f,0),new Vector3(.3f,1.86f,0),new Vector3(.3f,2,0)},new[]{.16f,.18f,.08f},10,new Color(.6f,.44f,.34f),new Color(.7f,.52f,.4f),1,1);stuff=new[]{Timber};}
                 else if(doing.Contains("tray")){load.Slot(0).Box(new Vector3(0,1.08f,.42f),new Vector3(.66f,.06f,.42f),Quaternion.identity,new Color(.6f,.48f,.36f)).Slot(1).Lump(new Vector3(0,1.16f,.42f),new Vector3(.24f,.08f,.14f),3,.3f,new Color(.82f,.66f,.44f),new Color(.66f,.5f,.32f),8,3);stuff=new[]{Timber,Cloth};}
-                else if(doing.Contains("kettle")){load.Tube(new[]{new Vector3(.3f,.66f,.1f),new Vector3(.3f,1.02f,.1f)},new[]{.22f,.2f},10,new Color(.34f,.34f,.36f),new Color(.44f,.44f,.46f),1,1);stuff=new[]{Iron};}
+                else if(doing.Contains("kettle")){Kettle(load,new Vector3(.34f,.5f,.12f),.56f);stuff=new[]{Iron};}
                 else return;
                 var carried=kit.Built(who.name+" carries",load,stuff);carried.transform.SetParent(who.transform,false);carried.transform.localPosition=Vector3.zero;carried.transform.localRotation=Quaternion.identity;
                 carried.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
@@ -1281,7 +1289,7 @@ namespace Lattice.EditorTools
             static void Braziers(ZoneKit kit)
             {
                 Placed.Clear();Drill.Clear();Placed.AddRange(Folk.Select(f=>f.at));Placed.AddRange(Children.Select(c=>c.at));Physics.SyncTransforms();
-                var shape=new ZoneKit.Shape();var holder=new GameObject("Braziers");Color iron=new(.24f,.24f,.26f);int lit=0;
+                var shape=new ZoneKit.Shape();var holder=new GameObject("Braziers");Color iron=new(.24f,.24f,.26f);int lit=0;var solids=new List<Vector3>();
                 foreach(var at in new[]{new Vector2(3.4f,30.8f),new Vector2(14.6f,27.4f),new Vector2(-3.6f,69),new Vector2(3.6f,69),new Vector2(-22.8f,72.6f),new Vector2(19.6f,72.8f),new Vector2(-20.6f,98.4f),
                     new Vector2(18.6f,95.6f),new Vector2(-14.8f,107.4f),new Vector2(14.8f,107.4f)})
                 {
@@ -1289,21 +1297,15 @@ namespace Lattice.EditorTools
                     var f=kit.On(at.x,at.y);
                     for(int k=0;k<3;k++){float a=k*Mathf.PI*2/3;shape.Slot(0).Beam(f+new Vector3(Mathf.Cos(a)*.42f,0,Mathf.Sin(a)*.42f),f+new Vector3(Mathf.Cos(a)*.3f,.86f,Mathf.Sin(a)*.3f),.04f,.04f,iron);}
                     shape.Slot(0).Tube(new[]{f+Vector3.up*.78f,f+Vector3.up*.9f,f+Vector3.up*1.02f},new[]{.22f,.4f,.46f},14,iron,new Color(.36f,.34f,.32f),1,1);
-                    shape.Slot(1).Lump(f+Vector3.up*1.04f,new Vector3(.38f,.12f,.38f),(int)(at.x*7+at.y),.3f,Color.white,Color.white,10,4);
-                    // The flame: a tall tongue and four leaning round it, each tapering to a point, with a near-white core.
-                    var rng=new System.Random((int)(at.x*31+at.y*7));var root=f+Vector3.up*1.06f;
-                    for(int k=0;k<5;k++)
-                    {
-                        float a=k*1.26f+(float)rng.NextDouble(),off=k==0?0:.16f,tall=k==0?.95f:.45f+(float)rng.NextDouble()*.25f,lean=k==0?.04f:.12f;
-                        var foot=root+new Vector3(Mathf.Cos(a)*off,0,Mathf.Sin(a)*off);var tip=foot+new Vector3(Mathf.Cos(a)*lean,tall,Mathf.Sin(a)*lean);
-                        shape.Slot(2).Tube(new[]{foot,Vector3.Lerp(foot,tip,.35f)+Vector3.up*.02f,tip},new[]{k==0?.2f:.13f,k==0?.15f:.09f,.008f},8,Color.white,Color.white,1,1,false);
-                        if(k==0)shape.Slot(3).Tube(new[]{foot+Vector3.up*.02f,Vector3.Lerp(foot,tip,.3f),Vector3.Lerp(foot,tip,.75f)},new[]{.12f,.08f,.006f},8,Color.white,Color.white,1,1,false);
-                    }
-                    Sparks(kit,root+Vector3.up*.5f,holder.transform);
-                    var l=kit.Lamp(new Vector3(at.x,0,at.y),8,2,new Color(1,.6f,.3f));l.transform.position=f+Vector3.up*1.5f;
-                    ZoneKit.Block(holder,f+Vector3.up*.55f,new Vector3(.9f,1.1f,.9f),0,"Brazier");lit++;
+                    // The fire is the chapter's (HarrowgateBuilder.Hearths): a bed of coals in the bowl with the fire in its gaps, flame sheets leaning back to the camera, embers and
+                    // a little smoke going up, and a light that breathes with the coals. The town's own five tongues read as one flat yellow card at the play camera (s53/014).
+                    Hearths.Fire(kit,"Brazier fire "+(lit+1),f+Vector3.up*.98f,.36f,.95f,8,2,(int)(at.x*31+at.y*7)).transform.SetParent(holder.transform,true);
+                    solids.Add(f+Vector3.up*.55f);lit++;
                 }
-                var burning=kit.Built("Braziers drawn",shape,Iron,Coal,Flame,FlameCore);burning.transform.SetParent(holder.transform,true);
+                var burning=kit.Built("Braziers drawn",shape,Iron);burning.transform.SetParent(holder.transform,true);
+                // Each bowl's solid under the drawn bowls: seated under the holder's first drawn child, every block went under the first fire's coals, and the check took those
+                // coals for floating (their only support was their own child).
+                foreach(var c in solids)ZoneKit.Block(burning,c,new Vector3(.9f,1.1f,.9f),0,"Brazier");
                 foreach(var r in burning.GetComponentsInChildren<MeshRenderer>())r.shadowCastingMode=ShadowCastingMode.Off;
                 Debug.Log($"HARROWGATE_BRAZIERS {lit}");
             }
@@ -1313,7 +1315,7 @@ namespace Lattice.EditorTools
             /// (D217). Drawn only, "Floor detail" so the checks read them as flat.</summary>
             static void FloorMarks(ZoneKit kit)
             {
-                var paint=new ZoneKit.Shape();var iron=new ZoneKit.Shape();Color slate=new(.17f,.19f,.24f),pale=new(.9f,.88f,.84f),ink=new(.1f,.1f,.12f),rail=new(.2f,.2f,.22f);
+                var paint=new ZoneKit.Shape();var iron=new ZoneKit.Shape();Color ink=new(.1f,.1f,.12f),rail=new(.2f,.2f,.22f);
                 void Band(ZoneKit.Shape shape,Vector2 a,Vector2 b,float wide,Color colour,float lift)
                 {
                     var along=(b-a).normalized;var side=new Vector2(-along.y,along.x)*wide*.5f;int n=Mathf.Max(1,Mathf.CeilToInt(Vector2.Distance(a,b)/1.5f));
@@ -1323,10 +1325,9 @@ namespace Lattice.EditorTools
                         shape.Quad(kit.On(p0.x-side.x,p0.y-side.y,lift),kit.On(p1.x-side.x,p1.y-side.y,lift),kit.On(p1.x+side.x,p1.y+side.y,lift),kit.On(p0.x+side.x,p0.y+side.y,lift),Vector3.up,colour,.25f);
                     }
                 }
-                void Runner(float z,float x0,float x1){Band(paint,new Vector2(x0,z),new Vector2(x1,z),1.8f,slate,.014f);foreach(float e in new[]{-.96f,.96f})Band(paint,new Vector2(x0,z+e),new Vector2(x1,z+e),.12f,pale,.018f);}
-                // The lower walk (flat end to end) and the forecourt's walk, which stops short of the three ramps' heads (a band across a ramp's edge would float).
-                Runner(35,-48,42);
-                foreach(var (x0,x1) in new[]{(-48f,-41.4f),(-35.6f,-4.6f),(4.6f,39.6f)})Runner(66,x0,x1);
+                // The lower walk (flat end to end) and the forecourt's walk, which stops short of the three ramps' heads (a band across a ramp's edge would float): laid in the runner's
+                // own stone, slate slabs between kerbstones (a smooth lavender band with white edges until November 21, s52/254).
+                Walks(kit);
                 // The cadet yard ruled for the ranks: a line every 2.4 m and its border.
                 for(float z=73.2f;z<97.5f;z+=2.4f)Band(paint,new Vector2(-52,z),new Vector2(-27.2f,z),.16f,ink,.016f);
                 foreach(var (a,b) in new[]{(new Vector2(-52.4f,72.4f),new Vector2(-52.4f,98.2f)),(new Vector2(-26.8f,72.4f),new Vector2(-26.8f,98.2f)),(new Vector2(-52.4f,72.4f),new Vector2(-26.8f,72.4f)),(new Vector2(-52.4f,98.2f),new Vector2(-26.8f,98.2f))})
@@ -1342,18 +1343,8 @@ namespace Lattice.EditorTools
                 // The wall walk's drain along the parapet's foot, and a grate across it every three metres.
                 Band(iron,new Vector2(46.72f,63.4f),new Vector2(46.72f,111.6f),.36f,ink,.012f);
                 for(float z=64.6f;z<111;z+=3)Band(iron,new Vector2(46.5f,z),new Vector2(46.94f,z),.08f,rail,.018f);
-                kit.Built("Floor detail runners and drill lines",paint,Inlay).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                kit.Built("Floor detail drill lines",paint,Inlay).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 kit.Built("Floor detail gun tracks and drain",iron,Iron).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-            }
-            /// <summary>Sparks and flame-light over a fire: a few short-lived embers rising and fading, and a soft flicker of light-cards at the flame, so a fire reads as burning.</summary>
-            static void Sparks(ZoneKit kit,Vector3 at,Transform parent)
-            {
-                string path="Assets/_Project/Scenes/"+kit.zone+"-Fire.mat";var fireMat=AssetDatabase.LoadAssetAtPath<Material>(path);
-                if(fireMat==null){fireMat=new Material(Resources.Load<Material>("Effects/flare_01"));AssetDatabase.CreateAsset(fireMat,path);}
-                fireMat.SetColor("_BaseColor",new Color(1,.62f,.26f,.9f));EditorUtility.SetDirty(fireMat);
-                var sparks=kit.Drift("Sparks",at,new Vector3(.3f,.1f,.3f),kit.Glow("harrow-spark",false,new Color(1,.6f,.25f,1)),new Color(1,.7f,.34f,1),18,.05f,.12f,1.1f,1.4f);
-                var main=sparks.main;main.startSpeed=new ParticleSystem.MinMaxCurve(.6f,1.4f);var shape=sparks.shape;shape.shapeType=ParticleSystemShapeType.Cone;shape.angle=14;shape.radius=.14f;
-                sparks.transform.rotation=Quaternion.Euler(-90,0,0);sparks.GetComponent<ParticleSystemRenderer>().sharedMaterial=fireMat;sparks.transform.SetParent(parent,true);
             }
             static void Life(ZoneKit kit)
             {
@@ -1413,7 +1404,7 @@ namespace Lattice.EditorTools
             {
                 // ---- the harbour gate: Vessa on her way in, the sisters overheard across the quay, Hessa and the parley.
                 var vessa=Body(kit,"VessaBody",new Vector3(VessaGate.x,0,VessaGate.y),250,Color.white,false);vessa.name="Vessa at the harbour gate";vessa.isStatic=false;
-                var leave=vessa.AddComponent<LeavesAfter>();leave.flag="vask.sistersHeard";leave.path=new[]{kit.On(16.8f,17.4f),kit.On(13,18.9f)};
+                var leave=vessa.AddComponent<LeavesAfter>();leave.flag="vask.sistersHeard";leave.path=new[]{kit.On(16.8f,17.4f),kit.On(DoorX,18.9f)};
                 kit.Crossing("The sisters at the harbour gate",new Vector3(-12,0,8),new Vector3(4,5,28),"vask.sistersHeard","HessaSisters","Hessa","vask.roadSaid");
                 var hessa=Person(kit,"Hessa",HessaGate,225,"HessaParley","HessaGateRepeat");
                 Where("Hessa is on the harbour gate",hessa.gameObject,null,null,null,"vask.deposed",true);
@@ -1475,9 +1466,11 @@ namespace Lattice.EditorTools
                 {
                     var point=kit.Discovery(name,new Vector3(at.x,0,at.y),prompt,flag,"KitchenWant",null,"Sela","OdrunsKitchen",0,2.4f);point.situation=situation;
                     var thing=new ZoneKit.Shape();var foot=At(kit,at+new Vector2(.9f,1.1f));
-                    if(look=="kettle"){thing.Slot(0).Box(foot+Vector3.up*.35f,new Vector3(.7f,.7f,.6f),Quaternion.identity,new Color(.62f,.5f,.36f)).Slot(1).Tube(new[]{foot+Vector3.up*.7f,foot+Vector3.up*1.02f},new[]{.24f,.21f},12,new Color(.62f,.66f,.7f),new Color(.78f,.82f,.86f),1,1).Tube(new[]{foot+new Vector3(.2f,.86f,0),foot+new Vector3(.42f,.96f,0)},new[]{.04f,.03f},5,new Color(.62f,.66f,.7f),new Color(.62f,.66f,.7f),1,1);}
-                    else{var tone=look=="salt"?new Color(.96f,.96f,.98f):new Color(.94f,.86f,.68f);thing.Slot(0).Box(foot+Vector3.up*.25f,new Vector3(.8f,.5f,.6f),Quaternion.identity,new Color(.58f,.46f,.34f)).Slot(1).Lump(foot+Vector3.up*.78f,new Vector3(.36f,.3f,.28f),look.Length,.1f,tone,ZoneKit.Shape.Dim(tone,.8f),9,5);}
-                    var visual=kit.Built(name+" to take",thing,Timber,look=="kettle"?Iron:Cloth);visual.transform.SetParent(point.transform,true);point.visual=visual;visual.SetActive(false);
+                    if(look=="kettle"){thing.Slot(0).Box(foot+Vector3.up*.35f,new Vector3(.7f,.7f,.6f),Quaternion.identity,new Color(.62f,.5f,.36f)).Slot(1);Kettle(thing,foot+Vector3.up*.7f,.7f);}
+                    // Sacks of sacking with their necks tied, on a crate (s51/107, s51/208: untextured white lumps): the garrison's salt stencilled with the Muster's bar, the flour plain.
+                    else{var tone=look=="salt"?new Color(.9f,.88f,.84f):new Color(.86f,.74f,.54f);thing.Slot(0).Box(foot+Vector3.up*.25f,new Vector3(.8f,.5f,.6f),Quaternion.identity,new Color(.58f,.46f,.34f)).Slot(1);
+                        Sack(thing,foot+new Vector3(-.12f,.5f,0),.62f,tone,look.Length,Quaternion.Euler(0,20,8),look=="salt"?(Color?)new Color(.36f,.34f,.36f):null);Sack(thing,foot+new Vector3(.2f,.5f,.12f),.5f,ZoneKit.Shape.Dim(tone,.94f),look.Length+3,Quaternion.Euler(0,-30,-10));}
+                    var visual=kit.Built(name+" to take",thing,Timber,look=="kettle"?Iron:Burlap);visual.transform.SetParent(point.transform,true);point.visual=visual;visual.SetActive(false);
                 }
 
                 // ---- the Warmaster: at his table from the time the town is seen; he receives them, and goes out to the field.
@@ -1492,8 +1485,12 @@ namespace Lattice.EditorTools
                 kit.Crossing("Hessa at the armoury gate",new Vector3(ArmouryGate.x,0,ArmouryGate.y),new Vector3(2.6f,5,3.6f),"vask.gateDenied","HessaArmouryGate","Hessa","vask.deposed");
                 kit.Crossing("Idra on the stair down",new Vector3(StairMid.x,0,StairMid.y),new Vector3(4.6f,5,2),"idra.lockCounted","IdraLockCounted","Idra","vask.gateDenied");
                 var cell=kit.Person("Drask",new Vector3(CellAt.x,0,CellAt.y),180,"",false,"vask.deposed","DraskCustody","DraskCustody");cell.repeatNode="DraskCustody";cell.finalCompletionFlag="vask.orderSaid";cell.finalRepeatNode="DraskCustody";cell.range=3.6f;
-                Where("Drask is in his cell",cell.gameObject,"vask.deposed",null,null,"chapter8.complete",true);
-                foreach(var (x,z,yaw) in new[]{(53.4f,107.8f,30f),(58.4f,107.2f,330f)}){var g=Body(kit,"TovraBody",new Vector3(x,0,z),yaw,new Color(.92f,.94f,1));g.name="Townsperson, an Unsworn smith on guard";Carry(kit,g,"a pike");Where("The cell's guard",g,"vask.deposed",null,null,null,true);}
+                // In his cell from the verdict, as it happens (the party walk down to him in the same visit); gone aboard Many Hands once the chapter is over, but only as the town next
+                // loads: with one live Whereabouts he vanished from behind his bars the moment the chapter's card came up, the party standing in front of them (s52/339 to 370).
+                var cellHolder=new GameObject("The Warmaster's cell");cell.transform.SetParent(cellHolder.transform,true);
+                Where("Drask is in his cell",cellHolder,"vask.deposed",null,null,null,true);
+                Where("Drask leaves his cell once the chapter is over",cell.gameObject,null,null,null,"chapter8.complete",false);
+                foreach(var (at,yaw) in CellGuards){var g=Body(kit,"TovraBody",new Vector3(at.x,0,at.y),yaw,new Color(.92f,.94f,1));g.name="Townsperson, an Unsworn smith on guard";Carry(kit,g,"a pike");Where("The cell's guard",g,"vask.deposed",null,null,null,true);}
                 var radio=new GameObject("Every radio in the harbour",typeof(AfterTalk)).GetComponent<AfterTalk>();radio.transform.position=At(kit,CellFront);
                 radio.flag="vask.orderSaid";radio.node="BrynNacreTraffic";radio.speaker="Bryn";radio.heardFlag="vask.nacreHeard";radio.delay=1.2f;
                 var meret=new GameObject("All stations",typeof(AfterTalk)).GetComponent<AfterTalk>();meret.transform.position=At(kit,CellFront);
@@ -1541,7 +1538,8 @@ namespace Lattice.EditorTools
                 var before=new GameObject("The field at drill");
                 foreach(var (a,b,tint) in new[]{(new Vector2(-14,76.6f),new Vector2(-4.2f,76.6f),new Color(1,.98f,1.04f)),(new Vector2(-14,79),new Vector2(-4.2f,79),new Color(.96f,1,1)),(new Vector2(4.2f,76.6f),new Vector2(14,76.6f),new Color(1.04f,1,.96f)),(new Vector2(4.2f,79),new Vector2(14,79),new Color(1,1.02f,.98f))})
                 {var cadet=kit.Walker(ZoneKit.Prefab("Characters","PipBody")!=null?"PipBody":"BrekkBody",new[]{a,b},1.3f,1.2f,tint,"BrekkBody");cadet.thereAndBack=true;cadet.name="A cadet at drill";cadet.transform.localScale=Vector3.one*.84f;cadet.transform.SetParent(before.transform,true);}
-                var sergeant=Body(kit,"MusterSergeant",new Vector3(-2.6f,0,83.4f),160,Color.white,false);sergeant.name="Townsperson, the drill sergeant";sergeant.transform.SetParent(before.transform,true);
+                // By the east files' head, turned to them (FaceSomething): he stood in the open between the two drills, facing neither.
+                var sergeant=Body(kit,"MusterSergeant",new Vector3(1.6f,0,81.2f),120,Color.white,false);sergeant.name="Townsperson, the drill sergeant";sergeant.transform.SetParent(before.transform,true);
                 // Before the duel is called, a few already on the hall steps to watch the drill; once it is, they are the crowd.
                 foreach(var (x,z,body,yaw) in new[]{(-7.4f,101.2f,"OdrunBody",170f),(-5.8f,101.8f,"BrekkBody",200f),(8.2f,102.4f,"TovraBody",190f)})
                 {var one=Body(kit,body,new Vector3(x,0,z),yaw,new Color(.96f,.96f,1));one.name="Townsperson, watching the drill";foreach(var t in one.GetComponentsInChildren<Transform>(true))t.gameObject.isStatic=false;one.transform.SetParent(before.transform,true);}
@@ -1580,8 +1578,10 @@ namespace Lattice.EditorTools
                 before.SetActive(true);during.SetActive(false);after.SetActive(false);
                 // ---- Drask the person after the yield: in his war-frame, where he yielded; his word to Sool; then off the field toward the harbour.
                 var person=kit.Person("Drask",new Vector3(F.x,0,F.y),180,"",false,"bossdown.DraskVaal","DraskLeavesField","DraskLeavesField");person.repeatNode="DraskLeavesField";person.name="Drask, yielded";
+                // His person body is his war-frame under his mantle (his CharacterDef's natural, TownLook's Warmaster): the same as the duel's. Only while it isn't taken in is he put
+                // in the bare frame here.
                 var frame=ZoneKit.Prefab("Enemies","DraskVaal");
-                if(frame!=null)
+                if(frame!=null&&AssetDatabase.LoadAssetAtPath<GameObject>(PersonWarmaster)==null)
                 {
                     var civilian=person.transform.Find("Generated civilian");if(civilian!=null)UnityEngine.Object.DestroyImmediate(civilian.gameObject);
                     var model=(GameObject)PrefabUtility.InstantiatePrefab(frame);model.transform.SetParent(person.transform,false);model.name="Generated civilian";
@@ -1607,7 +1607,7 @@ namespace Lattice.EditorTools
                 var wreck=SkiffBody(kit,new Vector3(WreckAt.x,Upper+.5f,WreckAt.y),Quaternion.Euler(8,128,-14));
                 if(wreck!=null){wreck.name="The Warmaster's skiff, down";wreck.AddComponent<PropTint>().tint=new Color(.46f,.42f,.42f);wreck.transform.SetParent(verdict.transform,true);}
                 var odrunThere=Body(kit,"OdrunBody",new Vector3(OdrunVerdictAt.x,0,OdrunVerdictAt.y),80,Color.white,false);odrunThere.name="Mother Odrun on the field";odrunThere.transform.SetParent(verdict.transform,true);
-                var draskThere=Body(kit,"DraskBody",new Vector3(DraskVerdictAt.x,0,DraskVerdictAt.y),260,Color.white,false);draskThere.name="Drask Vaal on his field";draskThere.transform.SetParent(verdict.transform,true);
+                var draskThere=WarmasterStanding(kit,DraskVerdictAt,260);draskThere.name="Drask Vaal on his field";draskThere.transform.SetParent(verdict.transform,true);
                 foreach(var (x,z,body,doing) in new[]{(-6f,93.4f,"TovraBody","a pike"),(-3f,94.6f,"BrekkBody","a pike"),(1.6f,95f,"OdrunBody",""),(5.2f,94.2f,"TovraBody","a pike"),(-11.4f,90.6f,"BrekkBody","a pike"),
                     (-12.6f,82.4f,"MusterPikeguard",""),(-10.2f,80.6f,"MusterSergeant",""),(-13.8f,78.6f,"MusterPikeguard",""),(11.6f,80.2f,"MusterPikeguard",""),(13.8f,82.6f,"MusterScav","")})
                 {var one=Body(kit,body,new Vector3(x,0,z),Mathf.Atan2(-x,DraskVerdictAt.y-z)*Mathf.Rad2Deg+180,new Color(.94f,.94f,.98f),false);one.name="Townsperson, standing on the field";Carry(kit,one,doing);one.transform.SetParent(verdict.transform,true);}
@@ -1735,7 +1735,13 @@ namespace Lattice.EditorTools
                 ground.Decals(new[]{"Flagstones","Slabs"},2,p=>Dry(p)*(p.y>58.6f&&!OnTheField(p)?1:0),1.4f,2.8f,new Color(.7f,.68f,.64f,.7f),true,.1f,5);
                 ground.Decals(new[]{"PebblesA","PebblesB"},3,p=>OnTheField(p)?1:0,.8f,1.6f,new Color(.44f,.43f,.44f,.8f),false,.1f,6);
                 // The field's drill lines: the files' marks, pale, north to south, and the line the front rank dresses on.
-                foreach(float x in new[]{-12f,-6f,6f,12f})ground.Strip("SurveyLine",new[]{new Vector2(x,FieldSouth+1.2f),new Vector2(x,FieldNorth-1.2f)},0,.36f,new Color(.94f,.92f,.88f,.9f));
+                // Inside the medallion the files' marks stop at its rim: the ground mark is laid stone, and nothing is painted across it.
+                foreach(float x in new[]{-12f,-6f,6f,12f})
+                {
+                    float chord=Mathf.Abs(x)<MedallionR?Mathf.Sqrt(MedallionR*MedallionR-x*x)+.3f:0;
+                    if(chord==0)ground.Strip("SurveyLine",new[]{new Vector2(x,FieldSouth+1.2f),new Vector2(x,FieldNorth-1.2f)},0,.36f,new Color(.94f,.92f,.88f,.9f));
+                    else foreach(var (z0,z1) in new[]{(FieldSouth+1.2f,DuelMiddle.y-chord),(DuelMiddle.y+chord,FieldNorth-1.2f)})ground.Strip("SurveyLine",new[]{new Vector2(x,z0),new Vector2(x,z1)},0,.36f,new Color(.94f,.92f,.88f,.9f));
+                }
                 ground.Strip("SurveyLine",new[]{new Vector2(-FieldHalfX+1.6f,FieldSouth+3.4f),new Vector2(FieldHalfX-1.6f,FieldSouth+3.4f)},0,.36f,new Color(.94f,.92f,.88f,.9f));
                 ground.Strip("Tracks",new[]{new Vector2(-46,10),new Vector2(-12,10.6f),new Vector2(20,10),new Vector2(36,9)},.4f,1.2f,new Color(.36f,.36f,.38f,.5f));
                 ground.Cover(new[]{"TuftA","Sprouts","TuftC"},3,p=>Dry(p)*(!OnTheField(p)&&FromWays(p)>2?1:0),.12f,.3f,new Color(.58f,.66f,.44f,1),3,.14f,7);

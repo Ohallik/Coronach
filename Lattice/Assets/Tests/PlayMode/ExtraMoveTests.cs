@@ -123,7 +123,7 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(move.Performing,"the EXTRA never ended");
         }
         static Button Row(string name)=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None).FirstOrDefault(b=>b.name==name);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
 
         // ------------------------------------------------------------------ the gauge
         [UnityTest] public IEnumerator ThereIsNoGaugeUntilTheStoryUnlocksIt()

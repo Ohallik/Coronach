@@ -192,14 +192,19 @@ namespace Lattice.EditorTools
                 kit.Lamp(new Vector3(0,5.4f,-55),10,1.2f,new Color(1,.8f,.56f));
 
                 // The yards: container stacks in their dozen paints in the south-west yard and along the freight yard, pallets and cable drums on the apron.
-                var rng=new System.Random(23);var stacks=new ZoneKit.Shape();var stackBlocks=new GameObject("Container stacks");int paint=0;
-                void Stack(Vector2 at,float yaw,int high){for(int h=0;h<high;h++){Container(stacks,At(at,h*2.62f)+new Vector3(h==1?.18f:0,0,h==2?-.3f:0),yaw+(h==1?2:0),Paints[paint++%Paints.Length]);}
-                    Solid(stackBlocks,at,new Vector3(2.5f,high*2.62f,6.2f),yaw,"Container stack");}
+                // Each stack is drawn as its own piece and fades as other tall scenery does when it comes between the camera and the party: one two high stood across the freight
+                // hall's arrival and filled half the frame (s29/070).
+                var rng=new System.Random(23);var stackBlocks=new GameObject("Container stacks");int paint=0,stackCount=0;
+                void Stack(Vector2 at,float yaw,int high){var one=new ZoneKit.Shape();for(int h=0;h<high;h++){Container(one,At(at,h*2.62f)+new Vector3(h==1?.18f:0,0,h==2?-.3f:0),yaw+(h==1?2:0),Paints[paint++%Paints.Length]);}
+                    var view=Shade(kit.Built("Container stack "+(++stackCount),one,Corrugated,Panel),true);view.transform.SetParent(stackBlocks.transform,true);
+                    if(high*2.62f>=ZoneKit.TallEnoughToBlock)ZoneKit.Fadeable(view);
+                    Solid(view,at,new Vector3(2.5f,high*2.62f,6.2f),yaw,"Container stack");}
+                // The yard's east stacks stand east of x 36.5, off the camera's side of the walk from the dock to the freight hall: two high at (34, -62.2) they stood between the
+                // camera and the hall's arrival, and the party was drawn through a hole in them for every step of the way in (s29/070, D359).
                 foreach(var (x,z,yaw,high) in new[]{(-73f,-60f,0f,3),(-69.6f,-60,0f,2),(-66.2f,-60,0f,1),(-73,-53,90f,2),(-58,-62.6f,90f,2),(-50,-62.6f,90f,1),(-44,-56,0f,2),(-40.6f,-56,0f,3),
-                    (34,-62.2f,90f,2),(42,-62.2f,90f,1),(48.6f,-58,0f,3)})Stack(new Vector2(x,z),yaw,high);
+                    (39.8f,-63f,90f,2),(46.4f,-63.6f,90f,1),(48.6f,-58,0f,3)})Stack(new Vector2(x,z),yaw,high);
                 // Along the spine's east side, between it and the hall, stacked two and three high, a gap where the gantry stands.
                 foreach(float z in new[]{-47f,-40.6f,-26.6f,-20.2f})Stack(new Vector2(9.2f,z),0,z<-30?3:2);
-                Shade(kit.Built("Containers",stacks,Corrugated,Panel),true).transform.SetParent(stackBlocks.transform,true);
                 kit.Scatter(rng,60,()=>new Vector2((float)rng.NextDouble()*120-76,(float)rng.NextDouble()*15-65.5f),p=>!KeepsOff(p)&&Clear(p)&&Height(p)<.05f&&p.x<50,KeepsOff,
                     ("DressCargoPallet",1.1f,true),("DressCableDrum",1.2f,true),("DeckCrate",1,true),("MusterCrate",1.1f,true),("DressFuelTank",1.6f,true),("DressPowerCell",1.2f,true),("HushwellCrates",1.1f,true),("DressCoreRack",1.6f,true),("DressWorkLamp",1.8f,true),("DressRailBuffer",1,true));
             }
@@ -243,16 +248,17 @@ namespace Lattice.EditorTools
             static void FreightHall(ZoneKit kit)
             {
                 // Four fixed stacks for cover (the contract's), crates of the convoy's freight strapped on pallets.
-                var s=new ZoneKit.Shape();var holder=new GameObject("Freight hall stacks");int k=0;
+                // Each its own piece, faded as tall scenery is when it comes between the camera and the party in Dessik Varn's fight (2.8 m, past ZoneKit.TallEnoughToBlock).
+                var holder=new GameObject("Freight hall stacks");int k=0;
                 foreach(var at in HallStacks)
                 {
-                    var foot=At(at);float yaw=k*23;var t=Quaternion.Euler(0,yaw,0);
+                    var s=new ZoneKit.Shape();var foot=At(at);float yaw=k*23;var t=Quaternion.Euler(0,yaw,0);
                     s.Slot(0).Box(foot+Vector3.up*.08f,new Vector3(3.3f,.16f,3.3f),t,new Color(.5f,.4f,.3f));
                     for(int h=0;h<2;h++)for(int i=0;i<2;i++){var c=Paints[(k*3+h+i)%Paints.Length];s.Slot(1).Box(foot+t*new Vector3(i*1.55f-.78f,.16f+h*1.3f+.65f,0),new Vector3(1.5f,1.28f,3.1f),t,c,ZoneKit.Shape.Dim(c,1.1f),.5f);}
                     s.Slot(2).Box(foot+t*new Vector3(0,2.78f,0),new Vector3(3.2f,.06f,.12f),t,Hazard).Box(foot+t*new Vector3(0,1.5f,1.58f),new Vector3(3.2f,2.7f,.04f),t,new Color(.24f,.24f,.26f));
-                    Solid(holder,at,new Vector3(3.2f,2.8f,3.2f),yaw,"Cargo stack");k++;
+                    var view=Shade(kit.Built("Hall cargo "+(k+1),s,Wood,Panel,Panel),true);view.transform.SetParent(holder.transform,true);ZoneKit.Fadeable(view);
+                    Solid(view,at,new Vector3(3.2f,2.8f,3.2f),yaw,"Cargo stack");k++;
                 }
-                Shade(kit.Built("Hall cargo",s,Wood,Panel,Panel),true).transform.SetParent(holder.transform,true);
                 // Six loose crates (LooseCargo): each its own object with a solid box, not static and not in the bake.
                 k=0;foreach(var at in HallCrates)
                 {
@@ -368,21 +374,71 @@ namespace Lattice.EditorTools
                 s.Slot(0).Box(At(65.5f,17.2f,2.4f),new Vector3(25,4.8f,2),Quaternion.identity,Cream,Cream,.5f).Box(At(65.5f,16.15f,3.8f),new Vector3(25,.5f,.06f),Quaternion.identity,Teal);
                 s.Slot(0).Box(At(66,14,.5f),new Vector3(13,1,1.1f),Quaternion.identity,new Color(.62f,.5f,.4f),top);
                 s.Slot(1).Box(At(66,15,3.5f),new Vector3(10,1.4f,2.4f),Quaternion.identity,new Color(.76f,.72f,.66f)).Quad(At(61,13.8f,2.8f),At(71,13.8f,2.8f),At(71,15,4.2f),At(61,15,4.2f),new Vector3(0,.4f,-1),new Color(.7f,.66f,.6f));
-                foreach(var (x,tall) in new[]{(62.6f,8.4f),(66f,9.4f),(69.4f,7.8f)})s.Slot(1).Tube(new[]{At(x,15.6f,4.2f),At(x,15.6f,tall)},new[]{.42f,.36f},12,new Color(.6f,.58f,.56f),new Color(.4f,.38f,.38f),1,.4f).Slot(2).Disc(At(x,15.6f,tall+.02f),Vector3.up,.36f,12,Soot);
-                // Pots on the counter, steam over them.
-                for(int i=0;i<6;i++)s.Slot(3).Lump(At(61.6f+i*1.6f,14,1.22f),new Vector3(.32f,.22f,.32f),i,.05f,new Color(.7f,.6f,.48f),new Color(.4f,.32f,.26f),10,5);
+                // The stacks stop under the camera's line from the garden's walk behind the galley: at 7.8 to 9.4 m they stood across it and hid the party a stride at a time (D359).
+                foreach(var (x,tall) in new[]{(62.6f,6.4f),(66f,6.9f),(69.4f,6f)})s.Slot(1).Tube(new[]{At(x,15.6f,4.2f),At(x,15.6f,tall)},new[]{.42f,.36f},12,new Color(.6f,.58f,.56f),new Color(.4f,.38f,.38f),1,.4f).Slot(2).Disc(At(x,15.6f,tall+.02f),Vector3.up,.36f,12,Soot);
+                // The range on the counter: two fires under the big pots, the pots' lids off and steam over them, more pots along it, ladles and pans hung on the hatch wall
+                // behind. With pots alone on a counter nothing read as cooking (s30/284).
+                for(int i=0;i<6;i++)if(i!=1&&i!=4)s.Slot(3).Lump(At(61.6f+i*1.6f,14,1.22f),new Vector3(.32f,.22f,.32f),i,.05f,new Color(.7f,.6f,.48f),new Color(.4f,.32f,.26f),10,5);
+                foreach(var (x,seed) in new[]{(63.2f,41),(68f,43)})
+                {
+                    // A hob of dark iron let into the counter, the fire in it, a pot on three short legs over it with something red-brown in it.
+                    s.Slot(2).Box(At(x,14,1.02f),new Vector3(1.3f,.06f,.9f),Quaternion.identity,Soot);
+                    HarrowgateBuilder.Hearths.Fire(kit,"Galley range fire",At(x,14,1.06f),.34f,.32f,5.5f,1.3f,seed);
+                    s.Slot(2).Tube(new[]{At(x,14,1.34f),At(x,14,1.52f),At(x,14,1.78f),At(x,14,1.84f)},new[]{.34f,.42f,.4f,.43f},14,new Color(.34f,.32f,.3f),new Color(.46f,.44f,.4f),1,.5f,false)
+                        .Slot(3).Disc(At(x,14,1.74f),Vector3.up,.38f,14,new Color(.62f,.3f,.18f));
+                    foreach(int k in new[]{0,1,2}){float a=k*2.1f;s.Slot(2).Post(At(x+Mathf.Cos(a)*.3f,14+Mathf.Sin(a)*.3f,1.04f),.3f,.03f,.03f,4,Soot,Soot);}
+                }
+                // Pans and ladles on hooks along the hatch wall, a rail of brass under them.
+                s.Slot(6).Beam(At(59,16.12f,2.55f),At(73,16.12f,2.55f),.05f,.05f,Bronze);
+                for(int i=0;i<9;i++)
+                {
+                    float x=59.6f+i*1.6f;
+                    if(i%3==1){s.Slot(2).Post(At(x,16.08f,1.6f),.75f,.025f,.025f,5,Soot,Soot).Disc(At(x,16.08f,1.55f)+Vector3.back*.02f,Vector3.back,.12f,8,new Color(.3f,.3f,.32f));}
+                    else{s.Slot(2).Disc(At(x,16.1f,2.08f)+Vector3.back*.02f,Vector3.back,.24f+.06f*(i%2),14,new Color(.24f,.24f,.26f),0,new Color(.4f,.38f,.36f)).Post(At(x,16.1f,2.3f),.25f,.02f,.02f,4,Soot,Soot);}
+                }
                 Solid(blocks,new Vector2(66,14),new Vector3(13,1,1.1f));Solid(blocks,new Vector2(65.5f,17.2f),new Vector3(25,4.8f,2));
                 var steam=kit.Drift("Galley steam",At(66,14,2.2f),new Vector3(8,.4f,.6f),kit.Glow("Steam",false,new Color(.9f,.9f,.92f,1)),new Color(.92f,.92f,.94f,.3f),40,.5f,1.2f,.6f,4);
                 var main=steam.main;main.startSpeed=.6f;
-                // The long tables, three rows, benches both sides, bowls on them; the middle row laid for fourteen.
+                // The long tables, three rows, benches both sides, the middle row laid for fourteen. Trestle tables and plank benches on legs, the floor showing under them: built as
+                // solid boxes down to the floor, a table and its two benches read as three steps of a bleacher (s30/284, 318, 327, 345). Their solids are as they were.
+                Color dark=ZoneKit.Shape.Dim(wood,.62f);
                 foreach(float z in new[]{7.5f,-1,-9.5f})
                 {
-                    s.Slot(4).Box(At(65.5f,z,.78f),new Vector3(16,.08f,1.2f),Quaternion.identity,top).Box(At(65.5f,z,.4f),new Vector3(15.4f,.74f,.9f),Quaternion.identity,ZoneKit.Shape.Dim(wood,.7f));
-                    foreach(float side in new[]{-1.05f,1.05f})s.Slot(4).Box(At(65.5f,z+side,.23f),new Vector3(15.4f,.46f,.36f),Quaternion.identity,wood,top);
-                    int places=z==-1?14:6;for(int i=0;i<places;i++){float x=58.4f+i*(14.4f/(places-1));s.Slot(3).Lump(At(x,z+(i%2==0?.32f:-.32f),.86f),new Vector3(.17f,.07f,.17f),i,.02f,Cream,new Color(.6f,.56f,.5f),10,3);}
+                    s.Slot(4).Box(At(65.5f,z,.775f),new Vector3(16,.07f,1.2f),Quaternion.identity,ZoneKit.Shape.Dim(wood,.82f),top);
+                    foreach(float x in new[]{58.3f,63.2f,67.8f,72.7f})
+                    {
+                        foreach(float side in new[]{-.44f,.44f})s.Slot(4).Beam(At(x,z+side,0),At(x,z+side*.3f,.74f),.09f,.08f,dark);
+                        s.Slot(4).Beam(At(x,z-.52f,.69f),At(x,z+.52f,.69f),.12f,.08f,dark).Beam(At(x,z-.48f,.05f),At(x,z+.48f,.05f),.1f,.08f,dark);
+                    }
+                    s.Slot(4).Beam(At(58.3f,z,.4f),At(72.7f,z,.4f),.08f,.08f,dark);
+                    foreach(float side in new[]{-1.05f,1.05f})
+                    {
+                        s.Slot(4).Box(At(65.5f,z+side,.43f),new Vector3(15.4f,.06f,.36f),Quaternion.identity,ZoneKit.Shape.Dim(wood,.9f),wood);
+                        for(int k=0;k<6;k++){float x=58.2f+k*2.86f;foreach(float e in new[]{-.12f,.12f})s.Slot(4).Box(At(x,z+side+e,.2f),new Vector3(.07f,.4f,.07f),Quaternion.identity,dark);}
+                    }
+                    // Each place a bowl with something in it and a cup by it; down the middle bread, a pot of stew, platters of the garden's greens and roots, and jugs.
+                    int places=z==-1?14:6;
+                    for(int i=0;i<places;i++)
+                    {
+                        float x=58.4f+i*(14.4f/(places-1)),near=i%2==0?.32f:-.32f;
+                        s.Slot(3).Lump(At(x,z+near,.86f),new Vector3(.17f,.07f,.17f),i,.02f,Cream,new Color(.6f,.56f,.5f),10,3);
+                        s.Slot(5).Lump(At(x,z+near,.9f),new Vector3(.12f,.035f,.12f),i+7,.2f,i%3==0?new Color(.86f,.56f,.3f):new Color(.56f,.7f,.36f),new Color(.4f,.36f,.22f),8,3);
+                        s.Slot(3).Tube(new[]{At(x+.24f,z+near*.9f,.81f),At(x+.24f,z+near*.9f,.95f)},new[]{.045f,.05f},8,ZoneKit.Shape.Dim(Teal,1.2f),Teal,1,.5f);
+                    }
+                    for(float x=59.6f;x<72;x+=2.9f)
+                    {
+                        int k=Mathf.RoundToInt(x*3);
+                        s.Slot(3).Disc(At(x,z,.815f),Vector3.up,.26f,14,Cream,0,new Color(.8f,.76f,.66f));
+                        for(int j=0;j<4;j++)s.Slot(5).Lump(At(x+(j%2-.5f)*.18f,z+(j/2-.5f)*.16f,.85f),new Vector3(.08f,.05f,.07f),k+j,.25f,j%2==0?new Color(.46f,.66f,.3f):new Color(.84f,.5f,.26f),new Color(.3f,.36f,.18f),7,3);
+                        s.Slot(5).Lump(At(x+1.15f,z+.08f,.86f),new Vector3(.2f,.08f,.1f),k+5,.12f,new Color(.84f,.66f,.4f),new Color(.6f,.42f,.24f),9,4,.25f,Quaternion.Euler(0,k*13,0));
+                        s.Slot(3).Tube(new[]{At(x-.9f,z-.1f,.81f),At(x-.9f,z-.1f,.98f),At(x-.9f,z-.1f,1.08f),At(x-.9f,z-.1f,1.12f)},new[]{.1f,.11f,.06f,.07f},10,new Color(.82f,.78f,.68f),Cream,1,.5f);
+                    }
+                    s.Slot(2).Tube(new[]{At(65.5f,z,.81f),At(65.5f,z,1.02f),At(65.5f,z,1.06f)},new[]{.24f,.26f,.27f},14,new Color(.34f,.32f,.3f),new Color(.44f,.42f,.38f),1,.5f,false).Slot(3).Disc(At(65.5f,z,1f),Vector3.up,.25f,14,new Color(.62f,.34f,.2f));
                     Solid(blocks,new Vector2(65.5f,z),new Vector3(16,.82f,1.2f));
                     foreach(float side in new[]{-1.05f,1.05f})Solid(blocks,new Vector2(65.5f,z+side),new Vector3(15.4f,.46f,.36f));
                 }
+                // A warm light over each table (lanterns strung on lines across the room drew bright bars over everyone at the tables from the fixed camera, ch45-after-1).
+                foreach(float z in new[]{7.5f,-1,-9.5f})kit.Lamp(new Vector3(65.5f,2.4f,z),7,.9f,new Color(1,.78f,.5f));
                 // The south counter row keeps feet off the strip the cold stores' wall would hide: the pantry's sacks and barrels behind it.
                 s.Slot(0).Box(At(65.5f,-15.4f,.55f),new Vector3(25,1.1f,1.4f),Quaternion.identity,new Color(.6f,.5f,.4f),top);Solid(blocks,new Vector2(65.5f,-15.4f),new Vector3(25,1.1f,1.4f));
                 for(int i=0;i<10;i++)s.Slot(3).Lump(At(55+i*2.4f,-19.6f,.4f),new Vector3(.5f,.42f,.4f),i+20,.12f,new Color(.82f,.74f,.56f),new Color(.6f,.52f,.4f),8,5);
@@ -393,7 +449,7 @@ namespace Lattice.EditorTools
                 s.Slot(1).Box(At(77.5f,1,4.75f),new Vector3(.3f,.3f,30),Quaternion.identity,Teal);
                 var glint=new ZoneKit.Shape();for(float z=-13;z<16;z+=2.5f)glint.Quad(At(77.4f,z,.8f),At(77.4f,z+.5f,.8f),At(77.4f,z+1.5f,4.2f),At(77.4f,z+1,4.2f),Vector3.left,new Color(.7f,.86f,.94f),.5f);
                 Shade(kit.Built("Galley window glints",glint,Glass),false);
-                Shade(kit.Built("The galley",s,Panel,Panel,Dark,Panel,Wood),true).transform.SetParent(blocks.transform,true);
+                Shade(kit.Built("The galley",s,Panel,Panel,Dark,Panel,Wood,Cloth,Brass),true).transform.SetParent(blocks.transform,true);
                 foreach(var at in new[]{new Vector2(55.2f,14.8f),new Vector2(75.6f,12.4f),new Vector2(56.6f,-6),new Vector2(75.6f,-12.6f)})LampPost("Galley lamp",at,3.4f,Bronze,at.y>0);
             }
 
@@ -481,10 +537,11 @@ namespace Lattice.EditorTools
                 void Rack(Vector2 at,float yaw,int mats)
                 {
                     var foot=At(at);var t=Quaternion.Euler(0,yaw,0);float wide=mats*1.3f;
-                    foreach(float x in new[]{-wide*.5f,wide*.5f})racks.Slot(0).Post(foot+t*new Vector3(x,0,0),3.2f,.07f,.06f,6,dark,plank);
-                    racks.Slot(0).Beam(foot+t*new Vector3(-wide*.5f,3.1f,0),foot+t*new Vector3(wide*.5f,3.1f,0),.08f,.08f,dark);
-                    for(int i=0;i<mats;i++){var c=foot+t*new Vector3(-wide*.5f+.65f+i*1.3f,1.95f,0);var tone=Dyes[m++%Dyes.Length];
-                        racks.Slot(1).Quad(c+t*new Vector3(-.58f,-1.1f,0),c+t*new Vector3(.58f,-1.1f,0),c+t*new Vector3(.58f,1.1f,0),c+t*new Vector3(-.58f,1.1f,0),t*Vector3.back,tone,.6f);}
+                    // Half a metre lower than they were: at 3.2 m the mats' tops crossed the camera's line to the walk past Pim's quay (D359).
+                    foreach(float x in new[]{-wide*.5f,wide*.5f})racks.Slot(0).Post(foot+t*new Vector3(x,0,0),2.7f,.07f,.06f,6,dark,plank);
+                    racks.Slot(0).Beam(foot+t*new Vector3(-wide*.5f,2.6f,0),foot+t*new Vector3(wide*.5f,2.6f,0),.08f,.08f,dark);
+                    for(int i=0;i<mats;i++){var c=foot+t*new Vector3(-wide*.5f+.65f+i*1.3f,1.6f,0);var tone=Dyes[m++%Dyes.Length];
+                        racks.Slot(1).Quad(c+t*new Vector3(-.58f,-.95f,0),c+t*new Vector3(.58f,-.95f,0),c+t*new Vector3(.58f,.95f,0),c+t*new Vector3(-.58f,.95f,0),t*Vector3.back,tone,.6f);}
                     Solid(rackBlocks,at,new Vector3(wide,1.2f,.4f),yaw,"Rack");
                 }
                 Rack(new Vector2(-61,-17.4f),0,5);Rack(new Vector2(-54.6f,-22.2f),0,3);Rack(new Vector2(-70,2.6f),0,6);Rack(new Vector2(-50,9.6f),0,4);Rack(new Vector2(-40,-3.6f),0,3);
@@ -617,7 +674,21 @@ namespace Lattice.EditorTools
                 // Banners hung from the gallery's front, one for each people aboard, and lanterns between them: what the spine looks up at.
                 Color[] peoples={new(.3f,.56f,.6f),new(.46f,.62f,.34f),new(.86f,.62f,.3f),new(.7f,.44f,.62f),new(.84f,.36f,.3f)};
                 for(int i=0;i<8;i++){float x=-21+i*(i<4?4.4f:4.4f)+(i>=4?11.6f:0);var a=new Vector3(x,top-.1f,37.9f);var tone=peoples[i%peoples.Length];
-                    s.Slot(2).Quad(a+new Vector3(-.7f,0,0),a+new Vector3(.7f,0,0),a+new Vector3(.7f,-2.4f,0),a+new Vector3(-.7f,-2.4f,0),Vector3.back,tone,.6f).Triangle(a+new Vector3(-.7f,-2.4f,0),a+new Vector3(.7f,-2.4f,0),a+new Vector3(0,-2.9f,0),Vector3.back,tone,.6f);}
+                    s.Slot(2).Quad(a+new Vector3(-.7f,0,0),a+new Vector3(.7f,0,0),a+new Vector3(.7f,-2.4f,0),a+new Vector3(-.7f,-2.4f,0),Vector3.back,tone,.6f).Triangle(a+new Vector3(-.7f,-2.4f,0),a+new Vector3(.7f,-2.4f,0),a+new Vector3(0,-2.9f,0),Vector3.back,tone,.6f);
+                    // Each people's device sewn on in cream, a pale border down its sides, a dark hem and a brass rod it hangs from: one flat colour to a banner read as a bare card (s30/428).
+                    var face=a+Vector3.back*.015f;var pale=Color.Lerp(tone,Cream,.55f);var deep=ZoneKit.Shape.Dim(tone,.62f);
+                    foreach(float side in new[]{-1f,1f})s.Slot(2).Quad(face+new Vector3(side*.7f,-.05f,0),face+new Vector3(side*.58f,-.05f,0),face+new Vector3(side*.58f,-2.38f,0),face+new Vector3(side*.7f,-2.38f,0),Vector3.back,pale,.6f);
+                    s.Slot(2).Quad(face+new Vector3(-.7f,-2.12f,0),face+new Vector3(.7f,-2.12f,0),face+new Vector3(.7f,-2.32f,0),face+new Vector3(-.7f,-2.32f,0),Vector3.back,deep,.6f);
+                    var mark=face+new Vector3(0,-1.05f,0);
+                    switch(i%peoples.Length)
+                    {
+                        case 0:s.Slot(2).Disc(mark,Vector3.back,.36f,16,Cream,.22f);break;
+                        case 1:s.Slot(2).Quad(mark+new Vector3(0,.4f,0),mark+new Vector3(.3f,0,0),mark+new Vector3(0,-.4f,0),mark+new Vector3(-.3f,0,0),Vector3.back,Cream,.6f);break;
+                        case 2:foreach(var o in new[]{new Vector3(0,.22f,0),new Vector3(-.2f,-.14f,0),new Vector3(.2f,-.14f,0)})s.Slot(2).Disc(mark+o,Vector3.back,.13f,12,Cream);break;
+                        case 3:s.Slot(2).Triangle(mark+new Vector3(-.34f,-.26f,0),mark+new Vector3(.34f,-.26f,0),mark+new Vector3(0,.36f,0),Vector3.back,Cream,.6f);break;
+                        default:s.Slot(2).Quad(mark+new Vector3(-.3f,.06f,0),mark+new Vector3(.3f,.06f,0),mark+new Vector3(.3f,-.06f,0),mark+new Vector3(-.3f,-.06f,0),Vector3.back,Cream,.6f).Quad(mark+new Vector3(-.06f,.34f,0),mark+new Vector3(.06f,.34f,0),mark+new Vector3(.06f,-.34f,0),mark+new Vector3(-.06f,-.34f,0),Vector3.back,Cream,.6f);break;
+                    }
+                    s.Slot(6).Tube(new[]{a+new Vector3(-.84f,.02f,-.05f),a+new Vector3(.84f,.02f,-.05f)},new[]{.035f,.035f},6,Bronze,Bronze,1,1).Lump(a+new Vector3(-.88f,.02f,-.05f),Vector3.one*.06f,i,.05f,Bronze,Bronze,6,4).Lump(a+new Vector3(.88f,.02f,-.05f),Vector3.one*.06f,i+9,.05f,Bronze,Bronze,6,4);}
                 // Sela's chart table: a big slanted table with the chart on it lit from inside, the scopes round it, Abri's desk and its piles of forms, Ilo's beside it.
                 var table=At(ChartTable,0);
                 s.Slot(3).Box(table+new Vector3(0,.5f,0),new Vector3(3.2f,1,2),Quaternion.identity,new Color(.42f,.34f,.26f)).Box(table+new Vector3(0,1.06f,0),new Vector3(3.4f,.08f,2.2f),Quaternion.Euler(-8,0,0),new Color(.5f,.4f,.3f));

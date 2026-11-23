@@ -37,7 +37,7 @@ namespace Lattice.EditorTools
             // convoy reads over them in layers; bloom on what is lit.
             ZoneLook.Register(MooringZone,new ZoneLook.Spec{sun=C(.93f,.95f,1f),sunIntensity=1.3f,sunPitch=42,shadowStrength=.82f,
                 sky=C(.34f,.38f,.48f),equator=C(.28f,.3f,.36f),ground=C(.12f,.13f,.16f),
-                fog=true,fogColor=C(.08f,.1f,.17f),fogStart=60,fogEnd=380,
+                fog=true,fogColor=C(.08f,.1f,.17f),fogStart=Mooring.HazeFrom,fogEnd=Mooring.HazeTo,
                 contrast=14,saturation=9,splitShadows=C(.4f,.44f,.58f),splitHighlights=C(.62f,.55f,.46f),
                 bloomThreshold=.88f,bloomIntensity=.85f,vignette=.22f});
         }
@@ -138,6 +138,9 @@ namespace Lattice.EditorTools
             internal const float OuterX=58,SouthZ=-18,GateZ=470,NorthZ=548,BeyondX=44,GateHalf=40;
             /// <summary>Every shelf's floor (the islands, the arm): 3 m under the plane. The anchor works' top, far under everything.</summary>
             internal const float ShelfY=-2,WorksY=-135;
+            /// <summary>The haze, tuned for the flight camera at its play distance and measured from the plane by <see cref="PlaneHaze"/> (D344): drawn back over the arenas (s64/071 to 089, the
+            /// Tollkeeper on show at s65/009 and 010, three hundred metres up) the same fog from the lens covered the whole convoy and left only its lamps.</summary>
+            internal const float HazeFrom=60,HazeTo=380;
             /// <summary>A chain's solid width at the plane (as wide as its links are drawn: Stillwater's chain taken in at 30 m a piece is 14 m across its links, so it is laid at
             /// <see cref="ChainScale"/>), how far its drawn links stand over the plane, a pylon's radius at the plane.</summary>
             internal const float ChainScale=.38f,ChainWide=5f,ChainOver=1.3f,PylonRadius=2.4f;
@@ -227,7 +230,8 @@ namespace Lattice.EditorTools
                 s.cable=ZoneKit.Tinted(ZoneKit.Toon("mooring-cable",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.36f);}));
                 // Lamps: unlit, coloured in their vertices, bright enough to bloom (the ring's glow).
                 s.glow=ZoneKit.Toon("mooring-glow",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.4f,0,0,0));});
-                var soft=ZoneKit.Texture("Mooring/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(a,a,a,1);},false);
+                // The falloff in the alpha (D344): with it in the colour, URP's particle shader mixed the fog's colour into a quad's corners and added it, a square in any far or wide view.
+                var soft=ZoneKit.Texture("Mooring/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(1,1,1,a);},false,true);
                 Material Soft(string asset,Color colour){var m=kit.Glow(asset,false,colour);m.SetTexture("_BaseMap",soft);return m;}
                 s.cold=Soft("Pylon glow",new Color(.5f,1.2f,1.4f,1));s.warm=Soft("Window glow",new Color(1.4f,1.05f,.6f,1));s.lantern=Soft("Lantern glow",new Color(1.6f,1.1f,.55f,1));
                 s.vapour=Soft("Vapour",new Color(.85f,.9f,1f,1));
@@ -360,6 +364,8 @@ namespace Lattice.EditorTools
                 }
                 // What starts unseen is saved switched off; each gate shows it when its flag says (the stills see the zone as it is met).
                 foreach(var g in new[]{breach,mats,cageOpen})if(g!=null)g.SetActive(false);
+                // The haze measured from the plane (D344): a view drawn back keeps the convoy under it as clear as at play distance.
+                var haze=new GameObject("The haze, from the plane",typeof(PlaneHaze)).GetComponent<PlaneHaze>();haze.plane=Plane;haze.start=HazeFrom;haze.end=HazeTo;
 
                 WorldBuilder.Save(scene,kit.zone);
                 Debug.Log("MOORING_COORDS LastMooring arrival="+Arrival+" home="+HomeWarp+" gate="+Checkpoint+" continuance="+ContinuanceSpawn+" dock="+DockAt+" crossing="+Crossing+" galley="+Galley
@@ -387,15 +393,44 @@ namespace Lattice.EditorTools
                     // A teal seam across it and its edge picked out, so a plate reads as a deck from 150 m.
                     s.Slot(1).Box(new Vector3(cx,tier+.03f,cz),new Vector3(Cell-Gap-3,.08f,.9f),Quaternion.identity,Teal);
                     s.Slot(1).Box(new Vector3(cx,tier+.03f,cz),new Vector3(.9f,.08f,Cell-Gap-3),Quaternion.identity,Teal);
-                    int houses=1+r.Next(4);
+                    // What stands on a plate is a works' machinery (the look pass of November 21: boxes with a lamp on top and a strip on the side read as navy boxes with white dots and
+                    // dashes, s64/014 and 019): a hall with its roof's ridge and a row of lit windows on its camera's side and a stack with a beacon, a farm of tanks banded in teal with a
+                    // lit rim, or a crane's gantry over the plate; pipes run between them; the plate's south edge is lit as a yard's is.
+                    int houses=1+r.Next(4);var feet=new List<Vector3>();
                     for(int k=0;k<houses;k++)
                     {
                         var size=new Vector3(5+(float)r.NextDouble()*12,3+(float)r.NextDouble()*9,5+(float)r.NextDouble()*12);
                         var at=new Vector3(cx+((float)r.NextDouble()-.5f)*(Cell-Gap-size.x),tier+size.y*.5f,cz+((float)r.NextDouble()-.5f)*(Cell-Gap-size.z));
-                        s.Slot(1).Box(at,size,Quaternion.identity,k%2==0?Grey:Iron,Pale,.25f);
-                        s.Slot(2).Box(at+new Vector3(0,size.y*.5f+.3f,0),new Vector3(1.4f,.5f,1.4f),Quaternion.identity,Cyan);
-                        s.Slot(2).Box(at+new Vector3(0,0,-size.z*.5f-.05f),new Vector3(size.x*.7f,.5f,.1f),Quaternion.identity,Cyan);
+                        int kind=(seed+k)%3;feet.Add(new Vector3(at.x,tier,at.z));
+                        if(kind==0)
+                        {
+                            s.Slot(1).Box(at,size,Quaternion.identity,k%2==0?Grey:Iron,Pale,.25f);
+                            s.Slot(1).Box(at+new Vector3(0,size.y*.5f+.5f,0),new Vector3(size.x*.92f,1,size.z*.4f),Quaternion.identity,Iron,Grey,.25f);
+                            for(float wx=-size.x*.5f+1;wx<size.x*.5f-.8f;wx+=1.6f)s.Slot(2).Box(at+new Vector3(wx,size.y*.15f,-size.z*.5f-.05f),new Vector3(.8f,.6f,.1f),Quaternion.identity,(int)(wx*3+seed)%4==0?Cyan:Warm);
+                            var stack=at+new Vector3(size.x*.3f,size.y*.5f,size.z*.2f);s.Slot(1).Tube(new[]{stack,stack+Vector3.up*6},new[]{.6f,.45f},8,Iron,Grey,1,.2f);s.Slot(2).Box(stack+Vector3.up*6.3f,new Vector3(.7f,.5f,.7f),Quaternion.identity,Warm);
+                        }
+                        else if(kind==1)
+                        {
+                            float tall=size.y*1.2f;int tanks=2+r.Next(3);
+                            for(int j=0;j<tanks;j++)
+                            {
+                                var foot=new Vector3(at.x-size.x*.35f+j*size.x*.7f/Mathf.Max(1,tanks-1),tier,at.z+(j%2)*2-1);float rad=2+(float)r.NextDouble()*1.4f;
+                                s.Slot(1).Tube(new[]{foot,foot+Vector3.up*tall},new[]{rad,rad},14,Grey,Pale,1,.2f);
+                                s.Slot(1).Tube(new[]{foot+Vector3.up*tall*.55f,foot+Vector3.up*(tall*.55f+.8f)},new[]{rad+.1f,rad+.1f},14,Teal,Teal,1,.2f);
+                                s.Slot(2).Disc(foot+Vector3.up*(tall+.05f),Vector3.up,rad*.9f,14,Cyan,rad*.72f);
+                            }
+                        }
+                        else
+                        {
+                            float span=size.x+4,high=size.y+4;var a0=at+new Vector3(-span*.5f,-size.y*.5f,0);var a1=at+new Vector3(span*.5f,-size.y*.5f,0);
+                            foreach(var leg in new[]{a0,a1})s.Slot(1).Box(leg+Vector3.up*high*.5f,new Vector3(1,high,1.4f),Quaternion.identity,Iron,Grey,.25f);
+                            s.Slot(1).Box(at+new Vector3(0,-size.y*.5f+high,0),new Vector3(span+1,1.2f,1.8f),Quaternion.identity,Grey,Pale,.25f);
+                            s.Slot(1).Box(at+new Vector3(span*.15f,-size.y*.5f+high-1.4f,0),new Vector3(2,1.6f,2.2f),Quaternion.identity,Iron,Grey,.25f);
+                            s.Slot(2).Box(at+new Vector3(-span*.5f,-size.y*.5f+high+.8f,0),new Vector3(.6f,.5f,.6f),Quaternion.identity,Warm);s.Slot(2).Box(at+new Vector3(span*.5f,-size.y*.5f+high+.8f,0),new Vector3(.6f,.5f,.6f),Quaternion.identity,Warm);
+                        }
                     }
+                    for(int k=1;k<feet.Count;k++)s.Slot(1).Beam(feet[k-1]+Vector3.up*1.2f,feet[k]+Vector3.up*1.2f,.9f,.9f,Iron,Grey);
+                    for(float ex=cx-(Cell-Gap)*.5f+2;ex<cx+(Cell-Gap)*.5f-1;ex+=6)s.Slot(2).Box(new Vector3(ex,tier+.15f,cz-(Cell-Gap)*.5f+.4f),new Vector3(.5f,.3f,.5f),Quaternion.identity,Warm);
                 }
                 // Girders every other grid line, dark: pale, on every line, they ruled every frame like squared paper.
                 for(float x=-176;x<=176;x+=Cell*2)s.Slot(1).Beam(new Vector3(x,WorksY+1.4f,-70),new Vector3(x,WorksY+1.4f,800),2.2f,2.2f,Grey);

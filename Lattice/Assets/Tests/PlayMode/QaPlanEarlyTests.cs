@@ -155,7 +155,7 @@ namespace Lattice.Tests.PlayMode
         static TMP_Text Text(string name)=>Object.FindObjectsByType<TMP_Text>(FindObjectsInactive.Include,FindObjectsSortMode.None).FirstOrDefault(t=>t.name==name);
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static Button With(string words)
         {
             var found=Buttons().FirstOrDefault(b=>Words(b).Contains(words));
@@ -1366,9 +1366,13 @@ namespace Lattice.Tests.PlayMode
             }
             // What the player reads at the counter: the offer beside what the hero wears now.
             var edge=parts.First(p=>p.slot==GearSlot.Edge);string words=Words(With(edge.displayName));
-            var numbers=Regex.Match(words,@"Output \+(\d+).*now \+(\d+)");
+            // The row gives what wearing it would add to what's worn, "+22 for Taren" (D357), where it gave the worn part's own number, "now +8".
+            var numbers=Regex.Match(words,@"Output \+(\d+).*\+(\d+) for Taren");
             Assert.IsTrue(numbers.Success,$"Taren wears a Scrap Edge, and the Refined Edge row doesn't set one against the other: \"{words}\"");
-            Assert.GreaterOrEqual(int.Parse(numbers.Groups[1].Value),int.Parse(numbers.Groups[2].Value)*2,$"the Refined Edge doesn't read as clearly better than what's worn: \"{words}\"");
+            int offered=int.Parse(numbers.Groups[1].Value),worn=offered-int.Parse(numbers.Groups[2].Value);
+            var scrap=State.parts.Find(p=>p.instanceId==State.party.Find(m=>m.id=="Taren").equipped[GearSlot.Edge]);
+            Assert.AreEqual(scrap.definitionId=="EdgesT1"?GameCatalog.Find<TechPartDef>("EdgesT1").baseStats.output:-1,worn,.5f,$"the row's gain isn't set against the Scrap Edge Taren wears: \"{words}\"");
+            Assert.GreaterOrEqual(offered,worn*2,$"the Refined Edge doesn't read as clearly better than what's worn: \"{words}\"");
             int price=int.Parse(Regex.Match(words,@"(\d+) scrip").Groups[1].Value);
             With(edge.displayName).onClick.Invoke();yield return Frames(2);
             Assert.AreEqual(1000-price,State.scrip,"buying a Refined Edge doesn't take its price");

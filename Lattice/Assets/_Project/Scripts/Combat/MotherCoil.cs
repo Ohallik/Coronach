@@ -247,7 +247,14 @@ namespace Lattice.Combat
             if(rig==null)rig=FindFirstObjectByType<CameraRig>();var party=PartyController.Current;if(rig==null||party==null||party.Active==null)return;
             var view=new Bounds(transform.position+Vector3.up*2,new Vector3(14,8,14));
             for(int i=0;i<Mathf.Min(3,drums.Count);i++)if(drums[i]!=null)view.Encapsulate(drums[i].position);
-            if(party.Active.flight)rig.FrameSceneInterest(this,view,new Rect(.08f,.16f,.84f,.72f));
+            // In flight the scene's interest is all the view holds, so the ship goes in it too: framed on her alone, a launch from the east clamp's works as she went left the flight
+            // controls on screen and no ship anywhere for two stills, then an empty crater (whole-game capture, November 20, s63/162 and 163). On a shelf the ground framing keeps
+            // the party by itself.
+            if(party.Active.flight)
+            {
+                var lead=party.Active;view.Encapsulate(new Bounds(lead.transform.position+Vector3.up*.8f,Vector3.one*HeroCollision.HullRadius(lead.character)*2));
+                rig.FrameSceneInterest(this,view,new Rect(.08f,.16f,.84f,.72f));
+            }
             else rig.FrameGround(view,Rect.MinMaxRect(.03f,.13f,.97f,.93f),Rect.MinMaxRect(.14f,.24f,.86f,.84f),BossController.MotherTune.FramedFarthest,1);
         }
         static CameraRig shaker;

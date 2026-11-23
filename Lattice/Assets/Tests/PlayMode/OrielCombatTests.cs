@@ -49,7 +49,9 @@ namespace Lattice.Tests.PlayMode
             book.Tell("RailWarden",13,flight:true);book.Tell("Moonshard",6,flight:true);
             // The Last Warden: met at Sync 20 to 21 (the chapter runs 19 to 22; OrielBuilder.Enemies' ledger), measured at the lower. Its door is the engine hall's (docs/maps/GlassChoir.md,
             // "Boss arena contract"): the release has been read at the first clamp and the Warden has spoken (WardenFirst).
-            book.Boss(new ContentRegistry.BossSheet{id="LastWarden",zone="GlassChoir",door="LastWarden",doorFlags=new[]{"oriel.releaseLearned","oriel.wardenMet"},sync=20,driverShare=.3f,
+            // .46 since D362 (November 22), where .3 was the placeholder: today's scout of the 10:30 build felled 116,000 in 95.0 s (nov22-recon-e s41) against 2,665 and 2,632 a
+            // second (d355-dome3, d355-lengths), which is .461; nov22-whole took 102.0 s.
+            book.Boss(new ContentRegistry.BossSheet{id="LastWarden",zone="GlassChoir",door="LastWarden",doorFlags=new[]{"oriel.releaseLearned","oriel.wardenMet"},sync=20,driverShare=.46f,
                 // In the yard every strike runs down a line of its own spun toward the lead, so a hero six metres before it is on the line it plucks, the three it strums, the one it draws
                 // and the spokes it tolls.
                 specials=new[]{("Pluck",new Vector3(0,0,6)),("Chord",new Vector3(0,0,6)),("Draw",new Vector3(0,0,6)),("Toll",new Vector3(0,0,6))},
@@ -296,6 +298,126 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(wisp.Health.Broken,"hopping, it isn't open");Assert.AreEqual(150,Hit(wisp.Health,hero),1,"a blow on it in the air isn't an opening's half as much again");
             yield return Until(()=>!rider.Hopping,3,hero,partner);
             Assert.AreEqual(fibres[2],rider.Line,"it landed on some other line than the fibre he is on");Assert.Less(fibres[2].Distance(wisp.transform.position),.6f,"it isn't on its new fibre");
+        }
+        /// <summary>The engine hall's middle, C in the Glass Choir's boss arena contract (docs/maps/GlassChoir.md): where the Warden is set, on the engine.</summary>
+        static readonly Vector2 OrielHallCentre=new(0,292);
+        /// <summary>Where the ground is, under a point of a zone's plan: the first solid surface down from well over it.</summary>
+        static Vector3 Ground(float x,float z,float over=40)
+        {
+            var hits=Physics.RaycastAll(new Vector3(x,over,z),Vector3.down,over+60,~0,QueryTriggerInteraction.Ignore).OrderBy(h=>h.distance).ToArray();
+            Assert.IsNotEmpty(hits,$"fixture: there is ground under ({x}, {z})");return hits[0].point;
+        }
+        /// <summary>What a body adds to the game camera's frame at 1920 by 1080, as the game draws it (its own pipeline, grade and bloom): the frame drawn with the body, then twice without
+        /// it (the second says what changes by itself between two draws, which isn't counted). Returns how many pixels it changes at all and how many it changes strongly, and saves the
+        /// frame under Builds/quality/focused/oriel-seen.</summary>
+        static (int seen,int strong) Seen(GameObject body,string name)
+        {
+            const int W=1920,H=1080;var camera=Camera.main;Assert.IsNotNull(camera,"fixture: the game has its camera");
+            var drawn=body.GetComponentsInChildren<Renderer>(true).Where(r=>r.enabled).ToArray();var lit=body.GetComponentsInChildren<Light>(true).Where(l=>l.enabled).ToArray();
+            var target=camera.targetTexture;var active=RenderTexture.active;var rt=new RenderTexture(W,H,24,RenderTextureFormat.ARGB32);Assert.IsTrue(rt.Create());
+            Color32[] Shot(){camera.targetTexture=rt;camera.Render();RenderTexture.active=rt;var image=new Texture2D(W,H,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,W,H),0,0);image.Apply();var p=image.GetPixels32();
+                if(name!=null){string folder=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,"../../Builds/quality/focused/oriel-seen"));System.IO.Directory.CreateDirectory(folder);
+                    string file=System.IO.Path.Combine(folder,name+".png");System.IO.File.WriteAllBytes(file,image.EncodeToJPG(88));TestContext.WriteLine("ORIEL_SEEN_STILL "+file);name=null;}
+                Object.Destroy(image);return p;}
+            Color32[] with,without,again,withAgain;
+            void Hide(bool hidden){foreach(var r in drawn)if(r!=null)r.enabled=!hidden;foreach(var l in lit)if(l!=null)l.enabled=!hidden;}
+            // The first draws into a new target differ from the ones after (a frame's history, the grade settling): two are thrown away, and a pixel counts only where the body
+            // changes it both times it is drawn and nothing else changes it between two draws without it.
+            try{string keep=name;name=null;Shot();Shot();name=keep;with=Shot();Hide(true);without=Shot();again=Shot();Hide(false);withAgain=Shot();}
+            finally{Hide(false);camera.targetTexture=target;RenderTexture.active=active;Object.Destroy(rt);}
+            static int Gap(Color32 a,Color32 b)=>Mathf.Max(Mathf.Abs(a.r-b.r),Mathf.Max(Mathf.Abs(a.g-b.g),Mathf.Abs(a.b-b.b)));
+            int seen=0,strong=0;
+            for(int i=0;i<with.Length;i++)
+            {
+                if(Gap(without[i],again[i])>4)continue;int gap=Mathf.Min(Gap(with[i],without[i]),Gap(withAgain[i],again[i]));
+                if(gap>18)seen++;if(gap>60)strong++;
+            }
+            return (seen,strong);
+        }
+        /// <summary>A Fibre Wisp is plainly there, from the game's camera, on the floors it fights on: the Skyfields' pale stone among its lit fibres (s39/153, November 20: the card said
+        /// LOCKED · FIBRE WISP over empty floor) and the Glass Choir's deck (s40/096). Its body was ten motes of the shared flare, each a fifth of a metre whose bright core is a few
+        /// centimetres: two or three pixels each, in the editor as in the player. Drawn as the game draws it, it changes at least 2,400 pixels of a 1920 by 1080 frame, 900 of them
+        /// strongly: a body the size of a hero's head and shoulders, which a player finds without the lock's bracket.</summary>
+        [UnityTest] public IEnumerator AFibreWispIsPlainlySeenFromTheGamesCameraOnTheSkyfieldsStoneAndTheChoirsDeck()
+        {
+            var failures=new List<string>();
+            foreach(var (zone,hero,wisp) in new[]{("OrielSkyfields",new Vector2(2.6f,66.5f),new Vector2(0,71.5f)),("GlassChoir",new Vector2(-3.4f,224.6f),new Vector2(-6,229.5f))})
+            {
+                yield return Zone(zone);var (lead,partner)=Party();
+                var stand=Ground(hero.x,hero.y);var at=Ground(wisp.x,wisp.y);
+                Put(lead,stand+Vector3.up*.05f);Put(partner,Ground(hero.x+2.2f,hero.y-1.2f)+Vector3.up*.05f);
+                var body=Enemy("FibreWisp",at+Vector3.up*.05f);
+                yield return Wait(1.6f,lead,partner);
+                var (seen,strong)=Seen(body.gameObject,"wisp-"+zone);
+                string line=$"ORIEL_WISP_SEEN {zone} pixels={seen} strong={strong} drawn={(body.definition.prefab!=null?body.definition.prefab.name:"motes")}";TestContext.WriteLine(line);Debug.Log(line);
+                if(seen<2400||strong<900)failures.Add(line+": a wisp a player can find asks 2,400 and 900");
+                Object.Destroy(body.gameObject);yield return null;
+            }
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+        /// <summary>Broken (its guard, or an opening), the Last Warden staggers on its feet: November 20's s41/036 and 037 had it hang rigid at about forty degrees with both feet off the
+        /// floor through "OPENING · STRIKE NOW", a falling plank with Idra standing inside its legs. Through its stagger the lower of its feet stays within a hand of the floor, its back
+        /// within twenty-five degrees of upright, and it reads as struck: its head comes down a tenth of a metre or more from where it stood.</summary>
+        [UnityTest] public IEnumerator BrokenTheLastWardenStaggersOnItsFeetBowedAndUpright()
+        {
+            var failures=new List<string>();
+            // Its guard broken by blows, and its own opening: a Draw that closes on nobody fouls its staff; and in the engine hall itself, on the engine, with the hall's clamps
+            // answering to it (s41/036 and 037 were there, its second clamp just opened).
+            foreach(string how in new[]{"guard broken","staff fouled","guard broken in the hall"})
+            {
+                bool hall=how.EndsWith("in the hall");
+                if(hall)
+                {
+                    GameServices.Current.Flags.SetBool("oriel.releaseLearned",true);GameServices.Current.Flags.SetBool("oriel.wardenMet",true);yield return Zone("GlassChoir");
+                    // The hall's own fight would wake a second Warden as the party walks in: this one is the test's.
+                    foreach(var fight in Object.FindObjectsByType<Lattice.World.EncounterVolume>(FindObjectsSortMode.None))fight.gameObject.SetActive(false);
+                }
+                else{yield return Zone("Arena_Ground");Floor();}
+                var (hero,partner)=Party();var middle=hall?Ground(OrielHallCentre.x,OrielHallCentre.y):At(0,0,0);
+                Put(partner,hall?Ground(-12,286)+Vector3.up*.05f:At(-50,.05f,-50));Put(hero,hall?Ground(2,284)+Vector3.up*.05f:At(0,.05f,how=="staff fouled"?20:6));
+                var warden=Enemy("LastWarden",middle+Vector3.up*.1f,yaw:180);yield return Frames(3);var body=warden.Health;body.InvulnerableUntil=0;body.ShieldUntil=0;
+                var animator=warden.GetComponentInChildren<Animator>();Assert.IsTrue(animator!=null&&animator.isHuman,"fixture: the Warden is a humanoid rig");
+                Transform B(HumanBodyBones bone)=>animator.GetBoneTransform(bone);
+                var feet=new[]{B(HumanBodyBones.LeftFoot),B(HumanBodyBones.RightFoot)}.Where(t=>t!=null).ToArray();Assert.AreEqual(2,feet.Length,"fixture: the Warden has two feet");
+                yield return Wait(1f,hero);
+                float standing=B(HumanBodyBones.Head).position.y,restFeet=feet.Min(f=>f.position.y);
+                {
+                    var stance0=(feet[0].position+feet[1].position)*.5f;
+                    TestContext.WriteLine($"WARDEN_AT_REST {how} lean={Vector3.Angle(B(HumanBodyBones.Head).position-stance0,Vector3.up):0} legs={Vector3.Angle(B(HumanBodyBones.Hips).position-stance0,Vector3.up):0} feet={restFeet-warden.transform.position.y:0.00} root={warden.transform.position} visual={warden.GetComponent<DefeatPresentation>().visual.localEulerAngles}");
+                }
+                // Built wrong on purpose: the Warden as it was, with nothing of its own to stagger it (the shared Stagger frame alone).
+                if(Broken){var own=warden.GetComponent<WardenStagger>();if(own!=null)Object.Destroy(own);}
+                log.Clear();
+                if(how.StartsWith("guard broken"))body.Expose(2.4f);
+                else
+                {
+                    var boss=warden.GetComponent<BossController>();Assert.IsTrue(boss.Perform("Draw"),"fixture: it draws");
+                    yield return Until(()=>Said("WARDEN_FOULED"),5,hero);Assert.IsTrue(Said("WARDEN_FOULED"),"fixture: its Draw closed on nobody");
+                }
+                Assert.IsTrue(body.Broken,"fixture: it is open, "+how);
+                float worstFeet=0,worstLegs=0,worstLean=0,lowestHead=float.PositiveInfinity,began=Time.time;bool shot=false;
+                for(float end=Time.time+1.8f;Time.time<end&&body.Broken;)
+                {
+                    hero.motor.Move(Vector2.zero,false,false);yield return null;
+                    float low=feet.Min(f=>f.position.y)-restFeet;worstFeet=Mathf.Max(worstFeet,Mathf.Abs(low));
+                    var hips=B(HumanBodyBones.Hips).position;var stance=(feet[0].position+feet[1].position)*.5f;
+                    worstLegs=Mathf.Max(worstLegs,Vector3.Angle(hips-stance,Vector3.up));worstLean=Mathf.Max(worstLean,Vector3.Angle(B(HumanBodyBones.Head).position-stance,Vector3.up));
+                    lowestHead=Mathf.Min(lowestHead,B(HumanBodyBones.Head).position.y);
+                    if(!shot&&Time.time>began+.7f)
+                    {
+                        shot=true;Still("warden-staggered-"+how.Replace(' ','-'),warden.transform);var state=animator.GetCurrentAnimatorStateInfo(0);
+                        TestContext.WriteLine($"WARDEN_STAGGER_STATE {how} stagger={state.IsName("Stagger")} t={state.normalizedTime:0.00} speed={animator.speed:0.00} root={warden.transform.position} visual={warden.GetComponent<DefeatPresentation>().visual.localEulerAngles} hips={B(HumanBodyBones.Hips).position-warden.transform.position} head={B(HumanBodyBones.Head).position-warden.transform.position}");
+                    }
+                }
+                string line=$"WARDEN_STAGGER {how} feet={worstFeet:0.00} legs={worstLegs:0} lean={worstLean:0} head={standing:0.00}->{lowestHead:0.00}";TestContext.WriteLine(line);Debug.Log(line);
+                // A plank is the whole body tipped together, legs and all: a stagger keeps its legs under it and bows from the hips.
+                if(worstFeet>.2f)failures.Add(line+": staggered, its lower foot leaves the floor or sinks through it");
+                if(worstLegs>15)failures.Add(line+": staggered, its legs aren't under it: it tips like a falling plank");
+                if(worstLean>30)failures.Add(line+": staggered, its head is out past its feet: it tips like a falling plank");
+                if(standing-lowestHead<.1f)failures.Add(line+": open, nothing in its body says it was struck");
+                Object.Destroy(warden.gameObject);yield return null;
+            }
+            Assert.IsEmpty(failures,string.Join("\n",failures));
         }
         [UnityTest] public IEnumerator ARailWardenFiresOnlyDownItsRailAtAShipOnItAhead()
         {
@@ -724,7 +846,9 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ what the fight is sized on
-        const float DriverShare=.3f,FlatOutSeconds=15;
+        /// <summary>The driver's share of this test's own flat out. .72 since D362 (November 22), where .3 was the placeholder: today's scout felled 116,000 in 95.0 s (Builds/quality/
+        /// nov22-recon-e s41), the pair out Taren and Idra, whom this test read at 2,909 a second that morning (d355-chapters); with the clamps' 40 s beside it the bar went at .725.</summary>
+        const float DriverShare=.72f,FlatOutSeconds=15;
         /// <summary>The four clamps: getting to one across the hall once the road is held, taking its weight (1.2 s) and waiting for the slack (a Draw it can be baited into every few seconds
         /// with the clamp held, or the partner's break), and its ease (.8 s): about ten seconds each.</summary>
         const float ClampSeconds=10;
@@ -736,7 +860,7 @@ namespace Lattice.Tests.PlayMode
             var at=At(0,.1f,0);var heroes=PartyController.Current.members.ToArray();
             var enemy=Enemy("LastWarden",at);yield return Frames(3);var body=enemy.Health;
             enemy.GetComponent<BossController>().enabled=false;body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var homes=new Vector3[heroes.Length];
+            float reach=BossReach.Edge(enemy);var homes=new Vector3[heroes.Length];
             for(int i=0;i<heroes.Length;i++)homes[i]=DevLoadout.Weapon(heroes[i].character)==GearSlot.Edge?at+Quaternion.Euler(0,i==0?-20:20,0)*Vector3.back*reach:at+Vector3.back*(reach+5)+Vector3.right*(i==0?-2:2);
             for(int i=0;i<heroes.Length;i++){Put(heroes[i],homes[i]);heroes[i].target=body;heroes[i].charge=100;}
             yield return null;
@@ -784,7 +908,7 @@ namespace Lattice.Tests.PlayMode
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(seconds<120||seconds>300)failures.Add($"{line}: the plan asks 120 to 300");
                 if(integrity<rate*DriverShare*120)failures.Add($"{line}: the shared floor, 120 s at the driver's share");
-                if(integrity/(rate*.25f)>300)failures.Add($"{line}: the shared ceiling, 300 s at a quarter of flat out");
+                if(integrity/(rate*.25f)>ContentRegistry.SlowPairCeiling(300))failures.Add($"{line}: the shared ceiling, {ContentRegistry.SlowPairCeiling(300):0} s at a quarter of flat out (D362 continued)");
             }
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }

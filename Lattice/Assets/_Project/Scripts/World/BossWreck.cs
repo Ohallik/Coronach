@@ -16,7 +16,7 @@ namespace Lattice.World
         public GameObject wreck;public Transform rig;
         /// <summary>What the fall threw clear, lying about on a later visit. Not in the fight itself: it would appear from nowhere.</summary>
         public GameObject thrownParts;
-        bool settled,searched;Transform body,pose;float fullSize,burnFrom,burnt;
+        bool settled,searched;Transform body,pose;float fullSize,burnFrom,burnt,span;
         Renderer[] burning;Color[] painted;Color burned;MaterialPropertyBlock burn;
         void Start()
         {
@@ -55,16 +55,21 @@ namespace Lattice.World
             if(rig==null||!rig.TryGetComponent<PropTint>(out var tint))return;
             burned=tint.tint;burning=pose.GetComponentsInChildren<Renderer>();painted=new Color[burning.Length];burn=new MaterialPropertyBlock();burnFrom=GameTime.Now;
             for(int i=0;i<burning.Length;i++)painted[i]=burning[i].sharedMaterial!=null&&burning[i].sharedMaterial.HasProperty(Paint)?burning[i].sharedMaterial.GetColor(Paint):burned;
+            // In the values the renderer is given: a block's colour goes to the shader linear, and a step the size of the bound in gamma was two and a half times it there.
+            span=0;for(int i=0;i<painted.Length;i++)span=Mathf.Max(span,((Vector4)burned.linear-(Vector4)painted[i].linear).magnitude);
         }
         /// <summary>On the clock the fall and the takeover run on: a kill through a Flash runs the world at a quarter speed, and a burn on its clock wouldn't be done when the wreck came.</summary>
         void Burn()
         {
             if(burning==null||burnt>=1)return;
-            burnt=Mathf.Clamp01((GameTime.Now-burnFrom)/BurnsOutIn);float share=Mathf.SmoothStep(0,1,burnt);
+            // On its clock, but no frame moves the paint by more than Impact.Tune.MostStepAFrame however long it was: the step was the clock's, and a hitch under load made a pop
+            // (.187 in a frame in the suite of November 21, against a body that burns out by a few hundredths a frame).
+            float due=Mathf.SmoothStep(0,1,Mathf.Clamp01((GameTime.Now-burnFrom)/BurnsOutIn));
+            burnt=Mathf.MoveTowards(burnt,due,Impact.Tune.MostStepAFrame/Mathf.Max(.001f,span));float share=burnt;
             for(int i=0;i<burning.Length;i++)
             {
                 if(burning[i]==null||burning[i] is not MeshRenderer&&burning[i] is not SkinnedMeshRenderer)continue;
-                burning[i].GetPropertyBlock(burn);burn.SetColor(Paint,Color.Lerp(painted[i],burned,share));burning[i].SetPropertyBlock(burn);
+                burning[i].GetPropertyBlock(burn);burn.SetVector(Paint,Vector4.Lerp(painted[i].linear,burned.linear,share));burning[i].SetPropertyBlock(burn);
             }
         }
     }

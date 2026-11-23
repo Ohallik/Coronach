@@ -26,6 +26,41 @@ namespace Lattice.EditorTools
         /// <summary>The zone's own fields on its ZoneDef, set last inside <c>Define</c>'s lambda for it.</summary>
         static void SorrelDefinition(ZoneDef z){}
 
+        /// <summary>Sorrel's look probe for its haze (marker SORREL_HAZE_STILLS_OK, <c>-look-run name</c>, written to Builds/quality/look/name): the views a player's camera stood at in the
+        /// whole-game capture and the wide ones, each drawn twice, with the zone's fog as the lens alone has it (<c>-lens</c>) and as <see cref="PlaneHaze"/> sets it for that camera
+        /// (<c>-plane</c>). LookDev draws a whole run in one editor frame, which a haze set as a camera begins to draw doesn't reach; this sets it for each camera before it draws.</summary>
+        public static void SorrelHazeStills()=>BatchTools.Run(()=>
+        {
+            string run=DevArgs.Value("-look-run")??throw new ArgumentException("-look-run <name> is required");
+            string folder=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,"../../Builds/quality/look",run));
+            if(System.IO.Directory.Exists(folder))throw new InvalidOperationException("Preserve earlier look run: "+folder);
+            System.IO.Directory.CreateDirectory(folder);
+            UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+SorrelZone+".unity");
+            foreach(var text in UnityEngine.Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+            var def=AssetDatabase.FindAssets("t:ZoneDef").Select(g=>AssetDatabase.LoadAssetAtPath<ZoneDef>(AssetDatabase.GUIDToAssetPath(g))).FirstOrDefault(d=>d.id==SorrelZone);if(def!=null)RenderSettings.skybox=def.skybox;
+            var haze=UnityEngine.Object.FindFirstObjectByType<PlaneHaze>()??throw new InvalidOperationException("SORREL_HAZE no PlaneHaze in the scene");
+            var profile=AssetDatabase.LoadAssetAtPath<CameraProfile>("Assets/_Project/Resources/Definitions/CameraProfile/Flight.asset");
+            var camera=new GameObject("Haze camera",typeof(Camera),typeof(UnityEngine.Rendering.Universal.UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.clearFlags=RenderSettings.skybox!=null?CameraClearFlags.Skybox:CameraClearFlags.SolidColor;camera.nearClipPlane=.3f;camera.farClipPlane=1600;camera.fieldOfView=profile.fov;
+            var data=camera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();data.renderPostProcessing=true;data.antialiasing=UnityEngine.Rendering.Universal.AntialiasingMode.None;
+            var rotation=Quaternion.Euler(profile.pitch,profile.yaw,0);int count=0;
+            foreach(var view in Sorrel.Views.Where(v=>v.name.EndsWith("as-played")||v.name.EndsWith("pulling-out")||v.name.EndsWith("-wide")))
+            {
+                camera.transform.SetPositionAndRotation(view.point-rotation*Vector3.forward*profile.distance*Mathf.Max(1,view.zoom),rotation);
+                foreach(bool plane in new[]{false,true})
+                {
+                    haze.enabled=false;if(plane){haze.enabled=true;haze.ApplyFor(camera);}
+                    var rt=new RenderTexture(1920,1080,24,RenderTextureFormat.ARGB32){antiAliasing=4};camera.targetTexture=rt;camera.Render();if(plane)haze.ApplyFor(camera);camera.Render();
+                    var prior=RenderTexture.active;RenderTexture.active=rt;var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();
+                    System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder,SorrelZone+"-"+view.name+(plane?"-plane":"-lens")+".png"),image.EncodeToPNG());
+                    RenderTexture.active=prior;camera.targetTexture=null;UnityEngine.Object.DestroyImmediate(image);UnityEngine.Object.DestroyImmediate(rt);count++;
+                    Debug.Log($"SORREL_HAZE {view.name} {(plane?"plane":"lens")} fog {RenderSettings.fogStartDistance:0} to {RenderSettings.fogEndDistance:0}");
+                }
+            }
+            UnityEngine.Object.DestroyImmediate(camera.gameObject);
+            Debug.Log($"SORREL_HAZE_STILLS_OK count={count} folder={folder}");
+        });
+
         [ZoneLook.Source] static void SorrelLooks()
         {
             // Sorrel's long afternoon, cooled: the same warm key on the same ochre (chapter 1's sun, a little lower and further round, so each spine lays its shadow across the valley),
@@ -33,7 +68,7 @@ namespace Lattice.EditorTools
             // young's glow what blooms.
             ZoneLook.Register(SorrelZone,new ZoneLook.Spec{sun=C(1f,.9f,.76f),sunIntensity=1.5f,sunPitch=38,shadowStrength=.8f,
                 sky=C(.4f,.47f,.62f),equator=C(.44f,.38f,.36f),ground=C(.3f,.21f,.16f),
-                fog=true,fogColor=C(.62f,.5f,.5f),fogStart=70,fogEnd=330,
+                fog=true,fogColor=C(.62f,.5f,.5f),fogStart=Sorrel.HazeFrom,fogEnd=Sorrel.HazeTo,
                 contrast=14,saturation=8,splitShadows=C(.4f,.45f,.6f),splitHighlights=C(.6f,.53f,.44f),
                 bloomThreshold=.9f,bloomIntensity=.7f,vignette=.22f});
         }
@@ -76,6 +111,9 @@ namespace Lattice.EditorTools
             internal static readonly Vector3 DoorCentre=new(0,Plane,302),DoorSize=new(148,8,92),LaneFightSize=new(2*ValleyHalf,8,28),GunsSize=new(26,8,26);
             internal static readonly Vector3[] Cover={new(0,Plane,298),new(-21.6f,Plane,306.4f),new(21.6f,Plane,306.4f)};
             internal const float CoverRadius=3f,ClampHeight=72;
+            /// <summary>The dust haze's linear fog as the flight camera has it at its play distance (ZoneLook's numbers). A view drawn back has it moved out by however much further it
+            /// stands (<see cref="PlaneHaze"/>): from the valley's head her door frames the party and her from three hundred metres, and these numbers alone covered the crater in it.</summary>
+            internal const float HazeFrom=70,HazeTo=330;
 
             /// <summary>A shelf beside one of the four anchor clamps, turned to face the crater's middle: its works on the edge toward her (the seat a metre in from it, on r 23), its floor 14 m
             /// across by 10 deep under the plane, the foot spawn on the edge away from her, the pad over its middle, the launch on its floor to one side, and the spawn a save made on it names
@@ -113,6 +151,9 @@ namespace Lattice.EditorTools
                 new("road-start",RoadStart,true),new("road-turn",new Vector3(11,Plane,487),true),new("road-back",new Vector3(22,Plane,452),true),new("road-end",RoadFarEnd+Vector3.back*4,true),
                 new("shelf-2-foot",Shelves[1].middle,false),new("shelf-4-foot",Shelves[3].middle,false),
                 new("canyon-wide",new Vector3(0,Plane,120),true,3),new("crater-wide",new Vector3(0,Plane,300),true,3.2f),new("road-wide",new Vector3(22,Plane,468),true,2.6f),
+                // Where the player's camera stood in the whole-game capture (November 20): the lane fight as flown (s62/121), the view drawn back from the valley's head to show her
+                // (s63/010: its axis met the plane at (-0.6, 282.5), 314 m back), and half way out to it as the second lane's fight ended (s62/153: (-0.6, 257), 263 m).
+                new("lane-1-as-played",new Vector3(0,Plane,83),true,1.29f),new("door-as-played",new Vector3(-.6f,Plane,282.5f),true,12.07f),new("door-pulling-out",new Vector3(-.6f,Plane,257.2f),true,10.1f),
             };
 
             // ---------------------------------------------------------------- where the air is
@@ -199,8 +240,8 @@ namespace Lattice.EditorTools
                     // The valley climbs north: gently from the second fight to a bench where the drill stands over its bore, and on up to the apertures' floor, the haul road with it
                     // (the cut the drill made). From the checkpoint the valley's head is ground a ship looks down on, its walls half as tall, not a wall 27 m high with two slots in it.
                     if(part==0)floor=Mathf.Lerp(Mathf.Lerp(floor,-12f,ZoneKit.Smooth(150,212,p.y)),-7f,ZoneKit.Smooth(224,241,p.y));
-                    // The haul road: a worn way down the valley, a little sunk.
-                    if(part==0)floor-=.6f*(1-ZoneKit.Smooth(2,4,Mathf.Abs(p.x-HaulX(p.y))));
+                    // The haul road is laid flat on the valley's floor (Floor paints it): sunk 0.6 m on a 2.5 m grid, its sides were facets the sun lit as pale squares down the middle
+                    // (whole-game capture, November 20, s62/121).
                     float run=part==4?2.5f:part==1?1.8f:part==0?Mathf.Lerp(16,7,ZoneKit.Smooth(196,226,p.y)):part==3?4:10;
                     return Mathf.Lerp(Plane,floor,Strata(air/run));
                 }
@@ -295,6 +336,10 @@ namespace Lattice.EditorTools
                 WorldBuilder.Label("Warp — Last Mooring",WarpOn+new Vector3(0,-.7f,-5),2.2f);
                 var onSigns=scene.GetRootGameObjects().Where(g=>g.name=="Sign_Warp — Last Mooring").ToArray();
 
+                // ---- the haze, measured from the plane wherever the view stands
+                var haze=new GameObject("The dust haze, from the plane",typeof(PlaneHaze)).GetComponent<PlaneHaze>();haze.plane=Plane;haze.start=HazeFrom;haze.end=HazeTo;
+                var flightView=AssetDatabase.LoadAssetAtPath<CameraProfile>("Assets/_Project/Resources/Definitions/CameraProfile/Flight.asset");haze.lens=flightView!=null?flightView.distance:26;
+
                 // ---- the young's road (LastSurvey): open from end.motherFreed, saved at its start, its far end the quest's point
                 var road=YoungsRoad(kit,stuff);
                 var begun=kit.Crossing("The young's road begins",new Vector3(RoadStart.x,0,RoadStart.z),new Vector3(2*RoadHalf,8,3),"end.roadBegun","","Sela","end.motherFreed");begun.saveSpawn="Road";AtPlane(begun);
@@ -304,6 +349,9 @@ namespace Lattice.EditorTools
                 // ---- before and after: the chains close the crater's north and the east notch until she has gone; the warp on and the road's marks are drawn from then
                 Gate("Until she is freed: Stillwater's chains",false,chainWalls.Concat(taut).ToArray(),"end.motherFreed");
                 Gate("Once she is freed: the way on and the young's road",true,new[]{on.gameObject,road}.Concat(onSigns).Concat(slack).Where(g=>g!=null).ToArray(),"end.motherFreed");
+
+                // ---- last, once everything stands: the moon's floor laid as chapter 1 laid it
+                Floor(land);
 
                 WorldBuilder.Save(scene,kit.zone);
                 Debug.Log("MOORING_COORDS SorrelSecondSky arrival="+Arrival+" home="+HomeWarp+" clamps="+Checkpoint+" valley-head="+ValleyHead+" crossing="+Crossing+" mother="+MotherAt+" exit="+MotherExit+" warp-on="+WarpOn+" road="+Road+" road-end="+RoadFarEnd
@@ -339,20 +387,23 @@ namespace Lattice.EditorTools
                 s.cable=ZoneKit.Tinted(ZoneKit.Toon("sorrel-second-cable",plate,m=>{m.SetColor("_BaseColor",new Color(.92f,.93f,.95f));m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.42f);}));
                 s.lamp=ZoneKit.Toon("sorrel-second-lamp",null,m=>{m.SetColor("_BaseColor",new Color(.5f,.95f,1f));ZoneKit.With(m,"_EMISSION","_Emission");m.SetColor("_EmissionColor",new Color(.9f,2.2f,2.4f));m.SetFloat("_LightFloor",1);});
                 s.shaft=ZoneKit.Toon("sorrel-second-shaft",null,m=>{m.SetColor("_BaseColor",new Color(.05f,.05f,.07f));m.SetFloat("_RampSteps",2);m.SetFloat("_LightFloor",0);});
-                var soft=ZoneKit.Texture("Sorrel/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(a,a,a,1);},false);
+                // The falloff is in the alpha, the colour white. URP's particle shader mixes its fog toward the fog's colour even when it adds: with the falloff in the colour and an alpha of
+                // one, a quad's black corners took the fog's pink and added it, so every glow in the crater was a pale pink square, opaque from far back (whole-game capture, November 20,
+                // s62/150 to s63/010). Faded by its alpha, a corner adds nothing however fogged it is.
+                var soft=ZoneKit.Texture("Sorrel/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(1,1,1,a);},false,true);
                 Material Soft(string asset,Color colour){var m=kit.Glow(asset,false,colour);m.SetTexture("_BaseMap",soft);return m;}
                 s.young=Soft("Young glow",new Color(.35f,1.2f,1.25f,1));s.glow=Soft("Works glow",new Color(.5f,1.3f,1.5f,1));s.warm=Soft("Window glow",new Color(1.4f,1.05f,.65f,1));
                 return s;
             }
-            /// <summary>The floor's tone: Sorrel's ochre, darker clay in broad patches, olive scrub where it is sheltered (as chapter 1 dressed its margins), the haul road packed pale, and
-            /// the crater's floor and walls going cold and dark toward the nursery. Written linear: a vertex colour isn't converted.</summary>
+            /// <summary>The floor's tone: Sorrel's ochre, darker clay in broad patches, olive scrub where it is sheltered (as chapter 1 dressed its margins), and the crater's floor and walls
+            /// going cold and dark toward the nursery. Written linear: a vertex colour isn't converted. The haul road and what lies on the floor are <see cref="Floor"/>'s.</summary>
             static Color Tone(Vector2 p)
             {
                 float clay=ZoneKit.Smooth(.55f,.7f,Noise(p,22,11)),scrub=ZoneKit.Smooth(.58f,.68f,Noise(p,11,12))*ZoneKit.Smooth(.35f,.55f,Noise(p,40,13));
                 var c=Color.Lerp(new Color(1,.98f,.95f),new Color(.82f,.66f,.58f),clay*.7f);
                 c=Color.Lerp(c,new Color(.5f,.56f,.28f),scrub*.85f);
-                float air=Air(p,out int part);
-                if(part==0&&air>0){float off=Mathf.Abs(p.x-HaulX(p.y));c=Color.Lerp(c,new Color(1.15f,1.06f,.92f),(1-ZoneKit.Smooth(1.6f,3.6f,off))*.85f);c=Color.Lerp(c,new Color(.66f,.52f,.42f),(1-ZoneKit.Smooth(.2f,.6f,Mathf.Abs(off-1.4f)))*.5f);}
+                // The haul road isn't toned here: painted in the vertices of a 2.5 m grid it came out as a chain of pale squares down the valley's middle (whole-game capture, November 20,
+                // s62/121). It is the ground kit's graded aggregate and ruts (Floor).
                 // Deep ground goes cold and dark (the moat, the shafts); the nursery's crown under her is the pale grey of Hushwell's chambers.
                 float h=Height(p),r=Vector2.Distance(p,Centre);
                 c=Color.Lerp(c,new Color(.5f,.48f,.56f),ZoneKit.Smooth(-24,-80,h)*.6f);
@@ -458,6 +509,40 @@ namespace Lattice.EditorTools
                     foreach(var r in piece.GetComponentsInChildren<Renderer>())r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.On;made++;
                 }
                 Debug.Log("SORREL_GROUND made="+made);
+            }
+            /// <summary>The haul road's line down the valley, from the arrival to the apertures.</summary>
+            static Vector2[] HaulRoad(){var line=new List<Vector2>();for(float z=CanyonSouth+4;z<=RimLine-4;z+=4)line.Add(new Vector2(HaulX(z),z));return line.ToArray();}
+            /// <summary>The moon's floor as chapter 1 laid Sorrel's basin (GroundStaging's recipe), at the flight camera's distance: the haul road graded aggregate, paler and greyer than
+            /// the ochre it crosses, with its two ruts; rust rock breaking through the flats in patches, pale dust drifted at the walls' feet and in broad banks, cracked hardpan and loose
+            /// stone between, and the outpost's yard graded like the road. Every layer and mark half again the chapter 1 size, read from 50 to 80 m. On the floor only, under every lane and
+            /// far under the plane: nothing of it stands. The canyon was plain ochre with the haul road's vertex tone in pale squares down it (whole-game capture, November 20, s62/121).</summary>
+            static void Floor(ZoneKit.Land land)
+            {
+                // The moon's floor mesh carries the crests and the apertures' floors too, up at the plane: layers stop at y -8 and fade where the ground steepens (opened as a whole
+                // landform), or the dust lay pale along every crest top.
+                var kit=GroundKit.Open(SorrelZone,land.FloorFilter,29,-8,true);
+                var haul=HaulRoad();float Road(Vector2 p)=>GroundKit.Distance(p,haul);
+                bool Valley(Vector2 p)=>Air(p,out int part)>0&&part==0;
+                // Marks only where a frame sees them: the lanes' floors and the country just past their crests. Strewn over the whole moon they were 2,700 pieces in 1,460 batches.
+                float Seen(Vector2 p)=>GroundKit.Smooth(-36,-12,Air(p,out _));
+                kit.Look("Sorrel",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Textures/sorrel-rock.png"));
+                // The dust a shade of the ochre it lies on: chapter 1's pale dust read as white paper laid along the walls from fifty metres.
+                Color aggregate=new(.86f,.74f,.68f),rust=new(.8f,.62f,.54f),dust=new(1f,.8f,.6f,.85f);
+                kit.Layers(null,1.6f,new GroundKit.Layer("gravel",aggregate,4.6f),new GroundKit.Layer("scree",rust,5.4f),new GroundKit.Layer("sand",dust,9.5f));
+                kit.PaintPath(0,haul,2.8f,1,.3f,.9f);
+                // The outpost's yard, graded like the road that runs through it.
+                kit.Paint(0,p=>{var q=new Vector2((p.x-1)/14,(p.y-48)/24);return (1-GroundKit.Smooth(.75f,1,q.magnitude+(kit.Noise(p,6,51)-.5f)*.4f))*(1-.4f*GroundKit.Smooth(.45f,.62f,kit.Noise(p,5,53)));});
+                kit.PaintPatches(1,10,.4f,p=>GroundKit.Smooth(4.5f,7.5f,Road(p)));
+                kit.PaintFoot(2,4.5f,.5f).PaintPatches(2,16,.2f,p=>GroundKit.Smooth(6,10,Road(p)),5);
+                kit.Decals(new[]{"CracksA","CracksB"},2.4f,p=>Seen(p)*GroundKit.Smooth(4,6,Road(p))*GroundKit.Smooth(2,4,kit.Edge(p)),3.8f,7f,new Color(.78f,.64f,.6f,.9f));
+                kit.Decals(new[]{"PebblesA","PebblesB"},3f,p=>Seen(p)*(.3f+.7f*(1-GroundKit.Smooth(2,7,kit.Edge(p)))),1.8f,3.4f,new Color(1,.82f,.68f));
+                kit.Decals(new[]{"Flagstones","Slabs"},1.4f,p=>Seen(p)*GroundKit.Smooth(5,8,Road(p))*GroundKit.Smooth(.5f,.66f,kit.Noise(p,16,31)),2.6f,4.6f,new Color(.96f,.72f,.56f));
+                kit.Decals(new[]{"SandDrift"},1.2f,p=>Seen(p)*(1-GroundKit.Smooth(3,9,kit.Edge(p))),4.5f,8f,new Color(dust.r,dust.g,dust.b,.9f),false);
+                kit.Decals(new[]{"Stain"},1.4f,p=>Valley(p)?GroundKit.Smooth(.5f,.66f,kit.Noise(p,20,61)):0,3.5f,6.5f,new Color(.5f,.4f,.38f,.7f),false);
+                // The haul road's ruts, worn by the outpost's ore trucks, and their tracks where the road crosses the yard; scorch round the landing pad.
+                foreach(float side in new[]{-1.15f,1.15f})kit.Strip("Ruts",haul,side,1.3f,new Color(.56f,.44f,.4f,.85f));
+                foreach(var (dx,dz) in new[]{(5.2f,1.4f),(-5f,-1.8f),(1.6f,5.2f),(-2f,-5.4f)})kit.Decal("Scorch",new Vector2(3+dx,30+dz),5.4f,dx*50,new Color(1,.95f,.92f,.85f),false);
+                kit.Finish();
             }
 
             // ---------------------------------------------------------------- the valley

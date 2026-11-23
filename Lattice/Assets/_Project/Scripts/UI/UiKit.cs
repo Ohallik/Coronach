@@ -13,12 +13,16 @@ namespace Lattice.UI
     /// skin (9-slice kit sprites + Cinzel/Nunito type, see UiSkin) propagates everywhere
     /// from here. All helpers degrade to the old flat-color look if the art is missing.
     /// </summary>
-    /// <summary>The focused control's words turn gold and a bright bar marks its edge: on a pad the selected row must be
-    /// unmistakable, and the frame tint alone barely showed (QA-010).</summary>
+    /// <summary>The focused control's words turn gold, a bright bar marks its edge and a gold wash lights its whole face: on a pad the selected row must be
+    /// unmistakable. The frame tint alone barely showed (QA-010), and gold words with a thin bar still left a reviewer of the November 22 capture unable to tell
+    /// which of a stall's six rows A would buy (nov22 s25 053): on a row of columns only the name turned gold, and the bar was six units wide.</summary>
     public sealed class SelectionMark : MonoBehaviour, UnityEngine.EventSystems.ISelectHandler, UnityEngine.EventSystems.IDeselectHandler
     {
         static readonly Color Selected = new(1f, .84f, .42f);
-        TMP_Text label; Color normal; Image bar;
+        /// <summary>The wash over the focused control's face, inside its bevel: what makes the row read as lit from across the room. A cool light under gold words: a gold
+        /// wash lit the row as well, but took the contrast from the gold name and the warm red of what a recipe lacks.</summary>
+        public static readonly Color Wash = new(.45f, .66f, .9f, .34f);
+        TMP_Text label; Color normal; Image bar, wash;
         void Start()
         {
             var system = UnityEngine.EventSystems.EventSystem.current;
@@ -28,13 +32,21 @@ namespace Lattice.UI
         {
             if (label == null) { label = GetComponentInChildren<TMP_Text>(); if (label == null) return; normal = label.color; }
             label.color = on ? Selected : normal;
+            if (wash == null && on)
+            {
+                // Behind everything the control holds, inside the bevel that takes about ten units of its top and bottom and the chevrons at its ends.
+                wash = UiKit.SoftBand(transform, "SelectionWash", Wash); wash.transform.SetAsFirstSibling();
+                var rect = wash.rectTransform; rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.pivot = new Vector2(.5f, .5f);
+                rect.offsetMin = new Vector2(24, 6); rect.offsetMax = new Vector2(-24, -6);
+            }
             if (bar == null && on)
             {
                 bar = UiKit.Panel(transform, "SelectionBar", Selected); bar.raycastTarget = false;
-                var rect = bar.rectTransform; rect.anchorMin = new Vector2(0, .22f); rect.anchorMax = new Vector2(0, .78f);
-                rect.pivot = new Vector2(0, .5f); rect.anchoredPosition = new Vector2(16, 0); rect.sizeDelta = new Vector2(6, 0);
+                var rect = bar.rectTransform; rect.anchorMin = new Vector2(0, .16f); rect.anchorMax = new Vector2(0, .84f);
+                rect.pivot = new Vector2(0, .5f); rect.anchoredPosition = new Vector2(14, 0); rect.sizeDelta = new Vector2(9, 0);
             }
             if (bar != null) bar.enabled = on;
+            if (wash != null) wash.enabled = on;
         }
         public void OnSelect(UnityEngine.EventSystems.BaseEventData eventData) => Mark(true);
         public void OnDeselect(UnityEngine.EventSystems.BaseEventData eventData) => Mark(false);

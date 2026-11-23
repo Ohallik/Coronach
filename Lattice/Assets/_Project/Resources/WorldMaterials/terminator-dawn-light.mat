@@ -26,15 +26,15 @@ Material:
     m_Ints: []
     m_Floats:
     - _DstBlend: 1
-    - _EdgeWidth: 0.55
+    - _EdgeWidth: 0.4
     - _FlashWidth: 1.1
     - _Kind: 0
-    - _Shimmer: 0.6
+    - _Shimmer: 0.5
     - _SrcBlend: 1
     m_Colors:
-    - _Edge: {r: 2.4, g: 2.1, b: 1.6, a: 1}
+    - _Edge: {r: 1.16, g: 0.86, b: 0.48, a: 1}
     - _Flash: {r: 2.2, g: 2.1, b: 1.9, a: 1}
     - _Frost: {r: 0.74, g: 0.84, b: 0.98, a: 0.62}
-    - _Light: {r: 0.9, g: 0.76, b: 0.54, a: 1}
+    - _Light: {r: 0.58, g: 0.46, b: 0.28, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

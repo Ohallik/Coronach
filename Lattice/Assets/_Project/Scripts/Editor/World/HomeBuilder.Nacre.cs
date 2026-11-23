@@ -126,12 +126,17 @@ namespace Lattice.EditorTools
             // ---------------------------------------------------------------- what it is made of
             internal sealed class Stuff{public Material cable,hullGlow,lampGlow,bruiseCore,bruiseEdge,bruiseStreak,berthMetal,berthDark,grease,rope;}
             /// <summary>The families' paint, as each hauler line had it: strong enough to read from the flight camera's height, and never a danger's orange, red or purple.</summary>
-            internal static readonly (string name,Color tone)[] Families={("teal",new(.24f,.66f,.62f)),("ochre",new(.9f,.72f,.28f)),("cream",new(.94f,.9f,.8f)),("sky",new(.42f,.62f,.9f)),("green",new(.44f,.74f,.4f))};
-            /// <summary>The old salvage spiral's greys and rust, a little apart from each other.</summary>
-            internal static readonly (string name,Color tone)[] Old={("grey",new(.46f,.45f,.46f)),("rust",new(.52f,.44f,.38f)),("slate",new(.38f,.41f,.46f)),("ash",new(.5f,.5f,.48f))};
+            internal static readonly (string name,Color tone)[] Families={("teal",new(.24f,.66f,.62f)),("ochre",new(.9f,.72f,.28f)),("cream",new(.9f,.8f,.6f)),("sky",new(.42f,.62f,.9f)),("green",new(.44f,.74f,.4f))};
+            /// <summary>The old salvage spiral: the pearl-hulled ships the Grave is named for, their nacre coats gone chalky and grey with age, each a little apart from the next, with
+            /// the sheen still in them where a hull curves to the light (<see cref="Sheen"/>). In greys and rust the field was generic floating scrap (the November 20 capture,
+            /// s53 057 and s54 020).</summary>
+            internal static readonly (string name,Color tone)[] Old={("grey",new(.74f,.72f,.7f)),("rust",new(.78f,.68f,.64f)),("slate",new(.62f,.68f,.7f)),("ash",new(.66f,.66f,.66f))};
+            /// <summary>The sheen each old coat keeps at its curves (the toon shader's rim): rose on the pearl, green-gold on the rose, ice-blue on the slate, warm on the ash.</summary>
+            static readonly Dictionary<string,Color> Sheen=new(){["grey"]=new Color(.96f,.78f,.86f),["rust"]=new Color(.78f,.92f,.72f),["slate"]=new Color(.74f,.88f,1f),["ash"]=new Color(.98f,.9f,.74f),
+                ["grey-deep"]=new Color(.72f,.6f,.66f),["rust-deep"]=new Color(.58f,.7f,.56f),["slate-deep"]=new Color(.56f,.66f,.78f),["ash-deep"]=new Color(.74f,.68f,.56f),["berth"]=new Color(.9f,.84f,.96f)};
             /// <summary>What the field is made of: ships and station pieces of several builds, never one hull turned five ways.</summary>
-            static readonly (string key,float size)[] Hulks={("Hauler",11),("Skiff",6),("PatrolCutter",7),("CompactCutter",7),("TallowStationHull",12),("RingSegmentA",10),("RingSegmentB",10),
-                ("DockingPodOffice",6),("DockingPodRepair",6),("DockingPodOutfitter",6),("SeedBarge",9),("TallowMooringCoupler",7),("MusterCrate",3),("DressCargoPallet",3),("DressFuelTank",4)};
+            static readonly (string key,float size)[] Hulks={("Hauler",11),("Skiff",6),("PatrolCutter",7),("CompactCutter",7),("TallowStationHull",12),("Hauler",10),("TallowStationHull",10),
+                ("DockingPodOffice",6),("DockingPodRepair",6),("DockingPodOutfitter",6),("PatrolCutter",7),("CompactCutter",7),("Skiff",5),("CompactCutter",5),("DressFuelTank",4)};
             static readonly Dictionary<(Material,string),Material> painted=new();
             /// <summary>A piece in a colour of its own, drawn in copies of its own materials with the colour multiplied in (saved beside the scene): a tint in a property block shows in play
             /// only, and the editor's stills would show every hull in its stock paint.</summary>
@@ -149,6 +154,12 @@ namespace Lattice.EditorTools
                             copy=AssetDatabase.LoadAssetAtPath<Material>(path);var fresh=new Material(source){name=source.name+"-"+name};
                             if(copy==null){copy=fresh;AssetDatabase.CreateAsset(copy,path);}else{copy.CopyPropertiesFromMaterial(fresh);copy.shader=fresh.shader;UnityEngine.Object.DestroyImmediate(fresh);}
                             if(copy.HasProperty("_BaseColor"))copy.SetColor("_BaseColor",source.GetColor("_BaseColor")*tone);
+                            // Nacre: a broad rim in the coat's own sheen and a softer ramp, so a pale hull grades round its curves instead of standing as one flat lump of white.
+                            if(Sheen.TryGetValue(name,out var sheen)&&copy.HasProperty("_RimColor"))
+                            {
+                                copy.SetColor("_RimColor",sheen);if(copy.HasProperty("_RimPower"))copy.SetFloat("_RimPower",1.7f);if(copy.HasProperty("_RampSteps"))copy.SetFloat("_RampSteps",5);
+                                if(copy.HasProperty("_ShadowTint"))copy.SetColor("_ShadowTint",new Color(.5f,.56f,.66f));
+                            }
                             EditorUtility.SetDirty(copy);painted[(source,name)]=copy;
                         }
                         mats[i]=copy;
@@ -163,7 +174,16 @@ namespace Lattice.EditorTools
                 var plain=ZoneKit.Texture("Nacre/nacre-plate",256,(u,v)=>{float n=.78f+.12f*(ZoneKit.Cloud(u,v,8,3)-.5f)+.05f*(ZoneKit.Tile(u*64,v*64,64,5)-.5f);
                     float seam=Mathf.Abs(Mathf.Repeat(u*4,1)-.5f)<.012f||Mathf.Abs(Mathf.Repeat(v*4,1)-.5f)<.012f?-.18f:0;return new Color(n+seam,n+seam,n*1.02f+seam,1);});
                 s.cable=ZoneKit.Tinted(ZoneKit.Toon("nacre-cable",plain,m=>{m.SetColor("_BaseColor",new Color(.3f,.32f,.36f));m.SetFloat("_RampSteps",3);}));
-                s.berthMetal=ZoneKit.Tinted(ZoneKit.Toon("nacre-berth",plain,m=>{m.SetColor("_BaseColor",new Color(.9f,.9f,.92f));m.SetFloat("_RampSteps",4);}));
+                // The berth and the built hulls in nacre: plate laid in courses as the plain is, under soft waves of the shell's own colours (rose, green-gold, ice) and a rose sheen at
+                // the curves. White plate, the berth and the pod were the field's white flat lumps.
+                var pearl=ZoneKit.Texture("Nacre/nacre-pearl",256,(u,v)=>
+                {
+                    float wave=.5f+.5f*Mathf.Sin((u*2.6f+v*1.7f+.6f*ZoneKit.Cloud(u,v,4,7))*Mathf.PI*2*2);float other=.5f+.5f*Mathf.Sin((u*1.3f-v*2.2f+.5f*ZoneKit.Cloud(u,v,5,9))*Mathf.PI*2*2);
+                    var c=Color.Lerp(Color.Lerp(new Color(1,.9f,.92f),new Color(.9f,1,.92f),wave),new Color(.88f,.94f,1),other*.6f);
+                    float n=.84f+.1f*(ZoneKit.Cloud(u,v,8,3)-.5f)+.04f*(ZoneKit.Tile(u*64,v*64,64,5)-.5f);
+                    float seam=Mathf.Abs(Mathf.Repeat(u*4,1)-.5f)<.012f||Mathf.Abs(Mathf.Repeat(v*4,1)-.5f)<.012f?-.16f:0;return new Color(c.r*n+seam,c.g*n+seam,c.b*n+seam,1);
+                });
+                s.berthMetal=ZoneKit.Tinted(ZoneKit.Toon("nacre-berth",pearl,m=>{m.SetColor("_BaseColor",new Color(.9f,.9f,.92f));m.SetFloat("_RampSteps",5);m.SetColor("_RimColor",new Color(.92f,.8f,.9f));m.SetFloat("_RimPower",2.2f);m.SetColor("_ShadowTint",new Color(.5f,.56f,.66f));}));
                 s.berthDark=ZoneKit.Tinted(ZoneKit.Toon("nacre-berth-dark",plain,m=>{m.SetColor("_BaseColor",new Color(.42f,.42f,.46f));m.SetFloat("_RampSteps",3);m.SetFloat("_ReceiveShadows",0);}));
                 s.rope=ZoneKit.Tinted(ZoneKit.Toon("nacre-rope",plain,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);}));
                 // The navigators' chart on the pod's hatch: the whole field drawn in grease with a thumb, a spiral and its three tracks and every hull a smudge, on scuffed white plate.
@@ -327,8 +347,10 @@ namespace Lattice.EditorTools
                 Debug.Log("NACRE_REEF made="+made+" dropped="+dropped);
             }
             /// <summary>The reef's pieces: whole hulls and station sections, not crates, so the wall's silhouette is ships.</summary>
-            static readonly (string key,float size)[] ReefHulks={("Hauler",11),("Skiff",6),("PatrolCutter",7),("CompactCutter",7),("TallowStationHull",12),("RingSegmentA",10),("RingSegmentB",10),
-                ("DockingPodOffice",6),("DockingPodRepair",6),("DockingPodOutfitter",6),("SeedBarge",9),("TallowMooringCoupler",7)};
+            // No station ring segments or mooring couplers in the reef (the berth's own ring is made of the first): at a reef hulk's size their tubes read as pale flat-shaded
+            // lumps at the frame's edge (the November 20 capture, s54 020). Hulls in their places, so every hulk stands where it did.
+            static readonly (string key,float size)[] ReefHulks={("Hauler",11),("Skiff",6),("PatrolCutter",7),("CompactCutter",7),("TallowStationHull",12),("Hauler",10),("TallowStationHull",11),
+                ("DockingPodOffice",6),("DockingPodRepair",6),("DockingPodOutfitter",6),("SeedBarge",9),("DockingPodOffice",7)};
 
             // ---------------------------------------------------------------- the berth
             /// <summary>The single huge transfer berth, broken open: a ring of station segments round a hub, its docking arms bent or gone, its gash facing the breach the disaster blew
@@ -415,7 +437,9 @@ namespace Lattice.EditorTools
             static void Shallows(ZoneKit kit,List<(Vector2 at,float clear)> keep)
             {
                 var rng=new System.Random(452);var root=new GameObject("Wreckage in the lane");int made=0;
-                string[] keys={"Skiff","PatrolCutter","CompactCutter","DockingPodOffice","DockingPodRepair","MusterCrate","DressCargoPallet","DressFuelTank","DeckCrate","TallowMooringCoupler","RingSegmentA"};
+                // Pieces of ships, not cargo: crates and pallets in the lane read as a field of floating crates (the November 20 capture, s53 057). As many keys as before, so every
+                // piece stands where it did.
+                string[] keys={"Skiff","PatrolCutter","CompactCutter","DockingPodOffice","DockingPodRepair","DockingPodOutfitter","PatrolCutter","DressFuelTank","Hauler","CompactCutter","Skiff"};
                 for(int k=0;k<1000;k++)
                 {
                     Vector2 p;

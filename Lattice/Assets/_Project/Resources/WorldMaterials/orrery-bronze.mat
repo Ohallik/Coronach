@@ -62,15 +62,15 @@ Material:
     - _Gel: 0
     - _Glow: 0
     - _Ice: 0
-    - _LightFloor: 0.32
+    - _LightFloor: 0.26
     - _OccFade: 0
     - _OccFadeDepth: 0.82
     - _OccFadeSoft: 0
     - _OccFadeToggle: 0
     - _Panels: 0
-    - _RampSteps: 3
+    - _RampSteps: 4
     - _ReceiveShadows: 1
-    - _RimPower: 4
+    - _RimPower: 2.6
     - _RimUnlit: 0
     - _ScatterPebbleRerole: 0
     - _Splat: 0
@@ -94,7 +94,7 @@ Material:
     - _DissolveEdgeColor: {r: 2, g: 1.2, b: 0.4, a: 1}
     - _DissolveParams: {r: 0, g: 3, b: 0, a: 0}
     - _EdgeParams: {r: 0, g: 0.9, b: 0.8, a: 0.5}
-    - _EmissionColor: {r: 0.06, g: 0.045, b: 0.03, a: 1}
+    - _EmissionColor: {r: 0.07, g: 0.05, b: 0.03, a: 1}
     - _FoamColor: {r: 0.95, g: 0.98999995, b: 1, a: 1}
     - _FoamParams: {r: 0.7, g: 0.8, b: 0.5, a: 0.4}
     - _GelCoreColor: {r: 0.4, g: 0.9, b: 1.2, a: 1}
@@ -107,8 +107,8 @@ Material:
     - _IceRimColor: {r: 0.7, g: 0.92, b: 1.05, a: 1}
     - _OccFadeEllipse: {r: 0.5, g: 0.5, b: 0.08, a: 0.14}
     - _PanelParams: {r: 0.25, g: 0.5, b: 0, a: 0}
-    - _RimColor: {r: 1, g: 0.82, b: 0.56, a: 1}
-    - _ShadowTint: {r: 0.5, g: 0.42, b: 0.48, a: 1}
+    - _RimColor: {r: 1.15, g: 0.9, b: 0.55, a: 1}
+    - _ShadowTint: {r: 0.42, g: 0.36, b: 0.46, a: 1}
     - _SplatEdge: {r: 0.04, g: 0.3, b: 0.35, a: 0.3}
     - _SplatScale: {r: 0.25, g: 0.25, b: 0.25, a: 0.9}
     - _SplatTint1: {r: 1, g: 1, b: 1, a: 1}

@@ -1,4 +1,5 @@
 using Lattice.Data;
+using UnityEditor;
 using UnityEngine;
 
 namespace Lattice.EditorTools
@@ -121,11 +122,15 @@ namespace Lattice.EditorTools
             // sheet's floor (.48 of flat out for two minutes) and the ceiling (a quarter of it inside five) leave room for all of that range only between 60,307 and 62,250.
             // 61,500 is inside it; in the player 68,000 fell in 108 s of fighting for the driver, so this is about 98 s.
             // It drops the region's rare, the Lure Bulb, which is the key to the Lurelight Drive.
-            ArenaBuilder.Asset<EnemyDef>("Rotbloom",e=>{e.id="Rotbloom";e.displayName="THE ROTBLOOM";e.prefab=Body("Rotbloom","Floodcrown");e.integrity=63500;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{rotSnap};
+            ArenaBuilder.Asset<EnemyDef>("Rotbloom",e=>{e.id="Rotbloom";e.displayName="THE ROTBLOOM";e.prefab=Body("Rotbloom","Floodcrown");e.integrity=83000;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{rotSnap};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=520;e.scrip=380;e.scrap=18;e.boss=true;
                 // A capsule can't stand shorter than it is wide: at 3.2 m tall on its 3.4 m radius Unity stretched it and the bloom hung 1.8 m over the floor.
                 e.capsuleHeight=6.8f;
                 e.lootTable=Loot("Rotbloom",Drop("LureBulb",1,1),Drop("Glowspore",6,1),Drop("ReedWeave",6,1),Drop("RepairSalve",2,1),ProgressionBuilder.AnyPart(3,1));});
+            // Its throats glow as a pitcher plant's do, a warm red under the veins. Taken in at the intake's violet-pink (.70, .16, .43) over the crimson throat, the glow made every
+            // open mouth a flat hot magenta that read as a shader that failed (s26 436, 457, 469, November 20).
+            var throat=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Art/Generated/Models/Rotbloom/Rotbloom_Toon.mat");
+            if(throat!=null&&throat.HasProperty("_EmissionColor")){throat.SetColor("_EmissionColor",new Color(.64f,.24f,.1f,.8f));EditorUtility.SetDirty(throat);}
         }
     }
 }

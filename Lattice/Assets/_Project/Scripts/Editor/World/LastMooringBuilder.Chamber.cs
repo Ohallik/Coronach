@@ -142,7 +142,9 @@ namespace Lattice.EditorTools
             static Color Tone(Vector2 p)
             {
                 float clear=Nearest(p,out var room);float mottle=.94f+.1f*Mathf.PerlinNoise(p.x*.13f+3,p.y*.13f+7);
-                var tone=room switch{Room.Well=>new Color(.6f,.68f,.72f),Room.Collar=>new Color(.5f,.58f,.62f),Room.Shaft or Room.Foot=>new Color(.74f,.78f,.8f),_=>new Color(.7f,.74f,.76f)};
+                // The well's floor a deep slate-teal (the look pass of November 21: its plain pale tile, s67/099 to 120, gave a woman in a white coat nothing to stand out against), the
+                // collar's a shade deeper, the landing's plating a mid grey.
+                var tone=room switch{Room.Well=>new Color(.3f,.38f,.42f),Room.Collar=>new Color(.28f,.35f,.39f),Room.Shaft or Room.Foot=>new Color(.54f,.58f,.62f),_=>new Color(.7f,.74f,.76f)};
                 if(clear>.2f)tone=new Color(.86f,.88f,.9f);
                 // The well's ring of gold at its rim and the walk from the door: a ship that paints where its people go.
                 float r=Vector2.Distance(p,P(W));if(room==Room.Well&&Mathf.Abs(r-(WellRadius-.7f))<.14f)tone=new Color(.82f,.68f,.36f);
@@ -170,14 +172,18 @@ namespace Lattice.EditorTools
                 BraceMat=ZoneKit.Toon("chamber-brace",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",Color.white);m.SetColor("_ShadowTint",new Color(.55f,.42f,.4f));m.SetFloat("_LightFloor",.3f);});
                 LampTeal=ZoneKit.Toon("chamber-lamp-teal",null,m=>{m.SetColor("_BaseColor",new Color(.6f,.96f,1));m.SetColor("_EmissionColor",new Color(.26f,1.4f,1.5f));});
                 LampWhite=ZoneKit.Toon("chamber-lamp-white",null,m=>{m.SetColor("_BaseColor",new Color(.96f,.98f,1));m.SetColor("_EmissionColor",new Color(1.5f,1.55f,1.65f));});
+                // Every material a fading piece is made of carries the fade's variant from its paint, so no later paint of it can take it away (D359: these drew their pieces solid while the rest faded).
+                foreach(var fadeMat in new[]{LampTeal,LampWhite}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
                 LampWarm=ZoneKit.Toon("chamber-lamp-warm",null,m=>{m.SetColor("_BaseColor",new Color(1,.92f,.78f));m.SetColor("_EmissionColor",new Color(1.6f,1.2f,.75f));});
                 CoolMat=ZoneKit.Toon("chamber-coolant",null,m=>{m.SetColor("_BaseColor",new Color(.34f,.78f,.86f));m.SetColor("_EmissionColor",new Color(.08f,.62f,.78f));});
                 // The road: one emissive the release drives (by property block, so an editor still shows it held unless built released).
-                RoadMat=ZoneKit.Toon("chamber-road",null,m=>{m.SetColor("_BaseColor",new Color(.3f,.4f,.52f));m.SetColor("_EmissionColor",released?new Color(1.9f,1.25f,.55f):new Color(.12f,.2f,.32f));m.SetFloat("_LightFloor",.4f);});
+                RoadMat=ZoneKit.Toon("chamber-road",null,m=>{m.SetColor("_BaseColor",new Color(.3f,.4f,.52f));m.SetColor("_EmissionColor",released?RoadFree:new Color(.12f,.2f,.32f));m.SetFloat("_LightFloor",.4f);});
                 VoidMat=ZoneKit.Toon("chamber-void",null,m=>{m.SetColor("_BaseColor",new Color(.03f,.05f,.08f));m.SetColor("_EmissionColor",Color.black);m.SetFloat("_LightFloor",0);});
                 AssetDatabase.SaveAssets();
             }
             static bool released;
+            /// <summary>The road's light once the anchor has let go (AnchorRelease.roadFree).</summary>
+            static readonly Color RoadFree=new(1.55f,1.22f,.8f);
 
             // ---------------------------------------------------------------- pieces
             static GameObject Made(ZoneKit kit,string name,ZoneKit.Shape shape,params Material[] materials){shape.Slot(materials.Length-1);shape.Slot(0);return kit.Built(name,shape,materials);}
@@ -296,7 +302,8 @@ namespace Lattice.EditorTools
                 // ---- the well: its door, the crossing at the lift's foot, phase three's door
                 var anchor=WellRoom(kit,out var wellSeal,out var neckSeal);
                 Cradle(kit,"Well cradle",WellCradle,90,WellSpawn);
-                kit.Sign("CONTROL WELL",-3.6f,49.2f,1.6f);
+                // On the walk before the door, clear of the cradle's bollards (the look pass of November 21: at (-3.6, 49.2) the east bollard stood in its middle, "CONTR WELL", s67/099).
+                kit.Sign("CONTROL WELL",0,50,1.6f);
                 var duel=WorldBuilder.Encounter(WellDoor,WellDoorCentre,WellDoorSize,Foe("MeretWell","CompactWarden"),1,new[]{wellSeal,neckSeal});
                 var wellPost=duel.spawners[0];wellPost.transform.SetPositionAndRotation(W,Quaternion.Euler(0,180,0));wellPost.faceAsPlaced=true;wellPost.radius=0;
                 duel.requiredFlag="end.wellEntered";duel.checkpointSpawn=WellSpawn;
@@ -521,11 +528,29 @@ namespace Lattice.EditorTools
                 foreach(var t in root.GetComponentsInChildren<Transform>())t.gameObject.isStatic=true;
                 // The cage: a floor, four posts, a roof frame, its lamp; drawn only, moved by the lift.
                 var car=new ZoneKit.Shape();
-                car.Slot(0).Box(Vector3.up*.06f,new Vector3(5,.12f,4.2f),Quaternion.identity,IronPale,new Color(.74f,.78f,.8f));
-                foreach(var (x,z) in new[]{(-2.4f,-2f),(2.4f,-2f),(-2.4f,2f),(2.4f,2f)})car.Slot(1).Post(W3(x,0,z),3.1f,.08f,.08f,8,Pale,White);
+                // A built cage, not a bare frame (the look pass of November 21, s67/099): a tread floor with gold edges at its two open ends and the rail's shoes under it, grilles of
+                // bars down both long sides with a mid rail, corner posts with gussets, a lattice roof the camera sees through, two strip lamps under it, and a control post at a corner
+                // with its panel lit teal. Open at both ends (the deck's side at the top, the well's door at the foot).
+                car.Slot(0).Box(Vector3.up*.06f,new Vector3(5,.12f,4.2f),Quaternion.identity,new Color(.4f,.44f,.48f),new Color(.6f,.64f,.68f));
+                for(float x=-2.2f;x<2.21f;x+=.4f)car.Slot(0).Box(W3(x,.125f,0),new Vector3(.04f,.01f,3.8f),Quaternion.identity,new Color(.34f,.38f,.42f));
+                foreach(int end in new[]{-1,1}){car.Slot(2).Box(W3(0,.13f,end*1.98f),new Vector3(4.8f,.02f,.2f),Quaternion.identity,Gold);for(float x=-2.1f;x<2.11f;x+=.6f)car.Slot(0).Box(W3(x+.15f,.142f,end*1.98f),new Vector3(.22f,.012f,.2f),Quaternion.Euler(0,30,0),new Color(.16f,.18f,.2f));}
+                foreach(int end in new[]{-1,1})car.Slot(0).Box(W3(0,-.18f,end*1.4f),new Vector3(.9f,.36f,.7f),Quaternion.identity,Iron,IronPale);
+                foreach(var (x,z) in new[]{(-2.4f,-2f),(2.4f,-2f),(-2.4f,2f),(2.4f,2f)}){car.Slot(1).Box(W3(x,1.55f,z),new Vector3(.18f,3.1f,.18f),Quaternion.identity,Pale,White);car.Slot(1).Beam(W3(x,2.6f,z),W3(x,3.05f,z-Mathf.Sign(z)*.5f),.1f,.1f,Pale,White);}
+                foreach(int side in new[]{-1,1})
+                {
+                    float x=side*2.4f;
+                    for(float z=-1.8f;z<1.81f;z+=.3f)car.Slot(1).Box(W3(x,1.5f,z),new Vector3(.05f,2.9f,.05f),Quaternion.identity,IronPale,Pale);
+                    foreach(float y in new[]{.12f,1.1f,2.95f})car.Slot(1).Box(W3(x,y,0),new Vector3(.12f,.1f,4.1f),Quaternion.identity,Pale,White);
+                    car.Slot(2).Box(W3(x-side*.07f,1.1f,0),new Vector3(.02f,.06f,3.9f),Quaternion.identity,Teal);
+                    car.Slot(3).Box(W3(x-side*.25f,2.98f,0),new Vector3(.1f,.06f,3.4f),Quaternion.identity,Color.white);
+                }
                 foreach(var (a,b) in new[]{(W3(-2.4f,3.1f,-2),W3(2.4f,3.1f,-2)),(W3(-2.4f,3.1f,2),W3(2.4f,3.1f,2)),(W3(-2.4f,3.1f,-2),W3(-2.4f,3.1f,2)),(W3(2.4f,3.1f,-2),W3(2.4f,3.1f,2))})car.Slot(1).Beam(a,b,.16f,.16f,Pale,White);
-                car.Slot(2).Box(W3(0,3.15f,2),new Vector3(4.8f,.12f,.08f),Quaternion.identity,Teal);car.Slot(3).Box(W3(0,3.0f,0),new Vector3(.8f,.1f,.8f),Quaternion.identity,Color.white);
-                var cage=Made(kit,"The lift's cage",car,DeckMat,WhiteMat,TealMat,LampWhite);
+                for(float x=-1.6f;x<1.61f;x+=.8f)car.Slot(1).Beam(W3(x,3.12f,-2),W3(x,3.12f,2),.06f,.06f,IronPale,Pale);
+                for(float z=-1.2f;z<1.21f;z+=.8f)car.Slot(1).Beam(W3(-2.4f,3.13f,z),W3(2.4f,3.13f,z),.06f,.06f,IronPale,Pale);
+                car.Slot(2).Box(W3(0,3.15f,2),new Vector3(4.8f,.12f,.08f),Quaternion.identity,Teal);car.Slot(2).Box(W3(0,3.15f,-2),new Vector3(4.8f,.12f,.08f),Quaternion.identity,Teal);
+                car.Slot(1).Box(W3(2.05f,.65f,1.65f),new Vector3(.36f,1.3f,.3f),Quaternion.identity,Pale,White);car.Slot(2).Box(W3(2.05f,1.08f,1.49f),new Vector3(.26f,.3f,.02f),Quaternion.Euler(-15,0,0),new Color(.08f,.16f,.18f));
+                car.Slot(3).Box(W3(2.05f,1.12f,1.48f),new Vector3(.18f,.08f,.012f),Quaternion.Euler(-15,0,0),Color.white);
+                var cage=Made(kit,"The lift's cage",car,DarkMat,WhiteMat,TealMat,LampTeal);
                 // Its mesh is built about its own floor centre: stood at the top.
                 var holder=new GameObject("The lift's cage (moves)");holder.transform.position=LiftTop;cage.transform.SetParent(holder.transform,false);
                 PointLight(LiftTop+Vector3.up*2.8f,7,1.1f,new Color(.8f,.95f,1),"Cage lamp").transform.SetParent(holder.transform,true);
@@ -554,7 +579,7 @@ namespace Lattice.EditorTools
                 // The quiet room at the machine's middle (the look pass of November 14: the well read as a plain round floor): its floor in rings, dark inlays at five and eight and a half
                 // metres, gold spokes between them, the walk from the door to the neck; a line of cold light round its wall's foot, broken at the door and the neck.
                 foreach(var (inner,outer) in new[]{(5f,5.5f),(8.4f,8.9f)})trim.Slot(0).Disc(W+Vector3.up*.009f,Vector3.up,outer,56,TealDeep,inner,TealDeep);
-                trim.Slot(0).Disc(W+Vector3.up*.008f,Vector3.up,11.2f,64,new Color(.36f,.44f,.5f),9.4f,new Color(.3f,.38f,.44f));
+                trim.Slot(0).Disc(W+Vector3.up*.008f,Vector3.up,11.2f,64,new Color(.5f,.56f,.6f),9.4f,new Color(.44f,.5f,.54f));
                 for(int k=0;k<16;k++){float a=(k*22.5f+11.25f)*Mathf.Deg2Rad;var d=new Vector3(Mathf.Sin(a),0,Mathf.Cos(a));trim.Slot(1).Beam(W+d*5.6f+Vector3.up*.012f,W+d*8.3f+Vector3.up*.012f,.08f,.012f,Gold);}
                 for(int k=0;k<72;k++)
                 {
@@ -685,12 +710,16 @@ namespace Lattice.EditorTools
                 for(int k=0;k<RoadRings;k++)
                 {
                     var shape=new ZoneKit.Shape();var path=new List<Vector3>();var rr=new List<float>();float wob=1+.08f*Mathf.Sin(k*1.7f);
-                    for(int j=0;j<=36;j++){float a=j*10*Mathf.Deg2Rad;path.Add(new Vector3(Mathf.Sin(a)*RoadRadius*wob,Mathf.Cos(a)*RoadRadius*.62f,0));rr.Add(.9f);}
-                    shape.Slot(0).Tube(path,rr,8,Color.white,Color.white,6,.1f,false);
+                    // A fine line of light with lamps strung along it (the look pass of November 21: solid tubes nearly a metre thick read as flat yellow coils hung in space, s67/210).
+                    for(int j=0;j<=36;j++){float a=j*10*Mathf.Deg2Rad;path.Add(new Vector3(Mathf.Sin(a)*RoadRadius*wob,Mathf.Cos(a)*RoadRadius*.62f,0));rr.Add(.26f);}
+                    shape.Slot(0).Tube(path,rr,6,Color.white,Color.white,6,.1f,false);
+                    for(int j=0;j<18;j++){float a=(j*20+(k%2)*10)*Mathf.Deg2Rad;shape.Slot(0).Lump(new Vector3(Mathf.Sin(a)*RoadRadius*wob,Mathf.Cos(a)*RoadRadius*.62f,0),Vector3.one*.62f,j+k*31,.02f,Color.white,Color.white,8,5);}
                     var go=kit.Built("Road ring "+(k+1),shape,RoadMat);var holder=new GameObject("Road ring "+(k+1)+" (flows)");holder.transform.position=RoadMouth+Vector3.forward*(k*RoadRing);go.transform.SetParent(holder.transform,false);
                     holder.transform.SetParent(road.transform,true);rings.Add(holder.transform);glowing.Add(go.GetComponent<Renderer>());go.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
                 }
                 anchor.road=rings.ToArray();anchor.roadGlow=glowing.ToArray();anchor.roadSpan=RoadRings*RoadRing;anchor.roadFlow=Vector3.forward;anchor.roadSpeed=7;
+                // Woken, a warm white-gold, not the saturated yellow it was.
+                anchor.roadFree=RoadFree;
                 // The convoy at the road's mouth, waiting; once the anchor lets go they begin to move into it.
                 var convoy=new GameObject("The convoy at the road's mouth");var westward=new GameObject("The convoy's west line");westward.transform.SetParent(convoy.transform,true);var eastward=new GameObject("The convoy's east line");eastward.transform.SetParent(convoy.transform,true);
                 foreach(var (id,at,length,yaw,after) in new[]{("Hauler",W3(-34,-40,128),26f,20f,8f),("Skiff",W3(-20,-34,118),9f,10f,9.5f),("SeedBarge",W3(26,-44,132),14f,-15f,10.5f),("PatrolCutter",W3(14,-36,120),12f,-10f,11.5f),
@@ -759,7 +788,8 @@ namespace Lattice.EditorTools
                 // The crews: Tovra's smiths to the four clamps from the hatches, Idra's people to the braces, Ishen with the page from the door. On show (out of the view, in the hatches and on the
                 // landing) from her yield; they walk in once she has told her crews.
                 var crews=new List<GameObject>();
-                (string name,string id,Color tint,float scale)[] smiths={("Tovra, at the first clamp","TovraBody",Color.white,1),("Brekk, at the second clamp","BrekkBody",Color.white,1),("A smith, at the third clamp","TovraBody",new Color(.82f,.86f,.94f),.97f),("A smith, at the fourth clamp","BrekkBody",new Color(.9f,.84f,.8f),1.02f)};
+                // Four smiths, four bodies of Harrowgate's (the look pass of November 21: the third wore Tovra's own body and apron, a clone of her across the collar in s67/203 and 238).
+                (string name,string id,Color tint,float scale)[] smiths={("Tovra, at the first clamp","TovraBody",Color.white,1),("Brekk, at the second clamp","BrekkBody",Color.white,1),("A smith, at the third clamp","OdrunBody",new Color(.86f,.84f,.9f),.97f),("A smith, at the fourth clamp","BrekkBody",new Color(.9f,.84f,.8f),1.02f)};
                 for(int i=0;i<4;i++)
                 {
                     var hatch=Hatches[Clamp(i).x<0?0:1];var at=hatch+W3(0,0,i<2?-.9f:.9f);var postAt=SmithPost(i);

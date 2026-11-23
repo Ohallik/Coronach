@@ -516,31 +516,99 @@
       "expectedScene": "NeighbourhoodAfloat"
     },
     {
-      "name": "the credits, held to hurry 1",
-      "seconds": 170,
-      "buttons": [
-        "South"
-      ],
+      "name": "the credits, at their pace 1",
+      "seconds": 8,
       "stopWhen": "flag:credits.rolled",
       "useItem": "none",
       "expectedScene": "NeighbourhoodAfloat"
     },
     {
-      "name": "the credits, held to hurry 2",
-      "seconds": 170,
-      "buttons": [
-        "South"
-      ],
+      "name": "the credits, at their pace 2",
+      "seconds": 8,
       "stopWhen": "flag:credits.rolled",
       "useItem": "none",
       "expectedScene": "NeighbourhoodAfloat"
     },
     {
-      "name": "the credits, held to hurry 3",
-      "seconds": 170,
-      "buttons": [
-        "South"
-      ],
+      "name": "the credits, at their pace 3",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 4",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 5",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 6",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 7",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 8",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 9",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 10",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 11",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 12",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 13",
+      "seconds": 8,
+      "stopWhen": "flag:credits.rolled",
+      "useItem": "none",
+      "expectedScene": "NeighbourhoodAfloat"
+    },
+    {
+      "name": "the credits, at their pace 14",
+      "seconds": 8,
       "stopWhen": "flag:credits.rolled",
       "useItem": "none",
       "expectedScene": "NeighbourhoodAfloat"

@@ -168,43 +168,69 @@ namespace Lattice.UI
             }
             // A row of the page's own, a filter: it takes a place on the page without taking a number, so the rows under it keep the names they're focused and found by.
             Button Extra(string text,System.Action action,string name,string icon=null){var b=Add(text,action,icon,name);row--;shift++;return b;}
-            // A page's title, in a row's place: it can't take focus, so no stray A lands on it.
-            void Header(string text)
+            // The list pages (Gear, Fabricate, the quest log) have a taller strip under the list, with what the row under the cursor has to say in full: the quest log's longest
+            // description ran a fourth line onto the footer from a strip of three.
+            bool tall=page==GearPage||page==FabricatePage||page==QuestsPage;
+            // A page that lays its list out its own way says where the answer to a press stands (Skills, the bench).
+            Vector2? feedbackAt=null;
+            void Note(string text)
             {
-                var t=UiKit.Text(panel.transform,"Header",text,26,UiKit.FrostColor,TextAlignmentOptions.Left);t.margin=new Vector4(42,0,42,0);
-                UiKit.Rect(t.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,290-(row+shift)*68),new(1220,56));row++;
+                note=UiKit.Text(panel.transform,"Note",text,24,UiKit.DimTextColor,TextAlignmentOptions.TopLeft);
+                // The quest log's two-line rows come down further: its strip starts under them and holds four lines. So do the bench's, and its strip holds four.
+                UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),page==QuestsPage?new(170,-344):page==FabricatePage?new(170,-332):tall?new(170,-322):new(170,-360),
+                    page==QuestsPage?new(1220,124):page==FabricatePage?new(1220,132):tall?new(1220,156):new(1220,90));
             }
-            void Note(string text){note=UiKit.Text(panel.transform,"Note",text,24,UiKit.DimTextColor,TextAlignmentOptions.TopLeft);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,-360),new(1220,90));}
             // A list can shrink under the page it was on: stay on its last page rather than show nothing.
             int Window(int count,int perPage){if(offset>=count)offset=count>0?(count-1)/perPage*perPage:0;return offset;}
+            // A row in columns (MenuList), named and placed as Add places a row, found by its key.
+            Button Columns(IList<MenuList.Column> columns,IList<string[]> cells,System.Action action,string key,ItemMarks.Kind kind=ItemMarks.Kind.None,string name=null,float? y=null,float height=56,float spread=12)
+            {
+                var b=MenuList.Row(panel.transform,name??"Row_"+row,new(170,y??290-(row+shift)*68),new(1220,height),columns,cells,action,key,kind,spread);list.Add(b);row++;return b;
+            }
             void Pager(int count,int perPage)
             {
                 if(count<=perPage)return;
-                // Focus goes by role here: an index would land the next A on whatever took it, a buy, an equip or a salvage.
-                var pager=Add(UiKit.PagerLabel(offset,perPage,count),()=>{rebind?.Cancel();offset=offset+perPage<count?offset+perPage:0;salvageAsked=null;Rebuild(true,"Pager");},null,"Pager");
-                // In line with the rows above: a page of icon rows starts its words further in, and this one sat hard against the row's left chevron.
-                if(list.Count>1){var above=list[list.Count-2].GetComponentInChildren<TMP_Text>();if(above!=null)pager.GetComponentInChildren<TMP_Text>().margin=above.margin;}
+                // Focus goes by role here: an index would land the next A on whatever took it, a buy, an equip or a salvage. It's the panel's own control, beside Back at its foot:
+                // as a row under the list it read as one more thing to buy. Down from the last row comes to it, and down again wraps to the top of the page it turned to.
+                list.Add(MenuList.Control(panel.transform,"Pager",UiKit.PagerLabel(offset,perPage,count),()=>{rebind?.Cancel();offset=offset+perPage<count?offset+perPage:0;salvageAsked=null;Rebuild(true,"Pager");},new(355,-435),new(300,55)));
             }
             if(page==PartyPage)
             {
                 // With three in the party each hero's row chooses who is out (PartyPairUi, PartyField.Choose). It goes by the hero's name, and the third takes a place
                 // without taking a number, so Swap is still Row_2 and the slots Row_3 to Row_5 for every route and check that finds them so. With two, the rows are as ever.
                 bool choosing=Deployment.Choosing(state);
+                // The people first, under headings: each hero's numbers in columns, whatever the names' lengths ("Taren   Sync 1   XP 0/125 ..." was one string, and Sela's
+                // Integrity stood 63 units off Taren's). Then, apart from them, what can be done: Swap is a control of its own under them, and the three save slots stand
+                // under a heading of their own. They were plain strings in the same list as the heroes (nov22 s05 041).
+                var party=UiKit.Text(panel.transform,"Header",state.party.Count>1?$"{DisplayNames.Speaker(state.party[state.activeMember].id)} leads":"The party",26,UiKit.FrostColor,TextAlignmentOptions.MidlineLeft);
+                party.margin=new Vector4(42,0,0,0);UiKit.Rect(party.gameObject,new(.5f,.5f),new(.5f,.5f),new(-17,318),new(846,52));
+                MenuList.Headings(panel.transform,new(170,262),1220,HeroColumns);
+                int hero0=0;
                 foreach(var m in state.party)
                 {
-                    if(!choosing){Add(PartyLine(state,m));continue;}
-                    var hero=m;string named=PartyPairUi.RowName(m.id),words=PartyPairUi.Line(state,m,PartyLine(state,m));
+                    var hero=m;var cells=PartyCells(state,m);float y=214-hero0++*64;
+                    if(!choosing){Columns(HeroColumns,cells,null,DisplayNames.Speaker(m.id),ItemMarks.Kind.None,null,y);continue;}
+                    string named=PartyPairUi.RowName(m.id);
+                    if(!Deployment.Out(state,m.id))cells[0]=MenuList.Say(PartyPairUi.RestingMark+cells[0][0]);
                     System.Action press=()=>{if(PartyPairUi.Press(hero,AtBench,out string said))feedback=said;else Refuse(said);Rebuild(true,named);};
-                    var line=state.party.IndexOf(m)<Deployment.Size?Add(words,press,null,named):Extra(words,press,named);
-                    PartText.Narrow(line,words,PartyPairUi.Short(words));
+                    bool numbered=state.party.IndexOf(m)<Deployment.Size;var line=Columns(HeroColumns,cells,press,cells[0][0],ItemMarks.Kind.None,numbered?null:named,y);
+                    if(numbered)line.name=named;else{row--;shift++;}
                     line.gameObject.AddComponent<SelectNote>().selected=()=>Tell(PartyTotals(state,hero),PartyPairUi.Says(state,hero,AtBench),$"{state.scrip} scrip");
                 }
-                if(state.party.Count>1)Add("Swap active member",()=>TrySwap());
+                // Swap keeps the name it is found by (Row_2 in a party of two), and the slots Row_3 to Row_5. It's a control under the heroes, not a row among them,
+                // and a press down from the last hero still comes to it and the next to slot 1: a route saves to slot 1 by three presses down from the first hero. On the
+                // header's line it was first in the walk, and route 1's three presses saved to slot 2 (nov22-recon-b s01, s02b).
+                float under=214-(hero0-1)*64-28,saves=under-34;
+                if(state.party.Count>1){list.Add(MenuList.Control(panel.transform,"Row_"+row++,"Swap active member",()=>TrySwap(),new(-200,under-36),new(480,52)));saves=under-106;}
+                var heading=UiKit.Text(panel.transform,"SaveHead","SAVE THE GAME",24,UiKit.DimTextColor,TextAlignmentOptions.BottomLeft);heading.characterSpacing=4;heading.margin=new Vector4(42,0,0,0);
+                UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,saves),new(1220,32));
+                var saveRule=UiKit.Divider(panel.transform,"SaveRule");UiKit.Rect(saveRule.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,saves-20),new(1220,4));
                 for(int i=1;i<=3;i++)
                 {
                     int number=i;string slot="slot"+i;
                     if(!slotHolds.TryGetValue(slot,out string holds))slotHolds[slot]=holds=Holding(GameServices.Current.Saves.Load(slot));
-                    Add($"Save to slot {number}"+holds,()=>{GameServices.Current.Saves.Save(slot,state);slotHolds[slot]=Holding(state);feedback=$"Saved to slot {number}.";Rebuild();});
+                    Columns(SlotColumns,new[]{MenuList.Say($"Save to slot {number}"),MenuList.Say(holds.StartsWith("  ·  ")?holds.Substring(5):holds)},()=>{GameServices.Current.Saves.Save(slot,state);slotHolds[slot]=Holding(state);feedback=$"Saved to slot {number}.";Rebuild();},
+                        $"Save to slot {number}",ItemMarks.Kind.None,null,saves-48-(i-1)*64);
                 }
                 // The note holds three lines: the two heroes out and the scrip. The one resting says theirs while the cursor is on their row.
                 Note(string.Join("\n",Deployment.Of(state).Select(m=>PartyTotals(state,m)))+$"\n{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");
@@ -216,52 +242,80 @@ namespace Lattice.UI
                 int perPage=all.Length>8?7:8;
                 string Binding(int at)=>GameHud.SkillBinding(at,InFlight);
                 int SlotOf(SkillDef of){for(int i=0;i<SkillBook.Slots;i++)if(SkillBook.Equipped(member.id,i)==of)return i;return -1;}
+                var next=all.Where(s=>!SkillBook.Knows(member,s)).OrderBy(s=>s.unlockLevel).FirstOrDefault();
+                string learned=$"{all.Count(s=>SkillBook.Knows(member,s))} of {all.Length} skills learned"+(next!=null?$"  ·  next: {next.displayName} at Sync {next.unlockLevel}":"")+".";
+                // Under the list, the skill under the cursor: its icon as the HUD draws it, its name, and what it does in full. The lower half of the page was empty (nov22 s01 054).
+                // It stands under the last row and the line the answer to a press takes.
+                var definition=GameCatalog.Find<Lattice.Data.CharacterDef>(member.id);var extra=definition!=null&&ExtraGauge.Unlocked?definition.extra:null;
+                int slotRows=Enumerable.Range(0,SkillBook.Slots).Count(i=>SkillBook.Equipped(member.id,i)!=null)+(extra!=null?1:0);
+                float listFoot=skillSlot<0?214-(slotRows-1)*64-28:214-(Mathf.Min(perPage,all.Length)-1)*50-23;
+                var card=SkillCard(panel.transform,listFoot-52);feedbackAt=new(170,listFoot-22);
+                void Show(SkillDef skill,params string[] lines){card.Show(skill);note=card.words;Tell(lines);}
                 if(skillSlot<0)
                 {
-                    Header(who+"'s skills"+(state.party.Count>1?$"  ·  {PromptService.Tag("Swap")} shows {DisplayNames.Speaker(state.party[(skillsOf+1)%state.party.Count].id)}'s skills":""));
+                    // Whose skills, on the line the Gear page's stands on: a heading in a row's place, which takes no focus.
+                    var whose=UiKit.Text(panel.transform,"Header",who+"'s skills"+(state.party.Count>1?$"  ·  {PromptService.Tag("Swap")} shows {DisplayNames.Speaker(state.party[(skillsOf+1)%state.party.Count].id)}'s skills":""),26,UiKit.FrostColor,TextAlignmentOptions.MidlineLeft);
+                    whose.margin=new Vector4(42,0,0,0);UiKit.Rect(whose.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,318),new(1220,52));row=1;
+                    MenuList.Headings(panel.transform,new(170,262),1220,SlotColumns4);
+                    // A slot in columns: its button, the skill's icon and name, what it costs, its cooldown and how far its mastery has come. It was one string a row,
+                    // "RB+A  Arc Cleave · 20 Charge · Mastery 1 (0/6) · 4 s", beside Gear's and the bench's columns.
                     for(int i=0;i<SkillBook.Slots;i++)
                     {
                         int slot=i;var skill=SkillBook.Equipped(member.id,i);if(skill==null)continue;
-                        Add($"{Binding(i)}  {skill.displayName}  ·  {SkillBook.Cost(member.id,skill):0} Charge  ·  {MasteryLine(member.id,skill)}  ·  {skill.cooldown:0} s",
-                            ()=>{skillSlot=slot;int at=System.Array.IndexOf(all,skill);offset=at>=0?at/perPage*perPage:0;feedback="";Rebuild(false,"Row_"+(at-offset+1));});
+                        var line=Columns(SlotColumns4,SkillCells(member.id,skill,Binding(i)),()=>{skillSlot=slot;int at=System.Array.IndexOf(all,skill);offset=at>=0?at/perPage*perPage:0;feedback="";Rebuild(false,"Row_"+(at-offset+1));},
+                            $"{Binding(i)}  {skill.displayName}",ItemMarks.Kind.None,null,214-(row-1)*64);
+                        SkillMarks(line,member.id,skill,SkillIconAt,SlotColumns4);
+                        line.gameObject.AddComponent<SelectNote>().selected=()=>Show(skill,skill.description,Progress(member.id,skill),learned,$"Select to choose another skill for {Binding(slot)}.");
                     }
                     // The hero's EXTRA move (S3), under the four slots once the story has unlocked the gauge. It's no slot: selecting it says what it does and changes nothing.
-                    var definition=GameCatalog.Find<Lattice.Data.CharacterDef>(member.id);var extra=definition!=null&&ExtraGauge.Unlocked?definition.extra:null;
                     if(extra!=null)
-                        Add($"EXTRA  ·  {extra.displayName}  ·  {ExtraGauge.Binding(InFlight)} with a full gauge  ·  gauge {ExtraGauge.Of(member.id):0} / 100",
-                            ()=>{feedback=$"{extra.displayName}: {extra.description}";Rebuild(true,"ExtraRow");},null,"ExtraRow");
-                    var next=all.Where(s=>!SkillBook.Knows(member,s)).OrderBy(s=>s.unlockLevel).FirstOrDefault();
-                    Note($"{all.Count(s=>SkillBook.Knows(member,s))} of {all.Length} skills learned"+(next!=null?$"  ·  next: {next.displayName} at Sync {next.unlockLevel}":"")+
-                        ".\nSelect a slot to change its skill. Each use raises a skill's mastery: more damage, less Charge.");
+                    {
+                        var line=Columns(SlotColumns4,new[]{MenuList.Say(ExtraGauge.Binding(InFlight)),MenuList.Say("EXTRA  ·  "+extra.displayName,extra.displayName),MenuList.Say("a full gauge"),MenuList.Say(""),MenuList.Say($"gauge {ExtraGauge.Of(member.id):0} / 100")},
+                            ()=>{feedback=$"{extra.displayName}: {extra.description}";Rebuild(true,"ExtraRow");},extra.displayName,ItemMarks.Kind.None,"ExtraRow",214-(row-1)*64);
+                        MenuList.Bar(line.transform,SlotColumns4[4].Right-MasteryBar,MasteryBar,ExtraGauge.Of(member.id)/100f);
+                        line.gameObject.AddComponent<SelectNote>().selected=()=>{card.Show(null,"EXTRA  ·  "+extra.displayName);note=card.words;Tell(extra.description,$"{ExtraGauge.Binding(InFlight)} with a full gauge. The gauge fills as the party fights.",learned);};
+                    }
+                    note=card.words;Tell(learned,"Select a slot to change its skill. Each use raises a skill's mastery: more damage, less Charge.");
                 }
                 else
                 {
                     var current=SkillBook.Equipped(member.id,skillSlot);
-                    string choosing=$"Choosing for {Binding(skillSlot)} (now {current?.displayName}). A skill already in another slot trades places.";
-                    // The rows hold what decides between skills, as the slot rows do. What a skill does follows the focus: with mastery on the row as well it ran past the row's 1136.
-                    string Said(SkillDef of)=>$"{of.displayName}: {of.description}\n{choosing}";
-                    Add("Back to "+who+"'s slots",StepBack).gameObject.AddComponent<SelectNote>().selected=()=>note.text=choosing;
+                    const string choosing="A skill already in another slot trades places.";
+                    // The rows hold what decides between skills, as the slot rows do, in the same columns; what a skill does is the card's under the list.
+                    var back=MenuList.Control(panel.transform,"Row_0","Back to "+who+"'s slots",StepBack,new(-200,318),new(480,52));list.Add(back);row=1;
+                    var whose=UiKit.Text(panel.transform,"Header",$"Choosing for {Binding(skillSlot)} (now {current?.displayName})",26,UiKit.FrostColor,TextAlignmentOptions.MidlineLeft);
+                    whose.textWrappingMode=TextWrappingModes.NoWrap;UiKit.Rect(whose.gameObject,new(.5f,.5f),new(.5f,.5f),new(420,318),new(720,52));
+                    back.gameObject.AddComponent<SelectNote>().selected=()=>{card.Show(current);note=card.words;Tell(current!=null?current.description:"",choosing);};
+                    MenuList.Headings(panel.transform,new(170,262),1220,ChooserColumns);
                     foreach(var skill in all.Skip(Window(all.Length,perPage)).Take(perPage))
                     {
                         var s=skill;bool known=SkillBook.Knows(member,s);int worn=SlotOf(s);
-                        string mark=s==current?"In use · ":worn>=0?$"On {Binding(worn)} · ":"";
-                        var line=Add(known?$"{mark}{s.displayName}  ·  {SkillBook.Cost(member.id,s):0} Charge  ·  {MasteryLine(member.id,s)}  ·  {s.cooldown:0} s":$"Locked  ·  {s.displayName}  ·  learned at Sync {s.unlockLevel}",
-                            known?()=>
+                        string where=!known?"Locked":s==current?"In use":worn>=0?$"On {Binding(worn)}":"";
+                        var cells=known?SkillCells(member.id,s,where):new[]{MenuList.Say(where),MenuList.Say(s.displayName),MenuList.Say(""),MenuList.Say(""),MenuList.Say($"learned at Sync {s.unlockLevel}")};
+                        // The chooser's name leads its row: the slot's button is what the slots list leads with.
+                        (cells[0],cells[1])=(cells[1],cells[0]);
+                        var line=Columns(ChooserColumns,cells,known?()=>
                             {
                                 int slot=skillSlot;var displaced=SkillBook.Equipped(member.id,slot);int from=SlotOf(s);SkillBook.Equip(member,slot,s);
                                 feedback=$"{s.displayName} is on {Binding(slot)}."+(from>=0&&from!=slot&&displaced!=null?$" {displaced.displayName} moved to {Binding(from)}.":"");
                                 skillSlot=-1;offset=0;Rebuild(false,"Row_"+(slot+1));
-                            }:()=>{Refuse($"{s.displayName} is learned at Sync {s.unlockLevel}.");Rebuild();});
-                        line.gameObject.AddComponent<SelectNote>().selected=()=>note.text=Said(s);
+                            }:()=>{Refuse($"{s.displayName} is learned at Sync {s.unlockLevel}.");Rebuild();},s.displayName,ItemMarks.Kind.None,null,214-(row-1)*50,46);
+                        SkillMarks(line,member.id,s,MenuList.MarkAt,ChooserColumns,known);
+                        if(!known)MenuList.Dim(line);
+                        line.gameObject.AddComponent<SelectNote>().selected=()=>Show(s,s.description,known?Progress(member.id,s):$"Learned at Sync {s.unlockLevel}.",choosing);
                     }
                     Pager(all.Length,perPage);
-                    Note(current!=null?Said(current):choosing);
+                    note=card.words;card.Show(current);Tell(current!=null?current.description:"",current!=null?Progress(member.id,current):"",choosing);
                 }
             }
             else if(page==GearPage)
             {
                 var member=state.party[PartyPairUi.GearOf(state,skillsOf)];var inventory=RpgServices.Inventory;
-                Header("Equipping "+DisplayNames.Speaker(member.id)+PartyPairUi.GearClause(state,skillsOf,SwapClause(state)));
+                {
+                    // Whose parts these are, on the line the Action control ends: a page's title in a row's place, which takes no focus.
+                    var whose=UiKit.Text(panel.transform,"Header","Equipping "+DisplayNames.Speaker(member.id)+PartyPairUi.GearClause(state,skillsOf,SwapClause(state)),26,UiKit.FrostColor,TextAlignmentOptions.MidlineLeft);
+                    whose.margin=new Vector4(42,0,0,0);UiKit.Rect(whose.gameObject,new(.5f,.5f),new(.5f,.5f),new(-17,318),new(846,52));row++;
+                }
                 // A re-tune is offered only where it can be done, at a bench: in the field the action still turns through the four it always had.
                 string[] modes=AtBench?new[]{"Equip","Equip in module slot 2","Upgrade","Salvage","Re-tune"}:new[]{"Equip","Equip in module slot 2","Upgrade","Salvage"};
                 const string benchWork="a Lattice Anvil or Hal's bench";
@@ -271,14 +325,15 @@ namespace Lattice.UI
                     AtBench?"Select an affix twice to roll it again. It becomes another one the part can carry.":"Re-tuning is bench work: "+benchWork+"."};
                 gearMode=Mathf.Clamp(gearMode,0,modes.Length-1);
                 string standing=PartText.Wearing(state,member)+"\n"+hints[gearMode];
-                Add("Action: "+modes[gearMode]+" (select to change)",()=>{gearMode=(gearMode+1)%modes.Length;salvageAsked=null;feedback="";Rebuild();}).gameObject.AddComponent<SelectNote>().selected=()=>Tell(standing);
+                // The action is the page's own control, on the header's line at the right, under the filter: as a row it read as the first thing in the list.
+                var action=MenuList.Control(panel.transform,"Row_"+row,"Action: "+modes[gearMode],()=>{gearMode=(gearMode+1)%modes.Length;salvageAsked=null;feedback="";Rebuild();},new(595,318),new(370,52));
+                list.Add(action);row++;action.gameObject.AddComponent<SelectNote>().selected=()=>Tell(standing);
                 // One list held every part the party owns, six to a page. The filter stands on the title's line, a press up from the action, so no row moves down to make room for it.
                 string[] slots={"every slot","Emitters","Edges","Frames","Drives","Modules"};
                 // It ends where the rows end and starts clear of the title's own box (which runs to 400): a select turns it, as it does the action.
-                var filter=UiKit.Row(panel.transform,"Filter",$"Showing: {slots[gearSlot+1]}",()=>{gearSlot=gearSlot>=slots.Length-2?-1:gearSlot+1;offset=0;salvageAsked=null;feedback="";Rebuild(true,"Filter");},24);
-                UiKit.Rect(filter.gameObject,new(.5f,.5f),new(.5f,.5f),new(595,400),new(370,56));list.Add(filter);filter.gameObject.AddComponent<SelectNote>().selected=()=>Tell(standing);
-                // Now and next share a row: a worn two-stat module with an affix ran past it at 26, and at the type floor it stands at 1060 of 1122.
-                if(gearMode==2||gearMode==4)rowFont=24;
+                var filter=MenuList.Control(panel.transform,"Filter",$"Showing: {slots[gearSlot+1]}",()=>{gearSlot=gearSlot>=slots.Length-2?-1:gearSlot+1;offset=0;salvageAsked=null;feedback="";Rebuild(true,"Filter");},new(595,400),new(370,52));
+                list.Add(filter);filter.gameObject.AddComponent<SelectNote>().selected=()=>Tell(standing);
+                var columns=gearMode==2?UpgradeColumns:gearMode==4?RetuneColumns:GearColumns;MenuList.Headings(panel.transform,new(170,262),1220,columns);
                 const int perPage=6;
                 var parts=GearOrder(state,member).Where(p=>{var d=GameCatalog.Find<TechPartDef>(p.definitionId);return d!=null&&(gearSlot<0||(int)d.slot==gearSlot);}).ToList();
                 // A re-tune is asked of one affix, so that mode lists each affix on its own row; every other mode lists each part once.
@@ -289,22 +344,30 @@ namespace Lattice.UI
                 {
                     var item=entry.part;int affixAt=entry.affix;var def=GameCatalog.Find<TechPartDef>(item.definitionId);
                     var wearer=inventory.Wearer(item);
-                    string head=$"{PartText.Mark(wearer,member)}{def.displayName}  T{def.tier} +{item.upgrade}",effects=PartText.Effects(def,item);
-                    Button line;string under;
+                    // Who has it on, in its own column at the end, and in front of the name in the words the row is found by: a route walking down to a spare "Scrap Edge" mustn't stop on Taren's.
+                    string key=PartText.Mark(wearer,member)+def.displayName,effects=PartText.Effects(def,item),on=wearer!=null?DisplayNames.Speaker(wearer.id):"";
+                    string[] affixNames=item.affixes.Take(2).Select(a=>GameCatalog.Find<AffixDef>(a)?.displayName??a).ToArray();
+                    Button line;string under;var y=214-(row-2)*64;
                     if(gearMode==4)
                     {
                         var affix=GameCatalog.Find<AffixDef>(item.affixes[affixAt]);var (materials,scrip)=Gear.RetuneCost(def);
-                        line=Add($"{PartText.Mark(wearer,member)}{def.displayName}  T{def.tier}  ·  {(affix!=null?PartText.AffixSays(affix,def):item.affixes[affixAt])}",()=>Retune(item,def,affixAt),def.slot.ToString());
+                        string says=affix!=null?PartText.AffixSays(affix,def):item.affixes[affixAt];int comma=says.IndexOf(", ",says.IndexOf(": ",System.StringComparison.Ordinal)+1,System.StringComparison.Ordinal);
+                        line=Columns(columns,new[]{MenuList.Say(def.displayName),MenuList.Say($"T{def.tier}"),MenuList.Say(says,comma>0?says.Substring(0,comma)+", and more":says,affix!=null?affix.displayName:says),MenuList.Say(on)},()=>Retune(item,def,affixAt),key,ItemMarks.Of(def.slot),null,y);
                         under=AtBench?$"A re-tune costs {PartText.Price(state,materials,scrip)}.":hints[4];
                     }
                     else
                     {
                         // What the part is against the slot decides an equip. What it becomes decides an upgrade: shown only as it stands, that was seen after paying.
-                        string says=gearMode==2?PartText.NextUpgrade(def,item):PartText.Effect(def,item),against=gearMode==2||wearer==member?"":PartText.Against(state,member,def,item);
-                        line=Add(head+PartText.Affixes(item)+"  ·  "+says+against,()=>UsePart(item,def,member),def.slot.ToString());
-                        // Two affixes' names and a comparison don't all fit a row: the row gives way in that order, and the note under the list says the rest.
-                        PartText.Narrow(line,head+PartText.Affixes(item)+"  ·  "+says+against,head+PartText.Affixes(item)+"  ·  "+says,head+"  ·  "+says);
-                        under=gearMode==2?(AtBench?PartText.UpgradePrice(state,def,item):hints[2]):gearMode==3?$"Salvage gives {PartText.Yield(def,item)}.":PartText.Compare(state,member,def,item,gearMode==1&&def.slot==GearSlot.Module);
+                        // Against what's worn, what wearing it would change in its leading stat: "+22" in green, "-4" in warm red. "now +8" gave only the worn part's number.
+                        string says=gearMode==2?PartText.NextUpgrade(def,item):PartText.Effect(def,item),against=gearMode==2||wearer==member?"":PartText.VersusWorn(state,member,def,item);
+                        // Two affixes' names don't fit their column with long names: the first, and the strip says both.
+                        // At its last level the leaner wording still says so: upgrading, "fully upgraded" is what the row is for.
+                        string lean=says.Split(',')[0];if(gearMode==2&&item.upgrade>=Gear.MaxUpgrade&&!lean.Contains("fully upgraded"))lean=lean.Split(new[]{"  ·  "},System.StringSplitOptions.None)[0]+"  ·  fully upgraded";
+                        var cells=new List<string[]>{MenuList.Say(def.displayName),MenuList.Say($"T{def.tier} +{item.upgrade}"),MenuList.Say(string.Join(" · ",affixNames),affixNames.Length>1?affixNames[0]+" +1":null,affixNames.Length>0?affixNames[0]:null),MenuList.Say(says,lean)};
+                        // Upgrading, who has it on doesn't decide anything: what the next level buys has that room.
+                        if(gearMode!=2){cells.Add(MenuList.Say(against));cells.Add(MenuList.Say(on));}
+                        line=Columns(columns,cells,()=>UsePart(item,def,member),key,ItemMarks.Of(def.slot),null,y);
+                        under=gearMode==2?(AtBench?PartText.UpgradePrice(state,def,item):hints[2]):gearMode==3?$"Salvage gives {PartText.Yield(def,item)}.":PartText.CompareInk(state,member,def,item,gearMode==1&&def.slot==GearSlot.Module);
                     }
                     // What a row has no room for: a module's passive, each affix's effect, the whole comparison, the price.
                     line.gameObject.AddComponent<SelectNote>().selected=()=>Tell(effects,under);
@@ -327,63 +390,77 @@ namespace Lattice.UI
                 bool Makeable(RecipeDef r)=>fabricator.Blocked(r,AtBench,hostile)==Fabrication.Block.None;
                 // First, a row that spends nothing, with the first recipe one press down, as a shop a talk opens lands on its page toggle (D222). It's the bench's
                 // own: with every recipe listed, the ones that can be made are spread over pages among the grey ones.
-                Add(onlyMakeable?"Showing what can be made now  ·  select to show every recipe":"Showing every recipe  ·  select to show only what can be made now",
-                    ()=>{onlyMakeable=!onlyMakeable;offset=0;feedback="";Rebuild(false,"Row_0");},"Anvil");
-                string Trained(Discipline d){int level=fabricator.Level(d);return level>=10?$"{d} {level}":$"{d} {level} ({fabricator.Xp(d)%30}/30)";}
-                string ladders=string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>Trained(d)));
+                // The filter is the bench's own control, on the header's line: as a row it read as the first recipe. Its words say what's shown; a press turns it.
+                var anvil=MenuList.Control(panel.transform,"Row_"+row,onlyMakeable?"Showing what can be made now":"Showing every recipe",()=>{onlyMakeable=!onlyMakeable;offset=0;feedback="";Rebuild(false,"Row_0");},new(-200,318),new(480,52));
+                list.Add(anvil);row++;
+                // Each ladder by its level and, below the top, how far it is to the next: "Edges 2 (0/30)" was unexplained, and read as a fraction.
+                string Trained(Discipline d){int level=fabricator.Level(d);return level>=10?$"{d} {level}":$"{d} {level}, {fabricator.Xp(d)%30} of 30 to {d} {level+1}";}
+                // Every ladder in the same words: "Edges 2 (20 of 30)" beside a bare "Emitters 1" read as if Emitters had no progress to show, where it had none yet (nov22 s07 013).
+                string ladders="Bench levels rise by making their kind, 30 to a level: "+string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>{int level=fabricator.Level(d),xp=fabricator.Xp(d)%30;return level<10?$"{d} {level} ({xp} of 30)":$"{d} {level} (top)";}))+".";
                 string where=AtBench?"Parts and consumables can both be made here.":hostile?"Parts need a Lattice Anvil or Hal's bench. Consumables wait until the fight is over.":"Parts need a Lattice Anvil or Hal's bench. Consumables can be made anywhere.";
-                list[list.Count-1].gameObject.AddComponent<SelectNote>().selected=()=>Tell(ladders,where);
+                string turns=onlyMakeable?"Select to show every recipe.":"Select to show only what can be made now.";
+                anvil.gameObject.AddComponent<SelectNote>().selected=()=>Tell(turns,ladders,where);
                 // By ladder, or the consumables alone: on the title's line, a press up from the row the bench opens on, so the first recipe stays one press down from it (QA-036).
                 string[] kinds={"every kind","Emitters","Edges","Frames","Drives","Modules","Consumables"};
-                var kind=UiKit.Row(panel.transform,"Kind",$"Showing: {kinds[craftKind+1]}",()=>{craftKind=craftKind>=kinds.Length-2?-1:craftKind+1;offset=0;feedback="";Rebuild(true,"Kind");},24);
-                UiKit.Rect(kind.gameObject,new(.5f,.5f),new(.5f,.5f),new(595,400),new(370,56));list.Add(kind);kind.gameObject.AddComponent<SelectNote>().selected=()=>Tell(ladders,where);
+                var kind=MenuList.Control(panel.transform,"Kind",$"Showing: {kinds[craftKind+1]}",()=>{craftKind=craftKind>=kinds.Length-2?-1:craftKind+1;offset=0;feedback="";Rebuild(true,"Kind");},new(595,400),new(370,52));
+                list.Add(kind);kind.gameObject.AddComponent<SelectNote>().selected=()=>Tell(ladders,where);
+                MenuList.Headings(panel.transform,new(170,262),1220,RecipeColumns);
                 var shown=recipes.Where(OfKind).Where(r=>!onlyMakeable||Makeable(r)).ToArray();
                 foreach(var recipe in shown.Skip(Window(shown.Length,perPage)).Take(perPage))
                 {
                     var r=recipe;var made=r.output==null?GameCatalog.Find<ConsumableDef>(r.consumableOutput):null;var block=fabricator.Blocked(r,AtBench,hostile);
-                    // A rank it hasn't reached takes the place of what it would make, which won't fit beside it on a row. Grey with every material met looked like a fault: the reason was only in the footer.
+                    // A rank it hasn't reached takes the place of what it would make. Grey with every material met looked like a fault: the reason was only in the footer.
                     // So does a full pouch, and a fight.
                     string does=!Ranked(r)?$"<color=#FFB08A>Needs {r.discipline} {Mathf.Max(r.unlockLevel,r.tier)}</color>":block==Fabrication.Block.Hostile?"<color=#FFB08A>Not in a fight</color>":
                         block==Fabrication.Block.Full?$"<color=#FFB08A>Carrying {PartText.Carried(state,made)}</color>":r.output!=null?PartText.Effect(r.output):PartText.Restores(made);
-                    string needs=string.Join(", ",r.inputs.Select(x=>{string held=$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}";return inventory.Count(x.id)<x.count?$"<color=#FFB08A>{held}</color>":held;}));
-                    var line=Add($"{r.displayName}  T{r.tier}  ·  {does}  ·  {needs}",()=>Fabricate(r,fabricator),r.output!=null?r.output.slot.ToString():r.consumableOutput);
-                    // Three materials and a stat line don't share a row: what it makes gives way to what it takes, and the note under the list says what it makes.
-                    PartText.Narrow(line,$"{r.displayName}  T{r.tier}  ·  {does}  ·  {needs}",$"{r.displayName}  T{r.tier}  ·  {needs}");
-                    if(block!=Fabrication.Block.None)Dim(line);
+                    var kindOf=r.output!=null?ItemMarks.Of(r.output.slot):ItemMarks.Of(made);
+                    // Two lines a recipe: what it is and makes, and under them what it takes against what's held, the short ones in warm red. What's held stood only in the
+                    // footer (nov22 s05 026).
+                    var line=Columns(RecipeColumns,new[]{MenuList.Say(r.displayName),MenuList.Say($"T{r.tier}"),MenuList.Say(does,does.Split(',')[0],does.Replace("restores ",""),made!=null&&block==Fabrication.Block.None&&Ranked(r)?PartText.Brief(made):null),
+                        MenuList.Say("Takes "+PartText.TakesHeld(state,r.inputs),"Takes "+PartText.TakesHeld(state,r.inputs,true),"Takes "+PartText.Takes(state,r.inputs))},
+                        ()=>Fabricate(r,fabricator),r.displayName,kindOf,null,RecipeTop-(row-1)*RecipeStep,RecipeRow,15);
+                    if(block!=Fabrication.Block.None)MenuList.Dim(line);
                     string makes=r.output!=null?$"{r.output.displayName}: {string.Join("  ·  ",new[]{PartText.Effect(r.output),PartText.Passive(r.output)}.Where(s=>s!=""))}":made!=null?$"{made.displayName} {PartText.Restores(made)}. You carry {PartText.Carried(state,made)}.":"";
-                    line.gameObject.AddComponent<SelectNote>().selected=()=>Tell(makes,ladders,where);
+                    string holding=PartText.Holding(state,r.inputs);
+                    line.gameObject.AddComponent<SelectNote>().selected=()=>Tell(makes,holding,(r.output!=null?"Making it trains "+Trained(r.discipline)+". ":"")+where);
                 }
-                Pager(shown.Length,perPage);
+                Pager(shown.Length,perPage);feedbackAt=new(170,-244);
                 Note((onlyMakeable&&shown.Length==0?"Nothing can be made with what you hold right now.\n":"")+ladders+"\n"+where);
             }
             else if(page==ItemsPage)
             {
                 var hero=PartyController.Current.Active;string who=DisplayNames.Speaker(hero.character);var recipes=GameCatalog.All<RecipeDef>();
                 var entries=state.consumables.Where(p=>p.Value>0).Select(p=>p.Key).Concat(state.materials.Where(p=>p.Value>0).Select(p=>p.Key)).Distinct().ToArray();
-                const int perPage=8;itemRows.Clear();
+                // Eight to a page as ever, a little closer, and under them a card for the thing under the cursor, as Skills and a stall have.
+                const int perPage=8;const float step=58;itemRows.Clear();
+                var card=SkillCard(panel.transform,-256,56);feedbackAt=new(170,-234);
                 string vitals=$"{who}  ·  Integrity {hero.Health.integrity:0}/{hero.Health.maximum:0}  ·  Charge {hero.charge:0}/100",how=$"Select a consumable to use it on {who}. Press {PromptService.Tag("Swap")} on one to make it the quick item.";
                 // One item, then a wait before the next (prog159). The wait runs on the fight's clock, which this menu stops: it says so, or the page looks stuck.
                 string last=ItemUse.Wait(hero)>0?$"The next item is {ItemUse.Wait(hero):0.0} s of the fight away: the wait doesn't run in this menu.":$"Quick item: {DisplayNames.Item(state.quickItem)}. In a fight, {DeviceHints.CycleItem()} changes it.";
+                // Whose items they are, on the line the Gear page's stands on, with how the hero stands: what a heal or a cell would be used on.
+                var whose=UiKit.Text(panel.transform,"Header",vitals,26,UiKit.FrostColor,TextAlignmentOptions.MidlineLeft);whose.margin=new Vector4(42,0,0,0);
+                UiKit.Rect(whose.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,318),new(1220,52));row=1;
+                MenuList.Headings(panel.transform,new(170,262),1220,ItemColumns);
+                // A thing a row in columns, as the shop sells it: its kind's mark, its name and how many against the most carried ("×3 of 9"), what it does, and whether it's the quick item.
+                // It was one string a row with a picture only where the item sheet had one, eight of forty.
                 foreach(var id in entries.Skip(Window(entries.Length,perPage)).Take(perPage))
                 {
                     bool usable=state.consumables.TryGetValue(id,out int count)&&count>0;if(!usable)count=state.materials[id];
-                    // A consumable's count stands against the most the party carries: "×3 of 9".
                     var carried=usable?GameCatalog.Find<ConsumableDef>(id):null;string most=carried!=null&&Inventory.Cap(carried)!=int.MaxValue?" of "+Inventory.Cap(carried):"";
-                    string head=$"{DisplayNames.Item(id)} ×{count}{most}",quick=usable&&id==state.quickItem?"  ·  Quick item":"",full=head+ItemSays(id,recipes)+quick;
-                    var line=Add(full,usable?()=>UseItem(id):()=>NoUse(id,recipes),id);
-                    // A draught's or a meal's words can outrun the row: then the note says them while the cursor is on it.
-                    PartText.Narrow(line,full,head+quick);
-                    string says=carried!=null&&line.GetComponentInChildren<TMP_Text>().text!=full?$"{carried.displayName} {PartText.Restores(carried)}.":how;
-                    line.gameObject.AddComponent<SelectNote>().selected=()=>Tell(vitals,says,last);
+                    string head=$"{DisplayNames.Item(id)} ×{count}{most}",does=ItemSays(id,recipes).Replace("  ·  ","");
+                    var line=Columns(ItemColumns,new[]{MenuList.Say(head),MenuList.Say(does,carried!=null?PartText.Brief(carried):null),MenuList.Say(usable&&id==state.quickItem?"Quick item":"")},
+                        usable?()=>UseItem(id):()=>NoUse(id,recipes),head,ItemMarks.Of(id),null,214-(row-1)*step,52);
+                    // A draught's or a meal's words can outrun the row: the card under the list says them in full while the cursor is on it.
+                    string says=carried!=null?$"{carried.displayName} {PartText.Restores(carried)}."+PartText.KindSays(carried):ItemAbout(id);
+                    var kind=ItemMarks.Of(id);string named=DisplayNames.Item(id);
+                    line.gameObject.AddComponent<SelectNote>().selected=()=>{card.Show(kind,named);note=card.words;Tell(says,how,last);};
                     itemRows[line.name]=id;
                 }
                 Pager(entries.Length,perPage);
-                Note(vitals+"\n"+how+"\n"+last);
+                note=card.words;card.Show(ItemMarks.Kind.None,entries.Length==0?"Nothing carried":"");Tell(how,last);
             }
             else if(page==QuestsPage)
             {
-                // A step can run long: at the type floor it takes two lines of a row rather than crossing its edge.
-                rowFont=24;
                 bool Main(QuestDef q)=>System.Array.IndexOf(MainQuests,q.id)>=0;
                 bool Done(QuestDef q)=>state.questSteps[q.id]>=q.steps.Length;
                 var quests=GameCatalog.All<QuestDef>().Where(q=>state.questSteps.ContainsKey(q.id)).OrderBy(q=>Done(q)?2:Main(q)?0:1).ThenBy(q=>Main(q)?0:1).ThenBy(q=>System.Array.IndexOf(MainQuests,q.id)).ToArray();
@@ -391,11 +468,15 @@ namespace Lattice.UI
                 string objective=quests.Any(q=>Main(q)&&!Done(q))?"":ObjectiveHud.CurrentLabel;
                 string Says(QuestDef q)=>$"{q.title}: {q.description}"+(objective!=""?"\nNext: "+objective:"");
                 const int perPage=8;
+                // Two lines a quest: the title, with whether it's the story's or done at the other end, and its step under it, the step's whole width to itself. In one line
+                // "Three Baskets" took two, its border ran through the words and its count fell below the box. "Main" stood in front of the title, which put its title out of line.
                 foreach(var quest in quests.Skip(Window(quests.Length,perPage)).Take(perPage))
                 {
-                    var q=quest;
-                    var line=Add(Done(q)?q.title+"  ·  COMPLETE":(Main(q)?"Main  ·  ":"")+q.title+"  ·  "+QuestText.Step(q,state.questSteps[q.id],state));
-                    line.gameObject.AddComponent<SelectNote>().selected=()=>note.text=Says(q);
+                    var q=quest;bool done=Done(q);
+                    var line=Columns(QuestColumns,new[]{MenuList.Say(Main(q)?MenuList.Ink(q.title,"#FFD873"):q.title),MenuList.Say(done?"COMPLETE":Main(q)?"MAIN STORY":""),MenuList.Say(done?"":QuestText.Step(q,state.questSteps[q.id],state))},
+                        null,q.title,ItemMarks.Kind.None,null,322-row*QuestStep,QuestRow);
+                    if(done)MenuList.Dim(line);
+                    line.gameObject.AddComponent<SelectNote>().selected=()=>Tell(Says(q));
                 }
                 Pager(quests.Length,perPage);
                 Note(quests.Length>0?Says(quests[offset]):"Orrin at the dock office wants to see you about Sorrel.");
@@ -431,12 +512,16 @@ namespace Lattice.UI
                 }
                 else
                 {
-                    Add("Back to sound controls",StepBack);
+                    // Back is the page's own control on the header's line, where the cursor lands; the actions stand under headings, each with its key in a column of its own.
+                    var back=MenuList.Control(panel.transform,"Row_0","Back to sound controls",StepBack,new(-200,318),new(480,52));list.Add(back);row=1;
+                    MenuList.Headings(panel.transform,new(170,262),1220,KeyColumns);
                     bool flying=GameServices.Current.Input.FlightMode;const int perPage=7;
                     foreach(var role in Roles.Skip(Window(Roles.Length,perPage)).Take(perPage))
                     {
-                        var r=role;
-                        Add($"{r.label}  ·  {(Listening&&listeningFor==r.label?"press a key":PromptService.TagFor(flying?r.flight:r.ground,PromptDevice.Keyboard))}",()=>BeginRebind(r));
+                        var r=role;bool listen=Listening&&listeningFor==r.label;
+                        string key=listen?"press a key":PromptService.TagFor(flying?r.flight:r.ground,PromptDevice.Keyboard);
+                        Columns(KeyColumns,new[]{MenuList.Say(r.label),MenuList.Say(listen?MenuList.Ink(key,"#FFD873"):key),MenuList.Say(r.ground==r.flight?"on foot and in flight":$"{Readable(r.ground)} on foot, {Readable(r.flight)} in flight")},
+                            ()=>BeginRebind(r),r.label,ItemMarks.Kind.None,null,214-(row-1)*64);
                     }
                     Pager(Roles.Length,perPage);
                     Note(Listening?$"Press a key for {listeningFor}. {PromptService.EscTag()}{(PromptService.PadConnected?" or "+PromptService.CancelTagFor(PromptDevice.Gamepad):"")} cancels.":$"Select an action, then press its new key. {PromptService.EscTag()} cancels. On foot and in flight share one key.");
@@ -444,8 +529,10 @@ namespace Lattice.UI
             }
             var close=UiKit.Button(panel.transform,"Close","Back",StepBack);UiKit.Rect(close.gameObject,new(.5f,.5f),new(.5f,.5f),new(650,-435),new(270,55));list.Add(close);
             var footer=UiKit.Text(panel.transform,"Footer",$"{DeviceHints.Pages()}  TABS  ·  {PromptService.SubmitTag()}  SELECT  ·  {PromptService.CancelTagFor(PromptService.Device)}  BACK",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineLeft);
-            UiKit.Rect(footer.gameObject,new(.5f,.5f),new(.5f,.5f),new(32.5f,-435),new(945,55));
-            var said=UiKit.Text(panel.transform,"Feedback",feedback,24,UiKit.TextColor,TextAlignmentOptions.TopLeft);UiKit.Rect(said.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,-300),new(1220,30));
+            // It ends short of the pager, which stands beside Back at the panel's foot.
+            UiKit.Rect(footer.gameObject,new(.5f,.5f),new(.5f,.5f),new(-130,-435),new(620,55));
+            // Over a taller strip the answer to a press stands between the list and the strip.
+            var said=UiKit.Text(panel.transform,"Feedback",feedback,24,UiKit.TextColor,TextAlignmentOptions.TopLeft);UiKit.Rect(said.gameObject,new(.5f,.5f),new(.5f,.5f),feedbackAt??(tall?new(170,-212):new(170,-300)),new(1220,30));
             UiKit.LinkVertical(tabButtons.ToArray());UiKit.LinkGrid(list);
             int tabAt=System.Array.IndexOf(order,page);
             foreach(var b in list)if(b is not Slider){var nav=b.navigation;nav.selectOnLeft=tabButtons[tabAt];b.navigation=nav;}
@@ -455,6 +542,8 @@ namespace Lattice.UI
             if(target==null&&focus!=null&&focus.StartsWith("Row_")&&int.TryParse(focus.Substring(4),out int gone))
                 for(int i=gone-1;i>=0&&target==null;i--){string above="Row_"+i;target=list.FirstOrDefault(s=>s.name==above);}
             EventSystem.current.SetSelectedGameObject((target!=null?target:list[0]).gameObject);
+            // The pager stands beside Back on the panel's foot: down from it is Back, so a thumb walking down the page reaches Back, as it did when the pager was a row.
+            var paging=list.FirstOrDefault(s=>s.name=="Pager");if(paging!=null){var nav=paging.navigation;nav.selectOnDown=close;paging.navigation=nav;}
             if(page==ChartPage)chart.Link(tabButtons,tabAt,close);
         }
         /// <summary>What this hero wears first, the second module last of it; then spares by slot, the better part first; then what the other hero wears, which takes a move to use.
@@ -465,13 +554,6 @@ namespace Lattice.UI
             int Group(PartInstance p){var wearer=inventory.Wearer(p);return wearer==member?0:wearer==null?1:2;}
             return state.parts.Select(p=>(part:p,def:GameCatalog.Find<TechPartDef>(p.definitionId))).OrderBy(x=>Group(x.part)).ThenBy(x=>x.def!=null?(int)x.def.slot:int.MaxValue).ThenBy(x=>x.part.instanceId==member.module2?1:0).ThenByDescending(x=>x.def!=null?x.def.tier:0).Select(x=>x.part).ToList();
         }
-        /// <summary>A row a press can only refuse: the player shouldn't have to read every count to find what can be made. It keeps its focus, so the refusal can still say why.</summary>
-        static void Dim(Button row)
-        {
-            row.GetComponentInChildren<TMP_Text>().color=UiKit.DimTextColor;
-            var state=row.colors;state.normalColor=new Color(.46f,.52f,.58f);row.colors=state;
-            var icon=row.transform.Find("Item");if(icon!=null&&icon.TryGetComponent<Image>(out var image))image.color=new Color(.55f,.55f,.55f);
-        }
         /// <summary>The open tab stays lit wherever focus is: the page's heading was the only sign of it.</summary>
         static void MarkOpenTab(Button tab)
         {
@@ -480,6 +562,71 @@ namespace Lattice.UI
             tab.GetComponentInChildren<TMP_Text>().color=UiKit.GoldColor;
         }
         static string SwapClause(GameState state)=>state.party.Count>1?"  ·  "+PromptService.Tag("Swap")+" switches member":"";
+        /// <summary>A hero's row: the name, then each number under its heading on every row. The numbers lined up with no headings, each saying its own name.</summary>
+        static readonly MenuList.Column[] HeroColumns=
+        {
+            new("Name",42,250,"",TextAlignmentOptions.MidlineLeft,26),new("Sync",300,110,"SYNC"),new("XP",416,190,"XP",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Integrity",612,236,"INTEGRITY"),new("Output",854,170,"OUTPUT"),new("Plating",1030,170,"PLATING"),
+        };
+        /// <summary>The Items page's columns, after the kind's mark: the thing and how many against the most carried, what it does, and whether it's the quick item.</summary>
+        static readonly MenuList.Column[] ItemColumns=
+        {
+            new("Name",MenuList.FirstColumn,380,"ITEM",TextAlignmentOptions.MidlineLeft,26),new("Does",474,576,"DOES",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Quick",1056,144,"",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),
+        };
+        /// <summary>The bindings page's columns: the action, its key, and what it's called on foot and in flight.</summary>
+        static readonly MenuList.Column[] KeyColumns=
+        {
+            new("Action",42,420,"ACTION",TextAlignmentOptions.MidlineLeft,26),new("Key",470,200,"KEY",TextAlignmentOptions.MidlineLeft,26,UiKit.GoldColor),
+            new("Where",680,520,"",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+        };
+        /// <summary>An action's name in words: "QuickItem" is "Quick item".</summary>
+        static string Readable(string action){string spaced=System.Text.RegularExpressions.Regex.Replace(action??"","(?<=[a-z])(?=[A-Z])"," ");return spaced.Length>1?spaced[0]+spaced.Substring(1).ToLowerInvariant():spaced;}
+        /// <summary>A material in a sentence, for the note under the Items list.</summary>
+        static string ItemAbout(string id){var material=GameCatalog.Find<MaterialDef>(id);return material!=null?PartText.About(material):"";}
+        /// <summary>A save slot's row: the press, then what the slot holds.</summary>
+        static readonly MenuList.Column[] SlotColumns={new("Name",42,300,"",TextAlignmentOptions.MidlineLeft,26),new("Holds",350,850,"",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor)};
+        /// <summary>Gear's columns: the part, its tier and upgrade, its affixes, what it does against what's worn, and who has it on. Upgrading, what it does becomes what the
+        /// next level buys, which needs the room the comparison had; re-tuning, the row is one affix and what it does.</summary>
+        static readonly MenuList.Column[] GearColumns=
+        {
+            new("Name",MenuList.FirstColumn,320,"PART",TextAlignmentOptions.MidlineLeft,26),new("Tier",412,70,"TIER",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Affixes",486,160,"AFFIXES",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),new("Does",650,310,"DOES"),
+            new("Now",964,138,"VS WORN",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),new("On",1106,104,"ON",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),
+        },UpgradeColumns=
+        {
+            new("Name",MenuList.FirstColumn,320,"PART",TextAlignmentOptions.MidlineLeft,26),new("Tier",412,70,"TIER",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Affixes",486,160,"AFFIXES",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),new("Does",650,560,"NEXT LEVEL"),
+        },RetuneColumns=
+        {
+            new("Name",MenuList.FirstColumn,320,"PART",TextAlignmentOptions.MidlineLeft,26),new("Tier",412,60,"TIER",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Affixes",476,630,"AFFIX",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),new("On",1110,100,"ON",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),
+        };
+        /// <summary>The bench's columns: a recipe is two lines, its name, tier and what it makes over what it takes against what's held ("Scrap Alloy ×6 (have 45)"), the short ones
+        /// in warm red. On one line there was room for what it takes and not for what's held, which stood only in the footer; "Scrap Alloy 45/6" before that read as a fraction.</summary>
+        static readonly MenuList.Column[] RecipeColumns=
+        {
+            new("Name",MenuList.FirstColumn,300,"RECIPE",TextAlignmentOptions.MidlineLeft,24,null,1),new("Tier",392,64,"TIER",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor,1),
+            new("Does",460,740,"MAKES",TextAlignmentOptions.MidlineLeft,24,null,1),new("Takes",MenuList.FirstColumn,1112,"",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor,2),
+        };
+        /// <summary>The bench's rows: where the first stands, the step between them and their height. Six two-line rows end over the answer to a press and the strip.</summary>
+        const float RecipeTop=200,RecipeStep=78,RecipeRow=74;
+        /// <summary>A quest's row is two lines: its title, and on the right whether it's the story's or done; under them its step. The step ran out of a one-line row. Both lines stand
+        /// inside the row's bevel, which takes ten units of its top and bottom: at 70 tall the title sat on the top line and the step on the bottom one.</summary>
+        static readonly MenuList.Column[] QuestColumns=
+        {
+            new("Name",56,850,"",TextAlignmentOptions.MidlineLeft,24,null,1),new("Tag",910,280,"",TextAlignmentOptions.MidlineRight,24,UiKit.GoldColor,1),
+            new("Step",56,1144,"",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor,2),
+        };
+        /// <summary>A quest row's height and the step between rows: eight to a page above the strip.</summary>
+        const float QuestRow=80,QuestStep=80;
+        static string[][] PartyCells(GameState state,MemberState m)
+        {
+            // The weapon the hero fights with on foot, read off their definition (DevLoadout.Weapon): Idra's is an Edge, and by name she read as Sela, by her Emitter's Output.
+            var stats=Gear.Calculate(state,m,GameCatalog.Find<CharacterDef>(m.id),DevLoadout.Weapon(m.id),GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
+            return new[]{MenuList.Say(DisplayNames.Speaker(m.id)),MenuList.Say($"{m.level}"),MenuList.Say($"{m.xp} of {Levels.RequiredXp(m.level)}"),MenuList.Say($"{m.integrity:0}/{Levels.MaxIntegrity(m.level):0}"),
+                MenuList.Say($"{stats.output:0}"),MenuList.Say($"{stats.plating:0}")};
+        }
         static string PartyLine(GameState state,MemberState m)
         {
             // The weapon the hero fights with on foot, read off their definition (DevLoadout.Weapon): Idra's is an Edge, and by name she read as Sela, by her Emitter's Output.
@@ -493,10 +640,75 @@ namespace Lattice.UI
             var stats=Gear.Calculate(state,m,GameCatalog.Find<CharacterDef>(m.id),GearSlot.Edge,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
             return $"{DisplayNames.Speaker(m.id)}  ·  Response {stats.response:0}  ·  Resonance {stats.resonance:0}  ·  Fortune {stats.fortune:0}";
         }
+        /// <summary>"Mastery 1 (0 of 6)": the level and the uses towards the next, in the words the bench's ladders use ("Edges 2 (20 of 30)"). "(0/6)" read as a fraction.</summary>
         static string MasteryLine(string character,SkillDef skill)
         {
             int uses=SkillBook.Uses(character,skill.id),next=SkillBook.NextMasteryAt(uses);
-            return $"Mastery {SkillBook.MasteryFor(uses)}"+(next>0?$" ({uses}/{next})":"");
+            return $"Mastery {SkillBook.MasteryFor(uses)}"+(next>0?$" ({uses} of {next})":"");
+        }
+        /// <summary>How far a skill's mastery has come from its level's start to the next, for the bar beside the words.</summary>
+        static float MasteryShare(string character,SkillDef skill)
+        {
+            int uses=SkillBook.Uses(character,skill.id),next=SkillBook.NextMasteryAt(uses),level=SkillBook.MasteryFor(uses);if(next<=0)return 1;
+            int from=level>=2?SkillBook.MasteryUses[level-2]:0;return Mathf.Clamp01((uses-from)/(float)Mathf.Max(1,next-from));
+        }
+        /// <summary>The mastery in a sentence, for the card under the list.</summary>
+        static string Progress(string character,SkillDef skill)
+        {
+            int uses=SkillBook.Uses(character,skill.id),next=SkillBook.NextMasteryAt(uses),level=SkillBook.MasteryFor(uses);
+            return next>0?$"Mastery {level}: {uses} of {next} uses to Mastery {level+1}. Each level hits harder and costs less Charge.":$"Mastery {level}: fully mastered.";
+        }
+        /// <summary>A skill's row in columns: what's in the first (its button on the slots, where it is in the chooser), then its name, cost, cooldown and mastery.</summary>
+        static string[][] SkillCells(string character,SkillDef skill,string first)=>new[]{MenuList.Say(first),MenuList.Say(skill.displayName),MenuList.Say($"{SkillBook.Cost(character,skill):0} Charge"),MenuList.Say($"{skill.cooldown:0} s"),MenuList.Say(MasteryLine(character,skill))};
+        /// <summary>The skill's icon on its row, as the HUD draws it, and the bar of its mastery after the words.</summary>
+        static void SkillMarks(Button line,string character,SkillDef skill,float iconAt,MenuList.Column[] columns,bool known=true)
+        {
+            MenuList.Picture(line.transform,UiSkin.Skill(skill),iconAt,44);
+            if(!known)return;
+            var mastery=columns[columns.Length-1];MenuList.Bar(line.transform,mastery.Right-MasteryBar,MasteryBar,MasteryShare(character,skill));
+        }
+        const float MasteryBar=96;
+        /// <summary>Where a slot row's skill icon stands: between its button and its name.</summary>
+        const float SkillIconAt=190;
+        /// <summary>The Skills page's columns: a slot's button, then (after its icon) the skill, its cost, its cooldown and its mastery. The chooser's put the skill first, its icon at the
+        /// row's mark, and where it is now (in use, on another button, locked) after it.</summary>
+        static readonly MenuList.Column[] SlotColumns4=
+        {
+            new("Button",42,120,"BUTTON",TextAlignmentOptions.MidlineLeft,26),new("Name",226,300,"SKILL",TextAlignmentOptions.MidlineLeft,26),
+            new("Charge",532,130,"COST",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),new("Cooldown",668,170,"COOLDOWN",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Mastery",850,350,"MASTERY"),
+        },ChooserColumns=
+        {
+            new("Name",MenuList.FirstColumn,294,"SKILL",TextAlignmentOptions.MidlineLeft,26),new("Where",388,176,"",TextAlignmentOptions.MidlineLeft,24,UiKit.GoldColor),
+            new("Charge",570,130,"COST",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),new("Cooldown",706,166,"COOLDOWN",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            new("Mastery",880,320,"MASTERY"),
+        };
+        /// <summary>What the Skills page shows of the skill under the cursor, under its list: the icon, the name, and the words (the page's note).</summary>
+        sealed class Card
+        {
+            public Image icon;public TMP_Text name,words;
+            public void Show(SkillDef skill,string title=null)
+            {
+                var sprite=skill!=null?UiSkin.Skill(skill):null;icon.sprite=sprite;icon.color=sprite!=null?Color.white:Color.clear;
+                name.text=title??(skill!=null?skill.displayName:"");
+            }
+            /// <summary>A thing's kind mark and its name, for the Items page's card.</summary>
+            public void Show(ItemMarks.Kind kind,string title)
+            {
+                var (sprite,tint)=ItemMarks.For(kind);icon.sprite=sprite;icon.color=sprite!=null?tint:Color.clear;name.text=title??"";
+            }
+        }
+        /// <summary>The card under a list: a rule at <paramref name="top"/>, the picture at the left, the name beside it and the words (the page's note) under the name to the panel's foot.</summary>
+        static Card SkillCard(Transform panel,float top,float picture=104)
+        {
+            var card=new Card();var middle=new Vector2(.5f,.5f);
+            var rule=UiKit.Divider(panel,"CardRule");UiKit.Rect(rule.gameObject,middle,middle,new(170,top),new(1220,4));
+            card.icon=UiKit.Panel(panel,"SkillIcon",Color.clear);card.icon.preserveAspect=true;card.icon.raycastTarget=false;UiKit.Rect(card.icon.gameObject,middle,middle,new(-372,top-14-picture*.5f),new(picture,picture));
+            card.name=UiKit.Text(panel,"SkillName","",30,UiKit.GoldColor,TextAlignmentOptions.MidlineLeft);card.name.textWrappingMode=TextWrappingModes.NoWrap;
+            UiKit.Rect(card.name.gameObject,middle,middle,new(242,top-30),new(1076,44));
+            card.words=UiKit.Text(panel,"Note","",24,UiKit.TextColor,TextAlignmentOptions.TopLeft);float from=top-(picture>=100?58:50),to=-404;
+            UiKit.Rect(card.words.gameObject,middle,middle,new(242,(from+to)*.5f),new(1076,from-to));
+            return card;
         }
         static string ItemSays(string id,RecipeDef[] recipes)
         {
@@ -509,7 +721,7 @@ namespace Lattice.UI
         static bool ForUpgrades(string id)=>GameCatalog.All<TechPartDef>().Any(p=>p!=null&&(p.upgradeMaterial==id||p.upgradeRare==id));
         static string SavedWhen(GameState saved){string at=DisplayNames.SavedAt(saved.savedAtUtc);return at==""?"":"  ·  "+at;}
         /// <summary>What a slot's row says it holds.</summary>
-        static string Holding(GameState saved)=>saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty";
+        static string Holding(GameState saved)=>saved!=null&&saved.party.Count>0?$"  ·  {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty";
         /// <summary>The Swap button on a consumable's row makes it the quick item. Cycling in a fight was the only way, one press at a time, blind.</summary>
         void SetQuickItem()
         {
@@ -604,7 +816,7 @@ namespace Lattice.UI
                     block==Fabrication.Block.Bench?"Parts can only be fabricated at a Lattice Anvil or Hal's bench.":
                     block==Fabrication.Block.Hostile?$"Not in a fight: {r.displayName} waits until nothing nearby is awake.":
                     block==Fabrication.Block.Full?$"You can't carry more {r.displayName}: {Inventory.Cap(consumable)} is the most.":
-                    "Not enough materials: "+string.Join(", ",r.inputs.Where(x=>inventory.Count(x.id)<x.count).Select(x=>$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}"))+".");
+                    "Not enough materials: "+string.Join(", ",r.inputs.Where(x=>inventory.Count(x.id)<x.count).Select(x=>$"{DisplayNames.Item(x.id)} ×{x.count} (have {inventory.Count(x.id)})"))+".");
             }
             else if(made==null)feedback=$"Fabricated: {r.displayName}. You have {(consumable!=null?PartText.Carried(GameServices.Current.State,consumable):GameServices.Current.State.consumables[r.consumableOutput].ToString())}.";
             else

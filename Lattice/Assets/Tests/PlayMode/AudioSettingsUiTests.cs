@@ -66,7 +66,8 @@ namespace Lattice.Tests.PlayMode
             var bound=new System.Collections.Generic.List<string>();
             for(int bindingsPage=0;bindingsPage<3;bindingsPage++)
             {
-                bound.AddRange(menu.GetComponentsInChildren<Button>().Where(b=>b.name.StartsWith("Row_")).Select(b=>b.GetComponentInChildren<TMP_Text>().text).Where(t=>t.Contains("  ·  ")));
+                // Each row's words cell by cell: the action and its key stand in columns (D357).
+                bound.AddRange(menu.GetComponentsInChildren<Button>().Where(b=>b.name.StartsWith("Row_")).Select(b=>ListRow.Words(b)).Where(t=>t.Contains("  ·  ")));
                 menu.GetComponentsInChildren<Button>().Single(b=>b.name=="Pager").onClick.Invoke();yield return null;
             }
             Assert.AreEqual(15,bound.Count,string.Join(" | ",bound));

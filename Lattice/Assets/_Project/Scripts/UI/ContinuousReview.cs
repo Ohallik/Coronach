@@ -28,6 +28,8 @@ namespace Lattice.UI
             public double elapsed;
             public float ms, gameDelta, health, partnerHealth, reportedSpeed, pelvisYaw, chestYaw, animationTime;
             public Vector3 player, camera, forward;
+            /// <summary>Where the partner is on the plan (frames.csv's partnerX and partnerZ, the last columns): her state alone said she sat still, never where (nov20-whole s17, s54).</summary>
+            public Vector3 partnerAt;
             public string scene, hero, clip, prompt, speaker, ui;
             public BodyForm form;
             public ActorState state;
@@ -383,6 +385,14 @@ namespace Lattice.UI
             step = next; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;endedByCondition=false;rowReached=false;pickHeld=false;pickPaged=false;savesAtStep=SaveSystem.Asked;
             reviveCorners=null;revivePathAt=-1;detourUntil=-1;reviveBest=float.PositiveInfinity;reviveGainedAt=stepStart;
             var lead = PartyController.Current != null ? PartyController.Current.Active : null;stepTarget = lead != null && lead.TargetLocked ? lead.target : null;
+            // A step that ends when what it locked falls needs something locked that can fall. The lock press is a toggle: pressed while a lock was already on (the
+            // d-pad had brought one round to a broken boss on the walk over) it let go instead, and the step chased the boss's body for its whole time (the Bellows'
+            // east organ, November 22). With nothing locked, or the boss's own body, the step is for the part the route walked the lead up to: the nearest one standing.
+            if (lead != null && step.until == "targetDown")
+            {
+                if (stepTarget == null || !stepTarget.Alive || stepTarget.GetComponent<BossController>() != null) stepTarget = NearestPart(lead) ?? stepTarget;
+                Debug.Log("QUALITY_STEP_TARGET " + step.name + ": " + (stepTarget != null ? stepTarget.name : "nothing") + " (lock on " + (lead.TargetLocked && lead.target != null ? lead.target.name : "nothing") + ")");
+            }
             itemForced = false; wantItem = null; raise = null; extraDue = false; nextThought = -1;
             BeginStock();
             // A route that names its pair ("deployed") is held to it at the first step that has a party.
@@ -1052,7 +1062,7 @@ namespace Lattice.UI
                 player = actor != null ? actor.transform.position : Vector3.zero, camera = Camera.main.transform.position, forward = actor != null ? actor.transform.forward : Vector3.zero,
                 reportedSpeed = actor != null ? actor.motor.Velocity.magnitude : 0, health = actor != null ? actor.Health.integrity : -1,
                 partnerHealth = partner != null ? partner.Health.integrity : -1,
-                partnerState = partner != null ? partner.State : ActorState.Idle,
+                partnerState = partner != null ? partner.State : ActorState.Idle, partnerAt = partner != null ? partner.transform.position : Vector3.zero,
                 pelvisYaw = pelvis, chestYaw = chest, animationTime = animationTime,
                 scene = ActualScene, ui = observedUi, hero = actor != null ? actor.character : "", form = actor != null ? actor.GetComponent<FormController>().Current : default,
                 state = actor != null ? actor.State : ActorState.Idle, clip = driver != null ? driver.CurrentAnimation : actor != null ? "ship" : "none",
@@ -1126,14 +1136,12 @@ namespace Lattice.UI
             if (!string.IsNullOrEmpty(step.expectedForm) && PartyController.Current.Active.GetComponent<FormController>().Current.ToString() != step.expectedForm) failures.Add(step.name + ": form mismatch");
 
         }
-        /// <summary>The cursor stands on this row: by the object's name (a save's slot), or the words it starts with (a spare part, where a worn one's mark comes first).</summary>
+        /// <summary>The cursor stands on this row: by the object's name (a save's slot), or the words it's found by starting so (a spare part, where a worn one's wearer comes first).
+        /// A list row in columns is found by its key, which starts as its one string did (ListRow), so every route's pickRow finds the row it always found.</summary>
         static bool OnRow(string want)
         {
             var system = UnityEngine.EventSystems.EventSystem.current; var row = system != null ? system.currentSelectedGameObject : null;
-            if (row == null) return false;
-            if (row.name == want) return true;
-            var words = row.GetComponentInChildren<TMPro.TMP_Text>();
-            return words != null && words.text.StartsWith(want, StringComparison.Ordinal);
+            return ListRow.Found(row, want);
         }
         int savesAtStep;
         bool Condition(string name)
@@ -1185,8 +1193,8 @@ namespace Lattice.UI
             if (releaseGeometry != null && !string.IsNullOrEmpty(releaseGeometry.Failure)) failures.Add(releaseGeometry.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
-                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs,ui,retry");
-                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{(double)s.player.x:R},{(double)s.player.y:R},{(double)s.player.z:R},{(double)s.camera.x:R},{(double)s.camera.y:R},{(double)s.camera.z:R},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait},{s.ftmTimestamp},{s.ftmGpuMs:F6},{s.ftmCpuMs:F6},{s.ui},{s.retry}"));
+                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs,ui,retry,partnerX,partnerZ");
+                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{(double)s.player.x:R},{(double)s.player.y:R},{(double)s.player.z:R},{(double)s.camera.x:R},{(double)s.camera.y:R},{(double)s.camera.z:R},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait},{s.ftmTimestamp},{s.ftmGpuMs:F6},{s.ftmCpuMs:F6},{s.ui},{s.retry},{s.partnerAt.x:F3},{s.partnerAt.z:F3}"));
             }
             var report = new Report { route = route.name, sourceRevision = route.sourceRevision, build = Debug.isDebugBuild ? "Development" : "Release", unity = Application.unityVersion,
                 cpu = SystemInfo.processorType, gpu = SystemInfo.graphicsDeviceName, quality = QualitySettings.names[QualitySettings.GetQualityLevel()],

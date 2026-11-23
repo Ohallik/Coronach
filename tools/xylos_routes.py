@@ -103,6 +103,8 @@ WALKWAY = [(-24.5, 56.5), (-30, 68), (-25, 85), (-11, 97.5), (0, 101), (11, 97.5
 WALK_HALF, RIM_WIDE, BODY = 2.9, 1.1, 0.55  # the ridge's half width, the rims' width, the bake's agent radius
 ROPE_WALK = ((-23.4, 28.4), (-39.8, 17))
 OPENINGS = [((-19.6, 44), (-22, 44), 1.5), ((19.6, 44), (22, 44), 1.5), ((-24.3, 27.8), (-22.5, 29.05), 1.15), ((-38.9, 17.6), (-40.7, 16.35), 1.15)]
+# Where the line that starts Ruva's arrival talk is (its middle), as XylosBuilder.ArrivalLine and the build's logged "crossing=".
+ARRIVAL_LINE = (23.5, 24)
 PEOPLE = {"Ruva": (28.5, 21), "Ruva at the seed house": (5.5, 68.5), "Teo": (-8.5, 24.6), "Jask": (-25, 47.6), "Binna": (24.6, 68), "Hadda": (35.4, 46.6), "Senn": (-46.4, 13.6)}
 FOLK = [(29.8, 71.9), (36.2, 65.2), (-24, 41.6), (-24.2, 39.8), (-24.1, 38), (18, 30.2), (19.6, 31), (-8.2, 75.2), (8.6, 76), (44.6, 46.6), (-33.4, 40),
         (29.6, 16.6), (27.2, 15.2), (24.8, 16.6)]  # RootFolk, then the three on the mooring lines
@@ -113,7 +115,9 @@ FIXED += [(f"lantern post at ({x}, {z})", (x, z), 0, 0.15, 0.15) for x, z in [(4
           (31.2, 50.2), (30.6, 36.4), (46.6, 45), (-41, 12.6), (27.8, 28.6)]]
 FIXED += [(f"tray stack at ({x}, {z})", (x, z), yaw, 0.65, 0.45) for x, z, yaw in [(-9.8, 26.8, 20), (-11.2, 28.2, -30), (-10.6, 22.6, 70), (-6.6, 71.2, 10), (-9.6, 71.8, -20),
           (9.6, 71.4, 30), (11.6, 70.4, 80), (31.5, 26.5, 40), (40.6, 36.2, -10)]]
-FIXED += [(f"kitchen table at ({x}, {z})", (x, z), 0, r * 0.8, r * 0.8) for x, z, r in [(20.2, 60.2, 1.05), (27.8, 61.6, 1.2), (30.8, 58.6, 0.95), (18.6, 67.6, 0.9)]]
+FIXED += [(f"kitchen table at ({x}, {z})", (x, z), 0, r * 0.8, r * 0.8) for x, z, r in [(27.4, 58, 1.05), (29.4, 65.6, 1.2), (30.8, 58.6, 0.95), (19.4, 69, 0.9)]]
+# The kitchen's works at its front, where its sign is read (XylosBuilder.Rootmarket: KitchenWorks and their blocks, D358): the clay oven, the pot on its tripod, the woodpile, the fish rack.
+FIXED += [("clay oven", (21, 61.3), 0, 1.1, 1.1), ("cook pot", (27, 63), 0, 0.8, 0.8), ("woodpile", (29.7, 61.6), 0, 1.3, 0.55), ("kitchen drying rack", (18.8, 61), 0, 0.95, 0.25)]
 FIXED += [(f"basket at ({x}, {z})", (x, z), 0, size * 0.6, size * 0.6) for x, z, size in [(-7.2, 27.6, 0.7), (8.4, 69.4, 0.8), (-12.6, 68.4, 0.7), (30.6, 25.4, 0.7), (-44.2, 16.8, 0.6)]]
 
 
@@ -328,14 +332,15 @@ def rootmarket():
     r.resume("Rootmarket", "xylos.landed", spawn=(0, 17))
     r.people = {"Ruva", "Ruva at the seed house", "Binna", "Hadda", "Senn", "Jask"}
     r.lead("Taren")
-    # The talk starts on a line across the way from the pad to the mooring, at x 14 (the crossing, 3 m deep and 22 wide).
+    # The talk starts on a line across the way from the pad to the mooring, ARRIVAL_LINE (XylosBuilder.ArrivalLine: x 22.5 to 24.5, 22 m across), about seven metres short of Ruva (D358).
     r.walk("toward the commotion at the mooring", 13, 0, 25.5, stop="ui:dialogue")
     # A lantern post stood on the builder's own way from here to the mooring, at (16.2, 26.6), and the walk bent south of it; the post is now at (16.4, 28.6), off the way, and the bend stays.
-    r.walk("on toward the mooring", 16, 0, 24.4, stop="ui:dialogue")
+    r.walk("past the lantern", 16, 0, 24.4, stop="ui:dialogue")
+    r.walk("on toward the mooring", 20, 0, 26.5, stop="ui:dialogue")
+    # Through the line: the talk stops the walk as the party steps onto it, at x 22.5.
+    r.walk("up to where Ruva calls out", ARRIVAL_LINE[0] - 0.3, 0, 25.1, stop="ui:dialogue")
     r.add("Ruva calls out", 3, until="ui:dialogue", expectedUi="dialogue")
     r.read("the arrival on the rope", 8, "xylos.arrivalSeen")
-    r.walk("on past the lantern", 16, 0, 24.4)
-    r.walk("on toward the mooring", 20, 0, 26.5)
     r.walk("round behind Ruva", 25.5, 0, 23.8, tolerance=0.6)
     r.walk("past her to the line", 29.5, 0, 23.6, tolerance=0.6)
     r.walk("take up the line", 31, 0, 19.2, tolerance=0.4)  # the rope's reach is 2.8 from (32.4, 18.8); Ruva, at 2.9, is farther
@@ -385,8 +390,8 @@ def errands():
     r.add("release her stall", 0.3)
     r.talk_to_shop("Binna's three baskets", 6)  # BinnaBasketsOffer: starts Three Baskets and ends at her counter
     # Ruva's later spot at the door, (5.5, 68.5), is a hole in the town's navigation whether or not she stands there yet: round it.
-    # Between the kitchen's tables and round where a lantern post stood at (8.8, 64.8): both stood on the builder's own way from Binna to the seed house, and both are off it now
-    # (the table at (20.2, 60.2), the post at (10.6, 66.6)); the walk keeps its old line.
+    # Between the kitchen's works and round where a lantern post stood at (8.8, 64.8): both stood on the builder's own way from Binna to the seed house, and both are off it now
+    # (the oven at (21, 61.3) and the rack at (18.8, 61) a metre or more south of this walk, the post at (10.6, 66.6)); the walk keeps its old line.
     r.path("to the seed house", [(16.5, 0, 65.2), (17, 0, 62.6), (11, 0, 63.5), (9.5, 0, 62.4), (5.5, 0, 65.8), (3, 0, 68), (2.5, 0, 71.1)], tolerance=0.5)
     r.add("look into the seed house", 0.2, buttons=["South"], expectedUi="dialogue")
     r.add("release the look", 0.3, expectedUi="dialogue")
@@ -428,10 +433,10 @@ def read_after(r, name, lines, flag, wait=12):
     r.read(name, lines, flag)
 
 
-def boss(r, id_, door, x, y, z, spawn, rounds=10):
+def boss(r, id_, door, x, y, z, spawn, rounds=10, door_tolerance=1.5):
     """A boss from its door (CHAPTER_GUIDE section 10): the door step the driver retries from, the lock, rounds of skills and the fight until it is down."""
     r.lead("Taren")
-    r.door(id_, door, x, y, z, spawn=spawn, tolerance=1.5)
+    r.door(id_, door, x, y, z, spawn=spawn, tolerance=door_tolerance)
     r.press("lock the " + id_, "LeftShoulder", 0.2)
     stop = "flag:bossdown." + id_
     for i in range(rounds):
@@ -486,7 +491,9 @@ def river():
     r.walk("over the south channel's head", 336.3, 0.6, 99)
     r.walk("onto Seedfall's fan", 345, 0.6, 97, stop="ui:dialogue")
     read_after(r, "what's on Marrow-3", 4, "xylos.seedfallSeen", wait=4)
-    boss(r, "Seedthane", "onto Seedfall's fan", 355, 0.6, 92, spawn=(343, 90), rounds=8)
+    # The Seedthane is already awake as the party walks on: on November 22 it struck the lead 3.6 m short of the door point and threw him 8 m back, and the walk
+    # timed out. Within 5 m of the point the fight has begun, and the next steps lock and close on it by themselves.
+    boss(r, "Seedthane", "onto Seedfall's fan", 355, 0.6, 92, spawn=(343, 90), rounds=8, door_tolerance=5)
     read_after(r, "the Seedthane goes upriver", 3, "xylos.seedthaneSeenOff")
     # Teo walks up from the root bridge to Marrow-3 once the Seedthane has gone, at 2.4 m/s (37 m): his talk is there when he is.
     r.wait("Teo walks up from the bridge", 12)
@@ -534,7 +541,9 @@ def canopy():
     r.fight_ground("Canopy_Return")
     r.path("to the root cradle", [(6, -2.8, 18), (12, -2.8, 21.9)], tolerance=0.5)
     r.save_at("repair and save at the root cradle", "release the cradle")
-    r.path("to the basin door", [(14.3, -2.8, 21.8), (22, -2.8, 21), (22, -3.4, 26)], tolerance=0.5)
+    # The last point stops a metre short of the door: at z 26 arriving (z 25.5) and the basin talk's trigger (the body's front at 25.85) were the same frame,
+    # and whichever came first decided the run (a retry on November 21 and again on the 22nd).
+    r.path("to the basin door", [(14.3, -2.8, 21.8), (22, -2.8, 21), (22, -3.3, 25)], tolerance=0.5)
     r.walk("into the passage to the basin", 22, -4.2, 30, stop="ui:dialogue")
     read_after(r, "what holds the basin", 4, "xylos.basinSeen", wait=4)
     boss(r, "Floodcrown", "down into the basin", 24, -5.2, 40, spawn=(19.5, 18.5), rounds=10)

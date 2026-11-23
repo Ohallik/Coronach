@@ -45,7 +45,7 @@ namespace Lattice.Combat
             float radius=(controller!=null?controller.radius:.6f)+.55f,height=controller!=null?controller.height*.62f:1.2f;
             var go=new GameObject("Front plate",typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(body,false);plate=go.transform;
             go.GetComponent<MeshFilter>().sharedMesh=ArcMesh(radius,height,Arc);
-            var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=ActorFactory.Energy(PlateTone);view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;
+            var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=PlateLook();view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;
         }
         /// <summary>What of a blow gets through: all of it, unless the plate is up and the striker stands inside the guarded arc.</summary>
         float Through(DamagePacket packet)
@@ -271,10 +271,19 @@ namespace Lattice.Combat
             was.members.Clear();ranks.Remove(was);
         }
 
-        /// <summary>A standing strip of an arc, facing out, centred on the body's forward.</summary>
+        static Material plateLook;
+        /// <summary>The plate's look, one for every guardian: a see-through shield in the plate's green with a lit rim and seams (Lattice/ShieldPlate, drawn from both sides). It was
+        /// the energy bubble on this strip, whose two faces shared their vertices: its normals summed to nothing, and it drew as a flat slab of lime (s46/047).</summary>
+        static Material PlateLook()
+        {
+            if(plateLook!=null)return plateLook;
+            var shader=Resources.Load<Shader>("Effects/ShieldPlate");if(shader==null)return ActorFactory.Energy(PlateTone);
+            plateLook=new Material(shader){name="guardian plate (runtime)"};plateLook.SetColor("_BaseColor",PlateTone);return plateLook;
+        }
+        /// <summary>A standing strip of an arc, facing out, centred on the body's forward: one face, which its shader draws from both sides; u runs along the arc, v up it.</summary>
         static Mesh ArcMesh(float radius,float height,float degrees)
         {
-            const int steps=14;var vertices=new Vector3[(steps+1)*2];var triangles=new int[steps*12];var uv=new Vector2[vertices.Length];
+            const int steps=14;var vertices=new Vector3[(steps+1)*2];var triangles=new int[steps*6];var uv=new Vector2[vertices.Length];
             for(int i=0;i<=steps;i++)
             {
                 float angle=(i/(float)steps-.5f)*degrees*Mathf.Deg2Rad;var at=new Vector3(Mathf.Sin(angle)*radius,0,Mathf.Cos(angle)*radius);
@@ -283,9 +292,8 @@ namespace Lattice.Combat
             for(int i=0,t=0;i<steps;i++)
             {
                 int a=i*2,b=a+1,c=a+2,d=a+3;
-                // Both faces: it is seen from in front and, over its shoulder, from behind.
+                // One face: it is seen from in front and, over its shoulder, from behind, and its shader culls neither.
                 triangles[t++]=a;triangles[t++]=b;triangles[t++]=c;triangles[t++]=c;triangles[t++]=b;triangles[t++]=d;
-                triangles[t++]=a;triangles[t++]=c;triangles[t++]=b;triangles[t++]=c;triangles[t++]=d;triangles[t++]=b;
             }
             var mesh=new Mesh{name="guardian plate"};mesh.vertices=vertices;mesh.uv=uv;mesh.triangles=triangles;mesh.RecalculateNormals();mesh.RecalculateBounds();return mesh;
         }

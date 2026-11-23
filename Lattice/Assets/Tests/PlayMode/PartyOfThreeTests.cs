@@ -161,7 +161,7 @@ namespace Lattice.Tests.PlayMode
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static Button HeroRow(string id){var row=Row(PartyPairUi.RowName(id));Assert.IsNotNull(row,$"the Party page has no row to choose {Named(id)} by. On screen: {string.Join(" | ",Buttons().Select(b=>b.name+"="+Words(b)))}");return row;}
-        static string Words(Component c){var t=c!=null?c.GetComponentInChildren<TMP_Text>():null;return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static string Label(string name){var t=Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).FirstOrDefault(l=>l.name==name);return t!=null?t.text:"";}
         static string PartnerLine()
         {

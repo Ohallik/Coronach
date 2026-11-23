@@ -549,7 +549,7 @@
     },
     {
       "name": "break the west organ",
-      "seconds": 12,
+      "seconds": 30,
       "navigate": true,
       "approachTarget": true,
       "tolerance": 2.2,
@@ -588,7 +588,7 @@
     },
     {
       "name": "break the east organ",
-      "seconds": 12,
+      "seconds": 30,
       "navigate": true,
       "approachTarget": true,
       "tolerance": 2.2,

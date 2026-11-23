@@ -82,7 +82,9 @@ namespace Lattice.Tests.PlayMode
             // Met at Sync 27 in Sorrel's second sky (docs/maps/SorrelSecondSky.md, "Boss arena contract") once Dace's crossing has been flown (end.sorrelSeen). In her room nobody strikes her and
             // her bar is her clamps; in the yard, where these are measured, she fights on integrity as any boss. Her share is what the replay driver's pad got from her door in the zone (MooringBossReplayTests, November 15: .26 to .29 of the pair's sixty-second flat out at mastery 5, 1,891 to 1,993 a second, over fights of 144 to 152 s), the lower. The stands are from
             // her middle with her facing north (the shared tests stand her so): every move is aimed at the lead.
-            book.Boss(new ContentRegistry.BossSheet{id="MotherOfDoors",zone="SorrelSecondSky",door="MotherOfDoors",doorFlags=new[]{"end.sorrelSeen"},flight=true,sync=27,driverShare=.26f,
+            // .53 since D362 (November 22): today's scout of the 12:35 build was through her room in 103.8 s (nov22-recon-g s63) against 1,463 and 1,412 a second on her yard integrity
+            // (d355-dome3, d355-lengths), which is .536. Her room's length is her four clamps and their guns, not her integrity, so her integrity is left: what would lengthen her is D362's.
+            book.Boss(new ContentRegistry.BossSheet{id="MotherOfDoors",zone="SorrelSecondSky",door="MotherOfDoors",doorFlags=new[]{"end.sorrelSeen"},flight=true,sync=27,driverShare=.53f,
                 minSeconds=MinSeconds,maxSeconds=MaxSeconds,
                 specials=new[]{("Sweep",new Vector3(0,0,22)),("Wave",new Vector3(0,0,27)),("Lash",new Vector3(0,0,22)),("Heave",new Vector3(0,0,16))},
                 // Every move ends in her slack (she draws back), in every phase.
@@ -492,9 +494,43 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
 
+        /// <summary>The view that draws back to show her going keeps a ship in flight in it. In flight it held her head alone, so a launch from the east clamp's works while she went put the
+        /// flight controls on screen with no ship anywhere for two stills, and then an empty crater (whole-game capture, November 20, s63/162 and 163). The lead flies 40 m south of her
+        /// middle, out of an ordinary fight's framing, and must stay on screen from the moment the view has had a second to move until she is gone.</summary>
+        [UnityTest] public IEnumerator AShipInFlightStaysInTheViewThatShowsHerGoing()
+        {
+            roomExit=true;roomClamps=4;yield return Load("Arena_Flight");
+            var boss=Her(true);yield return Frames(3);var coil=boss.MotherBody;Assert.IsNotNull(coil,"fixture: her body");
+            var lead=Lead;Fresh(lead);Fresh(Partner);Assert.IsTrue(lead.flight,"fixture: the lead isn't flying in the flight yard");
+            Put(lead,C+Vector3.back*40);Put(Partner,C+Vector3.back*40+Vector3.right*4.4f);yield return Frames(30);
+            var view=Camera.main;Assert.IsNotNull(view,"fixture: no camera");var rig=Object.FindFirstObjectByType<CameraRig>();Assert.IsNotNull(rig,"fixture: no camera rig");
+            bool InView(){var q=view.WorldToViewportPoint(lead.transform.position+Vector3.up*.8f);return q.z>0&&q.x>0&&q.x<1&&q.y>0&&q.y<1;}
+            // The check first, on the view as it was: framed on her head alone, half way up her road.
+            var owner=new GameObject("Her head alone, as the view had it");var alone=new Bounds(C+Vector3.forward*50+Vector3.up*2,new Vector3(14,8,14));bool lostAlone=false;
+            for(float until=Time.unscaledTime+2;Time.unscaledTime<until;){rig.FrameSceneInterest(owner,alone,new Rect(.08f,.16f,.84f,.72f));yield return null;if(Time.unscaledTime>until-.6f&&!InView())lostAlone=true;}
+            rig.FrameSceneInterest(owner,null,new Rect(.08f,.16f,.84f,.72f));Object.Destroy(owner);
+            Assert.IsTrue(lostAlone,"fixture: framed on her head alone the ship stays in view, so the check can't see what s63/162 showed");
+            yield return Frames(30);
+            coil.Release();
+            int seen=0,lost=0;string first=null;
+            for(float start=Time.time,end=Time.time+BossController.MotherTune.ReleaseSeconds+2;Time.time<end&&!coil.Gone;)
+            {
+                foreach(var hero in PartyController.Current.members)if(hero.Health.Alive)hero.motor.Move(Vector2.zero,false,false);
+                lead.Health.InvulnerableUntil=GameTime.Now+1;
+                yield return null;
+                if(Time.time-start<1)continue;
+                if(InView())seen++;else{lost++;first??=$"{Time.time-start:0.0} s in, the lead at {lead.transform.position} is at {view.WorldToViewportPoint(lead.transform.position)} of the view, her head at {boss.transform.position}";}
+            }
+            TestContext.WriteLine($"MOTHER_GOING_VIEW seen={seen} lost={lost}");
+            Assert.IsTrue(coil.Gone||Said("MOTHER_GONE"),"fixture: she wasn't gone in her release's time");
+            Assert.AreEqual(0,lost,$"the ship in flight went out of the view showing her going for {lost} of {seen+lost} frames; first: {first}");
+        }
+
         // ------------------------------------------------------------------ her length, really docking
         /// <summary>The clamps' guns are the first combat engineer's encounters, not hers: each is allowed this long (two guns flown down at the chapter's arrival).</summary>
-        const float GunsSeconds=24;
+        /// 12 since D362 (November 22), where 24 was allowed: today's scout was through her room, guns and all, in 103.8 s (Builds/quality/nov22-recon-g s63), and this test's own
+        /// four cycles last took 56 s (nov21b-part6), which leaves 48 s for four clamps' guns.
+        const float GunsSeconds=12;
         /// <summary>Her length in her room as a player has it, four times over: fly to the next shelf's pad (ships at their cruise, rolling out of what she lands on them), dock by the
         /// pad (stream A's berth, its fades and all), walk to the seat, take the clamp's weight and keep it as a player does (out of a wedge over the seat as it lands, back after; the partner
         /// stopping the tender with real blows), wait for her slack, and launch; the fourth shelf chased on her strain. With each clamp's guns allowed for, the whole is her sheet's bounds.</summary>
@@ -618,7 +654,11 @@ namespace Lattice.Tests.PlayMode
         static readonly Vector3 TM=new(300,1,360);
         static bool TollBroken=>System.Environment.GetEnvironmentVariable("TOLLKEEPER_BROKEN")=="1";
         static Vector3 TollAt(float x,float y,float z)=>TM+new Vector3(x,y,z);
-        const float TollMin=120,TollMax=300,TollShare=.2f;
+        // TollShare .40 since D362 (November 22): today's scouts were through its room in 116.6 s (Builds/quality/nov22-recon-a-65 s65) and 122.4 s (nov22-recon-g s65) at 68,000,
+        // and 145.9 s at 81,000 (nov22-recon-h-65), against its yard rate read five times today at 1,130 to 1,570 a second (d355-dome3, d355-lengths, d362-shared,
+        // d362-final-shared): at their mean, 1,365, both builds give .407, rounded down. Its room is its braces and its motor's stages: the braces
+        // went from 19,000 to 24,000 and its yard integrity from 68,000 to 77,000 with them (D362); the motor is on the arm's clock and stays 22,000.
+        const float TollMin=120,TollMax=300,TollShare=.4f;
         static readonly List<string> tollLog=new();static bool tollListening,tollStand;
         static void TollListen()
         {
@@ -701,7 +741,7 @@ namespace Lattice.Tests.PlayMode
             var failures=new List<string>();var words=new List<string>{boss.DisplayName,boss.Epithet,boss.ShiftText};
             void Say(string line,string expected,string where){words.Add(line);if(line!=expected)failures.Add($"{where}: \"{line}\", not \"{expected}\"");}
             Put(Lead,TollAt(0,0,-40));Fresh(Lead);Fresh(Partner);yield return Frames(2);
-            Say(boss.FightGoal("zone"),"Break a brace on the cage (1/3)","in flight before a brace");Say(boss.StatusText,"THE CAGE IS BRACED  ·  BREAK A CAGE BRACE","its bar before a brace");
+            Say(boss.FightGoal("zone"),"Break a brace on the cage (0/3)","in flight before a brace (the count is what is done)");Say(boss.StatusText,"THE CAGE IS BRACED  ·  BREAK A CAGE BRACE","its bar before a brace");
             yield return DockOnTheArm(boss);
             Say(boss.FightGoal("zone"),"Stop the gate motor before the arm draws in","on the arm (manifest section 6)");Say(boss.StatusText,"THE ARM IS DOCKED  ·  STOP THE GATE MOTOR","its bar on the arm");
             Assert.IsTrue(Cage.MotorOpen,"on the arm the gate motor can't be struck");
@@ -1162,7 +1202,9 @@ namespace Lattice.Tests.PlayMode
         [ContentRegistry.Expectations] static void MeretGantrySheet(ContentRegistry.Book book)
         {
             // Met at Sync 29.1 on the frame gantry, the dock's arrival its door's checkpoint (end.meretShip: MeretGantry heard).
-            book.Boss(new ContentRegistry.BossSheet{id="MeretGantry",zone="StillwaterChamber",door="MeretGantry",doorFlags=new[]{"end.meretShip"},sync=29,driverShare=.2f,
+            // .33 since D362 (November 22): today's scouts felled 104,000 in 71.0 s (nov22-recon-g s67, the 12:35 build) and 122,000 in 104.8 s (nov22-recon-h-67, the 14:52 build)
+            // against 3,365 and 3,529 a second (d355-dome3, d355-lengths): .425 and .338, the lower. She is 122,000 (a quarter 145 of 150).
+            book.Boss(new ContentRegistry.BossSheet{id="MeretGantry",zone="StillwaterChamber",door="MeretGantry",doorFlags=new[]{"end.meretShip"},sync=29,driverShare=.33f,
                 minSeconds=MeretMin,maxSeconds=MeretMax,
                 specials=new[]{("Slam",new Vector3(0,0,4)),("Weld",new Vector3(0,0,8)),("Coolant",new Vector3(0,0,8)),("Charge",new Vector3(0,0,8)),("Stomp",new Vector3(0,0,2.6f))},
                 // The weld always ends overreached; from her first coupling open the frame's charge always ends overextended.
@@ -1171,7 +1213,9 @@ namespace Lattice.Tests.PlayMode
         [ContentRegistry.Expectations] static void MeretWellSheet(ContentRegistry.Book book)
         {
             // Met at Sync 29.5 in the control well once the party has come in at the lift's foot (end.wellEntered).
-            book.Boss(new ContentRegistry.BossSheet{id="MeretWell",zone="StillwaterChamber",door="MeretWell",doorFlags=new[]{"end.wellEntered"},sync=29,driverShare=.29f,
+            // .49 since D362 (November 22): today's scout of the 12:35 build felled 140,000 in 65.7 s (nov22-recon-g s67) against 4,311 and 4,387 a second (d355-dome3, d355-lengths),
+            // which is .490. She is 190,000 since D362 (continued), the slow pair's 200 s (her 150 at four thirds) on her slowest reading (4,012) holding her there: about 89 s.
+            book.Boss(new ContentRegistry.BossSheet{id="MeretWell",zone="StillwaterChamber",door="MeretWell",doorFlags=new[]{"end.wellEntered"},sync=29,driverShare=.49f,
                 minSeconds=MeretMin,maxSeconds=MeretMax,
                 specials=new[]{("Thrust",new Vector3(0,0,4)),("Cut",new Vector3(0,0,2.4f)),("Traps",new Vector3(0,0,6)),("Lunge",new Vector3(0,0,8)),("Guard",new Vector3(0,0,4))},
                 // Her question and the quiet after it strike nobody: SheAsksHerQuestionAndListensInAQuietNothingIsSaidOver, in this class.
@@ -1190,6 +1234,55 @@ namespace Lattice.Tests.PlayMode
         static IEnumerator Idle(BossController boss,float seconds=10){for(float end=Time.unscaledTime+seconds;(boss.Busy||boss.Health.Broken)&&Time.unscaledTime<end;)yield return null;}
         static Telegraph[] NewMarks(Object owner,HashSet<Telegraph> before)=>Telegraph.Live.Where(t=>t!=null&&t.owner==owner&&!before.Contains(t)).ToArray();
         static float HeadOf(Component boss){var rig=boss.GetComponentInChildren<Animator>();var head=rig!=null&&rig.isHuman?rig.GetBoneTransform(HumanBodyBones.Head):null;return head!=null?head.position.y-boss.transform.position.y:0;}
+
+        // ------------------------------------------------------------------ her relays, as a player sees them
+        /// <summary>Her shield's two relays are drawn as big as what a shot at them is judged against (chapter 10's look pass, November 21: in the whole-game capture each was a 1.25 m ball on a
+        /// thin grey pole, under half its 2.8 m target, and no reviewer found it). Lit, each head is at least nine tenths of its target's width, its ring round it at the plane is drawn and wider
+        /// than its head, and its beam runs to her dome; shot through and dark, its head and its ring are still drawn (a mast with a dark head, its ring amber), so the player sees what
+        /// comes back. The measure is first shown to catch the old head.</summary>
+        [UnityTest] public IEnumerator HerRelaysAreDrawnAsBigAsTheTargetAShotIsJudgedAgainstLitOrDark()
+        {
+            yield return Load("Arena_Flight");MeretListen();
+            var failures=new List<string>();
+            var ship=Meret("MeretShip",ShipAt,false,180);Put(Lead,ShipAt+Vector3.back*24);Fresh(Lead);Fresh(Partner);
+            yield return Until(()=>ship.ShipShieldUp&&ship.ShipRelays.Count==2&&ship.ShipRelays.All(r=>r!=null&&r.Lit),4,Lead);
+            Assert.AreEqual(2,ship.ShipRelays.Count,"fixture: her two relays");Assert.IsTrue(ship.ShipRelays.All(r=>r.Lit),"fixture: her relays lit as her shield came up");
+            float target=BossController.ShipTune.RelayTarget*2;
+            string Fault(MeretRelay r)
+            {
+                if(r.head==null||!r.head.enabled)return $"relay {r.index} has no head drawn";
+                float drawn=Mathf.Min(r.head.bounds.size.x,r.head.bounds.size.z);
+                if(drawn<target*.9f)return $"relay {r.index}'s head is drawn {drawn:0.00} m across against its {target:0.0} m target";
+                if(r.ring==null||!r.ring.enabled||r.ring.positionCount<12)return $"relay {r.index} has no ring at the plane";
+                var far=r.ring.transform.TransformPoint(r.ring.GetPosition(0));if(Vector3.Distance(new Vector3(far.x,0,far.z),new Vector3(r.transform.position.x,0,r.transform.position.z))<drawn*.5f+.3f)return $"relay {r.index}'s ring is inside its head";
+                if(Mathf.Abs(far.y-r.transform.position.y)>.2f)return $"relay {r.index}'s ring doesn't lie at the plane";
+                return null;
+            }
+            // The measure catches the head as it was drawn (1.25 across).
+            var first=ship.ShipRelays[0];var scale=first.head.transform.localScale;first.head.transform.localScale=Vector3.one*1.25f;
+            Assert.IsNotNull(Fault(first),"fixture: the measure lets the old 1.25 m head through");first.head.transform.localScale=scale;
+            foreach(var r in ship.ShipRelays){var f=Fault(r);if(f!=null)failures.Add("lit: "+f);if(r.beam==null||!r.beam.enabled)failures.Add($"lit: relay {r.index} has no beam to her dome");}
+            // Shot through: dark, still drawn, its ring amber.
+            foreach(var r in ship.ShipRelays)r.health.Receive(new DamagePacket{source=Lead.Health,amount=r.health.maximum*10,type=r.health.weakness});
+            yield return Frames(3);
+            // Her dome down: the card counts what is down, in step with the bar's word (it counted the projector being struck: "3/3" with the third still up, s66/162).
+            if(!ship.ShipShieldUp)
+            {
+                if(ship.FightGoal("zone")!=$"Put out a shield projector ({BossController.ShipTune.Projectors.Length-ship.ShipProjectorsLeft}/{BossController.ShipTune.Projectors.Length})")failures.Add($"with her shield down and {ship.ShipProjectorsLeft} projectors up the card says '{ship.FightGoal("zone")}'");
+                if(!ship.StatusText.Contains("STRIKE A PROJECTOR"))failures.Add($"with her shield down the bar says '{ship.StatusText}'");
+            }
+            else failures.Add("fixture: her shield didn't drop with both relays shot through");
+            foreach(var r in ship.ShipRelays)
+            {
+                if(r.Lit)failures.Add($"relay {r.index} is still lit, shot through");
+                if(r.head==null||!r.head.enabled||Mathf.Min(r.head.bounds.size.x,r.head.bounds.size.z)<MeretRelay.HeadDark*.9f)failures.Add($"dark: relay {r.index}'s head isn't drawn");
+                if(r.ring==null||!r.ring.enabled)failures.Add($"dark: relay {r.index}'s ring isn't drawn");
+                else{var c=r.ring.sharedMaterial.GetColor("_BaseColor");if(!(c.r>c.b))failures.Add($"dark: relay {r.index}'s ring isn't amber ({c})");}
+                if(r.beam!=null&&r.beam.enabled)failures.Add($"dark: relay {r.index} still beams to her dome");
+            }
+            ship.GetComponent<EnemyBrain>().Passive=true;Object.Destroy(ship.gameObject);
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
 
         // ------------------------------------------------------------------ her definitions, her words
         /// <summary>Her three EnemyDefs came with their Kits, ids exactly the manifest's, and every word of hers on screen is the manifest's (section 5, section 6): her names and epithets, the

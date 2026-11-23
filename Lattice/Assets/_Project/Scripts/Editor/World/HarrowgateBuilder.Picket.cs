@@ -70,6 +70,8 @@ namespace Lattice.EditorTools
                 new("carrier",new Vector3(20,1,474),true),new("b3",new Vector3(36,1,470),true),new("b4",new Vector3(-22,1,526),true),new("b4-flank",new Vector3(-36,1,574),true),
                 new("lock",new Vector3(0,1,606),true),new("lock-close",new Vector3(0,1,626),true),new("flak",new Vector3(-22,1,626),true),new("beyond",new Vector3(0,1,700),true),
                 new("ways-down",new Vector3(2,1,782),true),new("field-wide",new Vector3(0,1,380),true,3.5f),new("first-wide",new Vector3(10,1,196),true,3f),new("wall-wide",new Vector3(0,1,630),true,3f),
+                // Where the whole-game capture's stills stood (November 20, segment 45), at the flight camera's zoom, for the stills beside them.
+                new("s45-066",new Vector3(8.7f,1,379.7f),true),new("s45-095",new Vector3(2.2f,1,500.5f),true),new("s45-177",new Vector3(1.2f,1,636.5f),true),
             };
             /// <summary>The nearest a rock may come to the quiet route's line: Idra's hull and a margin.</summary>
             public const float RouteClear=2.8f;
@@ -92,9 +94,10 @@ namespace Lattice.EditorTools
             // fixed sites, so a rebuild paints the same bytes. The glow is painted from the same function: a texture once imported can't be read back.
             var sites=new System.Random(17);var calderas=new (float u,float v,float r)[7];
             for(int k=0;k<calderas.Length;k++)calderas[k]=((float)sites.NextDouble(),.2f+.6f*(float)sites.NextDouble(),.012f+.02f*(float)sites.NextDouble());
-            var face=ZoneKit.Texture("Vaskar/scoria-face",1024,(u,v)=>{var c=ScoriaFrom(u,v,calderas,out _);return new Color(c.r,c.g,c.b,1);});
+            // Kept as painted (uncompressed): block compression softened the rivers' and craters' edges into the blur the whole-game capture saw.
+            var face=ZoneKit.Exact(ZoneKit.Texture("Vaskar/scoria-face",1024,(u,v)=>{var c=ScoriaFrom(u,v,calderas,out _);return new Color(c.r,c.g,c.b,1);}));
             // Its glow: the face itself, faintly (so the night side is still a world and not a hole), and the melt, a dull ember.
-            var glow=ZoneKit.Texture("Vaskar/scoria-glow",1024,(u,v)=>{var c=ScoriaFrom(u,v,calderas,out float h);return new Color(c.r*.28f+h*.55f,c.g*.28f+h*.12f,c.b*.28f+h*.05f,1);});
+            var glow=ZoneKit.Exact(ZoneKit.Texture("Vaskar/scoria-glow",1024,(u,v)=>{var c=ScoriaFrom(u,v,calderas,out float h);return new Color(c.r*.28f+h*.55f,c.g*.28f+h*.12f,c.b*.28f+h*.05f,1);}));
             // A moon's way (the Spore Veil's): lit a little from its own face so the toon ramp doesn't cut the globe into two flat bands, and a detail layer keeps it crisp nearer in.
             ScoriaFace=ZoneKit.Toon("vaskar-scoria-face",face,m=>{m.SetColor("_BaseColor",new Color(.95f,.92f,.9f));m.SetTexture("_EmissionMap",glow);m.SetColor("_EmissionColor",new Color(.85f,.8f,.8f));
                 m.SetFloat("_ReceiveShadows",0);m.SetFloat("_RampSteps",6);m.SetColor("_RimColor",new Color(.42f,.28f,.24f));ZoneKit.With(m,"_DETAIL_ON","_Detail");
@@ -205,7 +208,7 @@ namespace Lattice.EditorTools
             int build=rng.Next(RockBuilds);var turned=Quaternion.Euler(rng.Next(360),rng.Next(360),rng.Next(360));var tone=RockTones[rng.Next(RockTones.Length)];
             var holder=new GameObject(name);holder.transform.position=centre;
             var shape=new ZoneKit.Shape();Rock(shape,centre,radius,turned,build,Mathf.RoundToInt(centre.x*31+centre.z*17+radius*7),tone);
-            Stone(kit,name+" stone",shape,RockLook,true,holder.transform);
+            Stone(kit,name+" stone",shape,LaneRock,true,holder.transform);
             if(tumbling){var t=holder.AddComponent<Tumble>();t.axis=new Vector3((float)rng.NextDouble()-.5f,1,(float)rng.NextDouble()-.5f).normalized;t.rate=3+(float)rng.NextDouble()*5;}
             return holder;
         }
@@ -325,7 +328,7 @@ namespace Lattice.EditorTools
                 Crag(stone,foot+Vector3.up*1.2f,new Vector3(4.2f,2.8f,3.8f),Quaternion.Euler(0,side*40,0),side+3,.22f,new Color(.4f,.4f,.44f),new Color(.2f,.2f,.24f),8,4);
                 Fang(stone,foot,new Vector3(side*.08f,1,.05f),16,3.2f,1,6,side+5,new Color(.62f,.61f,.64f),new Color(.2f,.2f,.25f));
             }
-            Stone(kit,"The wall's stone",stone,RockLook,true,root.transform);
+            Stone(kit,"The wall's stone",stone,LaneRock,true,root.transform);
             string id=Foe("FlakGate",null);
             if(id==null)
             {
@@ -458,7 +461,7 @@ namespace Lattice.EditorTools
                 int stretch=Mathf.FloorToInt((at.z+20)/140);if(!stretches.TryGetValue(stretch,out var shape))stretches[stretch]=shape=new ZoneKit.Shape();
                 Rock(shape,at,size*.75f,turned,pick,seed,ZoneKit.Shape.Dim(tone,.85f));
             }
-            foreach(var (stretch,shape) in stretches){var part=Stone(kit,"Debris "+stretch,shape,RockDeep,false,root.transform);part.isStatic=true;part.GetComponent<MeshRenderer>().receiveShadows=false;}
+            foreach(var (stretch,shape) in stretches){var part=Stone(kit,"Debris "+stretch,shape,LaneRockDeep,false,root.transform);part.isStatic=true;part.GetComponent<MeshRenderer>().receiveShadows=false;}
             // Old buoys of the picket, dead and drifting under the approach, where the first frames are otherwise stars: what the party is flying into, before it is met.
             foreach(var (at,turn) in new[]{(new Vector3(9,-7,34),new Vector3(70,20,10)),(new Vector3(-16,-10,62),new Vector3(-40,110,25)),(new Vector3(15,-12,98),new Vector3(20,200,-60)),(new Vector3(-8,-6,8),new Vector3(-80,35,40))})
             {
@@ -476,7 +479,7 @@ namespace Lattice.EditorTools
             foreach(int side in new[]{-1,1})
             {
                 var shape=new ZoneKit.Shape();float from=-30;int made=0;
-                void Flush(){if(made==0)return;Stone(kit,"Teeth "+(side<0?"west ":"east ")+Mathf.RoundToInt(from+30),shape,RockLook,true,root.transform);shape=new ZoneKit.Shape();made=0;}
+                void Flush(){if(made==0)return;Stone(kit,"Teeth "+(side<0?"west ":"east ")+Mathf.RoundToInt(from+30),shape,LaneRock,true,root.transform);shape=new ZoneKit.Shape();made=0;}
                 for(float z=-30;z<870;z+=9+(float)rng.NextDouble()*7)
                 {
                     float wide=3.6f+(float)rng.NextDouble()*3.2f,tall=16+(float)rng.NextDouble()*20,x=side*(Picket.Half+2.5f+wide*.8f+(float)rng.NextDouble()*5);int seed=rng.Next(99999);

@@ -10,8 +10,12 @@ namespace Lattice.UI
 {
     public sealed class DialoguePanel:MonoBehaviour,IDialogueView
     {
-        /// <summary>Choices stand in a column to the right: across the middle of the screen they lay on the people talking. The longest choice in the script is 617 wide at the button's 34.</summary>
-        const float ChoiceX=560,ChoiceWidth=720;
+        /// <summary>Choices stand on the conversation box, at its right end, the last one just over its top edge and the others stacked above it, as wide as the longest needs.
+        /// Across the middle of the screen they lay on the people talking; in a column at the right halfway up they still sat on the partner standing there (nov22 s01 025).
+        /// While they're up, the framing keeps whoever it frames clear of them (ConversationFraming).</summary>
+        const float ChoiceRight=836,ChoiceMost=720,ChoiceLeast=420,ChoiceHeight=58,ChoiceStep=66,ChoiceFont=30,ChoicePad=120;
+        /// <summary>The box's top edge, from the screen's foot where the box is anchored, and the gap over it the last choice keeps.</summary>
+        const float BoxTop=370,OverBox=12;
         Canvas canvas;
         GameObject panel,backing,options;
         TMP_Text body,speaker,hint;
@@ -62,11 +66,34 @@ namespace Lattice.UI
         public void Options(IReadOnlyList<string> labels,System.Action<int> selected)
         {
             ClearOptions();options=new GameObject("Options",typeof(RectTransform));options.transform.SetParent(canvas.transform,false);var buttons=new List<Selectable>();
-            for(int i=0;i<labels.Count;i++){int n=i;var b=UiKit.Button(options.transform,"Option_"+i,labels[i],()=>selected(n));UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(ChoiceX,100-i*85),new(ChoiceWidth,65));buttons.Add(b);}
+            var whole=(RectTransform)options.transform;whole.anchorMin=Vector2.zero;whole.anchorMax=Vector2.one;whole.offsetMin=whole.offsetMax=Vector2.zero;
+            var made=new List<(Button button,TMP_Text label)>();float widest=0;
+            for(int i=0;i<labels.Count;i++)
+            {
+                int n=i;var b=UiKit.Button(options.transform,"Option_"+i,labels[i],()=>selected(n));var label=b.GetComponentInChildren<TMP_Text>();label.fontSize=ChoiceFont;label.textWrappingMode=TextWrappingModes.NoWrap;
+                widest=Mathf.Max(widest,label.GetPreferredValues(labels[i]).x);made.Add((b,label));buttons.Add(b);
+            }
+            // One width for the column, the longest choice's with room for the bevel and the selection's bar, and the column's right edge on the box's.
+            float wide=Mathf.Clamp(widest+ChoicePad,ChoiceLeast,ChoiceMost);
+            // Anchored at the screen's foot, as the box is: on a taller screen they stay on it.
+            for(int i=0;i<made.Count;i++)UiKit.Rect(made[i].button.gameObject,new(.5f,0),new(.5f,0),new(ChoiceRight-wide*.5f,BoxTop+OverBox+ChoiceHeight*.5f+(made.Count-1-i)*ChoiceStep),new(wide,ChoiceHeight));
             UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);optionsFrame=Time.frameCount;
             // A thumb tapping through the lines answered the top row five frames after it appeared: Hal's bench unasked, or a paid repair.
             first.Begin();RefreshHint();
         }
         public void ClearOptions(){if(options!=null)Destroy(options);options=null;first.End();RefreshHint();}
+        /// <summary>Where the choices stand on the screen while they're up, as a share of it (0 to 1 from the bottom left), or null: what the framing keeps people clear of.</summary>
+        public Rect? ChoiceArea
+        {
+            get
+            {
+                if(!OptionsVisible||Screen.width<=0||Screen.height<=0)return null;
+                bool any=false;float l=float.MaxValue,b=float.MaxValue,r=float.MinValue,t=float.MinValue;var corners=new Vector3[4];
+                foreach(RectTransform child in options.transform){child.GetWorldCorners(corners);any=true;l=Mathf.Min(l,corners[0].x);b=Mathf.Min(b,corners[0].y);r=Mathf.Max(r,corners[2].x);t=Mathf.Max(t,corners[2].y);}
+                return any?Rect.MinMaxRect(l/Screen.width,b/Screen.height,r/Screen.width,t/Screen.height):null;
+            }
+        }
+        /// <summary>The frame the choices came up on: a new set of choices is a new question for the framing.</summary>
+        public int ChoicesFrame=>optionsFrame;
     }
 }

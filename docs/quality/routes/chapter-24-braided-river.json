@@ -2921,7 +2921,7 @@
         "y": 0.6,
         "z": 92
       },
-      "tolerance": 1.5,
+      "tolerance": 5,
       "until": "arrived",
       "bossDoor": "Seedthane",
       "expectedScene": "BraidedRiver"

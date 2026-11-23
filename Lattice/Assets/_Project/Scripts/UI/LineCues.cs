@@ -73,7 +73,9 @@ namespace Lattice.UI
         static void Turn(Transform who,Vector3 toward,float share)
         {
             var look=toward-who.position;look.y=0;if(look.sqrMagnitude<.01f)return;
-            who.rotation=Quaternion.Slerp(who.rotation,Quaternion.LookRotation(look),share);
+            // Someone on a bench turns as far as a seat lets them: turned whole, their knees went through the bench in front (the November 20 capture's town meeting).
+            var want=Quaternion.LookRotation(look);if(who.TryGetComponent<Posed>(out var posed))want=posed.WithinSeat(want);
+            who.rotation=Quaternion.Slerp(who.rotation,want,share);
         }
         static Transform Hero(string id)
         {

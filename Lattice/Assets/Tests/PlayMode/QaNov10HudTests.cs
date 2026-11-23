@@ -190,7 +190,9 @@ namespace Lattice.Tests.PlayMode
             var band=Picture("ObjectiveWordsBand");
             Assert.IsNotNull(band,"the objective's words have nothing behind them with the plate aside: they lay straight on the launch pad they named");
             Assert.IsTrue(band.isActiveAndEnabled,"the words' backing isn't up with the plate aside");
-            Assert.That(band.canvasRenderer.GetAlpha(),Is.InRange(.45f,.8f),"the backing either doesn't darken what's behind the words or blacks it out again");
+            // The canvas blends in linear light: at .62 over the plate's .35 a quarter of the world still came through, mid grey under white type on a white hull or pale ice
+            // (November 20, s65 066, s35 298). It is dark behind the letters and no bigger than them (below), so the body behind still shows round and between the lines.
+            Assert.That(band.canvasRenderer.GetAlpha(),Is.InRange(.88f,.95f),"the backing either lets the world show grey under the words or is a black box");
             var drawn=frame.canvas.GetComponentsInChildren<Graphic>().ToList();
             Assert.Less(drawn.IndexOf(frame),drawn.IndexOf(band),"the backing is under the plate");Assert.Less(drawn.IndexOf(band),drawn.IndexOf(words),"the backing is drawn over the words");
             var ink=Ink(words);var under=Box(band.rectTransform);

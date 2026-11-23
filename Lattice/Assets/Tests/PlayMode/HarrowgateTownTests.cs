@@ -291,6 +291,99 @@ namespace Lattice.Tests.PlayMode
             Flag("chapter8.complete");yield return Zone();Assert.AreEqual(0,Here("Drask").Length,"the Warmaster is still in his cell once the chapter is over: he's aboard Many Hands");
         }
 
+        // ================================================================== the Warmaster's own body, and the end at his cell (the look pass of November 21)
+        /// <summary>What a body is drawn as: each renderer's mesh and material, under the person's model if there is one (an Npc's label is its own).</summary>
+        static string[] Looks(GameObject body)
+        {
+            var model=body.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="Generated civilian");var root=model!=null?model.gameObject:body;
+            string Mesh(Renderer r)
+            {
+                var mesh=r is SkinnedMeshRenderer s?s.sharedMesh:r.TryGetComponent<MeshFilter>(out var f)?f.sharedMesh:null;
+                return mesh!=null?mesh.name+" ("+mesh.vertexCount+")":"none";
+            }
+            return root.GetComponentsInChildren<Renderer>(true).Where(r=>!(r is ParticleSystemRenderer)&&!r.TryGetComponent<TMPro.TMP_Text>(out _))
+                .Select(r=>Mesh(r)+" / "+(r.sharedMaterial!=null?r.sharedMaterial.name:"none")).OrderBy(n=>n).ToArray();
+        }
+        static float DrawnHeight(GameObject prefab,float scale)
+        {
+            var one=Object.Instantiate(prefab,new Vector3(0,-200,0),Quaternion.identity);one.transform.localScale*=scale;
+            var parts=one.GetComponentsInChildren<Renderer>().Where(r=>!(r is ParticleSystemRenderer)).ToArray();var all=parts[0].bounds;foreach(var p in parts)all.Encapsulate(p.bounds);
+            Object.DestroyImmediate(one);return all.size.y;
+        }
+        [UnityTest] public IEnumerator TheWarmasterWearsOneBodyOfHisOwnAtHisTableInTheDuelAndInHisCellAndNotHisGuardsOrASmiths()
+        {
+            // s52/085: in the duel he was his guard wing's own armoured body, told apart only by the lock box; in town and in the cell (s51/149, s52/339) a smith's red apron.
+            var duel=GameCatalog.Find<EnemyDef>("DraskVaal");var guard=GameCatalog.Find<EnemyDef>("MusterPikeguard");
+            Assume.That(duel!=null&&duel.prefab!=null&&guard!=null&&guard.prefab!=null,"the duel's bodies aren't taken in");
+            var his=Looks(duel.prefab);var theirs=Looks(guard.prefab);
+            // A material of his own on the same shape is a recolour, which is what s52/085 showed: his silhouette has to have something theirs hasn't.
+            string Shape(string look)=>look.Substring(0,look.IndexOf(" / ",System.StringComparison.Ordinal));
+            Assert.IsTrue(his.Select(Shape).Except(theirs.Select(Shape)).Any(),"the Warmaster in the duel is his guard wing's shape recoloured: "+string.Join(", ",his));
+            float tall=DrawnHeight(duel.prefab,duel.drawnScale>0?duel.drawnScale:1),guardTall=DrawnHeight(guard.prefab,guard.drawnScale>0?guard.drawnScale:1);
+            Assert.Greater(tall,guardTall*1.15f,$"the Warmaster doesn't stand a head over his guard wing ({tall:0.00} m against {guardTall:0.00})");
+            var smith=GameCatalog.Find<CharacterDef>("Brekk");var smithLooks=smith!=null&&smith.natural!=null?Looks(smith.natural):System.Array.Empty<string>();
+            InTown();Flag("vask.odrunMet");Flag("vask.gallerySeen");yield return Zone();yield return Frames(4);
+            var table=Here("Drask");Assert.AreEqual(1,table.Length,"the Warmaster isn't at his table once the town is seen");
+            CollectionAssert.AreEquivalent(his,Looks(table[0].gameObject),"the Warmaster at his table isn't the body he fights in");
+            Assert.IsFalse(Looks(table[0].gameObject).Intersect(smithLooks).Any(),"the Warmaster at his table wears a smith's body");
+            foreach(string f in new[]{"vask.townSeen","met.Drask","vask.draskMet","vask.fieldTaken","bossdown.DraskVaal","clear.DraskVaal","vask.duelWon","vask.pursuitWon","vask.deposed"})Flag(f);
+            yield return Zone("Field");yield return Frames(4);
+            var cell=Here("Drask");Assert.AreEqual(1,cell.Length,"the Warmaster isn't in his cell");
+            CollectionAssert.AreEquivalent(his,Looks(cell[0].gameObject),"the Warmaster in his cell isn't the body he fought in");
+        }
+        [UnityTest] public IEnumerator TheWarmasterStaysInHisCellWhileThePartyStandsThereAsTheChapterEndsAndHisGuardsStandClearOfThem()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask","vask.draskMet","vask.fieldTaken","bossdown.DraskVaal","clear.DraskVaal","vask.duelWon","vask.pursuitWon","vask.deposed","vask.gateDenied","idra.lockCounted","vask.orderSaid","vask.nacreHeard"})Flag(f);
+            yield return Zone("Field");Put(Lead,Floor(CellFront));yield return Frames(4);
+            Assert.AreEqual(1,Here("Drask").Length,"the Warmaster isn't in his cell");
+            // s52/339 to 370: the chapter's card came up and he was gone from behind his bars, the party standing in front of them.
+            Flag("chapter8.complete");yield return Frames(6);
+            Assert.AreEqual(1,Here("Drask").Length,"the Warmaster vanishes from his cell in front of the party as the chapter's card comes up");
+            // s52/339: Idra stood inside the guard by the bench. Whoever keeps the cell stands well off where the party stands to talk through the bars.
+            var guards=Live<Transform>().Where(t=>t.name=="Townsperson, an Unsworn smith on guard").ToArray();Assert.AreEqual(2,guards.Length,"the cell's two guards aren't there");
+            foreach(var g in guards)Assert.Greater(Flat(g.position,CellFront),4,$"a guard at {g.position} stands where the party stands to talk to the Warmaster");
+        }
+        [UnityTest] public IEnumerator TheMusterFieldsMarkAndTheTownsWalksAreLaidInTexturedStone()
+        {
+            InTown();yield return Zone();
+            // s51/180, s52/254: the field's mark was a flat white ring, grey wings and a white disc, and the walks a smooth lavender band: colour on a mesh, no stone in it.
+            bool Over(Bounds b,float x0,float x1,float z0,float z1)=>b.max.x>x0&&b.min.x<x1&&b.max.z>z0&&b.min.z<z1;
+            var marks=Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Where(r=>r.name.StartsWith("Floor detail")&&r.bounds.size.x>1&&r.bounds.size.z>1
+                &&(Over(r.bounds,-FieldHalfX,FieldHalfX,FieldSouth,FieldNorth)||Over(r.bounds,-48,42,33.5f,36.5f)||Over(r.bounds,-48,39.6f,64.5f,67.5f))).ToArray();
+            Assert.IsNotEmpty(marks,"nothing marks the field or the walks");
+            foreach(var mark in marks)foreach(var material in mark.sharedMaterials)
+                Assert.IsTrue(material!=null&&material.HasProperty("_BaseMap")&&material.GetTexture("_BaseMap")!=null,$"{mark.name} is drawn in flat colour ({(material!=null?material.name:"none")}), with no stone laid in it");
+        }
+        [UnityTest] public IEnumerator TheHarboursRippleIsWiderThanAFewPixelsAtThePlayCamera()
+        {
+            InTown();yield return Zone();
+            // s51/107, s51/123: the water was a two-tone speckle like a dead channel's static. Its finer ripple (the shader's second octave, 1.9 times the first) was a seventh of a
+            // metre, under eight pixels at the play camera; thresholded into glints it shimmered as grain.
+            var water=Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Single(r=>r.name=="Harbour water").sharedMaterial;
+            var ground=GameCatalog.Find<CameraProfile>("Ground");Assert.IsNotNull(ground);
+            float perMetre=1080/(2*ground.distance*Mathf.Tan(ground.fov*.5f*Mathf.Deg2Rad)),cell=1/(water.GetVector("_WaterParams").x*1.9f);
+            Assert.GreaterOrEqual(cell*perMetre,24,$"the harbour's finer ripple is {cell*perMetre:0.0} px across at the play camera ({cell:0.00} m): it reads as static");
+        }
+        [UnityTest] public IEnumerator EveryoneStandingInHarrowgateFacesSomeoneOrSomething()
+        {
+            InTown();yield return Zone();yield return Frames(3);
+            // s50/131, s50/190, s51/159: townsfolk stood facing open paving, nobody and nothing in front of them.
+            // Whoever is watching the drill faces the drill, which is open ground: what they look at is the field, not something in front of them.
+            var standing=Live<PropTint>().Where(t=>(t.name.StartsWith("Townsperson")||t.name.StartsWith("A child"))&&!t.name.Contains("watching")).ToArray();
+            var people=standing.Select(s=>s.transform.position).Concat(Live<Npc>().Select(n=>n.transform.position)).Concat(Live<WalkLoop>().Select(w=>w.transform.position)).Concat(Live<KeepsPace>().Select(k=>k.transform.position)).ToArray();
+            var faults=new List<string>();
+            foreach(var one in standing)
+            {
+                var at=one.transform.position;var ahead=one.transform.forward;ahead.y=0;ahead.Normalize();
+                bool someone=people.Any(p=>{var to=p-at;to.y=0;return to.magnitude>.3f&&to.magnitude<4.6f&&Vector3.Angle(ahead,to)<55;});
+                bool something=false;
+                foreach(float up in new[]{.5f,1.2f})foreach(var hit in Physics.RaycastAll(at+Vector3.up*up+ahead*.45f,ahead,4.2f,~0,QueryTriggerInteraction.Ignore))
+                    if(!hit.collider.transform.IsChildOf(one.transform))something=true;
+                if(!someone&&!something)faults.Add($"{one.name} at ({at.x:0.0}, {at.z:0.0}) facing {one.transform.eulerAngles.y:0}");
+            }
+            Assert.IsEmpty(faults,"people stand facing nothing: "+string.Join("; ",faults));
+        }
+
         // ================================================================== people
         [UnityTest] public IEnumerator HarrowgateIsLivedInByVaskarInSeveralLooksWhoStandOffTheWaysAndNeverTwoAlikeSideBySide()
         {

@@ -29,6 +29,42 @@ namespace Lattice.UI
         const float ReticleReach=45;
         readonly PanelFade[] panels=new PanelFade[8];
         readonly BodyAim aim=new(),bossAim=new();
+        GlowGauge glowGauge;CurrentGauge currentGauge;PicketGauge picketGauge;RectTransform zoneFrame;
+
+        // ---------- the left column and the foot of the screen, as what hangs from them reads them ----------
+        /// <summary>The vitals frame's own lower edge, in units down from the top of the screen: what a zone's gauge hangs from. Read from the frame, not written beside it.</summary>
+        public float VitalsFoot=>vitals!=null?-(vitals.anchoredPosition.y-vitals.sizeDelta.y*vitals.pivot.y):311;
+        /// <summary>The foot of the left column's top: the vitals, or the zone's gauge under them while it's up. The pickup feed's lines start under it, and the bark column's top
+        /// stops under the feed. At a fixed 330 the feed's "Saved" printed over the Picket's panel ('PICKET QUIET · HIDDEN', November 20, s45 140).</summary>
+        public float ColumnFoot
+        {
+            get
+            {
+                float foot=VitalsFoot;
+                if(glowGauge!=null&&glowGauge.Showing)foot=Mathf.Max(foot,glowGauge.Foot);
+                if(picketGauge!=null&&picketGauge.Showing)foot=Mathf.Max(foot,picketGauge.Foot);
+                return foot;
+            }
+        }
+        /// <summary>How high, in units up from the foot of the screen, the HUD's fixed things stand under a stretch of the screen from left to right: the hint bar, the skill row,
+        /// a boss bar and the prompt over it, and the current gauge. A sliding plate above them stops over this. Taren's bark slid down its column off the Mother of Doors' lanes
+        /// until it met the hint bar, which was all the column knew of, and lay across the boss bar's name (s63 072).</summary>
+        public float FloorUnder(float left,float right)
+        {
+            if(canvas==null)return 0;
+            float floor=0,scale=canvas.scaleFactor;
+            void Take(RectTransform rect)
+            {
+                if(rect==null||!rect.gameObject.activeInHierarchy)return;var box=PanelFade.ScreenBox(rect);
+                if(box.xMax/scale<=left||box.xMin/scale>=right)return;floor=Mathf.Max(floor,box.yMax/scale);
+            }
+            if(skillsPlate!=null&&skillsPlate.Frame.enabled)Take(skillsPlate.Frame.rectTransform);
+            if(ZoneController.Current!=null&&ZoneController.Current.Combat&&skillIcons[0]!=null&&skillIcons[0].enabled)Take(skillRow);
+            if(bossRoot!=null&&bossRoot.activeSelf)Take(bossBand);
+            if(promptFrame!=null&&promptPlate.Frame.enabled&&prompt.text.Length>0)Take(promptFrame);
+            if(currentGauge!=null&&currentGauge.Showing)Take(currentGauge.Box);
+            return floor;
+        }
         TMP_Text status,partner,target,prompt,skills,zone,probe,hpLabel,chargeLabel,thrustLabel,resting;
         Image hp,charge,thrust,reticle;
         readonly Image[] skillIcons=new Image[4];
@@ -89,7 +125,7 @@ namespace Lattice.UI
             foreach(var word in new[]{status,hpLabel,chargeLabel,thrustLabel,partner,resting})UiKit.Legible(word).color=UiKit.LooseTextColor;
             promptPlate=TextPlate.Attach(prompt,"InteractionPlate");promptFrame=promptPlate.Frame.rectTransform;skillsPlate=TextPlate.Attach(skills,"SkillsPlate",34);targetPlate=TextPlate.Attach(target,"TargetPlate",34);
             // The zone's name had nothing behind it, and a strut or a neon strip ran straight through its letters.
-            var zonePlate=TextPlate.Attach(zone,"ZonePlate",24);
+            var zonePlate=TextPlate.Attach(zone,"ZonePlate",24);zoneFrame=zonePlate.Frame.rectTransform;
             // With a plate stepped aside its words keep a backing of their own, so they never read as painted on the floor.
             panels[0]=new PanelFade(vitals,frame).Backs(status,hpLabel,chargeLabel,thrustLabel,partner,resting);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame).Backs(target);
             panels[2]=new PanelFade(promptPlate.Frame.rectTransform,promptPlate.Frame).Backs(prompt);
@@ -111,13 +147,14 @@ namespace Lattice.UI
             probe=Text("InputProbe",BottomRight,new(1630,280),new(500,180),16,TextAlignmentOptions.Right);
 #endif
             BuildBossBar();gameObject.AddComponent<BossEdgeMark>().Build(canvas.transform);
-            // A place where light hunts the ship (the Spore Veil) shows its glow under the vitals; anywhere else the gauge stays hidden.
-            gameObject.AddComponent<GlowGauge>().Build(canvas.transform);
-            // A place of currents (the Aurora Shear) shows what the current is doing to the lead ship in the same spot; anywhere else that gauge stays hidden too.
-            gameObject.AddComponent<CurrentGauge>().Build(canvas.transform);
-            // A place with a picket (the Picket of Teeth) shows how much it has heard and what its stage brings, in the same spot; anywhere else that gauge stays hidden.
-            gameObject.AddComponent<PicketGauge>().Build(canvas.transform);
-            Health.DamageNumber+=Damage;PlayerBrain.QuickItemRefused+=OnItemRefused;PlayerBrain.SwapRefused+=OnSwapRefused;
+            // A place where light hunts the ship (the Spore Veil) shows its glow under the vitals; anywhere else the gauge stays hidden. It hangs from the vitals' real foot:
+            // the Picket's panel stood at a fixed height 22 units up into the vitals and cut 'RESTING SELA' in half all through the zone (November 20's capture).
+            glowGauge=gameObject.AddComponent<GlowGauge>();glowGauge.Build(canvas.transform,VitalsFoot);
+            // A place of currents (the Aurora Shear) shows what the current is doing to the lead ship, low on the left; anywhere else that gauge stays hidden too.
+            currentGauge=gameObject.AddComponent<CurrentGauge>();currentGauge.Build(canvas.transform);
+            // A place with a picket (the Picket of Teeth) shows how much it has heard and what its stage brings, under the vitals; anywhere else that gauge stays hidden.
+            picketGauge=gameObject.AddComponent<PicketGauge>();picketGauge.Build(canvas.transform,VitalsFoot);
+            PlayerBrain.QuickItemRefused+=OnItemRefused;PlayerBrain.SwapRefused+=OnSwapRefused;
             Health.Impacted+=Struck;Impact.LeadHurt+=OnLeadHurt;
         }
         void BuildBossBar()
@@ -147,13 +184,15 @@ namespace Lattice.UI
             // Under the skill icons: the band's lower edge reaches the first two, and a fight's next press mustn't go dim for it.
             bossRoot.transform.SetSiblingIndex(skillIcons[0].transform.GetSiblingIndex());
             bossRoot.SetActive(false);
-            // The title card: the boss's name as its fight begins, in a film title's place just over the bar. SeatBossCard moves it when the camera is about to carry the hero down into that place.
-            // Across the middle of the screen it lay on the hero and on the first marked attack, and under the target plate it lay on the boss, her name and the numbers across her from the hips up. Its words hold on their own for the moment they're up.
-            bossRule=UiKit.Panel(canvas.transform,"BossTitleRule",UiKit.GoldColor);bossRule.raycastTarget=false;bossRule.enabled=false;bossCardRule=Corner(bossRule.gameObject,BottomCentre,new(960,CardLow+CardRuleUp),new(620,3));
+            // The title card: the boss's name as its fight begins, in one place, across the top of the screen between the vitals and the objective, where the target card
+            // stands (it gives way for the card's moment). Over the bar it lay on Sela's feet at Hessa's (s15 135) and sat on the bar that says the same name under it
+            // (s63 031); moved to the middle when the camera carried the hero down, it lay on Taren and the Warden (s41 030). The fixed camera keeps the party in the
+            // middle and low and the bar is at the foot, so the top is the one band neither is ever in. A boss framed high can stand under it for its second and a half.
+            bossRule=UiKit.Panel(canvas.transform,"BossTitleRule",UiKit.GoldColor);bossRule.raycastTarget=false;bossRule.enabled=false;bossCardRule=Corner(bossRule.gameObject,TopCentre,new(960,1080-CardFrom+CardRuleUp),new(620,3));
             bossCard=UiKit.Legible(UiKit.Heading(canvas.transform,"BossTitleCard","",58,new Color(1,.93f,.8f)));
-            Corner(bossCard.gameObject,BottomCentre,new(960,CardLow+CardNameUp),new(740,76));bossCard.textWrappingMode=TextWrappingModes.NoWrap;bossCard.raycastTarget=false;
+            Corner(bossCard.gameObject,TopCentre,new(960,1080-CardFrom+CardNameUp),new(740,76));bossCard.textWrappingMode=TextWrappingModes.NoWrap;bossCard.raycastTarget=false;
             bossCardEpithet=UiKit.Legible(UiKit.Text(canvas.transform,"BossTitleEpithet","",28,UiKit.LooseTextColor,TextAlignmentOptions.Center));
-            Corner(bossCardEpithet.gameObject,BottomCentre,new(960,CardLow),new(740,44));bossCardEpithet.raycastTarget=false;
+            Corner(bossCardEpithet.gameObject,TopCentre,new(960,1080-CardFrom),new(740,44));bossCardEpithet.raycastTarget=false;
             bossCard.alpha=bossCardEpithet.alpha=0;
         }
         TMP_Text BossText(string name,Vector2 pos,int font,TextAlignmentOptions align)
@@ -182,9 +221,7 @@ namespace Lattice.UI
         {
             var boss=BossController.Focus(active.transform.position);bool show=boss!=null;
             if(bossRoot.activeSelf!=show)bossRoot.SetActive(show);
-            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.fontSize=CardSizeFor(boss.DisplayName);bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;cardSeated=false;}
-            // A conversation can open the fight, with the camera framed for the talk: the card waits for the bar to be seen, as its clock does.
-            if(show&&!cardSeated&&!GameInput.Current.Blocked){cardSeated=true;SeatBossCard(boss,active);}
+            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.fontSize=CardSizeFor(boss.DisplayName);bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;}
             AdvanceBossCard();
             if(!show){shownBoss=null;shownCollar=null;return false;}
             var health=boss.Health;
@@ -196,8 +233,10 @@ namespace Lattice.UI
             float meter=health.Broken?1:Mathf.Clamp01(health.BreakMeter/Mathf.Max(1,health.breakThreshold));
             bossBreak.rectTransform.sizeDelta=new Vector2(BossBarWidth*meter,7);bossBreak.color=health.Broken?new Color(1,.92f,.45f):new Color(1,.62f,.2f,.85f);
             if(bossName.text!=boss.DisplayName)bossName.text=boss.DisplayName;
-            // The card says it first: the bar takes it up when the card has gone, not the same words twice at once.
-            string epithet=bossCardAge<BossCardGone?"":boss.Epithet;if(bossEpithet.text!=epithet)bossEpithet.text=epithet;
+            // The card says it first: the bar takes it up when the card has gone, not the same words twice at once. The name too: it stood under the card's own (s15 135, s63 031).
+            // The name keeps its words and is only not drawn, so whatever reads the bar for whose fight this is still finds them.
+            bool carded=CardUp;string epithet=carded?"":boss.Epithet;if(bossEpithet.text!=epithet)bossEpithet.text=epithet;
+            float named=carded?0:1;if(bossName.alpha!=named)bossName.alpha=named;
             for(int i=0;i<bossNotches.Count;i++)
             {
                 bool on=i<bossMarks.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
@@ -244,31 +283,13 @@ namespace Lattice.UI
             float room=(width-(1920-(1340-37)))-width*.5f-StateAir,margin=Mathf.Max(0,BossBarWidth*.5f-room);
             bossState.margin=new Vector4(margin,0,margin,0);
         }
-        /// <summary>The card's epithet, from the foot of the screen in its usual place, or from the middle of the screen; and how far over it the rule and the name stand.</summary>
-        const float CardLow=278,CardMiddle=-28,CardRuleUp=23,CardNameUp=62;
-        /// <summary>The top of the part of the screen a boss's framing keeps it in (PartyController).</summary>
-        const float FightTop=.93f;
-        bool cardSeated=true;
-        /// <summary>Where the words stand, chosen as the card first shows and then left alone. Just over the bar they're clear of a boss the hero is close to, as Hessa is. But a big boss or a far one makes the camera slide until it fits, which carries the hero down to the bottom of his part of the screen, with his feet .25 to .3 up it at the Bellows and the Burrower: the words would lie on him, so they go in the gap between the two.
-        /// Read ahead, from where the boss's top stands now. A flight frames both from their middle.</summary>
-        void SeatBossCard(BossController boss,CombatActor hero)
-        {
-            bool middle=false;var camera=Camera.main;
-            if(camera!=null&&!hero.flight)
-            {
-                float reach=1,high=boss.transform.position.y+2;
-                foreach(var view in boss.GetComponentsInChildren<Renderer>())
-                    if(view is MeshRenderer||view is SkinnedMeshRenderer){var size=view.bounds;reach=Mathf.Max(reach,Mathf.Max(size.extents.x,size.extents.z));high=Mathf.Max(high,size.max.y);}
-                var away=camera.transform.forward;away.y=0;var top=boss.transform.position+away.normalized*(reach*.8f);top.y=high;
-                // Behind the lens a viewport reading comes back mirrored, and a boss far down the screen read as far up it.
-                var seen=camera.WorldToViewportPoint(top);
-                float feet=camera.WorldToViewportPoint(hero.transform.position).y-(seen.z>0?Mathf.Max(0,seen.y-FightTop):0);
-                middle=feet<(CardLow+CardNameUp+38)/((RectTransform)canvas.transform).rect.height+.02f;
-            }
-            var anchor=middle?Middle:BottomCentre;float from=middle?CardMiddle:CardLow;
-            void Put(RectTransform piece,float up){piece.anchorMin=piece.anchorMax=anchor;piece.anchoredPosition=new Vector2(0,from+up);}
-            Put(bossCardEpithet.rectTransform,0);Put(bossCardRule,CardRuleUp);Put(bossCard.rectTransform,CardNameUp);
-        }
+        /// <summary>The card's epithet, its middle this far down from the top of the screen; and how far over it the rule and the name stand. Name, rule and epithet stand
+        /// from 26 to 148 units down, between the vitals (to 535 across) and the objective (from 1340).</summary>
+        public const float CardFrom=126,CardRuleUp=23,CardNameUp=62;
+        /// <summary>Whether the boss's title card is up: the bar's name and epithet and the target card wait for it.</summary>
+        public bool CardUp=>bossCardAge<BossCardGone;
+        /// <summary>The card gone this frame, as if its time had run.</summary>
+        void EndBossCard(){bossCardAge=BossCardGone;bossCard.alpha=bossCardEpithet.alpha=0;bossRule.enabled=false;}
         /// <summary>The card enters: the name's letters close up as it fades in and a gold rule draws out under it. Its clock runs from when the bar can be seen: a conversation hides the HUD, and the card spent itself behind Hessa's.</summary>
         void AdvanceBossCard()
         {
@@ -351,17 +372,25 @@ namespace Lattice.UI
             bool waiting=Deployment.Choosing(state);if(resting.gameObject.activeSelf!=waiting)resting.gameObject.SetActive(waiting);if(waiting)resting.text=PartyPairUi.RestingLine(state);
             zone.text=DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
-            string card;
-            if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
-                // The bar has a boss's name and gauge. The Cantor's lock is the one thing on its body the objective names, so the plate names it too, with its progress.
-                card=shownCollar!=null?(a.TargetLocked?"LOCKED  ·  ":"")+$"COLLAR LOCK   {a.target.integrity:0}/{a.target.maximum:0}{Branded(a.target)}\n"+TargetKeys(a):(a.TargetLocked?"LOCKED    ":"")+(a.target.Branded?"BRANDED    ":"")+TargetKeys(a);
-            else if(a.target!=null&&a.target.Alive)
-                card=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}{Branded(a.target)}\n"+
-                    (a.target.Broken?"BROKEN    ":a.target.breakThreshold>=Unbreakable?"":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0")+"    ")+
+            var camera=Camera.main;
+            string card;var aimed=Aimed(camera,a);
+            if(aimed!=null&&bossUp&&shownBoss!=null&&aimed==shownBoss.Health)
+                // A boss's card names her and her integrity, as every other target's does: it said only 'LOCKED · LB UNLOCK · D-pad left/right SWITCH' for every boss fought on
+                // foot (Hessa, the Seedthane, the Floodcrown, the Last Warden, Vessa, Meret), because the bar under the fight has her name. The bar has her break, so the card
+                // doesn't repeat that. The Cantor's lock is the one thing on its body the objective names, so its card names that, with its progress, and whose it is, as each
+                // of its links' cards does: 'COLLAR LOCK 28808/30250' stood alone after 'LOCKED · CANTOR — SWEEP LINK' (s10 106, 123).
+                card=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(shownCollar!=null?CollarLock(aimed):shownBoss.DisplayName).ToUpperInvariant()}   {aimed.integrity:0}/{aimed.maximum:0}{Branded(aimed)}\n"+TargetKeys(a);
+            else if(aimed!=null)
+                card=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(aimed.GetComponent<CantorCollar>()!=null?CollarLock(aimed):DisplayNames.Target(aimed.id)).ToUpperInvariant()}   {aimed.integrity:0}/{aimed.maximum:0}{Branded(aimed)}\n"+
+                    (aimed.Broken?"BROKEN    ":aimed.breakThreshold>=Unbreakable?"":"BREAK "+aimed.BreakMeter.ToString("0")+" / "+aimed.breakThreshold.ToString("0")+"    ")+
                     TargetKeys(a);
             else card="";
-            var camera=Camera.main;Watched(camera,party,a);SlideCard(card);
-            reticle.enabled=a.target!=null&&a.target.Alive;
+            // The boss's title card stands in the target card's place for its moment, and gives it back at once to a lock: a lock is the player asking what they're on,
+            // and how to get from the boss to what's round her (D254), and the card is only a flourish.
+            if(CardUp&&a.TargetLocked&&aimed!=null)EndBossCard();
+            if(CardUp)card="";
+            Watched(camera,party,a);SlideCard(card);
+            reticle.enabled=aimed!=null;
             if(reticle.enabled)
             {
                 var screen=Camera.main.WorldToScreenPoint(aim.Centre(a.target));
@@ -398,6 +427,20 @@ namespace Lattice.UI
                 strike+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+swap+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
             StepAside(party,a);
+        }
+        /// <summary>The lock on a collared body's head, named as its links are ('Cantor - sweep link'): 'CANTOR — COLLAR LOCK'.</summary>
+        static string CollarLock(Health head)=>DisplayNames.Target(head.id+" - collar lock");
+        /// <summary>The target the card and the reticle are about, or none: alive and still in the world, and either locked or on the screen. The lead's aim falls on the nearest
+        /// body in reach whether or not it can be seen, and after Vessa fell 'MUSTER PIKEGUARD 814/1500' stood on the card for forty steps with no Pikeguard anywhere on the
+        /// screen (s48 229 to 269). A lock is the player's own choice and holds while its body lives and stands in the world; PlayerBrain lets go of it when it can't be hit.</summary>
+        Health Aimed(Camera camera,CombatActor a)
+        {
+            var target=a.target;
+            if(target==null||!target.Alive||!target.gameObject.activeInHierarchy)return null;
+            if(a.TargetLocked)return target;
+            if(camera==null)return null;
+            var seen=camera.WorldToViewportPoint(aim.Centre(target));
+            return seen.z>0&&seen.x>=0&&seen.x<=1&&seen.y>=0&&seen.y<=1?target:null;
         }
         /// <summary>The middle of a body as it's drawn, measured once when it's first aimed at and carried on its own transform after that: a bobbing dart keeps its
         /// mark with no search every frame. A root's position plus a metre missed flying bodies by 30 to 40 px, so the brackets framed empty sky.</summary>
@@ -591,7 +634,7 @@ namespace Lattice.UI
         {
             if(string.IsNullOrEmpty(prompt.text)||camera==null){promptSlide=0;Move(prompt,promptPlate,PromptHome);return;}
             if(prompt.text!=promptMeasured){promptMeasured=prompt.text;promptSize=PlateSize(prompt,promptMeasured,1200,PromptPadX,PromptPadY);}
-            float scale=canvas.scaleFactor,halfW=promptSize.x*.5f,halfH=promptSize.y*.5f,low=PromptHome.y-halfH-SlideAir,high=PromptHome.y+halfH+SlideAir,width=((RectTransform)canvas.transform).rect.width,homeX=width*.5f;
+            float scale=canvas.scaleFactor,halfW=promptSize.x*.5f,halfH=promptSize.y*.5f,row=PromptRow(halfH),low=row-halfH-SlideAir,high=row+halfH+SlideAir,width=((RectTransform)canvas.transform).rect.width,homeX=width*.5f;
             promptRoom.Begin();
             void Keep(Rect box){if(box.yMax>low&&box.yMin<high)promptRoom.Shut(box.xMin-halfW-homeX,box.xMax+halfW-homeX);}
             foreach(var member in party.members)if(HeroBox(camera,member,scale,out var body))Keep(body);
@@ -600,11 +643,24 @@ namespace Lattice.UI
                 if(thing==null||!thing.Available)continue;var at=camera.WorldToScreenPoint(thing.transform.position);if(at.z<=0)continue;
                 float x=at.x/scale,y=at.y/scale;Keep(Rect.MinMaxRect(x-PromptRound,y-PromptRound,x+PromptRound,y+PromptRound));
             }
+            // A bark come down its column stands at the left of this row: the bar slides off it as off a hero.
+            if(panels[6]!=null&&panels[6].Showing)Keep(Scaled(panels[6].Box,scale));
             float reach=Mathf.Max(0,homeX-halfW-PromptSideRoom);
             float wanted=promptRoom.Seat(promptSlide,-reach,reach,SlideAir)??promptSlide;
             promptSlide=Mathf.MoveTowards(promptSlide,wanted,Time.unscaledDeltaTime*SlidePerSecond);
-            Move(prompt,promptPlate,PromptHome+new Vector2(promptSlide,0));
+            Move(prompt,promptPlate,new Vector2(promptSlide,row));
         }
+        /// <summary>The middle of the prompt's row: at the foot of the screen, or with a boss bar up, standing on the bar's band. A hand a fight asks for (a clamp's dock,
+        /// a pad's launch: InteractionPrompt.InFight) is offered with the bar up, and at its usual row it was drawn across the bar's name and epithet, neither readable,
+        /// in every flight fight with a dock or a launch in it (the Mother of Doors, s63 044; the Tollkeeper, s65 055; Meret's craft, s66 149).</summary>
+        float PromptRow(float halfH)
+        {
+            if(bossRoot==null||!bossRoot.activeSelf)return PromptHome.y;
+            float top=bossBand.anchoredPosition.y+bossBand.sizeDelta.y*.5f;
+            return Mathf.Max(PromptHome.y,top+PromptOverBar+halfH);
+        }
+        /// <summary>How far over the bar's band the prompt's plate stands: its words' own room, past the band's soft edge.</summary>
+        const float PromptOverBar=10;
         /// <summary>Where the HUD's plates stand this frame, for what moves in the world to keep out from under (the partner). Nothing while the HUD is hidden.</summary>
         void KeepOut()
         {
@@ -638,96 +694,162 @@ namespace Lattice.UI
         }
         static string Readable(string value)=>System.Text.RegularExpressions.Regex.Replace(value??"","(?<=[a-z])(?=[A-Z])"," ");
         // ---------- damage numbers ----------
-        /// <summary>A number holds for most of its life and then fades; all rise at one speed, so what's clear of its neighbours when it lands stays clear.</summary>
-        const float NumberLife=1.05f,NumberHold=.7f,NumberRise=.85f;
-        /// <summary>Hits on one body this close together add up on one number while they keep coming, up to the most one number runs. Inside .1 s only a volley merged: a stream of swings on a fast target left a fan of the same digits over what the player was aiming at.</summary>
-        const float MergeWindow=.28f,MergeMost=.7f;
-        /// <summary>The air between neighbours: with 8, '16 16 216!' read as one string.</summary>
-        static readonly Vector2 NumberGap=new(18,4);
+        /// <summary>One live number for each attacker on each body (D356). A hit by the same attacker while its number lives adds to it and pops it again; a critical keeps
+        /// its mark once it has landed in it; what nobody swung (rising water, a cave's pulse, a wall flown into) and the bite of a burning strip share one more. A body's numbers
+        /// stand round it as one group, seated apart at their popped size and moved off the panels and the screen's edge together, so they never touch each other or the
+        /// body's name. Keyed by the kind of hit and a one-second window instead, every reviewer of the November 22 capture still saw two to four numbers on one body:
+        /// '295 273 42! 33' on the Bellows (s08 067), '621!! 180 257!!' on the Burrower (s06 037), '1587 2371!! 568!! 2254' on the Warden (s41 037), '78!' over '48' (s14 144).
+        /// A number holds most of its life and then fades.</summary>
+        const float NumberLife=1.05f,NumberHold=.7f;
+        /// <summary>A hit added to a live number pops it: it comes back this much larger and settles over this long. Its room on the screen is the popped size.</summary>
+        const float PopLarger=.28f,PopSeconds=.16f;
+        /// <summary>How long a body's numbers stay once it's down: the killing blow is read, and the rest don't go on rising off a beaten skiff while the party says it's over (s52 177, s26 457).</summary>
+        const float DownLinger=.6f;
+        /// <summary>Less than this is no hit at all to show: '0!!' stood beside '5113!!' on the Warden (s41 036).</summary>
+        const float LeastShown=.5f;
+        /// <summary>The air between neighbours: with 8, '16 16 216!' read as one string; with 4 over and under, '78!' sat on '48' (s14 144).</summary>
+        static readonly Vector2 NumberGap=new(18,10);
         /// <summary>How far in from the screen's edge a body's fan stands. Clamped a number at a time, the numbers of a body off the screen lay in a dead-straight column against the edge.</summary>
         static readonly Vector2 FanRoom=new(220,120);
-        /// <summary>How much of the lock reticle's middle a number leaves clear when it lands, and how far under it it won't land, since all numbers rise.</summary>
+        /// <summary>How much of the lock reticle's middle a number leaves clear when it lands, and how far under it it won't land.</summary>
         const float ReticleMiddle=34,ReticleRise=70;
-        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public HitKind kind;public string mark;public float amount,born,lastHit,age,quiet;public Vector3 world;public Vector2 offset,size;public bool rises,crit;}
-        readonly System.Collections.Generic.List<Floater> floaters=new();
-        /// <summary>Where to try a new number, in its own widths and heights from its body: beside it first, then over and under.</summary>
+        /// <summary>Whom a number is for when nobody swung: hazards, and a burning strip's bite (LingeringArea's packet: a tick that is a death's attack), share one between them.</summary>
+        static readonly object Unswung=new();
+        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public object by;public HitKind kind;public FontStyles style;public float amount,age,quiet,popped;public Vector3 world;public Vector2 offset,room;public bool crit;}
+        readonly System.Collections.Generic.List<Floater> floaters=new(),together=new();
+        /// <summary>Where to try a new number, in its own room from its body: beside it first, then over and under.</summary>
         static readonly Vector2[] Slots={new(0,0),new(1,0),new(-1,0),new(0,1),new(1,1),new(-1,1),new(2,0),new(-2,0),new(0,-1),new(1,-1),new(-1,-1),new(2,1),new(-2,1),new(0,2),new(1,2),new(-1,2),new(2,-1),new(-2,-1),new(2,2),new(-2,2)};
-        void Damage(Health health,float amount,HitKind kind)
+        static (string mark,float size,Color color) Look(HitKind kind)=>kind switch{HitKind.Weak=>("!",32f,new Color(1,.72f,.26f)),HitKind.WeakSpot=>("!!",34f,new Color(1,.93f,.45f)),HitKind.Resisted=>("",24f,new Color(.62f,.66f,.7f)),_=>("",27f,Color.white)};
+        /// <summary>Every number comes from here: the hit, its packet (who swung, and whether it was a critical), what it did and what kind it was.</summary>
+        void Struck(Health health,DamagePacket packet,float amount,HitKind kind,bool broke,bool killed)
         {
-            if(canvas==null||health==null||Camera.main==null)return;
+            if(canvas==null||health==null||Camera.main==null||amount<LeastShown)return;
             float now=Time.unscaledTime;
-            // Hits landing together read as one: a volley's pellets or a spin's ticks were a stack of the same digits. It's held from its last hit, and goes on rising from its first.
-            foreach(var open in floaters)if(open.from==health&&open.kind==kind&&now-open.lastHit<MergeWindow&&now-open.born<MergeMost)
-            {open.amount+=amount;open.lastHit=now;open.quiet=0;open.text.text=open.amount.ToString("0")+open.mark;open.size=open.text.GetPreferredValues(open.text.text,160,60)+NumberGap;open.rect.SetAsLastSibling();return;}
-            var (mark,size,color)=kind switch{HitKind.Weak=>("!",32f,new Color(1,.72f,.26f)),HitKind.WeakSpot=>("!!",34f,new Color(1,.93f,.45f)),HitKind.Resisted=>("",24f,new Color(.62f,.66f,.7f)),_=>("",27f,Color.white)};
-            var t=UiKit.Legible(UiKit.Text(canvas.transform,"Damage",amount.ToString("0")+mark,size,color));
+            bool burn=packet.weight==HitWeight.Tick&&packet.deathAttack;
+            object by=burn||ReferenceEquals(packet.source,null)?Unswung:packet.source;
+            bool crit=packet.isCrit&&!health.friendly&&kind!=HitKind.Resisted;
+            foreach(var open in floaters)
+            {
+                if(!ReferenceEquals(open.from,health)||!ReferenceEquals(open.by,by)||open.quiet>=NumberLife)continue;
+                // Added to and popped again, in the latest hit's colour and mark: a resisted blow after a clean one reads grey, so the number still says what this hit did.
+                open.amount+=amount;open.kind=kind;open.crit|=crit;open.quiet=0;open.popped=now;Dress(open);open.rect.SetAsLastSibling();
+                // Grown into a neighbour, it takes the next clear place round its body.
+                if(!Roomy(open,open.offset))Seat(open);
+                return;
+            }
+            var t=UiKit.Legible(UiKit.Text(canvas.transform,"Damage","",27,Color.white));t.textWrappingMode=TextWrappingModes.NoWrap;
             var rect=UiKit.Rect(t.gameObject,Middle,Middle,Vector2.zero,new(160,60));
-            var floater=new Floater{text=t,rect=rect,from=health,kind=kind,mark=mark,amount=amount,born=now,lastHit=now,world=health.transform.position+Vector3.up*1.9f,size=t.GetPreferredValues(t.text,160,60)+NumberGap};
-            Seat(floater);floaters.Add(floater);
+            var floater=new Floater{text=t,rect=rect,from=health,by=by,kind=kind,style=t.fontStyle,amount=amount,popped=now,crit=crit,world=Head(health)};
+            Dress(floater);Seat(floater);floaters.Add(floater);floater.rect.anchoredPosition=FanAnchor(floater.world)+floater.offset;
+        }
+        static Vector3 Head(Health body)=>body.transform.position+Vector3.up*1.9f;
+        /// <summary>How a number reads: its sum, the latest hit's colour and mark, and once a critical has landed in it a crit's lean, weight and size, kept. Its rect is its ink, and
+        /// its room is the ink with the air round it, at the size a pop takes it to.</summary>
+        void Dress(Floater f)
+        {
+            var (mark,size,color)=Look(f.kind);
+            f.text.text=f.amount.ToString("0")+mark;f.text.fontSize=size+(f.crit?CritLarger:0);
+            f.text.fontStyle=f.crit?f.style|FontStyles.Bold|FontStyles.Italic:f.style;
+            f.text.color=f.crit&&f.kind==HitKind.Normal?CritColor:color;
+            var ink=f.text.GetPreferredValues(f.text.text,400,80);
+            f.rect.sizeDelta=ink+new Vector2(8,4);f.room=(ink+NumberGap)*(1+PopLarger);
+        }
+        /// <summary>The first place round its body, in its own room, off the lock's middle, clear of its body's other numbers and of its body's name, and clear of every other body's
+        /// numbers where they stand now. With none clear of everything, the first that's clear of its own body's.</summary>
+        void Seat(Floater f)
+        {
+            var anchor=FanAnchor(f.world);Vector2? own=null;
+            foreach(var slot in Slots)
+            {
+                var offset=Vector2.Scale(slot,f.room);
+                if(!OffTheLock(anchor+offset,f.room)||!Roomy(f,offset))continue;
+                own??=offset;
+                if(!ClearOfOthers(f,anchor+offset))continue;
+                f.offset=offset;return;
+            }
+            f.offset=own??Vector2.Scale(Slots[Slots.Length-1],f.room);
+        }
+        /// <summary>Whether this place round its body leaves its body's other numbers and its name clear, each at its popped size.</summary>
+        bool Roomy(Floater f,Vector2 offset)
+        {
+            foreach(var other in floaters)
+            {
+                if(other==f||!ReferenceEquals(other.from,f.from))continue;
+                var gap=offset-other.offset;
+                if(Mathf.Abs(gap.x)<(f.room.x+other.room.x)*.5f&&Mathf.Abs(gap.y)<(f.room.y+other.room.y)*.5f)return false;
+            }
+            return !OnItsName(f,offset);
+        }
+        bool ClearOfOthers(Floater f,Vector2 at)
+        {
+            foreach(var other in floaters)
+            {
+                if(other==f||ReferenceEquals(other.from,f.from))continue;
+                var gap=at-other.rect.anchoredPosition;var size=other.rect.sizeDelta*other.rect.localScale.x;
+                if(Mathf.Abs(gap.x)<(f.room.x+size.x)*.5f&&Mathf.Abs(gap.y)<(f.room.y+size.y)*.5f)return false;
+            }
+            return true;
+        }
+        /// <summary>A named body's tag over its head (PeopleMarks), measured where it hangs now, as a place round the body's anchor.</summary>
+        bool OnItsName(Floater f,Vector2 offset)
+        {
+            if(f.from==null)return false;var npc=f.from.GetComponentInParent<Lattice.World.Npc>();if(npc==null)return false;
+            var camera=Camera.main;var anchor=FanAnchor(f.world);
+            foreach(var name in npc.GetComponentsInChildren<TextMeshPro>())
+            {
+                if(!name.name.StartsWith("Sign_")||!name.isActiveAndEnabled||name.alpha<.05f)continue;
+                var b=name.textBounds;float em=name.fontSize*.1f*.9f;Vector2 lo=new(float.MaxValue,float.MaxValue),hi=new(float.MinValue,float.MinValue);
+                foreach(var x in new[]{b.min.x-em,b.max.x+em})foreach(var y in new[]{b.min.y-em,b.max.y+em})
+                {var p=OnCanvas(name.transform.TransformPoint(new Vector3(x,y,0)));lo=Vector2.Min(lo,p);hi=Vector2.Max(hi,p);}
+                var tag=Rect.MinMaxRect(lo.x-anchor.x,lo.y-anchor.y,hi.x-anchor.x,hi.y-anchor.y);
+                if(tag.Overlaps(new Rect(offset-f.room*.5f,f.room)))return true;
+            }
+            return false;
+        }
+        /// <summary>The numbers' frame: each fades, a body down takes its numbers soon after, and each body's numbers are laid out round it as one group, put off the panels and the
+        /// screen's edge together, so what doesn't touch where it was seated never touches.</summary>
+        void AdvanceNumbers()
+        {
+            if(Camera.main==null)return;
+            float now=Time.unscaledTime,dt=Time.unscaledDeltaTime;
+            for(int i=floaters.Count-1;i>=0;i--)
+            {
+                var f=floaters[i];f.quiet+=dt;
+                if(f.from==null||!f.from.Alive)f.quiet=Mathf.Max(f.quiet,NumberLife-DownLinger);
+                if(f.quiet>=NumberLife){Destroy(f.text.gameObject);floaters.RemoveAt(i);continue;}
+                if(f.from!=null)f.world=Head(f.from);
+                f.age=-1;
+            }
+            foreach(var first in floaters)
+            {
+                if(first.age>=0)continue;
+                together.Clear();foreach(var f in floaters)if(f.age<0&&ReferenceEquals(f.from,first.from)){together.Add(f);f.age=0;}
+                var anchor=FanAnchor(first.world);float left=float.MaxValue,right=float.MinValue,low=float.MaxValue,high=float.MinValue;
+                foreach(var f in together)
+                {
+                    float pop=1+PopLarger*Mathf.Clamp01(1-(now-f.popped)/PopSeconds);f.rect.localScale=Vector3.one*pop;
+                    // Its room, not its size this frame: a pop near a panel would otherwise shift the whole group for as long as it lasts.
+                    var half=f.room*.5f;var at=anchor+f.offset;
+                    left=Mathf.Min(left,at.x-half.x);right=Mathf.Max(right,at.x+half.x);low=Mathf.Min(low,at.y-half.y);high=Mathf.Max(high,at.y+half.y);
+                    f.text.alpha=f.quiet<NumberHold?1:1-(f.quiet-NumberHold)/(NumberLife-NumberHold);
+                }
+                var middle=new Vector2((left+right)*.5f,(low+high)*.5f);var size=new Vector2(right-left,high-low);
+                var moved=ClearOfFrames(OnScreen(middle,size),size)-middle;
+                foreach(var f in together)f.rect.anchoredPosition=anchor+f.offset+moved;
+            }
         }
         /// <summary>How much larger a crit's number is, and what a plain one's colour becomes: a weak hit's keeps its own orange or yellow and its marks.</summary>
         const float CritLarger=7;
         static readonly Color CritColor=new(1,.97f,.7f);
-        /// <summary>A crit's number says so: it leans, it's heavier and a size up, and a plain one goes pale gold. It was the same white digits as any hit, only a larger sum. The number
-        /// is the one this hit has just made or added to, found by its body in this frame (<see cref="Health.Impacted"/> follows the number's own event in the same call).</summary>
-        void Struck(Health health,DamagePacket packet,float amount,HitKind kind,bool broke,bool killed)
-        {
-            if(!packet.isCrit||amount<=0||health==null||health.friendly||kind==HitKind.Resisted)return;
-            float now=Time.unscaledTime;
-            foreach(var open in floaters)
-            {
-                if(open.crit||open.from!=health||open.kind!=kind||open.lastHit!=now)continue;
-                open.crit=true;open.text.fontStyle|=FontStyles.Bold|FontStyles.Italic;open.text.fontSize+=CritLarger;
-                if(kind==HitKind.Normal)open.text.color=CritColor;
-                open.size=open.text.GetPreferredValues(open.text.text,160,60)+NumberGap;return;
-            }
-        }
         static readonly Color IntegrityColor=new(.23f,.88f,.72f);
         float hurtAt=-99;
         void OnLeadHurt(float share,bool down)=>hurtAt=Time.unscaledTime;
-        /// <summary>The first slot clear of every number still up, on anyone: two bodies side by side smeared just as one did.</summary>
-        void Seat(Floater floater)
-        {
-            var anchor=FanAnchor(floater.world);var spot=anchor;var size=floater.rect.sizeDelta;floater.rises=true;bool crowded=false;
-            foreach(var slot in Slots)
-            {
-                var wanted=anchor+Vector2.Scale(slot,floater.size);var tried=ClearOfFrames(OnScreen(wanted,size),size);
-                if(!OffTheLock(tried,floater.size))continue;
-                // With every slot taken a number lands on another number before it lands on the lock: eight up at once fills them, and the fall-back was the anchor, the lock's very middle.
-                if(!crowded){crowded=true;spot=tried;floater.rises=tried==wanted;}
-                if(!Free(tried,floater.size))continue;
-                spot=tried;floater.rises=tried==wanted;break;
-            }
-            // Put aside by a frame or the screen's edge, it holds there: rising, it would only press against what it left.
-            floater.offset=spot-anchor;floater.rect.anchoredPosition=spot;
-        }
         /// <summary>The middle of the lock is where the player is aiming: '!!' piled on a head hid the head and the reticle both.</summary>
         bool OffTheLock(Vector2 at,Vector2 size)
         {
             if(!reticle.enabled)return true;
             var off=at-reticle.rectTransform.anchoredPosition;float above=size.y*.5f+ReticleMiddle;
             return !(Mathf.Abs(off.x)<size.x*.5f+ReticleMiddle&&off.y<above&&off.y>-above-ReticleRise);
-        }
-        bool Free(Vector2 at,Vector2 size)
-        {
-            foreach(var other in floaters)
-            {
-                var gap=at-other.rect.anchoredPosition;
-                if(Mathf.Abs(gap.x)<(size.x+other.size.x)*.5f&&Mathf.Abs(gap.y)<(size.y+other.size.y)*.5f)return false;
-            }
-            return true;
-        }
-        void AdvanceNumbers()
-        {
-            if(Camera.main==null)return;
-            for(int i=floaters.Count-1;i>=0;i--)
-            {
-                var floater=floaters[i];floater.age+=Time.unscaledDeltaTime;floater.quiet+=Time.unscaledDeltaTime;
-                if(floater.quiet>=NumberLife){Destroy(floater.text.gameObject);floaters.RemoveAt(i);continue;}
-                var at=floater.rises?floater.world+Vector3.up*(NumberRise*floater.age):floater.world;var size=floater.rect.sizeDelta;
-                floater.rect.anchoredPosition=ClearOfFrames(OnScreen(FanAnchor(at)+floater.offset,size),size);
-                floater.text.alpha=floater.quiet<NumberHold?1:1-(floater.quiet-NumberHold)/(NumberLife-NumberHold);
-            }
         }
         Vector2 OnCanvas(Vector3 world)
         {
@@ -746,18 +868,40 @@ namespace Lattice.UI
         Vector2 ClearOfFrames(Vector2 point,Vector2 size)
         {
             var root=(RectTransform)canvas.transform;
-            for(int i=0;i<7;i++)
+            // From the top of the screen down, then from the foot up, so a number put off one is put off the next it meets as well. The zone's name, the pickup feed, the
+            // bark and the quest card are read mid-fight too: '81 67 242!' printed across THE DROWNED WAYSTATION (s26 301), '1575!' ran into 'Idra Sorn Down.' (s48 162)
+            // and 'Saved' stood over a faint '2173' (s58 176). The title card stands at the top and a number on it goes down off it; the prompt and a boss's bar are at the foot and it goes up.
+            for(int i=0;i<13;i++)
             {
-                var frame=i switch{0=>vitals,1=>objective!=null?objective.Frame:null,2=>targetPlate!=null&&targetPlate.Frame.enabled?targetPlate.Frame.rectTransform:null,3=>bossCardEpithet!=null&&bossCardEpithet.alpha>0?bossCardEpithet.rectTransform:null,4=>bossCard!=null&&bossCard.alpha>0?bossCard.rectTransform:null,5=>ZoneController.Current!=null&&ZoneController.Current.Combat?skillRow:null,_=>skillsPlate!=null&&skillsPlate.Frame.enabled?skillsPlate.Frame.rectTransform:null};if(frame==null)continue;
+                RectTransform frame;bool rise=false,sink=false;
+                switch(i)
+                {
+                    case 0:frame=bossCard!=null&&bossCard.alpha>0?bossCard.rectTransform:null;sink=true;break;
+                    case 1:frame=bossCardEpithet!=null&&bossCardEpithet.alpha>0?bossCardEpithet.rectTransform:null;sink=true;break;
+                    case 2:frame=zoneFrame!=null&&zoneFrame.gameObject.activeInHierarchy&&zone.text.Length>0?zoneFrame:null;break;
+                    case 3:frame=targetPlate!=null&&targetPlate.Frame.enabled?targetPlate.Frame.rectTransform:null;break;
+                    case 4:frame=vitals;break;
+                    case 5:frame=objective!=null?objective.Frame:null;break;
+                    case 6:frame=toast!=null&&panels[5]!=null&&panels[5].Showing?toast.Fade.Frame:null;break;
+                    case 7:frame=feed!=null?feed.Band:null;break;
+                    case 8:frame=barks!=null&&panels[6]!=null&&panels[6].Showing?barks.Fade.Frame:null;break;
+                    case 9:frame=skillsPlate!=null&&skillsPlate.Frame.enabled?skillsPlate.Frame.rectTransform:null;rise=true;break;
+                    case 10:frame=ZoneController.Current!=null&&ZoneController.Current.Combat?skillRow:null;rise=true;break;
+                    case 11:frame=bossRoot!=null&&bossRoot.activeSelf?bossBand:null;rise=true;break;
+                    case 12:frame=promptPlate!=null&&promptPlate.Frame.enabled&&prompt.text.Length>0?promptFrame:null;rise=true;break;
+                    default:frame=null;break;
+                }
+                if(frame==null)continue;
                 frame.GetWorldCorners(corners);
                 Vector2 low=(Vector2)root.InverseTransformPoint(corners[0])-size*.5f,high=(Vector2)root.InverseTransformPoint(corners[2])+size*.5f;
                 if(point.x<=low.x||point.x>=high.x||point.y<=low.y||point.y>=high.y)continue;
-                if(i>=3){point.y=high.y;continue;}
+                if(rise){point.y=high.y;continue;}
+                if(sink){point.y=low.y;continue;}
                 bool left=low.x+high.x<0;float across=left?high.x-point.x:point.x-low.x,down=point.y-low.y;
                 if(down<across)point.y=low.y;else point.x=left?high.x:low.x;
             }
             return point;
         }
-        void OnDestroy(){Health.DamageNumber-=Damage;Health.Impacted-=Struck;Impact.LeadHurt-=OnLeadHurt;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
+        void OnDestroy(){Health.Impacted-=Struck;Impact.LeadHurt-=OnLeadHurt;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
     }
 }

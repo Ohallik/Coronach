@@ -50,7 +50,7 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ the Orrery's places, as the map brief has them
-        const float TalkZ=90,FarGateZ=850,LandZ=880,FromCampZ=866;
+        const float TalkZ=128,FarGateZ=850,LandZ=880,FromCampZ=866;
         static readonly string[] Moons={"The Steward","The Weigher","The Clerk of Roads","The Lamplighter","The Reeve","The Second Gardener","The Bellfounder","The Almoner","The Warden"};
 
         // ------------------------------------------------------------------ fixtures
@@ -277,15 +277,16 @@ namespace Lattice.Tests.PlayMode
             yield return Until(()=>Has("oriel.podHailed"),5,"Lume says nothing as the party sets off");
             yield return new WaitForSecondsRealtime(.3f);Assert.IsTrue(said.Any(s=>s.who=="Lume"),"Lume's hail was heard and nothing was said");
             var pod=All<CourierPod>().SingleOrDefault();Assert.IsNotNull(pod,"there is no courier pod behind the party");
-            // Up to the talk: the view draws back to take in the first two rails.
+            // Up to the talk: the view draws back to take in the first rail's gates (over the second rail too, the ship was a speck: D359, ChapterFourToSixLookTests holds it
+            // at sixty pixels or more).
             var view=All<VantageView>().Single();var camera=Camera.main;
             Put(Lead,new Vector3(0,1,TalkZ-44));yield return new WaitForSecondsRealtime(2.5f);
             Assert.IsTrue(view.Holding,"coming up to Ishen's talk, the view doesn't draw back over the machine");
             float back=Vector3.Distance(camera.transform.position,Lead.transform.position);
-            Assert.Greater(back,60,$"the camera is only {back:0} m from the ship: the first two rails aren't in view");
-            var steward=Rail("The Steward");var weigher=Rail("The Weigher");
-            foreach(var (name,point) in new[]{("the Steward's gates",Gate(steward,1)),("the Weigher's rail",OnRail(weigher,0))})
-            {var seen=camera.WorldToViewportPoint(point);Assert.IsTrue(seen.z>0&&seen.x>0&&seen.x<1&&seen.y>0&&seen.y<1,name+" aren't in the frame while Ishen names the moons");}
+            Assert.Greater(back,60,$"the camera is only {back:0} m from the ship: the first rail's gates aren't in view");
+            var steward=Rail("The Steward");
+            foreach(var gate in new[]{0,1,2})
+            {var seen=camera.WorldToViewportPoint(Gate(steward,gate));Assert.IsTrue(seen.z>0&&seen.x>0&&seen.x<1&&seen.y>0&&seen.y<1,$"the Steward's gate {gate} isn't in the frame while Ishen names the moons");}
             var talk=Point("oriel.lightsRead");Assert.AreEqual("IshenMoonNames",talk.dialogueNode);Assert.IsTrue(talk.startsOnCrossing,"Ishen's talk can be flown round");
             Assert.Less(Mathf.Abs(talk.transform.position.z-TalkZ),1,"Ishen's talk isn't short of the first gates where the map has it");
             yield return FlyAcross(talk);

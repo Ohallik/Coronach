@@ -62,7 +62,9 @@ namespace Lattice.Tests.PlayMode
             // "Casting gallery contract"): the VessaGallery crossing sets vask.vessaMet. An elite says her own bounds: a minute to a minute and a half for the replay party, and the floor at
             // the driver's share under that (50 s); under two and a half minutes for someone who spends most of it dodging (the ceiling, at a quarter: 140 s, the shared measure of her
             // being the lowest, with its second hero standing off).
-            book.Boss(new ContentRegistry.BossSheet{id="VessaKorl",zone="BridleFoundry",door="VessaKorl",doorFlags=new[]{"vask.vessaMet"},sync=22,driverShare=.3f,minSeconds=50,maxSeconds=140,
+            // .44 since D362 (November 22), where .3 was the placeholder: today's scout of the 12:35 build felled 60,000 in 45.8 s (nov22-recon-g s48) against 2,972 and 2,987 a second
+            // (d355-dome3, d355-lengths), which is .44. She is 82,000 now: Sela and Idra have read 2,515 to 2,751 a second today and at 88,000 stood at 140 s of 140 at a quarter (VessaLastsHerOwnBounds, d362-retune). About 55 to 63 s.
+            book.Boss(new ContentRegistry.BossSheet{id="VessaKorl",zone="BridleFoundry",door="VessaKorl",doorFlags=new[]{"vask.vessaMet"},sync=22,driverShare=.44f,minSeconds=50,maxSeconds=140,
                 // Lines, a fan, a thrust, strips across the way to her: a hero a few metres before her is in each. Falling back, she goes the other way and pours across the way she came.
                 specials=new[]{("ThawBeam",new Vector3(0,0,6)),("HeatSweep",new Vector3(0,0,5)),("PikeCall",new Vector3(0,0,6)),("FallBack",new Vector3(0,0,6)),("PourOrder",new Vector3(0,0,8)),
                     ("DeadWeight",new Vector3(0,0,4))},
@@ -503,7 +505,9 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ what Vessa's length is sized on
-        const float DriverShare=.3f,FlatOutSeconds=15;
+        // The driver's share of this test's own flat out: .4 since D362 (November 22), where .3 was the placeholder. Today's scout felled 60,000 in 45.8 s (Builds/quality/
+        // nov22-recon-g s48), the pair out Taren and Idra, whom this test read at 3,223 a second that morning (d355-chapters): .406, rounded down.
+        const float DriverShare=.4f,FlatOutSeconds=15;
         /// <summary>The fewest frames a second any of the test's measures ran at, and the least a measure is believed at: a hero acts on a frame, so a machine too busy to draw sixty reads
         /// every pair slow (QaPlanCombatTests.FlatOutFrames is the same guard, and HarrowgateBossTests'). Under it the length test says it could not measure.</summary>
         float slowest=float.MaxValue;const float MeasureFrames=50;
@@ -515,7 +519,7 @@ namespace Lattice.Tests.PlayMode
             var at=At(0,.1f,0);var heroes=PartyController.Current.members.ToArray();
             var enemy=Enemy("VessaKorl",at);yield return Frames(3);var body=enemy.Health;
             enemy.GetComponent<BossController>().enabled=false;body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var homes=new Vector3[heroes.Length];
+            float reach=BossReach.Edge(enemy);var homes=new Vector3[heroes.Length];
             for(int i=0;i<heroes.Length;i++)homes[i]=DevLoadout.Weapon(heroes[i].character)==GearSlot.Edge?at+Quaternion.Euler(0,i==0?-20:20,0)*Vector3.back*reach:at+Vector3.back*(reach+5)+Vector3.right*(i==0?-2:2);
             for(int i=0;i<heroes.Length;i++){Put(heroes[i],homes[i]);heroes[i].target=body;heroes[i].charge=100;}
             yield return null;
@@ -564,7 +568,7 @@ namespace Lattice.Tests.PlayMode
                 string line=$"VESSA_RATE {pair[0]}+{pair[1]} sync={sheet.sync} tempered rate={rate:0}/s driven={driven:0}s quarter={quarter:0}s bounds={sheet.minSeconds:0}-{sheet.maxSeconds:0}";
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(driven<sheet.minSeconds)failures.Add($"{line}: the floor, {sheet.minSeconds:0} s at the driver's share");
-                if(quarter>sheet.maxSeconds)failures.Add($"{line}: the ceiling, {sheet.maxSeconds:0} s at a quarter of flat out");
+                if(quarter>ContentRegistry.SlowPairCeiling(sheet.maxSeconds))failures.Add($"{line}: the ceiling, {ContentRegistry.SlowPairCeiling(sheet.maxSeconds):0} s at a quarter of flat out (D362 continued)");
             }
             if(slowest<MeasureFrames)Assert.Inconclusive($"a measure ran at {slowest:0} frames a second (under {MeasureFrames:0}), on a machine too busy to say how fast a pair is: run it again with the machine quieter");
             Assert.IsEmpty(failures,string.Join("\n",failures));

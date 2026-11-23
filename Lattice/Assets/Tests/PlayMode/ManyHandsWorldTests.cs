@@ -317,6 +317,54 @@ namespace Lattice.Tests.PlayMode
             Put(Lead,Floor(FreightHallSpawn));yield return Frames(4);Assert.AreEqual(ZoneKind.GroundSafe,ZoneController.Current.Kind,"the yard outside the hall became a combat place");
         }
 
+        /// <summary>The builder's four fixed stacks in the hall (ManyHandsBuilder.Hands.HallStacks), copied.</summary>
+        static readonly Vector2[] HallStacks={new(42.5f,-29.5f),new(22,-28.5f),new(22.5f,-41),new(42,-41.5f)};
+        /// <summary>A stack as tall as a body that comes between the fixed camera and the party fades as the rest of the town's tall scenery does, from the freight hall's arrival
+        /// and from the fight's floor behind each of the hall's four stacks: drawn as one piece with no fade, a container stack two high stood across the arrival and filled
+        /// half the frame (s29/070). Measured on the camera's own line to the lead's chest, and shown first on a stack with its fade taken off.</summary>
+        [UnityTest] public IEnumerator TheFreightYardsAndHallsTallStacksFadeWhenTheyComeBetweenTheCameraAndTheParty()
+        {
+            Flag("hands.iloAboard");Flag("hands.claimRead");Flag("bossdown.Hulljack");State.questSteps["ManyHands"]=6;
+            yield return Load("FreightHall");
+            // What is drawn on the camera's line to the lead's chest and as tall as the fade's rule (ZoneKit.TallEnoughToBlock, 2.5 m): scenery, never a body.
+            List<MeshRenderer> InTheWay()
+            {
+                var eye=Camera.main.transform.position;var chest=Lead.transform.position+Vector3.up*1.1f;var ray=new Ray(eye,chest-eye);float far=Vector3.Distance(eye,chest)-.4f;
+                return Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Where(r=>r.enabled&&r.gameObject.activeInHierarchy&&r.bounds.size.y>=2.5f&&r.bounds.size.x<40&&r.bounds.size.z<40
+                    &&r.GetComponentInParent<CombatActor>()==null&&r.GetComponentInParent<Npc>()==null&&r.bounds.IntersectRay(ray,out float at)&&at<far).ToList();
+            }
+            static float Faded(Renderer r){var block=new MaterialPropertyBlock();r.GetPropertyBlock(block);return block.GetFloat("_OccFade");}
+            // The freight hall's arrival no longer has a stack on the camera's line at all (D359: moved off it, s29/070): ChapterFourToSixLookTests walks it and holds it clear.
+            var places=new List<(string where,Vector3 at,string stack)>();
+            var behind=new Vector2(Mathf.Sin(20*Mathf.Deg2Rad),Mathf.Cos(20*Mathf.Deg2Rad));
+            for(int i=0;i<HallStacks.Length;i++)places.Add(($"the fight's floor behind the hall's stack {i+1}",Floor(HallStacks[i]+behind*2.7f),"Hall cargo"));
+            bool shownFailing=false;var faults=new List<string>();
+            foreach(var (where,at,stack) in places)
+            {
+                Put(Lead,at);yield return new WaitForSecondsRealtime(1.4f);
+                var way=InTheWay();var stacks=way.Where(r=>r.name.StartsWith(stack)).ToList();
+                if(stacks.Count==0){faults.Add($"from {where} no {stack} stands on the camera's line (in the way: {string.Join(", ",way.Select(r=>r.name))})");continue;}
+                if(!shownFailing)
+                {
+                    // The broken state, built here: the stack with its fade taken off is what the check has to find.
+                    var fade=stacks[0].GetComponentInParent<SceneryOcclusion>();Assert.IsNotNull(fade,$"{stacks[0].name}, on the camera's line from {where}, has no scenery fade");
+                    fade.enabled=false;yield return new WaitForSecondsRealtime(.8f);
+                    Assert.IsTrue(InTheWay().Any(r=>r==stacks[0]&&Faded(r)<=0),"the check doesn't see a stack whose fade is off standing solid in the way");
+                    fade.enabled=true;shownFailing=true;yield return new WaitForSecondsRealtime(1.4f);way=InTheWay();
+                }
+                // Only the stacks: a renderer's box is all this measures, and the hall's dressed walls and its floor detail span the room, so their boxes cross every line in it.
+                foreach(var r in way.Where(r=>r.name.StartsWith("Container stack")||r.name.StartsWith("Hall cargo")))
+                {
+                    if(r.GetComponentInParent<SceneryOcclusion>()==null)faults.Add($"{r.name} ({r.bounds.size.y:0.0} m tall) stands between the camera and the lead at {where} and doesn't fade");
+                    else if(Faded(r)<=0)faults.Add($"{r.name} is marked to fade but stood solid between the camera and the lead at {where}");
+                }
+            }
+            // Out of the fight's room before the scene goes: a pocket switched off with the lead inside hands the zone back as the services go, and that threw in teardown (D359).
+            Put(Lead,Floor(FreightHallSpawn));yield return Frames(4);
+            Assert.IsTrue(shownFailing,"fixture: no stack was ever on the camera's line");
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+
         // ================================================================== the breach and the dinner
         [UnityTest] public IEnumerator TheBreachIsSealedAndTheDinnersSevenTalksComeOnlyInTheirOrder()
         {

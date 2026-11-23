@@ -257,13 +257,23 @@ namespace Lattice.EditorTools
                 Copper=ZoneKit.Toon("crawl-copper",iron,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.86f,.52f,.36f));m.SetFloat("_RampSteps",5);});
                 Timber=ZoneKit.Toon("crawl-timber",timber,m=>{ZoneKit.Tinted(m);m.SetColor("_ShadowTint",new Color(.5f,.48f,.62f));});
                 Cloth=ZoneKit.Toon("crawl-cloth",cloth,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.52f,.5f,.64f));});
-                Window=ZoneKit.Toon("crawl-window",null,m=>{m.SetColor("_BaseColor",new Color(1,.8f,.5f));m.SetColor("_EmissionColor",new Color(1.7f,1.1f,.48f));});
-                Lamp=ZoneKit.Toon("crawl-lamp",null,m=>{m.SetColor("_BaseColor",new Color(1,.84f,.56f));m.SetColor("_EmissionColor",new Color(2.3f,1.5f,.62f));});
+                // Lamps and windows in their own colour, a little over the bloom's threshold in their brightest channel and no more: at 2.3 over a pale base every lamp of the Crawl and the run
+                // clipped to a flat disc of white or yellow with no body (the November 20 capture, s56 060).
+                Window=ZoneKit.Toon("crawl-window",null,m=>{m.SetColor("_BaseColor",new Color(.82f,.62f,.36f));m.SetColor("_EmissionColor",new Color(1.0f,.62f,.24f));});
+                Lamp=ZoneKit.Toon("crawl-lamp",null,m=>{m.SetColor("_BaseColor",new Color(.72f,.56f,.34f));m.SetColor("_EmissionColor",new Color(.92f,.56f,.2f));m.SetFloat("_RampSteps",4);});
                 Glass=ZoneKit.Toon("crawl-glass",null,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.78f,.86f,.86f));m.SetColor("_EmissionColor",new Color(.16f,.2f,.2f));});
                 Dark=ZoneKit.Toon("crawl-dark",null,m=>m.SetColor("_BaseColor",new Color(.07f,.065f,.07f)));
                 Soil=ZoneKit.Toon("crawl-soil",stone,m=>{m.SetColor("_BaseColor",new Color(.34f,.26f,.2f));});
                 Leaf=ZoneKit.Toon("crawl-leaf",null,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.42f,.46f,.6f));});
-                Rope=ZoneKit.Toon("crawl-rope",null,m=>m.SetColor("_BaseColor",new Color(.66f,.58f,.46f)),"Universal Render Pipeline/Unlit");
+                // Laid rope: three strands twisted, a dark groove between them, lit as anything else is and dyed by the shape (a hose dark, a lashing cream). Unlit in one cream, every
+                // rope, hose and cable read as a flat ribbon, the swags under the couplings worst (the November 20 capture, s55 102 and 145).
+                var rope=ZoneKit.Texture("Crawl/crawl-rope",128,(u,v)=>
+                {
+                    float strand=Mathf.Repeat(u*3+v*12,1),groove=Mathf.Min(strand,1-strand);
+                    float tone=.6f+.34f*Mathf.Sin(strand*Mathf.PI)-(groove<.07f?.26f:0)+.06f*(ZoneKit.Tile(u*32,v*96,32,7)-.5f);
+                    return new Color(tone,tone,tone,1);
+                });
+                Rope=ZoneKit.Toon("crawl-rope",rope,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",3);m.SetColor("_ShadowTint",new Color(.5f,.5f,.64f));m.SetFloat("_LightFloor",.25f);});
                 Belt=ZoneKit.Toon("crawl-belt",belt,m=>{m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.46f,.48f,.62f));m.SetColor("_RimColor",new Color(1,.8f,.56f));});
                 PlainLook=ZoneKit.Toon("crawl-plain",plain,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.5f,.48f,.66f));});
                 Track=ZoneKit.Toon("crawl-track",track,m=>
@@ -273,6 +283,8 @@ namespace Lattice.EditorTools
                 });
                 Stone=ZoneKit.Toon("crawl-stone",stone,m=>{ZoneKit.Tinted(m);m.SetColor("_ShadowTint",new Color(.5f,.48f,.66f));});
                 Scrub=ZoneKit.Toon("crawl-scrub",null,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.5f,.48f,.62f));});
+                // Every material a fading piece is made of carries the fade's variant from its paint, so no later paint of it can take it away (D359: these drew their pieces solid while the rest faded).
+                foreach(var fadeMat in new[]{Timber,Brass,Stone,Rope,Window,Dark}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
                 Coats();
                 AssetDatabase.SaveAssets();
             }
@@ -873,6 +885,7 @@ namespace Lattice.EditorTools
             {
                 var go=new GameObject(name);var s=new ZoneKit.Shape();var rng=new System.Random(seed);float zm=(z0+z1)*.5f,eave=floor+tall,ridge=eave+(z1-z0)*.5f*1.15f;
                 Color trim=new(.9f,.7f,.42f),dark=ZoneKit.Shape.Dim(plate,.7f),roof=new(.3f,.29f,.31f);
+                var shutters=new[]{new Color(.42f,.52f,.5f),new Color(.6f,.42f,.32f),new Color(.56f,.52f,.4f),new Color(.44f,.46f,.58f)};var shutter=shutters[Mathf.Abs(seed)%shutters.Length];
                 s.Slot(0).Box(new Vector3((x0+x1)*.5f,floor+tall*.5f,zm),new Vector3(x1-x0,tall,z1-z0),Quaternion.identity,plate);
                 s.Slot(0).Quad(new Vector3(x0-.3f,eave,z0-.3f),new Vector3(x1+.3f,eave,z0-.3f),new Vector3(x1+.3f,ridge,zm),new Vector3(x0-.3f,ridge,zm),new Vector3(0,1,-1),roof,.5f)
                     .Quad(new Vector3(x0-.3f,eave,z1+.3f),new Vector3(x1+.3f,eave,z1+.3f),new Vector3(x1+.3f,ridge,zm),new Vector3(x0-.3f,ridge,zm),new Vector3(0,1,1),roof,.5f)
@@ -885,14 +898,18 @@ namespace Lattice.EditorTools
                     for(int c=0;c<cols;c++)
                     {
                         float x=Mathf.Lerp(x0,x1,(c+.5f)/cols);bool door=f==0&&c==cols/2&&seed%3!=0;
-                        if(door){s.Slot(3).Box(new Vector3(x,y+1.0f,z0-.03f),new Vector3(1.0f,2.0f,.04f),Quaternion.identity,new Color(.12f,.1f,.09f));s.Slot(1).Beam(new Vector3(x-.56f,y+2.05f,z0-.06f),new Vector3(x+.56f,y+2.05f,z0-.06f),.08f,.08f,trim);continue;}
+                        // A door of boards and a window not lit shuttered in the house's own paint: as a black panel each read as a hole in the wall beside the lit ones (the November 20
+                        // capture, s55 138 and 145).
+                        if(door){s.Slot(4).Box(new Vector3(x,y+1.0f,z0-.03f),new Vector3(1.0f,2.0f,.04f),Quaternion.identity,shutter*.8f);s.Slot(3).Box(new Vector3(x+.3f,y+1.0f,z0-.06f),new Vector3(.05f,.12f,.03f),Quaternion.identity,new Color(.1f,.1f,.1f));
+                            s.Slot(1).Beam(new Vector3(x-.56f,y+2.05f,z0-.06f),new Vector3(x+.56f,y+2.05f,z0-.06f),.08f,.08f,trim);continue;}
                         bool lit=rng.NextDouble()<.62;var wc=new Vector3(x,y+storey*.58f,z0-.025f);
-                        s.Slot(lit?2:3).Box(wc,new Vector3(.72f,1.0f,.03f),Quaternion.identity,lit?Color.white:new Color(.1f,.1f,.12f));
+                        if(lit)s.Slot(2).Box(wc,new Vector3(.72f,1.0f,.03f),Quaternion.identity,Color.white);
+                        else{s.Slot(4).Box(wc,new Vector3(.72f,1.0f,.03f),Quaternion.identity,shutter);s.Slot(3).Box(wc+new Vector3(0,0,-.018f),new Vector3(.025f,.98f,.02f),Quaternion.identity,new Color(.1f,.1f,.12f));}
                         s.Slot(1).Box(wc+new Vector3(0,0,-.02f),new Vector3(.86f,.07f,.03f),Quaternion.identity,trim).Box(wc+new Vector3(0,-.52f,-.03f),new Vector3(.9f,.07f,.06f),Quaternion.identity,trim).Box(wc+new Vector3(0,0,-.02f),new Vector3(.06f,1.0f,.03f),Quaternion.identity,trim);
                     }
                 }
                 s.Slot(0).Post(new Vector3(x0+.8f,eave,zm+(z1-z0)*.2f),(ridge-eave)+1.4f,.22f,.2f,8,dark,dark).Slot(1).Tube(new[]{new Vector3(x0+.8f,ridge+1.4f,zm+(z1-z0)*.2f),new Vector3(x0+.8f,ridge+1.55f,zm+(z1-z0)*.2f)},new[]{.3f,.3f},8,trim,trim);
-                var body=kit.Built(Name(name),s,Iron,Brass,Window,Dark);body.transform.SetParent(go.transform,true);ZoneKit.Block(body,new Vector3((x0+x1)*.5f,floor+tall*.5f,zm),new Vector3(x1-x0,tall,z1-z0),0,name);ZoneKit.Fadeable(body);
+                s.Slot(4);var body=kit.Built(Name(name),s,Iron,Brass,Window,Dark,Timber);body.transform.SetParent(go.transform,true);ZoneKit.Block(body,new Vector3((x0+x1)*.5f,floor+tall*.5f,zm),new Vector3(x1-x0,tall,z1-z0),0,name);ZoneKit.Fadeable(body);
                 if(lampSide!=0)
                 {
                     var bracket=new ZoneKit.Shape();bracket.Slot(0).Beam(Vector3.zero,new Vector3(0,0,-.7f),.05f,.05f,new Color(.28f,.28f,.31f)).Slot(2).Tube(new[]{new Vector3(0,0,-.7f),new Vector3(0,-.4f,-.7f)},new[]{.012f,.012f},4,new Color(.3f,.3f,.3f),new Color(.3f,.3f,.3f));
@@ -1342,8 +1359,18 @@ namespace Lattice.EditorTools
                 ground.Layers(new Vector4(.05f,.34f,.4f,.28f),1.1f,new GroundKit.Layer("crawl-boards",new Color(.9f,.78f,.62f,1),4),new GroundKit.Layer("crawl-treadplate",new Color(.82f,.82f,.84f,1),2),
                     new GroundKit.Layer("gravel",new Color(.34f,.32f,.32f,1),2.4f));
                 bool Market(Vector2 p)=>p.x>-54&&p.x<-20;bool Yard(Vector2 p)=>p.x>-14&&p.x<18;
-                // The market street's boards, laid over the plate the length of the street and up to the booths.
-                ground.Paint(0,p=>Market(p)&&p.y>-6.6f&&p.y<1.2f?1-ZoneKit.Smooth(.2f,.6f,ground.Noise(p,6,4)-.75f):0);
+                // The market street's boards, laid by the hall's crew in sections between its frames: a run of boards, then a frame's plate across the street; ragged at the street's
+                // sides and worn through to the plate here and there. Laid wall to wall the length of the street they were one plain plank deck filling half the frame (the November 20
+                // capture, s55 102).
+                float Boards(Vector2 p)
+                {
+                    if(!Market(p)||p.y<-6.6f||p.y>1.2f)return 0;
+                    float bay=Mathf.Repeat(p.x+54-.9f*Mathf.Sin(p.y*.7f),7.2f),across=ZoneKit.Smooth(.2f,.7f,bay)*(1-ZoneKit.Smooth(5.1f,5.6f,bay));
+                    float sides=ZoneKit.Smooth(-6.2f,-5.4f,p.y+.5f*(ground.Noise(p,2,7)-.5f))*(1-ZoneKit.Smooth(.1f,.9f,p.y+.5f*(ground.Noise(p,2,8)-.5f)));
+                    float worn=1-.85f*ZoneKit.Smooth(.6f,.76f,ground.Noise(p,3.2f,12));
+                    return across*sides*worn;
+                }
+                ground.Paint(0,Boards);
                 // The yard's tread plate where work goes on: round the pad, at the oil shop and the tread shop, down to the oilers' places.
                 // Tread plate wherever work goes on off the spine: the yard (round the pad, at the shops, down to the oilers), the tail where the readings are taken, the helm's platform.
                 bool Work(Vector2 p)=>Yard(p)||(p.x>50&&p.x<60)||Inside(p,HelmDeck)>-.2f;
@@ -1361,7 +1388,7 @@ namespace Lattice.EditorTools
                 ground.Decals(new[]{"Stain","Scorch","CracksB"},7,p=>Work(p)&&FromWays(p)>1.2f?1:0,.7f,1.6f,oil,false,.12f,5);
                 ground.Decals(new[]{"Slabs"},4,p=>Work(p)?1:0,.9f,1.8f,new Color(.46f,.46f,.5f,.75f),false,.1f,6);
                 ground.Decals(new[]{"Slabs","CracksA"},2,p=>FromWays(p)>1.6f?1:0,.8f,1.6f,new Color(.5f,.5f,.52f,.7f),true,.1f,3);
-                ground.Decals(new[]{"Litter"},2,p=>Market(p)&&FromWays(p)>1.2f?1:0,.6f,1.2f,new Color(.62f,.54f,.44f,.75f),false,.12f,4);
+                ground.Decals(new[]{"Litter"},4,p=>Market(p)&&FromWays(p)>1.2f?1:0,.6f,1.2f,new Color(.62f,.54f,.44f,.75f),false,.12f,4);
                 // Chalk at each coupling's deck ends: the hammer-man's marks, and the hall's number.
                 foreach(var (x0,x1) in Couplings)foreach(float x in new[]{x0-.9f,x1+.9f})ground.Strip("SurveyLine",new[]{new Vector2(x,-6.6f),new Vector2(x,.6f)},0,.24f,chalk);
                 ground.Strip("SurveyLine",new[]{new Vector2(Lip-.9f,-6.6f),new Vector2(Lip-.9f,.6f)},0,.24f,chalk);

@@ -27,7 +27,7 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: 8
+    m_Value: 0
 --- !u!114 &-3147922827605361290
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -88,7 +88,7 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {r: 0.36, g: 0.42, b: 0.66, a: 1}
+    m_Value: {r: 0.33, g: 0.43, b: 0.6, a: 1}
   highlights:
     m_OverrideState: 1
     m_Value: {r: 0.68, g: 0.55, b: 0.42, a: 1}

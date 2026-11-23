@@ -404,6 +404,54 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(HasPiece(Section("dock"),"Skiff"),"the tug dock's cradle holds no tug");
         }
 
+        /// <summary>A district's engines burn as light from the game's camera, not as solid white cones. Drawn solid (unlit glow written over what was behind it) the three cones under
+        /// each stern were flat white funnels as the districts lifted (whole-game capture, November 20, s61/058, 071, 083, 102, 112). The camera as the flight camera holds it frames the
+        /// market's stern on station and draws it without its flames, with them, and with the same cones drawn solid warm white: the flames add at most a fifth of the flat white the
+        /// solid cones add, and still add a tenth of their light. The flares at the nozzles are left out of all three.</summary>
+        [UnityTest] public IEnumerator ADistrictsEnginesBurnAsLightAndNotAsSolidWhiteCones()
+        {
+            ToTheRing();Flag("ring.formed");yield return Zone("BrokenRing","Ring");
+            foreach(var ship in PartyController.Current.members)Put(ship,C+Vector3.back*40);
+            yield return Frames(10);
+            var district=Section("market");var holders=district.flames.Where(f=>f!=null).ToArray();
+            Assert.AreEqual(3,holders.Length,"fixture: the market's three engines");Assert.IsTrue(holders.All(f=>f.gameObject.activeInHierarchy),"fixture: the market's engines aren't burning on station");
+            var cones=holders.SelectMany(f=>f.GetComponentsInChildren<MeshRenderer>(true)).Where(r=>r.name.StartsWith("Flame ")).ToArray();
+            var flares=holders.SelectMany(f=>f.GetComponentsInChildren<MeshRenderer>(true)).Where(r=>r.name=="Engine flare").ToArray();
+            Assert.AreEqual(3,cones.Length,"fixture: a cone at each engine");
+            var view=Camera.main;Assert.IsNotNull(view,"fixture: the game's camera");
+            var built=cones.Select(r=>r.sharedMaterial).ToArray();
+            var solid=new Material(Shader.Find("Universal Render Pipeline/Unlit"));solid.SetColor("_BaseColor",new Color(1.6f,1.54f,1.38f));// the old cones' glow (1.6) on their colour
+            foreach(var f in flares)f.enabled=false;
+            const int W=960,H=540;var target=new RenderTexture(W,H,24);var read=new Texture2D(W,H,TextureFormat.RGB24,false);
+            var keptAt=view.transform.position;var keptTurn=view.transform.rotation;
+            Color[] Draw(bool shown,Material with)
+            {
+                foreach(var r in cones){r.enabled=shown;}if(with!=null)foreach(var r in cones)r.sharedMaterial=with;
+                var middle=cones.Aggregate(cones[0].bounds,(b,r)=>{b.Encapsulate(r.bounds);return b;}).center;
+                view.transform.position=middle-view.transform.forward*26;
+                view.targetTexture=target;view.Render();view.targetTexture=null;
+                RenderTexture.active=target;read.ReadPixels(new Rect(0,0,W,H),0,0);read.Apply();RenderTexture.active=null;
+                for(int i=0;i<cones.Length;i++)cones[i].sharedMaterial=built[i];
+                return read.GetPixels();
+            }
+            var off=Draw(false,null);var lit=Draw(true,null);
+            byte[] litPng=read.EncodeToPNG();var white=Draw(true,solid);byte[] whitePng=read.EncodeToPNG();
+            view.transform.SetPositionAndRotation(keptAt,keptTurn);foreach(var f in flares)f.enabled=true;foreach(var r in cones)r.enabled=true;
+            Object.Destroy(target);Object.Destroy(solid);
+            static bool FlatWhite(Color c)=>Mathf.Min(c.r,Mathf.Min(c.g,c.b))>.85f;
+            static float Bright(Color c)=>(c.r+c.g+c.b)/3;
+            int FlatAdded(Color[] with){int n=0;for(int i=0;i<off.Length;i++)if(FlatWhite(with[i])&&!FlatWhite(off[i]))n++;return n;}
+            float LightAdded(Color[] with){float sum=0;for(int i=0;i<off.Length;i++)sum+=Mathf.Max(0,Bright(with[i])-Bright(off[i]));return sum;}
+            int flatLit=FlatAdded(lit),flatWhite=FlatAdded(white);float lightLit=LightAdded(lit),lightWhite=LightAdded(white);
+            try{var folder=System.IO.Path.Combine(Application.dataPath,"../../Builds/quality/look/ch9-flames");System.IO.Directory.CreateDirectory(folder);
+                System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder,"market-stern-flames.png"),litPng);System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder,"market-stern-solid.png"),whitePng);}
+            catch(System.Exception e){TestContext.WriteLine("couldn't keep the stills: "+e.Message);}
+            TestContext.WriteLine($"RING_FLAMES flat white added: solid {flatWhite} px, flames {flatLit} px; light added: solid {lightWhite:0}, flames {lightLit:0}");
+            Assert.Greater(flatWhite,400,$"fixture: the cones drawn solid white add only {flatWhite} flat white pixels, so the measure can't see what s61/102 showed");
+            Assert.LessOrEqual(flatLit,flatWhite/5,$"the engines' flames add {flatLit} flat white pixels to the solid cones' {flatWhite}: they read as white cones, not light");
+            Assert.Greater(lightLit,lightWhite*.1f,$"the engines' flames add {lightLit:0} of light to the solid cones' {lightWhite:0}: they barely show");
+        }
+
         // ================================================================== the close
         /// <summary>The Cutter down: the tug comes and goes, Bryn speaks (<c>BrynTowsCutter</c>, which sets home.cutterDisabled and moves the story to the chart), the districts leave their
         /// stations for the convoy, and the way home opens. A save with the flag has them with the convoy and the tug gone.</summary>
@@ -422,6 +470,107 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("BrokenRing","Ring");
             foreach(var s in All<SectionFlight>()){Assert.AreEqual(SectionFlight.Stage.Gone,s.State,s.districtId+" isn't with the convoy");Assert.Less(s.transform.position.y,-50);Assert.IsFalse(s.body.enabled);}
             Assert.IsFalse(All<TowedOff>().Single().gameObject.activeInHierarchy,"the tug is still waiting after the tow");
+        }
+
+        // ================================================================== what a ship meets of the Cutter and the tug
+        /// <summary>The Debris Cutter, standing still at C with its nose north and its fight's door cleared so no other wakes (its body only, as the fight has it).</summary>
+        static IEnumerator Cutter(Vector3 at)
+        {
+            var definition=GameCatalog.Find<EnemyDef>("DebrisCutter");Assert.IsNotNull(definition,"fixture: the Debris Cutter is defined (HomeBuilder.Bosses)");
+            var enemy=ActorFactory.Enemy(definition,at);enemy.transform.rotation=Quaternion.identity;enemy.Passive=true;yield return Frames(5);
+            cutter=enemy;
+        }
+        static EnemyBrain cutter;
+        /// <summary>What is drawn of a body as solid shapes on a layer nothing else uses, read only by the checks here: a ship's hull sphere that meets one is inside what the player sees.</summary>
+        static List<GameObject> Probes(Transform body)
+        {
+            var made=new List<GameObject>();
+            foreach(var filter in body.GetComponentsInChildren<MeshFilter>())
+            {
+                var view=filter.GetComponent<MeshRenderer>();if(filter.sharedMesh==null||view==null||!view.enabled||filter.GetComponentInParent<TMPro.TMP_Text>()!=null)continue;
+                var probe=new GameObject("Drawn probe "+filter.name){layer=31};probe.transform.SetParent(filter.transform,false);probe.AddComponent<MeshCollider>().sharedMesh=filter.sharedMesh;made.Add(probe);
+            }
+            Physics.SyncTransforms();return made;
+        }
+        static bool Inside(CombatActor ship,float into=.15f)=>Physics.CheckSphere(ship.transform.position+Vector3.up*.8f,Mathf.Max(.1f,HeroCollision.HullRadius(ship.character)-into),1<<31,QueryTriggerInteraction.Collide);
+
+        /// <summary>No ship sinks into the Cutter where it is drawn. Its solid was a 2.6 m capsule in the middle of a hull drawn about twice as long, so Idra's tug flew into its underside
+        /// mid-fight and stayed there (whole-game capture, November 20, s61/065, and the fight's stills from 052 to 069). Each ship is flown straight at it from round the compass, as a
+        /// pilot or the partner's steering would, and must end outside what is drawn.</summary>
+        [UnityTest] public IEnumerator NoShipSinksIntoTheCuttersHullWhereItIsDrawn()
+        {
+            ToTheRing();Flag("ring.formed");Flag("clear.DebrisCutter");yield return Zone("BrokenRing","Ring");
+            yield return Cutter(C);var failures=new List<string>();
+            var probes=Probes(cutter.GetComponent<DefeatPresentation>().visual);Assert.IsNotEmpty(probes,"fixture: nothing of the Cutter is drawn");
+            // The check first: a ship stood on its middle is inside it.
+            Put(Lead,C);Assert.IsTrue(Inside(Lead),"fixture: a ship stood in the Cutter's middle isn't found inside it");
+            foreach(var p in probes)Object.Destroy(p);yield return null;
+            // And the hull as it was (what keeps a ship off what is drawn switched off): nothing a ship meets stops it short of the Cutter's middle (its capsule takes blows, it isn't
+            // in a ship's way), so flown in toward where it is drawn furthest and held two metres from its middle, as Idra's tug sat in s61/065, a ship is inside it.
+            var keeps=cutter.GetComponent<HullKeepsOff>();Assert.IsNotNull(keeps,"the Cutter keeps nothing off its drawn hull");Assert.GreaterOrEqual(keeps.outline.Length,3,"the Cutter's hull has no outline");
+            var furthest=keeps.outline.OrderByDescending(p=>p.magnitude).First();var toward=cutter.transform.TransformDirection(new Vector3(furthest.x,0,furthest.y)).normalized;
+            keeps.enabled=false;foreach(var other in PartyController.Current.members)if(other!=Lead)Put(other,C+Vector3.back*40);
+            Put(Lead,C+toward*16);
+            for(int frame=0;frame<75;frame++){var lb=Lead.GetComponent<CharacterController>();float left=Flat(Lead.transform.position,C)-2;if(lb.enabled&&left>0)lb.Move(-toward*Mathf.Min(.25f,left));yield return null;}
+            TestContext.WriteLine($"CUTTER_HULL_FURTHEST {furthest.magnitude:0.00} m toward {toward}; with nothing keeping it off a ship flown in got to {Flat(Lead.transform.position,C):0.00} m from its middle");
+            probes=Probes(cutter.GetComponent<DefeatPresentation>().visual);bool sank=Inside(Lead);foreach(var p in probes)Object.Destroy(p);keeps.enabled=true;yield return null;
+            Assert.IsTrue(sank,$"fixture: with nothing keeping it off, a ship flown at the Cutter ends {Flat(Lead.transform.position,C):0.00} m from its middle and isn't found inside it, so the check can't see what s61/065 showed");
+            foreach(var ship in PartyController.Current.members)
+            {
+                var others=PartyController.Current.members.Where(m=>m!=ship).ToList();
+                for(float bearing=0;bearing<360;bearing+=30)
+                {
+                    foreach(var other in others)Put(other,C+Vector3.back*40);
+                    var way=Quaternion.Euler(0,bearing,0)*Vector3.forward;Put(ship,C+way*16);var body=ship.GetComponent<CharacterController>();
+                    for(int frame=0;frame<75;frame++){if(body.enabled)body.Move(-way*.25f);yield return null;}
+                    yield return null;probes=Probes(cutter.GetComponent<DefeatPresentation>().visual);
+                    if(Inside(ship))failures.Add($"{ship.character}'s hull, flown in from bearing {bearing:0}, ends inside the Cutter's drawn hull at {Flat(ship.transform.position,C):0.0} m from its middle");
+                    foreach(var p in probes)Object.Destroy(p);yield return null;
+                }
+            }
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+
+        /// <summary>Bryn's tug takes the dead Cutter from its side away from the ships and tows it away from them and down, so neither hull comes through a ship that Bryn's talk is holding.
+        /// The tug came in to the body's side toward where it tows to, which was where the party stood, laid its boom through Idra's tug and dragged the Cutter through Taren's fighter
+        /// (whole-game capture, November 20, s61/086 to 098). The party stands as the replay's did when the Cutter went dead, between it and the tug's side of the fight.</summary>
+        [UnityTest] public IEnumerator TheTugTakesTheCutterFromTheSideAwayFromTheShipsAndTowsItClearOfThem()
+        {
+            ToTheRing();Flag("ring.formed");Flag("clear.DebrisCutter");yield return Zone("BrokenRing","Ring");
+            DialogueSystem.Current.AutoAdvance=true;
+            yield return Cutter(new Vector3(-16,Plane,286));
+            Put(Lead,new Vector3(-29.8f,Plane,286.4f));var partner=PartyController.Current.Partner;if(partner!=null)Put(partner,new Vector3(-34,Plane,282));
+            var tug=All<TowedOff>().Single();var failures=new List<string>();
+            cutter.Health.InvulnerableUntil=0;cutter.Health.Receive(new DamagePacket{source=Lead.Health,amount=cutter.Health.maximum*100,type=DamageType.Beam,weight=HitWeight.Heavy});yield return Frames(2);
+            Assert.IsFalse(cutter.Health.Alive,"fixture: the Cutter didn't go dead");if(!Has("bossdown.DebrisCutter"))Flag("bossdown.DebrisCutter");
+            var probes=Probes(cutter.GetComponent<DefeatPresentation>().visual);Assert.IsNotEmpty(probes,"fixture: nothing of the Cutter is drawn");
+            var tugViews=tug.GetComponentsInChildren<MeshRenderer>().Where(r=>r.GetComponentInParent<TMPro.TMP_Text>()==null).ToArray();Assert.IsNotEmpty(tugViews,"fixture: nothing of the tug is drawn");
+            bool TugIn(CombatActor ship)
+            {
+                var at=ship.transform.position+Vector3.up*.8f;float r=HeroCollision.HullRadius(ship.character)-.15f;
+                foreach(var view in tugViews){if(view==null||!view.enabled||!view.gameObject.activeInHierarchy)continue;if(view.bounds.SqrDistance(at)<r*r)return true;}
+                return false;
+            }
+            // The checks first: a ship stood in the dead Cutter's middle is inside it, and one stood on the tug is inside the tug.
+            var heldAt=Lead.transform.position;
+            Put(Lead,cutter.transform.position);Assert.IsTrue(Inside(Lead),"fixture: a ship in the Cutter's middle isn't found inside it");
+            Put(Lead,new Vector3(tug.transform.position.x,Plane,tug.transform.position.z));Assert.IsTrue(TugIn(Lead),"fixture: a ship on the tug isn't found inside it");
+            Put(Lead,heldAt);
+            var ships=PartyController.Current.members.ToList();var held=ships.ToDictionary(s=>s,s=>s.transform.position);
+            for(float end=Time.unscaledTime+45;Time.unscaledTime<end&&!log.Any(l=>l.StartsWith("TOW_GONE"));)
+            {
+                // The ships stay where Bryn's talk holds them.
+                foreach(var ship in ships)if(Flat(ship.transform.position,held[ship])>.3f)Put(ship,held[ship]);
+                Physics.SyncTransforms();
+                foreach(var ship in ships)
+                {
+                    if(cutter!=null&&Inside(ship)&&failures.Count<6)failures.Add($"the towed Cutter came through {ship.character}'s hull at {ship.transform.position} (it was at {cutter.transform.position})");
+                    if(TugIn(ship)&&failures.Count<6)failures.Add($"the tug came through {ship.character}'s hull at {ship.transform.position} (it was at {tug.transform.position})");
+                }
+                yield return null;
+            }
+            Assert.IsTrue(log.Any(l=>l.StartsWith("TOW_TAKES")),"the tug never took the Cutter");Assert.IsTrue(log.Any(l=>l.StartsWith("TOW_GONE")),"the tug never left with it");
+            Assert.IsEmpty(failures,string.Join("\n",failures));
         }
     }
 }

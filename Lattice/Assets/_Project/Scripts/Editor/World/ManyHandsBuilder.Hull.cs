@@ -517,9 +517,9 @@ namespace Lattice.EditorTools
                 }
                 var top=kit.Built("Arcade top",s.Slot(2),Liner,Trim,Glow);top.transform.SetParent(root,true);
                 var roofGlass=kit.Built("Arcade promenade glass",glass,ArcadeGlass);roofGlass.transform.SetParent(root,true);roofGlass.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-                // The liner's upper decks stepping up either side of the promenade; the district's name on the north-west one's roof.
+                // The liner's upper decks stepping up either side of the promenade. The district's name is the one painted on its deck (LinerDecks): a floating label lay on top of it
+                // and said it twice (s29/027).
                 LinerDecks(kit,root);
-                Sign("ARCADE",new Vector2(-27.75f,15.6f),y+TierOne+TierTwo);
             }
             /// <summary>The galley at the liner's east end: vent stacks with warm light round their skirts and steam off the biggest, ducts along the roof, extractor fans and skylights.</summary>
             static void Galley(ZoneKit kit,Transform root)
@@ -603,7 +603,8 @@ namespace Lattice.EditorTools
                     var b=ZoneKit.Drawn(tallow);if(b.max.y>-2.6f)tallow.transform.position+=Vector3.down*(b.max.y+2.6f);
                 }
                 // The cabins themselves round it are its roofscape (Roofscapes, "cabins"): rows of deckhouses with their windows lit.
-                Sign("CABINS",new Vector2(-62,44),y);
+                // East of the spine's white column, which stood across its first letters from the flight camera.
+                Sign("CABINS",new Vector2(-59.4f,44),y);
                 // After the second part: the breach the alarm was about, patched, and the Steady Hand's two rescue cutters latched beside it (PatrolRepeat: "Two cutters stay on the seal").
                 var sealed_=new GameObject("The breach sealed");sealed_.transform.SetParent(root,true);var patch=new ZoneKit.Shape();var at2=P(BreachAt,y+.05f);
                 Flat(patch,0,at2,9,6,12,new Color(.9f,.9f,.86f));Flat(patch,1,at2+Vector3.up*.03f,7.5f,.5f,12,new Color(.2f,.56f,.58f));
@@ -876,6 +877,10 @@ namespace Lattice.EditorTools
                             if(house!=0){if(!House(s,house,p,m,paint,room,a,b,c,sub,rng,texel))continue;break;}
                             float w=3.6f+a*4.8f,d=2.8f+b*2.6f,h=c<.6f?2.4f:4.6f;if(h+1.1f>room)h=2.4f;if(h+1.1f>room)continue;
                             s.Slot(0).Box(p+Vector3.up*h*.5f,new Vector3(w,h,d),Quaternion.identity,paint,ZoneKit.Shape.Dim(paint,1.08f),texel).Slot(1).Box(p+Vector3.up*(h+.08f),new Vector3(w+.3f,.16f,d+.3f),Quaternion.identity,m.trim);
+                            // Its frame: posts at the corners, a dark plinth and a band of the district's stripe under the roof. A pale box with two windows and nothing else read as a
+                            // placeholder standing on the deck (s29/046, 052).
+                            foreach(float sx in new[]{-1f,1f})foreach(float sz in new[]{-1f,1f})s.Slot(1).Box(p+new Vector3(sx*(w*.5f-.02f),h*.5f,sz*(d*.5f-.02f)),new Vector3(.2f,h,.2f),Quaternion.identity,m.trim);
+                            s.Slot(1).Box(p+Vector3.up*.2f,new Vector3(w+.08f,.4f,d+.08f),Quaternion.identity,ZoneKit.Shape.Dim(m.trim,.85f)).Box(p+Vector3.up*(h-.3f),new Vector3(w+.06f,.24f,d+.06f),Quaternion.identity,m.stripe);
                             int n=Mathf.Max(1,Mathf.FloorToInt((w-1.6f)/1.5f));
                             for(float row=1.25f;row<h-.5f;row+=2.2f)for(int i=0;i<n;i++)
                             {

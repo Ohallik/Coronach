@@ -341,6 +341,98 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(samples,400,"fixture: the fights' floors were sampled");
             Assert.IsEmpty(hidden,hidden.Count+" of "+samples+" fight floor points are hidden from the camera: "+string.Join("; ",hidden.Take(12)));
         }
+        /// <summary>The ground camera slides in along its line wherever a sphere .4 m across cast from the hero's chest back toward it meets scenery (CameraRig.GroundDistance), and
+        /// dives to its nearest. Against the lower gallery's west alcove it dived into the masonry in front of it, and the frame was the back of the ground with space through it (s26
+        /// 301 to 306, November 20: the lead at (-24.16, 210.45)). Every place a hero can stand against a station wall, every stage drained, is cast as the camera casts, and nothing
+        /// of the landform may meet the sphere: then the lens stays where it hangs and never comes near the masonry.</summary>
+        [UnityTest] public IEnumerator TheCamerasSphereClearsTheStationsWallsFromEveryPlaceAHeroStandsAgainstThem()
+        {
+            Set("wend.tideTurned","wend.lureLearned","wend.pump1","wend.pump2","wend.pimFound","wend.pump3","wend.pump4");
+            yield return Zone("Door");
+            var back=-(Quaternion.Euler(SightlineAudit.Pitch,SightlineAudit.Yaw,0)*Vector3.forward);
+            var land=Object.FindObjectsByType<MeshCollider>(FindObjectsSortMode.None).Where(c=>c.name=="Mire and waystation").ToArray();
+            Assert.AreEqual(1,land.Length,"fixture: the station's landform collider");
+            // A place against a wall: the paths' edge (a body's radius in from the wall) where the paths join the station's floors, and the capture's own place in the west alcove.
+            // The bake also lays islands of path on flat wall tops that no path reaches: nobody stands there.
+            var stands=new List<Vector3>();var door=Ground(new Vector2(-2.5f,261.5f));Assert.IsTrue(NavMesh.SamplePosition(door,out var from,2,NavMesh.AllAreas),"fixture: the paths at the great hall's door");
+            var path=new NavMeshPath();int islands=0,looked=0;
+            for(float x=-38;x<=50;x+=.25f)for(float z=166;z<=273;z+=.25f)
+            {
+                if(!NavMesh.SamplePosition(new Vector3(x,-1,z),out var on,4,NavMesh.AllAreas)||Mathf.Abs(on.position.x-x)>.05f||Mathf.Abs(on.position.z-z)>.05f)continue;
+                if(!NavMesh.FindClosestEdge(on.position,out var edge,NavMesh.AllAreas)||edge.distance>.15f)continue;
+                if(!Physics.Raycast(on.position+Vector3.up*2,Vector3.down,out var floor,4,~0,QueryTriggerInteraction.Ignore)||floor.collider!=land[0])continue;
+                if(++looked%200==0)yield return null;
+                if(!NavMesh.CalculatePath(from.position,on.position,NavMesh.AllAreas,path)||path.status!=NavMeshPathStatus.PathComplete){islands++;continue;}
+                stands.Add(floor.point);
+            }
+            Debug.Log("WAYSTATION_WALL_PLACES "+stands.Count+" walkable, "+islands+" on islands of path no floor reaches");
+            Assert.IsTrue(Physics.Raycast(new Vector3(-24.16f,4,210.45f),Vector3.down,out var alcove,12,~0,QueryTriggerInteraction.Ignore)&&alcove.collider==land[0],"fixture: the west alcove's floor");
+            stands.Add(alcove.point);
+            Assert.Greater(stands.Count,1500,"fixture: the places against the station's walls were found");
+            var met=new List<string>();
+            foreach(var at in stands)
+            {
+                if(at.z<166)continue;
+                foreach(var hit in Physics.SphereCastAll(at+Vector3.up*1.2f,.4f,back,SightlineAudit.Distance,~0,QueryTriggerInteraction.Ignore))
+                    if(hit.collider==land[0]&&hit.distance>0){met.Add("("+at.x.ToString("0.0")+", "+at.z.ToString("0.0")+") at "+hit.distance.ToString("0.0")+" m");break;}
+            }
+            Assert.IsEmpty(met,met.Count+" of "+stands.Count+" places against the station's walls send the camera into the masonry: "+string.Join("; ",met.Take(40)));
+        }
+        /// <summary>How much of the frame over a hero standing here is wall top well in front of them: landform more than a body's waist over their floor and more than 2.5 m nearer the
+        /// lens than they are, along the camera's own heading. Rays through 48 by 27 points of the screen from where the ground camera hangs (40 and 20 degrees, 19.5 m, 30 degrees
+        /// high, 16 by 9), counted against every ray that meets the landform. A wall behind the hero, which is the frame's backdrop, isn't counted.</summary>
+        static float Looming(Collider land,Vector3 floor)
+        {
+            var rotation=Quaternion.Euler(SightlineAudit.Pitch,SightlineAudit.Yaw,0);var chest=floor+Vector3.up*SightlineAudit.Chest;var eye=chest-rotation*Vector3.forward*SightlineAudit.Distance;
+            var heading=new Vector3(Mathf.Sin(SightlineAudit.Yaw*Mathf.Deg2Rad),0,Mathf.Cos(SightlineAudit.Yaw*Mathf.Deg2Rad));float hero=Vector3.Dot(chest-eye,heading);
+            float tan=Mathf.Tan(15*Mathf.Deg2Rad),aspect=16f/9;int met=0,looming=0;
+            for(int j=0;j<27;j++)for(int i=0;i<48;i++)
+            {
+                var ray=new Ray(eye,rotation*new Vector3(((i+.5f)/48*2-1)*tan*aspect,((j+.5f)/27*2-1)*tan,1).normalized);
+                if(!land.Raycast(ray,out var hit,90))continue;met++;
+                if(hit.point.y>floor.y+1.2f&&Vector3.Dot(hit.point-eye,heading)<hero-2.5f)looming++;
+            }
+            return met==0?0:(float)looming/met;
+        }
+        /// <summary>The most of the frame a wall top in front of the hero may take where a fight is: a quarter.</summary>
+        const float MostLooming=.25f;
+        /// <summary>The low floor's Drowned Sentries are fought with the floor in front of them. In the west wall's alcoves a Guardian's back was taken from inside the niche, and the
+        /// camera framed that corner from the south-west: the top of the masonry beside it filled two thirds of the screen and the fight was a strip down one side (s26 301 to 311,
+        /// November 22). From where each sentry stands, little of the frame is wall top between the lens and the party.</summary>
+        [UnityTest] public IEnumerator TheLowFloorsSentriesAreFoughtWithTheFloorInFrontOfThem()
+        {
+            Set("wend.tideTurned","wend.lureLearned","wend.pump1","wend.pump2");
+            yield return Zone("Portico");
+            var land=Object.FindObjectsByType<MeshCollider>(FindObjectsSortMode.None).Where(c=>c.name=="Mire and waystation").ToArray();Assert.AreEqual(1,land.Length,"fixture: the station's landform collider");
+            // The check sees the fault: the west alcove the first sentry stood in until November 22, where the captured frame was mostly the wall beside it.
+            float before=Looming(land[0],Ground(new Vector2(-23.2f,209.5f)));Debug.Log("WAYSTATION_LOOMING west alcove "+before.ToString("0.00"));
+            Assert.Greater(before,MostLooming,"fixture: the check can't see the west alcove's wall filling the frame");
+            var fight=Object.FindObjectsByType<EncounterVolume>(FindObjectsSortMode.None).Single(e=>e.encounterId=="Gallery_Floor");
+            var sentries=fight.spawners.Where(s=>s.definition!=null&&s.definition.id=="DrownedSentry").ToArray();Assert.AreEqual(2,sentries.Length,"fixture: the low floor's two sentries");
+            var box=fight.GetComponent<BoxCollider>().bounds;
+            foreach(var sentry in sentries)
+            {
+                var at=sentry.transform.position;float share=Looming(land[0],Ground(new Vector2(at.x,at.z)));Debug.Log("WAYSTATION_LOOMING sentry "+at.ToString("0.0")+" "+share.ToString("0.00"));
+                Assert.IsTrue(box.Contains(new Vector3(at.x,box.center.y,at.z)),"a sentry at "+at+" stands outside the fight's box");
+                Assert.LessOrEqual(share,MostLooming,"from a sentry's place at "+at+" wall top in front of the party takes "+(share*100).ToString("0")+"% of the frame");
+            }
+        }
+        /// <summary>Sela's words in the hall after the Rotbloom stop the game's clock while they last, and a boss's body falls, lies and goes on that clock: opened three seconds after
+        /// the kill, the talk froze the bloom on its side with the heroes standing in its petals for every line (s26 469 and 470, November 20). The body must be gone first.</summary>
+        [UnityTest] public IEnumerator TheRotbloomsBodyIsGoneBeforeTheHallsTalkAfterItOpens()
+        {
+            Set("wend.tideTurned","wend.lureLearned","wend.pump1","wend.pump2","wend.pimFound","wend.pump3");
+            yield return Zone("Door");
+            var definition=GameCatalog.Find<Lattice.Data.EnemyDef>("Rotbloom");Assert.IsNotNull(definition,"fixture: the Rotbloom is defined");
+            var bloom=ActorFactory.Enemy(definition,Ground(C)+Vector3.up*.1f);bloom.Passive=true;yield return null;yield return null;
+            var hero=PartyController.Current.Active;
+            bloom.Health.Receive(new DamagePacket{source=hero.Health,amount=bloom.Health.maximum*20,type=Lattice.Data.DamageType.Kinetic});
+            Assert.IsFalse(bloom.Health.Alive,"fixture: the kill");Assert.IsTrue(Flag("bossdown.Rotbloom"),"fixture: the kill is counted");
+            float deadline=Time.unscaledTime+12;
+            while(!GameServices.Current.Input.Blocked&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsTrue(GameServices.Current.Input.Blocked,"the hall's talk after the Rotbloom never opened");
+            Assert.IsTrue(bloom==null,"the talk after the Rotbloom opened with its body still lying in the hall");
+        }
         static bool Crosses(DiscoveryPoint point)=>point.startsOnCrossing&&point.TryGetComponent<BoxCollider>(out var box)&&box.isTrigger;
         static Vector2 Plinth(float bearing)=>C+new Vector2(Mathf.Sin(bearing*Mathf.Deg2Rad),Mathf.Cos(bearing*Mathf.Deg2Rad))*15;
     }

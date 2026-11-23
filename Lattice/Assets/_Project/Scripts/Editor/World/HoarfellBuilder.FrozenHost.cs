@@ -1223,7 +1223,9 @@ namespace Lattice.EditorTools
                 {
                     new Guide.Leg{flag="",path=P(new Vector2(7,60.5f))},
                     new Guide.Leg{flag="hoar.herdMet",path=P(new Vector2(6,70),new Vector2(5,82),new Vector2(5,92),new Vector2(9,102))},
-                    new Guide.Leg{flag="hoar.whiteoutMet",path=P(new Vector2(-12,103),new Vector2(-26,104.5f))},
+                    // Into vent pocket one by its open east side and up under the windbreak, three metres off the pocket's middle: her spot was where a party sheltering from the east
+                    // stops, and the lead stood inside her body for the whole whiteout (s35/097).
+                    new Guide.Leg{flag="hoar.whiteoutMet",path=P(new Vector2(-12,103),new Vector2(-24,103),new Vector2(-28.6f,106.6f))},
                     new Guide.Leg{flag="hoar.whiteoutLifted",path=P(new Vector2(-12,112),new Vector2(6,128),new Vector2(6,136),new Vector2(8,146),new Vector2(17,158),new Vector2(18.5f,161))},
                     new Guide.Leg{flag="hoar.vessaHeard",path=P(new Vector2(24,170),new Vector2(24,178),new Vector2(31.5f,186.6f))},
                     new Guide.Leg{flag="hoar.ranksSeen",path=P(new Vector2(40,182),new Vector2(50,180),new Vector2(57,184))},
@@ -1760,6 +1762,9 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 new LookDev.View("warmed-ranks",new Vector3(88,L2,188)),new LookDev.View("ante-ranks",new Vector3(181,Bottom,210)),new LookDev.View("marshal-post",new Vector3(208,Bottom,223)),
                 new LookDev.View("vent-two",new Vector3(32,0,116)),new LookDev.View("herd-track",new Vector3(-3,0,74)),
                 new LookDev.View("overview-reach",new Vector3(0,0,80),false,4.2f),new LookDev.View("overview-dig",new Vector3(110,-8,205),false,4.6f),
+                // Where the whole-game capture's stills stood (nov20-whole s35 097: the first whiteout in vent pocket one; s35 298: the left gallery; s36 062: the Marshal's fight).
+                new LookDev.View("pocket-s35-097",new Vector3(-25.6f,0,104)),new LookDev.View("gallery-s35-298",new Vector3(91,L2,205.8f)),
+                new LookDev.View("arena-s36-062",new Vector3(212.5f,Bottom,203.3f)),
             };
         }
     }

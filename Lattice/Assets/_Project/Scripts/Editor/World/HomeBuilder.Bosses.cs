@@ -22,7 +22,7 @@ namespace Lattice.EditorTools
     /// (the head's lift, a break) and, bare, the rig from up on the arms; so it is held by its openings, and HomeBossTests sizes it from them on the pair's own rate at a planted boss's share (.45,
     /// D272's .36 to .57). The Cutter is an honest flying bar; its sheet carried the .29 the Cantor and the Hulljack measured until the driver was given the hands this fight asks for (it
     /// keeps 18 m off and changes lane whenever the lead comes nearer: flown after brake off and fired on wherever it is in reach, ContinuousReview.Home.cs). Fought that way by the arrival
-    /// pair in the Broken Ring (HomeReplayHandsTests) it gave .35 to .41 of flat out (123,000 fell in 144 s), so its sheet says .35 and it is 159,000 (155,000 until November 20: the bar now sits midway between its fastest pair's two-minute floor, Taren and Sela, and its slowest pair's five minutes at a quarter of flat out, 6% inside each, where it had sat 3% over the floor): about three minutes for the arrival
+    /// pair in the Broken Ring (HomeReplayHandsTests) it gave .35 to .41 of flat out (123,000 fell in 144 s), so its sheet says .35 and it is 160,500 (155,000 until November 20, 159,000 for a day: read each from a game just started, two minute-long readings and their mean, twice over on November 21, the pairs stand at 3,800 and 3,895 a second for Taren and Sela, 3,593 and 3,595 for Sela and Idra and 2,339 and 2,359 for Taren and Idra, and a third run read Taren and Sela at 3,932 and Taren and Idra at 2,264 while the shared length test read the arrival pair at 2,213, so the room between the fastest pair's two-minute floor and the slowest reading's five minutes at a quarter of flat out is 155,500 to 165,800 and 160,500 is its middle, three per cent inside each; the earlier numbers were read one pair after another in one game, where a pair's rate climbs with the minutes already fought): about three minutes for the arrival
     /// pair (DECISIONS, November 14, the Cutter). HomeBossTests measures both on the chapter's loadout for every pair, and the integrities sit inside the shared length test's floor and ceiling (QaPlanCombatTests: at least 120 s
     /// at the sheet's share of flat out, at most 300 s at a quarter of it). The arithmetic is in each length test's summary and in its log lines.</para>
     /// <para>XP and drops (settled November 14 with the roster's ledger, HomeBuilder.Enemies.cs, which counts them against Sync 25 to 27): the Saint pays 1,600 and drops the region's rare, the
@@ -49,7 +49,7 @@ namespace Lattice.EditorTools
                 // press's own height. Its arms are drawn from the SaintArm model (bodySegment) and the rig on its back from the Override Rig's (tailSegment).
                 ArenaBuilder.Asset<EnemyDef>("FoundrySaint",e=>{e.id="FoundrySaint";e.displayName="THE FOUNDRY SAINT";e.prefab=Body("FoundrySaint","SlagColossus");
                     e.bodySegment=ZoneKit.Prefab("Environment","SaintArm");e.tailSegment=ZoneKit.Prefab("Enemies","OverrideRig");
-                    e.integrity=88000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{pressStill};
+                    e.integrity=115000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{pressStill};
                     e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1600;e.scrip=520;e.scrap=26;e.boss=true;
                     e.bossMusicId="Glitch Boss";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;e.motion=EnemyMotion.None;
                     e.capsuleRadius=0;e.capsuleHeight=12;
@@ -58,7 +58,7 @@ namespace Lattice.EditorTools
                 // ---- the Debris Cutter. A Compact interceptor, the Interceptor's hull at twice its size, with three weapon pods; it ends dead in space and whole. A Compact hull is shielded
                 // against a shock and its plate turns a kinetic round; a beam goes through it. Flown by its own file: a Mine to its brain. 2.6 m round in flight, 5.6 m tall.
                 ArenaBuilder.Asset<EnemyDef>("DebrisCutter",e=>{e.id="DebrisCutter";e.displayName="THE DEBRIS CUTTER";e.prefab=Body("DebrisCutter","DraskSkiff");
-                    e.integrity=159000;e.breakThreshold=800;e.speed=0;e.attacks=new[]{cutterStill};
+                    e.integrity=210000;e.breakThreshold=800;e.speed=0;e.attacks=new[]{cutterStill};
                     e.weakness=DamageType.Beam;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1350;e.scrip=440;e.scrap=20;e.boss=true;
                     e.bossMusicId="Alien Boss Battle";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;e.motion=EnemyMotion.Hover;
                     e.capsuleRadius=0;e.capsuleHeight=5.6f;

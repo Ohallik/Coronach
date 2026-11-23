@@ -74,6 +74,8 @@ namespace Lattice.Combat
         }
         /// <summary>The flag her fall back sets, which the room's AfterTalk plays VessaFallsBack on, with her squad still standing.</summary>
         public const string FallingBackFlag="vask.vessaFallsBack";
+        /// <summary>That talk heard (the room's AfterTalk's heard flag); and the main quest's step, "Take the casting gallery from Vessa Korl", done: set as she leaves at nought.</summary>
+        public const string FallBackHeardFlag="vask.vessaFellBack",BeatenFlag="vask.vessaBeaten";
         float VessaRest=>Phase>=2?VessaTune.RestHot:VessaTune.RestPlanted;
         Transform lance;Renderer lanceHead;LineRenderer vessaBeam;bool vessaHailed;Vector3 vessaPost;bool vessaHolding;
         static readonly Color LanceCold=new(1.35f,.95f,.6f,.95f),LanceHot=new(1.9f,1.6f,1.2f,1);
@@ -82,8 +84,19 @@ namespace Lattice.Combat
             var leaving=gameObject.AddComponent<BossDeparture>();leaving.sound="";leaving.speed=6;
             DrawLance();
         }
-        /// <summary>The floor she laid goes with her: nothing of hers burns on behind her into the fight with her squad.</summary>
-        void VessaDown(){foreach(var strip in vessaStrips)if(strip!=null)strip.Dismiss();vessaStrips.Clear();}
+        /// <summary>At nought: the floor she laid goes with her (nothing of hers burns on behind her into the fight with her squad); and the gallery is taken now, not at her fall
+        /// back. The story's step moved on with her fall-back talk, a third of her bar still to go (s48/221): it is set here instead, and the talk owed at half is marked heard, so it
+        /// is never played after she has gone. She walks out on her feet by the shared path (a body with a BossDeparture is not laid down by its driver: D341), where her own driver
+        /// once put her down and she was slid out lying, one leg in the air (s48/232).</summary>
+        [SetsFlag("vask.vessaBeaten")][SetsFlag("vask.vessaFellBack")]
+        void VessaDown()
+        {
+            foreach(var strip in vessaStrips)if(strip!=null)strip.Dismiss();vessaStrips.Clear();
+            var flags=GameServices.Current!=null?GameServices.Current.Flags:null;if(flags==null)return;
+            flags.SetBool(FallBackHeardFlag,true);
+            if(!flags.GetBool(BeatenFlag)){flags.SetBool(BeatenFlag,true);Lattice.Rpg.RpgServices.Quests?.Report(ObjectiveKind.Flag,BeatenFlag);}
+            Debug.Log("VESSA_LEAVES walking");
+        }
         readonly List<LingeringArea> vessaStrips=new();
         void VessaUpdate()
         {

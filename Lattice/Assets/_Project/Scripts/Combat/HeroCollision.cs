@@ -20,6 +20,24 @@ namespace Lattice.Combat
             groundRadius=controller.radius;groundHeight=controller.height;groundCenter=controller.center;
             groundSkin=controller.skinWidth;groundStep=controller.stepOffset;
         }
+        /// <summary>No hero is ever a solid to another (D354). A hero's hull, in flight and on foot, passes through the others as if they were not there, and everything else stays
+        /// solid to all of them: nothing the partner does can stop, slow or turn the lead, and flying or walking into her is never a scrape. It replaces the evening of November 21's
+        /// rules about when she gives way, each written for one narrow place and each followed by the next (a Picket leg, the Tollkeeper's gate motor, a regroup), and then the
+        /// Steward's middle gate in the Orrery, where she sat in its mouth and the lead pressed against her hull through five seconds of green (nov22-whole s42c, three plays of three).
+        /// Kept by each motor before it moves a hull, and by the party every frame, since a collider that is switched off (as a placing does) forgets what it ignored. Only for a
+        /// hull that is one of the party's: a bare body on a motor (a fixture's) is solid to the heroes as anything else is.</summary>
+        public static void ThroughParty(CharacterController hull)
+        {
+            var party=PartyController.Current;
+            if(hull==null||party==null||party.members==null||!hull.enabled||!hull.gameObject.activeInHierarchy)return;
+            bool member=false;foreach(var hero in party.members)if(hero!=null&&hero.gameObject==hull.gameObject){member=true;break;}
+            if(!member)return;
+            foreach(var hero in party.members)
+            {
+                if(hero==null||hero.gameObject==hull.gameObject||!hero.gameObject.activeInHierarchy||!hero.TryGetComponent<CharacterController>(out var other)||!other.enabled)continue;
+                if(!Physics.GetIgnoreCollision(hull,other))Physics.IgnoreCollision(hull,other,true);
+            }
+        }
         public void SetFlight(bool value)
         {
             if(value==flying)return;flying=value;

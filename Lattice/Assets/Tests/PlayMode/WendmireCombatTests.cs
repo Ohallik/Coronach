@@ -50,7 +50,12 @@ namespace Lattice.Tests.PlayMode
             // against the party's flat-out rate measured in the same run. With stalks at a quarter of its integrity: 74,000 lasted 161.6 s at 986 a second (.465); 68,000 lasted
             // 100.5 s at 921 (.73) and 150.1 s at 937 (.48), the lower where two fights differ. The chain's .57 (nov13b, 54,000 in 91.3 s) was a driver that ground its shut
             // mouths and never found the stalks' ramps; .55 was that with room.
-            book.Boss(new ContentRegistry.BossSheet{id="Rotbloom",zone="DrownedWaystation",door="Rotbloom",doorFlags=new[]{"wend.pimFound","wend.pump3","wend.bloomSeen"},sync=14,driverShare=.48f,
+            // driverShare .39, not .48 (D355, continued): the flat-out measure stood an edge .9 m off its capsule, where his blade didn't reach its broad body, and read 932 a second; from a
+            // quarter metre off it (BossReach.Edge) it reads 1,160, so the chain's own share of flat out is .48 x 932 / 1,160. The fight and its predicted length are unchanged.
+            // .43 since D362 (November 22): at 63,500 today's scout of the 10:30 build felled it in 51.2 s (nov22-recon-e s26), 1.03 of the 1,160 and 1,246 a second read that morning
+            // (d355-dome3, d355-lengths), and at 83,000 the 14:52 build's in 162.2 s (nov22-recon-h-26), which is .425: the lower, as the rule is, and RotbloomDriverTests' .46 at
+            // 83,000 (d362-ch3to7) agrees with it. In both the hall drained on one stalk: an EXTRA on the gaping mouth took the bar past half before a second was burned.
+            book.Boss(new ContentRegistry.BossSheet{id="Rotbloom",zone="DrownedWaystation",door="Rotbloom",doorFlags=new[]{"wend.pimFound","wend.pump3","wend.bloomSeen"},sync=14,driverShare=.43f,
                 specials=new[]{("SporeBreath",new Vector3(0,0,6)),("RootLash",new Vector3(0,0,8)),("LureFlash",new Vector3(0,0,8)),("Drag",new Vector3(0,0,9)),("CrackLash",new Vector3(0,0,8)),("Thrash",new Vector3(0,0,6))},
                 // Its drag closes on nothing at a hero beyond its pull (the cone reaches 18.4 m from its middle), and its third crack lash lodges in the floor.
                 windows=new[]{("Drag",new Vector3(0,0,19.5f)),("CrackLash",new Vector3(0,0,8))}});
@@ -489,7 +494,7 @@ namespace Lattice.Tests.PlayMode
             var taren=party.Active;var sela=party.members.First(m=>m!=taren);
             var enemy=Enemy(id,at);yield return Frames(3);var body=enemy.Health;
             enemy.GetComponent<BossController>().enabled=false;body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var tarenAt=at+Vector3.back*reach;var selaAt=at+Vector3.back*(reach+5)+Vector3.right*2;
+            float reach=BossReach.Edge(enemy);var tarenAt=at+Vector3.back*reach;var selaAt=at+Vector3.back*(reach+5)+Vector3.right*2;
             Put(taren,tarenAt);Put(sela,selaAt);taren.target=sela.target=body;taren.charge=sela.charge=100;yield return null;
             float landed=0;body.Damaged+=(_,packet,amount)=>{if(packet.source==taren.Health||packet.source==sela.Health)landed+=amount;};
             for(float end=Time.unscaledTime+FlatOutSeconds;Time.unscaledTime<end;)

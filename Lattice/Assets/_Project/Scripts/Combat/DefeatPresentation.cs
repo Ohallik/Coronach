@@ -34,6 +34,10 @@ namespace Lattice.Combat
         FlightFailurePresentation flightFailure;
         CantorRelease cantorRelease;
         BossDeparture departure;
+        /// <summary>Bosses whose own ending already takes their light and paint: the Burrower burns out to its wreck's tint (BurrowerShutdown, BossWreck), the Host Marshal is taken by
+        /// the frost, and the Last Warden stands down unbeaten.</summary>
+        static readonly HashSet<string> OwnColour=new(){"Burrower","HostMarshal","LastWarden"};
+        BodyGoesDark dark;bool knockedClear;
         void Awake()
         {
             health=GetComponent<Health>();actor=GetComponent<CombatActor>();enemy=GetComponent<EnemyBrain>();
@@ -60,6 +64,8 @@ namespace Lattice.Combat
                 // A recoverable ship still occupies space. Its damage trigger
                 // shuts down, while its motionless hull stops a rescuer passing
                 // through it. Ground corpses and enemies retain their cleanup.
+                // A killed body never blocks the way (QaPlanCombatTests), the Rotbloom's included: D343's "solid until it is gone" never held (EnemyBrain switched the capsule off
+                // after this), and a huge body draws in off whoever stood at it instead (D355).
                 colliders[i].enabled=actor!=null&&actor.flight&&colliders[i] is CharacterController&&collisionEnabled[i];
             }
             foreach(var motion in GetComponentsInChildren<ProceduralMotion>())motion.enabled=false;
@@ -90,6 +96,12 @@ namespace Lattice.Combat
             }
             // Driven off, it leaves on its own feet: no body lies down here.
             if(enemy!=null&&visual!=null&&TryGetComponent(out departure)){departure.Begin(visual,packet);return;}
+            // Killed, a boss goes dark at once: its lights go out and its colour drains (to ash if it is destroyed, cold if it is a machine shut down). Not what yields, leaves or is freed.
+            if(enemy!=null&&enemy.definition.boss&&!yields&&visual!=null&&!OwnColour.Contains(enemy.definition.id))
+            {
+                var ending=BossController.EndingOf(enemy.definition.id);
+                if(ending==BossController.Ending.Destroyed||ending==BossController.Ending.ShutDown){dark=gameObject.AddComponent<BodyGoesDark>();dark.Begin(transform,ending==BossController.Ending.Destroyed);}
+            }
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
             if(visualScale==Vector3.zero)visualScale=visual.localScale;
@@ -99,7 +111,29 @@ namespace Lattice.Combat
             terminal=origin+Vector3.down*(airborne?.22f:.12f);
             // It draws in as it empties. Spread wider than it lived, it swallowed whoever had been fighting beside it, and they stood in its ribs for as long as it lay there: its body is 2.6 m out
             // where its capsule stops a hero at 1.75 m. At this width someone at the capsule stands on the rim, and anyone a little further stands clear.
-            if(deflates){terminalRotation=originRotation;flatScale=new Vector3(visualScale.x*.72f,visualScale.y*.24f,visualScale.z*.72f);}
+            // D355: to six tenths, inside where its capsule stops a hero (1.75 m of its 2.6), so nobody at its side is left standing in its shell as it goes down.
+            if(deflates){terminalRotation=originRotation;flatScale=new Vector3(visualScale.x*.6f,visualScale.y*.24f,visualScale.z*.6f);}
+            // A boss's body ends as what it is. Tipped over by 42 degrees like an ordinary body, a huge one swung its top metres across the floor the party stood on, and the
+            // Rotbloom, a rooted bloom the size of a room, stood on whole with the heroes inside it (s26/457). What shuts down (a machine, a frame) stops where it stands and
+            // bows a little; what is huge and destroyed (the bloom, the crucible on legs) wilts and comes down where it stands, folding into itself. What leaves is BossDeparture's,
+            // what yields stands where it gave up; only an ordinary body falls over. A break or a stagger never comes here: this runs on death alone.
+            else if(enemy!=null&&enemy.definition.boss&&!airborne)
+            {
+                var ending=BossController.EndingOf(enemy.definition.id);
+                bool huge=TryGetComponent<CharacterController>(out var capsule)&&(capsule.height>=4.5f||capsule.radius>=2.2f);
+                if(ending==BossController.Ending.ShutDown){terminalRotation=originRotation*Quaternion.Euler(5,0,2);terminal=origin+Vector3.down*.06f;}
+                // Folding into itself means drawing in, not only down: squashed in height alone the Rotbloom, a flat bloom under a camera that looks down on it, stood whole and
+                // full size with Taren in its petals until it was cleared away (nov22-whole s26/454 to 469). Drawn in to half its reach (the Rotbloom's 4.5 m to 2.25, inside its 3.4 m
+                // capsule) the petals fold off whoever stood among them in the first second.
+                else if(huge){terminalRotation=originRotation*Quaternion.Euler(4,0,3);deflates=true;flatScale=new Vector3(visualScale.x*.5f,visualScale.y*.4f,visualScale.z*.5f);}
+            }
+            // Drawn in round the middle of what it draws, not round its root: a body hung off-centre on its root would otherwise be carried across the floor as it folds.
+            if(deflates&&visualScale.x>0&&flatScale.x<visualScale.x)
+            {
+                bool any=false;var drawn=new Bounds();
+                foreach(var r in visual.GetComponentsInChildren<Renderer>())if(r.enabled&&(r is MeshRenderer||r is SkinnedMeshRenderer)){if(!any){drawn=r.bounds;any=true;}else drawn.Encapsulate(r.bounds);}
+                if(any){var off=drawn.center-visual.position;off.y=0;terminal+=visual.parent.InverseTransformVector(off*(1-flatScale.x/visualScale.x));}
+            }
             if(enemy!=null&&airborne)
             {
                 // A killed flier loses lift: it tumbles and falls away below the
@@ -120,9 +154,16 @@ namespace Lattice.Combat
             }
             if(groundCreature&&CaptureSupport())
             {
-                terminalRotation=Quaternion.Inverse(visual.parent.rotation)*Quaternion.FromToRotation(transform.up,supportNormal)*visual.parent.rotation*terminalRotation;
-                visual.localRotation=terminalRotation;visual.localPosition=terminal;SupportRigidBody();terminal=visual.localPosition;
-                visual.localPosition=origin;visual.localRotation=originRotation;
+                var lying=terminal;
+                (terminalRotation,terminal)=Supported(terminalRotation,lying);
+                // D355: a hound lies on whichever flank keeps it off the heroes. Killed with its head at Taren's side it rolled its back across him, and for the two seconds it lay
+                // there his torso stood in it (Lantern Gorge, nov22-whole s14/017 to 022: two Gloomgrazers, one each side of him).
+                if(hound&&InHeroes(supportVertices,terminal,terminalRotation,visualScale,out Vector3 _)>0)
+                {
+                    var (otherRotation,otherAt)=Supported(originRotation*Quaternion.Euler(0,0,-98),lying);
+                    if(InHeroes(supportVertices,otherAt,otherRotation,visualScale,out Vector3 _)<InHeroes(supportVertices,terminal,terminalRotation,visualScale,out Vector3 _)){terminalRotation=otherRotation;terminal=otherAt;}
+                }
+                if(!enemy.definition.boss)FallClear(supportVertices);
             }
             else if(!airborne)
             {
@@ -136,7 +177,65 @@ namespace Lattice.Combat
                 float bottom=MinimumY(visual);
                 if(!float.IsInfinity(bottom))terminal+=visual.parent.InverseTransformVector(Vector3.up*(surface+.025f-bottom));
                 visual.localPosition=origin;visual.localRotation=originRotation;if(deflates)visual.localScale=visualScale;
+                if(enemy!=null&&!enemy.definition.boss)FallClear(LocalPoints());
             }
+        }
+        /// <summary>The rotation and place a ground creature lies at on the floor under it, from the rest it rolls to and the place it starts from.</summary>
+        (Quaternion,Vector3) Supported(Quaternion rest,Vector3 from)
+        {
+            var rotation=Quaternion.Inverse(visual.parent.rotation)*Quaternion.FromToRotation(transform.up,supportNormal)*visual.parent.rotation*rest;
+            visual.localRotation=rotation;visual.localPosition=from;SupportRigidBody();var at=visual.localPosition;
+            visual.localPosition=origin;visual.localRotation=originRotation;
+            return (rotation,at);
+        }
+        /// <summary>What it draws, in its visual's own frame, as it stands in the frame it died: every vertex of its meshes.</summary>
+        Vector3[] LocalPoints()
+        {
+            var points=new List<Vector3>();var mesh=new List<Vector3>();
+            foreach(var skin in visual.GetComponentsInChildren<SkinnedMeshRenderer>())
+                if(skin.sharedMesh!=null)foreach(var p in GeneratedGeometry.WorldSkinPoints(skin))points.Add(visual.InverseTransformPoint(p));
+            foreach(var filter in visual.GetComponentsInChildren<MeshFilter>())
+            {
+                if(filter.sharedMesh==null)continue;filter.sharedMesh.GetVertices(mesh);
+                foreach(var p in mesh)points.Add(visual.InverseTransformPoint(filter.transform.TransformPoint(p)));
+            }
+            return points.ToArray();
+        }
+        /// <summary>A body that falls does so clear of the heroes on foot: drawn where it would lie, none of it comes within a third of a metre of a hero's capsule, between his feet and
+        /// the top of his head. Laid just off his capsule, the two Gloomgrazers still read from the game's camera as lying in him, one at each side.</summary>
+        const float HeroClearance=.35f,MostSlide=1.4f;
+        /// <summary>How deep what it would draw, lying at this pose, stands inside the nearest hero's capsule on the plan (0: in none), and the way its body leaves him.</summary>
+        float InHeroes(Vector3[] local,Vector3 position,Quaternion rotation,Vector3 scale,out Vector3 away)
+        {
+            away=Vector3.zero;float deepest=0;var party=PartyController.Current;
+            if(party==null||local==null||local.Length==0||visual==null||visual.parent==null)return 0;
+            var pose=visual.parent.localToWorldMatrix*Matrix4x4.TRS(position,rotation,scale);int stride=Mathf.Max(1,local.Length/900);
+            foreach(var hero in party.members)
+            {
+                if(hero==null||hero.Health==null||!hero.Health.Alive||hero.flight||!hero.TryGetComponent<CharacterController>(out var capsule))continue;
+                var foot=hero.transform.position;float r=capsule.radius+HeroClearance,top=foot.y+capsule.height;
+                for(int i=0;i<local.Length;i+=stride)
+                {
+                    var p=pose.MultiplyPoint3x4(local[i]);if(p.y<foot.y+.05f||p.y>top)continue;
+                    float dx=p.x-foot.x,dz=p.z-foot.z,d=Mathf.Sqrt(dx*dx+dz*dz);
+                    if(d<r&&r-d>deepest){deepest=r-d;away=transform.position-foot;}
+                }
+            }
+            away.y=0;away=away.sqrMagnitude>.0001f?away.normalized:-transform.forward;
+            return deepest;
+        }
+        /// <summary>Where it lies is moved off any hero it would lie in, along the way from him through its middle, as the killing blow knocks it back: it slides there as it falls.</summary>
+        void FallClear(Vector3[] local)
+        {
+            float slid=0;
+            for(int i=0;i<5&&slid<MostSlide;i++)
+            {
+                float depth=InHeroes(local,terminal,terminalRotation,visualScale,out var away);
+                if(depth<=0)break;
+                float step=Mathf.Min(depth+.03f,MostSlide-slid);slid+=step;
+                terminal+=visual.parent.InverseTransformVector(away*step);
+            }
+            if(slid>0){knockedClear=true;Debug.Log($"BODY_FALLS_CLEAR {enemy.definition.id} slid={slid:0.00}");}
         }
         bool CaptureSupport()
         {
@@ -185,6 +284,7 @@ namespace Lattice.Combat
         void BeginRecovery(Health _)
         {
             if(!down)return;recovering=true;started=GameTime.Now;
+            if(dark!=null){dark.Restore();dark=null;}
             if(flightFailure!=null)flightFailure.BeginRecovery();
             if(cantorRelease!=null)cantorRelease.Restore();
         }
@@ -239,8 +339,10 @@ namespace Lattice.Combat
             }
             if(flightFailure==null&&rigid&&visual!=null)
             {
-                float t=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/duration));
-                visual.localPosition=Vector3.Lerp(origin,terminal,t);visual.localRotation=Quaternion.Slerp(originRotation,terminalRotation,t);
+                // A boss goes down fastest at first (D355): eased in, its first half second moved it a quarter of the way and read as standing.
+                float u=Mathf.Clamp01(elapsed/duration),t=enemy!=null&&enemy.definition.boss?1-(1-u)*(1-u):Mathf.SmoothStep(0,1,u);
+                // A body knocked clear of a hero (FallClear) is off him before it has rolled far, so no frame of its fall swings it through him.
+                visual.localPosition=Vector3.Lerp(origin,terminal,knockedClear?Mathf.Sqrt(t):t);visual.localRotation=Quaternion.Slerp(originRotation,terminalRotation,t);
                 SupportRigidBody();
                 if(deflates)visual.localScale=Vector3.Lerp(visualScale,flatScale,t);
                 else if(bursts)visual.localScale=visualScale*(elapsed<.12f?Mathf.Lerp(burstFrom,1.5f,elapsed/.12f):Mathf.Lerp(1.5f,.2f,(elapsed-.12f)/.48f));

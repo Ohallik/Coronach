@@ -227,7 +227,7 @@ namespace Lattice.EditorTools
         /// <summary>Measured, since nobody can listen to it: every earlier bed plays at its file's RMS times its volume of about -33 dB (Lanternwick's city .1024 at .219, the gorge's wind
         /// .2117 at .106, Sorrel's .1471 at .151, the relay's hollow .0776 at .288). This file's RMS is .0634, so .353 puts it level with them; at .16 it was 7 dB under.</summary>
         const float RiverTownLevel=.353f;
-        internal static Material Loam,Bark,RootWall,Plank,Thatch,Leaf,CanopyLeaf,Weave,Water,Lantern,Rope,Husk,Vine,Snag,SnagGlow,Pane,PaneLit,Land,LandBank,Sea,Clouds,CloudShade,Cloth;
+        internal static Material Loam,Bark,RootWall,Plank,Thatch,Leaf,CanopyLeaf,Weave,Water,Lantern,Rope,Husk,Vine,Snag,SnagGlow,Pane,PaneLit,Land,LandBank,Sea,Clouds,CloudShade,Cloth,Strut;
         static Color Grey(float v,float warm=0)=>new(v+warm,v,v-warm,1);
         /// <summary>Everything built in code here is painted near neutral and tinted in its vertices, so one bark covers every root and trunk on Xylos and one plank every deck.</summary>
         static void Materials()
@@ -287,13 +287,39 @@ namespace Lattice.EditorTools
                 float tone=.5f+.3f*Mathf.Pow(rib,.5f)+.1f*(fibre-.5f)+.16f*(blot-.5f);
                 return new Color(tone*1.05f,tone,tone*.86f,1);
             });
-            // A mirror pane: a faint grid of cells under a long streak of caught sun.
-            var pane=ZoneKit.Texture("Xylos/xylos-pane",256,(u,v)=>
+            // A mirror pane is a mirror: what it shows is the sky it faces, the nebula's bands drawn across it in soft swathes, a sheen where the far star lies along it, and the
+            // seams of its cells only faintly. Its grid of cells at a fifth of its tone, and its flat blue, read from the flight camera as blockout under the ships (s17 200 and
+            // 214, November 20). One repeat is about one pane.
+            var pane=ZoneKit.Texture("Xylos/xylos-pane",512,(u,v)=>
             {
-                float gx=Mathf.Abs(Mathf.Repeat(u*6,1)-.5f),gy=Mathf.Abs(Mathf.Repeat(v*6,1)-.5f),grid=Mathf.Max(gx,gy)>.475f?-.22f:0;
-                float streak=Mathf.Pow(Mathf.Clamp01(1-Mathf.Abs(Mathf.Repeat(u+v*.6f,1)-.5f)*3),3)*.34f,haze=ZoneKit.Cloud(u,v,4,2);
-                float tone=.5f+grid+streak+.14f*(haze-.5f);
-                return new Color(tone*.94f,tone,tone*1.08f,1);
+                float gx=Mathf.Abs(Mathf.Repeat(u*8,1)-.5f),gy=Mathf.Abs(Mathf.Repeat(v*8,1)-.5f),seam=Mathf.Max(gx,gy)>.492f?-.022f:0;
+                float band=ZoneKit.Cloud(u,v,2,61),wisp=ZoneKit.Cloud(u,v,6,17),sheen=Mathf.Pow(Mathf.Clamp01(1-Mathf.Abs(Mathf.Repeat(u*.7f+v*.4f,1)-.5f)*2.4f),4);
+                float glow=ZoneKit.Smooth(.45f,.8f,band*.7f+wisp*.3f);
+                var deep=new Color(.16f,.19f,.33f);var nebula=Color.Lerp(new Color(.36f,.56f,.46f),new Color(.62f,.52f,.3f),ZoneKit.Smooth(.4f,.7f,wisp));
+                var tone=Color.Lerp(deep,nebula,glow*.75f)+new Color(.3f,.3f,.28f)*sheen*.8f;tone+=new Color(seam,seam,seam);tone.a=1;return tone;
+            });
+            // Its stars, as the glass catches them: points of light a hand or two across at the pane's scale (a texel at this scale is invisible from the plane), and the sheen's
+            // brightest line. The emission map, so they read in the panes' shade.
+            var stars=ZoneKit.Texture("Xylos/xylos-pane-stars",512,(u,v)=>
+            {
+                float star=0;
+                for(int layer=0;layer<2;layer++)
+                {
+                    int cells=layer==0?22:9;float x=u*cells,y=v*cells;int cx=Mathf.FloorToInt(x),cy=Mathf.FloorToInt(y);
+                    float px=ZoneKit.Tile(cx*1.3f,cy*.7f,cells,11+layer),py=ZoneKit.Tile(cx*.9f,cy*1.7f,cells,23+layer),keep=ZoneKit.Tile(cx*2.1f,cy*2.9f,cells,37+layer);
+                    if(keep<(layer==0?.55f:.7f))continue;
+                    float d=new Vector2(x-cx-.2f-.6f*px,y-cy-.2f-.6f*py).magnitude,size=layer==0?.07f:.11f;
+                    star=Mathf.Max(star,Mathf.Clamp01(1-d/size)*(layer==0?.7f:1));
+                }
+                float sheen=Mathf.Pow(Mathf.Clamp01(1-Mathf.Abs(Mathf.Repeat(u*.7f+v*.4f,1)-.5f)*2.4f),12)*.35f;
+                float t=Mathf.Clamp01(star+sheen);return new Color(t,t,t,1);
+            });
+            // The frame's struts: plates riveted along their length, weathered, a seam every metre or so.
+            var strut=ZoneKit.Texture("Xylos/xylos-strut",256,(u,v)=>
+            {
+                float plate=Mathf.Repeat(u*4,1),rivet=new Vector2(Mathf.Repeat(u*16,1)-.5f,Mathf.Repeat(v*2,1)-.5f).magnitude,wear=ZoneKit.Cloud(u,v,6,8),scratch=ZoneKit.Tile(u*80,v*6,80,4);
+                float tone=.58f+.14f*(wear-.5f)+.05f*(scratch-.5f)-(plate<.03f?.2f:0)+(rivet<.16f?.12f:0);
+                return new Color(tone*.92f,tone*.96f,tone,1);
             });
             // A frond: a rib with leaflets swept toward its tip, cut out, so a crown is leaves and the gaps between them and not a green lump.
             var frond=ZoneKit.Exact(ZoneKit.Texture("Xylos/xylos-frond",512,(u,v)=>
@@ -314,19 +340,23 @@ namespace Lattice.EditorTools
             },false,true));
             // Fields as they are from orbit: parcels with a hedge between, each its own crop and ploughed its own way. A paving laid at this scale read as a paved floor under the
             // ships. A parcel's alpha is its height, one value all over it, so where field gives way to forest or shore the shader's cut follows whole parcels.
+            // Blocks between hedges, each cut into strips its own way and of its own widths, each strip a crop of its own with its rows: farmland as it looks from above. Parcels
+            // round a scatter of points (Voronoi) read from the flight camera as a floor of striped hexagon tiles (s17 200 to 238, November 20).
             var fields=ZoneKit.Texture("Xylos/xylos-fields",512,(u,v)=>
             {
-                const int Parcels=7;float x=u*Parcels,y=v*Parcels,near=9,next=9;int cx=Mathf.FloorToInt(x),cy=Mathf.FloorToInt(y),own=0;var mid=Vector2.zero;
-                float Of(int id,int what)=>ZoneKit.Tile(id,what,97,5);
-                for(int dy=-1;dy<=1;dy++)for(int dx=-1;dx<=1;dx++)
-                {
-                    int ix=cx+dx,iy=cy+dy,id=((iy%Parcels+Parcels)%Parcels)*Parcels+(ix%Parcels+Parcels)%Parcels;
-                    var p=new Vector2(ix+.2f+.6f*Of(id,1),iy+.2f+.6f*Of(id,2));float d=Vector2.Distance(new Vector2(x,y),p);
-                    if(d<near){next=near;near=d;own=id;mid=p;}else if(d<next)next=d;
-                }
-                float crop=Of(own,3),turn=Of(own,4)*Mathf.PI,rows=Mathf.Sin((Mathf.Cos(turn)*(x-mid.x)+Mathf.Sin(turn)*(y-mid.y))*34);
-                var tone=(crop<.3f?new Color(.9f,.8f,.34f):crop<.55f?new Color(.74f,.78f,.36f):crop<.8f?new Color(.62f,.7f,.3f):new Color(.86f,.7f,.42f))*(.92f+.08f*rows);
-                if(next-near<.05f)tone=new Color(.22f,.36f,.2f);
+                const int Blocks=4;float Of(int id,int what)=>ZoneKit.Tile(id,what,97,5);
+                // A low warp, periodic over the tile, so no hedge runs dead straight across it.
+                float wx=u+.016f*Mathf.Sin(v*Mathf.PI*4+1.3f)+.008f*Mathf.Sin(v*Mathf.PI*10),wy=v+.016f*Mathf.Sin(u*Mathf.PI*4+.4f)+.008f*Mathf.Sin(u*Mathf.PI*14+2);
+                float x=Mathf.Repeat(wx,1)*Blocks,y=Mathf.Repeat(wy,1)*Blocks;int bx=Mathf.FloorToInt(x),by=Mathf.FloorToInt(y);float fx=x-bx,fy=y-by;int block=by*Blocks+bx;
+                bool alongX=Of(block,1)>.5f;int strips=3+Mathf.FloorToInt(Of(block,2)*5);float across=alongX?fy:fx,along=alongX?fx:fy,bend=.75f+.5f*Of(block,3);
+                float q=Mathf.Pow(across,bend)*strips;int strip=Mathf.Min(strips-1,Mathf.FloorToInt(q));float inStrip=q-strip;int own=block*13+strip;
+                float crop=Of(own,4),rows=Mathf.Sin((along*(18+14*Of(own,6))+Of(own,7))*Mathf.PI*2);
+                var tone=crop<.24f?new Color(.9f,.8f,.34f):crop<.48f?new Color(.74f,.78f,.36f):crop<.7f?new Color(.6f,.68f,.3f):crop<.86f?new Color(.86f,.7f,.42f):new Color(.46f,.58f,.3f);
+                tone*=.9f+.1f*rows;
+                // A furrow between strips; a hedge round every block, with here and there a pale track beside it.
+                if(Mathf.Min(inStrip,1-inStrip)<.05f)tone*=.82f;
+                float edge=Mathf.Min(Mathf.Min(fx,1-fx),Mathf.Min(fy,1-fy));
+                if(edge<.022f)tone=new Color(.2f,.34f,.19f);else if(edge<.04f&&Of(block,8)>.6f)tone=new Color(.82f,.76f,.56f);
                 tone.a=.3f+.5f*Of(own,5);return tone;
             },true,true);
             // The sea under it: pale over the shallows and up every river, deep offshore. Soft, as depth is.
@@ -358,6 +388,8 @@ namespace Lattice.EditorTools
             Cloth=ZoneKit.Toon("xylos-cloth",null,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);});
             Husk=ZoneKit.Toon("xylos-husk",husk,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.86f,.66f,.38f));m.SetColor("_RimColor",new Color(.5f,.42f,.3f));m.SetFloat("_LightFloor",.3f);});
             Vine=ZoneKit.Toon("xylos-vine",bark,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.56f,.8f,.34f));m.SetFloat("_LightFloor",.3f);});
+            // Every material a fading piece is made of carries the fade's variant from its paint, so no later paint of it can take it away (D359: these drew their pieces solid while the rest faded).
+            foreach(var fadeMat in new[]{Bark,Vine}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
             // Snagvine is the river's own weed gone up with the storm: bark-skinned, deep green going to umber, darker than a barge's bright lashings, with a bud of violet light
             // in every knot (the colour of the knots that are alive). Nothing about it is the flat magenta of a shader that failed to load.
             Snag=ZoneKit.Toon("xylos-snag",bark,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.5f,.52f,.36f));m.SetColor("_RimColor",new Color(.26f,.16f,.36f));m.SetFloat("_LightFloor",.3f);});
@@ -365,9 +397,12 @@ namespace Lattice.EditorTools
             SnagGlow=ZoneKit.Toon("xylos-snag-glow",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.42f,.26f,.8f));m.SetColor("_EmissionColor",new Color(.2f,.06f,.6f));m.SetFloat("_ReceiveShadows",0);});
             // Seed lanterns and a caught sun: lit from inside, so they read in shade and bloom a little.
             Lantern=ZoneKit.Toon("xylos-lantern",null,m=>{m.SetColor("_BaseColor",new Color(1,.78f,.42f));m.SetColor("_EmissionColor",new Color(2.2f,1.3f,.45f));});
-            Pane=ZoneKit.Toon("xylos-pane",pane,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.34f,.44f,.56f));m.SetColor("_EmissionColor",new Color(.04f,.07f,.1f));m.SetFloat("_LightFloor",.4f);m.SetFloat("_ReceiveShadows",0);});
+            // The glass lit mostly by what it reflects: a high light floor and its stars in the emission, so a pane in the ship's shadow is still sky.
+            Pane=ZoneKit.Toon("xylos-pane",pane,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.82f,.86f,.98f));m.SetTexture("_EmissionMap",stars);m.SetColor("_EmissionColor",new Color(.9f,.92f,1.05f));
+                m.SetFloat("_LightFloor",.62f);m.SetFloat("_ReceiveShadows",0);m.SetColor("_RimColor",new Color(.5f,.56f,.7f));});
             // The pane that still catches the sun: warm and bright, but under white, so its cells and the streak across it still show (at full white it was a blank cut out of the frame).
-            PaneLit=ZoneKit.Toon("xylos-pane-lit",pane,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(1,.9f,.68f));m.SetColor("_EmissionColor",new Color(.62f,.5f,.28f));m.SetFloat("_ReceiveShadows",0);});
+            PaneLit=ZoneKit.Toon("xylos-pane-lit",pane,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(1,.86f,.6f));m.SetTexture("_EmissionMap",stars);m.SetColor("_EmissionColor",new Color(1.4f,1.1f,.6f));m.SetFloat("_ReceiveShadows",0);});
+            Strut=ZoneKit.Toon("xylos-strut",strut,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.62f,.66f,.74f));m.SetColor("_ShadowTint",new Color(.42f,.46f,.6f));m.SetColor("_RimColor",new Color(.56f,.6f,.72f));m.SetFloat("_LightFloor",.3f);});
             // The planet's layers. Every point of them faces straight up, so the sun lights the whole of each evenly (a globe under the toon ramp went to two flat bands with a hard
             // line between them) and the limb darkens in the vertices. Fields are painted above; forest and shore are the ground kit's cobble and sand at a scale where a cobble
             // is a tree's crown.

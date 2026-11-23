@@ -149,7 +149,7 @@ title: VessaFallsBack
 Vessa: The gallery is forty tonnes of pikeguard. The heart is nine hundred of cage. I'll spend the gallery. #emotion:Neutral
 Vessa: Colossus to the heart. Wake it. #emotion:Determined
 Idra: She's written off her own squad. Out loud. In front of them. #emotion:Worried
-<<setFlag vask.vessaBeaten>>
+<<setFlag vask.vessaFellBack>>
 ===
 title: SelaCagedRoad
 ---

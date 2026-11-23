@@ -32,11 +32,20 @@ namespace Lattice.EditorTools
             ("Hub_CinderHalo",new[]{new View("dock",new Vector3(-20,1,0),true),new View("ring",new Vector3(25,1,25),true),
                 new View("hulls-overview",new Vector3(0,1,0),true,4f),new View("station-overview",new Vector3(0,1,0),true,7f),
                 // The old dock/ring points lie inside the redesigned hulls; these sit where ships actually fly.
-                new View("office-dock",new Vector3(-28,1,-27),true),new View("market-roof",new Vector3(0,1,-25),true,2.2f),new View("workshop-roof",new Vector3(28,1,-25),true,2.2f)}),
+                new View("office-dock",new Vector3(-28,1,-27),true),new View("market-roof",new Vector3(0,1,-25),true,2.2f),new View("workshop-roof",new Vector3(28,1,-25),true,2.2f),
+                // Where the whole-game capture's first-flight still stood (nov20-whole s09 009), and the way out to the Gullet drawn back.
+                new View("gullet-s09-009",new Vector3(0,1,140),true),new View("outer-wide",new Vector3(0,1,120),true,2.4f)}),
             ("Sorrel_Ridges",new[]{new View("outpost",new Vector3(0,0,18)),new View("seam",new Vector3(-35,0,58)),new View("service",new Vector3(35,0,82)),new View("bore",new Vector3(8,0,164)),
                 new View("landing",new Vector3(2,0,-11)),new View("habs",new Vector3(12,0,10)),new View("haul",new Vector3(5,0,47)),new View("basin",new Vector3(-5,0,96)),new View("drill",new Vector3(4,0,141)),
                 // The Burrower's arena and the slope beside it, and the wrecked rig past the bore (E2-sorrel-07, E2-gullet-06).
-                new View("arena-slope",new Vector3(10,0,168)),new View("rig",new Vector3(-2,0,180))}),
+                new View("arena-slope",new Vector3(10,0,168)),new View("rig",new Vector3(-2,0,180)),
+                // Where the whole-game capture's stills stood (nov20-whole s02 019, s04 020 and 055, s05 016, s06 025), and the outpost and the haul road drawn back.
+                new View("outpost-s02-019",new Vector3(.1f,0,13.7f)),new View("haul-s04-020",new Vector3(-7.7f,0,74.6f)),new View("ore-s04-055",new Vector3(2.9f,0,107)),
+                new View("anvil-s05-016",new Vector3(8.1f,0,139.6f)),new View("burrower-s06-025",new Vector3(.1f,0,161.6f)),
+                new View("outpost-wide",new Vector3(4,0,22),false,2.6f),new View("haul-wide",new Vector3(-6,0,72),false,2.6f),
+                // The haul road between its ridges (D360): where nov22-whole s04 019 and 054 stood, and the stretches between its fights.
+                new View("haul-s04-019",new Vector3(4.1f,0,57.5f)),new View("haul-s04-054",new Vector3(9.1f,0,111.4f)),new View("haul-63",new Vector3(.4f,0,63.1f)),
+                new View("haul-86",new Vector3(-6.3f,0,85.6f)),new View("haul-108",new Vector3(6.5f,0,107.9f)),new View("haul-121",new Vector3(12.9f,0,121)),new View("haul-50",new Vector3(6.2f,0,49.6f))}),
             ("Arena_Ground",new[]{new View("yard",new Vector3(-6,0,4))}),
             ("Hushwell",new[]{new View("descent",new Vector3(0,0,20)),new View("nursery",new Vector3(14,-15,334)),
                 new View("breach",new Vector3(0,0,6)),new View("gallery-a",new Vector3(-12,0,48)),new View("gallery-b",new Vector3(8,0,84)),
@@ -45,7 +54,9 @@ namespace Lattice.EditorTools
                 new View("east-pocket",new Vector3(40,-8,164)),new View("west-pocket",new Vector3(-36,-8,212)),new View("lower-ramp",new Vector3(9,-12,306)),
                 new View("nursery-lift",new Vector3(24,-16,342)),
                 // The Bellows' two doors, from the chamber side (E4-hushwell-04).
-                new View("bellows-exit",new Vector3(0,-8,276)),new View("bellows-entry",new Vector3(0,-8,250))}),
+                new View("bellows-exit",new Vector3(0,-8,276)),new View("bellows-entry",new Vector3(0,-8,250)),
+                // Where the whole-game capture's stills stood (nov20-whole s08 021 and 073).
+                new View("mites-s08-021",new Vector3(6.4f,0,81.5f)),new View("bellows-s08-073",new Vector3(4.4f,-7.9f,265))}),
             ("Gullet_Tunnel",new[]{new View("mouth",new Vector3(0,1,8),true),new View("throat",new Vector3(Mathf.Sin(320f/900*Mathf.PI*4)*12,1,320),true),
                 new View("canal",new Vector3(GulletProfile.RouteX(70),1,70),true),new View("feeding",new Vector3(GulletProfile.RouteX(165),1,165),true),
                 new View("feeding-far",new Vector3(GulletProfile.RouteX(225),1,225),true),new View("valve-0",new Vector3(GulletProfile.RouteX(252),1,252),true),
@@ -54,21 +65,37 @@ namespace Lattice.EditorTools
                 new View("coil-entry",new Vector3(GulletProfile.RouteX(745),1,745),true),new View("coil",new Vector3(GulletProfile.RouteX(805),1,805),true),
                 new View("exit",new Vector3(GulletProfile.RouteX(880),1,880),true),
                 // The way in as the party arrives, and drawn back as the first fight draws the view back (E2-gullet-15).
-                new View("arrival",new Vector3(0,1,8),true,1.6f),new View("arrival-far",new Vector3(0,1,14),true,2.6f)}),
+                new View("arrival",new Vector3(0,1,8),true,1.6f),new View("arrival-far",new Vector3(0,1,14),true,2.6f),
+                // Where the whole-game capture's stills stood (nov20-whole s10b 049 and 089), at the distance the play camera had drawn back to.
+                new View("eddy-s10b-049",new Vector3(9.4f,1,395.6f),true,2.85f),new View("drifter-s10b-089",new Vector3(0,1,608.1f),true,1.85f),
+                // The coil after the Cantor (D360): where nov22-whole s10 165 waited, and on the way out by its middle.
+                new View("coil-s10-165",new Vector3(17.8f,1,764.9f),true),new View("coil-leaving",new Vector3(6,1,790),true),new View("coil-west",new Vector3(-20,1,770),true)}),
             ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true),new View("deck",new Vector3(4.75f,1,18),true,1.8f),new View("mooring",new Vector3(-25,1,3),true),
                 // The dock at the play camera's own distance, where the hull was soft beside the ships (E2-tallow-11).
-                new View("dock-close",new Vector3(4.75f,1,12),true)}),
+                new View("dock-close",new Vector3(4.75f,1,12),true),
+                // Where the whole-game capture's stills stood (nov20-whole s10b 185, s27 111).
+                new View("dock-s10b-185",new Vector3(0,1,-25),true),new View("launch-s27-111",new Vector3(-.1f,1,-31),true)}),
             ("TallowDrift",new[]{new View("refuge",new Vector3(0,0,-3)),new View("garden",new Vector3(6,0,3)),
                 new View("waiting",new Vector3(-7,0,1)),new View("repair",new Vector3(7,0,5)),new View("arrival",new Vector3(0,0,-9)),new View("rest",new Vector3(0,0,8))}),
             // Chapter 2, the Lantern Road (D202).
             ("WickReach",new[]{new View("arrival",new Vector3(0,1,8),true),new View("relay",new Vector3(-22,1,150),true),new View("gate",new Vector3(0,1,250),true),
-                new View("dock",new Vector3(0,1,282),true),new View("overview",new Vector3(0,1,150),true,4f)}),
+                new View("dock",new Vector3(0,1,282),true),new View("overview",new Vector3(0,1,150),true,4f),
+                // Where the whole-game capture's stills stood (nov20-whole s16 134 and 136).
+                new View("reach-s16-134",new Vector3(0,1,151.8f),true),new View("arrival-s16-136",new Vector3(-10.7f,1,8.5f),true),
+                // The way home down the lane (D360), every forty metres or so.
+                new View("home-250",new Vector3(0,1,250),true),new View("home-210",new Vector3(0,1,210),true),new View("home-175",new Vector3(0,1,175),true),new View("home-120",new Vector3(-1.5f,1,120),true),
+                new View("home-80",new Vector3(-3.5f,1,80),true),new View("home-s16-135",new Vector3(-5.8f,1,32.8f),true)}),
             ("Lanternwick",new[]{new View("dock",new Vector3(0,0,-14)),new View("arch-market",new Vector3(0,0,14)),new View("wick-house",new Vector3(-12,0,28)),
-                new View("lantern-stair",new Vector3(24,3,52)),new View("orchard",new Vector3(-28,1.4f,62)),new View("archive",new Vector3(0,0,92)),new View("overview",new Vector3(0,0,40),false,3.4f)}),
+                new View("lantern-stair",new Vector3(24,3,52)),new View("orchard",new Vector3(-28,1.4f,62)),new View("archive",new Vector3(0,0,92)),new View("overview",new Vector3(0,0,40),false,3.4f),
+                // Where the whole-game capture's archive stills stood (nov20-whole s13 141, s16 005).
+                new View("archive-s13-141",new Vector3(2.9f,0,89.3f)),new View("archive-s16-005",new Vector3(0,0,92))}),
             ("LanternGorge",new[]{new View("entry",new Vector3(0,0,6)),new View("first-relay",new Vector3(6,0,52)),new View("den",new Vector3(-20,0,98)),
                 new View("camp",new Vector3(-8,0,116)),new View("ridge",new Vector3(8,0,186)),new View("relay-door",new Vector3(0,0,222)),new View("overview",new Vector3(0,0,110),false,3.6f)}),
             ("SunkenRelay",new[]{new View("entry",new Vector3(0,0,8)),new View("corridor",new Vector3(0,0,32)),new View("gallery",new Vector3(0,0,66)),
-                new View("vault",new Vector3(0,0,104)),new View("great-lantern",new Vector3(0,0,140)),new View("overview",new Vector3(0,0,90),false,3.6f)}),
+                new View("vault",new Vector3(0,0,104)),new View("great-lantern",new Vector3(0,0,140)),new View("overview",new Vector3(0,0,90),false,3.6f),
+                // Where the whole-game capture's stills stood (nov20-whole s15 049, 135 and 148), and the Great Lantern's hall drawn back.
+                new View("gallery-s15-049",new Vector3(.1f,0,54.5f)),new View("arena-s15-135",new Vector3(1.2f,0,124)),new View("arena-s15-148",new Vector3(7.1f,0,120.1f)),
+                new View("great-lantern-wide",new Vector3(0,0,138),false,2.4f)}),
             // Chapter 3, Carrying a Place. Nearspace is placed along its lane (XylosBuilder.Beside: metres along, metres to starboard): the named places, then the lane itself every
             // hundred and fifty metres or so, which is what "never an empty screen" is judged on.
             ("XylosNearspace",new[]{new View("arrival",new Vector3(0,1,8),true),new View("first-fight",XylosBuilder.Beside(130,0),true),new View("barge-1",XylosBuilder.Beside(252,17),true),
@@ -78,12 +105,20 @@ namespace Lattice.EditorTools
                 new View("lane-0060",XylosBuilder.Beside(60,0),true),new View("lane-0560",XylosBuilder.Beside(560,0),true),new View("lane-0720",XylosBuilder.Beside(720,0),true),
                 new View("lane-0820",XylosBuilder.Beside(820,0),true),new View("lane-1060",XylosBuilder.Beside(1060,0),true),new View("lane-1180",XylosBuilder.Beside(1180,0),true),
                 new View("lane-1300",XylosBuilder.Beside(1300,0),true),new View("lane-1560",XylosBuilder.Beside(1560,0),true),
-                new View("barge-1-wide",XylosBuilder.Beside(250,8),true,3f),new View("mirror-wide",XylosBuilder.Beside(930,-24),true,4.5f),new View("beacon-wide",XylosBuilder.Beside(1630,0),true,3f)}),
+                new View("barge-1-wide",XylosBuilder.Beside(250,8),true,3f),new View("mirror-wide",XylosBuilder.Beside(930,-24),true,4.5f),new View("beacon-wide",XylosBuilder.Beside(1630,0),true,3f),
+                // Where the whole-game capture's mirror stills stood (nov20-whole s17 200 and 214).
+                new View("mirror-s17-200",new Vector3(224.5f,1,679.7f),true),new View("mirror-s17-214",new Vector3(319.5f,1,858.8f),true)}),
             ("Rootmarket",new[]{new View("arrival",new Vector3(0,0,17)),new View("mooring",new Vector3(29,0,19)),new View("landing-west",new Vector3(-8,0,24)),new View("ferry-stage",new Vector3(-25,0,46)),
                 new View("raft-crossing",new Vector3(0,0,44)),new View("ring-northwest",new Vector3(-18,0,60)),new View("seed-house",new Vector3(2,0,68)),new View("seed-house-door",new Vector3(0,0,72)),
                 new View("kitchen",new Vector3(25,0,65)),new View("press",new Vector3(37,0,45)),new View("river-gate",new Vector3(55,0,43)),new View("ring-southeast",new Vector3(22,0,31)),
                 new View("rope-walk",new Vector3(-31,0,23)),new View("senn",new Vector3(-45,0,13.5f)),new View("upper-walk-west",new Vector3(-28,2,74)),new View("upper-walk-top",new Vector3(0,2.4f,101)),
-                new View("upper-walk-east",new Vector3(28,2,85)),new View("overview",new Vector3(0,0,46),false,3.6f),new View("overview-north",new Vector3(0,0,82),false,2.4f)}),
+                new View("upper-walk-east",new Vector3(28,2,85)),new View("overview",new Vector3(0,0,46),false,3.6f),new View("overview-north",new Vector3(0,0,82),false,2.4f),
+                // Where the whole-game capture's stills stood (nov20-whole s22 015 and 063, s18 034).
+                new View("kitchen-s22",new Vector3(27.5f,0,50)),new View("landing-s18",new Vector3(12.3f,0,25.1f)),
+                // nov22-whole s22 017 (BINNA'S KITCHEN read on the way up), s18 051 (the mooring's mat) and s19 061 (the seed house's).
+                new View("kitchen-s22-017",new Vector3(17.47f,0,62.74f)),new View("mooring-s18-051",new Vector3(30.27f,0,22.27f)),new View("seedhouse-s19-061",new Vector3(2.6f,0,70.64f)),
+                // Where the party stands as Ruva's arrival talk opens since D358 (the line at x 23.5), and the camera framed for the talk: between the party and her.
+                new View("arrival-talk",new Vector3(22.7f,0,25.4f)),new View("arrival-talk-framed",new Vector3(25.6f,0,23.2f))}),
             // The Braided River, west to east as it is walked: the north bank, the first island and its camp, the second island, Seedfall and the mooring. Three wide views tile its length.
             ("BraidedRiver",new[]{new View("arrival",new Vector3(0,0,122.6f)),new View("first-arch",new Vector3(36,0,124)),new View("thornback",new Vector3(76,0,123.5f)),new View("bank-east",new Vector3(132,0,122.5f)),
                 new View("sluice-a",new Vector3(171.5f,0,114.5f)),new View("ferry-stage",new Vector3(103,0,96)),new View("camp",new Vector3(104,0,87)),new View("marrow-1",new Vector3(40,0,90)),
@@ -91,7 +126,9 @@ namespace Lattice.EditorTools
                 new View("north-shore",new Vector3(260,0,102)),new View("ford",new Vector3(250.5f,0,83)),new View("ulma",new Vector3(250,0,71)),new View("island-two-east",new Vector3(296,0,101)),
                 new View("sluice-b",new Vector3(323.5f,0,101.8f)),new View("seedfall-edge",new Vector3(343,0,90)),new View("seedfall",new Vector3(362,0,88)),new View("marrow-3",new Vector3(357,0,99)),
                 new View("seedfall-south",new Vector3(362,0,79)),new View("root-bridge",new Vector3(350,0,67)),new View("mooring",new Vector3(386,0,90)),new View("west-bank",new Vector3(-12,0,119)),
-                new View("overview-west",new Vector3(90,0,104),false,3.6f),new View("overview-mid",new Vector3(240,0,98),false,3.6f),new View("overview-east",new Vector3(350,0,94),false,2.8f)}),
+                new View("overview-west",new Vector3(90,0,104),false,3.6f),new View("overview-mid",new Vector3(240,0,98),false,3.6f),new View("overview-east",new Vector3(350,0,94),false,2.8f),
+                // nov22-whole s20 327 (the Seedthane's fan) and 360 (Seedfall after it).
+                new View("fan-s20-327",new Vector3(353.97f,0,92.4f)),new View("seedfall-s20-360",new Vector3(360.1f,0,96.62f))}),
             // The Walking Canopy in the order it is walked: the hall, down the gallery to the second anchor, up into the vault and the chamber behind it, back by the ladder, the basin.
             // Each point's height is its floor's (the hall is 2.8 m under the vault, the gallery and the basin lower still).
             ("WalkingCanopy",new[]{new View("arrival",new Vector3(2,-2.8f,2)),new View("hall",new Vector3(2,-2.8f,12)),new View("anchor-a",new Vector3(8.6f,-2.8f,13)),new View("gallery-door",new Vector3(-16.5f,-2.8f,10)),
@@ -99,7 +136,9 @@ namespace Lattice.EditorTools
                 new View("back-ramp",new Vector3(-26,-1.8f,56)),new View("vault",new Vector3(-10,0,50)),new View("vault-window",new Vector3(-1.4f,0,52)),new View("anchor-c",new Vector3(-10.6f,0,76.4f)),
                 new View("ladder",new Vector3(-12,-1.4f,29)),new View("porch",new Vector3(-12,0,37)),new View("basin-door",new Vector3(22,-3.4f,27)),new View("basin-south",new Vector3(24,-5.3f,40)),
                 new View("basin",new Vector3(24,-6,52)),new View("basin-north",new Vector3(24,-5.4f,63)),new View("basin-west-gate",new Vector3(12.5f,-5.6f,47.8f)),new View("basin-east-gate",new Vector3(35.3f,-5.6f,48.4f)),
-                new View("overview-hall",new Vector3(2,-2.8f,12),false,2.6f),new View("overview-basin",new Vector3(24,-6,52),false,2.4f),new View("overview",new Vector3(-6,-2,40),false,5)}),
+                new View("overview-hall",new Vector3(2,-2.8f,12),false,2.6f),new View("overview-basin",new Vector3(24,-6,52),false,2.4f),new View("overview",new Vector3(-6,-2,40),false,5),
+                // Where the whole-game capture's Floodcrown stills stood (nov20-whole s21 262 and 266).
+                new View("basin-s21-262",new Vector3(14.7f,-5.4f,41.6f)),new View("basin-s21-266",new Vector3(22.8f,-5.1f,34.7f))}),
             // Chapter 4, Breathing Room. The Veil is placed along its lane (WendmireBuilder.VeilBeside: metres along, metres to starboard): its named places, then the lane every hundred
             // and fifty metres or so. Driftreed: each raft and walk as it is first walked, then two wide views.
             ("SporeVeil",new[]{new View("arrival",new Vector3(0,1,8),true),new View("beacon-1",WendmireBuilder.VeilBeside(40,-6),true),new View("pods-0",WendmireBuilder.VeilBeside(150,0),true),
@@ -114,7 +153,9 @@ namespace Lattice.EditorTools
                 new View("market",new Vector3(0,0,46)),new View("market-west",new Vector3(-10,0,44)),new View("notice",new Vector3(-6,0,40)),new View("smokehouse",new Vector3(19,0,43)),
                 new View("pump-walk",new Vector3(-23,0,46)),new View("pump-raft",new Vector3(-37,0,45)),new View("press",new Vector3(-42,0,47)),new View("hall-walk",new Vector3(0,0,66)),
                 new View("hall-door",new Vector3(2,0,79)),new View("hall-racks",new Vector3(10,0,87)),new View("reed-store",new Vector3(-13,0,82)),new View("school-walk",new Vector3(22,0,54.5f)),
-                new View("school",new Vector3(39,0,57)),new View("gate",new Vector3(46,0,93)),new View("overview",new Vector3(5,0,52),false,3.6f),new View("overview-north",new Vector3(10,0,82),false,2.4f)}),
+                new View("school",new Vector3(39,0,57)),new View("gate",new Vector3(46,0,93)),new View("overview",new Vector3(5,0,52),false,3.6f),new View("overview-north",new Vector3(10,0,82),false,2.4f),
+                // nov22-whole s24 125 (Quill's raft and the walk over the water), s24 178 (the school shelter) and s27 098 (the stage walk).
+                new View("quill-s24-125",new Vector3(-30.66f,0,46)),new View("school-s24-178",new Vector3(44.81f,0,62.29f)),new View("stage-s27-098",new Vector3(0,0,27.67f))}),
             // The Drowned Waystation as it is walked: the three islands, the ford, the lure posts, the bell pocket, the leech channel and the spit round it, the causeway and the portico; then
             // the station room by room (each point at its floor's height: the hall's walk .3, the terrace -2.4, the low floor -4, the great hall -1.6), and two wide views.
             ("DrownedWaystation",new[]{new View("arrival",new Vector3(-4,.55f,2.5f)),new View("first-island",new Vector3(3,.6f,19)),new View("strider",new Vector3(2,.6f,32)),new View("ford",new Vector3(16,-.3f,44)),
@@ -124,7 +165,13 @@ namespace Lattice.EditorTools
                 new View("terrace",new Vector3(14,-2.4f,222)),new View("terrace-north",new Vector3(14,-2.4f,241)),new View("low-floor",new Vector3(-8,-4,226)),new View("low-north",new Vector3(-8,-4,244)),
                 new View("pim",new Vector3(-29,-2,221.5f)),new View("vault-passage",new Vector3(25,-2.4f,217.5f)),new View("vault",new Vector3(43,-2.4f,218)),new View("landing",new Vector3(0,-.6f,261.5f)),
                 new View("great-hall",new Vector3(0,-1.6f,279)),new View("great-hall-north",new Vector3(0,-1.6f,295)),new View("plinth",new Vector3(-10.6f,-.85f,278.4f)),
-                new View("overview-mire",new Vector3(12,0,78),false,4.2f),new View("overview-station",new Vector3(4,-2,236),false,4.2f)}),
+                new View("overview-mire",new Vector3(12,0,78),false,4.2f),new View("overview-station",new Vector3(4,-2,236),false,4.2f),
+                // Where the whole-game capture's stills stood (nov20-whole s26 301 to 306: the lower gallery's west alcove; s26 143: the third island).
+                new View("gallery-alcove-s26",new Vector3(-24.16f,-3.84f,210.45f)),new View("third-island-s26",new Vector3(-3.96f,.69f,117.5f)),
+                // s26 steps 292 to 298, the low floor's fight (the stills of 300 to 306 are gallery-alcove-s26). Render the gallery as it is played from a -waystation-stage 2 build.
+                new View("gallery-floor-s26",new Vector3(-11.75f,-3.92f,230.45f)),
+                // The low floor's sentries since November 22, in the north wall's alcoves; and nov22-whole s26 508 (the floor by the ramp).
+                new View("gallery-north-alcoves",new Vector3(-13,-4,250.2f)),new View("gallery-sentry-west",new Vector3(-16,-4,249.6f)),new View("low-ramp-s26-508",new Vector3(-1.81f,-3.92f,245.7f))}),
             // Chapter 5, the Hull of Many Hands (ManyHandsBuilder.Outside): the launch and the approach over the raft bay, the four joins Hulljack is fought at (each at the play view and
             // drawn back as a fight draws it), the roof door, then each district from outside, the tug, the queue and the harbour line at its edges, and the whole ship.
             ("ManyHandsHull",new[]{new View("arrival",new Vector3(-30,1,-124),true),new View("dock",new Vector3(-40,1,-130),true),new View("drones",new Vector3(-58,1,-80),true),

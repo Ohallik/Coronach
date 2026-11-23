@@ -56,7 +56,13 @@ namespace Lattice.EditorTools
             var shape=dust.shape;shape.shapeType=ParticleSystemShapeType.Box;shape.scale=size;
             var fade=dust.colorOverLifetime;fade.enabled=true;var ramp=new Gradient();
             ramp.SetKeys(new[]{new GradientColorKey(Color.white,0),new GradientColorKey(Color.white,1)},new[]{new GradientAlphaKey(0,0),new GradientAlphaKey(1,.25f),new GradientAlphaKey(1,.75f),new GradientAlphaKey(0,1)});fade.color=ramp;
-            var view=go.GetComponent<ParticleSystemRenderer>();view.sharedMaterial=glow;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
+            // A particle is its texture drawn on a square: a strand's glow (fromFloor's curtain, solid to its sides) would draw squares, so it is given a round puff (ParticleSprites).
+            var view=go.GetComponent<ParticleSystemRenderer>();view.sharedMaterial=ParticleSprites.ForParticles(glow);view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
+            // Vapour (a drift drawn over what is behind it) packed so tight that a line of sight meets more than ParticleSprites.MostStack of it is a flat white shape, not steam:
+            // it is thinned to that, and said so. Light (an additive drift: a fire's flames, embers, motes) is left as its builder made it.
+            bool vapour=view.sharedMaterial!=null&&view.sharedMaterial.HasProperty("_DstBlend")&&!Mathf.Approximately(view.sharedMaterial.GetFloat("_DstBlend"),(float)BlendMode.One);
+            float stack=vapour?ParticleSprites.Stack(view.sharedMaterial,colour,count,small,large,size):0;
+            if(stack>ParticleSprites.MostStack){var thin=colour;thin.a*=ParticleSprites.MostStack/stack;main.startColor=thin;Debug.Log($"DRIFT_THINNED {name}: alpha {colour.a:0.00} -> {thin.a:0.00} (it stacked {stack:0.00} on a line of sight)");}
             return dust;
         }
         /// <summary>A fight along a lane: the first wave's spawner where WorldBuilder puts it, each further kind beside it, all on the flight plane. Clearing it sets <c>clear.id</c>.</summary>

@@ -92,7 +92,9 @@ namespace Lattice.EditorTools
             var spit=ArenaBuilder.Asset<AttackDef>("BellowsSpit",a=>{a.damage=16;a.range=14;a.telegraph=.9f;a.cooldown=2.2f;a.projectile=true;a.type=DamageType.Kinetic;});
             var loot=ArenaBuilder.Asset<LootTable>("BellowsBelow",l=>l.entries=new[]{new LootEntry{id="HuskCore",count=2,chance=1},new LootEntry{id="RidgeCrystal",count=3,chance=1}});
             ArenaBuilder.Asset<EnemyDef>("BellowsBelow",e=>{e.id="BellowsBelow";e.archetype=EnemyArchetype.Spitter;e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.boss=true;
-                e.integrity=33500;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
+                e.integrity=33500;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;e.capsuleHeight=4.8f;e.drawnScale=.88f;});
+            // Its dome drawn at .88 and its capsule (BossController.Bellows: 2.4 m) twice that tall, so a hero stopped against it stands outside the dome as drawn (D355, continued);
+            // the asset was edited to match by hand, as its integrity was.
             // 33,500 since November 20 (35,000 before): on the final tree the chapter's party read 465 to 487 a second flat out against it where it had read 487 to 530,
             // which put a person at a quarter of that on the five-minute ceiling (301 s). At 33,500 that person has 284 s and the replay party about 2 min 50 s (D331).
             // The asset (Resources/Definitions/EnemyDef/BellowsBelow.asset) was edited to match by hand: this builder rebuilds the whole cave.

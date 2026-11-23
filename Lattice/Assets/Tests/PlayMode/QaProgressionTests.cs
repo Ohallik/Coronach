@@ -59,7 +59,7 @@ namespace Lattice.Tests.PlayMode
         // ------------------------------------------------------------------ what's on screen
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static string Plain(string words)=>Regex.Replace(words,"<[^>]+>","");
         static string Shown()=>string.Join(" | ",Buttons().Select(b=>b.name+": "+Words(b)));
         static Button With(string words)
@@ -151,7 +151,7 @@ namespace Lattice.Tests.PlayMode
                 for(int i=0;i<stock.Length;i++)
                 {
                     StringAssert.StartsWith(DisplayNames.Item(stock[i].id),said[i],$"{id}'s offers aren't in the order the stall keeps them");
-                    StringAssert.Contains($"  —  {stock[i].price} scrip",said[i],$"{id}: {stock[i].id} is shown at another offer's price. The prices were one list read by position after the parts were sorted by slot");
+                    StringAssert.Contains($"  ·  {stock[i].price} scrip",said[i],$"{id}: {stock[i].id} is shown at another offer's price. The prices were one list read by position after the parts were sorted by slot");
                 }
                 RowsFit(id);shop.Close();yield return null;
             }
@@ -275,12 +275,12 @@ namespace Lattice.Tests.PlayMode
             var menu=Menu;menu.Open(PauseMenu.GearPage,true);yield return null;
             yield return Action(2);StringAssert.Contains("Action: Upgrade",Words(Row("Row_1")));
             var row=With("Prime Edge");Focus(row);yield return null;
-            StringAssert.Contains("+1 costs Scrap Alloy 9/9, "+DisplayNames.Item(prime.upgradeMaterial)+" 0/1, 75 scrip.",Note(),"the price of an upgrade is seen after paying, or not at all");
+            StringAssert.Contains("+1 costs Scrap Alloy ×9 (have 9), "+DisplayNames.Item(prime.upgradeMaterial)+" ×1 (have 0), 75 scrip.",Note(),"the price of an upgrade is seen after paying, or not at all");
             Fits("Note","Gear, Upgrade");
             // Short of the region's material: refused, with what's short, and nothing spent.
             row.onClick.Invoke();yield return null;
             Assert.AreEqual(0,edge.upgrade,"a Prime part was upgraded without its region's material");Assert.AreEqual(9,Held("ScrapAlloy"));Assert.AreEqual(75,State.scrip);
-            StringAssert.Contains(DisplayNames.Item(prime.upgradeMaterial)+" 0/1",Said(),"the refusal doesn't say what's short");
+            StringAssert.Contains(DisplayNames.Item(prime.upgradeMaterial)+" ×1 (have 0)",Said(),"the refusal doesn't say what's short");
             State.materials[prime.upgradeMaterial]=1;With("Prime Edge").onClick.Invoke();yield return null;
             Assert.AreEqual(1,edge.upgrade,"an upgrade with its whole price in hand at a bench is refused");Assert.AreEqual(0,Held("ScrapAlloy"));Assert.AreEqual(0,State.scrip);Assert.AreEqual(0,Held(prime.upgradeMaterial));
             menu.Close();
@@ -293,7 +293,7 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(Words(Row("Row_1")).Contains("Re-tune"));
             menu.Close();yield return null;menu.Open(PauseMenu.GearPage,true);yield return null;
             yield return Action(4);StringAssert.Contains("Action: Re-tune",Words(Row("Row_1")),"a bench doesn't offer a re-tune");
-            var row=With("Keen: crit chance +5%");StringAssert.StartsWith("Refined Edge  T2",Words(row),"a re-tune row doesn't lead with its part");
+            var row=With("Keen: crit chance +5%");StringAssert.StartsWith("Refined Edge  ·  T2",Words(row),"a re-tune row doesn't lead with its part");
             Focus(row);yield return null;StringAssert.Contains("A re-tune costs 150 scrip.",Note());
             Loot.Seed(5);row.onClick.Invoke();yield return null;
             Assert.AreEqual("Keen",item.affixes[0],"one press re-tuned an affix");Assert.AreEqual(1000,State.scrip);StringAssert.Contains("Press again to re-tune Keen on Refined Edge for 150 scrip",Said());
@@ -327,8 +327,9 @@ namespace Lattice.Tests.PlayMode
             menu.Close();yield return null;State.craftingXp["Edges"]=60;
             menu.Open(PauseMenu.FabricatePage,true);yield return null;yield return Press("Kind",2);
             Assert.IsTrue(Numbered("Row_",1).All(r=>Words(r).Contains("Edge")),"the Edges filter shows something else: "+Shown());
-            prime=With("Prime Edge");StringAssert.Contains("Rootfibre 10/4",Words(prime));
+            prime=With("Prime Edge");StringAssert.Contains("Rootfibre ×4",Plain(Words(prime)),"the row doesn't say what the recipe takes");
             Focus(prime);yield return null;StringAssert.Contains("Prime Edge: Output +50",Note(),"the note doesn't say what the recipe under the cursor makes");
+            StringAssert.Contains("10 Rootfibre",Note(),"nothing on the bench says what's held of what the recipe takes");
             Fits("Note","the bench, on a Prime recipe");RowsFit("the bench, Edges");
             prime.onClick.Invoke();yield return null;
             Assert.IsTrue(State.parts.Any(p=>p.definitionId=="EdgesT3"),"a Prime Edge can't be made on a ladder at 3 with its materials in hand: the bench's page stopped at its own copy of the tier gate");

@@ -68,3 +68,7 @@ MonoBehaviour:
     bark: 
     pair: 0
     heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

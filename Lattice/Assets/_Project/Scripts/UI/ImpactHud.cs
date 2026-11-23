@@ -16,7 +16,9 @@ namespace Lattice.UI
         /// <summary>How red the edge is now, and how cyan, 0 to 1, for a check to read.</summary>
         public float Hurt=>hurt!=null&&hurt.enabled?hurt.color.a:0;
         public float Calm=>calm!=null&&calm.enabled?calm.color.a:0;
-        /// <summary>White, clear in an oval over the middle and fullest in the corners, to be tinted. Drawn here, not painted: it is a gradient.</summary>
+        /// <summary>White, clear over the whole middle and fullest in the corners, to be tinted. Drawn here, not painted: it is a gradient. It began a third of the way in, and a
+        /// heavy hit washed the whole screen red behind the fight for half a second (s14/010, s15/154, s08/056) and a Flash washed it teal (s15/148): it is a rim now, the
+        /// corners and the screen's very edge.</summary>
         static Sprite Edge()
         {
             if(edgeSprite!=null)return edgeSprite;
@@ -25,7 +27,7 @@ namespace Lattice.UI
             for(int y=0;y<h;y++)for(int x=0;x<w;x++)
             {
                 float u=(x+.5f)/w*2-1,v=(y+.5f)/h*2-1,d=Mathf.Sqrt(u*u+v*v);
-                pixels[y*w+x]=new Color32(255,255,255,(byte)Mathf.RoundToInt(255*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.66f,1.36f,d))));
+                pixels[y*w+x]=new Color32(255,255,255,(byte)Mathf.RoundToInt(255*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.92f,1.42f,d))));
             }
             texture.SetPixels32(pixels);texture.Apply(false,true);
             edgeSprite=Sprite.Create(texture,new Rect(0,0,w,h),new Vector2(.5f,.5f),100);edgeSprite.hideFlags=HideFlags.HideAndDontSave;

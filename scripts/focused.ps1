@@ -78,16 +78,17 @@ if ($pool.Count -gt 0) {
     $deadline = (Get-Date).AddMinutes($WaitMinutes)
     $turn = $null
     $name = $null
+    # Wait on every mirror's turn at once, in the queue with everybody else. Asking each in passing and sleeping three
+    # seconds between rounds lost every race to anything that waits properly: with a dozen engineers on November 21 some
+    # runs stood ninety minutes and gave up while mirrors changed hands in front of them.
+    $handles = @($pool | ForEach-Object { New-Object System.Threading.Mutex($false, "Global\CoronachMirror$_") })
     while (-not $turn -and (Get-Date) -lt $deadline) {
-        foreach ($n in $pool) {
-            $m = New-Object System.Threading.Mutex($false, "Global\CoronachMirror$n")
-            $got = $false
-            try { $got = $m.WaitOne(0) } catch [System.Threading.AbandonedMutexException] { $got = $true }
-            if ($got) { $turn = $m; $name = $n; break }
-            $m.Dispose()
-        }
-        if (-not $turn) { Start-Sleep -Seconds 3 }
+        $i = -1
+        try { $i = [System.Threading.WaitHandle]::WaitAny([System.Threading.WaitHandle[]]$handles, 30000) }
+        catch [System.Threading.AbandonedMutexException] { $i = $_.Exception.MutexIndex }
+        if ($i -ge 0 -and $i -lt $handles.Count) { $turn = $handles[$i]; $name = $pool[$i] }
     }
+    for ($k = 0; $k -lt $handles.Count; $k++) { if (-not [object]::ReferenceEquals($handles[$k], $turn)) { $handles[$k].Dispose() } }
     if (-not $turn) { "FOCUSED gave up waiting for a free test mirror"; "FOCUSED_FAILED $Label"; exit 1 }
     try {
         $mroot = Join-Path $mirrorBase $name

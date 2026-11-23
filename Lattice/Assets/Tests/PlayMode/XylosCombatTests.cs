@@ -48,12 +48,18 @@ namespace Lattice.Tests.PlayMode
             // dodging most of it (its ceiling, at a quarter); its legs make it shorter for a party that breaks them. The share is the chain's (nov13b, November 13), against the
             // shared test's flat-out rate (BOSS_RATE, 1,498 a second): 27,000 fell in 43.6 and 39.5 s (.42 to .46, where .3 was assumed: it stands planted for half the fight and each
             // leg takes 6% of its bar with it), and 44,000 in 82.3 s (.36, the lower, as the rule is).
-            book.Boss(new ContentRegistry.BossSheet{id="Seedthane",zone="BraidedRiver",door="Seedthane",doorFlags=new[]{"xylos.seedfallSeen"},sync=11,driverShare=.36f,minSeconds=60,maxSeconds=145,
+            // .56 since D362 (November 22): today's windowless scout of the 10:30 build (Builds/quality/nov22-recon-e/s20) felled 39,000 in 59.1 s against this morning's 1,165 and
+            // 1,172 a second (d355-dome3, d355-lengths), which is .565; nov22-whole (s20, the night before) took 37.8 s. It is 50,000 since D362 (continued): TheTwoFightsLast's
+            // 90 s at .56 on its slowest own reading (1,042) holds it there. The fast case (an EXTRA carried in from the road and all four legs gone: 36.9 s at 40,800) is about 45 s.
+            book.Boss(new ContentRegistry.BossSheet{id="Seedthane",zone="BraidedRiver",door="Seedthane",doorFlags=new[]{"xylos.seedfallSeen"},sync=11,driverShare=.56f,minSeconds=60,maxSeconds=145,
                 specials=new[]{("ThornFan",new Vector3(0,0,5)),("FanVolley",new Vector3(0,0,5)),("PodShake",new Vector3(0,0,6)),("CircleFan",new Vector3(0,0,6)),("StampAdvance",new Vector3(0,0,6))},
                 windows=new[]{("FanVolley",new Vector3(0,0,5)),("StampAdvance",new Vector3(0,0,8))}});
             // The chapter's boss, two to five minutes. The share is the chain's (nov13b, November 13): 62,000 fell in 101.9 s against the shared test's 1,208 a second, which is .5
             // (while the replay driver still measured its reach to a body's middle and stood idle against this one's flank, it took 158 and 165 s, and .3 looked right).
-            book.Boss(new ContentRegistry.BossSheet{id="Floodcrown",zone="WalkingCanopy",door="Floodcrown",doorFlags=new[]{"xylos.basinSeen"},sync=12,driverShare=.5f,
+            // .63 since D362 (November 22): today's scouts felled 88,000 in 109.4, 98.9 (nov22-recon-e s21, s21b), 107.3 (nov22-recon-f21 s21) and 114.9 s (nov22-recon-h-21, the
+            // 14:52 build) against 1,215 and 1,232 a second (d355-dome3, d355-lengths): .626 at the longest, the lower share as the rule is. 112,000 since D362 (continued):
+            // the slow pair's 400 s on its slowest reading (1,156) holds it there, about 126 s on the fastest scout.
+            book.Boss(new ContentRegistry.BossSheet{id="Floodcrown",zone="WalkingCanopy",door="Floodcrown",doorFlags=new[]{"xylos.basinSeen"},sync=12,driverShare=.63f,
                 specials=new[]{("AntlerSweep",new Vector3(0,0,5)),("GateSlam",new Vector3(0,0,9)),("WadingCharge",new Vector3(0,0,10)),("CrownCharge",new Vector3(0,0,10)),("Stomp",new Vector3(0,0,8))},
                 windows=new[]{("WadingCharge",new Vector3(0,0,10)),("Stomp",new Vector3(0,0,8))}});
             // The ways out of Nearspace and Rootmarket that wait on a story flag, and what a refused press must name (the words each lockedPrompt says).
@@ -261,7 +267,10 @@ namespace Lattice.Tests.PlayMode
             var swarm=Enemy("MireflySwarm",At(0,.05f,0),false);yield return Frames(3);
             var motes=swarm.GetComponentInChildren<SwarmMotes>();Assert.IsNotNull(motes,"a swarm isn't drawn as motes");Assert.AreEqual(18,motes.count);
             Assert.IsFalse(swarm.GetComponentsInChildren<Transform>().Any(t=>t.name.StartsWith("ART_PENDING")),"a swarm with no model is drawn as a placeholder shape");
-            Assert.IsFalse(swarm.GetComponentsInChildren<MeshRenderer>().Any(),"a swarm has a solid body under its motes");
+            // Its only mesh is its shadow (SwarmMotes, November 21): flat on the floor under the cloud. Anything else, or anything standing up off the floor, is a solid body.
+            Assert.IsFalse(swarm.GetComponentsInChildren<MeshRenderer>().Any(r=>r.name!="Swarm shadow"),"a swarm has a solid body under its motes");
+            foreach(var shadow in swarm.GetComponentsInChildren<MeshRenderer>().Where(r=>r.name=="Swarm shadow"))
+                Assert.Less(shadow.bounds.size.y,.05f,"a swarm's shadow stands up off the floor: a solid body under its motes");
             yield return Until(()=>swarm.Telegraphing,4,hero);Assert.IsTrue(swarm.Telegraphing,"fixture: the swarm marks its dart");
             Assert.IsTrue(swarm.AttackMark.Contains(hero.transform.position));
             yield return Until(()=>motes.Spread<.7f||!swarm.Telegraphing,1,hero);Assert.Less(motes.Spread,.7f,"the cloud doesn't draw in through its tell");
@@ -647,7 +656,7 @@ namespace Lattice.Tests.PlayMode
             // The body alone: its legs would list it and its gates would brace it, and those are counted apart.
             enemy.GetComponent<BossController>().enabled=false;var parts=enemy.GetComponent<BossParts>();if(parts!=null)parts.Expose(false);
             body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;var tarenAt=at+Vector3.back*reach;var selaAt=at+Vector3.back*8+Vector3.right*2;
+            float reach=BossReach.Edge(enemy);var tarenAt=at+Vector3.back*reach;var selaAt=at+Vector3.back*8+Vector3.right*2;
             Put(taren,tarenAt);Put(sela,selaAt);taren.target=sela.target=body;taren.charge=sela.charge=100;yield return null;
             float landed=0;body.Damaged+=(_,packet,amount)=>{if(packet.source==taren.Health||packet.source==sela.Health)landed+=amount;};
             for(float end=Time.unscaledTime+FlatOutSeconds;Time.unscaledTime<end;)
@@ -766,12 +775,15 @@ namespace Lattice.Tests.PlayMode
             float rate=0;Sync(11,false);yield return Rate("Seedthane",r=>rate=r);
             // The Seedthane's share of this rate is the chain's: 44,000 fell in 82.3 s (nov13b, November 13) against the 1,060 a second measured here, which is .5. (Its sheet's
             // .36 is the same fight against the shared test's rate, which stands the heroes differently and reads 1,498.) The Floodcrown's assumed .3 held: 157.8 and 164.9 s, .31 to .33.
-            const float thaneShare=.5f;float seconds=thane/(rate*thaneShare);
+            // .56 since D362 (November 22): this test read 1,174 a second that morning (d355-chapters), and 39,000 fell in 59.1 s in today's scout (nov22-recon-e s20), which is .562.
+            const float thaneShare=.56f;float seconds=thane/(rate*thaneShare);
             TestContext.WriteLine($"XYLOS_RATE Seedthane sync=11 refined rate={rate:0}/s atDriverShare={seconds:0}s");Debug.Log($"XYLOS_RATE Seedthane rate={rate:0} seconds={seconds:0}");
             Assert.That(seconds,Is.InRange(60,90),$"the Seedthane's {thane:0} integrity at {rate:0} a second flat out and the driver's {thaneShare:P0} of it lasts {seconds:0} s: the plan asks 60 to 90");
             Sync(12,false);yield return Rate("Floodcrown",r=>rate=r);
             // Its share of this rate is the chain's too: 62,000 fell in 101.9 s, which these two terms give at .57 of the 1,080 a second measured here.
-            const float crownShare=.57f;
+            // .77 since D362 (November 22): at .57 these terms gave 156 s for 88,000 at the 1,003 a second read that morning (d355-chapters), and today's scouts felled it in 98.9 to
+            // 114.9 s (nov22-recon-e s21 and s21b, nov22-recon-f21 s21, nov22-recon-h-21): .77 at the longest.
+            const float crownShare=.77f;
             float gates=3*crown*BossController.FloodcrownTune.GateIntegrity/(rate*crownShare*GateUptime),bar=crown*.5f/(rate*crownShare);seconds=gates+bar;
             TestContext.WriteLine($"XYLOS_RATE Floodcrown sync=12 refined rate={rate:0}/s gates={gates:0}s bar={bar:0}s total={seconds:0}s");Debug.Log($"XYLOS_RATE Floodcrown rate={rate:0} gates={gates:0} bar={bar:0} seconds={seconds:0}");
             Assert.That(seconds,Is.InRange(125,240),$"the Floodcrown's {crown:0} integrity at {rate:0} a second flat out lasts {gates:0} s of gates and {bar:0} s of bar, {seconds:0} s: the plan asks two to five minutes, about two and a half");

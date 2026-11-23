@@ -195,7 +195,7 @@ namespace Lattice.Tests.PlayMode
         }
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static Button With(string words)
         {
             var found=Buttons().FirstOrDefault(b=>Words(b).Contains(words));
@@ -1024,7 +1024,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(2,SkillBook.Mastery("Taren",slam.id),"Continue lost Anchor Slam's mastery");Assert.AreEqual(7,SkillBook.Uses("Sela",starfall.id),"Continue lost Starfall's count of uses");
             // On screen.
             var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return null;
-            StringAssert.Contains("Mastery 2 (7/18)",Words(With("Starfall")),"the Skills page doesn't show the saved mastery");menu.Close();yield return null;
+            StringAssert.Contains("Mastery 2 (7 of 18)",Words(With("Starfall")),"the Skills page doesn't show the saved mastery");menu.Close();yield return null;
             menu.Open(PauseMenu.QuestsPage);yield return null;
             StringAssert.Contains("(1/3)",Words(With(GameCatalog.Find<QuestDef>("IshensRecord").title)),"the quest log doesn't show the saved count");menu.Close();yield return null;
             yield return Settle();

@@ -17,8 +17,8 @@ namespace Lattice.EditorTools
     /// </summary>
     public static class GroundStaging
     {
-        public static readonly string[] Zones={"LanternGorge","Lanternwick","Sorrel_Ridges","Hushwell"};
-        [Restage.Step("ground","LanternGorge,Lanternwick,Sorrel_Ridges,Hushwell",After="chapter1.town-life,chapter1.side-stories,chapter1.nov10",Chapter=2,ScenesArg="-ground-zones",Leaves=new[]{"LanternGorge: Ground kit #1","Lanternwick: Ground kit #1","Sorrel_Ridges: Ground kit #1","Hushwell: Ground kit #1"})]
+        public static readonly string[] Zones={"LanternGorge","Lanternwick","Sorrel_Ridges","Hushwell","SunkenRelay"};
+        [Restage.Step("ground","LanternGorge,Lanternwick,Sorrel_Ridges,Hushwell,SunkenRelay",After="chapter1.town-life,chapter1.side-stories,chapter1.nov10",Chapter=2,ScenesArg="-ground-zones",Leaves=new[]{"LanternGorge: Ground kit #1","Lanternwick: Ground kit #1","Sorrel_Ridges: Ground kit #1","Hushwell: Ground kit #1","SunkenRelay: Ground kit #1"})]
         public static void Apply()=>BatchTools.Run(()=>
         {
             string only=DevArgs.Value("-ground-zones");var zones=only?.Split(',');
@@ -29,7 +29,7 @@ namespace Lattice.EditorTools
                 EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);Debug.Log("GROUND_STAGED "+zone);
             }
             FloorDetailOrder();
-            Stage("LanternGorge",Gorge);Stage("Lanternwick",Lanternwick);Stage("Sorrel_Ridges",Sorrel);Stage("Hushwell",Hushwell);
+            Stage("LanternGorge",Gorge);Stage("Lanternwick",Lanternwick);Stage("Sorrel_Ridges",Sorrel);Stage("Hushwell",Hushwell);Stage("SunkenRelay",Relay);
             AssetDatabase.SaveAssets();Debug.Log("GROUND_STAGED_OK");
         });
         /// <summary>Read-only: states, for the Lantern Road's landforms, the measures the PlayMode suite holds them to (the teeth along the floor's edge, floor and wall meeting in
@@ -268,6 +268,89 @@ namespace Lattice.EditorTools
             kit.Cover(new[]{"TuftA","TuftB"},26,p=>{float d=GroundKit.Distance(p,SorrelRedesign.Seam);return d<3.4f||d>10?0:Smooth(.44f,.58f,kit.Noise(p,6,77));},.26f,.48f,scrub,4,.12f,9);
             kit.MovingShade("cloud",110,new Vector2(1.3f,.5f),.42f,.5f,.03f,default,new Vector2(30,10));
             kit.Finish();
+        }
+
+        // ---------------------------------------------------------------- the Sunken Relay
+        /// <summary>A relay station the canyon swallowed (nov20-whole s15: the halls were a plain dark purple-brown floor, and the Gloomgrazers' purple stood on it unseen). Its builders
+        /// floored every hall in dressed stone laid in courses, a cool grey-green the lamps warm; where it sank, pale silt came in through the doors and banked against every wall's
+        /// foot, and water still stands in the low places, darker than the stone, never paler. The cut corridor's floor is scored where the cables were dragged out; the scavengers'
+        /// carts have worn a track from the door to the Great Lantern; broken lantern glass lies where lanterns fell and round the Great Lantern itself, and its floor is burned in
+        /// places where the captain's crew cut. The Great Lantern's floor takes paint and flat marks only out in the fight, and nothing that stands over a hand: a danger marking is
+        /// always the clearest thing there.</summary>
+        static void Relay()
+        {
+            var kit=GroundKit.Open("SunkenRelay",GroundKit.FindFloor(),53);
+            Vector2[] spine={new(0,-4),new(0,160)};
+            var halls=LanternRoadBuilder.RelayHalls;
+            float In(Vector2 p,int i){var (c,size,_)=halls[i];return 1-Smooth(-.5f,.5f,Mathf.Max(Mathf.Abs(p.x-c.x)-size.x*.5f,Mathf.Abs(p.y-c.y)-size.y*.5f));}
+            float Corridor(Vector2 p)=>In(p,1);float Gallery(Vector2 p)=>In(p,2);float Vault(Vector2 p)=>In(p,3);float Great(Vector2 p)=>In(p,4);
+            bool Fight(Vector2 p)=>kit.InAFight(p);
+            var fallen=GroundKit.Named("Fallen lantern","Fallen relay tower","LanternShard");var lantern=new Vector2(0,158);
+            // Ishen's plates stand clear of anything that lies higher than a hand (ThePlatesStandClearAndTheCradleIsSigned).
+            var plates=GroundKit.Named("Record plate stand");float Clear(Vector2 p)=>GroundKit.Nearest(p,plates)<2.6f?0:1;
+            kit.ClearLane(spine,1.4f).Look("Canyon",Art("Lantern/canyon-cliff"));
+            // Tints by measure against the floor's own dark: the stone about two and a half times it and grey-green, the silt paler and warm, the water darker than either.
+            // Lifted a little with the zone's light (nov20-whole s15): at .62 the stone, the silt and the water lay within a few levels of each other on screen and read as one dark floor.
+            Color stone=new(.68f,.8f,.77f),silt=new(.8f,.76f,.62f),water=new(.36f,.44f,.5f);
+            kit.Layers(new Vector4(.04f,.28f,.36f,.3f),1,new GroundKit.Layer("skyfields-worn",stone,4.4f),new GroundKit.Layer("sand",silt,5.5f),new GroundKit.Layer("damp",water,6.5f));
+            // The courses: whole across each hall's middle, broken toward the walls where the silt lies over them.
+            kit.Paint(0,p=>Smooth(.8f,2.4f,kit.Edge(p))*(1-.9f*Smooth(.6f,.72f,kit.Noise(p,6,3))*Smooth(2,5,kit.Edge(p)*.6f+Mathf.Abs(p.x)*.15f)));
+            // The silt: banked along every wall's foot, fanned in through each door from the hall before, and lying broadly in the vault, the lowest of them.
+            kit.PaintFoot(1,2.8f,.45f);
+            foreach(float door in new[]{20f,44f,84f,116f})kit.Paint(1,p=>(1-Smooth(2,7,Mathf.Abs(p.y-door-2.5f)+Mathf.Abs(p.x)*.35f))*Smooth(.42f,.6f,kit.Noise(p,3,11)));
+            kit.PaintPatches(1,6,.3f,p=>Vault(p)*(Fight(p)?.4f:1),13);
+            // And lying in broken drifts across every hall's floor, thinner where the fights are, so no hall is one tone of stone end to end.
+            kit.PaintPatches(1,4.5f,.3f,p=>Mathf.Max(Gallery(p),Mathf.Max(In(p,0),Great(p)))*(Fight(p)?.55f:1),15);
+            // Water in the low places: the gallery's far side and the vault, where the floor dropped.
+            kit.PaintPatches(2,3.5f,.16f,p=>Mathf.Max(Gallery(p),Mathf.Max(Vault(p),Great(p)*.6f))*(Fight(p)?.45f:1),17);
+            kit.Shade(p=>.16f*(1-Smooth(.6f,2.4f,kit.Edge(p))));
+            // The cut corridor's floor is torn where the cable was dragged out of it.
+            kit.Shade(p=>.12f*Corridor(p)*Smooth(.55f,.7f,kit.Noise(p,1.6f,19)));
+
+            kit.Decals(new[]{"CracksA","CracksB"},6,p=>Smooth(1.5f,3,kit.Edge(p)),2.2f,4.2f,new Color(.5f,.56f,.6f,.9f));
+            kit.Decals(new[]{"Slabs","Flagstones"},4,p=>(1-Smooth(1.2f,3.5f,kit.Edge(p)))*(Great(p)>.5f&&Fight(p)?0:1),1.3f,2.4f,new Color(.6f,.68f,.66f),true,.08f,5);
+            // Slabs lifted and lying loose where the floor heaved as it sank, paler than the courses round them.
+            kit.Decals(new[]{"Slabs","Flagstones"},3.2f,p=>Smooth(.55f,.68f,kit.Noise(p,8,29))*(Fight(p)?.3f:1),1.6f,2.8f,new Color(.78f,.84f,.8f),true,.1f,9);
+            kit.Decals(new[]{"PebblesA","PebblesB"},8,p=>.25f+.75f*(1-Smooth(1,3.5f,kit.Edge(p))),1,2,new Color(.8f,.78f,.72f));
+            kit.Decals(new[]{"SandDrift"},2.4f,p=>1-Smooth(2,5,kit.Edge(p)),2.6f,4.6f,new Color(silt.r,silt.g,silt.b,.9f),false);
+            kit.Decals(new[]{"Stain"},4,p=>.4f+.6f*Mathf.Max(Gallery(p),Vault(p)),2.4f,4.6f,new Color(.26f,.32f,.36f,.8f),false);
+            // Where the crew cut: scorched floor in the entry, where the cutting started, and on the Great Lantern's floor, round the lantern and the rig.
+            foreach(var (x,z,size) in new[]{(5.6f,13.5f,2.6f),(-3.4f,10.2f,2.2f),(7,126,2.8f),(-6.5f,134,2.4f),(4.4f,146,3),(-3.6f,151.5f,2.6f),(12.5f,140,2.4f),(-12.4f,121.6f,2.2f)})
+                kit.Decal("Scorch",new Vector2(x,z),size,x*37,new Color(1,.9f,.86f,.85f),false);
+            kit.Strip("Ruts",spine,.95f,1.5f,new Color(.42f,.44f,.46f,.55f),6,150);
+            // The builder's list, which its floor bands keep out of and the Great Lantern's beams lie in where they cross.
+            foreach(var (x,z,rx,rz) in LanternRoadBuilder.RelayPuddles)kit.Puddle(new Vector2(x,z),rx,rz,x*z);
+            kit.LampPools(2.6f,new Color(1,.8f,.55f,.26f));
+            // Drowned: the canyon's light comes down to these floors through water, and lies on them as the slow moving web it makes (nov20-whole s15: a still floor under a flat light,
+            // which no stranger took for anything sunk). Only the cold fill moves; the lamps and the lantern burn through it.
+            Caustics();kit.MovingShade("caustic",16,new Vector2(.06f,.11f),.5f,.5f,.12f,new Vector2(.35f,.22f),new Vector2(3,5));
+
+            // Broken lantern glass where lanterns fell and round the Great Lantern; rubble at the walls' feet. Nothing in the fight stands over a hand.
+            kit.Cover(new[]{"Shards"},26,p=>Clear(p)*(GroundKit.Nearest(p,fallen)<4.5f||Vector2.Distance(p,lantern)<9?.9f:.12f),.08f,.2f,new Color(.96f,.78f,.5f),2);
+            kit.Rocks(7,p=>Clear(p)*(1-Smooth(1,3.2f,kit.Edge(p))),.06f,.26f,new Color(.7f,.7f,.68f));
+            // A dust of glass that still catches the Great Lantern's light, round its foot.
+            kit.Glows(9,p=>1-Smooth(3,10,Vector2.Distance(p,lantern)),.4f,.9f,new Color(1,.82f,.5f,.55f),7);
+            kit.Finish();
+        }
+        /// <summary>The web light makes coming down through water: bright where the cells of a tiling Voronoi meet, the cells warped so no line runs straight. GroundShade cuts it, so the
+        /// web keeps the sun and the cells between give part of it up. Painted once, deterministic, kept exact for the cut.</summary>
+        static Texture2D Caustics()
+        {
+            static float Hash(int x,int y,int salt){uint h=(uint)(x*374761393+y*668265263+salt*1442695041);h=(h^(h>>13))*1274126177;h^=h>>16;return (h&0xffff)/65535f;}
+            const int Cells=7;
+            return ZoneKit.Exact(ZoneKit.Texture("Ground/ground-shade-caustic",512,(u,v)=>
+            {
+                float x=(u+.04f*(ZoneKit.Tile(u*5,v*5,5,3)-.5f))*Cells,y=(v+.04f*(ZoneKit.Tile(u*5+11,v*5+7,5,9)-.5f))*Cells;
+                int cx=Mathf.FloorToInt(x),cy=Mathf.FloorToInt(y);float near=9,next=9;
+                for(int j=-1;j<=1;j++)for(int i=-1;i<=1;i++)
+                {
+                    int gx=cx+i,gy=cy+j,wx=(gx%Cells+Cells)%Cells,wy=(gy%Cells+Cells)%Cells;
+                    float d=new Vector2(x-(gx+.15f+.7f*Hash(wx,wy,1)),y-(gy+.15f+.7f*Hash(wx,wy,2))).magnitude;
+                    if(d<near){next=near;near=d;}else if(d<next)next=d;
+                }
+                float web=1-Mathf.SmoothStep(0,1,Mathf.Clamp01((next-near)/.17f));
+                return Color.white*Mathf.Clamp01(web*.94f+.06f*near);
+            }));
         }
 
         // ---------------------------------------------------------------- Hushwell

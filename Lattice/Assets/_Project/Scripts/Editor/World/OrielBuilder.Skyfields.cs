@@ -29,7 +29,8 @@ namespace Lattice.EditorTools
         {
             ZoneLook.Register(SkyfieldsZone,new ZoneLook.Spec{sun=new Color(1f,.94f,.82f),sunIntensity=1.3f,sunPitch=46,shadowStrength=.72f,
                 sky=new Color(.58f,.66f,.78f),equator=new Color(.56f,.56f,.54f),ground=new Color(.34f,.32f,.28f),
-                fog=true,fogColor=new Color(.78f,.8f,.84f),fogStart=55,fogEnd=230,
+                // The haze a cool air blue, not the stone's beige: far things go back into air (November 21).
+                fog=true,fogColor=new Color(.72f,.79f,.88f),fogStart=55,fogEnd=230,
                 contrast=10,saturation=4,splitShadows=new Color(.44f,.5f,.62f),splitHighlights=new Color(.6f,.55f,.44f),
                 bloomThreshold=.86f,bloomIntensity=.7f,vignette=.18f});
         }
@@ -220,7 +221,8 @@ namespace Lattice.EditorTools
                     m.SetFloat("_SrcBlend",(float)UnityEngine.Rendering.BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);
                     m.SetOverrideTag("RenderType","Transparent");m.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent-16;});
                 // The cloud sea: the toon shader's water, made opaque and slow, so it moves like weather; its foam is the cloud piling up white against each island's face.
-                CloudSea=ZoneKit.WaterLook(ZoneKit.Toon("skyfields-cloud-sea",cloud),new Color(.97f,.95f,.9f,1),new Color(.8f,.84f,.9f,1),new Color(1.1f,1.08f,1.04f,1),22,.06f,0,2.4f);
+                // Its hollows a cool blue between white billows, so the sea far below has relief and depth and isn't one beige sheet.
+                CloudSea=ZoneKit.WaterLook(ZoneKit.Toon("skyfields-cloud-sea",cloud),new Color(.97f,.95f,.9f,1),new Color(.66f,.74f,.88f,1),new Color(1.1f,1.08f,1.04f,1),22,.06f,0,2.4f);
                 CloudSea.SetFloat("_BaseMapStrength",.8f);CloudSea.SetFloat("_ZWrite",1);CloudSea.SetFloat("_DstBlend",(float)UnityEngine.Rendering.BlendMode.Zero);CloudSea.SetFloat("_SrcBlend",(float)UnityEngine.Rendering.BlendMode.One);
                 CloudSea.SetOverrideTag("RenderType","Opaque");CloudSea.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Geometry+10;
                 // Glass that reads as glass: its own grade's colour, a bright rim, a sharp glint, a light inside it, and the island seen through it.
@@ -275,17 +277,22 @@ namespace Lattice.EditorTools
                     var c=new Color(tone*1.06f,tone,tone*.86f);if(f.up<.04f||f.along<.032f)c=new Color(.66f,.6f,.5f);
                     return new Color(c.r,c.g,c.b,1);
                 });
-                // The stair gardens' own raking: rows of fans, each three arcs deep, every row set half a fan over from the last.
+                // The stair gardens' own raking: rows of fans, each three arcs deep, every row set half a fan over from the last. Raked by hand: each fan's centre a little off its
+                // neighbour's, its arcs a little more or fewer, some raked deep and some gone soft, over a sheet that covers more ground before it comes round. Drawn evenly at a
+                // groove of .22 every 83 cm, it read from the play camera as a bold wallpaper of scallops (s39/242, s39/245, D359).
                 var waves=ZoneKit.Texture("Oriel/skyfields-waves",512,(u,v)=>
                 {
-                    float best=9;int rows=6,cols=4;
+                    float best=9;int rows=8,cols=6,fan=0;
                     for(int r=-1;r<=rows;r++)for(int c=-1;c<=cols;c++)
                     {
-                        float cx=(c+(r%2==0?0:.5f))/cols,cy=(r+.5f)/rows;var d=new Vector2((u-cx)*cols,(v-cy)*rows*.66f);
-                        if(d.y<-.05f)continue;float rad=d.magnitude;if(rad<best)best=rad;
+                        int wr=(r+rows)%rows,wc=(c+cols)%cols;float jx=(ZoneKit.Tile(wc*1.7f+wr*3.1f,wr*.9f,64,97)-.5f)*.3f,jy=(ZoneKit.Tile(wr*2.3f,wc*1.3f+wr,64,99)-.5f)*.2f;
+                        float cx=(c+(r%2==0?0:.5f)+jx)/cols,cy=(r+.5f+jy)/rows;var d=new Vector2((u-cx)*cols,(v-cy)*rows*.66f);
+                        if(d.y<-.05f)continue;float rad=d.magnitude;if(rad<best){best=rad;fan=wr*cols+wc;}
                     }
-                    float t=Mathf.Repeat(best*3.4f,1);float groove=Mathf.Exp(-Mathf.Pow((t-.5f)/.12f,2));float grain=ZoneKit.Tile(u*120,v*120,120,91);
-                    float tone=.82f-.22f*groove+.05f*(grain-.5f);return new Color(tone*1.02f,tone,tone*.93f,1);
+                    float own=ZoneKit.Tile(fan*1.37f,fan*.71f,128,101),arcs=3+own*1.2f;
+                    float t=Mathf.Repeat(best*arcs,1);float groove=Mathf.Exp(-Mathf.Pow((t-.5f)/.14f,2));float grain=ZoneKit.Tile(u*120,v*120,120,91);
+                    float depth=.025f+.04f*ZoneKit.Smooth(.2f,.8f,ZoneKit.Cloud(u,v,3,103));
+                    float tone=.8f-depth*groove+.04f*(grain-.5f)+.03f*(ZoneKit.Cloud(u,v,5,105)-.5f);return new Color(tone*1.02f,tone,tone*.93f,1);
                 });
                 Waves=ZoneKit.Toon("skyfields-waves",waves,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.96f,.93f,.84f));m.SetFloat("_LightFloor",.22f);m.SetColor("_ShadowTint",new Color(.56f,.6f,.74f));});
                 // The Choir's own glass, so the door and what lies beyond it are one body: the dungeon's engineer tunes it; this only draws with it (ours if theirs isn't made yet).
@@ -540,8 +547,10 @@ namespace Lattice.EditorTools
                 // ---- the garden terrace: the first Glassback, the walled garden, the junction talk, the glass forest
                 kit.Sign("WALLED GARDEN",WalledGarden.x+7.4f,WalledGarden.y-4.6f,1.8f);
                 WalledBed(kit,"Walled garden",WalledGarden,12,5,true);
-                GardenerAtWork(kit,new Vector3(WalledGarden.x-3,0,WalledGarden.y+.2f),200,new Color(1,.97f,.92f),true,false,.12f);
-                GardenerAtWork(kit,new Vector3(WalledGarden.x+3.2f,0,WalledGarden.y+.6f),150,new Color(.94f,.96f,1),false,false,.12f);
+                // Idra's "Two of them, in that walled bed. One's raking. One's on its knees, weeding." is said on the walk east of it, and the fixed camera there sees only the bed's
+                // east end: the kneeling one stood eight metres further west, out of the frame (November 20, s39/104). Both work the east end now.
+                GardenerAtWork(kit,new Vector3(WalledGarden.x+2.4f,0,WalledGarden.y-.5f),200,new Color(1,.97f,.92f),true,false,.12f);
+                GardenerAtWork(kit,new Vector3(WalledGarden.x+4.6f,0,WalledGarden.y+.7f),150,new Color(.94f,.96f,1),false,false,.12f);
                 kit.Crossing("Two gardeners in a walled bed",new Vector3(-6,0,43),new Vector3(3,5,16),"oriel.gardenSeen","IdraEmptyGarden","Idra");
                 kit.Crossing("The first junction",new Vector3(-22,0,43),new Vector3(3,5,16),"oriel.junctionRead","IshenJunction","Taren");
                 Fight(kit,"Sky_Glassback",new Vector2(10,43),new Vector2(26,16),null,("Glassback",1,new Vector2(6,47.5f),160));
@@ -1321,6 +1330,8 @@ namespace Lattice.EditorTools
             static GameObject InGlass(GameObject piece,Material glass)
             {
                 foreach(var r in piece.GetComponentsInChildren<Renderer>()){var m=r.sharedMaterials;for(int i=0;i<m.Length;i++)m[i]=glass;r.sharedMaterials=m;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.On;}
+                // A tall piece faded as it was made (ZoneKit.Prop) fades in its new glass too: the glass trees and the Choir's ribs faded in a material that couldn't draw it (D359).
+                if(piece.GetComponent<SceneryOcclusion>()!=null)ZoneKit.Fadeable(piece);
                 return piece;
             }
             static void Dress(ZoneKit kit)
@@ -1561,7 +1572,7 @@ namespace Lattice.EditorTools
             /// ringed; the stair gardens raked in rows of fans instead (their own pattern); and the gardeners' plumb lines on the beds, every one hanging toward the nearest fibre.</summary>
             static void GardenGround(ZoneKit kit)
             {
-                var open=OpenGround();var rings=new ZoneKit.Shape();var kept=new ZoneKit.Shape();kept.Slot(1);var fans=new ZoneKit.Shape();
+                var open=OpenGround();var rings=new ZoneKit.Shape();var kept=new ZoneKit.Shape();kept.Slot(1);
                 var rng=new System.Random(1301);float R()=>(float)rng.NextDouble();int stones=0,stems=0;var placed=new List<Vector2>();
                 bool Raked(Vector2 p){int i=IsleOf(p);return (i==1&&p.x>-34)||i==3;}
                 // Kept stones and stems in the raked islands' grit.
@@ -1582,16 +1593,35 @@ namespace Lattice.EditorTools
                             RakedRings(rings,p,r+.2f,3);stones++;
                         }
                     }
-                // The stair gardens: raked in rows of fans across all their open ground, on a quarter-metre drape of the floor.
-                const float Cell=.25f;int laid=0;
+                // The stair gardens: raked in rows of fans across all their open ground, on a quarter-metre drape of the floor. Where the raking meets a walk it is cut along the walk's
+                // own edge, each cell clipped where the edge crosses it: dropped whole, the cells left a saw-tooth of quarter-metre steps all along every path (November 20, s39/244).
+                const float Cell=.25f,Walk=1.8f;int laid=0;
+                var fanPoints=new List<Vector3>();var fanUv=new List<Vector2>();var fanTris=new List<int>();
+                float Off(Vector2 p){float d=float.PositiveInfinity;foreach(var way in Ways)d=Mathf.Min(d,ZoneKit.FromPath(p,way));return d-Walk;}
                 for(float z=121;z<137;z+=Cell)for(float x=-56;x<30;x+=Cell)
                 {
-                    var c=new Vector2(x+Cell*.5f,z+Cell*.5f);if(IsleOf(c)!=4||Nearest(c,out _,out _)>-1.3f||NearWay(c,1.8f)||Opening(c,1)>0)continue;
+                    var c=new Vector2(x+Cell*.5f,z+Cell*.5f);if(IsleOf(c)!=4||Nearest(c,out _,out _)>-1.3f||Opening(c,1)>0)continue;
+                    var corners=new[]{new Vector2(x,z),new Vector2(x+Cell,z),new Vector2(x+Cell,z+Cell),new Vector2(x,z+Cell)};var off=corners.Select(Off).ToArray();
+                    if(off.All(d=>d<0))continue;
                     if(Physics.CheckSphere(new Vector3(c.x,Drawn(c)+.5f,c.y),.3f,~0,QueryTriggerInteraction.Ignore)&&Physics.OverlapSphere(new Vector3(c.x,Drawn(c)+.5f,c.y),.3f,~0,QueryTriggerInteraction.Ignore).Any(o=>!(o is MeshCollider)))continue;
-                    Vector3 V(float px,float pz)=>new(px,Drawn(new Vector2(px,pz))+.018f,pz);
-                    fans.Quad(V(x,z),V(x+Cell,z),V(x+Cell,z+Cell),V(x,z+Cell),Vector3.up,Color.white,.3f);laid++;
+                    var polygon=new List<Vector2>();
+                    for(int k=0;k<4;k++){int n=(k+1)%4;if(off[k]>=0)polygon.Add(corners[k]);if(off[k]>=0!=off[n]>=0)polygon.Add(Vector2.Lerp(corners[k],corners[n],off[k]/(off[k]-off[n])));}
+                    if(polygon.Count<3)continue;
+                    int first=fanPoints.Count;
+                    foreach(var p in polygon){fanPoints.Add(new Vector3(p.x,Drawn(p)+.018f,p.y));fanUv.Add(p*.15f);}
+                    // Seen from above: each fan triangle faces up.
+                    for(int k=1;k+1<polygon.Count;k++)
+                    {
+                        int a=first,b=first+k,d=first+k+1;bool up=Vector3.Cross(fanPoints[d]-fanPoints[a],fanPoints[b]-fanPoints[a]).y>=0;
+                        fanTris.Add(a);fanTris.Add(up?d:b);fanTris.Add(up?b:d);
+                    }
+                    laid++;
                 }
-                kit.Built("Raked rings",rings,Soil);kit.Built("Kept stones and stems",kept,Kerb,GlassDeep);kit.Built("The stair gardens' raking",fans,Waves);
+                kit.Built("Raked rings",rings,Soil);kit.Built("Kept stones and stems",kept,Kerb,GlassDeep);
+                var raking=new Mesh{name="The stair gardens' raking",indexFormat=fanPoints.Count>65000?UnityEngine.Rendering.IndexFormat.UInt32:UnityEngine.Rendering.IndexFormat.UInt16};
+                raking.SetVertices(fanPoints);raking.SetUVs(0,fanUv);raking.SetNormals(fanPoints.Select(_=>Vector3.up).ToList());raking.SetColors(fanPoints.Select(q=>{float g=.9f+.12f*Mathf.PerlinNoise(q.x*.13f+31,q.z*.13f+17)+.04f*Mathf.PerlinNoise(q.x*.5f,q.z*.5f+5);return (Color32)new Color(g,g,g*.98f,1);}).ToList());raking.SetTriangles(fanTris,0);raking.RecalculateBounds();
+                raking=ZoneKit.SaveMesh(raking,"Assets/_Project/Scenes/"+kit.zone+"-The-stair-gardens-raking.asset");
+                var raked=new GameObject("The stair gardens' raking",typeof(MeshFilter),typeof(MeshRenderer));raked.GetComponent<MeshFilter>().sharedMesh=raking;raked.GetComponent<MeshRenderer>().sharedMaterial=Waves;
                 Debug.Log($"SKYFIELDS_GARDEN_GROUND stones={stones} stems={stems} fans={laid}");
                 // Plumb lines on the beds: a stake, an arm, and a bob on its cord that hangs toward the nearest fibre's foot.
                 var plumbs=new ZoneKit.Shape();
@@ -1759,20 +1789,87 @@ namespace Lattice.EditorTools
                 drawn.GetComponent<MeshRenderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.On;return drawn;
             }
             /// <summary>Islets: rocks the size of a house hung in the void on their fibres, out at the sides and low in the gaps, where none comes between the camera and a walk.</summary>
+            /// <summary>The islets the fibres hold between the islands: each a small island of the court's own. Its paving lies flat and level, laid by the plan as the islands' floors are
+            /// (so its flags are flags, not spokes), a coping of the court's stone round its rim, a keel of the islands' bedded rock tapering under it to a ragged point, glass grown out
+            /// of its face where its fibre leaves it, and now and then a tuft of the rims' pale grass. They were flattened lumps: the paving wrapped round a twelve-sided lump read as a
+            /// woodgrain prism beside the second lift (November 20, s39/183), and the lumps under them as faceted brown stones (s39/244). One draw of the dressing's own stream an
+            /// islet, as before (its fibre's heading), so everything dressed after them stands where it stood.</summary>
             static void Islets(ZoneKit kit,System.Random rng)
             {
-                float R()=>(float)rng.NextDouble();var rock=new ZoneKit.Shape();var core=new ZoneKit.Shape();var glow=new ZoneKit.Shape();int made=0;
+                float R()=>(float)rng.NextDouble();var core=new ZoneKit.Shape();var glow=new ZoneKit.Shape();int made=0;
+                var keel=new ZoneKit.Shape();var copings=new ZoneKit.Shape();var glass=new ZoneKit.Shape();var tufts=new ZoneKit.Shape();
+                var top=new List<Vector3>();var topUv=new List<Vector2>();var topTone=new List<Color32>();var topTris=new List<int>();
+                var profile=new[]{(0f,0f),(.04f,.1f),(.14f,.24f),(.32f,.42f),(.54f,.62f),(.76f,.8f),(.92f,.94f),(1f,1f)};
+                // The near ones take their fibre's heading from the dressing's stream, one draw each in the order they always did; the far ones (below) from their own.
                 foreach(var (x,y,z,r) in new[]{(-74f,4f,30f,4f),(-70f,-2f,72f,5f),(-78f,10f,118f,3.6f),(44f,2f,10f,3.4f),(48f,8f,58f,4.6f),(46f,-1f,104f,3.8f),(42f,14f,150f,4.2f),(-30f,-4f,174f,3.2f),(-60f,-3f,26f,2.6f),(10f,-5f,57f,2.4f),(-14f,1f,87f,2.6f),(0f,4f,116f,2.2f),(36f,6f,180f,5f),(-70f,26f,176f,3f)})
+                    Islet(x,y,z,r,R()*360);
+                // The distance: the Skyfields go on past the islands a party walks, island after island held on their fibres in the haze, near ones to far, high and low, so the
+                // cloud and the sky beyond a rim have somewhere in them (November 20: "washed-out beige everywhere, a plain haze sky and no depth"). The fog takes them back.
+                var far=new System.Random(4711);
+                // The nearer of them low, between the walked islands' level and the cloud, past the rims east, west and north, where a frame looking over a rim finds them; the
+                // farther higher and larger, for the wide views.
+                foreach(var (x,y,z,r) in new[]{(70f,-10f,40f,4.5f),(78f,-14f,128f,5.5f),(-96f,-12f,96f,5f),(-100f,-8f,150f,4f),(20f,-14f,206f,6f),(-30f,-12f,214f,5f),(64f,-6f,200f,4f),
+                    (-150f,0f,40f,11f),(-132f,18f,124f,8f),(-168f,-8f,206f,14f),(-118f,-12f,-36f,9f),(124f,6f,30f,10f),(146f,-6f,112f,13f),(112f,22f,188f,8f),(92f,-10f,-46f,8f),(-46f,10f,262f,12f),(40f,-2f,252f,10f),(-96f,32f,70f,6f),(88f,30f,90f,5f)})
+                    Islet(x,y,z,r,(float)far.NextDouble()*360);
+                void Islet(float x,float y,float z,float r,float heading)
                 {
-                    var c=new Vector3(x,y,z);
-                    rock.Slot(0).Lump(c,new Vector3(r*1.3f,r*.4f,r),made*7+1,.25f,new Color(.9f,.84f,.68f),new Color(.66f,.62f,.56f),12,6);
-                    rock.Slot(1).Lump(c+Vector3.down*r*.6f,new Vector3(r*.9f,r*.9f,r*.8f),made*7+3,.4f,new Color(.74f,.68f,.6f),new Color(.5f,.48f,.46f),10,6);
-                    rock.Slot(1).Lump(c+Vector3.down*r*1.4f,new Vector3(r*.4f,r*.7f,r*.4f),made*7+5,.4f,new Color(.64f,.6f,.56f),new Color(.46f,.44f,.42f),8,5);
-                    // Its fibre runs through it and on, both ways: it floats because the thread does.
-                    var along=Quaternion.Euler(0,R()*360,0)*Vector3.forward;Thread(core,glow,c-along*(r+10)+Vector3.down*6,c+Vector3.up*.2f,1.5f,.035f);Thread(core,glow,c+Vector3.up*.2f,c+along*(r+12)+Vector3.down*8,1.5f,.035f);
+                    var c=new Vector3(x,y,z);var own=new System.Random(4100+made*13);float O()=>(float)own.NextDouble();
+                    // Its outline: a rounded stone, a little longer than it is deep, every islet its own.
+                    const int Around=30;float twist=O()*Mathf.PI*2,lobe=.1f+.08f*O();var rim=new Vector3[Around];
+                    for(int k=0;k<Around;k++)
+                    {
+                        float a=k*Mathf.PI*2/Around,reach=r*(1.12f+lobe*Mathf.Cos(2*a+twist)+.16f*(Mathf.PerlinNoise(Mathf.Cos(a)*1.4f+made*3.1f,Mathf.Sin(a)*1.4f+made*1.7f)-.5f));
+                        rim[k]=c+new Vector3(Mathf.Cos(a)*reach*1.1f,0,Mathf.Sin(a)*reach*.9f);
+                    }
+                    // The paving: a fan laid by the plan at the floor's own eight metres, each islet's stone a shade of its own.
+                    float shade=.92f+.1f*O();var paving=(Color32)new Color(.98f*shade,.93f*shade,.82f*shade,1);
+                    int middle=top.Count;top.Add(c);topUv.Add(new Vector2(c.x,c.z)/8);topTone.Add(paving);
+                    for(int k=0;k<Around;k++){var p=Vector3.Lerp(c,rim[k],.97f);top.Add(p);topUv.Add(new Vector2(p.x,p.z)/8);topTone.Add(paving);}
+                    for(int k=0;k<Around;k++){int a=middle+1+k,b=middle+1+(k+1)%Around;topTris.Add(middle);topTris.Add(b);topTris.Add(a);}
+                    // The coping: the court's kerb stones round its rim, each its own tone.
+                    for(int k=0;k<Around;k++)
+                    {
+                        var p=Vector3.Lerp(c,rim[k],.93f);var q=Vector3.Lerp(c,rim[(k+1)%Around],.93f);float tone=.86f+.14f*O();
+                        copings.Slot(0).Beam(p+Vector3.up*.14f,q+Vector3.up*.14f,.46f,.4f,ZoneKit.Shape.Dim(StoneShade,tone),ZoneKit.Shape.Dim(StonePale,tone));
+                    }
+                    // The keel: the islands' own profile, a lip, a shoulder and a long taper to a ragged point, banded gold at the top and grey into the haze.
+                    float deep=r*(2.2f+.6f*O());var rings=new Vector3[Around,profile.Length];
+                    for(int k=0;k<Around;k++)for(int p=0;p<profile.Length;p++)
+                    {
+                        var (inShare,downShare)=profile[p];float jag=p>=profile.Length-3?(Mathf.PerlinNoise(k*.7f+made,p*.9f)-.5f)*r*.5f:0;
+                        float wobble=.86f+.28f*Mathf.PerlinNoise(k*.41f+made*2.3f,p*.6f);
+                        rings[k,p]=Vector3.Lerp(rim[k],c,inShare*.98f)+Vector3.down*(downShare*deep*wobble+jag)+(p==profile.Length-1?new Vector3((O()-.5f)*r*.4f,0,(O()-.5f)*r*.4f):Vector3.zero);
+                    }
+                    for(int k=0;k<Around;k++)for(int p=1;p<profile.Length;p++)
+                    {
+                        int n=(k+1)%Around;float t=(p-.5f)/(profile.Length-1);var tone=Color.Lerp(new Color(.98f,.9f,.76f),new Color(.5f,.52f,.6f),t*t*.9f+.1f*t);
+                        var mid=(rings[k,p-1]+rings[n,p])*.5f;var outward=mid-new Vector3(c.x,mid.y,c.z);
+                        keel.Slot(0).Quad(rings[k,p-1],rings[n,p-1],rings[n,p],rings[k,p],outward,tone,.18f);
+                    }
+                    // An outcrop on its shoulder, and glass broken out of its face where the fibre leaves it.
+                    for(int k=0;k<2;k++)
+                    {
+                        int at=own.Next(Around);var foot=rings[at,2];var outward=foot-new Vector3(c.x,foot.y,c.z);outward=outward.normalized;
+                        if(k==0)keel.Slot(0).Lump(foot+outward*.2f+Vector3.down*.3f,new Vector3(r*.32f,r*.26f,r*.32f),made*5+k,.3f,new Color(.9f,.82f,.68f),new Color(.56f,.56f,.6f),9,5);
+                        else Cluster(glass,rings[at,3]+outward*.15f,outward+Vector3.down*.4f,.9f+.8f*O(),own);
+                    }
+                    // Grass where nobody keeps it, on the bigger ones.
+                    if(r>3)for(int g=0;g<5;g++)
+                    {
+                        float a=O()*Mathf.PI*2;var foot=Vector3.Lerp(c,rim[Mathf.FloorToInt(a/(Mathf.PI*2)*Around)%Around],.7f+.2f*O());
+                        for(int b=0;b<4;b++){var lean=new Vector3(O()-.5f,1.6f,O()-.5f).normalized;tufts.Slot(0).Frond(foot,lean,.32f+.2f*O(),.05f,.25f,.1f,new Color(.82f,.78f,.52f),new Color(.96f,.92f,.66f),2);}
+                    }
+                    // Its fibre runs through it and on, both ways: it floats because the thread does. A far one's runs far, and thicker, so it reads at its distance.
+                    var along=Quaternion.Euler(0,heading,0)*Vector3.forward;float run=r>6?r*3:10,thick=r>6?.09f:.035f;
+                    Thread(core,glow,c-along*(r+run)+Vector3.down*(run*.6f),c+Vector3.up*.2f,1.5f,thick);Thread(core,glow,c+Vector3.up*.2f,c+along*(r+run*1.2f)+Vector3.down*(run*.8f),1.5f,thick);
                     made++;
                 }
-                kit.Built("Islets",rock,Stone,Cliff);kit.Built("Islets' fibres",core,Fibre);kit.Built("Islets' fibres glow",glow,FibreSoft);
+                var paved=new Mesh{name="Islets' paving"};paved.SetVertices(top);paved.SetUVs(0,topUv);paved.SetColors(topTone);paved.SetNormals(top.Select(_=>Vector3.up).ToList());paved.SetTriangles(topTris,0);paved.RecalculateBounds();
+                paved=ZoneKit.SaveMesh(paved,"Assets/_Project/Scenes/"+kit.zone+"-Islets-paving.asset");
+                var floor=new GameObject("Islets' paving",typeof(MeshFilter),typeof(MeshRenderer));floor.GetComponent<MeshFilter>().sharedMesh=paved;floor.GetComponent<MeshRenderer>().sharedMaterial=Stone;
+                kit.Built("Islets' keels",keel,Cliff);kit.Built("Islets' copings",copings,Kerb);kit.Built("Islets' glass",glass,GlassDeep).GetComponent<MeshRenderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                kit.Built("Islets' grass",tufts,Blade);
+                kit.Built("Islets' fibres",core,Fibre);kit.Built("Islets' fibres glow",glow,FibreSoft);
             }
             /// <summary>The Glass Choir: the court's front in pale stone behind the door, buttressed, with a great window of glass; and the bridled Choir's body beyond it, ribbed and
             /// translucent, rising out of the cloud and running away north and east, the light inside it still.</summary>
@@ -1852,8 +1949,10 @@ namespace Lattice.EditorTools
                 ground.Paint(0,p=>Lived(p)*(1-.75f*Rim(p))*Smooth(.3f,.5f,ground.Noise(p,5,7)));
                 foreach(var way in Ways)ground.PaintPath(0,way,2.4f,.9f,.3f,.8f,(int)way[0].x+40);
                 ground.Erase(0,p=>1-Lived(p));
-                // The gardens: raked grit over all the open ground, the swept path of the court's flags left clear through it.
-                ground.Paint(1,p=>Raked(p)*Smooth(1.7f,1.85f,Way(p)));
+                // The gardens: raked grit over all the open ground, the swept path of the court's flags left clear through it. The shader cuts a layer at half its weight between the
+                // floor's points, half a metre apart: a weight that went from nothing to whole in fifteen centimetres was nothing or whole at every point, and the cut ran the
+                // triangles' edges in a saw-tooth along every path (November 20, s39/244, s42/055 and 089). Over a metre and a half the cut follows the walk's own line.
+                ground.Paint(1,p=>Raked(p)*Smooth(1.15f,2.65f,Way(p)));
                 // The fibre fields and the glass grove: the stone grown through with glass, patchy, thinner along the walk.
                 ground.Paint(2,p=>Fields(p)*(.3f+.7f*Smooth(1.2f,2.6f,Way(p)))*Smooth(.32f,.46f,ground.Noise(p,6,17)));
                 ground.Shade(p=>.08f*Rim(p));
@@ -1893,6 +1992,11 @@ namespace Lattice.EditorTools
                 new LookDev.View("stair-gardens",new Vector3(-28,Upper,129)),new LookDev.View("sealed-garden",new Vector3(-40,Upper,127)),new LookDev.View("junction-3",new Vector3(18,Upper,132)),
                 new LookDev.View("high-island",new Vector3(-58,High,155)),new LookDev.View("forecourt",new Vector3(8,Upper,156)),new LookDev.View("door",new Vector3(4,Upper,162)),
                 new LookDev.View("overview-low",new Vector3(-8,Camp,34),false,4.4f),new LookDev.View("overview-high",new Vector3(-12,Upper,124),false,4.4f),
+                // Where November 20's stills stood (nov20-whole s39 and s42), to set beside them.
+                new LookDev.View("s39-104",new Vector3(-4.3f,Terrace,42.9f)),new LookDev.View("s39-153",new Vector3(-4.1f,Terrace,71)),new LookDev.View("s39-183",new Vector3(32,Terrace,74.5f)),
+                new LookDev.View("s39-244",new Vector3(9.7f,Upper,131)),new LookDev.View("s42-055",new Vector3(-13.8f,Upper,105.1f)),new LookDev.View("s42-089",new Vector3(-43.8f,Upper,126.2f)),
+                // November 22's (nov22-whole s39 242 and 245: the stair gardens' raking).
+                new LookDev.View("s39-242",new Vector3(-10.4f,Upper,130)),new LookDev.View("s39-245",new Vector3(16.4f,Upper,134.7f)),
             };
         }
     }

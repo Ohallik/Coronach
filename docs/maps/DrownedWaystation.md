@@ -116,7 +116,7 @@ All world x, z (y is the ground there). Spawns are `SpawnPoint` ids; points are 
 | Hall sentries | `Hall_Sentries` | -1, 190.2 (32 x 7.6) | 2 Drowned Sentry from alcoves -9,193.2 and -1.5,193.2; needs `wend.pump1` |
 | Terrace | `Gallery_Terrace` | 15, 229 (14 x 40) | 1 Drowned Sentry (alcove 23.2,226.5), 2 Rot-pod (17.5,237.5 and 11.5,219); needs `wend.pump1` |
 | Pump two | | 17, 246.2 | `wend.pump2` |
-| Low floor | `Gallery_Floor` | -7, 228 (30 x 44) | 2 Drowned Sentry (alcoves -23.2,209.5 and -23.2,237.5), 2 Mire Leeches (sumps -12,214.5 and -6.5,232); needs `wend.pump2` |
+| Low floor | `Gallery_Floor` | -7, 229.4 (30 x 46.8) | 2 Drowned Sentry (the north wall's alcoves, -16,250.6 and -10,250.6, facing south: D358; until November 22 the west wall's, -23.2,209.5 and -23.2,237.5), 2 Mire Leeches (sumps -12,214.5 and -6.5,232); needs `wend.pump2` |
 | Pim | Npc `Pim` (first and only node `PimFound`) | -31.5, 221.5 (talk from the grille's east side, -26.5, 221.5) | `wend.pimFound` (the script sets it): the grille at x -27.6 opens, Pim stops being someone to talk to at once and, once the talk closes, walks out (-28.4,219.8 / -21.4,219.6 / -12,227 / -2,239 / 5,244.6) and is gone at the ramp (`LeavesAfter`) |
 | Pim's basket | cache `wend.station.pim` | -35, 226 | behind the grille |
 | Pump four | | 25.3, 217.9 | FourthPump step 0, report `FourthPump`, `wend.pump4` |

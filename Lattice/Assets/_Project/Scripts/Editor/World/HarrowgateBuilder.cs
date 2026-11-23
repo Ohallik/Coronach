@@ -91,6 +91,10 @@ namespace Lattice.EditorTools
 
         static void Define()
         {
+            // The Warmaster's own body (the town engineer's: HarrowgateBuilder.TownLook.cs), made before the definitions that wear it: his duel's (BossDefinitions) and his person's
+            // (below). If it can't be made, he keeps the bodies he had, and the build says so.
+            GameObject warmaster=null;
+            try{warmaster=Town.Warmaster().person;}catch(Exception e){Debug.LogWarning("HARROWGATE_WARMASTER_PENDING "+e.Message);}
             var ground=Find<CameraProfile>("Ground");var flight=Find<CameraProfile>("Flight");
             // The Picket: the buoys' amber and the flak curtain's lamps are the border's state, so they are what blooms. No tilt anywhere (D060).
             var picket=ArenaBuilder.Asset<Hd2dProfile>("Picket",p=>{p.tint=new Color(.98f,.97f,1);p.tiltStart=.2f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.72f;});
@@ -142,7 +146,8 @@ namespace Lattice.EditorTools
                 =>ArenaBuilder.Asset<CharacterDef>(id,c=>{c.id=c.speakerId=id;c.displayName=display;c.female=female;c.natural=body;
                     // The sheets were taken in before these definitions existed, so PortraitIntake had nothing to bind them to.
                     if(c.portraitNatural==null)c.portraitNatural=AssetDatabase.LoadAssetAtPath<PortraitSet>("Assets/_Project/Resources/Portraits/"+id+"_Natural.asset");});
-            Person("Drask","Drask Vaal",false,FirstBody("DraskBody","BrekkBody"));
+            // His war-frame under his mantle, the body he fights in: at his table, in his cell and aboard Many Hands (a smith's red apron until November 21, s51/149).
+            Person("Drask","Drask Vaal",false,warmaster??FirstBody("DraskBody","BrekkBody"));
             Person("Tovra","Tovra Kesh",true,FirstBody("TovraBody","BrekkBody"));
             Person("Odrun","Mother Odrun",true,FirstBody("OdrunBody","BrekkBody"));
             Person("Pip","Pip",false,FirstBody("PipBody","HessaBody","BrekkBody"));

@@ -65,7 +65,7 @@ namespace Lattice.Tests.PlayMode
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static Button[] Rows()=>Buttons().Where(b=>b.name.StartsWith("Row_")).OrderBy(b=>int.Parse(b.name.Substring(4))).ToArray();
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static string[] Shown()=>Buttons().Select(b=>Words(b)).ToArray();
         static Button With(string words)
         {
@@ -237,19 +237,22 @@ namespace Lattice.Tests.PlayMode
         {
             var inventory=RpgServices.Inventory;var menu=Menu;var shop=ShopPanel;var corra=GameCatalog.Find<ShopInventory>("Lanternwick");
             inventory.GivePart(Part("FramesT2"));
-            menu.Open(PauseMenu.GearPage);yield return null;With("Refined Frame  T2 +0  ·  Plating +16");menu.Close();yield return null;
-            shop.Open(corra);yield return null;With("Refined Frame  ·  Plating +16  —  260 scrip");shop.Close();yield return null;
+            menu.Open(PauseMenu.GearPage);yield return null;With("Refined Frame  ·  T2 +0  ·  Plating +16");menu.Close();yield return null;
+            shop.Open(corra);yield return null;With("Refined Frame  ·  Plating +16  ·  260 scrip");shop.Close();yield return null;
             menu.Open(PauseMenu.ItemsPage);yield return null;
             // A gel was a flat 60 on a bar that grows to 640: it's a quarter of the hero's own bar now, with the 60 as its floor, and each count stands against the most the pouch holds (prog159).
             int gelCap=Inventory.Cap(GameCatalog.Find<ConsumableDef>("RepairGel")),cellCap=Inventory.Cap(GameCatalog.Find<ConsumableDef>("ChargeCell"));
             With($"Repair Gel ×{State.consumables["RepairGel"]} of {gelCap}  ·  restores 25% Integrity (min 60)");With($"Charge Cell ×{State.consumables["ChargeCell"]} of {cellCap}  ·  restores 50 Charge");menu.Close();yield return null;
-            menu.Open(PauseMenu.FabricatePage);yield return null;With("Scrap Alloy 20/3");menu.Close();yield return null;
+            menu.Open(PauseMenu.FabricatePage);yield return null;With("Scrap Alloy ×3");menu.Close();yield return null;
             menu.Open(PauseMenu.PartyPage);yield return null;
-            StringAssert.Contains("Output 50",Words(Row("Row_0")),"the Party page hides what a hero hits for");StringAssert.Contains("Plating 10",Words(Row("Row_0")));menu.Close();yield return null;
+            // Each number under its heading (D357).
+            Assert.AreEqual("50",ListRow.Cell(Row("Row_0"),"Output"),"the Party page hides what a hero hits for");Assert.AreEqual("10",ListRow.Cell(Row("Row_0"),"Plating"));
+            Assert.IsTrue(Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Any(t=>t.name=="ColumnHead"&&t.text=="OUTPUT"),"the Party page's numbers have no headings");menu.Close();yield return null;
             // Set against what the hero wears, where the part would replace something.
             var scrap=Part("FramesT1");inventory.Equip(Taren,inventory.GivePart(scrap),scrap);
-            menu.Open(PauseMenu.GearPage);yield return null;With("Refined Frame  T2 +0  ·  Plating +16  ·  now +8");menu.Close();yield return null;
-            shop.Open(corra);yield return null;With("Refined Frame  ·  Plating +16  —  260 scrip  ·  now +8");shop.Close();yield return null;
+            // What wearing it would change, against what's worn (D357): "now +8" gave only the worn part's number.
+            menu.Open(PauseMenu.GearPage);yield return null;With("Refined Frame  ·  T2 +0  ·  Plating +16  ·  +8");menu.Close();yield return null;
+            shop.Open(corra);yield return null;With("Refined Frame  ·  Plating +16  ·  260 scrip  ·  +8 for Taren");shop.Close();yield return null;
             // The longest rows the game can draw still stay on their row, in either device's words.
             var failures=new List<string>();Taren.level=40;
             foreach(string id in new[]{"ModulesT2","EmittersT2","EdgesT2"})
@@ -279,14 +282,16 @@ namespace Lattice.Tests.PlayMode
         {
             Taren.skillUses=null;var first=SkillBook.Equipped("Taren",0);var second=SkillBook.Equipped("Taren",1);
             var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return null;
-            StringAssert.Contains("Mastery 1 (0/6)",Words(Row("Row_1")),"nothing says how far off the next mastery is");
+            // Mastery in the bench's words (D357): "(0/6)" read as a fraction, as the bench's "(0/30)" did.
+            StringAssert.Contains("Mastery 1 (0 of 6)",Words(Row("Row_1")),"nothing says how far off the next mastery is");
             StringAssert.Contains($"{first.cooldown:0} s",Words(Row("Row_1")),"no screen states the cooldown");
             for(int i=0;i<7;i++)SkillBook.RecordUse("Taren",first);
             Row("Tab_Party").onClick.Invoke();yield return null;Row("Tab_Skills").onClick.Invoke();yield return null;
-            StringAssert.Contains("Mastery 2 (7/18)",Words(Row("Row_1")));
+            StringAssert.Contains("Mastery 2 (7 of 18)",Words(Row("Row_1")));
             Row("Row_1").onClick.Invoke();yield return null;
-            StringAssert.Contains("In use · "+first.displayName,Words(With(first.displayName)));
-            var elsewhere=With(second.displayName);StringAssert.Contains($"On {GameHud.SkillBinding(1,false)} · ",Words(elsewhere),"a skill in another slot looks free until it silently trades");
+            // Where a skill is now stands in its own column after its name (D357).
+            Assert.AreEqual("In use",ListRow.Cell(With(first.displayName),"Where"),"the chooser doesn't say which skill is in this slot");
+            var elsewhere=With(second.displayName);Assert.AreEqual($"On {GameHud.SkillBinding(1,false)}",ListRow.Cell(elsewhere,"Where"),"a skill in another slot looks free until it silently trades");
             elsewhere.onClick.Invoke();yield return null;
             StringAssert.Contains(first.displayName,Feedback(),"the skill that was displaced moved without a word");
             menu.Close();
@@ -296,12 +301,13 @@ namespace Lattice.Tests.PlayMode
         {
             var inventory=RpgServices.Inventory;var edge=Part("EdgesT1");inventory.Equip(Taren,inventory.GivePart(edge),edge);inventory.Equip(Sela,inventory.GivePart(edge),edge);
             var menu=Menu;menu.Open(PauseMenu.FabricatePage,true);yield return null;
-            var row=With("Scrap Edge");StringAssert.Contains("Scrap Alloy 20/3",Words(row),"the recipe doesn't say what's held");
+            var row=With("Scrap Edge");StringAssert.Contains("Scrap Alloy ×3",Words(row),"the recipe doesn't say what it takes");
+            EventSystem.current.SetSelectedGameObject(row.gameObject);StringAssert.Contains("You have 20 Scrap Alloy",Note(),"the recipe under the cursor doesn't say what's held");
             row.onClick.Invoke();yield return null;
             StringAssert.Contains("Now in Gear",Feedback(),"nothing says where the part went");
-            StringAssert.Contains("Edges 1 (10/30)",Note(),"no progress toward the next discipline level");
+            StringAssert.Contains("Edges 1, 10 of 30 to Edges 2",Note(),"no progress toward the next discipline level");
             State.materials["ScrapAlloy"]=1;With("Scrap Edge").onClick.Invoke();yield return null;
-            StringAssert.Contains("Scrap Alloy 1/3",Feedback(),"a refusal must say what's short");
+            StringAssert.Contains("Scrap Alloy ×3 (have 1)",Feedback(),"a refusal must say what's short");
             menu.Close();
         }
 
@@ -312,12 +318,12 @@ namespace Lattice.Tests.PlayMode
             var inventory=RpgServices.Inventory;var def=Part("EdgesT2");var item=inventory.GivePart(def);inventory.Equip(Sela,item,def);
             bool Worn()=>State.party.Any(m=>m.equipped.ContainsValue(item.instanceId));
             var menu=Menu;menu.Open(PauseMenu.GearPage);yield return null;
-            StringAssert.Contains("Sela · Refined Edge",Words(With("Refined Edge")),"a part the partner wears looks free");
+            Assert.AreEqual("Sela",ListRow.Cell(With("Refined Edge"),"On"),"a part the partner wears looks free");
             StringAssert.DoesNotContain("[E]",string.Join(" ",Shown()),"a bracketed E reads as a key prompt");
             With("Refined Edge").onClick.Invoke();yield return null;
             StringAssert.Contains("Moved from Sela to Taren.",Feedback(),"the part left Sela without a word");
             Assert.AreEqual(item.instanceId,Taren.equipped[GearSlot.Edge]);Assert.IsFalse(Sela.equipped.ContainsKey(GearSlot.Edge));
-            StringAssert.Contains("Equipped · Refined Edge",Words(With("Refined Edge")));
+            Assert.AreEqual("Taren",ListRow.Cell(With("Refined Edge"),"On"),"the part Taren has on doesn't say so");
             yield return Action(3);
             With("Refined Edge").onClick.Invoke();yield return null;
             Assert.IsTrue(State.parts.Contains(item),"salvaged a part in use");
@@ -325,7 +331,7 @@ namespace Lattice.Tests.PlayMode
             yield return Action(1);
             With("Refined Edge").onClick.Invoke();yield return null;
             Assert.IsFalse(Worn(),"Equip on a worn part must take it off: there is no other way");
-            StringAssert.DoesNotContain("Equipped ·",Words(With("Refined Edge")));
+            Assert.AreEqual("",ListRow.Cell(With("Refined Edge"),"On"),"a part taken off still says it's on someone");
             yield return Action(1);
             With("Refined Edge").onClick.Invoke();yield return null;
             StringAssert.Contains("module",Feedback().ToLowerInvariant(),"the slot 2 refusal doesn't say what fits");
@@ -346,7 +352,7 @@ namespace Lattice.Tests.PlayMode
             yield return Action(3);StringAssert.Contains("Action: Salvage",Words(Row("Row_1")),"fixture");
             menu.Close();yield return null;menu.Open(PauseMenu.GearPage);yield return null;
             StringAssert.Contains("Action: Equip",Words(Row("Row_1")),"coming back to Gear, A still destroys parts");
-            var row=With("Refined Edge");StringAssert.Contains("Refined Edge  T2 +0  ·  Resonant",Words(row),"an overclocked part looks like a plain one");StringAssert.Contains("Resonance +4",Words(row));
+            var row=With("Refined Edge");StringAssert.Contains("Refined Edge  ·  T2 +0  ·  Resonant",Words(row),"an overclocked part looks like a plain one");StringAssert.Contains("Resonance +4",Words(row));
             yield return Action(3);int alloy=inventory.Count("ScrapAlloy");
             With("Refined Edge").onClick.Invoke();yield return null;
             Assert.IsTrue(State.parts.Contains(item),"one press destroyed a part");
@@ -591,8 +597,9 @@ namespace Lattice.Tests.PlayMode
             var hero=PartyController.Current.Active;hero.Health.integrity=hero.Health.maximum;hero.charge=100;
             State.consumables["RepairGel"]=2;State.consumables["ChargeCell"]=1;
             var menu=Menu;menu.Open(PauseMenu.ItemsPage);yield return null;
-            StringAssert.Contains($"Integrity {hero.Health.integrity:0}/{hero.Health.maximum:0}",Note(),"the Items page hides the numbers that decide whether to use something");
-            StringAssert.Contains("Charge 100/100",Note());
+            // The hero's numbers head the page, on the line Gear's "Equipping" stands on (D357).
+            StringAssert.Contains($"Integrity {hero.Health.integrity:0}/{hero.Health.maximum:0}",Label("Header").text,"the Items page hides the numbers that decide whether to use something");
+            StringAssert.Contains("Charge 100/100",Label("Header").text);
             using var log=new CueLog();
             With("Repair Gel").onClick.Invoke();yield return null;
             StringAssert.Contains("Integrity is already full.",Feedback());Assert.AreEqual(2,State.consumables["RepairGel"],"a refused gel was spent");

@@ -58,7 +58,7 @@ namespace Lattice.Tests.PlayMode
         }
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static string Shown()=>string.Join(" | ",Buttons().Select(b=>b.name+": "+Words(b)));
         static Button With(string words)
         {

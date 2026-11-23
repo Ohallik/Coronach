@@ -82,7 +82,7 @@
     {"id": "Nest_2", "x": 604.45, "z": 991.92, "yaw": 0, "width": 40, "depth": 40, "flag": ""}
   ],
   "DrownedWaystation": [
-    {"id": "Gallery_Floor", "x": -7, "z": 228, "yaw": 0, "width": 30, "depth": 44, "flag": "wend.pump2"},
+    {"id": "Gallery_Floor", "x": -7, "z": 229.4, "yaw": 0, "width": 30, "depth": 46.8, "flag": "wend.pump2"},
     {"id": "Gallery_Terrace", "x": 15, "z": 229, "yaw": 0, "width": 14, "depth": 40, "flag": "wend.pump1"},
     {"id": "Hall_Sentries", "x": -1, "z": 190.2, "yaw": 0, "width": 32, "depth": 7.6, "flag": "wend.pump1"},
     {"id": "Mire_Leeches", "x": 10.5, "z": 93, "yaw": 0, "width": 24, "depth": 16, "flag": ""},

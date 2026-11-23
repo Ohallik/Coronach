@@ -33,3 +33,7 @@ MonoBehaviour:
   shopMusicId: 
   chapter: 2
   quietArrival: 0
+  cueMusicIds: []
+  standsFor: 
+  standsFrom: 
+  standsUntil: 

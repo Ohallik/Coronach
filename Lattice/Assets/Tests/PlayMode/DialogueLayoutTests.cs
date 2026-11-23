@@ -126,10 +126,14 @@ namespace Lattice.Tests.PlayMode
                 float m=scaler.matchWidthOrHeight;var reference=scaler.referenceResolution;
                 float scale=scaler.screenMatchMode==UnityEngine.UI.CanvasScaler.ScreenMatchMode.Expand?Mathf.Min(w/reference.x,h/reference.y):Mathf.Pow(2,Mathf.Lerp(Mathf.Log(w/reference.x,2),Mathf.Log(h/reference.y,2),m));
                 root.sizeDelta=new Vector2(w/scale,h/scale);
-                foreach(int count in new[]{widest.labels.Count,5})
+                // The choices stand on the box (D357): the last just over its top edge, the column's right edge on the box's. Then the same check of a choice moved onto the
+                // box, which it must catch: five stacked choices used to be that fixture, and on the box they now stack upward, clear of it.
+                foreach(bool broken in new[]{false,true})
                 {
-                    panel.Options(count==5?Enumerable.Range(1,5).Select(i=>"Option "+i).ToList():widest.labels,_=>{});
+                    panel.Options(widest.labels,_=>{});
                     Canvas.ForceUpdateCanvases();yield return null;Canvas.ForceUpdateCanvases();
+                    int count=widest.labels.Count;
+                    if(broken){var moved=(RectTransform)Child<Transform>(canvas,"Option_"+(count-1));moved.anchoredPosition-=new Vector2(0,60);Canvas.ForceUpdateCanvases();}
                     var screen=Box(root);var frame=Box((RectTransform)Child<Transform>(canvas,"DialoguePanel"));var face=Box((RectTransform)Child<Transform>(canvas,"Portrait"));
                     var options=Enumerable.Range(0,count).Select(i=>Box((RectTransform)Child<Transform>(canvas,"Option_"+i))).ToList();
                     bool Inside(Rect r)=>r.xMin>=screen.xMin-.5f&&r.xMax<=screen.xMax+.5f&&r.yMin>=screen.yMin-.5f&&r.yMax<=screen.yMax+.5f;
@@ -140,9 +144,11 @@ namespace Lattice.Tests.PlayMode
                     {
                         if(!Inside(options[i]))problems.Add($"option {i+1} runs off screen");
                         if(options[i].Overlaps(frame)||options[i].Overlaps(face))problems.Add($"option {i+1} covers the panel");
+                        if(options[i].xMax>frame.xMax+.5f||options[i].center.x<screen.center.x)problems.Add($"option {i+1} doesn't stand at the box's right end");
                     }
-                    // Five options is beyond any current node: the geometry check must catch it.
-                    if(count==5)Assert.IsNotEmpty(problems,$"{w}x{h}: five stacked options should collide with the panel; the overlap check cannot fail");
+                    float lowest=options.Min(o=>o.yMin);
+                    if(!broken&&(lowest<frame.yMax-.5f||lowest-frame.yMax>30))problems.Add($"the last choice stands {lowest-frame.yMax:0} over the box, not on it");
+                    if(broken)Assert.IsNotEmpty(problems,$"{w}x{h}: a choice moved onto the box isn't caught; the overlap check cannot fail");
                     else failures.AddRange(problems.Select(p=>$"{w}x{h} {widest.where}: {p}"));
                     panel.ClearOptions();yield return null;
                 }

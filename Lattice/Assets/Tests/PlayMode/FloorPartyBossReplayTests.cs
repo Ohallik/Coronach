@@ -152,7 +152,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var hero in new[]{taren,other}){hero.GetComponent<PlayerBrain>().AutoPilot=true;hero.GetComponent<PartnerBrain>().enabled=false;}
             var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),at);enemy.Passive=true;yield return Frames(3);var body=enemy.Health;
             body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;
+            float reach=BossReach.Edge(enemy);
             bool blade=DevLoadout.Weapon(other.character)==GearSlot.Edge;
             var tarenAt=at+Vector3.back*reach;var otherAt=blade?at+Quaternion.Euler(0,-70,0)*Vector3.back*reach:at+Vector3.back*8+Vector3.right*2;
             Place(taren,tarenAt);Place(other,otherAt);taren.target=other.target=body;taren.charge=other.charge=100;yield return null;

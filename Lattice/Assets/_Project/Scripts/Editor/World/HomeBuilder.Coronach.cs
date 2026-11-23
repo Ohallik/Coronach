@@ -344,7 +344,9 @@ namespace Lattice.EditorTools
                 var stair=Maybe("PromenadeStair")??Maybe("WornStep")??Vector2.Lerp(promenade,rail.stand,.5f);
                 Story(kit,root,"Jask, by the stair","coronach.jask","Jask",Free(kit,"Jask",stair,new Vector2(-1.1f,2.6f),2.4f),stair,"JaskBody",("JaskDoorQuestion","Questions"),("JaskDoorFare","StowawayFare"));
                 Story(kit,root,"Teo, at the dock rail, counting","coronach.teo","Teo",Free(kit,"Teo",rail.stand,new Vector2(3.2f,0),4),rail.at+new Vector2(3.2f,0),"TeoBody",("TeoDoorTags","ClaimTags"));
-                var dovAt=Free(kit,"Dov",Vector2.Lerp(promenade,stall.stand,.6f),new Vector2(0,-3),5);
+                // Two metres further toward the stall than he stood: Ishen and he are both of the long-eared, lilac people, and side by side with a crate each they read as one body twice
+                // (whole-game capture, November 20, s60/225).
+                var dovAt=Free(kit,"Dov",Vector2.Lerp(promenade,stall.stand,.6f),new Vector2(2.2f,-3),5);
                 var dovCrate=Aside(kit,"Dov's crate",dovAt,new Vector2(.75f,.3f));var tray=Thing(kit,root,"A crate with a tray on it","DeckCrate",dovCrate,.75f);
                 var dov=Story(kit,root,"Dov, with a tray nobody has touched","coronach.dov","Dov",dovAt,dovCrate,"DovBody",("DovDoorEel","SmokehouseOrder"),("DovDoorBell","SchoolBell"));
                 dov.extras[0].shows=new[]{Tray(kit,tray.transform,"Blue eel on a tray")};dov.extras[1].sound="school_bell";dov.extras[1].volume=.34f;dov.extras[1].soundReach=7;

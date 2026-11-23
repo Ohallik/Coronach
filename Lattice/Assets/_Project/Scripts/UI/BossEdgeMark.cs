@@ -12,7 +12,11 @@ namespace Lattice.UI
         const float GoalSide=.04f,GoalTop=.06f,GoalFoot=.16f;
         static readonly Color GoalCream=new(1,.93f,.8f,.95f),GoalEdge=new(.02f,.03f,.05f,.85f);
         const float GoalEdgeWidth=3;
-        Image mark,goalMark;RectTransform place,goalPlace;ObjectiveHud objective;
+        /// <summary>A locked target nowhere on the screen: a small mark in the lock's amber at the edge on its side, pointing to it (D356). The card went on naming a lock the player
+        /// couldn't see, with nothing to say which way it was. A boss's own mark stands for it when the lock is on her.</summary>
+        const float LockBox=44;
+        static readonly Color LockAmber=new(1,.76f,.3f,.95f);
+        Image mark,goalMark,lockMark;RectTransform place,goalPlace,lockPlace;ObjectiveHud objective;
         /// <summary>Held, not asked of a mark: this goes on working behind a menu or a conversation, which turn the canvas off, and a graphic has no canvas then.</summary>
         Canvas surface;
         public void Build(Transform parent)
@@ -24,6 +28,9 @@ namespace Lattice.UI
             // Cream on a cream planet it was lost, just where the screen has least else on it. A dark edge holds it on anything, and on black space it doesn't show. The boss's orange shares the sprite and keeps its look, so the edge belongs to this mark and not to the art.
             var edge=goalMark.gameObject.AddComponent<Outline>();edge.effectColor=GoalEdge;edge.effectDistance=new Vector2(GoalEdgeWidth,GoalEdgeWidth);
             goalPlace=UiKit.Rect(goalMark.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(GoalBox,GoalBox));goalMark.enabled=false;
+            lockMark=UiKit.Panel(parent,"LockEdgeMark",LockAmber);lockMark.sprite=UiSkin.Pointer();lockMark.raycastTarget=false;lockMark.preserveAspect=true;
+            var rim=lockMark.gameObject.AddComponent<Outline>();rim.effectColor=GoalEdge;rim.effectDistance=new Vector2(GoalEdgeWidth,GoalEdgeWidth);
+            lockPlace=UiKit.Rect(lockMark.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(LockBox,LockBox));lockMark.enabled=false;
             objective=GetComponent<ObjectiveHud>();
         }
         void Update()
@@ -49,6 +56,24 @@ namespace Lattice.UI
             if(mark.enabled!=show)mark.enabled=show;
             bool goalShow=camera!=null&&party!=null&&party.Active!=null&&GoalMark(camera,party);
             if(goalMark.enabled!=goalShow)goalMark.enabled=goalShow;
+            bool lockShow=camera!=null&&party!=null&&party.Active!=null&&LockMark(camera,party.Active,show?boss:null);
+            if(lockMark.enabled!=lockShow)lockMark.enabled=lockShow;
+        }
+        /// <summary>Where the line from the screen's middle to the lock meets the screen's edge, in from it as the boss's mark stands, and off the panels along that edge.</summary>
+        bool LockMark(Camera camera,CombatActor lead,BossController markedBoss)
+        {
+            var target=lead.target;
+            if(!lead.TargetLocked||target==null||!target.Alive||!target.gameObject.activeInHierarchy)return false;
+            if(markedBoss!=null&&(target==markedBoss.Health||target.transform.IsChildOf(markedBoss.transform)))return false;
+            var view=camera.WorldToViewportPoint(target.transform.position+Vector3.up);
+            if(view.z<=0){view.x=1-view.x;view.y=1-view.y;}
+            if(view.z>0&&view.x>=Margin&&view.x<=1-Margin&&view.y>=Margin&&view.y<=1-Margin)return false;
+            var from=new Vector2(view.x-.5f,view.y-.5f);if(from.sqrMagnitude<1e-6f)from=Vector2.down;
+            float reach=Mathf.Min((.5f-Inset)/Mathf.Max(.0001f,Mathf.Abs(from.x)),(.5f-Inset)/Mathf.Max(.0001f,Mathf.Abs(from.y)));
+            var at=new Vector2(.5f,.5f)+from*reach;
+            lockPlace.anchorMin=lockPlace.anchorMax=OffThePlates(at,LockBox,camera,Mathf.Abs(at.x-.5f)>=.5f-Inset-.001f);lockPlace.anchoredPosition=Vector2.zero;
+            lockPlace.localRotation=Quaternion.Euler(0,0,Mathf.Atan2(from.y*9,from.x*16)*Mathf.Rad2Deg-90);
+            return true;
         }
         /// <summary>It points as the panel's arrow points, along a short step toward the goal: a far goal can lie behind the camera itself. Where that line from the hero meets the edge is where it stands.</summary>
         bool GoalMark(Camera camera,PartyController party)

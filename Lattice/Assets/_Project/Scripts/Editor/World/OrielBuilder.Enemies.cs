@@ -1,4 +1,5 @@
 using Lattice.Data;
+using UnityEditor;
 using UnityEngine;
 
 namespace Lattice.EditorTools
@@ -78,10 +79,10 @@ namespace Lattice.EditorTools
                 e.tune=new BehaviourTune{width=1.7f,recover=1.6f,wake=12};
                 e.xp=230;e.scrip=26;e.scrap=2;e.boss=false;e.heavyDeath=true;e.capsuleRadius=.55f;e.capsuleHeight=2.2f;
                 e.lootTable=Loot("Pruner",Drop("FibreThread",2,.6f),Drop("SingingGlass",1,.3f),ProgressionBuilder.AnyPart(4,GearSlot.Edge,.04f));});
-            // Rider that hops: a mote of the old road, ten pale motes with no model. It rides the fibre nearest the hero (the zone's, laid on the floor under each fibre, or with none its own
+            // Rider that hops: a mote of the old road (its body is WispBody, below). It rides the fibre nearest the hero (the zone's, laid on the floor under each fibre, or with none its own
             // through him) and when he stands on it within 10 m the fibre lights 1.6 m wide for .75 s and the shock runs down it. Then it hops to the fibre he is on, open for 1.1 s in the air;
             // with him off its fibre a while it hops too. Answer: off the lit fibre, and hit it as it hops.
-            ArenaBuilder.Asset<EnemyDef>("FibreWisp",e=>{e.id="FibreWisp";e.displayName="Fibre Wisp";e.prefab=null;e.integrity=320;e.breakThreshold=70;e.speed=3.5f;e.attacks=new[]{wispShock};
+            ArenaBuilder.Asset<EnemyDef>("FibreWisp",e=>{e.id="FibreWisp";e.displayName="Fibre Wisp";e.prefab=WispBody();e.integrity=320;e.breakThreshold=70;e.speed=3.5f;e.attacks=new[]{wispShock};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Swarm;e.behaviour=EnemyBehaviourKind.Rider;
                 e.tune=new BehaviourTune{reach=10,width=1.6f,recover=1.1f,count=10,wake=16,tint=new Color(.95f,1.15f,1.4f,1),bark="wisp"};
                 e.xp=85;e.scrip=8;e.scrap=0;e.boss=false;e.motion=EnemyMotion.Hover;e.capsuleRadius=.55f;e.capsuleHeight=1.2f;
@@ -122,12 +123,72 @@ namespace Lattice.EditorTools
             // The first figure, 150,000, ran 352 s at a quarter by the shared measure; the second, 78,000, came under the floor by the reach measure (86 s for Taren and Idra).
             // QaPlanCombatTests measures it in the same parts. Its numbers past this are BossController.LastWarden.cs's own table. It stands down at the
             // fourth clamp (it yields: its body stays, staff lowered), and drops the region's rare, the Warden Key.
-            ArenaBuilder.Asset<EnemyDef>("LastWarden",e=>{e.id="LastWarden";e.displayName="THE LAST WARDEN";e.prefab=Body("LastWarden","HostMarshal");e.integrity=116000;e.breakThreshold=800;e.speed=1.6f;e.attacks=new[]{wardenStaff};
+            ArenaBuilder.Asset<EnemyDef>("LastWarden",e=>{e.id="LastWarden";e.displayName="THE LAST WARDEN";e.prefab=Body("LastWarden","HostMarshal");e.integrity=200000;e.breakThreshold=800;e.speed=1.6f;e.attacks=new[]{wardenStaff};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1500;e.scrip=450;e.scrap=22;e.boss=true;
                 e.bossMusicId="Boss of the Ages";e.yieldsOnDefeat=true;
                 // A capsule can't stand shorter than it is wide: 3.6 m on its 1.5 m radius, the body's own height.
                 e.capsuleHeight=3.6f;
                 e.lootTable=Loot("LastWarden",Drop("WardenKey",1,1),Drop("FibreThread",6,1),Drop("SingingGlass",6,1),Drop("RepairSalve",2,1),ProgressionBuilder.AnyPart(4,1));});
+        }
+
+        /// <summary>The Fibre Wisp's body: a mote of the old road, a knot of its light held in a cage of dark glass. It was ten motes of the shared flare, each a fifth of a metre whose bright
+        /// core is a few centimetres, so it drew as two or three pixels apiece in the editor and the player alike, and on the Skyfields' pale stone a player saw the lock's card over
+        /// empty floor (November 20, s39/153). Now, at chest height and the size of a hero's head and shoulders: a white-blue core that blooms, three rings of near-black violet glass
+        /// turning round it on three axes (dark against pale stone, their rims lit against a dark deck), four threads of its light trailing toward the fibre it rides, and a cold
+        /// light of its own that pools on the floor under it. Its tell is the Rider's: the fibre lights, and the whole body swells by a quarter as the shock gathers (EnemyTellPose).
+        /// Built here as a prefab, meshes and all, every time the definitions are.</summary>
+        static GameObject WispBody()
+        {
+            const string Prefab="Assets/_Project/Prefabs/Enemies/FibreWisp.prefab",Meshes="Assets/_Project/Art/Generated/Oriel/";
+            System.IO.Directory.CreateDirectory(Meshes);
+            const float Middle=1.02f;
+            var core=ZoneKit.Toon("wisp-core",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.9f,0,0,0));m.SetFloat("_ReceiveShadows",0);});
+            var glass=ZoneKit.Toon("wisp-cage",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetColor("_ShadowTint",new Color(.42f,.4f,.62f));
+                m.SetColor("_RimColor",new Color(.62f,.92f,1.35f));m.SetFloat("_RimPower",1.8f);m.SetFloat("_RimUnlit",.85f);m.SetFloat("_LightFloor",.18f);m.SetColor("_EmissionColor",new Color(.05f,.06f,.13f));});
+            var root=new GameObject("FibreWisp");
+            try
+            {
+                GameObject Part(string name,ZoneKit.Shape shape,Material material,Vector3 at,Quaternion turn,bool shadows)
+                {
+                    var mesh=ZoneKit.SaveMesh(shape.Mesh("FibreWisp "+name),Meshes+"FibreWisp-"+name.Replace(' ','-')+".asset");
+                    var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(root.transform,false);go.transform.SetLocalPositionAndRotation(at,turn);
+                    go.GetComponent<MeshFilter>().sharedMesh=mesh;var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=material;
+                    view.shadowCastingMode=shadows?UnityEngine.Rendering.ShadowCastingMode.On:UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;return go;
+                }
+                // The core: a cut knot of light, white at its heart and blue at its facets, and a softer shell of the same round it that the bloom takes.
+                var heart=new ZoneKit.Shape();
+                heart.Slot(0).Lump(Vector3.zero,new Vector3(.24f,.3f,.24f),5,.28f,new Color(1.25f,1.3f,1.4f),new Color(.55f,.8f,1.25f),6,4);
+                heart.Slot(0).Lump(Vector3.zero,new Vector3(.13f,.16f,.13f),9,.2f,new Color(1.6f,1.6f,1.6f),new Color(1.3f,1.4f,1.6f),6,4);
+                Part("Core",heart,core,Vector3.up*Middle,Quaternion.identity,false);
+                // The cage: three rings of dark glass, each on its own axis and turning at its own rate, so it reads as alive and round from the fixed camera.
+                var tones=new[]{new Color(.2f,.16f,.36f),new Color(.16f,.14f,.32f),new Color(.24f,.18f,.4f)};
+                var axes=new[]{(Quaternion.Euler(72,0,18),Vector3.up,70f),(Quaternion.Euler(-24,0,66),Vector3.up,-95f),(Quaternion.Euler(10,64,-40),Vector3.up,120f)};
+                for(int k=0;k<3;k++)
+                {
+                    float r=.5f+.07f*k;var loop=new System.Collections.Generic.List<Vector3>();var thick=new System.Collections.Generic.List<float>();
+                    for(int i=0;i<=40;i++){float a=i*Mathf.PI*2/40;loop.Add(new Vector3(Mathf.Cos(a)*r,0,Mathf.Sin(a)*r));thick.Add(.05f+.018f*Mathf.Sin(a*3+k));}
+                    var ring=new ZoneKit.Shape();ring.Slot(0).Tube(loop,thick,7,tones[k],ZoneKit.Shape.Dim(tones[k],1.25f),1,.5f,false);
+                    // Beads of its light set in the glass, three to a ring.
+                    for(int b=0;b<3;b++){float a=b*Mathf.PI*2/3+k;ring.Slot(1).Lump(new Vector3(Mathf.Cos(a)*r,0,Mathf.Sin(a)*r),Vector3.one*.075f,b+k*3,.15f,new Color(1.1f,1.3f,1.6f),new Color(.6f,.85f,1.3f),5,3);}
+                    var (turn,axis,rate)=axes[k];var drawn=Part("Cage "+(k+1),ring,glass,Vector3.up*Middle,turn,true);drawn.GetComponent<MeshRenderer>().sharedMaterials=new[]{glass,core};
+                    var spin=drawn.AddComponent<Lattice.World.Turning>();spin.axis=axis;spin.degrees=rate;
+                }
+                // Threads of its light trailing down toward the fibre, swept a little back, thinning to nothing a hand over the floor.
+                var threads=new ZoneKit.Shape();
+                for(int t=0;t<4;t++)
+                {
+                    float a=t*Mathf.PI*.5f+.4f;var off=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));var path=new Vector3[6];var radii=new float[6];
+                    for(int i=0;i<6;i++){float s=i/5f;path[i]=off*(.12f+.16f*s+.06f*Mathf.Sin(s*3+t))+Vector3.up*Mathf.Lerp(-.18f,-.84f,s)+Vector3.back*(.1f*s*s);radii[i]=Mathf.Lerp(.028f,.004f,s);}
+                    threads.Slot(0).Tube(path,radii,5,new Color(.95f,1.1f,1.35f),new Color(.5f,.75f,1.1f),1,1);
+                }
+                Part("Threads",threads,core,Vector3.up*Middle,Quaternion.identity,false);
+                // Its own cold light, pooled on the floor under it: what finds it on the Choir's dim deck.
+                var glow=new GameObject("Wisp light",typeof(Light));glow.transform.SetParent(root.transform,false);glow.transform.localPosition=Vector3.up*(Middle+.1f);
+                var light=glow.GetComponent<Light>();light.type=LightType.Point;light.color=new Color(.62f,.84f,1);light.range=3.6f;light.intensity=2.4f;light.shadows=LightShadows.None;
+                PrefabUtility.SaveAsPrefabAsset(root,Prefab);
+            }
+            finally{Object.DestroyImmediate(root);}
+            return AssetDatabase.LoadAssetAtPath<GameObject>(Prefab);
         }
     }
 }

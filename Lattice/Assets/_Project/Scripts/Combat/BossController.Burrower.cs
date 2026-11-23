@@ -23,7 +23,69 @@ namespace Lattice.Combat
             shift=boss=>boss.SummonMites(boss.HealthPhase>=3?2:2),
             fightGoal=(boss,label)=>"Stop the Burrower",
             occlusion=true,ending=Ending.ShutDown,
+            start=boss=>boss.BurrowerBody(),update=boss=>boss.BurrowerBodyFollows(),down=boss=>boss.BurrowerBodyDown(),
         });
+        /// <summary>The rig is drawn five and a half metres long and its capsule is a rig's, 2.8 m across, so a hero walked a metre into its drill and stood in its mouth (nov20-whole s06/025, 030). Its
+        /// solids now match what is drawn: a capsule laid along its length, as wide as the drawn body and never wider than the upright one (so its flanks, and the weak spots on them,
+        /// are where they were), that stops a hero at its drill and its tail; and a hurtbox the same shape, so a blade or a shot that meets the drawn drill lands, and the replay
+        /// driver, which measures its reach to a body's hurtboxes, swings from where it's stopped. Measured from the drawn body as it is made. Its charge passes through the party
+        /// (Collide), so the length does too; buried, it has none.</summary>
+        CapsuleCollider burrowerSolid,burrowerHurt;readonly List<CharacterController> burrowerThrough=new(),burrowerClearing=new();
+        internal const float BurrowerLengthDrawn=.94f,BurrowerWidthDrawn=.9f;
+        void BurrowerBody()
+        {
+            if(visual==null)return;var own=GetComponent<CharacterController>();if(own==null)return;
+            // The drawn body's extent in the rig's own space, from each mesh's bounds (readable in a player, unlike its vertices).
+            var toLocal=transform.worldToLocalMatrix;Vector3 low=Vector3.one*float.MaxValue,high=-low;
+            foreach(var filter in visual.GetComponentsInChildren<MeshFilter>())
+            {
+                if(filter.sharedMesh==null)continue;var b=filter.sharedMesh.bounds;var to=toLocal*filter.transform.localToWorldMatrix;
+                for(int i=0;i<8;i++){var p=to.MultiplyPoint3x4(b.center+Vector3.Scale(b.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1)));low=Vector3.Min(low,p);high=Vector3.Max(high,p);}
+            }
+            if(low.x>high.x)return;
+            float length=(high.z-low.z)*BurrowerLengthDrawn,radius=Mathf.Min((high.x-low.x)*.5f*BurrowerWidthDrawn,own.radius);
+            if(length<=radius*2+.2f)return;
+            var centre=new Vector3((low.x+high.x)*.5f,radius,(low.z+high.z)*.5f);
+            var body=new GameObject("Burrower length");body.transform.SetParent(transform,false);body.transform.localPosition=Vector3.zero;
+            burrowerSolid=body.AddComponent<CapsuleCollider>();burrowerSolid.direction=2;burrowerSolid.center=centre;burrowerSolid.radius=radius;burrowerSolid.height=length;
+            Physics.IgnoreCollision(own,burrowerSolid,true);
+            var hurt=new GameObject("Burrower length hurtbox",typeof(Hurtbox));hurt.transform.SetParent(transform,false);
+            burrowerHurt=hurt.AddComponent<CapsuleCollider>();burrowerHurt.isTrigger=true;burrowerHurt.direction=2;burrowerHurt.center=centre;burrowerHurt.radius=radius;burrowerHurt.height=length;
+            hurt.GetComponent<Hurtbox>().owner=health;
+            Debug.Log($"BURROWER_LENGTH drawn={high.z-low.z:0.0}x{high.x-low.x:0.0} solid={length:0.0}x{radius*2:0.0}");
+        }
+        void BurrowerBodyFollows()
+        {
+            if(burrowerSolid==null)return;
+            bool there=!burrowed;
+            if(burrowerSolid.enabled!=there)
+            {
+                // Coming up under someone, it doesn't throw them across the floor: whoever it surfaces on passes out of it, and it is solid to them once they have.
+                if(there&&PartyController.Current!=null)foreach(var member in PartyController.Current.members)
+                {
+                    var body=member!=null?member.GetComponent<CharacterController>():null;if(body==null||burrowerClearing.Contains(body))continue;
+                    if(body.bounds.Intersects(burrowerSolid.bounds)){Physics.IgnoreCollision(body,burrowerSolid,true);burrowerClearing.Add(body);}
+                }
+                burrowerSolid.enabled=there;burrowerHurt.enabled=there;
+            }
+            for(int i=burrowerClearing.Count-1;i>=0;i--)
+            {
+                var body=burrowerClearing[i];
+                if(body!=null&&body.bounds.Intersects(burrowerSolid.bounds))continue;
+                if(body!=null&&!burrowerThrough.Contains(body))Physics.IgnoreCollision(body,burrowerSolid,false);
+                burrowerClearing.RemoveAt(i);
+            }
+            if(PartyController.Current==null)return;
+            foreach(var member in PartyController.Current.members)
+            {
+                var body=member!=null?member.GetComponent<CharacterController>():null;if(body==null)continue;
+                bool through=passing.Contains(body);if(through==burrowerThrough.Contains(body))continue;
+                if(through){burrowerThrough.Add(body);Physics.IgnoreCollision(body,burrowerSolid,true);}
+                else{burrowerThrough.Remove(body);if(!burrowerClearing.Contains(body))Physics.IgnoreCollision(body,burrowerSolid,false);}
+            }
+        }
+        /// <summary>Shut down, the rig is a wreck where it stopped: still solid, and no longer anything to strike.</summary>
+        void BurrowerBodyDown(){if(burrowerHurt!=null)burrowerHurt.enabled=false;}
         bool burrowed;
         public bool Burrowed=>burrowed;
         float BurrowerRest=>Phase>=3?3f:Phase>=2?3.6f:4.2f;

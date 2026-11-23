@@ -138,8 +138,18 @@ namespace Lattice.EditorTools
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Sentinel;e.xp=95;e.boss=false;e.lootTable=Loot("MusterSergeant",new LootEntry{id="ScrapAlloy",count=4,chance=1},new LootEntry{id="RepairGel",count=1,chance=.35f});});
             ArenaBuilder.Asset<EnemyDef>("MusterSkiff",e=>{e.id="MusterSkiff";e.prefab=Body("Enemies","MusterSkiff","Enemies","ChoristerDrifter");e.integrity=170;e.breakThreshold=80;e.speed=4.2f;e.attacks=new[]{volley};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Spitter;e.xp=40;e.boss=false;e.lootTable=Loot("MusterSkiff",new LootEntry{id="ScrapAlloy",count=2,chance=.45f});});
-            ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=48000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
-                e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.xp=420;e.boss=true;e.yieldsOnDefeat=true;e.lootTable=Loot("HessaKorl",new LootEntry{id="ChoirResin",count=3,chance=1},new LootEntry{id="RepairGel",count=2,chance=1});});
+            ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=HessaRegaliaBuilder.Captain(Prefab("Enemies","HessaKorl"))??Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=48000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
+                e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.xp=420;e.boss=true;e.yieldsOnDefeat=true;e.lootTable=Loot("HessaKorl",new LootEntry{id="ChoirResin",count=3,chance=1},new LootEntry{id="RepairGel",count=2,chance=1});
+                // A head taller than the heroes (nov20-whole s15/135): at their size she read as a third hero in orange. Drawn only: her capsule (BossController.Hessa, .8 by 3 m) is what she
+                // hits and is hit by, and at this size she still stands inside it. Her boss body wears her captain's gear (HessaRegaliaBuilder, D360).
+                e.drawnScale=HessaDrawn;});
+            // Bodies that have to read on the relay's dark floor and the gorge's dusk (s15/049, s14/017): a rim that stays on in shade and a least light. Hessa's in her own warm colour.
+            // Its rim a cold violet-blue of its own: near white (.86, .92, 1) it was every other body's grey edge, and in a clinch Taren's black merged with its black (AGrazerIsNotTheSameBlackAsTheHeroItBites).
+            ChapterOneLook.BodyReads("Gloomgrazer",new Color(.6f,.5f,1),.6f,.2f,2.6f);
+            // A hostile edge against the relay's cold light, and a little more light than the relay gives (EveryBodyInTheDarkKeepsARimInShade): at (1, .82, .56) and .26 it was the
+            // pale grey every body has, and she took no more light than the floor. Warm orange (1, .55, .28) was lost on the floor her lamps light orange (nov22-whole s15/135, 149):
+            // a crimson with rose in it, which neither the sea-green stone nor the lamps' light is (HessaRegaliaBuilder.Rim, D360).
+            ChapterOneLook.BodyReads("HessaKorl",HessaRegaliaBuilder.Rim,HessaRegaliaBuilder.RimUnlit,HessaRegaliaBuilder.LightFloor,HessaRegaliaBuilder.RimPower);
 
             ArenaBuilder.Asset<QuestDef>("LanternRoad",q=>{q.id="LanternRoad";q.title="The Lantern Road";
                 q.description="Venn wants a route that waits for a moving town. Lanternwick's lanterns once guided stations like Tallow.";
@@ -521,6 +531,120 @@ namespace Lattice.EditorTools
             ramp.SetKeys(new[]{new GradientColorKey(Color.white,0),new GradientColorKey(Color.white,1)},new[]{new GradientAlphaKey(0,0),new GradientAlphaKey(1,.25f),new GradientAlphaKey(1,.75f),new GradientAlphaKey(0,1)});fade.color=ramp;
             var view=go.GetComponent<ParticleSystemRenderer>();view.sharedMaterial=glow;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
         }
+        /// <summary>The lantern road as it was, under the lane (nov20-whole s16/134, 136: the Reach's frames were nebula and dust with nothing in them but the ships). Islands of the Wick's
+        /// canyon rock drift below the lane on both sides, near ones small and quick across the screen, deep ones large and slow; most carry a lantern tower, gone dark, and here and
+        /// there one still burns low, so every frame has something to look at and a line of lights that leads on. Below the plane and drawn only, as all the Reach's backdrop is, and
+        /// kept clear of where the warp, the dock and the two relays show. Its own draws: the fallen chain's and the wreckage's stay where they were.</summary>
+        static void ReachIslands()
+        {
+            var root=new GameObject("The lantern road below");var rng=new System.Random(4111);
+            var low=new Material(AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Art/Generated/Models/LanternTower/LanternTower_Toon.mat"));
+            const string lowPath="Assets/_Project/Resources/WorldMaterials/wick-lantern-low.mat";var kept=AssetDatabase.LoadAssetAtPath<Material>(lowPath);
+            if(kept==null){AssetDatabase.CreateAsset(low,lowPath);kept=low;}else{kept.CopyPropertiesFromMaterial(low);UnityEngine.Object.DestroyImmediate(low);}
+            kept.SetColor("_EmissionColor",new Color(1.1f,.55f,.2f));EditorUtility.SetDirty(kept);
+            Color[] rock={new(1,.86f,.74f),new(.86f,.7f,.62f),new(.74f,.62f,.6f)};int islands=0,lanterns=0;
+            for(float z=4;z<ReachLength+10;z+=6.5f+(float)rng.NextDouble()*4)
+            {
+                int side=rng.Next(2)==0?-1:1;float depth=(float)rng.NextDouble();
+                float y=-10-depth*34,x=side*(8+(float)rng.NextDouble()*14+depth*22),size=1.8f+depth*3.2f+(float)rng.NextDouble()*.8f;
+                var at=new Vector3(x,y,z);if(!ClearOnScreen(at,size*1.1f))continue;
+                Island(root.transform,at,size,depth,rng,rock,kept,ref lanterns);
+                islands++;
+            }
+            Debug.Log($"REACH_ISLANDS islands={islands} burning={lanterns}");
+            ReachIslandsBothSides(rock,kept);
+        }
+        /// <summary>One island of the old road: three of the canyon's rocks, and most often a lantern tower, dark or burning low.</summary>
+        static void Island(Transform root,Vector3 at,float size,float depth,System.Random rng,Color[] rock,Material kept,ref int lanterns)
+        {
+            {
+                var island=new GameObject("Lantern road island").transform;island.SetParent(root,false);island.position=at;
+                var tint=rock[rng.Next(rock.Length)];
+                for(int k=0;k<3;k++)
+                {
+                    string key="RidgeRock"+(1+rng.Next(3));var offset=new Vector3(((float)rng.NextDouble()-.5f)*size*.7f,-(float)rng.NextDouble()*size*.35f,((float)rng.NextDouble()-.5f)*size*.6f);
+                    var piece=Prop(Kit(key,"CrystalClusterB"),at+offset-Vector3.up*size*.6f*(k==0?1:.8f),size*(k==0?1:.55f+.25f*(float)rng.NextDouble()),(float)rng.NextDouble()*360,false,false);
+                    piece.transform.rotation=Quaternion.Euler(((float)rng.NextDouble()-.5f)*24,(float)rng.NextDouble()*360,((float)rng.NextDouble()-.5f)*24);
+                    piece.transform.SetParent(island,true);piece.AddComponent<PropTint>().tint=tint;
+                    foreach(var part in piece.GetComponentsInChildren<Renderer>()){part.shadowCastingMode=ShadowCastingMode.Off;part.receiveShadows=false;}
+                }
+                // Most islands carry a tower of the old road; a few still burn, low.
+                if(rng.NextDouble()<.75)
+                {
+                    float tall=4.5f+depth*4;var tower=Prop(Kit("LanternTower","HushwellColumn"),at+Vector3.up*.2f,tall,(float)rng.NextDouble()*360,false,false);
+                    tower.transform.rotation=Quaternion.Euler(((float)rng.NextDouble()-.5f)*16,(float)rng.NextDouble()*360,((float)rng.NextDouble()-.5f)*16);tower.transform.SetParent(island,true);tower.name="Lantern road tower";
+                    if(rng.NextDouble()<.4){foreach(var part in tower.GetComponentsInChildren<Renderer>()){part.sharedMaterial=kept;if(PrefabUtility.IsPartOfPrefabInstance(part))PrefabUtility.RecordPrefabInstancePropertyModifications(part);}lanterns++;}
+                    else Dark(tower,"LanternTower");
+                    foreach(var part in tower.GetComponentsInChildren<Renderer>()){part.shadowCastingMode=ShadowCastingMode.Off;part.receiveShadows=false;}
+                }
+            }
+        }
+        /// <summary>The way home flies the lane straight down the middle (nov22-whole s16/134, 136, the video between): the old road's islands lay one side a row, chosen by coin, and
+        /// most of them far out and deep, so for most of the leg one side of the frame was bare starfield and at times both were. Read from the flight camera as it follows a ship down the
+        /// lane (the way home, which the way out flies too), every few metres each side of the frame, between the panels, has an island now: where the first pass left a side bare, one
+        /// is put there, shallow and so large and quick, at least eight metres off the lane, and clear of where the warp, the dock and the relays show. A root of its own, so the first
+        /// pass's islands are where they were (ChapterOneTwoLookTests hides this one to put the capture's frame back).</summary>
+        internal const string ReachNearSide="The lantern road below, both sides";
+        /// <summary>The line the way home flies, from the dock to Tallow's warp (the replay's own steps).</summary>
+        internal static readonly Vector2[] ReachHome={new(0,274),new(0,152),new(-5.8f,32.8f),new(-10.7f,8.6f),new(-12.8f,.9f)};
+        internal static float ReachLaneX(float z)
+        {
+            for(int i=1;i<ReachHome.Length;i++){var a=ReachHome[i-1];var b=ReachHome[i];if(z<=a.y&&z>=b.y)return Mathf.Lerp(a.x,b.x,(z-a.y)/(b.y-a.y));}
+            return z<ReachHome[ReachHome.Length-1].y?ReachHome[ReachHome.Length-1].x:0;
+        }
+        /// <summary>Where a side of the flight frame is read: between the status panel and the objective at the top and the control strip and skills at the foot, toward each edge.</summary>
+        internal static readonly Rect ReachLeft=new(.03f,.14f,.39f,.56f),ReachRight=new(.58f,.14f,.39f,.56f);
+        internal static Camera ReachCamera(Vector2 ship,float zoom=1)
+        {
+            var flight=Find<CameraProfile>("Flight");var eye=new GameObject("Reach planning camera",typeof(Camera)).GetComponent<Camera>();
+            var rotation=Quaternion.Euler(flight.pitch,flight.yaw,0);eye.fieldOfView=flight.fov;eye.aspect=16f/9;eye.nearClipPlane=.3f;eye.farClipPlane=1500;
+            eye.transform.SetPositionAndRotation(new Vector3(ship.x,1,ship.y)-rotation*Vector3.forward*flight.distance*zoom,rotation);return eye;
+        }
+        static (int left,int right) Sides(Camera eye,IEnumerable<Vector3> islands)
+        {
+            int left=0,right=0;
+            foreach(var p in islands){var v=eye.WorldToViewportPoint(p+Vector3.up*1.5f);if(v.z<=0)continue;if(ReachLeft.Contains(v))left++;if(ReachRight.Contains(v))right++;}
+            return (left,right);
+        }
+        static void ReachIslandsBothSides(Color[] rock,Material kept)
+        {
+            var root=new GameObject(ReachNearSide);var rng=new System.Random(4171);int added=0,lanterns=0;
+            var all=UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Where(t=>t.name=="Lantern road island").Select(t=>t.position).ToList();
+            for(float z=8;z<ReachLength-28;z+=3)
+            {
+                var ship=new Vector2(ReachLaneX(z),z);var eye=ReachCamera(ship);
+                try
+                {
+                    foreach(int side in new[]{-1,1})
+                    {
+                        var (left,right)=Sides(eye,all);if((side<0?left:right)>0)continue;
+                        for(int tries=0;tries<80;tries++)
+                        {
+                            float depthY=-10-(float)rng.NextDouble()*9;float tx=side<0?.08f+(float)rng.NextDouble()*.13f:.79f+(float)rng.NextDouble()*.13f,ty=.24f+(float)rng.NextDouble()*.42f;
+                            var ray=eye.ViewportPointToRay(new Vector3(tx,ty,0));if(ray.direction.y>=0)continue;
+                            var at=ray.origin+ray.direction*((depthY-ray.origin.y)/ray.direction.y);
+                            float depth=(-10-depthY)/34,size=1.8f+(-10-depthY)/9*1.6f+(float)rng.NextDouble()*.8f;
+                            if(!ClearOnScreen(at,size*1.1f)||Mathf.Abs(at.x-ReachLaneX(at.z))<8)continue;
+                            if(all.Any(q=>Vector2.Distance(new Vector2(q.x,q.z),new Vector2(at.x,at.z))<size+3))continue;
+                            Island(root.transform,at,size,depth,rng,rock,kept,ref lanterns);all.Add(at);added++;break;
+                        }
+                    }
+                }
+                finally{UnityEngine.Object.DestroyImmediate(eye.gameObject);}
+            }
+            // How it reads now, at the play distance and drawn back as a boost draws it: every four metres of the way home, each side.
+            foreach(float zoom in new[]{1f,1.12f})
+            {
+                var bare=new List<string>();
+                for(float z=12;z<=ReachLength-32;z+=4)
+                {
+                    var eye=ReachCamera(new Vector2(ReachLaneX(z),z),zoom);var (left,right)=Sides(eye,all);UnityEngine.Object.DestroyImmediate(eye.gameObject);
+                    if(left==0||right==0)bare.Add($"{z:0}({left}/{right})");
+                }
+                Debug.Log($"REACH_ISLANDS_SIDES zoom={zoom} added={added} burning={lanterns} bare={bare.Count}: {string.Join(" ",bare)}");
+            }
+        }
+
         static void WickReach()
         {
             height=_=>0;fadeTall=false;
@@ -548,6 +672,7 @@ namespace Lattice.EditorTools
                 if(!ClearOnScreen(at,size))continue;
                 var piece=Prop(Kit(key,"CrystalClusterB"),at,size,0,false,false);piece.transform.rotation=turned;piece.name="Wreckage "+key;piece.AddComponent<PropTint>().tint=tone;
             }
+            ReachIslands();
             var glow=CurtainMaterial("WickReach",false,"Glow");
             DriftingDust(new Vector3(0,-2,ReachLength*.5f),new Vector3(110,14,ReachLength+20),glow);
             new GameObject("Sky drift",typeof(SkyDrift));
@@ -838,12 +963,153 @@ namespace Lattice.EditorTools
             WorldBuilder.Boundary("East town limit",new Vector3(37,8,40),new Vector3(2,20,170));
             WorldBuilder.Boundary("North town limit",new Vector3(0,8,110),new Vector3(90,20,2));
             WorldBuilder.Boundary("South town limit",new Vector3(0,8,-34),new Vector3(90,20,2));
+            ArchiveForecourt();
             // The town's people with somewhere to be, and the story's say on where (TownLife): held to every route, prompt and named person before the bake, and the bake to the routes' paths after it.
             TownLife.Lanternwick(TownHeight,Townsfolk);
             BakeNavigation("Lanternwick",new Bounds(new Vector3(0,6,40),new Vector3(96,30,160)),new Vector3(0,0,-14),
                 new[]{new Vector3(-6,0,17),new Vector3(22,3,50),new Vector3(6,0,34),new Vector3(4,0,90),new Vector3(-30,1.4f,60),new Vector3(-33,1.4f,80),new Vector3(-11,0,28),new Vector3(13,0,15)});
             TownLife.LanternwickBaked();
             WorldBuilder.Save(scene,"Lanternwick");Debug.Log("LANTERNWICK_OK");
+        }
+
+        /// <summary>Dressed stone for what is laid into a floor (the archive's chart, the Great Lantern's fan): near neutral, so the inlay's vertex colours decide what it is.</summary>
+        static Texture2D InlayStone()=>ZoneKit.Texture("Lantern/inlay-stone",256,(u,v)=>{float n=ZoneKit.Cloud(u,v,8,5)*.7f+ZoneKit.Cloud(u,v,32,7)*.3f;float g=.82f+.18f*n;return new Color(g,g*.98f,g*.95f);});
+        /// <summary>The relay's floors as its keepers laid them (nov20-whole s15/049, 135, 148: from where the party fights, one plain stone with nothing to say whose floor it was). Each
+        /// hall's courses are set in bays between bands of bronze, the metal of the Great Lantern's fan; in the lantern's own hall the bands are rings round it and spokes out from it,
+        /// the channels its light ran along to the halls it lit, and the spokes still carry a little of it, brightest at its foot, so from wherever Hessa is fought the floor leads to
+        /// the lantern. Flat in the floor under a danger marking's lift, broken where the floor heaved, short of the silt at the walls and off every sign, the cradle and the fan; drawn only.</summary>
+        static void RelayInlay(Transform under,Vector2[] stands)
+        {
+            var look=ZoneKit.Toon("relay-inlay",InlayStone(),m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.52f,.54f,.64f));m.SetColor("_RimColor",Color.black);m.SetFloat("_LightFloor",.4f);m.SetColor("_EmissionColor",new Color(1.9f,1.2f,.45f));});
+            // Short pieces, each its own renderer: one box the size of a hall would stand beside every lamp and plate to a test that asks what is near them.
+            // The spokes, which carry the lantern's light, are pieces of their own ("Lantern spoke"), so what is the lantern's can be told from the brass of the bays.
+            var cells=new Dictionary<(int,int,bool),ZoneKit.Shape>();bool spokes=false;
+            ZoneKit.Shape In(Vector2 p){var key=(Mathf.FloorToInt(p.x/9),Mathf.FloorToInt(p.y/9),spokes);if(!cells.TryGetValue(key,out var s))cells[key]=s=new ZoneKit.Shape();return s;}
+            bool Kept(Vector2 p)
+            {
+                foreach(var (at,half) in RelaySigns)if(Mathf.Abs(p.x-at.x)<half+.6f&&p.y>at.y-1.4f&&p.y<at.y+1.1f)return true;
+                foreach(var (x,z,rx,rz) in RelayPuddles)if(Vector2.Distance(p,new Vector2(x,z))<Mathf.Max(rx,rz)+.3f)return true;
+                if(stands.Any(s=>Vector2.Distance(p,s)<1.4f)||Vector2.Distance(p,new Vector2(-6.6f,3))<3)return true;
+                return Vector2.Distance(p,new Vector2(8,110))<3.2f||Vector2.Distance(p,new Vector2(-8,112))<2.2f||Vector2.Distance(p,new Vector2(0,158))<12.3f;
+            }
+            void Band(Vector2 a,Vector2 b,float wide,Color tone,float glowFrom,float glowTo,int salt,Rect within,float heave=.74f,float lift=.016f)
+            {
+                float length=Vector2.Distance(a,b);if(length<.3f)return;int n=Mathf.CeilToInt(length/.6f);var along=(b-a)/length;var side=new Vector2(-along.y,along.x)*wide*.5f;
+                for(int i=0;i<n;i++)
+                {
+                    Vector2 p=a+along*(length*i/n),q=a+along*(length*(i+1)/n),mid=(p+q)*.5f;
+                    if(!within.Contains(p)||!within.Contains(q)||Mathf.Max(height(p),height(q))>.12f||Kept(mid)||Mathf.PerlinNoise(mid.x*.31f+salt*7.3f,mid.y*.31f+salt*3.1f)>heave)continue;
+                    Vector3 At(Vector2 x)=>new(x.x,height(x)+lift,x.y);
+                    var t=tone.linear;t.a=Mathf.Lerp(glowFrom,glowTo,(i+.5f)/n);
+                    In(mid).Quad(At(p-side),At(q-side),At(q+side),At(p+side),Vector3.up,t);
+                }
+            }
+            // Worn brass, polished where feet went, holding what light there is: as dark as the stone, a band was a line a stranger had to look for (its least light lifts it a value over the courses).
+            // Paler and less orange than a danger marking's Threat, so a line in the floor is never read as one.
+            Color bronze=new(.68f,.62f,.44f),spoke=new(.76f,.66f,.44f);
+            Rect Inside(int hall,float margin){var (c,size,_)=RelayHalls[hall];return Rect.MinMaxRect(c.x-size.x*.5f+margin,c.y-size.y*.5f+margin,c.x+size.x*.5f-margin,c.y+size.y*.5f-margin);}
+            // The halls' bays: a band every 4.4 m each way. The corridor is one bay wide.
+            for(int h=0;h<4;h++)
+            {
+                var room=Inside(h,1.5f);
+                if(h!=1)for(float x=2.2f;x<=room.xMax;x+=4.4f)foreach(float s in new[]{-1f,1f})Band(new(s*x,room.yMin),new(s*x,room.yMax),.16f,bronze,0,0,h*11+(s>0?1:2),room,.88f);
+                // The corridor's bays are half as long: one bay wide, at 4.4 m a corridor fight's frame was a plain run of stone between its walls (SunkenRelayLookTests).
+                for(float z=room.yMin+1.1f;z<=room.yMax;z+=h==1?2.2f:4.4f)Band(new(room.xMin,z),new(room.xMax,z),.16f,bronze,0,0,h*11+5,room,.88f);
+            }
+            // The cut corridor: the channels its cables ran in along each wall, empty where the scavengers ripped them out, their brackets still across them (nov20-whole s15/031, 040:
+            // the corridor's floor was one plain stone between its walls).
+            Color slot=new(.1f,.1f,.12f);
+            foreach(float side in new[]{-2.6f,2.6f})
+            {
+                var trench=Rect.MinMaxRect(side-.4f,25.6f,side+.4f,39.4f);Band(new(side,26.2f),new(side,38.8f),.3f,slot,0,0,70,trench,2);
+                for(float z=26.8f;z<38.6f;z+=1.2f)Band(new(side-.2f,z),new(side+.2f,z),.06f,bronze,0,0,71,trench,2,.022f);
+            }
+            // The Great Lantern's hall: rings round the lantern, and the fan's nine spokes run on out to the walls carrying its light, which falls away as they go.
+            var hall=Inside(4,1.3f);var lantern=new Vector2(0,158);
+            Vector2 Out(float r,float degrees){float a=degrees*Mathf.Deg2Rad;return lantern+new Vector2(Mathf.Sin(a),Mathf.Cos(a))*r;}
+            foreach(float r in new[]{15f,20f,25.5f,31.5f,38f})
+            {
+                float step=.6f/r*Mathf.Rad2Deg;
+                for(float a=90;a<270;a+=step)Band(Out(r,a),Out(r,Mathf.Min(270,a+step)),.16f,bronze,r<16?.1f:0,r<16?.1f:0,(int)r,hall,.88f);
+            }
+            spokes=true;
+            for(int i=0;i<9;i++)
+            {
+                float degrees=Mathf.Lerp(112,248,i/8f);
+                // Brightest at the fan and gone within a dozen metres: out where Hessa is fought a spoke is brass with a warm glint in it, never a lit line that could be read as a marking.
+                float Glow(float r)=>.02f+.9f*Mathf.Exp(-(r-12)/4.5f);
+                for(float r=12.1f;r<48;r+=3)Band(Out(r,degrees),Out(r+3,degrees),i%2==0?.2f:.17f,spoke,Glow(r),Glow(r+3),40+i,hall,.9f);
+            }
+            int made=0;
+            foreach(var (key,shape) in cells)
+            {
+                if(shape.Vertices==0)continue;
+                string name=key.Item3?"Lantern spoke":"Relay floor inlay";var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(under,false);
+                go.GetComponent<MeshFilter>().sharedMesh=shape.Mesh(name);var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=look;view.shadowCastingMode=ShadowCastingMode.Off;made++;
+            }
+            Debug.Log("RELAY_INLAY pieces="+made);
+        }
+        /// <summary>The Great Lantern's floor (nov20-whole s15/135, 148, 194: where the chapter's boss is fought was an empty expanse): a fan of verdigris bronze laid into the stone
+        /// south of the lantern, rings and spokes out to the halls it lit, the floor the relay's keepers stood on. In the lantern's own colours, never a danger marking's orange; flat,
+        /// with a skirt under its rim so the ground kit lays nothing over it.</summary>
+        static void LanternFloor(Transform under)
+        {
+            var look=ZoneKit.Toon("relay-lantern-floor",InlayStone(),m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.5f,.52f,.62f));m.SetColor("_RimColor",Color.black);m.SetFloat("_LightFloor",.06f);});
+            var shape=new ZoneKit.Shape();var c=new Vector3(0,0,158);const int Steps=40;const float From=100,To=260;
+            Color band=new(.2f,.21f,.25f),bronze=new(.62f,.86f,.72f),field=new(.74f,.7f,.62f),inner=new(.4f,.42f,.46f);
+            Vector3 At(float r,float degrees,float lift){float a=degrees*Mathf.Deg2Rad;return c+new Vector3(Mathf.Sin(a)*r,lift,Mathf.Cos(a)*r);}
+            void Sector(float r0,float r1,Color tone,float lift){for(int k=0;k<Steps;k++){float a=Mathf.Lerp(From,To,k/(float)Steps),b=Mathf.Lerp(From,To,(k+1)/(float)Steps);shape.Quad(At(r0,a,lift),At(r0,b,lift),At(r1,b,lift),At(r1,a,lift),Vector3.up,tone);}}
+            Sector(11.5f,12,band,0);Sector(11.1f,11.5f,bronze,.002f);Sector(4.7f,11.1f,field,0);Sector(4.3f,4.7f,bronze,.002f);Sector(3.2f,4.3f,inner,0);Sector(7.8f,8.1f,bronze,.003f);Sector(8.1f,8.3f,band,.003f);
+            for(int i=0;i<9;i++){float a=Mathf.Lerp(112,248,i/8f);var o=At(1,a,0)-c;var side=new Vector3(o.z,0,-o.x)*(i%2==0?.15f:.09f);var up=Vector3.up*.004f;
+                shape.Quad(At(4.7f,a,0)+up-side,At(4.7f,a,0)+up+side,At(11.1f,a,0)+up+side,At(11.1f,a,0)+up-side,Vector3.up,bronze);}
+            for(int k=0;k<Steps;k++){float a=Mathf.Lerp(From,To,k/(float)Steps),b=Mathf.Lerp(From,To,(k+1)/(float)Steps);var p=At(11.9f,a,0);var q=At(11.9f,b,0);shape.Quad(p,q,q+Vector3.down*.16f,p+Vector3.down*.16f,(p+q)*.5f-c,band);}
+            var mesh=shape.Mesh("Great Lantern fan");var points=mesh.vertices;
+            for(int i=0;i<points.Length;i++)points[i].y+=Mathf.Min(height(new Vector2(points[i].x,points[i].z)),.25f)+.025f;
+            mesh.vertices=points;mesh.RecalculateBounds();
+            var floor=new GameObject("Great Lantern fan",typeof(MeshFilter),typeof(MeshRenderer));floor.transform.SetParent(under,false);
+            floor.GetComponent<MeshFilter>().sharedMesh=SaveMesh(mesh,"Assets/_Project/Scenes/SunkenRelay-Lantern-floor.asset");
+            var view=floor.GetComponent<MeshRenderer>();view.sharedMaterial=look;view.shadowCastingMode=ShadowCastingMode.Off;
+        }
+        /// <summary>The archive's forecourt (nov20-whole s13/141, s16/005): from where Ishen is spoken to, most of the frame was bare setts with two dark racks. The people who keep the
+        /// passages laid their chart into the forecourt's floor, a ring of brass and dark stone with the eight ways out of Lanternwick on it; and on its east side they read the plates at
+        /// a table in the open. All drawn only, so the town's routes and its bake are as they were; the chart is flat in the floor, with a skirt under it so the ground kit lays nothing
+        /// over it, and the reading corner stands off the street and clear of everyone who stands or walks there.</summary>
+        internal static readonly Vector2 ArchiveChart=new(1.8f,88);internal const float ArchiveChartRadius=3.2f;
+        static void ArchiveForecourt()
+        {
+            var root=new GameObject("Archive forecourt");
+            var inlay=ZoneKit.Toon("lanternwick-chart",InlayStone(),m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_ShadowTint",new Color(.55f,.52f,.62f));m.SetColor("_RimColor",Color.black);});
+            Color dark=new(.36f,.3f,.3f),brass=new(.86f,.64f,.3f),pale=new(.86f,.78f,.68f),deep=new(.5f,.4f,.36f);
+            var shape=new ZoneKit.Shape();var c=new Vector3(ArchiveChart.x,0,ArchiveChart.y);float R=ArchiveChartRadius;
+            // Layers a few millimetres apart, laid on the floor point by point afterwards.
+            shape.Disc(c,Vector3.up,R,64,dark,R-.3f).Disc(c+Vector3.up*.003f,Vector3.up,R-.3f,64,brass,R-.42f).Disc(c+Vector3.up*.001f,Vector3.up,R-.42f,64,pale,.62f);
+            shape.Disc(c+Vector3.up*.004f,Vector3.up,.62f,32,brass,.46f).Disc(c+Vector3.up*.003f,Vector3.up,.46f,32,deep);
+            // The eight ways out, each a brass spoke to the rim with a point at its end; the one north, to the archive, longest.
+            for(int i=0;i<8;i++)
+            {
+                float a=i*Mathf.PI/4;var out1=new Vector3(Mathf.Sin(a),0,Mathf.Cos(a));var side=new Vector3(out1.z,0,-out1.x);float w=i%2==0?.07f:.045f,from=.66f,to=R-(i==0?.36f:.62f);
+                var up=Vector3.up*.006f;
+                shape.Quad(c+up+out1*from-side*w,c+up+out1*from+side*w,c+up+out1*to+side*w,c+up+out1*to-side*w,Vector3.up,brass);
+                shape.Triangle(c+up+out1*to-side*w*2.6f,c+up+out1*to+side*w*2.6f,c+up+out1*(to+.3f),Vector3.up,brass);
+            }
+            // The hours of the road round its rim: a tick every sixteenth of the way round.
+            for(int i=0;i<16;i++){float a=i*Mathf.PI/8+Mathf.PI/16;var out1=new Vector3(Mathf.Sin(a),0,Mathf.Cos(a));var side=new Vector3(out1.z,0,-out1.x);var up=Vector3.up*.005f;
+                shape.Quad(c+up+out1*(R-.78f)-side*.04f,c+up+out1*(R-.78f)+side*.04f,c+up+out1*(R-.5f)+side*.04f,c+up+out1*(R-.5f)-side*.04f,Vector3.up,brass);}
+            // A skirt under the rim, down into the ground: unseen, it gives the chart a body the ground kit keeps its decals off.
+            for(int k=0;k<48;k++)
+            {
+                float a=k*Mathf.PI*2/48,b=(k+1)*Mathf.PI*2/48;var p=c+new Vector3(Mathf.Sin(a),0,Mathf.Cos(a))*R*.98f;var q=c+new Vector3(Mathf.Sin(b),0,Mathf.Cos(b))*R*.98f;
+                shape.Quad(p,q,q+Vector3.down*.16f,p+Vector3.down*.16f,(p+q)*.5f-c,dark);
+            }
+            var mesh=shape.Mesh("Archive chart");var points=mesh.vertices;
+            for(int i=0;i<points.Length;i++)points[i].y+=height(new Vector2(points[i].x,points[i].z))+.025f;
+            mesh.vertices=points;mesh.RecalculateBounds();
+            var chart=new GameObject("Archive chart",typeof(MeshFilter),typeof(MeshRenderer));chart.transform.SetParent(root.transform,false);
+            chart.GetComponent<MeshFilter>().sharedMesh=SaveMesh(mesh,"Assets/_Project/Scenes/Lanternwick-Archive-chart.asset");
+            var view=chart.GetComponent<MeshRenderer>();view.sharedMaterial=inlay;view.shadowCastingMode=ShadowCastingMode.Off;
+            // The reading corner: a table in the open, a bench at it, a lamp to read by, a planter; and one planter on the west side, south of its sign.
+            foreach(var (key,x,z,size,yaw) in new[]{("DressOfficeDesk",9.5f,86.9f,1.05f,-90f),("DeckBench",9.6f,84.3f,.85f,0f),("DressWorkLamp",11.1f,88.2f,1.3f,-120f),("DressPlanter",11.3f,90.2f,.9f,20f),("DressPlanter",-6.5f,82.6f,.9f,-30f)})
+                Prop(Kit(key,"DeckCrate"),new Vector3(x,0,z),size,yaw,false).transform.SetParent(root.transform,true);
         }
 
         /// <summary>The wall of light patterns: passages recorded by lantern, bending side by side, each with the small steady
@@ -1061,7 +1327,14 @@ namespace Lattice.EditorTools
 
         // ---------------------------------------------------------------- the Sunken Relay (dungeon)
         /// <summary>The relay's halls, carved out of the canyon's rock: (centre, size) of each chamber along +z.</summary>
-        static readonly (Vector2 centre,Vector2 size,string label)[] RelayHalls=
+        /// <summary>How much larger than her model Hessa is drawn, boss and prisoner alike.</summary>
+        internal const float HessaDrawn=1.55f;
+        /// <summary>The east one of the Great Lantern's two south-corner mirrors (the west one is its mirror image): the lantern's beams end there, and the ground kit lays water under them.</summary>
+        internal static readonly Vector2 CornerMirror=new(17.4f,118.7f);
+        /// <summary>Where water stands on the relay's floors (GroundStaging lays it): centre and half-widths. The floor's bands keep out of it, and the lantern's light lies in the ones its beams cross.</summary>
+        internal static readonly (float x,float z,float rx,float rz)[] RelayPuddles={(-6.2f,57.6f,1.3f,.8f),(8.2f,63.4f,.9f,.6f),(-10.6f,74.2f,1.5f,1),(5.4f,91.6f,.9f,.6f),(-4.6f,100.4f,1.1f,.7f),(8.6f,104.8f,.7f,.5f),
+            (-6.4f,5.6f,.9f,.6f),(6.2f,-2.4f,.7f,.5f),(13.2f,124,1,.7f),(-13.4f,137.6f,1.3f,.8f),(14.4f,153.6f,.9f,.6f),(-11.2f,132.6f,1.3f,.8f)};
+        internal static readonly (Vector2 centre,Vector2 size,string label)[] RelayHalls=
         {
             // The entry hall runs well south of the door, so the fixed camera opens on the room and not on a wall behind the hero.
             (new(0,6),new(18,28),"ENTRY HALL"),(new(0,32),new(8,24),"CUT CORRIDOR"),(new(0,64),new(30,40),"FALLEN GALLERY"),
@@ -1147,7 +1420,8 @@ namespace Lattice.EditorTools
             // a source this high and this strong lays a wide pool with no edge, where a low weak one was a coin at its foot.
             var lamps=new[]{("DressWorkLamp",5.4f,.5f,1.35f),("DressWorkLamp",-7.4f,9.5f,1.35f),("DressWorkLamp",3.3f,24.5f,1.35f),("DressWorkLamp",-3.3f,37f,1.35f),("LampPost",-14.3f,52f,2f),("LampPost",14.3f,68f,2f),
                 ("DressWorkLamp",9.8f,94.5f,1.35f),("DressWorkLamp",-9.8f,102f,1.35f),("DressWorkLamp",10f,107.6f,1.35f),("LampPost",-8f,128f,2f),("LampPost",8f,128f,2f),("LampPost",-15f,141f,2f),("LampPost",15f,143f,2f)};
-            foreach(var (key,x,z,size) in lamps){Prop(Kit(key,"DressLightBollard"),new Vector3(x,0,z),size,0,false);Lamp(new Vector3(OffTheWall(x,z),3,z),14,6.5f);}
+            // The two at the Great Lantern's door burn lower: as Hessa's fight opened their pools were the brightest thing in its frame, over the lantern's own light (SunkenRelayLookTests).
+            foreach(var (key,x,z,size) in lamps){Prop(Kit(key,"DressLightBollard"),new Vector3(x,0,z),size,0,false);bool atDoor=Mathf.Approximately(z,128);Lamp(new Vector3(OffTheWall(x,z),3,z),atDoor?11:14,atDoor?4.2f:6.5f);}
             // Each hall has a trade of its own. Nothing solid: all of it stands against the walls, off every route.
             foreach(var (key,x,z,size,yaw) in new[]{
                 // Entry hall: where the cutting starts.
@@ -1209,9 +1483,11 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("RELAY CRADLE",new Vector3(8,.1f,106.5f),1.6f);
             var anvil=Prop("LatticeAnvil",new Vector3(-8,0,112),1.8f,90).AddComponent<Bench>();anvil.prompt="Fabricate — Lattice Anvil";
             // The Great Lantern chamber: four columns survive every phase as cover against the flash.
-            Prop(Kit("GreatLantern","CrystalClusterA"),new Vector3(0,0,158),5,0);
+            var great=Prop(Kit("GreatLantern","CrystalClusterA"),new Vector3(0,0,158),5,0);great.name="GreatLantern";
             foreach(var (x,z) in new[]{(-10f,132f),(10f,132f),(-10f,150f),(10f,150f)})Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,z),4.5f,x+z);
-            Lamp(new Vector3(0,3.6f,155.2f),22,6.5f);
+            // The brightest thing in its hall (nov20-whole s15): its glass burns past the bloom's threshold, and its light reaches down the hall to where she is fought.
+            GreatLanternBurns(great);
+            Lamp(new Vector3(0,3.6f,155.2f),28,8.5f);
             // The fixed camera sees about 7 m ahead of the hero: the talk starts just past the seal, with her in front of it, however
             // wide the party comes in. The trigger spans the whole hall; the talk is the checkpoint.
             var confront=Discovery("Confront the scavenger captain",new Vector3(0,0,124),"Confront the scavenger captain","relay.hessaConfronted","","HessaConfront","Hessa",null,0,2);
@@ -1239,7 +1515,7 @@ namespace Lattice.EditorTools
             confront.previewEncounter=duel;
             // After the duel: the captain, and the lift home. Once Aumi has been told, a later visit finds her under guard (YieldedCaptain decides as the scene loads).
             // Clear of the column at (10,150), which hid her from the fixed camera on every later visit.
-            var hessa=Person("Hessa",new Vector3(5,0,153.5f),-120,"",false);hessa.firstNode="HessaRepeat";hessa.repeatNode="HessaRepeat";
+            var hessa=Person("Hessa",new Vector3(5,0,153.5f),-120,"",false);hessa.firstNode="HessaRepeat";hessa.repeatNode="HessaRepeat";hessa.transform.localScale=Vector3.one*HessaDrawn;
             var yielded=new GameObject("Hessa under guard",typeof(YieldedCaptain)).GetComponent<YieldedCaptain>();yielded.npc=hessa;hessa.gameObject.SetActive(false);
             yielded.guards=new[]{Guard(hessa.transform,1.7f,"AumiBody","Neve"),Guard(hessa.transform,-1.7f,"PellBody","SurvivorNatural")};
             // A real lift, its lamp dark until it will run. A prompt measures to the middle of the cage, so its reach is long enough for the floor in front of it.
@@ -1248,9 +1524,195 @@ namespace Lattice.EditorTools
             var liftLamp=new GameObject("Relay lift lamp",typeof(Light));liftLamp.transform.position=new Vector3(-6,height(new Vector2(-6,158))+3.2f,158);
             var liftGlow=liftLamp.GetComponent<Light>();liftGlow.type=LightType.Point;liftGlow.color=new Color(1,.78f,.45f);liftGlow.range=12;liftGlow.intensity=5;liftGlow.shadows=LightShadows.None;
             var liftLit=new GameObject("The relay lift lights",typeof(FlagGate)).GetComponent<FlagGate>();liftLit.flag="relay.hessaYielded";liftLit.targets=new[]{liftLamp};liftLamp.SetActive(false);
+            RelayWorks(plates);
             BakeNavigation("SunkenRelay",new Bounds(new Vector3(0,4,82),new Vector3(50,20,186)),new Vector3(0,0,3),
                 new[]{new Vector3(0,0,30),new Vector3(10,0,74),new Vector3(-8,0,108),new Vector3(0,0,118),new Vector3(0,0,140)});
             WorldBuilder.Save(scene,"SunkenRelay");Debug.Log("SUNKEN_RELAY_OK");
+        }
+
+        /// <summary>The Great Lantern's glass, past the bloom's threshold: the brightest thing in its hall, as the hall is named for it. Its own amber, hotter.</summary>
+        static void GreatLanternBurns(GameObject great)
+        {
+            const string path="Assets/_Project/Resources/WorldMaterials/relay-great-lantern.mat";
+            var source=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Art/Generated/Models/GreatLantern/GreatLantern_Toon.mat");if(source==null)return;
+            var burns=AssetDatabase.LoadAssetAtPath<Material>(path);if(burns==null){burns=new Material(source);AssetDatabase.CreateAsset(burns,path);}
+            burns.CopyPropertiesFromMaterial(source);burns.SetColor("_EmissionColor",new Color(3.6f,2.4f,.8f));burns.SetFloat("_LightFloor",.35f);EditorUtility.SetDirty(burns);
+            foreach(var part in great.GetComponentsInChildren<Renderer>()){part.sharedMaterial=burns;if(PrefabUtility.IsPartOfPrefabInstance(part))PrefabUtility.RecordPrefabInstancePropertyModifications(part);}
+        }
+        /// <summary>The relay as the station it was (nov20-whole s15/049, 135, 148, 194): the halls were a dark floor with a lamp and two props apiece, and the Great Lantern's floor, where the
+        /// chapter's boss is fought, an empty expanse. Now its cable runs lie along every wall's foot from the door to the Great Lantern, cut through where the scavengers stripped the
+        /// corridor; its switching racks stand against the walls; lanterns that fell lie where they fell; the Great Lantern sends its light to the mirrors that answered it; and the
+        /// captain's crew have made the lantern's floor their camp, crates of stripped glass and a cutting rig along its east wall. The floor itself (stone laid in courses, silt where it
+        /// sank, standing water) is GroundStaging's. Everything here is drawn only, against the walls or flat on the floor, so no route, fight or bake changes; nothing comes within
+        /// reach of a record plate's stand (ThePlatesStandClearAndTheCradleIsSigned), and nothing is named as the seal's strands are.</summary>
+        static void RelayWorks(Vector3[] plates)
+        {
+            var root=new GameObject("Relay works");
+            var stands=plates.Select(p=>new Vector2(p.x+.9f,p.z+.6f)).ToArray();
+            // ---- the cable runs
+            var cable=ZoneKit.Toon("relay-cable",null,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",3);m.SetColor("_ShadowTint",new Color(.42f,.42f,.55f));m.SetColor("_RimColor",new Color(.55f,.48f,.4f));m.SetFloat("_RimPower",3);m.SetFloat("_LightFloor",.1f);});
+            // A shape's tones reach the shader as they're stored, with none of a material colour's conversion: written as they're meant to look, the rubber came out a pale grey line
+            // along every wall and the brass a chalky cream.
+            Color rubber=new Color(.15f,.14f,.16f).linear,brass=new Color(.62f,.46f,.22f).linear,red=new Color(.4f,.15f,.12f).linear,grey=new Color(.32f,.33f,.36f).linear;
+            Vector2[][] runs=
+            {
+                new[]{new Vector2(8.2f,-5),new Vector2(8.2f,18.5f),new Vector2(3.5f,21.4f),new Vector2(3.5f,26)},
+                new[]{new Vector2(3.5f,39),new Vector2(3.5f,43),new Vector2(14.1f,45.6f),new Vector2(14.1f,83),new Vector2(10.1f,85.6f),new Vector2(10.1f,115),new Vector2(17.9f,117.6f),new Vector2(17.9f,151),new Vector2(7,155.6f),new Vector2(2.8f,157)},
+                new[]{new Vector2(-8.2f,-5),new Vector2(-8.2f,18.5f),new Vector2(-3.5f,21.4f),new Vector2(-3.5f,25)},
+                new[]{new Vector2(-3.5f,40),new Vector2(-3.5f,43),new Vector2(-14.1f,45.6f),new Vector2(-14.1f,83),new Vector2(-10.1f,85.6f),new Vector2(-10.1f,115),new Vector2(-17.9f,117.6f),new Vector2(-17.9f,151),new Vector2(-12,156.6f),new Vector2(-3.2f,158.6f)},
+                // From the mirrors that answered the lantern.
+                new[]{new Vector2(15,149.4f),new Vector2(9.5f,153.4f),new Vector2(4.6f,156.2f)},new[]{new Vector2(-15,149.4f),new Vector2(-9.5f,153.4f),new Vector2(-4.6f,156.2f)},
+                new[]{new Vector2(12.2f,160.4f),new Vector2(8,160.2f),new Vector2(4.4f,159.4f)},
+                // Across the floors, laid in the floor's own channels (nov20-whole s15/049: from where the gallery is fought, nothing of the relay was in frame): from each wall's run to the
+                // racks, and from rack to rack across the hall. Laid in, so they're under a danger marking's lift and in nobody's way. The gallery: the west wall to its racks, those across
+                // the north of the floor to the racks on the east side, and those to the east wall.
+                new[]{new Vector2(-14.1f,52.6f),new Vector2(-11.2f,54.8f),new Vector2(-9.3f,56f)},
+                new[]{new Vector2(-8.4f,61.2f),new Vector2(-6.2f,64.6f),new Vector2(-1.2f,67.2f),new Vector2(4.8f,66.9f),new Vector2(9.3f,62.8f),new Vector2(10.6f,58.2f)},
+                new[]{new Vector2(10.7f,51.6f),new Vector2(12.4f,50.3f),new Vector2(14.1f,49.8f)},
+                // The vault: across its floor inside the door, and from the west wall to the cradle the scavengers patched into.
+                new[]{new Vector2(-10.1f,86.4f),new Vector2(-5.6f,87.6f),new Vector2(-2.8f,89.4f),new Vector2(2.8f,89.6f),new Vector2(5.8f,88.6f),new Vector2(9.6f,89)},
+                new[]{new Vector2(-10.1f,113.8f),new Vector2(-5,114.5f),new Vector2(2.8f,113.9f),new Vector2(6.3f,111.6f)},
+                // The Great Lantern's floor: the crew's cutting rig runs a line to the lantern it is stripping.
+                new[]{new Vector2(15.3f,136.7f),new Vector2(10.6f,140.6f),new Vector2(5.2f,146.4f),new Vector2(2.7f,152.4f),new Vector2(1.5f,154.6f)},
+                // Across the hall's south floor, where Hessa's fight is seen from (s15/148): from the east wall's run to the west wall's, sagging north between the door and her post,
+                // and a branch from it to the crew's line to the lantern. Its bays were the frame's widest plain stretch, at the bar by a hair (D360: .20 to .23 from run to run).
+                new[]{new Vector2(17.9f,120.6f),new Vector2(12.6f,121.9f),new Vector2(7.6f,124.6f),new Vector2(2.4f,125.5f),new Vector2(-4.6f,124.2f),new Vector2(-10.1f,121.7f),new Vector2(-17.9f,121.3f)},
+                new[]{new Vector2(2.4f,125.5f),new Vector2(3.4f,130.2f),new Vector2(4.6f,134.6f),new Vector2(5.2f,139.8f)},
+                // And from the vault's run on through the hall's door toward the east wall: the stretch between the door and Hessa's fight, nearest the lens.
+                new[]{new Vector2(5.8f,112.6f),new Vector2(8.4f,115.4f),new Vector2(11.6f,117),new Vector2(15.8f,117.4f)},
+                // And from the west wall's run across to it, south of where the party stands and two metres short of RELAY CRADLE's words: seen from the game's camera (a probe of
+                // SunkenRelayLookTests' frame, D360) the plain stretch was this floor, nearest the lens.
+                new[]{new Vector2(-12,116.2f),new Vector2(-6.5f,116.8f),new Vector2(-1.5f,116),new Vector2(3.5f,116.3f),new Vector2(8.4f,115.4f)},
+            };
+            const int LaidIn=7;
+            var rng=new System.Random(211);int pieces=0;
+            for(int r=0;r<runs.Length;r++)
+            {
+                var run=runs[r];int strands=r<4?3:2;bool laidIn=r>=LaidIn;
+                for(int k=0;k<strands;k++)
+                {
+                    float radius=(r<4?.085f:.07f)*(.8f+.4f*(float)rng.NextDouble()),offset=(k-(strands-1)*.5f)*.24f,phase=(float)rng.NextDouble()*6.28f;
+                    var tone=k==0?rubber:k==1?(r%2==0?red:grey):brass;
+                    // Along the run a point every 40 cm, laid beside its neighbours and wandering a hand either way.
+                    var points=new List<Vector3>();bool anySunk=laidIn;
+                    for(int i=1;i<run.Length;i++)
+                    {
+                        var a=run[i-1];var b=run[i];float length=Vector2.Distance(a,b);var along=(b-a)/length;var side=new Vector2(-along.y,along.x);
+                        for(float t=i==1?0:.4f;t<=length;t+=.4f)
+                        {
+                            var at=a+along*t+side*(offset+.07f*Mathf.Sin(t*.9f+phase+r));float ground=height(at);
+                            // Where a corner cuts through the rock between two halls the cable goes into the wall and out again, not up over it. One laid in a channel shows its top 4.5 cm, under where a marking lies (Telegraph's lift, 6 cm).
+                            // Under a floor sign's words it runs in a channel too: lying there it stood across RELAY CRADLE from the camera.
+                            bool sunk=laidIn||RelaySigns.Any(s=>Mathf.Abs(at.x-s.at.x)<s.half+1.2f&&Mathf.Abs(at.y-s.at.y)<6);anySunk|=sunk;
+                            points.Add(new Vector3(at.x,(ground<.25f?ground:-.4f)+(sunk?.045f-radius:radius),at.y));
+                        }
+                    }
+                    // Short pieces, each its own renderer: one long run's box would be the whole relay to a test that asks what stands near a plate or a person. None near a plate's stand.
+                    // A laid-in run's last few points go with the piece before them: a short stub sunk to its top is a box as tall as it is long, and reads as buried rather than laid in.
+                    for(int start=0,take=17;start<points.Count-1;start+=take-1,take=17)
+                    {
+                        if(anySunk&&points.Count-start-take<8)take=points.Count-start;
+                        var piece=points.GetRange(start,Mathf.Min(take,points.Count-start));if(piece.Count<2)continue;
+                        float xMin=piece.Min(p=>p.x)-radius,xMax=piece.Max(p=>p.x)+radius,zMin=piece.Min(p=>p.z)-radius,zMax=piece.Max(p=>p.z)+radius;
+                        if(stands.Any(s=>Vector2.Distance(s,new Vector2(Mathf.Clamp(s.x,xMin,xMax),Mathf.Clamp(s.y,zMin,zMax)))<2.2f))continue;
+                        var shape=new ZoneKit.Shape().Tube(piece,piece.Select(_=>radius).ToArray(),6,tone,ZoneKit.Shape.Dim(tone,.85f),1,.5f,false);
+                        // A coupling every few metres, in the relay's brass.
+                        if(start%32==0)shape.Box(piece[0],new Vector3(radius*3.4f,laidIn?radius*2.2f:radius*3.4f,.22f),Quaternion.LookRotation(piece[1]-piece[0]),brass);
+                        var mesh=shape.Mesh("Relay cable");var go=new GameObject(laidIn?"Relay cable laid in":"Relay cable",typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(root.transform,false);
+                        go.GetComponent<MeshFilter>().sharedMesh=mesh;var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=cable;view.shadowCastingMode=ShadowCastingMode.Off;pieces++;
+                    }
+                }
+            }
+            // ---- the cut corridor's walls: the trays its bundles hung in, still bolted to the rock, a few strands left in each (nov20-whole s15/031, 040: where its fight
+            // was seen from, the frame was its two bare walls and a plain floor). The west wall is low, so it keeps one tray; the east wall two.
+            foreach(float side in new[]{-1f,1f})foreach(float rise in side<0?new[]{1.3f}:new[]{1.5f,2.6f})
+            {
+                var path=new List<Vector3>();
+                void Lay(){if(path.Count>3){var shape=new ZoneKit.Shape().Tube(path,path.Select(_=>.08f).ToArray(),6,rubber,ZoneKit.Shape.Dim(rubber,.85f),1,.5f,false);
+                    for(int i=0;i<path.Count;i+=3)shape.Box(path[i]+Vector3.right*side*.05f,new Vector3(.12f,.26f,.08f),Quaternion.identity,brass);
+                    var go=new GameObject("Relay cable tray",typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(root.transform,false);go.GetComponent<MeshFilter>().sharedMesh=shape.Mesh("Relay cable tray");
+                    var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=cable;view.shadowCastingMode=ShadowCastingMode.Off;pieces++;}path.Clear();}
+                for(float z=22.4f;z<=41.6f;z+=.5f)
+                {
+                    // Where the rock face reaches this height: between the corridor's edge and well into the wall.
+                    float inner=side*3.6f,outer=side*6.8f;if(height(new Vector2(outer,z))<rise){Lay();continue;}
+                    for(int k=0;k<18;k++){float mid=(inner+outer)*.5f;if(height(new Vector2(mid,z))<rise)inner=mid;else outer=mid;}
+                    path.Add(new Vector3(inner-side*.05f,rise,z));if(path.Count==14)Lay();
+                }
+                Lay();
+            }
+            // ---- what stands against the walls. Tall only on the east and north walls: the camera stands south and west of whoever is fought.
+            var into=root.transform;
+            void Stand(string key,float x,float z,float size,float yaw,string fallback="DeckCrate"){var go=Prop(Kit(key,fallback),new Vector3(x,0,z),size,yaw,false);go.transform.SetParent(into,true);}
+            void Fallen(string key,float x,float z,float size,float yaw,float lean)
+            {
+                var go=Dark(Prop(Kit(key,"HushwellColumn"),new Vector3(x,0,z),size,yaw,false),key);go.transform.rotation=Quaternion.Euler(0,yaw,lean);
+                var b=ModelGeometry.BoundsOf(go);go.transform.position+=new Vector3(x,height(new Vector2(x,z))-.08f,z)-new Vector3(b.center.x,b.min.y,b.center.z);go.name="Fallen lantern";go.transform.SetParent(into,true);
+            }
+            // The entry: the relay's switching racks, its spares.
+            Stand("DressCoreRack",8,6.5f,2,-90);Stand("DressCoreRack",8.1f,9,1.9f,-90);Stand("DressPowerCell",-8.1f,-3,.85f,90);Stand("DressCableDrum",-8,6.6f,.8f,0);
+            // The gallery: lanterns that fell from their brackets, where they fell.
+            Fallen("LanternShard",-13.3f,48.6f,1.7f,30,78);Fallen("LanternShard",13.6f,44.6f,1.3f,-160,82);
+            // The vault: racks that held the relay's records.
+            Stand("DressCoreRack",-10.1f,87.8f,2,90);// The second against the west wall, between the shelves and the lamp: on the east wall it stood across RELAY CRADLE from the camera.
+            Stand("DressCoreRack",-10.2f,99.4f,2,90);
+            // The Great Lantern's floor: the captain's camp along its east wall, what they've already stripped beside it; their spares low against the west wall.
+            Stand("MusterLeanTo",16.8f,124.6f,2.6f,-100);Stand("MusterCrate",17.5f,128.3f,1.1f,12);Stand("MusterCrate",17.3f,130.2f,.85f,-20);
+            Stand("MusterCutterRig",16.4f,136,2.2f,-90,"DressWorkLamp");Fallen("LanternShard",16.9f,133.1f,1.1f,-90,64);
+            Stand("MusterCrate",-17.5f,124.4f,1,8);Stand("MusterCrate",-17.3f,126.4f,.85f,-12);Stand("DressCableDrum",-17.4f,129.8f,.85f,0);Fallen("LanternShard",-16.6f,146.4f,1.6f,10,84);
+            Stand("MusterCutterRig",8.6f,158.6f,2,200,"DressWorkLamp");Stand("MusterCrate",10.8f,156.2f,.9f,30);
+            // Where the gallery's fight is seen from (nov20-whole s15/049): its racks were against walls out of frame. Two banks stand off the fight's floor either side, low, with the
+            // runs between them; a lantern post that fell lies north of the fight and another east of it.
+            var dressing=new GameObject("Relay fight dressing").transform;dressing.SetParent(root.transform,false);into=dressing;
+            Stand("DressCoreRack",-8.3f,56.6f,1.9f,90);Stand("DressCoreRack",-8.4f,59.5f,1.8f,90);Stand("DressCoreRack",10.6f,52.9f,1.9f,-90);Stand("DressCoreRack",10.8f,56.5f,1.8f,-90);
+            Fallen(Kit("PulseBeacon","LanternShard"),-3.6f,69.6f,3.4f,76,86);Fallen(Kit("PulseBeacon","LanternShard"),11.6f,61.4f,3.2f,-24,84);
+            // The vault: a post that fell across its north end, clear of the way to the cradle.
+            Fallen(Kit("PulseBeacon","LanternShard"),-3.4f,110.8f,3.4f,82,86);
+            // ---- the Great Lantern's light runs out to the mirrors that answered it, low over the floor's far end.
+            var beam=CurtainMaterial("SunkenRelay",false,"Beam");
+            foreach(var (x,z) in new[]{(-16f,150f),(16f,150f),(13f,161f)})
+            {
+                var line=new GameObject("Lantern beam",typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(root.transform,false);
+                line.useWorldSpace=true;line.positionCount=2;line.SetPosition(0,new Vector3(0,3.9f,157.6f));line.SetPosition(1,new Vector3(x,1.5f,z));
+                line.startWidth=.62f;line.endWidth=.34f;line.sharedMaterial=beam;line.startColor=new Color(1,.82f,.5f,.7f);line.endColor=new Color(1,.82f,.5f,.28f);line.shadowCastingMode=ShadowCastingMode.Off;line.receiveShadows=false;
+            }
+            // And to the two mirrors in the hall's south corners, either side of the door the party comes in by (nov20-whole s15/135, 148: as Hessa's fight opened, nothing of the lantern
+            // was in frame; it is 34 m north of where she is fought). Their beams cross the top of every frame of her fight, high over it, and their light lies along the floor under them.
+            // A shaft is as bright along its whole length as the soft bell across it says (the flare beads at its middle and fades to nothing at both ends). What lies flat on the floor
+            // draws before a danger marking and from either side; the pipeline sets a particle material's queue from its own offset, so the offset is what is set.
+            var shaft=CurtainMaterial("SunkenRelay",true,"Lantern-shaft");shaft.SetColor("_BaseColor",new Color(3.2f,2.4f,1.5f,1));EditorUtility.SetDirty(shaft);
+            Material Flat(string asset,Color tint,int queue){var m=CurtainMaterial("SunkenRelay",true,asset);m.SetColor("_BaseColor",tint);m.SetFloat("_Cull",0);m.SetFloat("_QueueOffset",queue-3000);m.renderQueue=queue;EditorUtility.SetDirty(m);return m;}
+            var under=Flat("Lantern-floor-light",new Color(1.45f,1.12f,.76f,1),GroundKit.DetailQueue+1);var water=Flat("Lantern-water-light",new Color(1.7f,1.35f,.95f,1),GroundKit.DetailQueue+4);
+            foreach(float side in new[]{-1f,1f})
+            {
+                var mirror=new Vector2(side*CornerMirror.x,CornerMirror.y);
+                Stand("RelayMirror",mirror.x,mirror.y,1.8f,side*-60);
+                var line=new GameObject("Lantern beam",typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(dressing,false);
+                line.useWorldSpace=true;line.positionCount=2;line.SetPosition(0,new Vector3(side*.5f,3.9f,157.2f));line.SetPosition(1,new Vector3(mirror.x-side*.35f,1.55f,mirror.y+.35f));
+                line.startWidth=.62f;line.endWidth=.36f;line.sharedMaterial=shaft;line.startColor=new Color(1,.8f,.5f,.72f);line.endColor=new Color(1,.8f,.5f,.5f);line.shadowCastingMode=ShadowCastingMode.Off;line.receiveShadows=false;
+                // Flat on the floor under the beam, from the fan's rim to the mirror's foot; drawn before a danger marking, which lies over it.
+                var floor=new GameObject("Lantern light on the floor",typeof(LineRenderer)).GetComponent<LineRenderer>();floor.transform.SetParent(dressing,false);floor.transform.rotation=Quaternion.Euler(-90,0,0);
+                floor.alignment=LineAlignment.TransformZ;floor.useWorldSpace=true;var track=new List<Vector3>();var from=new Vector2(0,158)+(mirror-new Vector2(0,158)).normalized*12.6f;
+                for(float t=0;t<=1.001f;t+=.05f){var p=Vector2.Lerp(from,mirror,t);track.Add(new Vector3(p.x,height(p)+.05f,p.y));}
+                floor.positionCount=track.Count;floor.SetPositions(track.ToArray());floor.widthCurve=new AnimationCurve(new Keyframe(0,2.2f),new Keyframe(.7f,1.5f),new Keyframe(1,2.4f));
+                floor.colorGradient=new Gradient{colorKeys=new[]{new GradientColorKey(new Color(1,.84f,.56f),0),new GradientColorKey(new Color(1,.8f,.5f),1)},alphaKeys=new[]{new GradientAlphaKey(.42f,0),new GradientAlphaKey(.24f,.6f),new GradientAlphaKey(.5f,1)}};
+                floor.sharedMaterial=under;floor.shadowCastingMode=ShadowCastingMode.Off;floor.receiveShadows=false;
+                // Standing water under a beam gives it back, brighter than the stone does: drawn after the water and still before a marking.
+                foreach(var (x,z,rx,rz) in RelayPuddles)
+                {
+                    var pool=new Vector2(x,z);var way=(mirror-from).normalized;float along=Vector2.Dot(pool-from,way);
+                    if(along<0||along>Vector2.Distance(from,mirror)||Vector2.Distance(pool,from+way*along)>1.6f)continue;
+                    var gleam=new GameObject("Lantern light in the water",typeof(LineRenderer)).GetComponent<LineRenderer>();gleam.transform.SetParent(dressing,false);gleam.transform.rotation=Quaternion.Euler(-90,0,0);
+                    gleam.alignment=LineAlignment.TransformZ;gleam.useWorldSpace=true;float reach=Mathf.Min(rx,rz)*1.3f;
+                    gleam.positionCount=2;gleam.SetPosition(0,new Vector3(x,height(pool)+.06f,z)-new Vector3(way.x,0,way.y)*reach);gleam.SetPosition(1,new Vector3(x,height(pool)+.06f,z)+new Vector3(way.x,0,way.y)*reach);
+                    gleam.startWidth=gleam.endWidth=Mathf.Min(rx,rz)*.8f;gleam.startColor=gleam.endColor=new Color(1,.86f,.6f,.7f);gleam.sharedMaterial=water;gleam.shadowCastingMode=ShadowCastingMode.Off;gleam.receiveShadows=false;
+                }
+                // What the mirror catches it throws back down at its foot.
+                Lamp(new Vector3(mirror.x-side*.8f,1.8f,mirror.y+.6f),7,2.4f);
+            }
+            RelayInlay(root.transform,stands);
+            LanternFloor(root.transform);
+            Debug.Log("RELAY_WORKS cables="+pieces);
         }
 
         /// <summary>A Lanternwick keeper standing over a prisoner, turned toward her: a body with no name and nothing to say. Hidden until the scene decides, and tinted then.</summary>
@@ -1274,6 +1736,66 @@ namespace Lattice.EditorTools
             var l=light.GetComponent<Light>();l.type=LightType.Point;l.color=new Color(1,.8f,.5f);l.range=5;l.intensity=2;l.shadows=LightShadows.None;
             return plate;
         }
+
+        /// <summary>Stills of the relay's fights as a player sees them (marker <c>RELAY_LOOK_OK</c>; <c>-look-run &lt;name&gt;</c>, written to Builds/quality/look/&lt;name&gt;): the built scene with
+        /// its enemies stood where each fight puts them, drawn as the game draws them (each definition's body at its drawn scale, Hessa a head taller), at the play camera's zoom from where
+        /// the whole-game capture stood (nov20-whole s15) and drawn back as each fight draws it. LookDev's views carry no enemies; nobody had seen Hessa at her new size. Nothing is saved.</summary>
+        public static void RelayLook()=>BatchTools.Run(()=>
+        {
+            string run=DevArgs.Value("-look-run")??"relay-look";
+            string folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality/look",run));
+            if(Directory.Exists(folder))throw new InvalidOperationException("Preserve earlier look run: "+folder);
+            Directory.CreateDirectory(folder);
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/SunkenRelay.unity");height=RelayFloor;
+            foreach(var text in UnityEngine.Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+            var ground=Find<CameraProfile>("Ground");
+            var camera=new GameObject("Look camera",typeof(Camera),typeof(UnityEngine.Rendering.Universal.UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.02f,.03f,.06f);camera.nearClipPlane=.3f;camera.farClipPlane=1500;
+            var data=camera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();data.renderPostProcessing=true;data.antialiasing=UnityEngine.Rendering.Universal.AntialiasingMode.None;
+            var placed=new List<GameObject>();
+            void Idle(GameObject body)
+            {
+                foreach(var b in body.GetComponentsInChildren<MonoBehaviour>())b.enabled=false;
+                foreach(var animator in body.GetComponentsInChildren<Animator>())
+                {
+                    var clips=animator.runtimeAnimatorController!=null?animator.runtimeAnimatorController.animationClips:new AnimationClip[0];
+                    var idle=clips.FirstOrDefault(c=>c!=null&&c.name.ToLowerInvariant().Contains("idle"));if(idle!=null)idle.SampleAnimation(animator.gameObject,.3f);
+                }
+            }
+            Vector3 On(float x,float z)=>Physics.Raycast(new Vector3(x,8,z),Vector3.down,out var hit,20,~0,QueryTriggerInteraction.Ignore)?hit.point:new Vector3(x,height(new Vector2(x,z)),z);
+            void Hero(string id,float x,float z,float yaw){var body=(GameObject)PrefabUtility.InstantiatePrefab(Prefab("Characters",id));body.transform.SetPositionAndRotation(On(x,z),Quaternion.Euler(0,yaw,0));Idle(body);placed.Add(body);}
+            void Enemy(string id,float x,float z,float yaw)
+            {
+                var def=Find<EnemyDef>(id);if(def==null||def.prefab==null)throw new InvalidOperationException(id+" has no body to draw");
+                var body=UnityEngine.Object.Instantiate(def.prefab);body.name=id+" (look)";float drawn=def.drawnScale>0?def.drawnScale:1;body.transform.localScale*=drawn;
+                body.transform.SetPositionAndRotation(On(x,z),Quaternion.Euler(0,yaw,0));Idle(body);placed.Add(body);
+                // Her gear follows her chest each frame in play; a still has no frames, so it is put there once the idle is sampled.
+                foreach(var gear in body.GetComponentsInChildren<Lattice.Combat.HessaRegalia>(true))gear.Follow();
+                Debug.Log($"RELAY_LOOK_BODY {id} drawn={drawn} height={ModelGeometry.BoundsOf(body).size.y:0.00}");
+            }
+            void Party(float x,float z,float px,float pz){Hero("TarenNatural",x,z,160);Hero("SelaNatural",px,pz,160);}
+            void Shot(string name,float x,float z,float zoom)
+            {
+                var rotation=Quaternion.Euler(ground.pitch,ground.yaw,0);camera.fieldOfView=ground.fov;
+                camera.transform.SetPositionAndRotation(new Vector3(x,height(new Vector2(x,z))+1,z)-rotation*Vector3.forward*ground.distance*Mathf.Max(1,zoom),rotation);
+                var rt=new RenderTexture(1920,1080,24,RenderTextureFormat.ARGB32){antiAliasing=4};camera.targetTexture=rt;camera.Render();camera.Render();
+                var prior=RenderTexture.active;RenderTexture.active=rt;var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();
+                File.WriteAllBytes(Path.Combine(folder,"SunkenRelay-"+name+".png"),image.EncodeToPNG());RenderTexture.active=prior;camera.targetTexture=null;UnityEngine.Object.DestroyImmediate(image);UnityEngine.Object.DestroyImmediate(rt);
+                foreach(var p in placed)if(p!=null)UnityEngine.Object.DestroyImmediate(p);placed.Clear();
+            }
+            // The cut corridor's crew, the gallery's pack and its scavengers, the vault's sergeant, each where its fight puts it and seen as the fight draws the view back.
+            Party(2.8f,33.8f,1,31.4f);Enemy("MusterScav",-.6f,36.2f,170);Enemy("MusterScav",1.6f,38.4f,190);Shot("corridor-fight",2.8f,33.8f,1.3f);
+            Party(.1f,54.5f,2.6f,52.2f);foreach(var (x,z,yaw) in new[]{(-1.2f,59.2f,170f),(1.6f,61.4f,200f),(3.4f,58.8f,220f),(-3,62.4f,150f)})Enemy("Gloomgrazer",x,z,yaw);
+            Enemy("MusterScav",4.6f,64.6f,200);Enemy("MusterScav",6,65.4f,210);Shot("gallery-s15-049-fight",.1f,54.5f,1);
+            Party(.1f,54.5f,2.6f,52.2f);foreach(var (x,z,yaw) in new[]{(-1.2f,59.2f,170f),(1.6f,61.4f,200f),(3.4f,58.8f,220f),(-3,62.4f,150f)})Enemy("Gloomgrazer",x,z,yaw);Shot("gallery-fight-drawn",1.4f,57.2f,1.45f);
+            Party(.2f,92.6f,-2,91);Enemy("MusterSergeant",0,99.2f,180);Enemy("MusterScav",3.8f,100.6f,200);Enemy("MusterScav",5.4f,99.4f,210);Shot("vault-fight",.2f,92.6f,1.35f);
+            // Hessa at her post as her fight opens (s15/135), and where the capture fought her (148, 152), at the size she is drawn.
+            Party(1.2f,124,3.2f,122);Enemy("HessaKorl",3,129,180);Shot("arena-s15-135-hessa",1.2f,124,1);
+            Party(7.1f,120.1f,4.4f,118.6f);Enemy("HessaKorl",5.2f,124.2f,200);Shot("arena-s15-148-hessa",7.1f,120.1f,1);
+            Party(1.9f,122.2f,-.6f,120.4f);Enemy("HessaKorl",3.4f,126.4f,190);Shot("arena-s15-152-hessa",1.9f,122.2f,1);
+            UnityEngine.Object.DestroyImmediate(camera.gameObject);
+            Debug.Log("RELAY_LOOK_OK "+folder);
+        });
 
         // ---------------------------------------------------------------- Tallow approach: the warp out
         static void StageTallowApproach()

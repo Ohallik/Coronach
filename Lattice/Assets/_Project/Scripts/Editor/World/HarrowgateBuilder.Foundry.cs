@@ -28,14 +28,21 @@ namespace Lattice.EditorTools
         static void BuildFoundry()=>Foundry.Build();
         /// <summary>The Foundry's light, registered beside its builder. Under a roof with vents in it: a high, warm-neutral key through the vents (enough to model iron and stone, too
         /// weak to bleach the floor), a cool fill so shade on basalt reads as stone and not as one brown, a little smoke. The forge's own light is its fixtures: the furnaces' mouths on
-        /// the north walls and the work lamps. Bloom held high: molten metal must never bloom over a danger marking's rim.</summary>
+        /// the north walls and the work lamps. Bloom held high: molten metal must never bloom over a danger marking's rim.
+        /// Lowered after the whole-game capture (November 20: "it doesn't look like a foundry"; the guide's own example of a place not lit by what it is about): at .95 and a bright
+        /// ambient the vents' key lit every floor alike and the forge's fires were paler than the tan floor round them. Now the key and the ambient come down and the room is lit by its
+        /// fires, hearths, crucibles and runners; the heroes keep their least light and rim (D217), the markings their own emission.</summary>
         [ZoneLook.Source] static void FoundryLooks()
         {
-            ZoneLook.Register(FoundryZone,new ZoneLook.Spec{sun=C(1f,.9f,.8f),sunIntensity=.95f,sunPitch=62,shadowStrength=.7f,
-                sky=C(.27f,.28f,.33f),equator=C(.3f,.24f,.21f),ground=C(.13f,.1f,.08f),
-                fog=true,fogColor=C(.22f,.17f,.15f),fogStart=55,fogEnd=180,
-                exposure=.1f,contrast=12,saturation=3,splitShadows=C(.42f,.45f,.56f),splitHighlights=C(.62f,.52f,.42f),
-                bloomThreshold=1.05f,bloomIntensity=.5f,vignette=.26f});
+            // The key is the furnaces' glow, amber, and the ambient the warm dark of a room full of fires; shade goes cool, so iron and stone still model.
+            // (Dark enough that the floor's own courses, rivets and clinker stopped reading at all, the first try measured as plain floor nearly everywhere: look_density.)
+            // Shade toned slate, not blue: under this warm ambient a blue split turned shadows on the floor lavender, nearest a purple marking of anything in the room
+            // (render scoria-lookfix-07, gallery; the round ones there were the cranes' crucibles, which now cast none).
+            ZoneLook.Register(FoundryZone,new ZoneLook.Spec{sun=C(1f,.72f,.5f),sunIntensity=1f,sunPitch=56,shadowStrength=.66f,
+                sky=C(.27f,.2f,.17f),equator=C(.31f,.21f,.16f),ground=C(.13f,.08f,.06f),
+                fog=true,fogColor=C(.17f,.1f,.08f),fogStart=48,fogEnd=170,
+                exposure=.2f,contrast=16,saturation=8,splitShadows=C(.42f,.5f,.5f),splitHighlights=C(.7f,.52f,.36f),
+                bloomThreshold=1f,bloomIntensity=.6f,vignette=.3f});
         }
         /// <summary>The spawn in the Scoria Flows the Foundry's mouth leads back to: the Flows' engineer stands it at their end of the way.</summary>
         internal const string ScoriaFromFoundry="Foundry";
@@ -125,14 +132,17 @@ namespace Lattice.EditorTools
             static Color Tone(Vector2 p)
             {
                 float clear=FloorAt(p,out float level);float mottle=.9f+.2f*Mathf.PerlinNoise(p.x*.19f+3,p.y*.19f+7);
-                Color tone=level>Cast+.5f?new Color(.55f,.5f,.46f):level>Deep+.5f?new Color(.62f,.6f,.57f):new Color(.4f,.37f,.36f);
+                // Iron-grey and soot, not tan: at (.55, .5, .46) under a warm key the charging floor read as a sunlit tiled yard (s48/080), and the forge's fire could never be the brightest
+                // thing on it. The warmth on these floors is what the fires throw on them.
+                Color tone=level>Cast+.5f?new Color(.6f,.55f,.51f):level>Deep+.5f?new Color(.64f,.59f,.54f):new Color(.5f,.44f,.41f);
                 if(InTrough(p))tone=new Color(.32f,.29f,.28f);
                 tone=Color.Lerp(tone,tone*.72f,ZoneKit.Smooth(-1.6f,0,clear));
                 return new Color(tone.r*mottle,tone.g*mottle,tone.b*mottle,1);
             }
 
             // ---------------------------------------------------------------- what it is made of
-            internal static Material FloorMat,WallMat,Iron,Brass,Melt,Furnace,Lamp,Sand,Coolant,Soot,Ingot,CoolantPipe,Cooling,BridleCold,BridleDark,ClampDark,Quenched;
+            internal static Material GrateGlow;
+            internal static Material FloorMat,WallMat,Iron,Brass,Melt,Furnace,Lamp,Sand,Coolant,Soot,Ingot,CoolantPipe,Cooling,BridleCold,BridleDark,ClampDark,Quenched,Casting,HotSlag,SlagCrust,Runner;
             static readonly Color IronDark=new(.42f,.4f,.4f),IronPale=new(.86f,.84f,.82f),StoneDark=new(.62f,.58f,.56f),StoneWarm=new(1,.94f,.88f),Rust=new(.82f,.6f,.48f);
             /// <summary>Iron ore: dark, a little red-brown in its grey, and nothing in it that glows.</summary>
             static readonly Color OreTop=new(.54f,.45f,.4f),OreUnder=new(.3f,.26f,.25f);
@@ -167,8 +177,7 @@ namespace Lattice.EditorTools
             }
             static void Materials()
             {
-                // Basalt flags: square slabs, each its own tone, worn paler at the edges, with a dark joint; about one in seven an iron tread plate bolted where a machine stood, one in seven
-                // cracked across, and here and there an iron stud plate where the floor was bolted for a mould. One stone in every slab read as a tiled floor.
+                // The floor: black moulding sand with cast-iron plates set into it in patches (below).
                 static float H(int a,int b)=>Mathf.Repeat(Mathf.Sin(a*12.9898f+b*78.233f)*43758.5453f,1);
                 var flags=ZoneKit.Texture("Foundry/foundry-flags",512,(u,v)=>
                 {
@@ -176,21 +185,32 @@ namespace Lattice.EditorTools
                     float own=H(ix,iy),kind=H(ix+7,iy+3),grain=ZoneKit.Cloud(u,v,24,3),pit=ZoneKit.Tile(u*70,v*70,70,9);
                     float edge=Mathf.Min(Mathf.Min(fx,1-fx),Mathf.Min(fy,1-fy));
                     float tone;
-                    if(kind<.15f)
+                    // A foundry's floor, not a paved square: packed black moulding sand, and set into it in patches the cast-iron plates the work stands on, the sand drifting over
+                    // their edges. Slabs in courses edge to edge, each a different tan, read from the play camera as a tiled yard (whole-game capture s48/080).
+                    float patch=ZoneKit.Cloud((ix+.5f)/6f,(((row%6)+6)%6+.5f)/6f,2,81),drift=ZoneKit.Cloud(u,v,9,83);
+                    // The plates carry the floor and the sand lies in islands between them: sand as the ground everywhere measured as one plain from the play camera (look_density, 21 of 38 stills).
+                    if(patch<.3f||edge<.16f&&drift>.68f)
                     {
-                        // Iron tread plate: a diamond tread, rivets round the rim, darker and bluer than the stone.
-                        float tread=Mathf.Abs(Mathf.Repeat((fx+fy)*16,1)-.5f),cross=Mathf.Abs(Mathf.Repeat((fx-fy)*16,1)-.5f);
-                        tone=.3f+.05f*(grain-.5f)+(tread<.1f&&cross>.3f?.07f:0);
-                        if(edge<.07f&&new Vector2(Mathf.Repeat(fx*10,1)-.5f,Mathf.Repeat(fy*10,1)-.5f).magnitude<.22f)tone=.46f;
-                        if(edge<.02f)tone=.18f;
-                        return new Color(tone*.94f,tone*.97f,tone*1.03f,1);
+                        float fine=ZoneKit.Tile(u*220,v*220,220,85),coarse=ZoneKit.Cloud(u,v,14,87),clinker=ZoneKit.Tile(u*22,v*22,22,89),grit=ZoneKit.Tile(u*30,v*30,30,97),dragOff=ZoneKit.Cloud(u,v,3,91);
+                        // Darker than the plates by a step a camera reads (a floor of one tone measured as plain: look_density).
+                        tone=.3f+.1f*(fine-.5f)+.22f*(coarse-.5f);
+                        // Clinker and slag trodden into it in lumps a stride apart, drifts of pale grit, and the drag of skips and boots: at a hand across they blurred into the sand.
+                        if(clinker>.8f)tone-=.18f*ZoneKit.Smooth(.8f,.88f,clinker);if(grit<.16f)tone+=.16f*ZoneKit.Smooth(.16f,.07f,grit);
+                        float drag=Mathf.Abs(Mathf.Repeat(u*12+dragOff*.9f,1)-.5f);if(drag<.06f)tone-=.12f*(1-drag/.06f);
+                        return new Color(tone*1.06f,tone*.97f,tone*.9f,1);
                     }
-                    float mottle=ZoneKit.Cloud(u,v,12,29);tone=.48f+.22f*(own-.5f)+.16f*(grain-.5f)+.1f*(mottle-.5f)+.06f*Mathf.Clamp01(1-edge*14)-(pit>.86f?.1f:0);
-                    if(kind>.85f&&Mathf.Abs(fy-(.5f+.22f*Mathf.Sin(fx*7+own*6)))<.012f)tone=.22f;
-                    // A joint wide and dark enough to read from the camera: hair-thin, a floor of slabs read as one plain sheet.
-                    if(edge<.035f)tone=.15f+.04f*own;
-                    if(Mathf.Repeat(ix*7+iy*3,13)<1&&Mathf.Abs(fx-.5f)<.16f&&Mathf.Abs(fy-.5f)<.16f){tone=.34f;if(new Vector2(fx-.5f,fy-.5f).magnitude<.03f||Mathf.Abs(Mathf.Abs(fx-.5f)-.12f)<.012f&&Mathf.Abs(Mathf.Abs(fy-.5f)-.12f)<.012f)tone=.56f;}
-                    return new Color(tone*1.03f,tone,tone*.96f,1);
+                    // Iron tread plate: a diamond tread, rivets round the rim, a dark joint, worn bright where feet go; the older ones rusting from their joints; here and there a stud
+                    // plate where a mould was bolted down.
+                    float tread=Mathf.Abs(Mathf.Repeat((fx+fy)*16,1)-.5f),cross=Mathf.Abs(Mathf.Repeat((fx-fy)*16,1)-.5f);
+                    // Each plate its own shade, cast and worn apart from its neighbours: a camera reads a plated floor by its plates.
+                    float worn=ZoneKit.Cloud(u,v,7,93);tone=.5f+.34f*(own-.5f)+.06f*(grain-.5f)+(tread<.1f&&cross>.3f?.08f:0)+.08f*ZoneKit.Smooth(.55f,.75f,worn)-(pit>.9f?.06f:0);
+                    // A rim worn dark before the joint, and the joint itself wide and black: the lines a camera reads a plated floor by.
+                    if(edge<.06f)tone*=.82f;
+                    if(edge<.07f&&new Vector2(Mathf.Repeat(fx*10,1)-.5f,Mathf.Repeat(fy*10,1)-.5f).magnitude<.22f)tone=.62f;
+                    if(edge<.035f)tone=.13f;
+                    if(Mathf.Repeat(ix*7+iy*3,13)<1&&Mathf.Abs(fx-.5f)<.16f&&Mathf.Abs(fy-.5f)<.16f){tone=.34f;if(new Vector2(fx-.5f,fy-.5f).magnitude<.03f)tone=.6f;}
+                    float rust=kind>.7f?ZoneKit.Smooth(.12f,0,edge)*ZoneKit.Smooth(.45f,.7f,ZoneKit.Cloud(u,v,11,95))*.7f:0;
+                    return Color.Lerp(new Color(tone*.94f,tone*.97f,tone*1.04f,1),new Color(tone*1.15f,tone*.78f,tone*.58f,1),rust);
                 });
                 // The walls: courses of big dark basalt blocks, soot-streaked from the top, with an iron strap across every third course.
                 var masonry=ZoneKit.Texture("Foundry/foundry-masonry",512,(u,v)=>
@@ -248,6 +268,16 @@ namespace Lattice.EditorTools
                 Coolant=WaterKit.Look("foundry-coolant",new Color(.46f,.66f,.62f,.55f),new Color(.1f,.26f,.28f,.95f),new Color(.84f,.94f,.9f,1),.6f,4.2f,.03f);
                 // After the ground kit's flat details (Transparent-20), before danger markings (-10): a marking over a flooded trough lies on the water.
                 Coolant.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent-15;
+                // What the whole-game capture found missing (November 20, "no heat in it"): castings fresh out of their moulds, dull red going to orange where they are thickest, on racks,
+                // hooks and stands and never the floor; slag still hot where a pot was tipped; the cold slag it crusts to (black glassy skin, the Colossus's crust is drawn in it too, by
+                // name, from Resources); and metal running in a launder along the heart's rim, the brightest thing there.
+                Casting=ZoneKit.Toon("foundry-casting",skin,m=>{m.SetTexture("_EmissionMap",flow);m.SetColor("_EmissionColor",new Color(1.05f,.34f,.1f));m.SetColor("_BaseColor",new Color(.3f,.2f,.18f));m.SetFloat("_LightFloor",.2f);});
+                HotSlag=ZoneKit.Toon("foundry-hot-slag",crust,m=>{m.SetTexture("_EmissionMap",flow);m.SetColor("_EmissionColor",new Color(1.15f,.44f,.14f));m.SetColor("_BaseColor",new Color(.2f,.17f,.16f));m.SetFloat("_LightFloor",.2f);});
+                SlagCrust=ZoneKit.Toon("foundry-slag-crust",crust,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",3);m.SetColor("_BaseColor",new Color(.52f,.51f,.54f));m.SetColor("_ShadowTint",new Color(.4f,.42f,.56f));
+                    m.SetColor("_RimColor",new Color(.46f,.48f,.56f));m.SetFloat("_LightFloor",.18f);m.SetColor("_EmissionColor",Color.black);});
+                Runner=ZoneKit.Toon("foundry-runner",flow,m=>{m.SetTexture("_EmissionMap",flow);m.SetColor("_EmissionColor",new Color(1.7f,1f,.45f));m.SetColor("_BaseColor",new Color(1,.8f,.5f));});
+                // Metal running in a channel under a floor grating: the melt's pale yellow-white, never a marking's orange (it is walked over, and it lights the plate beside it).
+                GrateGlow=ZoneKit.Toon("foundry-grate-glow",flow,m=>{m.SetTexture("_EmissionMap",flow);m.SetColor("_EmissionColor",new Color(1.3f,1.08f,.92f));m.SetColor("_BaseColor",new Color(1,.9f,.76f));m.SetFloat("_LightFloor",.6f);});
                 AssetDatabase.SaveAssets();
             }
 
@@ -347,8 +377,10 @@ namespace Lattice.EditorTools
             }
             /// <summary>A pour: the trough's metal and kerbs, its strip (the trough and a margin each side) and its clock, and for a ladle line the rail, the ladle and its stream.
             /// A tap run gets a spout at its head and a seal over it instead.</summary>
+            /// <summary>Over the play camera's own height over a hero's floor (19.5 m at 40 degrees from the chest: 13.7 m), with a margin: what runs here can hide nothing from it.</summary>
+            const float OverTheCamera=14.6f;
             static PourChannel Pour(ZoneKit kit,string name,(string name,Vector2 from,Vector2 to) trough,Vector2 from,Vector2 to,float period,float phase,string armFlag,string cooledFlag,
-                Vector2? railRest=null,Vector2? railOver=null,float railHigh=4.9f,Func<Vector2,bool> keep=null,Vector2? railEnd=null)
+                Vector2? railRest=null,Vector2? railOver=null,float railHigh=4.9f,Func<Vector2,bool> keep=null,Vector2? railEnd=null,float hangHigh=-1)
             {
                 keep??=_=>true;var dir=(to-from).normalized;var side=new Vector2(-dir.y,dir.x);
                 var drawn=TroughMetal(kit,name,(trough.name,from,to),keep);
@@ -379,9 +411,11 @@ namespace Lattice.EditorTools
                     var rest=railRest.Value;var over=railOver.Value;var railDir=(over-rest).normalized;
                     // The rail runs from over the ladle's bay to a wall past where it pours, and stands on a post at each end (on a wall's top or the bay's ledge): nothing of it hangs in the air.
                     var rail=new ZoneKit.Shape();var end=railEnd??over+railDir*3;var r0=new Vector3(rest.x,0,rest.y)-new Vector3(railDir.x,0,railDir.y)*1.5f;var r1=new Vector3(end.x,0,end.y);
-                    float railY=kit.Y(mid.x,mid.y)+railHigh;r0.y=r1.y=railY;
+                    float railY=kit.Y(mid.x,mid.y)+railHigh,hangY=hangHigh>0?kit.Y(mid.x,mid.y)+hangHigh:railY;r0.y=r1.y=railY;
                     rail.Slot(0).Beam(r0,r1,.34f,.5f,IronDark,IronPale).Beam(r0+Vector3.down*.32f,r1+Vector3.down*.32f,.56f,.08f,IronDark,IronPale);
-                    foreach(var post in new[]{r0,r1}){float foot=Height(new Vector2(post.x,post.z));if(foot<railY-.6f&&!Walkable(new Vector2(post.x,post.z)))rail.Slot(0).Box(new Vector3(post.x,(foot+railY)*.5f-.1f,post.z),new Vector3(.42f,railY-foot+.2f,.42f),Quaternion.identity,IronDark,IronPale);}
+                    // A rail over the camera stands on nothing anyone sees: posts up to it were columns in the frame for nothing.
+                    bool overhead=railY-hangY>.5f;
+                    if(!overhead)foreach(var post in new[]{r0,r1}){float foot=Height(new Vector2(post.x,post.z));if(foot<railY-.6f&&!Walkable(new Vector2(post.x,post.z)))rail.Slot(0).Box(new Vector3(post.x,(foot+railY)*.5f-.1f,post.z),new Vector3(.42f,railY-foot+.2f,.42f),Quaternion.identity,IronDark,IronPale);}
                     var railed=kit.Built(name+" rail",rail,Iron);
                     var ladle=new ZoneKit.Shape();
                     ladle.Slot(0).Box(Vector3.down*.15f,new Vector3(.9f,.5f,1.3f),Quaternion.identity,IronDark,IronPale);
@@ -389,7 +423,9 @@ namespace Lattice.EditorTools
                     ladle.Slot(0).Tube(new[]{new Vector3(0,-2.1f,0),new Vector3(0,-1.96f,0),new Vector3(0,-1.2f,0),new Vector3(0,-1f,0)},new[]{.45f,.72f,.9f,.94f},14,Rust,IronDark,1,.5f,true);
                     ladle.Slot(1).Disc(new Vector3(0,-1.05f,0),Vector3.up,.84f,14,Color.white);
                     var bucket=kit.Built(name+" ladle",ladle,Iron,Furnace);bucket.transform.SetParent(holder.transform,true);
-                    var restAt=new Vector3(rest.x,railY-.32f,rest.y);var overAt=new Vector3(over.x,railY-.32f,over.y);
+                    // Under a rail over the camera the ladle waits up by it, out of the play view (resting by its wall at five metres it hid the floor of the fight beyond it), and is
+                    // let down as it runs out to pour: what a player watches come.
+                    var restAt=new Vector3(rest.x,overhead?railY-.5f:hangY-.32f,rest.y);var overAt=new Vector3(over.x,hangY-.32f,over.y);
                     bucket.transform.SetPositionAndRotation(restAt,Quaternion.LookRotation(new Vector3(railDir.x,0,railDir.y)));
                     pour.ladle=bucket.transform;pour.ladleRest=restAt;pour.ladleOver=overAt;
                     // It tips toward the trough: whichever way round its own forward axis swings the bucket's foot over the metal.
@@ -402,6 +438,15 @@ namespace Lattice.EditorTools
                     var fall=new ZoneKit.Shape();fall.Slot(0).Tube(new[]{lipAt,Vector3.Lerp(lipAt,bed,.5f),bed},new[]{.18f,.15f,.24f},8,Color.white,Color.white);
                     var stream=kit.Built(name+" stream",fall,Furnace);stream.transform.SetParent(holder.transform,true);pour.stream=stream;stream.SetActive(false);
                     railed.transform.SetParent(holder.transform,true);
+                    // A rail over the camera (it can hide nothing from it, and is never seen): the ladle hangs from its trolley on two rods, carried along the run and never tipped.
+                    if(overhead)
+                    {
+                        var rods=new ZoneKit.Shape();float up=railY-hangY+.32f;
+                        foreach(int k in new[]{-1,1})rods.Slot(0).Tube(new[]{new Vector3(0,.08f,k*.42f),new Vector3(0,up,k*.42f)},new[]{.035f,.035f},6,IronDark,IronPale);
+                        rods.Slot(0).Box(new Vector3(0,up,0),new Vector3(.7f,.4f,1.1f),Quaternion.identity,IronDark,IronPale);
+                        var hanger=kit.Built(name+" hanger",rods,Iron);hanger.transform.SetPositionAndRotation(restAt,Quaternion.LookRotation(new Vector3(railDir.x,0,railDir.y)));
+                        hanger.transform.SetParent(holder.transform,true);hanger.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;pour.hanger=hanger.transform;
+                    }
                 }
                 return pour;
             }
@@ -504,17 +549,25 @@ namespace Lattice.EditorTools
                 var l2=Trough("L2");
                 // Two ladles on one clock, each resting over the floor by its wall and pouring at a third of the room's width.
                 // Each ladle waits by its side wall, its rail running into the wall behind it; the two rails meet over the middle of the room.
-                Pour(kit,"Ladle line L2 west",l2,new Vector2(-26,141),new Vector2(0,141),9,3,null,null,new Vector2(-25.7f,139.7f),new Vector2(-7,139.7f),railEnd:new Vector2(0,139.7f));
-                Pour(kit,"Ladle line L2 east",l2,new Vector2(0,141),new Vector2(26,141),9,3,null,null,new Vector2(25.7f,139.7f),new Vector2(7,139.7f),railEnd:new Vector2(0,139.7f));
+                // Their rail runs over the camera: hung at five metres across the room it laid a band of the drones' fight's floor out of the play view, where a marking would not be
+                // seen (NothingHungOverheadHidesAFightsFloorFromTheCamera). The ladles wait up by it and are let down on rods to pour at the height they always had.
+                Pour(kit,"Ladle line L2 west",l2,new Vector2(-26,141),new Vector2(0,141),9,3,null,null,new Vector2(-25.7f,139.7f),new Vector2(-7,139.7f),railEnd:new Vector2(0,139.7f),railHigh:OverTheCamera+3,hangHigh:4.9f);
+                Pour(kit,"Ladle line L2 east",l2,new Vector2(0,141),new Vector2(26,141),9,3,null,null,new Vector2(25.7f,139.7f),new Vector2(7,139.7f),railEnd:new Vector2(0,139.7f),railHigh:OverTheCamera+3,hangHigh:4.9f);
                 // The pour drones' rails run north from the ladle line, so neither rail crosses the other's hanging load.
                 foreach(float x in new[]{-13f,13f})
                 {
                     var rail=new GameObject("Drone rail "+x,typeof(ForceLine)).GetComponent<ForceLine>();rail.transform.position=On(kit,new Vector2(x,144));rail.end=On(kit,new Vector2(x,154.5f));rail.width=1.8f;
-                    var girder=new ZoneKit.Shape();var y=Cast+3.4f;girder.Slot(0).Beam(new Vector3(x,y,143.4f),new Vector3(x,y,156),.34f,.5f,IronDark,IronPale);
+                    // A pair of slender rails a hand and a half apart, on thin hangers from over the camera, the floor reading between them. The girder they replace, hung at three and a
+                    // half metres over the drones' fight, laid a band of its floor out of the play view (NothingHungOverheadHidesAFightsFloorFromTheCamera). The track is where it was.
+                    var girder=new ZoneKit.Shape();var y=Cast+3.4f;
+                    foreach(float k in new[]{-.3f,.3f})girder.Slot(0).Tube(new[]{new Vector3(x+k,y,143.4f),new Vector3(x+k,y,156)},new[]{.04f,.04f},6,IronDark,IronPale);
+                    for(float z=145.6f;z<155;z+=3.2f)foreach(float k in new[]{-.3f,.3f})girder.Slot(0).Tube(new[]{new Vector3(x+k,y+.03f,z),new Vector3(x+k,Cast+OverTheCamera+1,z)},new[]{.022f,.022f},5,IronDark,IronPale);
                     // On a post at each end: from the floor at its south end (solid: it stands in the room), from the low wall's top at its north.
                     foreach(float z in new[]{143.4f,156f}){float foot=Height(new Vector2(x,z));girder.Slot(0).Box(new Vector3(x,(foot+y)*.5f,z),new Vector3(.46f,y-foot+.3f,.46f),Quaternion.identity,IronDark,IronPale);}
                     var held=kit.Built("Drone rail girder "+x,girder,Iron);float under=kit.Y(x,143.4f);ZoneKit.Block(held,new Vector3(x,(under+y)*.5f,143.4f),new Vector3(.46f,y-under,.46f),0,"Girder post");held.isStatic=true;
                     foreach(var t in held.GetComponentsInChildren<Transform>())t.gameObject.isStatic=true;
+                    // Drawn, it stays out of the static batch, which can't be read in play: what it hides is measured with the rest.
+                    held.isStatic=false;
                 }
                 Fight(kit,"Gallery_Drones",new Vector2(0,146),new Vector2(50,19),null,("PourDrone",1,new Vector2(-13,151),180,0),("PourDrone",1,new Vector2(13,151),180,0),("MusterPikeguard",1,new Vector2(0,152),180,0));
                 var l3=Trough("L3");
@@ -602,8 +655,16 @@ namespace Lattice.EditorTools
                     // A rack of rib moulds stood on end: an iron frame 4 m long, the moulds' sand cores between its uprights.
                     for(int i=0;i<=4;i++)shape.Slot(0).Box(base_+new Vector3(-1.9f+i*.95f,1.05f,0),new Vector3(.14f,2.1f,1.2f),Quaternion.identity,IronDark,IronPale);
                     shape.Slot(0).Box(base_+new Vector3(0,2.05f,0),new Vector3(4.1f,.12f,1.25f),Quaternion.identity,IronDark,IronPale).Box(base_+new Vector3(0,.1f,0),new Vector3(4.1f,.2f,1.25f),Quaternion.identity,IronDark,IronPale);
-                    for(int i=0;i<4;i++)shape.Slot(1).Box(base_+new Vector3(-1.42f+i*.95f,1.02f,0),new Vector3(.74f,1.8f,.9f),Quaternion.identity,StoneWarm,StoneWarm);
-                    var rack=kit.Built("Mould rack "+at.x+" "+at.y,shape,Iron,Sand);rack.transform.SetParent(racks.transform,true);
+                    // The cores in moulding sand, each with its rib's curve pressed into its face, and over the two in the middle their pour cups, still hot: a rack of moulds just poured,
+                    // where a rack of pale cores read as crates (s48/216).
+                    var sandTone=new Color(.8f,.72f,.6f);
+                    for(int i=0;i<4;i++)
+                    {
+                        var core=base_+new Vector3(-1.42f+i*.95f,1.02f,0);shape.Slot(1).Box(core,new Vector3(.74f,1.8f,.9f),Quaternion.identity,ZoneKit.Shape.Dim(sandTone,.88f),sandTone);
+                        foreach(int face in new[]{-1,1}){var arc=new Vector3[7];var round=new float[7];for(int k=0;k<7;k++){float t=k/6f;arc[k]=core+new Vector3(Mathf.Sin(t*Mathf.PI)*.18f-.06f,(t-.5f)*1.5f,face*.455f);round[k]=.035f;}shape.Slot(0).Tube(arc,round,5,IronDark,IronDark,1,.4f,false);}
+                        if(i==1||i==2){var cup=core+Vector3.up*1.09f;shape.Slot(0).Tube(new[]{cup,cup+Vector3.up*.16f},new[]{.11f,.17f},10,IronDark,IronPale,1,.5f,false);shape.Slot(2).Disc(cup+Vector3.up*.14f,Vector3.up,.14f,10,Color.white);}
+                    }
+                    var rack=kit.Built("Mould rack "+at.x+" "+at.y,shape,Iron,Sand,Casting);rack.transform.SetParent(racks.transform,true);
                     ZoneKit.Block(rack,base_+Vector3.up*1.05f,new Vector3(4,2.1f,1.2f),0,"Mould rack");
                     foreach(var t in rack.GetComponentsInChildren<Transform>())t.gameObject.isStatic=true;
                 }
@@ -623,8 +684,9 @@ namespace Lattice.EditorTools
                 var barred=kit.Built("Gantry door",door,Iron);ZoneKit.Block(barred,foot+Vector3.up*1.9f,new Vector3(3.7f,3.8f,.7f),0,"Gantry door bars");barred.isStatic=true;
                 var falls=new GameObject("Vessa falls back",typeof(AfterTalk)).GetComponent<AfterTalk>();falls.transform.position=On(kit,G);
                 // At half her bar, as she falls back (the contract, revised): her shift sets the flag, and she writes her squad off in front of them, the fight paused under the talk.
-                // On her leaving at nought it has been heard and plays no more.
-                falls.flag=BossController.FallingBackFlag;falls.node="VessaFallsBack";falls.speaker="Vessa";falls.heardFlag="vask.vessaBeaten";falls.delay=1.6f;falls.duringFight=true;
+                // Heard, it says only that: the step it once set ("Take the casting gallery") moved the card on to the Colossus with a third of her bar to go (whole-game capture
+                // s48/221). The step is set as she leaves at nought, and her leaving marks this heard if it was still owed, so it plays no more.
+                falls.flag=BossController.FallingBackFlag;falls.node="VessaFallsBack";falls.speaker="Vessa";falls.heardFlag=BossController.FallBackHeardFlag;falls.delay=1.6f;falls.duringFight=true;
             }
 
             /// <summary>The heart: the landing and its talk, the door, the arena (the boss contract's), the dais with the Bridle and its juvenile, the gantry, and the release.</summary>
@@ -749,16 +811,20 @@ namespace Lattice.EditorTools
                 Hide(grille,"Smiths door grille",null,Fall);
                 var gates=new ZoneKit.Shape();foreach(int k in new[]{-1,1})gates.Slot(0).Box(doorFoot+new Vector3(k*2.26f,1.5f,1.15f),new Vector3(.1f,3f,2),Quaternion.identity,IronDark,Rust);
                 var open=kit.Built("Smiths door gates",gates,Iron);Hide(open,"Smiths door gates",Fall,null);
-                Guide Walks(GameObject who,float speed,Vector3 face,params (string flag,Vector3[] path)[] legs)
+                // What each looks toward at the end of each leg (a Guide reads the end of leg i from faces[i+1], so there is one more than there are legs): with one face for each
+                // leg, the last leg's end had none, and everyone who walked in stood as their last step left them, five smiths in a row facing nothing (s49/140).
+                Guide Walks(GameObject who,float speed,Vector3[] faces,params (string flag,Vector3[] path)[] legs)
                 {
                     var guide=who.AddComponent<Guide>();guide.speed=speed;guide.patience=6;
-                    guide.legs=legs.Select(l=>new Guide.Leg{flag=l.flag,path=l.path}).ToArray();guide.faces=legs.Select(_=>face).ToArray();
+                    guide.legs=legs.Select(l=>new Guide.Leg{flag=l.flag,path=l.path}).ToArray();
+                    guide.faces=Enumerable.Range(0,legs.Length+1).Select(i=>faces[Mathf.Min(i,faces.Length-1)]).ToArray();
                     who.transform.position=legs[0].path[0];return guide;
                 }
                 Vector3 P(float x,float z)=>On(kit,new Vector2(x,z));
                 var cage=On(kit,CageAt);var anvil=On(kit,AnvilAt);
                 var smiths=new GameObject("The smiths at the clamps");var rng=new System.Random(29);
-                string[] bodies={"BrekkBody","TovraBody","OdrunBody","DraskBody","PipBody"};
+                // Each in a body of their own, and no two one height carrying one thing (Folk): five bodies round eleven read as one smith over and over (s49/140).
+                var bodies=Folk.Bodies;
                 Color[] tints={new(.82f,.78f,.74f),new(.9f,.84f,.76f),new(.74f,.72f,.7f),new(.86f,.8f,.7f),new(.8f,.76f,.72f)};
                 int n=0;
                 foreach(float bearing in new[]{45f,135f,225f,315f})for(int k=0;k<3;k++)
@@ -766,11 +832,13 @@ namespace Lattice.EditorTools
                     if(bearing==315f&&k==0)continue;// Brekk's place at the fourth
                     var d=new Vector2(Mathf.Sin((bearing+(k-1)*16)*Mathf.Deg2Rad),Mathf.Cos((bearing+(k-1)*16)*Mathf.Deg2Rad));var at=CageAt+d*(6.4f+(k%2)*.9f);
                     var who=kit.Townsperson(bodies[n%bodies.Length],new Vector3(at.x,0,at.y),Mathf.Atan2(-d.x,-d.y)*Mathf.Rad2Deg,tints[(n*3+rng.Next(2))%tints.Length],"BrekkBody");
+                    Folk.Set(kit,who,n);
                     foreach(var t in who.GetComponentsInChildren<Transform>())t.gameObject.isStatic=false;
                     who.name="Smith "+n;who.transform.SetParent(smiths.transform,true);
                     // In at the door in ones and twos, from further back the later they come, round the cage's side to their clamp.
                     float lane=((n%3)-1)*1.1f;var start=P(lane,290+(n%4)*.8f);var mouth=P(lane,286);var round=P(Mathf.Sign(at.x+.01f)*Mathf.Max(Mathf.Abs(at.x),6.2f),Mathf.Max(at.y,284));
-                    Walks(who,3.4f,cage,("",new[]{start}),(Fall,new[]{mouth,round,P(at.x,at.y)}));n++;
+                    // At its clamp each faces the cage it holds, and goes on facing it after the release: with no face for its last leg's end a smith stood as the walk in left it.
+                    Walks(who,3.4f,new[]{cage},("",new[]{start}),(Fall,new[]{mouth,round,P(at.x,at.y)}));n++;
                 }
                 Hide(smiths,"The smiths",Waiting,"vask.roadSaid");
                 GameObject Body(string name,string id)
@@ -780,14 +848,14 @@ namespace Lattice.EditorTools
                     return body;
                 }
                 var fourth=CageAt+new Vector2(Mathf.Sin(299*Mathf.Deg2Rad),Mathf.Cos(299*Mathf.Deg2Rad))*6.4f;
-                var brekk=Body("Brekk","BrekkBody");Walks(brekk,3.2f,cage,("",new[]{P(-1.2f,291.6f)}),(Fall,new[]{P(-1.2f,286),P(-7,284),P(fourth.x,fourth.y)}),(Freed,new[]{P(AnvilAt.x+1.6f,AnvilAt.y-1.8f)}));
+                var brekk=Body("Brekk","BrekkBody");Walks(brekk,3.2f,new[]{cage,cage,cage,anvil},("",new[]{P(-1.2f,291.6f)}),(Fall,new[]{P(-1.2f,286),P(-7,284),P(fourth.x,fourth.y)}),(Freed,new[]{P(AnvilAt.x+1.6f,AnvilAt.y-1.8f)}));
                 Hide(brekk,"Brekk at the release",Waiting,"vask.roadSaid");
                 // Brisker than the rest: the longest way in, round the cage's east side to stand before it, and the release is hers to call.
-                var tovra=Body("Tovra","TovraBody");Walks(tovra,4,cage,("",new[]{P(.6f,292.2f)}),(Fall,new[]{P(.6f,286),P(5.8f,283.4f),P(6.8f,276.4f),P(2.4f,271.8f),P(0,271.6f)}),(Freed,new[]{P(-3.6f,272.6f),P(AnvilAt.x+.2f,AnvilAt.y-.9f)}));
+                var tovra=Body("Tovra","TovraBody");Walks(tovra,4,new[]{cage,cage,cage,anvil},("",new[]{P(.6f,292.2f)}),(Fall,new[]{P(.6f,286),P(5.8f,283.4f),P(6.8f,276.4f),P(2.4f,271.8f),P(0,271.6f)}),(Freed,new[]{P(-3.6f,272.6f),P(AnvilAt.x+.2f,AnvilAt.y-.9f)}));
                 Hide(tovra,"Tovra at the release",Waiting,"vask.roadSaid");
                 // Vessa out of the gantry's east door (her way from the gallery) and along it, and back off it by that door as the release ends. Loaded after it, she isn't there at all.
                 float g=Deep+5.02f;var vessa=Body("Vessa on the gantry","VessaBody");
-                Walks(vessa,2.4f,cage,("",new[]{new Vector3(17.4f,g,285.8f)}),(Fall,new[]{new Vector3(14.2f,g,285.8f),new Vector3(9.5f,g,285.6f)}),(Freed,new[]{new Vector3(14.2f,g,285.8f),new Vector3(17.4f,g,285.8f)}));
+                Walks(vessa,2.4f,new[]{cage},("",new[]{new Vector3(17.4f,g,285.8f)}),(Fall,new[]{new Vector3(14.2f,g,285.8f),new Vector3(9.5f,g,285.6f)}),(Freed,new[]{new Vector3(14.2f,g,285.8f),new Vector3(17.4f,g,285.8f)}));
                 var holder=new GameObject("Vessa (from the fall)");vessa.transform.SetParent(holder.transform,true);
                 Hide(holder,"Vessa on the gantry",Waiting,"vask.roadSaid");Hide(vessa,"Vessa gone after the release",null,Freed,false);
                 // Her door off the gantry's east end is the gantry's own piece (Gantry): a frame set in the wall, drawn apart, read as a thing sunk in it.
@@ -867,7 +935,9 @@ namespace Lattice.EditorTools
                 }
                 var mesh=new Mesh{name=prop.name+" solid"};mesh.vertices=corners;mesh.triangles=faces.ToArray();mesh.RecalculateNormals();mesh.RecalculateBounds();
                 var saved=ZoneKit.SaveMesh(mesh,"Assets/_Project/Scenes/"+FoundryZone+"-"+prop.name.Replace(" ","")+"-Solid.asset");
-                var solid=prop.AddComponent<MeshCollider>();solid.sharedMesh=saved;solid.convex=true;
+                // On a child of its own: a collision mesh on the drawn body is read as what that body draws (in play a static body's filter holds its batch), and this one has no uvs.
+                var holder=new GameObject(prop.name+" solid");holder.transform.SetParent(prop.transform,false);holder.layer=prop.layer;holder.isStatic=true;
+                var solid=holder.AddComponent<MeshCollider>();solid.sharedMesh=saved;solid.convex=true;
             }
             static void Dress(ZoneKit kit)
             {
@@ -890,11 +960,15 @@ namespace Lattice.EditorTools
                     if(NearWay(p,2.4f+tall*.3f)||NearTrough(p,.8f+tall*.5f)||NearPrompt(p,3)||InFight(p,4)||(tall>2.4f&&ShadowsAFloor(p,tall))||Vector2.Distance(p,CageAt)<9||Vector2.Distance(p,PressAt)<6||NearMachine(p,.6f+tall*.3f))continue;
                     if(Racks.Any(r=>Vector2.Distance(p,r)<4)||Vector2.Distance(p,G)<17&&p.y>155&&p.y<203)continue;
                     string piece=ZoneKit.Kit(key,fallback);
+                    // Slag, not soil, and built: a heap or rubble here is the furnaces' leavings (SlagHeap), where the kit's pieces were one dark chunk repeated (s48/061). Kept off a
+                    // pour's strip, a way and a prompt by its own spread, which is wider than the piece's was tall.
+                    if(key=="HushwellRubble"||key=="DressSpoilHeap")
+                    {
+                        float heapTall=key=="DressSpoilHeap"?tall*.8f:tall*.7f,spread=heapTall*1.45f;
+                        if(NearTrough(p,spread)||NearWay(p,spread+1)||NearPrompt(p,spread+2))continue;
+                        SlagHeap(kit,"Foundry clutter "+placed,p,heapTall,830+placed*13,key=="DressSpoilHeap"&&size>.4f);placed++;continue;
+                    }
                     var prop=kit.Prop(piece,new Vector3(p.x,0,p.y),tall,yaw);prop.name="Foundry clutter "+placed++;
-                    // Slag, not soil: a heap or rubble here is the furnaces' leavings, black and grey.
-                    if(key=="HushwellRubble"||key=="DressSpoilHeap")prop.AddComponent<PropTint>().tint=new Color(.34f,.33f,.34f);
-                    // A heap is solid where it is drawn, not across the square round its spread.
-                    if(piece=="HushwellRubble"||piece=="DressSpoilHeap")FitHeap(prop);
                 }
                 Debug.Log("FOUNDRY_CLUTTER "+placed);
                 Furnaces(kit);Pillars(kit);Rails(kit,rng);Decking(kit,rng);Stairs(kit);Moulds(kit,rng);Gantry(kit);Lamps(kit);Haze(kit);HeartDress(kit);
@@ -902,10 +976,28 @@ namespace Lattice.EditorTools
                 // in their rack, clamps for fitting, Bridles half made in their jigs). The heart: the cage and what holds it down.
                 Crane(kit,"Charging crane",108.6f,Charge,-23.2f,23.2f,4.4f);Bins(kit);Hoist(kit);Quench(kit,"Quench trough (charging floor)",new Vector2(19.8f,104.5f),0,3.2f);
                 Crane(kit,"Gallery crane",197,Cast,-26.8f,26.8f,-7.5f);
-                RingRack(kit,"Ring rack",new Vector2(-24,183.6f),4,5,1);Quench(kit,"Quench trough (gallery)",new Vector2(-24,189.6f),0,2.8f);
+                // No more cranes than these two: three more, hung over the charging floor's middle and the gallery's south half for something hot in those frames (s48/080, s48/216),
+                // laid bands of three fights' floors out of the play view behind their girders and crucibles, where a marking would not be seen (NothingHungOverheadHidesAFightsFloorFrom
+                // TheCamera). A crane hangs only where what it hides lies past a fight's floor; the ladle stands, the furnaces and the flasks light those rooms.
+                RingRack(kit,"Ring rack",new Vector2(-24,183.6f),4,5,3);Quench(kit,"Quench trough (gallery)",new Vector2(-24,189.6f),0,2.8f);
                 ClampRow(kit,new Vector2(24,184),new Vector2(0,1.6f),3,270);kit.Prop(ZoneKit.Kit("DressCableDrum","DressCargoPallet"),new Vector3(23.8f,0,190.2f),1.2f,90).name="Bridle wire drum";
                 Jig(kit,"A Bridle half made",new Vector2(-19.8f,200.6f),3.6f,20);Jig(kit,"A Bridle half made (east)",new Vector2(20.8f,201),3.4f,-30);
                 HeartWork(kit);
+                // The heat a stranger names it by (the whole-game capture, November 20): the yard's smithy, its slag car and its pig iron; the gallery's furnace in its east wall, a
+                // second rack of castings cooling by its west wall, the flasks waiting by the south room's north wall; the launders round the heart's back rim.
+                FlameSheet=Hearths.Flame(kit);
+                Smithy(kit,SmithyAt);SlagCar(kit,new Vector2(-16,35.6f));PigRack(kit,new Vector2(16.9f,31.6f),2.8f);
+                // Where a party walks and fights through the wheel hall and the charging floor's middle, with the furnaces out of the frame at the room's far end (s48/075, s48/080).
+                LadleStand(kit,"Ladle stand (wheel hall)",new Vector2(16.3f,47.6f),-90);LadleStand(kit,"Ladle stand (charging floor)",new Vector2(20.2f,85.6f),-90);
+                SlagCar(kit,new Vector2(-19.4f,85.2f));LadleStand(kit,"Ladle stand (gallery)",new Vector2(20.5f,158.8f),0);
+                // Where each room is first stood in: a pair of full ladles either side of the way in from the gangway and from the gallery's door, one at the yard's top, and a furnace
+                // mouth in the wheel hall's north wall: the frame a party enters a room by has its heat in it.
+                foreach(int side in new[]{-1,1}){LadleStand(kit,"Ladle stand (charging entry "+(side<0?"west":"east")+")",new Vector2(side*7.6f,82.9f),0);LadleStand(kit,"Ladle stand (gallery door "+(side<0?"west":"east")+")",new Vector2(side*8,158.8f),0);}
+                LadleStand(kit,"Ladle stand (yard)",new Vector2(9.5f,42.5f),180);WallFurnace(kit,"Wheel hall furnace",new Vector2(-15.5f,64),Vector2.down);
+                WallFurnace(kit,"Gallery furnace",new Vector2(25.9f,170),Vector2.left);RingRack(kit,"Ring rack (south)",new Vector2(-24.2f,170),4,4,2);
+                Flasks(kit,new Vector2(-15.6f,152.9f),0,7);Flasks(kit,new Vector2(15.6f,152.9f),0,11);
+                Launders(kit);
+                GratedRunners(kit);
             }
             /// <summary>The heart's own: the vein shows through grated vents high in its north and east rim wall (lit from behind, three to five metres up: on the wall, never on
             /// the floor), and two great ducts climb out of the furnace's root either side of the dais and away into the dark.</summary>
@@ -1039,7 +1131,7 @@ namespace Lattice.EditorTools
                 foreach(var (x,z,yaw) in new[]{(-35.5f,20f,0f),(-35.5f,25.5f,0f),(-16f,16f,0f),(-16f,31f,180f),(-19.4f,90f,0f),(-19.4f,99.6f,0f)})Skip(kit,new Vector2(x,z),yaw);
                 foreach(var (x,z,yaw) in new[]{(-35.5f,33f,0f),(-16f,40.2f,0f),(-19.4f,110f,0f)})kit.Prop(ZoneKit.Kit("DressRailBuffer","DressCargoPallet"),new Vector3(x,0,z),.9f,yaw);
                 // Ore in heaps where the skips are filled, in the skip store's corners.
-                foreach(var (x,z) in new[]{(-24.8f,17.4f),(-24.8f,30.8f)}){var heap=kit.Prop(ZoneKit.Kit("DressSpoilHeap","HushwellRubble"),new Vector3(x,0,z),1.4f,x*7+z);heap.name="Ore heap";heap.AddComponent<PropTint>().tint=new Color(.44f,.36f,.32f);}
+                int ore=0;foreach(var (x,z) in new[]{(-24.8f,17.4f),(-24.8f,30.8f)})SlagHeap(kit,"Ore heap "+(++ore),new Vector2(x,z),1.1f,610+ore,false,true);
             }
             /// <summary>An ore skip on its rails: a riveted iron tub on its frame and four wheels, heaped with dark iron ore.</summary>
             static void Skip(ZoneKit kit,Vector2 at,float yaw)
@@ -1138,6 +1230,11 @@ namespace Lattice.EditorTools
                 (new(-35.5f,20),1.4f),(new(-35.5f,25.5f),1.4f),(new(-16,16),1.4f),(new(-16,31),1.4f),
                 (new(-24,183.6f),2.8f),(new(-24,189.6f),2.2f),(new(24,185.6f),2.6f),(new(23.8f,190.2f),1.4f),(new(-19.8f,200.6f),2.6f),(new(20.8f,201),2.4f),
                 (new(-10,283),1.8f),(new(10,283),1.8f),(new(-10.8f,279.4f),2),
+                // The heat (November 20): the smithy and its anvil, rack and tub, the slag car, the pig iron, the hoist's casting, the gallery's furnace and its second ring rack, the flasks.
+                (SmithyAt,2.2f),(SmithyAt+new Vector2(-2,-.3f),1.1f),(SmithyAt+new Vector2(-.6f,-2),1.1f),(SmithyAt+new Vector2(0,1.9f),1),(new(-16,35.6f),1.6f),(new(16.9f,31.6f),1.8f),
+                (new(14.3f,36),1.2f),(new(25,170),2.4f),(new(-24.2f,170),2.6f),(new(-15.6f,152.9f),1.8f),(new(15.6f,152.9f),1.8f),(new(16.3f,47.6f),1.5f),(new(20.2f,85.6f),1.5f),
+                (new(-19.4f,85.2f),1.6f),(new(20.5f,158.8f),1.5f),(new(-7.6f,82.9f),1.5f),(new(7.6f,82.9f),1.5f),(new(-8,158.8f),1.5f),(new(8,158.8f),1.5f),(new(9.5f,42.5f),1.5f),
+                (new(-15.5f,63.2f),2.4f),
             };
             static bool NearMachine(Vector2 p,float within){foreach(var (at,r) in Machines)if(Vector2.Distance(p,at)<r+within)return true;return false;}
             /// <summary>Warm light painted on the floor (plan centre, radius, strength): before a furnace's mouth, under a crucible. The floor is one renderer and takes six lights at
@@ -1185,6 +1282,9 @@ namespace Lattice.EditorTools
                 foreach(int k in new[]{-1,1})iron.Slot(0).Tube(new[]{hook+new Vector3(k*.1f,.2f,0),t+new Vector3(k*.3f,-.5f,0)},new[]{.035f,.035f},5,IronPale,IronPale);
                 glow.Slot(0).Disc(c+Vector3.up*(top-.1f),Vector3.up,.76f,16,Color.white);
                 var crane=kit.Built(name,iron,Iron);var lit=kit.Built(name+" melt",glow,Furnace);lit.transform.SetParent(crane.transform,true);
+                // No shadow: a girder ten metres up laid a dark band right across the room below it, read as something on the floor; and the crucible's melt laid a round one
+                // that the warm light round it turned lavender, a purple disc on the floor (render scoria-lookfix-07, gallery).
+                foreach(var r in crane.GetComponentsInChildren<Renderer>())r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
                 var light=kit.Lamp(new Vector3(at,3.9f,z),10,1.5f,new Color(1,.72f,.46f));light.name="Crucible light";light.transform.SetParent(crane.transform,true);
                 Breathe(crane,new[]{lit.GetComponent<Renderer>()},new[]{light},4.2f,.7f,1.05f);
                 ZoneKit.Fadeable(crane);
@@ -1223,6 +1323,23 @@ namespace Lattice.EditorTools
                 var hook=new Vector3[8];var round=new float[8];for(int k=0;k<8;k++){float a=k/7f*Mathf.PI*1.3f;hook[k]=new Vector3(block.x+Mathf.Sin(a)*.16f,hookAt-.16f+Mathf.Cos(a)*.16f,block.z);round[k]=.04f;}
                 s.Slot(0).Tube(hook,round,6,IronDark,IronPale);
                 var hoist=kit.Built("Chain hoist",s,Iron);ZoneKit.Block(hoist,mast+Vector3.up*3.35f,new Vector3(.5f,6.7f,.5f),0,"Hoist mast");hoist.isStatic=true;
+                // On the hook, a Bridle ring just out of the gallery, slung in chain to cool where the yard's air moves: dull red going to orange, a metre and more over the floor, turned
+                // to the camera so it reads round.
+                var ring=new ZoneKit.Shape();var sling=new ZoneKit.Shape();var hookTip=new Vector3(block.x,hookAt-.2f,block.z);var middle=hookTip+Vector3.down*1.05f;
+                var across=new Vector3(Mathf.Cos(SightlineAudit.Yaw*Mathf.Deg2Rad),0,-Mathf.Sin(SightlineAudit.Yaw*Mathf.Deg2Rad));var points=new Vector3[25];var thick=new float[25];
+                for(int k=0;k<25;k++){float a=k*Mathf.PI*2/24;points[k]=middle+Vector3.up*Mathf.Sin(a)*.72f+across*Mathf.Cos(a)*.72f;thick[k]=.11f;}
+                ring.Tube(points,thick,8,Color.white,Color.white,1,.5f,false);
+                foreach(int k in new[]{-1,1})sling.Beam(hookTip,middle+Vector3.up*.6f+across*k*.38f,.05f,.05f,IronDark,IronPale);
+                // Let down onto a cooling stand, a saddle on two legs, so its weight is off the chain: slung half a metre over bare floor it read as floating (QaPlanWorldTests).
+                float ground=kit.Y(block.x,block.z),under=middle.y-.83f;var turn=Quaternion.Euler(0,SightlineAudit.Yaw,0);
+                foreach(int k in new[]{-1,1})sling.Box(new Vector3(block.x,ground,block.z)+across*k*.36f+Vector3.up*(under-ground)*.5f,new Vector3(.12f,under-ground,.32f),turn,IronDark,IronPale);
+                sling.Box(new Vector3(block.x,under-.03f,block.z),new Vector3(.9f,.08f,.36f),turn,IronDark,Rust);
+                var casting=kit.Built("Casting on the hoist",ring,Casting);kit.Built("Casting sling",sling,Iron).transform.SetParent(casting.transform,true);
+                ZoneKit.Block(casting,middle,new Vector3(1.6f,1.6f,.4f),SightlineAudit.Yaw,"Casting on the hoist");
+                var glow=kit.Lamp(new Vector3(middle.x,0,middle.z),4.5f,.9f,new Color(1,.55f,.3f));glow.transform.position=middle;glow.name="Casting light";glow.transform.SetParent(casting.transform,true);
+                Breathe(casting,new[]{casting.GetComponent<Renderer>()},new[]{glow},8,.86f,1.03f).colour=new Color(1.05f,.34f,.1f);
+                Rise(kit,"Casting heat",middle+Vector3.up*.9f,new Vector3(1.2f,.3f,.6f),Embers,new Color(1,.55f,.25f,1),6,.02f,.04f,.5f,3);
+                WarmPools.Add((new Vector2(middle.x-.4f,middle.z-2.2f),1.4f,.14f));
             }
             /// <summary>A quench trough: a riveted iron tank of coolant a hand under its lip and a little steam off it, what a casting is cooled in. Along z, or across it at yaw 90.</summary>
             static void Quench(ZoneKit kit,string name,Vector2 at,float yaw,float length)
@@ -1245,7 +1362,7 @@ namespace Lattice.EditorTools
             /// the floor). The rings face the room's length, so the camera sees them round.</summary>
             static void RingRack(ZoneKit kit,string name,Vector2 at,float length,int rings,int warm)
             {
-                var foot=On(kit,at);var s=new ZoneKit.Shape();var hot=new ZoneKit.Shape();
+                var foot=On(kit,at);var s=new ZoneKit.Shape();var hot=new ZoneKit.Shape();var hottest=new ZoneKit.Shape();
                 foreach(int k in new[]{-1,1})s.Slot(0).Box(foot+new Vector3(0,1.1f,k*length*.5f),new Vector3(1,2.2f,.14f),Quaternion.identity,IronDark,IronPale);
                 foreach(float x in new[]{-.42f,.42f})s.Slot(0).Box(foot+new Vector3(x,.18f,0),new Vector3(.14f,.14f,length),Quaternion.identity,IronDark,IronPale);
                 s.Slot(0).Box(foot+new Vector3(0,2.14f,0),new Vector3(1,.12f,length+.14f),Quaternion.identity,IronDark,IronPale);
@@ -1253,10 +1370,12 @@ namespace Lattice.EditorTools
                 {
                     float z=-length*.5f+(i+.5f)*length/rings;var c=foot+new Vector3(0,.98f,z);var ring=new Vector3[19];var round=new float[19];
                     for(int k=0;k<19;k++){float a=k*Mathf.PI*2/18;ring[k]=c+new Vector3(Mathf.Cos(a)*.74f,Mathf.Sin(a)*.74f,0);round[k]=.1f;}
-                    (i>=rings-warm?hot:s).Slot(0).Tube(ring,round,8,IronDark,i%2==0?IronPale:Rust,1,.4f,false);
+                    // The newest still orange where it is thickest, the ones before it dull red, the rest cold: a rack of a shift's work cooling in order.
+                    (i==rings-1&&warm>0?hottest:i>=rings-warm?hot:s).Slot(0).Tube(ring,round,8,IronDark,i%2==0?IronPale:Rust,1,.4f,false);
                 }
                 var rack=kit.Built(name,s,Iron);
-                if(warm>0){var glow=kit.Built(name+" cooling",hot,Cooling);glow.transform.SetParent(rack.transform,true);}
+                if(warm>1){var glow=kit.Built(name+" cooling",hot,Cooling);glow.transform.SetParent(rack.transform,true);}
+                if(warm>0){var newest=kit.Built(name+" newest",hottest,Casting);newest.transform.SetParent(rack.transform,true);}
                 ZoneKit.Block(rack,foot+Vector3.up*1.1f,new Vector3(1,2.2f,length),0,"Ring rack");rack.isStatic=true;
             }
             /// <summary>Clamps for a Bridle's feet, made here and stood in a row against a wall for fitting: the clamp model, unlit.</summary>
@@ -1306,10 +1425,276 @@ namespace Lattice.EditorTools
                 kit.Built("Spent Bridle ribs",ribs,Iron);
             }
 
+            // ---------------------------------------------------------------- the heat a stranger names it by (the whole-game capture, November 20)
+            /// <summary>The yard's smithy against its east wall, the first fire a party sees in here (the yard was a paved square with a hound in it, s48/080): a hearth of fire brick with
+            /// its fire at hand height, an iron hood over it and its chimney into the wall, the bellows at its north end on their frame, an anvil on its stump before it with a rack of
+            /// tongs and hammers, a quench tub. Everything hot is up on the hearth, never on the floor.</summary>
+            internal static readonly Vector2 SmithyAt=new(17.1f,20.5f);
+            static void Smithy(ZoneKit kit,Vector2 at)
+            {
+                var foot=On(kit,at);var brick=new ZoneKit.Shape();var iron=new ZoneKit.Shape();var hide=new ZoneKit.Shape();
+                const float tall=.86f,wide=1.2f,deep=2.3f;
+                brick.Slot(0).Box(foot+Vector3.up*tall*.5f,new Vector3(wide,tall,deep),Quaternion.identity,StoneDark,StoneWarm);
+                for(float h=.29f;h<tall-.1f;h+=.29f)brick.Slot(0).Box(foot+Vector3.up*h,new Vector3(wide+.04f,.04f,deep+.04f),Quaternion.identity,ZoneKit.Shape.Dim(StoneDark,.7f));
+                foreach(int k in new[]{-1,1})
+                {
+                    iron.Slot(0).Box(foot+new Vector3(k*(wide*.5f-.06f),tall+.04f,0),new Vector3(.12f,.08f,deep),Quaternion.identity,IronDark,IronPale);
+                    iron.Slot(0).Box(foot+new Vector3(0,tall+.04f,k*(deep*.5f-.06f)),new Vector3(wide,.08f,.12f),Quaternion.identity,IronDark,IronPale);
+                }
+                // The hood: over the whole hearth at 2.3 m, drawing in to a throat against the wall at 3.3; rods down to the hearth's front corners; the chimney up from the throat
+                // and back into the wall's top.
+                float x0=at.x-wide*.5f-.15f,x1=at.x+wide*.5f+.35f,z0=at.y-deep*.5f-.1f,z1=at.y+deep*.5f+.1f,y0=foot.y+2.3f,y1=foot.y+3.3f,tx0=at.x+.1f,tx1=at.x+.7f,tz0=at.y-.36f,tz1=at.y+.36f;
+                Vector3 B(float x,float z)=>new(x,y0,z);Vector3 T(float x,float z)=>new(x,y1,z);
+                iron.Slot(0).Quad(B(x0,z0),B(x0,z1),T(tx0,tz1),T(tx0,tz0),new Vector3(-1,.6f,0),IronDark).Quad(B(x0,z0),T(tx0,tz0),T(tx1,tz0),B(x1,z0),new Vector3(0,.5f,-1),IronDark)
+                    .Quad(B(x0,z1),B(x1,z1),T(tx1,tz1),T(tx0,tz1),new Vector3(0,.5f,1),IronDark);
+                iron.Slot(0).Beam(B(x0,z0),B(x0,z1),.1f,.12f,IronDark,IronPale).Beam(B(x0,z0),B(x1,z0),.1f,.12f,IronDark,IronPale).Beam(B(x0,z1),B(x1,z1),.1f,.12f,IronDark,IronPale);
+                foreach(int k in new[]{-1,1})iron.Slot(0).Beam(new Vector3(x0+.06f,foot.y+tall+.05f,at.y+k*(deep*.5f-.06f)),B(x0+.06f,at.y+k*(deep*.5f-.06f)),.05f,.05f,IronDark);
+                var throat=new Vector3((tx0+tx1)*.5f,y1,at.y);
+                iron.Slot(0).Tube(new[]{throat,throat+Vector3.up*1.4f,throat+new Vector3(.5f,3.2f,0),throat+new Vector3(.9f,4.8f,0)},new[]{.3f,.3f,.3f,.3f},10,IronDark,Rust,1,.5f,false);
+                // The bellows at its north end: a frame, two boards and the leather between them, the nozzle into the hearth's side, the lever up over it.
+                var b=new Vector3(at.x-.05f,foot.y,at.y+deep*.5f+.7f);
+                foreach(int k in new[]{-1,1})iron.Slot(0).Box(b+new Vector3(k*.42f,.38f,0),new Vector3(.08f,.76f,.08f),Quaternion.identity,IronDark,IronPale);
+                iron.Slot(0).Box(b+new Vector3(0,.76f,0),new Vector3(.95f,.08f,.12f),Quaternion.identity,IronDark,IronPale);
+                hide.Slot(0).Box(b+new Vector3(0,.82f,0),new Vector3(.9f,.06f,1.1f),Quaternion.Euler(-4,0,0),new Color(.36f,.26f,.2f),new Color(.46f,.34f,.24f))
+                    .Box(b+new Vector3(0,1.22f,.05f),new Vector3(.86f,.06f,1.04f),Quaternion.Euler(12,0,0),new Color(.36f,.26f,.2f),new Color(.5f,.38f,.26f));
+                hide.Slot(1).Lump(b+new Vector3(0,1.02f,.1f),new Vector3(.4f,.17f,.48f),71,.12f,new Color(.5f,.34f,.24f),new Color(.3f,.2f,.14f),12,6);
+                iron.Slot(0).Tube(new[]{b+new Vector3(0,1,-.5f),b+new Vector3(0,.98f,-.95f)},new[]{.07f,.05f},8,IronDark,IronPale);
+                iron.Slot(0).Beam(b+new Vector3(.5f,1.25f,.4f),b+new Vector3(.5f,1.95f,-.6f),.06f,.06f,IronDark,IronPale);
+                // The anvil on its stump before the hearth, the rack of tongs and hammers beside it, the quench tub at the hearth's south end.
+                var anvil=On(kit,at+new Vector2(-2,-.3f));var turn=Quaternion.Euler(0,10,0);
+                iron.Slot(0).Post(anvil,.55f,.4f,.33f,10,ZoneKit.Shape.Dim(Rust,.55f),ZoneKit.Shape.Dim(Rust,.7f)).Box(anvil+Vector3.up*.66f,new Vector3(.6f,.24f,1.05f),turn,IronDark,IronPale)
+                    .Box(anvil+Vector3.up*.86f,new Vector3(.48f,.16f,1.25f),turn,IronDark,IronPale).Tube(new[]{anvil+turn*new Vector3(0,.86f,.62f),anvil+turn*new Vector3(0,.84f,1.02f)},new[]{.15f,.03f},8,IronPale,IronPale);
+                var rack=On(kit,at+new Vector2(-.2f,-deep*.5f-1.35f));
+                foreach(int k in new[]{-1,1})iron.Slot(0).Post(rack+new Vector3(0,0,k*.5f),1.5f,.04f,.04f,6,IronDark,IronPale);
+                iron.Slot(0).Beam(rack+new Vector3(0,1.42f,-.55f),rack+new Vector3(0,1.42f,.55f),.05f,.05f,IronDark);
+                for(int i=0;i<3;i++){var hang=rack+new Vector3(0,1.42f,-.32f+i*.22f);iron.Slot(0).Beam(hang,hang+new Vector3(-.12f,-1.05f,.04f),.025f,.025f,IronDark).Beam(hang,hang+new Vector3(.12f,-1.05f,-.04f),.025f,.025f,IronDark);}
+                foreach(float z in new[]{.28f,.44f}){var hang=rack+new Vector3(0,1.42f,z);iron.Slot(0).Beam(hang,hang+Vector3.down*.55f,.03f,.03f,IronPale).Box(hang+Vector3.down*.62f,new Vector3(.1f,.1f,.24f),Quaternion.identity,IronDark,IronPale);}
+                var tub=On(kit,at+new Vector2(-.9f,-deep*.5f-.45f));var water=new ZoneKit.Shape();
+                iron.Slot(0).Post(tub,.62f,.36f,.4f,12,ZoneKit.Shape.Dim(Rust,.6f),IronDark);water.Disc(tub+Vector3.up*.56f,Vector3.up,.34f,12,Color.white);
+                var hearth=kit.Built("Smithy hearth",brick,WallMat);var ironwork=kit.Built("Smithy ironwork",iron,Iron);var bellows=kit.Built("Smithy bellows",hide,Sand,Soot);kit.Built("Smithy tub water",water,Quenched);
+                ZoneKit.Block(hearth,foot+Vector3.up*tall*.5f,new Vector3(wide,tall,deep),0,"Hearth");ZoneKit.Block(ironwork,anvil+Vector3.up*.47f,new Vector3(.62f,.94f,1.2f),10,"Anvil");
+                ZoneKit.Block(ironwork,tub+Vector3.up*.31f,new Vector3(.8f,.62f,.8f),0,"Quench tub");ZoneKit.Block(bellows,b+Vector3.up*.6f,new Vector3(.95f,1.2f,1.1f),0,"Bellows");
+                hearth.isStatic=true;ZoneKit.Fadeable(ironwork);
+                Hearths.Fire(kit,"Smithy fire",foot+Vector3.up*(tall+.05f),.42f,.78f,8,2.1f,91);
+                Rise(kit,"Smithy chimney smoke",throat+new Vector3(.9f,5,0),new Vector3(.6f,.4f,.6f),LitSmoke,new Color(.62f,.42f,.32f,.06f),8,1,2,.5f,8);
+                Rise(kit,"Smithy tub steam",tub+Vector3.up*.75f,new Vector3(.5f,.2f,.5f),Steam,new Color(.8f,.86f,.86f,.05f),6,.4f,.9f,.3f,4);
+                // Beside what stands, never under it: the ground kit lays no pool across a solid.
+                WarmPools.Add((at+new Vector2(-4,.8f),1.8f,.28f));
+            }
+            /// <summary>A slag pot on its car on the yard's skip rails: a frame on four wheels, the cradle, the pot tipped a little toward the yard and its slag still hot on top, crusting at
+            /// the rim, breathing, a light over it.</summary>
+            static void SlagCar(ZoneKit kit,Vector2 at)
+            {
+                var foot=On(kit,at);var s=new ZoneKit.Shape();var hot=new ZoneKit.Shape();
+                s.Slot(0).Box(foot+Vector3.up*.42f,new Vector3(1.2f,.14f,1.9f),Quaternion.identity,IronDark,IronPale);
+                foreach(int a in new[]{-1,1})foreach(int c in new[]{-1,1})s.Slot(0).Tube(new[]{foot+new Vector3(a*.5f,.22f,c*.6f),foot+new Vector3(a*.62f,.22f,c*.6f)},new[]{.21f,.21f},10,IronDark,IronPale);
+                foreach(int c in new[]{-1,1})s.Slot(0).Box(foot+new Vector3(0,.62f,c*.62f),new Vector3(1.1f,.36f,.12f),Quaternion.identity,IronDark,Rust);
+                var tilt=Quaternion.Euler(0,0,-8);var pot=foot+Vector3.up*.55f;
+                s.Slot(0).Tube(new[]{pot,pot+tilt*Vector3.up*.45f,pot+tilt*Vector3.up*.85f},new[]{.5f,.74f,.86f},16,ZoneKit.Shape.Dim(Rust,.55f),IronDark,1,.5f,false).Disc(pot,Vector3.down,.5f,16,IronDark);
+                s.Slot(0).Tube(new[]{pot+tilt*Vector3.up*.8f,pot+tilt*Vector3.up*.9f},new[]{.9f,.9f},16,IronDark,IronPale,1,.5f,false);
+                // The slag is the car's own (a second material of one body): it stands in a pot on a car, not on a floor.
+                s.Slot(1).Disc(pot+tilt*Vector3.up*.78f,tilt*Vector3.up,.82f,16,Color.white);_=hot;
+                var car=kit.Built("Slag pot car",s,Iron,HotSlag);
+                ZoneKit.Block(car,foot+Vector3.up*.7f,new Vector3(1.3f,1.4f,1.9f),0,"Slag pot car");car.isStatic=true;
+                var light=kit.Lamp(new Vector3(at.x,2.1f,at.y),5.5f,1.1f,new Color(1,.6f,.32f));light.name="Slag light";light.transform.SetParent(car.transform,true);
+                Breathe(car,new Renderer[0],new[]{light},4.6f,.72f,1.06f);
+                Rise(kit,"Slag pot embers",pot+Vector3.up*1,new Vector3(1.2f,.3f,1.2f),Embers,new Color(1,.6f,.28f,1),12,.03f,.06f,.7f,3);
+                Rise(kit,"Slag pot smoke",pot+Vector3.up*1.6f,new Vector3(1.2f,.6f,1.2f),LitSmoke,new Color(.6f,.42f,.32f,.05f),8,1,2,.3f,8);
+                WarmPools.Add((at+new Vector2(2.4f,0),1.6f,.2f));
+            }
+            /// <summary>A pouring ladle in its stand by a wall, full: two A-frames and the trunnions it hangs from, the ladle's riveted shell and its spout, the metal in it the brightest
+            /// thing near it, a light over it and embers going up. The charging floor's middle and the wheel hall had nothing hot in them where a party walks and fights (s48/080, s48/075):
+            /// the furnaces stand at the room's far end, out of the frame.</summary>
+            static void LadleStand(ZoneKit kit,string name,Vector2 at,float yaw)
+            {
+                var turn=Quaternion.Euler(0,yaw,0);var foot=On(kit,at);var s=new ZoneKit.Shape();Vector3 P(float x,float y,float z)=>foot+turn*new Vector3(x,y,z);
+                foreach(int k in new[]{-1,1})
+                {
+                    s.Slot(0).Beam(P(k*.95f,0,-.6f),P(k*.95f,1.75f,0),.12f,.12f,IronDark,IronPale).Beam(P(k*.95f,0,.6f),P(k*.95f,1.75f,0),.12f,.12f,IronDark,IronPale).Beam(P(k*.95f,.35f,-.48f),P(k*.95f,.35f,.48f),.08f,.08f,IronDark);
+                    s.Slot(0).Tube(new[]{P(k*.95f,1.62f,0),P(k*.7f,1.62f,0)},new[]{.1f,.1f},8,IronPale,IronPale);
+                }
+                var bowl=P(0,.95f,0);
+                s.Slot(0).Tube(new[]{bowl,bowl+Vector3.up*.45f,bowl+Vector3.up*.9f},new[]{.46f,.64f,.7f},16,ZoneKit.Shape.Dim(Rust,.55f),IronDark,1,.5f,false).Disc(bowl,Vector3.down,.46f,16,IronDark);
+                s.Slot(0).Tube(new[]{bowl+Vector3.up*.86f,bowl+Vector3.up*.94f},new[]{.75f,.75f},16,IronDark,IronPale,1,.5f,false);
+                foreach(float h in new[]{.25f,.6f})s.Slot(0).Tube(new[]{bowl+Vector3.up*(h-.03f),bowl+Vector3.up*(h+.03f)},new[]{.53f+h*.2f,.53f+h*.2f},16,IronDark,IronPale,1,.5f,false);
+                s.Slot(0).Tube(new[]{P(0,1.8f,.66f),P(0,1.86f,.96f)},new[]{.16f,.1f},8,IronDark,IronPale);
+                s.Slot(1).Disc(bowl+Vector3.up*.84f,Vector3.up,.68f,16,Color.white).Tube(new[]{P(0,1.82f,.7f),P(0,1.86f,.95f)},new[]{.08f,.05f},6,Color.white,Color.white);
+                var stand=kit.Built(name,s,Iron,Runner);ZoneKit.Block(stand,foot+Vector3.up*.95f,new Vector3(2.1f,1.9f,1.4f),yaw,"Ladle stand");stand.isStatic=true;
+                var light=kit.Lamp(new Vector3(at.x,2.6f,at.y),7.5f,1.5f,new Color(1,.7f,.42f));light.name="Ladle light";light.transform.SetParent(stand.transform,true);
+                Breathe(stand,new Renderer[0],new[]{light},5.4f,.82f,1.05f);
+                Rise(kit,name+" embers",bowl+Vector3.up*1.1f,new Vector3(1.2f,.3f,1.2f),Embers,new Color(1,.62f,.3f,1),18,.03f,.06f,.8f,3);
+                Rise(kit,name+" smoke",bowl+Vector3.up*1.8f,new Vector3(1.2f,.6f,1.2f),LitSmoke,new Color(.7f,.44f,.3f,.06f),8,1,2,.3f,8);
+                var before=turn*Vector3.forward;WarmPools.Add((at+new Vector2(before.x,before.z)*2.6f,1.8f,.24f));
+            }
+            /// <summary>A table of pig iron along a wall, cast this shift: the oldest dark at its south end, the newest still dull red to orange at its north, up on the table where they
+            /// were stacked to cool and never on the floor.</summary>
+            static void PigRack(ZoneKit kit,Vector2 at,float length)
+            {
+                var foot=On(kit,at);var s=new ZoneKit.Shape();var hot=new ZoneKit.Shape();const float top=.96f;
+                foreach(int a in new[]{-1,1})foreach(int c in new[]{-1,1})s.Slot(0).Box(foot+new Vector3(a*.42f,top*.5f,c*(length*.5f-.1f)),new Vector3(.1f,top,.1f),Quaternion.identity,IronDark,IronPale);
+                s.Slot(0).Box(foot+Vector3.up*(top-.04f),new Vector3(1,.08f,length),Quaternion.identity,IronDark,IronPale);
+                int rows=Mathf.FloorToInt(length/.26f);
+                for(int i=0;i<rows;i++)for(int k=0;k<2;k++)
+                {
+                    float z=-length*.5f+.18f+i*.26f;var c=foot+new Vector3(-.24f+k*.48f,top+.08f+(i%2)*.0f,z);bool warm=i>=rows*.55f;
+                    // This shift's pigs are the table's own (a second material of one body): they lie on a table, not on a floor.
+                    s.Slot(warm?1:0).Box(c,new Vector3(.44f,.14f,.2f),Quaternion.Euler(0,(i*7+k*3)%5-2,0),IronDark,warm?Color.white:Color.Lerp(IronPale,Rust,(i%3)*.3f));
+                    if(i%2==0)s.Slot(warm?1:0).Box(c+Vector3.up*.15f,new Vector3(.4f,.13f,.18f),Quaternion.Euler(0,90+(i*5)%7-3,0),IronDark,warm?Color.white:IronPale);
+                }
+                _=hot;var table=kit.Built("Pig iron table",s,Ingot,Casting);
+                ZoneKit.Block(table,foot+Vector3.up*.6f,new Vector3(1,1.2f,length),0,"Pig iron table");table.isStatic=true;
+                Rise(kit,"Pig iron heat",foot+new Vector3(0,top+.6f,length*.3f),new Vector3(.8f,.3f,length*.4f),Embers,new Color(1,.55f,.25f,1),6,.02f,.04f,.5f,3);
+                WarmPools.Add((at+new Vector2(-2.2f,.7f),1.4f,.16f));
+            }
+            /// <summary>A furnace's mouth in a gallery's wall: a cast frame proud of the masonry, its sill at a metre, a grated door with the fire behind it and flame licking out over the
+            /// lintel, a hood, its light and embers going up; the floor before it takes a soft pool of its light. On the wall, never the floor.</summary>
+            static void WallFurnace(ZoneKit kit,string name,Vector2 at,Vector2 inward)
+            {
+                var turn=Quaternion.LookRotation(new Vector3(inward.x,0,inward.y));var foot=On(kit,at);var iron=new ZoneKit.Shape();var glow=new ZoneKit.Shape();
+                Vector3 P(float x,float y,float z)=>foot+turn*new Vector3(x,y,z);
+                iron.Slot(0).Box(P(0,.5f,.25f),new Vector3(3.6f,1,.8f),turn,IronDark,IronPale);
+                foreach(int k in new[]{-1,1})iron.Slot(0).Box(P(k*1.55f,1.85f,.2f),new Vector3(.5f,2.7f,.7f),turn,IronDark,IronPale);
+                iron.Slot(0).Box(P(0,3.35f,.12f),new Vector3(3.9f,.6f,.9f),turn,IronDark,IronPale).Box(P(0,4.05f,.3f),new Vector3(3.2f,.9f,1.2f),turn*Quaternion.Euler(-16,0,0),IronDark,Rust);
+                for(int i=0;i<6;i++)iron.Slot(0).Post(P(-1.05f+i*.42f,1,.45f),2.05f,.05f,.05f,6,IronDark,IronPale);
+                glow.Quad(P(-1.3f,1,.3f),P(1.3f,1,.3f),P(1.3f,3.05f,.3f),P(-1.3f,3.05f,.3f),turn*Vector3.forward,Color.white,.4f);
+                var body=kit.Built(name,iron,Iron);var fire=kit.Built(name+" fire",glow,Furnace);fire.transform.SetParent(body.transform,true);
+                ZoneKit.Block(body,P(0,2,.25f),new Vector3(3.6f,4,.8f),turn.eulerAngles.y,"Furnace mouth");body.isStatic=true;
+                var mid=at+inward*1.4f;var light=kit.Lamp(new Vector3(mid.x,2,mid.y),7.5f,1.6f,new Color(1,.66f,.38f));light.name="Furnace light";light.transform.SetParent(body.transform,true);
+                Breathe(body,new[]{fire.GetComponent<Renderer>()},new[]{light},3.4f+at.y*.01f);
+                // Flame licking out over the lintel's foot: the fire is too big for its door.
+                var lick=GameObject.CreatePrimitive(PrimitiveType.Quad);lick.name=name+" flame";UnityEngine.Object.DestroyImmediate(lick.GetComponent<Collider>());lick.transform.SetParent(body.transform,false);
+                lick.transform.rotation=Quaternion.LookRotation(-new Vector3(inward.x,0,inward.y));lick.transform.position=P(0,3.3f,.75f);lick.transform.localScale=new Vector3(2.2f,1.1f,1);
+                var lickView=lick.GetComponent<MeshRenderer>();lickView.sharedMaterial=FlameSheet;lickView.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;lickView.receiveShadows=false;
+                Rise(kit,name+" embers",P(0,2.4f,.9f),new Vector3(2.4f,1.4f,.6f),Embers,new Color(1,.62f,.3f,1),36,.03f,.07f,.9f,3.4f);
+                Rise(kit,name+" smoke",P(0,4.6f,.8f),new Vector3(2.8f,1.6f,1.2f),LitSmoke,new Color(.7f,.44f,.3f,.07f),14,1.4f,2.6f,.3f,9);
+                WarmPools.Add((at+inward*3,2.3f,.22f));
+            }
+            static Material FlameSheet;
+            /// <summary>Moulding flasks waiting by a gallery wall: iron boxes in pairs, cope on drag, pinned and weighted; the sand in each; and on the newest its pour cup still hot. The
+            /// gallery's rib moulds are beds in the floor: these say casting from across the room.</summary>
+            static void Flasks(ZoneKit kit,Vector2 at,float yaw,int seed)
+            {
+                var turn=Quaternion.Euler(0,yaw,0);var foot=On(kit,at);var s=new ZoneKit.Shape();var hot=new ZoneKit.Shape();var rng=new System.Random(seed);
+                foreach(int side in new[]{-1,1})
+                {
+                    var c=foot+turn*new Vector3(side*.8f,0,0);int layers=side<0?2:3;
+                    for(int l=0;l<layers;l++)
+                    {
+                        float y=.28f+l*.56f;s.Slot(0).Box(c+Vector3.up*y,new Vector3(1.3f,.5f,.9f),turn,IronDark,IronPale).Box(c+Vector3.up*(y+.25f),new Vector3(1.42f,.06f,1.02f),turn,IronDark,IronPale);
+                        foreach(int e in new[]{-1,1})s.Slot(0).Box(c+turn*new Vector3(e*.72f,y,0),new Vector3(.12f,.5f,.2f),turn,IronDark,Rust);
+                    }
+                    float topY=.28f+(layers-1)*.56f+.28f;s.Slot(1).Box(c+Vector3.up*(topY+.01f),new Vector3(1.22f,.02f,.82f),turn,new Color(.7f,.64f,.54f),new Color(.78f,.72f,.6f));
+                    s.Slot(0).Box(c+turn*new Vector3(-.3f,topY+.1f,.2f),new Vector3(.42f,.18f,.3f),turn,IronDark,IronPale);
+                    var cup=c+turn*new Vector3(.32f,topY,-.12f);s.Slot(0).Tube(new[]{cup,cup+Vector3.up*.2f},new[]{.13f,.2f},10,IronDark,IronPale,1,.5f,false);
+                    // The poured cup's metal is the flasks' own (a third material of one body): it stands in a cup on a mould, not on a floor.
+                    bool poured=side>0||rng.Next(2)==0;if(poured){s.Slot(2).Disc(cup+Vector3.up*.17f,Vector3.up,.17f,10,Color.white);s.Slot(0);}
+                }
+                _=hot;var flasks=kit.Built("Moulding flasks "+Mathf.RoundToInt(at.x),s,Iron,Sand,Casting);
+                ZoneKit.Block(flasks,foot+Vector3.up*.85f,new Vector3(3,1.7f,1),yaw,"Moulding flasks");flasks.isStatic=true;
+                Rise(kit,"Moulding flasks "+Mathf.RoundToInt(at.x)+" smoke",foot+Vector3.up*2.1f,new Vector3(2.6f,.4f,.8f),LitSmoke,new Color(.6f,.42f,.32f,.05f),6,.7f,1.4f,.35f,6);
+            }
+            /// <summary>Launders round the heart's back rim: an iron trough lined with fire clay on brackets into the wall a hand over the floor's head height, metal running in it, the
+            /// brightest thing in the room, and where each ends a spill into the wall. Only where the rim is wall (not the dais, not in front of a sluice's seat), and only on the back half
+            /// of the room, so nothing of it stands between the camera and the fight.</summary>
+            static readonly (float from,float to)[] LaunderBearings={(40,68),(-56,-76),(-96,-124)};
+            static void Launders(ZoneKit kit)
+            {
+                var iron=new ZoneKit.Shape();var metal=new ZoneKit.Shape();const float r=22.35f,lip=1.3f;var lights=new List<Light>();
+                foreach(var (from,to) in LaunderBearings)
+                {
+                    int steps=Mathf.CeilToInt(Mathf.Abs(to-from)/4);
+                    for(int i=0;i<steps;i++)
+                    {
+                        float a0=Mathf.Lerp(from,to,i/(float)steps),a1=Mathf.Lerp(from,to,(i+1)/(float)steps);
+                        Vector3 At(float bearing,float out_,float up){var way=new Vector3(Mathf.Sin(bearing*Mathf.Deg2Rad),0,Mathf.Cos(bearing*Mathf.Deg2Rad));return new Vector3(C.x,Deep,C.y)+way*(r+out_)+Vector3.up*up;}
+                        // Falling along its run, a hand a metre: metal goes downhill.
+                        float drop0=.12f*i/steps,drop1=.12f*(i+1)/steps;
+                        iron.Slot(0).Beam(At(a0,0,lip-.2f-drop0),At(a1,0,lip-.2f-drop1),.7f,.12f,IronDark,IronPale);
+                        foreach(float side in new[]{-.33f,.33f})iron.Slot(0).Beam(At(a0,side,lip-.06f-drop0),At(a1,side,lip-.06f-drop1),.08f,.3f,IronDark,Rust);
+                        metal.Quad(At(a0,-.28f,lip-.1f-drop0),At(a1,-.28f,lip-.1f-drop1),At(a1,.28f,lip-.1f-drop1),At(a0,.28f,lip-.1f-drop0),Vector3.up,Color.white,.4f);
+                        if(i%2==0)iron.Slot(0).Beam(At(a0,-.1f,lip-.27f-drop0),At(a0,1.1f,lip-1.1f-drop0),.12f,.12f,IronDark,IronPale);
+                    }
+                    // The spill at its low end, a short fall into a slot in the wall.
+                    var end=new Vector3(C.x,Deep,C.y)+new Vector3(Mathf.Sin(to*Mathf.Deg2Rad),0,Mathf.Cos(to*Mathf.Deg2Rad))*(r+.2f);
+                    metal.Tube(new[]{end+Vector3.up*(lip-.2f),end+Vector3.up*(lip-.5f)+new Vector3(Mathf.Sin(to*Mathf.Deg2Rad),0,Mathf.Cos(to*Mathf.Deg2Rad))*.5f},new[]{.12f,.1f},8,Color.white,Color.white);
+                    float mid=(from+to)*.5f;var d=new Vector2(Mathf.Sin(mid*Mathf.Deg2Rad),Mathf.Cos(mid*Mathf.Deg2Rad));var at=C+d*(r-1.2f);
+                    var light=kit.Lamp(new Vector3(at.x,2.4f,at.y),8,1.3f,new Color(1,.7f,.42f));light.name="Runner light";lights.Add(light);
+                    for(float b=from;Mathf.Abs(b-from)<=Mathf.Abs(to-from);b+=Mathf.Sign(to-from)*9){var p=C+new Vector2(Mathf.Sin(b*Mathf.Deg2Rad),Mathf.Cos(b*Mathf.Deg2Rad))*(r-2.6f);WarmPools.Add((p,1.5f,.17f));}
+                    Rise(kit,"Launder embers "+Mathf.RoundToInt(mid),new Vector3(at.x,Deep+1.6f,at.y)+new Vector3(d.x,0,d.y)*1.1f,new Vector3(3,.4f,3),Embers,new Color(1,.62f,.3f,1),16,.03f,.06f,.8f,3);
+                }
+                var trough=kit.Built("Heart launders",iron,Iron);var run=kit.Built("Heart launders' metal",metal,Runner);run.transform.SetParent(trough.transform,true);
+                run.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                Breathe(trough,new[]{run.GetComponent<Renderer>()},lights.ToArray(),6.2f,.85f,1.05f).colour=new Color(1.7f,1f,.45f);
+            }
+            /// <summary>Metal running in channels let into the floor under iron gratings, flush and walked over, where the fights are: the two fight frames the whole-game capture
+            /// was taken from had nothing hot in them once the cranes over their floors came down (s48/216, s49/033, s49/046). The melt's pale yellow-white under black bars, never a
+            /// marking's orange, nothing standing, no shadow; its light painted on the plate either side (the floor is one body and takes six lights). A marking laid over one reads
+            /// as one laid by the furnaces does (AMarkingReadsWhereverTheForgeIsHottest).</summary>
+            static readonly List<Vector2[]> RunnerPaths=new();
+            static void GratedRunners(ZoneKit kit)
+            {
+                RunnerPaths.Clear();
+                // The gallery: across Vessa's floor south of the racks, between the mould bays.
+                GratedRunner(kit,"Gallery runner",Line(new Vector2(-17,169.5f),new Vector2(17,169.5f),2));
+                // The heart: an arc round the north of the Colossus's floor inside the rim, between the north-west and east sluices.
+                var arc=new List<Vector2>();for(float bearing=-25;bearing<=60.01f;bearing+=5)arc.Add(FromC(bearing,16.5f));
+                GratedRunner(kit,"Heart runner",arc.ToArray());
+            }
+            static Vector2[] Line(Vector2 a,Vector2 b,float step){int n=Mathf.Max(1,Mathf.CeilToInt(Vector2.Distance(a,b)/step));return Enumerable.Range(0,n+1).Select(i=>Vector2.Lerp(a,b,i/(float)n)).ToArray();}
+            static void GratedRunner(ZoneKit kit,string name,Vector2[] path,float width=.56f)
+            {
+                RunnerPaths.Add(path);
+                var glow=new ZoneKit.Shape();var grate=new ZoneKit.Shape();float half=width*.5f;
+                Vector3 At(Vector2 p,float up)=>On(kit,p)+Vector3.up*up;
+                float since=0;
+                for(int i=1;i<path.Length;i++)
+                {
+                    Vector2 a=path[i-1],b=path[i];var dir=(b-a).normalized;var side=new Vector2(-dir.y,dir.x);float length=Vector2.Distance(a,b);
+                    var look=Quaternion.LookRotation(new Vector3(dir.x,0,dir.y));
+                    glow.Slot(0).Quad(At(a-side*half,.012f),At(b-side*half,.012f),At(b+side*half,.012f),At(a+side*half,.012f),Vector3.up,Color.white,.4f);
+                    foreach(int k in new[]{-1,1})grate.Slot(0).Beam(At(a+side*k*(half+.04f),.026f),At(b+side*k*(half+.04f),.026f),.08f,.05f,IronDark,IronPale);
+                    for(float s=.11f;s<length;s+=.22f)grate.Slot(0).Box(At(a+dir*s,.032f),new Vector3(width+.08f,.04f,.05f),look,IronDark,IronPale);
+                    for(float s=0;s<length;s+=.5f){since+=.5f;if(since<2.4f)continue;since=0;var p=a+dir*s;foreach(int k in new[]{-1,1})WarmPools.Add((p+side*k*(half+1),1.1f,.15f));}
+                }
+                var lit=kit.Built(name,glow,GrateGlow);lit.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;lit.isStatic=true;
+                var bars=kit.Built(name+" grating",grate,Iron);bars.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;bars.isStatic=true;
+                bars.transform.SetParent(lit.transform,true);
+            }
+            /// <summary>A heap of slag tipped against a wall: a mound of black crust broken into cakes, with glassy runs down its side and a ladle's skull or two; on the bigger, where the
+            /// last pot went over, a crust still dull red in its cracks, high on the heap and never on the floor. Its solid is fitted to what is drawn of it. The kit's spoil heap it
+            /// replaces was one dark chunk repeated a hundred times (s48/061, s48/075); ore is heaped the same way in its own tones.</summary>
+            static GameObject SlagHeap(ZoneKit kit,string name,Vector2 at,float tall,int seed,bool hot,bool ore=false)
+            {
+                var rng=new System.Random(seed);float R()=>(float)rng.NextDouble();var s=new ZoneKit.Shape();var glow=new ZoneKit.Shape();var foot=On(kit,at);float r=tall*1.45f;
+                Color top=ore?OreTop:new Color(.5f,.49f,.52f),under=ore?OreUnder:new Color(.22f,.21f,.23f);
+                var spin=Quaternion.Euler(0,R()*360,0);
+                // A heap tipped pot by pot: a main mound and a spill tongue run off it, both rough, so its outline is broken and not a sack's.
+                s.Slot(0).Lump(foot+Vector3.up*tall*.3f,new Vector3(r,tall*.72f,r*.82f),seed,.34f,top,under,20,10,.35f,spin);
+                s.Slot(0).Lump(foot+spin*new Vector3(r*.7f,0,r*.25f)+Vector3.up*tall*.05f,new Vector3(r*.55f,tall*.32f,r*.42f),seed+7,.38f,ZoneKit.Shape.Dim(top,.9f),under,14,7,.35f,spin*Quaternion.Euler(0,30,0));
+                float Surface(float d)=>foot.y+tall*(.3f+.72f*Mathf.Sqrt(Mathf.Max(0,1-d*d)));
+                int cakes=ore?14:7;
+                for(int k=0;k<cakes;k++)
+                {
+                    float a=R()*6.283f,d=.15f+.7f*R();var dir=spin*new Vector3(Mathf.Cos(a),0,Mathf.Sin(a)*.82f);var p=foot+dir*r*d;p.y=Surface(d)-.04f;
+                    float size=ore?tall*(.12f+.1f*R()):tall*(.22f+.2f*R());
+                    s.Slot(0).Lump(p,new Vector3(size,size*(ore?.6f:.34f),size*.8f),seed+k+1,ore?.4f:.22f,ZoneKit.Shape.Dim(top,.85f+.3f*R()),under,ore?7:9,ore?4:5,.4f,Quaternion.Euler((R()-.5f)*30,R()*360,(R()-.5f)*30));
+                }
+                if(!ore)for(int k=0;k<3;k++)
+                {
+                    float a=R()*6.283f;var dir=spin*new Vector3(Mathf.Cos(a),0,Mathf.Sin(a)*.82f);var path=new Vector3[5];var thick=new float[5];
+                    for(int i=0;i<5;i++){float d=.15f+i*.2f;path[i]=foot+dir*r*d;path[i].y=Surface(d)+.02f;thick[i]=Mathf.Lerp(.12f,.05f,i/4f)*tall;}
+                    s.Slot(0).Tube(path,thick,6,new Color(.18f,.18f,.22f),new Color(.32f,.32f,.38f),1,.5f);
+                }
+                var heap=kit.Built(name,s,ore?Soot:SlagCrust);
+                // The last pot's tipping still smoking off the bigger heaps (its slag is crusted over: a glow on a heap's top is a glow on something stood on, D217).
+                if(hot)Rise(kit,name+" smoke",foot+Vector3.up*(tall+.6f),new Vector3(r*.6f,.4f,r*.6f),LitSmoke,new Color(.6f,.42f,.32f,.05f),6,.8f,1.6f,.3f,7);
+                _=glow;FitHeap(heap);heap.isStatic=true;return heap;
+            }
+
             /// <summary>Where the rib moulds lie in the gallery (the sand is spilt round them, nowhere else).</summary>
             static readonly Vector2[] MouldsAt={new(-21,151.6f),new(-8,151.6f),new(6,151.6f),new(20,151.6f),new(-23.4f,164),new(23.4f,164),new(-23.4f,176),new(23.4f,176),new(-23.4f,196),new(23.4f,196)};
-            /// <summary>The floor: dark basalt slabs, worn through to the bedrock in patches; black slag grit drifted at the wall feet and along the troughs' kerbs; moulding sand only round
-            /// the gallery's moulds; scorch, cracks and slag pellets everywhere; a pool of cold light under each work lamp. Nothing on it is orange, red or purple, and nothing reads as soil:
+            /// <summary>The floor: iron plates and casting sand (the floor texture), worn through to the bedrock in patches; black slag grit drifted at the wall feet and along the troughs' kerbs; moulding sand only round
+            /// the gallery's moulds; scorch, cracks and slag pellets everywhere; a pool of pale light under each work lamp. Nothing on it is orange, red or purple, and nothing reads as soil:
             /// the first dressing's brown grit and crazy paving made the forge a garden path.</summary>
             static void Ground(ZoneKit kit)
             {
@@ -1322,6 +1707,7 @@ namespace Lattice.EditorTools
                 float FromMould(Vector2 p){float d=99;foreach(var m in MouldsAt)d=Mathf.Min(d,Vector2.Distance(p,m));return d;}
                 float FromWays(Vector2 p){float d=99;foreach(var way in Ways)d=Mathf.Min(d,ZoneKit.FromPath(p,way));return d;}
                 foreach(var way in Ways)ground.ClearLane(way,1.4f);
+                foreach(var run in RunnerPaths)ground.ClearLane(run,.5f);
                 ground.Look("Canyon",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Foundry/foundry-masonry.png"));
                 ground.Layers(new Vector4(.04f,.3f,.4f,.24f),1.1f,new GroundKit.Layer("bedrock",new Color(.78f,.76f,.74f),5),new GroundKit.Layer("gravel",new Color(.32f,.31f,.33f),3),new GroundKit.Layer("sand",new Color(.74f,.7f,.62f),4));
                 // Three floors, three grounds. Worn through to the bedrock where the slabs have gone: patches over about a third of the charging floor, fewer in the gallery under its
@@ -1332,24 +1718,28 @@ namespace Lattice.EditorTools
                 ground.PaintFoot(1,1.3f,.6f,7).Paint(1,p=>NearTrough(p,.1f)?.55f*Smooth(.46f,.66f,ground.Noise(p,2.5f,9)):0).Fringe(1,0,.22f,.5f);
                 foreach(var (at,r) in Machines)if(ChargingFloor(at))ground.PaintAround(1,at,r+1.2f,.8f,Mathf.RoundToInt(at.x*3+at.y));
                 ground.Paint(1,p=>HeartFloor(p)?.85f*Smooth(.56f,.7f,ground.Noise(p,6,37)):0);
-                // Moulding sand over most of the gallery's floors, slab walkways left clean down the walked lines; never in a trough.
-                ground.Paint(2,p=>Gallery(p)&&!NearTrough(p,.2f)?Mathf.Max(Smooth(3.4f,1.2f,FromMould(p))*(.5f+.5f*Smooth(.36f,.56f,ground.Noise(p,2.4f,17))),.9f*Smooth(.3f,.46f,ground.Noise(p,6,41))*Smooth(1.4f,2.8f,FromWays(p))):0);
+                // Moulding sand round the gallery's moulds and in drifts from them, never in a trough. Over most of its floor it made the gallery a sand yard with crates in it (s48/216).
+                ground.Paint(2,p=>Gallery(p)&&!NearTrough(p,.2f)?Mathf.Max(Smooth(3.4f,1.2f,FromMould(p))*(.5f+.5f*Smooth(.36f,.56f,ground.Noise(p,2.4f,17))),.3f*Smooth(.42f,.56f,ground.Noise(p,6,41))*Smooth(1.4f,2.8f,FromWays(p))):0);
                 ground.Shade(p=>.16f*Smooth(1.8f,.3f,ground.Edge(p))+(HeartFloor(p)?.06f:0));
-                ground.Decals(new[]{"Scorch"},9,p=>HeartFloor(p)?1:.75f,1.4f,3.2f,new Color(.16f,.15f,.16f,.85f),false);
+                // Scorch where heat has been (and the heart, which is all heat); the kit's dark stains read as oil spilt on a tiled floor (s48/080), so there are few.
+                ground.Decals(new[]{"Scorch"},6,p=>HeartFloor(p)?1:.55f,1.4f,3.2f,new Color(.16f,.15f,.16f,.85f),false);
                 ground.Decals(new[]{"Slabs"},3,p=>.7f*Smooth(.42f,.58f,ground.Noise(p,8,23)),1.4f,2.4f,new Color(.44f,.43f,.45f),true,.1f,25);
                 ground.Decals(new[]{"CracksA","CracksB"},6,p=>.8f,1.4f,3,new Color(.3f,.29f,.3f,.9f));
-                ground.Decals(new[]{"Stain"},5,p=>.7f,2,4,new Color(.22f,.22f,.24f,.55f),false);
+                ground.Decals(new[]{"Stain"},1.5f,p=>.7f,2,4,new Color(.22f,.22f,.24f,.55f),false);
                 ground.Decals(new[]{"PebblesA","PebblesB"},5,p=>.35f+.65f*(1-Smooth(.5f,3,ground.Edge(p))),.7f,1.4f,new Color(.36f,.35f,.37f));
                 ground.Decals(new[]{"SandDrift"},4,p=>Gallery(p)?Smooth(4,1.5f,FromMould(p)):0,1.4f,2.6f,new Color(.76f,.72f,.62f,.6f),false);
                 ground.Decals(new[]{"Tracks"},.6f,p=>Gallery(p)||HeartFloor(p)?0:.5f,.8f,1.4f,new Color(.24f,.24f,.26f,.55f),false);
                 // The heart's floor scorched round the cage.
                 ground.Decals(new[]{"Scorch"},12,p=>HeartFloor(p)&&Vector2.Distance(p,CageAt)<12?1:0,1.6f,3.4f,new Color(.13f,.12f,.13f,.85f),false,.08f,51);
-                ground.LampPools(2.6f,new Color(.86f,.92f,1,.36f));
+                // Pale and near white: a cold pool under the forge's warm grade came out lavender, and purple on a floor is a danger's colour (render scoria-lookfix-06, gallery).
+                ground.LampPools(2.6f,new Color(1,.95f,.86f,.3f));
                 // The forge's own warm light where it reaches the floor: before each furnace's mouth and under each crucible. Pale, never a marking's orange.
                 int warm=0;foreach(var (at,r,a) in WarmPools)if(ground.Decal("LampPool",at,r*2,0,new Color(1,.84f,.66f,a),false))warm++;
                 Debug.Log("FOUNDRY_WARM_POOLS "+warm+" of "+WarmPools.Count);
                 ground.Cover(new[]{"Shards"},16,p=>(1-Smooth(.5f,2.4f,ground.Edge(p)))*(ground.InAFight(p)?.3f:1),.08f,.2f,new Color(.3f,.3f,.32f),3);
                 ground.Rocks(4,p=>(1-Smooth(.5f,2.2f,ground.Edge(p)))*.7f,.08f,.26f,new Color(.38f,.37f,.38f));
+                // Slag pellets and offcuts kicked across the working floors, a few to a stride, the fights' floors thinner.
+                ground.Rocks(5,p=>(ChargingFloor(p)||Gallery(p)?.7f:HeartFloor(p)?.4f:0)*(ground.InAFight(p)?.5f:1),.05f,.14f,new Color(.3f,.28f,.27f),3,.12f,71);
                 ground.MovingShade("cloud",24,new Vector2(.08f,.05f),.26f,.5f,.04f);
                 ground.Finish();
             }
@@ -1367,6 +1757,9 @@ namespace Lattice.EditorTools
                 new("bunkers",new Vector3(0,Charge,60.4f)),new("furnaces",new Vector3(9,Charge,107.6f)),new("gallery-west",new Vector3(-16,Cast,187)),new("gallery-jigs",new Vector3(13,Cast,196)),
                 new("dais-west",new Vector3(-6,Deep,280)),
                 new("overview-charging",new Vector3(4,Charge,70),false,4.2f),new("overview-gallery",new Vector3(0,Cast,170),false,3.6f),new("overview-heart",new Vector3(0,Deep,255),false,3.4f),
+                // Where the whole-game capture's stills stood (November 20, segments 48 and 49), at the play camera's zoom, for the stills beside them.
+                new("s48-061",new Vector3(0,Charge,44.5f)),new("s48-075",new Vector3(-5.4f,Charge,52.8f)),new("s48-080",new Vector3(0,Charge,87.6f)),new("s48-216",new Vector3(0,Cast,165.9f)),
+                new("s49-033",new Vector3(-7.3f,Deep,260.2f)),new("s49-046",new Vector3(-1.3f,Deep,257.7f)),new("s49-140",new Vector3(-4.6f,Deep,276.5f)),new("yard-smithy",new Vector3(10,Charge,22)),new("yard-hoist",new Vector3(11,Charge,32)),
             };
         }
     }

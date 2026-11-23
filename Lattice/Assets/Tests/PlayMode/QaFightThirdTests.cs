@@ -198,18 +198,23 @@ namespace Lattice.Tests.PlayMode
             var site=Object.FindFirstObjectByType<BossWreck>();Assert.IsNotNull(site,"fixture: the wreck's site");Assert.IsFalse(site.wreck.activeInHierarchy,"fixture: the wreck isn't there yet");
             var body=BodyMesh(boss.GetComponent<DefeatPresentation>().visual);var hero=Hero;
             boss.Health.Damageable=true;boss.Health.Receive(new DamagePacket{source=hero.Health,amount=boss.Health.maximum*50,type=DamageType.Plasma});
-            Vector4 last=Vector4.zero;float steepest=0;bool any=false;
+            Vector4 last=Vector4.zero;float steepest=0,longest=0,steepestFrame=0,began=Time.unscaledTime;bool any=false,stalled=false;
             for(float end=Time.unscaledTime+8;body!=null&&!site.wreck.activeInHierarchy&&Time.unscaledTime<end;)
             {
+                // A hitch of a loaded machine, once, a second into the burn where it runs steepest: a third of a second in one frame.
+                if(!stalled&&Time.unscaledTime>began+1){stalled=true;System.Threading.Thread.Sleep(350);}
                 // Nothing in the block until something writes the colour: on the frame it dies it still has only its material's.
-                var now=Paint(body);if(now!=Vector4.zero){if(any)steepest=Mathf.Max(steepest,(now-last).magnitude);last=now;any=true;}
+                // Judged a frame at a time whatever the frame's length: the burn-out bounds its own step a frame (BossWreck, Impact.Tune.MostStepAFrame), so a hitch under load,
+                // which once made a .187 pop, is no excuse. The longest frame is printed beside it so a reading can be told from the machine's load.
+                var now=Paint(body);if(now!=Vector4.zero){if(any){float step=(now-last).magnitude;if(step>steepest){steepest=step;steepestFrame=Time.unscaledDeltaTime;}}last=now;any=true;}
+                longest=Mathf.Max(longest,Time.unscaledDeltaTime);
                 yield return null;
             }
             Assert.IsTrue(site.wreck.activeInHierarchy,"fixture: the wreck takes over");yield return null;
             var wreck=Paint(BodyMesh(site.rig));
-            TestContext.WriteLine($"WRECK_PAINT body={last} wreck={wreck} steepest={steepest:0.000}");
+            TestContext.WriteLine($"WRECK_PAINT body={last} wreck={wreck} steepest={steepest:0.000} (in a frame of {steepestFrame*1000:0} ms; longest frame {longest*1000:0} ms)");
             Assert.LessOrEqual((wreck-last).magnitude,.03f,$"the body wears {last} as the wreck in {wreck} takes over from it: seconds after the fall, with nothing on screen to cause it, a dusty machine goes to glazed caramel");
-            Assert.LessOrEqual(steepest,.08f,$"the body's colour jumps by {steepest:0.00} in a frame as it falls: a pop, not burning out");
+            Assert.LessOrEqual(steepest,.08f,$"the body's colour jumps by {steepest:0.00} in one frame ({steepestFrame*1000:0} ms) as it falls: a pop, not burning out, however long the frame");
         }
 
         // ------------------------------------------------------------------ 3. a mark bigger than the screen, and a safe side

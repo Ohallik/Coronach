@@ -96,7 +96,7 @@ namespace Lattice.Tests.PlayMode
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static Button[] Rows()=>Buttons().Where(b=>b.name.StartsWith("Row_")).OrderBy(b=>int.Parse(b.name.Substring(4))).ToArray();
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static Button With(string words)
         {
             var found=Buttons().FirstOrDefault(b=>Words(b).Contains(words));
@@ -249,12 +249,14 @@ namespace Lattice.Tests.PlayMode
             for(int i=0;i<7;i++)SkillBook.RecordUse("Taren",spare);
             var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return null;
             Row("Row_1").onClick.Invoke();yield return null;
-            StringAssert.Contains("Mastery 2 (7/18)",Words(With(spare.displayName)),"a skill that isn't in a slot shows no mastery anywhere");
+            StringAssert.Contains("Mastery 2 (7 of 18)",Words(With(spare.displayName)),"a skill that isn't in a slot shows no mastery anywhere");
             StringAssert.Contains($"{spare.cooldown:0} s",Words(With(spare.displayName)),"the chooser lost its cooldown");
             // What a skill does follows the focus, as the quest log's note does, and the trade rule stays beside it.
             StringAssert.Contains(worn.description,Note(),"the note doesn't open on the skill in this slot");
             EventSystem.current.SetSelectedGameObject(With(spare.displayName).gameObject);yield return null;
-            StringAssert.Contains($"{spare.displayName}: {spare.description}",Note(),"moving to a skill doesn't say what it does");
+            // The card under the list names the skill over what it does (D357).
+            StringAssert.Contains(spare.description,Note(),"moving to a skill doesn't say what it does");
+            Assert.AreEqual(spare.displayName,Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).First(t=>t.name=="SkillName").text,"the card doesn't name the skill it describes");
             StringAssert.DoesNotContain(worn.description,Note(),"the note kept the last skill's words");
             StringAssert.Contains("trades places",Note(),"the note lost what happens to a skill in another slot");
             menu.Close();yield return null;
@@ -264,7 +266,7 @@ namespace Lattice.Tests.PlayMode
             {
                 PromptService.ForceDevice(device);yield return null;
                 menu.Open(PauseMenu.SkillsPage);yield return null;Row("Row_1").onClick.Invoke();yield return null;
-                StringAssert.Contains("Mastery 4 (59/60)",Words(With(spare.displayName)),"fixture: the longest mastery");
+                StringAssert.Contains("Mastery 4 (59 of 60)",Words(With(spare.displayName)),"fixture: the longest mastery");
                 foreach(var row in Rows())RowFits(row,device+" chooser");
                 menu.Close();yield return null;
             }

@@ -200,6 +200,13 @@ namespace Lattice.Tests.PlayMode
         }
         static Health Dummy(Vector3 at)
         {var body=new GameObject("Body fixture").AddComponent<Health>();body.id="Fixture";body.maximum=body.integrity=1000000;body.breakThreshold=1e9f;body.transform.position=at;return body;}
+        /// <summary>One of seven hands on the party's side, by turns: a body carries one number for each attacker (D356).</summary>
+        static Health Striker(int hit)
+        {
+            string name="Striker fixture "+hit%7;var found=GameObject.Find(name);
+            if(found==null){found=new GameObject(name);var hand=found.AddComponent<Health>();hand.id="Striker";hand.friendly=true;hand.maximum=hand.integrity=100;found.transform.position=new Vector3(0,-500,0);}
+            return found.GetComponent<Health>();
+        }
         [UnityTest] public IEnumerator ABurstOnOneBodyLandsAsSeparateNumbersBesideIt()
         {
             var hero=Hero;var body=Dummy(hero.transform.position+Vector3.forward*5);var camera=Camera.main;
@@ -207,7 +214,8 @@ namespace Lattice.Tests.PlayMode
             var types=System.Enum.GetValues(typeof(DamageType)).Cast<DamageType>().ToArray();
             for(int hit=0;hit<14;hit++)
             {
-                body.Receive(new DamagePacket{amount=100+hit*37,type=types[hit%types.Length]});
+                // Seven hands striking: since D356 a body carries one number for each attacker, so a burst of numbers is a burst of attackers.
+                body.Receive(new DamagePacket{source=Striker(hit),amount=100+hit*37,type=types[hit%types.Length]});
                 for(float until=Time.unscaledTime+.13f;Time.unscaledTime<until;)
                 {
                     yield return null;
@@ -624,7 +632,7 @@ namespace Lattice.Tests.PlayMode
 
         // ------------------------------------------------------------------ item 11: Fabricate
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static IEnumerator FindRow(string words,System.Action<Button> found)
         {
@@ -638,6 +646,8 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheSelectionBarStandsClearOfARowsIcon()
         {
             var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(PauseMenu.FabricatePage,true);yield return null;yield return null;
+            // The bench opens on its filter, a control with no picture: the first recipe is one press down.
+            EventSystem.current.SetSelectedGameObject(Row("Row_1").gameObject);yield return null;
             var row=EventSystem.current.currentSelectedGameObject.transform;var bar=row.Find("SelectionBar");var icon=row.Find("Item");
             Assert.IsNotNull(bar,"fixture: the selected row shows its bar");Assert.IsNotNull(icon,"fixture: the selected row has an icon");
             Assert.IsFalse(Box((RectTransform)bar).Overlaps(Box((RectTransform)icon)),"the selection bar is drawn on the icon's left side: a selected blade and the bar merge into an L");
@@ -652,8 +662,9 @@ namespace Lattice.Tests.PlayMode
             yield return FindRow("Refined Edge",b=>short1=b);var shortText=short1.GetComponentInChildren<TMP_Text>();
             EventSystem.current.SetSelectedGameObject(Row("Close").gameObject);yield return null;
             Assert.Greater(ColorGap(canColor,shortText.color),.3f,$"\"{Plain(shortText.text)}\" can't be made and looks the same as a row that can: the player has to read every count");
-            StringAssert.Contains("Ridge Crystal 0/",shortText.text,"the row no longer says what it's short of");
-            StringAssert.Contains("<color=",shortText.text,"nothing marks which material is short");
+            string takes=ListRow.Cell(short1,"Takes");
+            StringAssert.Contains("Ridge Crystal ×",Plain(takes),"the row no longer says what it's short of");
+            StringAssert.Contains("<color=",takes,"nothing marks which material is short");
             // Without a bench no part can be made, whatever's in the bag; a consumable still can.
             menu.Close();yield return null;State.materials["LatticeFilament"]=20;
             menu.Open(PauseMenu.FabricatePage);yield return null;
@@ -665,8 +676,9 @@ namespace Lattice.Tests.PlayMode
             for(int i=0;i<4;i++)
             {
                 pager=Row("Pager");string words=Words(pager);if(seen.Contains(words))break;seen.Add(words);
-                var above=Buttons().First(b=>b.name.StartsWith("Row_"));
-                Assert.AreEqual(above.GetComponentInChildren<TMP_Text>().margin.x,pager.GetComponentInChildren<TMP_Text>().margin.x,.01f,"'"+words+"' starts hard against the row's left chevron, out of line with the rows above it");
+                // The page's own control at the panel's foot, not one more row among the recipes.
+                var above=Buttons().First(b=>b.name.StartsWith("Row_")&&b.GetComponent<ListRow>()!=null);
+                Assert.Less(((RectTransform)pager.transform).rect.width,((RectTransform)above.transform).rect.width*.5f,"'"+words+"' is a row as wide as a recipe, among the recipes");
                 pager.onClick.Invoke();yield return null;
             }
             Assert.GreaterOrEqual(seen.Count,2,"fixture: more than one page");
@@ -693,7 +705,7 @@ namespace Lattice.Tests.PlayMode
             var card=Text("BossTitleCard");var line=Text("BossTitleEpithet");Assert.IsTrue(card.isActiveAndEnabled&&line.isActiveAndEnabled&&card.alpha>.5f,"fixture: the card is up");
             StringAssert.Contains("HESSA KORL",card.text,"fixture: her name");
             Assert.AreEqual("Cinzel SDF",card.font.name,"the card isn't in the game's display face: it reads as a label, not an entrance");
-            // With her this far up the screen the camera carries the hero down, so the card stands over him: QaHudThirdTests pins the place it takes with a boss close by.
+            // With her this far up the screen the camera carries the hero down, and the card stands at the top, over him: QaHudThirdTests pins its one place.
             var head=Camera.main.WorldToScreenPoint(hero.transform.position+Vector3.up*2.1f);
             Assert.Greater(Box(line.rectTransform).yMin,head.y,"the card lies across the hero, over whatever is marked under them");
             foreach(string plate in new[]{"VitalsFrame","ObjectiveFrame"})
@@ -701,7 +713,8 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsFalse(Box(card.rectTransform).Overlaps(Box(Picture(plate).rectTransform)),"the card stacks on "+plate);
                 Assert.IsFalse(Box(line.rectTransform).Overlaps(Box(Picture(plate).rectTransform)),"the card's epithet stacks on "+plate);
             }
-            Assert.Less(Box(card.rectTransform).yMax,Box(Text("Target").rectTransform).yMin,"the card stacks on the target plate's place");
+            // The card stands in the target card's place across the top (November 21), and the target card gives way for its moment rather than stacking under it.
+            Assert.IsTrue(string.IsNullOrEmpty(Text("Target").text)||!Box(card.rectTransform).Overlaps(Box(Picture("TargetPlate").rectTransform))&&!Box(line.rectTransform).Overlaps(Box(Picture("TargetPlate").rectTransform)),"the card stacks on the target plate");
             Assert.IsTrue(string.IsNullOrEmpty(Text("BossEpithet").text),"the same epithet shows twice, on the card and on the bar under it");
             // The words fit it, for every boss.
             foreach(string id in ContentRegistry.Bosses)

@@ -15,7 +15,7 @@ MonoBehaviour:
   yieldsOnDefeat: 1
   collarPlate: {fileID: 0}
   id: DraskVaal
-  prefab: {fileID: 3250984056247503276, guid: 2dfe1094669bacf418ea3075d207fbf0, type: 3}
+  prefab: {fileID: 1345226860885056275, guid: 0c8be599168064c41944347b602e867a, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:
@@ -24,7 +24,7 @@ MonoBehaviour:
     response: 0
     resonance: 0
     fortune: 0
-  integrity: 165000
+  integrity: 225000
   breakThreshold: 750
   speed: 3.4
   attacks:
@@ -42,7 +42,7 @@ MonoBehaviour:
   capsuleRadius: 0
   capsuleHeight: 2.5
   motion: 0
-  drawnScale: 1
+  drawnScale: 1.12
   heavyDeath: 1
   behaviour: 0
   tune:

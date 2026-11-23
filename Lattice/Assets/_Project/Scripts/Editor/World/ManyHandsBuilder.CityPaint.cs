@@ -130,6 +130,10 @@ namespace Lattice.EditorTools
                 // The hold's and the channel's water: green-dark under the rafts, glints kept small (chapter 3: a large ripple read as slabs of white), nearly opaque past a metre so the
                 // bed doesn't show through as blotches (Driftreed's lesson).
                 Water=ZoneKit.Toon("hands-water",null,m=>ZoneKit.WaterLook(m,new Color(.32f,.46f,.44f,.86f),new Color(.1f,.17f,.18f,.97f),new Color(.78f,.86f,.84f,1),1.1f,3.2f,.07f,.3f));
+                // Every material a fading piece is made of carries the fade's variant from its paint, not from the piece that asks for it (ZoneKit.Fadeable). Another zone's
+                // builder paints these afresh for its own district (LastMooringBuilder.Neighbourhood), and a fresh paint clears every keyword: after the Neighbourhood was rebuilt on
+                // November 21 the plate, panel, wood and cloth could no longer draw a fade, and the gantry's beam stood solid across the spine in the player (s28/043, s30/114, D359).
+                foreach(var material in new[]{HullPlate,Panel,Corrugated,Wood,Cloth,Weave,Lamp,Brass,Dark}){ZoneKit.With(material,"_OCCFADE_ON","_OccFadeToggle");material.SetFloat("_OccFade",0);}
             }
         }
     }

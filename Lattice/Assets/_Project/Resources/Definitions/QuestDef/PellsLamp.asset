@@ -38,6 +38,16 @@ MonoBehaviour:
   chapter: 2
   stepTargets: []
   closingLine: 
+  next:
+    scene: 
+    via: []
+    speaker: 
+    report: 
+    encounter: 
+    hasPoint: 0
+    point: {x: 0, y: 0, z: 0}
+    brief: 
   storyFlags: []
   cardFlag: 
   cardBody: 
+  letGoAt: 

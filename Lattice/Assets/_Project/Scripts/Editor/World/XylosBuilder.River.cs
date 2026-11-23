@@ -969,12 +969,15 @@ namespace Lattice.EditorTools
             // The bar stands a hand above its channel and is gravel to its top: left to the damp it was one dark disc in the water.
             ground.Paint(2,p=>Wet(p)*Smooth(5,9,Vector2.Distance(p,SouthBar)));
             ground.Shade(p=>.1f*Smooth(1.2f,.2f,Over(p))*Dry(p));
+            // A broad light and dark over the gravel, a few metres across: one tile of it every 3.4 m read as the same stones over and over on the fan (s20 359, November 22).
+            ground.Shade(p=>.16f*(ground.Noise(p,7,51)-.5f)*Land(p)*Mathf.Max(Fan(p),.35f));
 
             ground.Decals(new[]{"Litter"},10,p=>Land(p)*(1-Fan(p)),1.1f,2.2f,new Color(.7f,.66f,.36f,.9f),false);
             ground.Decals(new[]{"PebblesA","PebblesB"},5,p=>Land(p)*Mathf.Max(Fan(p),.3f),.8f,1.7f,new Color(.66f,.64f,.56f));
             // Seedfall is named for what lies on it: spilt seed in drifts, pale against the gravel, and husks among it.
             ground.Decals(new[]{"PebblesA","PebblesB"},13,p=>Land(p)*Fan(p),.7f,1.5f,new Color(1,.9f,.6f),true,.1f,31);
-            ground.Decals(new[]{"SandDrift"},5,p=>Land(p)*Fan(p),2.2f,4.2f,new Color(.96f,.9f,.7f,.6f),false,.1f,32);
+            // Thin and near the gravel's own colour, so seed lies on the fan: pale and solid at .6 they were flat stickers on the green (s20 327, November 22).
+            ground.Decals(new[]{"SandDrift"},5,p=>Land(p)*Fan(p),1.6f,3.2f,new Color(.88f,.84f,.62f,.32f),false,.1f,32);
             ground.Rocks(7,p=>Land(p)*Fan(p),.1f,.32f,new Color(1,.84f,.5f),3,.12f,33);
             // Round each carrier, the seed she spilled going aground: gold in drifts on the bank beside her, thinning out across her island.
             Vector2[] carriers={new(28,99),new(214,105.6f)};float Spill(Vector2 p){float d=float.PositiveInfinity;foreach(var c in carriers)d=Mathf.Min(d,Vector2.Distance(p,c));return 1-Smooth(5,13,d);}

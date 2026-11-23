@@ -102,7 +102,7 @@ namespace Lattice.Tests.PlayMode
         static Button[] Buttons()=>Object.FindObjectsByType<Button>(FindObjectsSortMode.None);
         static Button Row(string name)=>Buttons().FirstOrDefault(b=>b.name==name);
         static Button[] Rows()=>Buttons().Where(b=>b.name.StartsWith("Row_")).OrderBy(b=>int.Parse(b.name.Substring(4))).ToArray();
-        static string Words(Component c){var t=c.GetComponentInChildren<TMP_Text>();return t!=null?t.text:"";}
+        static string Words(Component c)=>ListRow.Words(c);
         static Button With(string words)
         {
             var found=Buttons().FirstOrDefault(b=>Words(b).Contains(words));
@@ -137,7 +137,7 @@ namespace Lattice.Tests.PlayMode
             StringAssert.Contains("bench",Feedback(),"the refusal doesn't say where an upgrade is done");
             menu.Close();yield return null;menu.Open(PauseMenu.GearPage,true);yield return null;
             yield return Action(2);StringAssert.Contains("Action: Upgrade",Words(Row("Row_1")),"fixture: the Action row reads Upgrade");
-            StringAssert.Contains("Refined Edge  T2 +0  ·  Output +30 to +32.4",Words(With("Refined Edge")),"the row shows only what the part has now, so what the upgrade buys is seen after paying");
+            StringAssert.Contains("Refined Edge  ·  T2 +0  ·  Output +30 to +32.4",Words(With("Refined Edge")),"the row shows only what the part has now, so what the upgrade buys is seen after paying");
             // Rounded, this one read "+3 to +3": a quarter of a point, and it looked like paying for nothing.
             StringAssert.Contains("Resonance +5 to +5.4, Fortune +3 to +3.2",Words(With("Scrap Module")),"each stat the part gives has to say where it goes");
             for(int level=0;level<5;level++)
@@ -163,11 +163,11 @@ namespace Lattice.Tests.PlayMode
             // What an upgrade can't move stands as it is: an affix's bonus isn't scaled.
             var resonant=inventory.GivePart(def);resonant.affixes.Add("Resonant");
             menu.Open(PauseMenu.GearPage);yield return null;yield return Action(2);
-            StringAssert.Contains("Refined Edge  T2 +0  ·  Resonant  ·  Output +30 to +32.4, Resonance +4",Words(With("Resonant")),"an affix's stat reads as if the upgrade raised it");
+            StringAssert.Contains("Refined Edge  ·  T2 +0  ·  Resonant  ·  Output +30 to +32.4, Resonance +4",Words(With("Resonant")),"an affix's stat reads as if the upgrade raised it");
             menu.Close();yield return null;
             // The other modes keep their whole numbers and their comparison.
             menu.Open(PauseMenu.GearPage);yield return null;
-            StringAssert.Contains("Refined Edge  T2 +5  ·  Output +42",Words(With("T2 +5")));
+            StringAssert.Contains("Refined Edge  ·  T2 +5  ·  Output +42",Words(With("T2 +5")));
             StringAssert.DoesNotContain(" to +",string.Join(" ",Rows().Select(r=>Words(r))),"the next level's value leaks into Equip mode");
             menu.Close();
         }
@@ -183,14 +183,19 @@ namespace Lattice.Tests.PlayMode
             }
             void Measure(string surface,string says)
             {
+                // Every column of every row: the row is in columns now, and what the next level buys is a column of its own.
                 foreach(var row in Rows())
                 {
-                    var text=row.GetComponentInChildren<TMP_Text>();
-                    if(text.fontSize<24)failures.Add($"{surface}: \"{text.text}\" is under the type floor, at {text.fontSize}");
-                    float room=text.rectTransform.rect.width-text.margin.x-text.margin.z;
-                    float one=text.GetPreferredValues("Output",room,0).y,need=text.GetPreferredValues(text.text,room,0).y;
-                    if(need>one*1.5f)failures.Add($"{surface}: \"{text.text}\" takes a second line");
-                    if(row.name!="Row_1"&&!text.text.Contains(says))failures.Add($"{surface}: \"{text.text}\" doesn't say \"{says}\"");
+                    foreach(var text in row.GetComponentsInChildren<TMP_Text>())
+                    {
+                        if(string.IsNullOrEmpty(text.text))continue;
+                        if(text.fontSize<24)failures.Add($"{surface}: \"{text.text}\" is under the type floor, at {text.fontSize}");
+                        float room=text.rectTransform.rect.width-text.margin.x-text.margin.z;
+                        float one=text.GetPreferredValues("Output",room,0).y,need=text.GetPreferredValues(text.text,room,0).y;
+                        if(need>one*1.5f)failures.Add($"{surface}: \"{text.text}\" takes a second line");
+                        text.ForceMeshUpdate();if(text.isTextTruncated)failures.Add($"{surface}: \"{text.text}\" is cut short in its column");
+                    }
+                    if(row.name!="Row_1"&&!Words(row).Contains(says))failures.Add($"{surface}: \"{Words(row)}\" doesn't say \"{says}\"");
                 }
             }
             var menu=Menu;
@@ -373,7 +378,8 @@ namespace Lattice.Tests.PlayMode
             var menu=Menu;menu.Open(PauseMenu.SkillsPage);yield return Frames(2);
             yield return Tap(GamepadButton.North);
             Row("Row_2").onClick.Invoke();yield return null;
-            StringAssert.StartsWith("Locked",Words(With(locked.displayName)),"her skills read by the leader's level");
+            // Where a skill is, locked included, stands in its own column after its name (D357).
+            Assert.AreEqual("Locked",ListRow.Cell(With(locked.displayName),"Where"),"her skills read by the leader's level");
             With(locked.displayName).onClick.Invoke();yield return null;
             StringAssert.Contains($"is learned at Sync {locked.unlockLevel}",Feedback(),"a skill locked at her level doesn't say so");Assert.AreEqual(worn,SkillBook.Equipped("Sela",1),"a locked skill went on her slot");
             yield return Tap(GamepadButton.North);

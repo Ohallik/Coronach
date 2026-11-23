@@ -87,8 +87,8 @@ Material:
     - _Wind: 0
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.18, g: 0.34, b: 0.29, a: 0.5}
-    - _DeepColor: {r: 0.05, g: 0.22, b: 0.22, a: 0.94}
+    - _BaseColor: {r: 0.3, g: 0.46, b: 0.36, a: 0.5}
+    - _DeepColor: {r: 0.17, g: 0.37, b: 0.31, a: 0.92}
     - _DetailParams: {r: 0.035, g: 0.55, b: 0.4, a: 0.2}
     - _DetailTintA: {r: 0.86, g: 0.9, b: 0.82, a: 1}
     - _DetailTintB: {r: 1.08, g: 1.06, b: 1.02, a: 1}

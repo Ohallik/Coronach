@@ -24,6 +24,10 @@ namespace Lattice.EditorTools
         /// <summary>The three rooted platforms (dry while the basin is full) and the three flood gates on its rim, by bearing from its centre: east is nought, north ninety.</summary>
         static readonly float[] PlatformBearings={30,150,270},GateBearings={90,200,340};
         static Vector2 OnBasin(float bearing,float radius)=>BasinCentre+new Vector2(Mathf.Cos(bearing*Mathf.Deg2Rad),Mathf.Sin(bearing*Mathf.Deg2Rad))*radius;
+        /// <summary>Where the roots are drawn across the basin's passage behind the party for the fight. The Floodcrown is 8 m long on a capsule 2 m round, so its head or tail is 2 m
+        /// out past where it stops: at 31.8 a charge run aground at the south rim stood it in the seal, the roots straight through its body (s21 262 and 266, November 20). Halfway
+        /// down the passage's ramp nothing of it reaches them from the basin.</summary>
+        internal const float BasinSealZ=29.6f;
         /// <summary>Where each of the gallery's dry ledges begins along it (z); each is a shelf on its east side, a ramp up from the south.</summary>
         static readonly float[] LedgeZ={21,30,39,47.4f};
         static float GalleryFloor(float z)=>Mathf.Lerp(GalleryLow,GalleryHigh,Mathf.Clamp01((z-15)/35));
@@ -161,7 +165,9 @@ namespace Lattice.EditorTools
             CanopyWall=ZoneKit.Toon("xylos-canopy-wall",bark,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.7f,.6f,.45f));m.SetColor("_ShadowTint",new Color(.5f,.58f,.56f));m.SetFloat("_LightFloor",.3f);m.mainTextureScale=new Vector2(2.6f,2.2f);});
             // Still water under a roof: a fine grain and hardly a glint (broad glints lay on it like slabs).
             // The glint all but gone under a roof: thresholded noise at any grain lies on dark water as pale blots, and at .05 the basin was grey camouflage under the whole fight.
-            CanopyWater=WaterKit.Look("xylos-canopy-water",new Color(.18f,.34f,.29f,.5f),new Color(.05f,.22f,.22f,.94f),new Color(.8f,.94f,.86f,1),.6f,3.2f,.018f);
+            // Jade lit from above, not near black: the Floodcrown is a deep blue body, and on a deep of (.05, .22, .22) it all but vanished against its own basin (s21 262 and 266,
+            // November 20). The water is the brightest broad thing in the basin now, a step under the pads, and the boss stands out on it as a dark shape.
+            CanopyWater=WaterKit.Look("xylos-canopy-water",new Color(.3f,.46f,.36f,.5f),new Color(.17f,.37f,.31f,.92f),new Color(.8f,.94f,.86f,1),.6f,3.2f,.018f);
             // A wet edge, not a rim: the house foam was a pale mint band round every puddle and round the basin, the brightest thing in a dark frame, and the shallows were mint too.
             // Here the edge is thin, darker than the water and broken up, with no lap line, and shallow water is dark.
             CanopyWater.SetVector("_FoamParams",new Vector4(.035f,.9f,.03f,0));CanopyWater.SetColor("_FoamColor",new Color(.15f,.21f,.17f,1));EditorUtility.SetDirty(CanopyWater);
@@ -316,15 +322,15 @@ namespace Lattice.EditorTools
             var cradle=kit.Prop("DeckConsole",new Vector3(13.2f,0,20.4f),1.4f,180).AddComponent<RepairBay>();cradle.free=true;cradle.saveSpawn="Basin";cradle.prompt="Root cradle — repair and save";
             ChapterOneStaging.CradleBay("Root cradle",cradle.gameObject,kit.On(13.2f,20.4f),kit.Y(13.2f,20.4f)+.02f,false,true);
             kit.Sign("THE BASIN",22,27.2f,1.8f);
-            var confront=kit.Crossing("Look at what holds the basin",new Vector3(22,0,28.6f),new Vector3(9,5,3),"xylos.basinSeen","SelaFloodcrownBasin","Taren");confront.saveSpawn="Basin";
+            var confront=kit.Crossing("Look at what holds the basin",new Vector3(22,0,BasinSealZ-2.5f),new Vector3(9,5,3),"xylos.basinSeen","SelaFloodcrownBasin","Taren");confront.saveSpawn="Basin";
             // 8.8 wide: the width Hushwell's seals are, so the one material the two share is left exactly as it was.
-            var seal=WorldBuilder.Membrane("Basin seal",kit.On(22,31.8f,1.7f),8.8f,true,3.6f);
+            var seal=WorldBuilder.Membrane("Basin seal",kit.On(22,BasinSealZ,1.7f),8.8f,true,3.6f);
             foreach(var filter in seal.GetComponentsInChildren<MeshFilter>())UnityEngine.Object.DestroyImmediate(filter);
             foreach(var view in seal.GetComponentsInChildren<Renderer>())UnityEngine.Object.DestroyImmediate(view);
             var sealBox=seal.GetComponent<BoxCollider>();var sealCarve=seal.gameObject.AddComponent<NavMeshObstacle>();sealCarve.shape=NavMeshObstacleShape.Box;sealCarve.center=sealBox.center;sealCarve.size=sealBox.size;sealCarve.carving=true;sealCarve.carveOnlyStationary=false;sealCarve.enabled=false;
             // The seal is roots too: drawn across behind the party as the fight starts, gone when it ends.
             var sealShape=new ZoneKit.Shape();var sealRng=new System.Random(77);
-            for(int i=0;i<8;i++){var foot=kit.On(18.2f+i*1.08f,31.8f)+Vector3.down*.3f;float lean=((float)sealRng.NextDouble()-.5f)*1.4f;sealShape.Slot(0).Tube(new[]{foot,foot+Vector3.up*1.8f+Vector3.right*lean*.5f,foot+Vector3.up*3.8f+Vector3.right*lean},new[]{.26f,.2f,.15f},6,BarkDark,BarkPale,1,.3f);}
+            for(int i=0;i<8;i++){var foot=kit.On(18.2f+i*1.08f,BasinSealZ)+Vector3.down*.3f;float lean=((float)sealRng.NextDouble()-.5f)*1.4f;sealShape.Slot(0).Tube(new[]{foot,foot+Vector3.up*1.8f+Vector3.right*lean*.5f,foot+Vector3.up*3.8f+Vector3.right*lean},new[]{.26f,.2f,.15f},6,BarkDark,BarkPale,1,.3f);}
             var sealRoots=kit.Built("Basin seal roots",sealShape,CanopyRoot);sealRoots.transform.SetParent(seal.transform,true);sealRoots.GetComponent<Renderer>().enabled=false;
             var duel=WorldBuilder.Encounter("Floodcrown",new Vector3(BasinCentre.x,BasinRim+1.5f,BasinCentre.y),new Vector3(36,8,34),"Floodcrown",1,new[]{seal});
             var wades=duel.spawners[0];wades.transform.SetPositionAndRotation(kit.On(14.5f,53),Quaternion.Euler(0,100,0));wades.faceAsPlaced=true;
@@ -341,6 +347,8 @@ namespace Lattice.EditorTools
             if(float.TryParse(DevArgs.Value("-xylos-basin"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float share))StillLevel(basinWater,Mathf.Lerp(BasinEmpty,BasinFull,share));
             // Pads on the basin, thick where it is deepest: they go down with the water a third at a time and are left on the bed.
             if(!greybox)Rafts(kit,"Basin pads",basinSheet.transform,BasinFull,8,40,36,68,150,89,.18f,.46f,p=>Vector2.Distance(p,BasinCentre)<BasinRadius-.6f?BasinFull-BasinAt(p):-1,.14f);
+            // Daylight down through the roots onto the middle of the basin: what the fight is lit by, and what the boss's dark back is seen against.
+            kit.Lamp(new Vector3(BasinCentre.x-2,BasinRim+11,BasinCentre.y-3),24,1.7f,new Color(.92f,1,.78f)).name="Daylight over the basin";
             var drainWay=new GameObject("The Floodcrown's way out",typeof(BossExit)).GetComponent<BossExit>();drainWay.transform.position=kit.On(BasinCentre.x+14.6f,BasinCentre.y+6);drainWay.boss="Floodcrown";drainWay.sinks=true;
             var after=new GameObject("The Floodcrown goes out with the water",typeof(AfterTalk)).GetComponent<AfterTalk>();after.flag="bossdown.Floodcrown";after.node="SelaFloodcrownGone";after.speaker="Sela";after.heardFlag="xylos.floodcrownGone";after.delay=3;
 

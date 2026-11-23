@@ -22,6 +22,7 @@ namespace Lattice.EditorTools
         [Restage.Step("chapter1.staging-final","Hub_CinderHalo,Hub_Decks,Sorrel_Ridges,Hushwell,Gullet_Tunnel,TallowApproach,TallowDrift",After="chapter1.dressing",Chapter=1)]
         public static void Apply()=>BatchTools.Run(()=>
         {
+            ChapterOneLook.Bodies();
             Stage("Hub_CinderHalo",Halo);Stage("Hub_Decks",Decks);Stage("Sorrel_Ridges",Sorrel);Stage("Hushwell",Hushwell);Stage("Gullet_Tunnel",Gullet);Stage("TallowApproach",Approach);Stage("TallowDrift",Drift);
             AssetDatabase.SaveAssets();Debug.Log("CHAPTER_ONE_STAGED_OK");
         });
@@ -216,6 +217,8 @@ namespace Lattice.EditorTools
             // Their later lines wait for what they talk about. On the survey key alone, Neve sent the party by a chart that didn't exist yet to a warp that refused them, and Ilo asked about a Gullet nobody had seen.
             All<Npc>().Single(n=>n.speaker=="Neve").postFlag="hushwell.nursery";All<Npc>().Single(n=>n.speaker=="Ilo").postFlag="bossdown.Cantor";
             BridgeCasings();
+            // The first flight's view: the belt of cinders the Halo is named for, under the station (nov20-whole s09/009).
+            ChapterOneLook.Halo();
         }
         /// <summary>The Gullet runs one way until the Cantor is free, and the autosave is written on arrival, so the warp says so before anyone
         /// takes it, in its prompt and under its sign. Neither names the Cantor: the sign is up from the first visit here, and nobody has heard
@@ -293,11 +296,15 @@ namespace Lattice.EditorTools
             All<EncounterVolume>().Single(e=>e.encounterId=="Sorrel_Burrower").checkpointSpawn="DrillDoor";
             Spawn("DrillDoor",new Vector3(1,GroundAt(new Vector3(1,0,148)),148));
             Cradle("Drill site cradle",new Vector3(-3,0,140.5f),60,"DrillDoor");
+            // Two metres along onto the pale sand of the drill's path: it lay half on the sand and half on the dark rock, where no plate Sorrel's tan allows held it 3 to 1 (D349).
+            MoveSign("DRILL SITE",new Vector3(1.9f,.1f,146.3f));
             Wreck();
             DrillSeals();KeyCradle();BoreMouth();OutpostCradle();RigWrecked();
             // Cliffs take the ground's texture from the side, as the rock's would be: a floor projection smeared them into streaks a third of a screen long.
             var ground=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+"sorrel-ground.mat");
             ground.EnableKeyword("_TRIPLANAR_ON");ground.SetFloat("_Triplanar",1);ground.SetFloat("_TriplanarScale",.125f);EditorUtility.SetDirty(ground);
+            // The ore's bright seams, and the ridges the road runs between (nov20-whole s04/055, s02/019, s04/020).
+            ChapterOneLook.SorrelOre();ChapterOneLook.SorrelVerge();ChapterOneLook.SorrelRidges();
         }
         /// <summary>Rubble lying where something burned: the kit's flat-topped tan blocks with pale outlines read as stacked bricks in full sun, brighter than the wreck they came off.</summary>
         static readonly Color Scorched=new(.58f,.5f,.46f);
@@ -494,6 +501,8 @@ namespace Lattice.EditorTools
             MoveSign("SALVAGE EDDY",new Vector3(-1.5f,-1,407));
             // A level sign rests on the bed's high side, so one laid well off the tube's middle hovers. This one was laid at the far chamber's centre.
             MoveSign("SLALOM THROAT",new Vector3(1.4f,-1,325));
+            // The eddy's spilled hold (nov20-whole s10b/049), and what the coil's current has left on its bed (nov22-whole s10/159 to 176).
+            ChapterOneLook.Gullet();ChapterOneLook.GulletCoil();
         }
         static Material Weathered(string source,string name)=>Variant(name,Models+source,m=>{m.SetColor("_BaseColor",new Color(.5f,.47f,.48f));m.SetColor("_EmissionColor",new Color(.03f,.12f,.14f));});
         /// <summary>A clean deck crate, pale as paper with a black triangle on its lid, was the brightest thing in a dim room. The cache is the miners' kind of crate stack. Those crates' faces are near
@@ -526,6 +535,8 @@ namespace Lattice.EditorTools
             Reprompt("Inspect the slack line","Inspect the port docking line");
             All<DiscoveryPoint>().Single(d=>d.flag=="tallow.lineObserved").requiredFlag="met.Keeper";
             DockStruts();
+            // What a drifting station trails, below the plane (nov20-whole s27/111, s10b/185).
+            ChapterOneLook.Approach();
         }
         /// <summary>The apron stands on two lengths of wall in a wall's own pale paint, which stopped short on the hull as flat sticks with nothing to say they met it. Dark steel, and a soft shade on the hull at each foot.
         /// The hull has no collider, as ships pass over it, so one stands in while the shade is laid.</summary>

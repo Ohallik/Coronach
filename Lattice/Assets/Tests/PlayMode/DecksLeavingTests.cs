@@ -248,6 +248,39 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(Has("home.meetingHeld")&&Has("home.berthRefused"),"the meeting ends refusing the berth");
         }
 
+        /// <summary>The November 20 capture's town meeting (s57 055, 136, 155): the seated town sank into its benches or crouched through them, turned bodily on the bench toward
+        /// whoever had the floor, and wore four copies of one woman and four of one man in one screen. Here the room is held as Ilo reads the names (the room turns to Ilo, to Jun, to
+        /// Dace at the back and to Oda in her row, all four far off to one side of most of the benches): every seated body turns no more than a seat lets it (Posed.SeatTurn),
+        /// and no body is worn twice in the room. (How the seated sit is not held here: see the chapter 8 report of November 21.)</summary>
+        [UnityTest] public IEnumerator TheTownSitsOnItsBenchesAndTurnsOnThemToWhoeverHasTheFloor()
+        {
+            Home("home.meetingGathered","home.meetingOpened","home.offerMade","home.halAsked","home.manifestShown");yield return Load(Zone,"Meeting");
+            var room=All<Transform>().First(t=>t.name=="The town meeting"&&t.parent==null);
+            var seated=room.GetComponentsInChildren<Transform>().Where(t=>t.name=="Townsperson: Sitting at the meeting").ToArray();
+            Assert.GreaterOrEqual(seated.Length,7,"fixture: the seated town isn't in the room");
+            // Where each would face if turned bodily to each speaker of the talk: most of the room is more than a seat's turn from at least one (the check below means something).
+            var speakers=new[]{"Ilo","Jun","Survivor","Oda"}.Select(s=>Live<Npc>().First(n=>n.speaker==s&&n.transform.IsChildOf(room)).transform.position).ToArray();
+            float Away(Transform t,Vector3 to){var look=to-t.position;look.y=0;return Mathf.Abs(Mathf.DeltaAngle(0,Quaternion.LookRotation(look).eulerAngles.y));}
+            Assert.GreaterOrEqual(seated.Count(t=>speakers.Any(s=>Away(t,s)>Posed.SeatTurn+10)),6,"fixture: the talk should call most of the seated round further than a seat turns");
+            // One of them held as the room was built before (no seat on its pose, so it turns bodily): it has to turn past what a seat allows, or the check below proves nothing.
+            var loose=seated.OrderByDescending(t=>speakers.Max(s=>Away(t,s))).First();var looseSeat=loose.GetComponent<Posed>();float keep=looseSeat.seat;looseSeat.seat=0;
+            float worst=0,looseWorst=0;
+            yield return Talk(Person("Ilo"),_=>{foreach(var t in seated){float a=Mathf.Abs(Mathf.DeltaAngle(0,t.eulerAngles.y));if(t==loose)looseWorst=Mathf.Max(looseWorst,a);else worst=Mathf.Max(worst,a);}});
+            looseSeat.seat=keep;
+            Assert.IsTrue(Has("home.namesRead"),"fixture: Ilo's talk didn't finish");
+            Assert.Greater(looseWorst,Posed.SeatTurn+5,$"fixture: a body with no seat should have turned bodily past a seat's {Posed.SeatTurn} degrees (it turned {looseWorst:0})");
+            Assert.LessOrEqual(worst,Posed.SeatTurn+.5f,$"a seated body turned {worst:0} degrees on its bench while Ilo read the names: a seat turns {Posed.SeatTurn}");
+            // Nobody's double in the room: no body worn twice.
+            var bodies=room.GetComponentsInChildren<Transform>(true).Where(t=>t.name.StartsWith("Townsperson")).Select(t=>(body:BodyOf(t),west:t.position.x<-28)).ToArray();
+            Assert.GreaterOrEqual(bodies.Length,30,"fixture: the town isn't at the meeting");
+            foreach(var g in bodies.GroupBy(b=>b.body))
+            {
+                Assert.AreEqual(1,g.Count(),$"{g.Key} is worn {g.Count()} times at the meeting ({g.Count(b=>b.west)} west of the aisle)");
+            }
+        }
+        /// <summary>Which body a townsperson wears (its rig's avatar, one to each generated body).</summary>
+        static string BodyOf(Transform person){var rig=person.GetComponentInChildren<Animator>(true);return rig!=null&&rig.avatar!=null?rig.avatar.name:person.GetComponentInChildren<SkinnedMeshRenderer>(true)?.sharedMesh?.name??"?";}
+
         // ------------------------------------------------------------------ Hal's bench
         [UnityTest] public IEnumerator HalTakesHisBenchDownInNinePiecesWhileTarenHoldsTheLamp()
         {

@@ -17,9 +17,12 @@ namespace Lattice.World
             var services=GameServices.Current;var party=PartyController.Current;
             if(services!=null&&!string.IsNullOrEmpty(goneFlag)&&services.Flags.GetBool(goneFlag)){gameObject.SetActive(false);return;}
             if(party==null||party.Active==null||!party.Active.flight)return;
-            Transform rear=party.Active.transform;float leadZ=Vector3.Dot(rear.position,rear.forward);
-            foreach(var hero in party.members)if(hero!=null&&hero.flight&&hero.gameObject.activeInHierarchy&&Vector3.Dot(hero.transform.position,rear.forward)<leadZ){rear=hero.transform;leadZ=Vector3.Dot(rear.position,rear.forward);}
-            var way=rear.forward;way.y=0;if(way.sqrMagnitude<.01f)way=Vector3.forward;way.Normalize();
+            // Astern is along the lead's heading, not the rear ship's own nose: since D361 the partner comes to rest at her place behind him by flying back to it, nose the other way,
+            // and eight metres astern of her by her nose was eight metres ahead of the party (OrielWorldTests, the whole suite of November 22).
+            var heading=party.Active.transform.forward;heading.y=0;if(heading.sqrMagnitude<.01f)heading=Vector3.forward;heading.Normalize();
+            Transform rear=party.Active.transform;float leadZ=Vector3.Dot(rear.position,heading);
+            foreach(var hero in party.members)if(hero!=null&&hero.flight&&hero.gameObject.activeInHierarchy&&Vector3.Dot(hero.transform.position,heading)<leadZ){rear=hero.transform;leadZ=Vector3.Dot(rear.position,heading);}
+            var way=heading;
             var port=new Vector3(-way.z,0,way.x);
             var goal=rear.position-way*behind+port*aside;goal.y=rear.position.y-below+Mathf.Sin(Time.time*1.3f)*bob;
             if(!placed){transform.position=goal;placed=true;}

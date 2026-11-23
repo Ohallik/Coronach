@@ -625,31 +625,73 @@ namespace Lattice.EditorTools
                 if(slipped)flat+=new Vector3(9,-5,-4);
                 return centre+tilt*flat;
             }
-            int lit=rng.Next(sectors[1]);
+            int lit=rng.Next(sectors[1]);var normal=tilt*Vector3.up;
+            // Slot 0 the glass, 1 the pane still catching the sun, 2 the frame, the truss under it and a broken pane's edges (strut metal: lit in a lamp's material they were neon lines).
+            var steel=new Color(.74f,.78f,.86f);var dark=new Color(.42f,.46f,.56f);
             for(int ring=0;ring<3;ring++)for(int k=0;k<sectors[ring];k++)
             {
                 float a0=(k+.06f)*Mathf.PI*2/sectors[ring]+ring*.37f,a1=(k+.94f)*Mathf.PI*2/sectors[ring]+ring*.37f,r0=rings[ring]+(ring==0?0:1.6f),r1=rings[ring+1]-1.6f;
-                float lift=((float)rng.NextDouble()-.5f)*2.4f,mid=(a0+a1)*.5f;bool slipped=Mathf.Cos(mid-.5f)*((r0+r1)*.5f)<-6,gone=ring==2&&rng.Next(7)==0;float shade=.62f+.3f*(float)rng.NextDouble();
-                if(gone)continue;
-                bool caught=ring==1&&k==lit;var tone=caught?Color.white:new Color(shade*.9f,shade,shade*1.08f);var normal=tilt*Vector3.up;
-                shape.Slot(caught?1:0);
+                float lift=((float)rng.NextDouble()-.5f)*2.4f,mid=(a0+a1)*.5f;bool slipped=Mathf.Cos(mid-.5f)*((r0+r1)*.5f)<-6;int fate=rng.Next(9);float shade=.62f+.3f*(float)rng.NextDouble();
+                bool caught=ring==1&&k==lit;
+                // Gone: ring two loses one in seven, ring one one in nine; through the hole, the truss and the planet. Broken: one in five of the rest lies in shards.
+                bool gone=!caught&&(ring==2&&fate==0||ring==1&&fate==1),broken=!caught&&!gone&&ring>0&&fate>=7;
                 int steps=ring==2?3:2;
+                // Each pane's tint is what it is turned to: a little warmer or greener as it faces the nebula's bands.
+                float hue=(float)rng.NextDouble();var tone=caught?Color.white:Color.Lerp(new Color(shade*.86f,shade*.94f,shade*1.08f),new Color(shade*1.02f,shade*.98f,shade*.84f),hue*hue);
                 for(int j=0;j<steps;j++)
                 {
                     float b0=Mathf.Lerp(a0,a1,j/(float)steps),b1=Mathf.Lerp(a0,a1,(j+1)/(float)steps);
-                    if(r0<.5f)shape.Triangle(Place(0,b0,lift,slipped),Place(r1,b0,lift,slipped),Place(r1,b1,lift,slipped),normal,tone,.03f);
-                    else shape.Quad(Place(r0,b0,lift,slipped),Place(r1,b0,lift,slipped),Place(r1,b1,lift,slipped),Place(r0,b1,lift,slipped),normal,tone,.03f);
+                    var A=Place(r0,b0,lift,slipped);var B=Place(r1,b0,lift,slipped);var Cc=Place(r1,b1,lift,slipped);var D=Place(r0,b1,lift,slipped);
+                    if(!gone&&!broken)
+                    {
+                        shape.Slot(caught?1:0);
+                        if(r0<.5f)shape.Triangle(A,B,Cc,normal,tone,.03f);else shape.Quad(A,B,Cc,D,normal,tone,.03f);
+                    }
+                    else if(broken)
+                    {
+                        // In shards: four pieces about a point off the middle, each dropped and tipped its own way, the gaps between them open to the truss, their edges catching light.
+                        var M=Vector3.Lerp(Vector3.Lerp(A,Cc,.5f),Vector3.Lerp(B,D,.5f),.5f)+tilt*new Vector3((float)rng.NextDouble()*4-2,0,(float)rng.NextDouble()*4-2);
+                        var corners=r0<.5f?new[]{A,B,Cc}:new[]{A,B,Cc,D};
+                        for(int s=0;s<corners.Length;s++)
+                        {
+                            var p0=corners[s];var p1=corners[(s+1)%corners.Length];var drop=normal*-(.4f+2.2f*(float)rng.NextDouble());var piece=(p0+p1+M)/3;
+                            var tip=Quaternion.AngleAxis(((float)rng.NextDouble()-.5f)*24,Vector3.Cross(normal,p1-p0).normalized);
+                            Vector3 Sh(Vector3 q)=>piece+drop+tip*((q-piece)*.86f);
+                            shape.Slot(0).Triangle(Sh(p0),Sh(p1),Sh(M),normal,ZoneKit.Shape.Dim(tone,.9f),.03f);
+                            shape.Slot(2).Beam(Sh(p0),Sh(M),.12f,.08f,new Color(.96f,.98f,1)).Beam(Sh(p1),Sh(M),.12f,.08f,new Color(.96f,.98f,1));
+                        }
+                    }
+                    // Its frame either way: a mullion along each edge with depth to it, standing proud of the glass.
+                    var up=normal*.35f;
+                    shape.Slot(2).Beam(B+up,Cc+up,1.1f,.8f,steel,dark);
+                    if(r0>.5f)shape.Slot(2).Beam(A+up,D+up,.9f,.7f,steel,dark);
+                    if(j==0)shape.Slot(2).Beam(A+up,B+up,.9f,.7f,steel,dark);
+                    if(j==steps-1)shape.Slot(2).Beam((r0<.5f?A:D)+up,Cc+up,.9f,.7f,steel,dark);
                 }
             }
-            // Its frame: a rim in broken arcs and the spokes the panes sat on, dark under the glass.
-            var frame=new Color(.2f,.24f,.3f);shape.Slot(2);
+            // Its frame: a rim in broken arcs and the spokes the panes sat on, under the glass; and under those, the truss that held it all to the weather, seen wherever a pane is gone.
+            shape.Slot(2);
             foreach(var (from,to) in new[]{(.1f,1.9f),(2.3f,3.6f),(4.0f,5.9f)})
             {
                 var arc=new List<Vector3>();var thick=new List<float>();for(float a=from;a<=to;a+=.12f){arc.Add(Place(97,a,-1.2f,Mathf.Cos(a-.5f)*97<-6));thick.Add(1.5f);}
-                shape.Tube(arc,thick,6,frame,frame,1,.1f);
+                shape.Tube(arc,thick,8,steel,dark,1,.1f);
             }
-            for(int k=0;k<6;k++){float a=k*Mathf.PI/3+.2f;shape.Tube(new[]{Place(4,a,-1.6f,false),Place(96,a,-1.6f,Mathf.Cos(a-.5f)*96<-6)},new[]{1.1f,.8f},5,frame,frame,1,.1f);}
-            var mirror=kit.Built("Weather mirror",shape.Slot(2),Pane,PaneLit,Cloth);mirror.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+            for(int k=0;k<6;k++){float a=k*Mathf.PI/3+.2f;shape.Tube(new[]{Place(4,a,-1.6f,false),Place(96,a,-1.6f,Mathf.Cos(a-.5f)*96<-6)},new[]{1.1f,.8f},6,steel,dark,1,.1f);}
+            const float Under=-6.5f;
+            foreach(float r in new[]{16f,46f,78f})
+            {
+                var arc=new List<Vector3>();for(float a=0;a<=Mathf.PI*2+.01f;a+=.1f)arc.Add(Place(r,a,Under,Mathf.Cos(a-.5f)*r<-6));
+                // The slip broke the ring where the crack runs: two arcs, not one torn tube.
+                var near=new List<Vector3>();var far=new List<Vector3>();for(int i=0;i<arc.Count;i++){float a=i*.1f;(Mathf.Cos(a-.5f)*r<-6?far:near).Add(arc[i]);}
+                foreach(var piece in new[]{near,far})if(piece.Count>2)shape.Tube(piece,new[]{.7f},6,dark,ZoneKit.Shape.Dim(dark,.8f),1,.1f,false);
+            }
+            for(int k=0;k<18;k++)
+            {
+                float a=k*Mathf.PI*2/18+.1f;bool far=false;var chain=new List<Vector3>();
+                foreach(float r in new[]{6f,16f,30f,46f,62f,78f,94f}){bool s=Mathf.Cos(a-.5f)*r<-6;if(chain.Count>0&&s!=far)break;far=s;chain.Add(Place(r,a,r%32<16?Under:Under+3.2f,s));}
+                if(chain.Count>1)shape.Tube(chain,new[]{.55f},5,dark,ZoneKit.Shape.Dim(dark,.8f),1,.1f,false);
+            }
+            var mirror=kit.Built("Weather mirror",shape.Slot(2),Pane,PaneLit,Strut);mirror.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
             // The pane that still works throws its light up at the lane.
             var sun=new GameObject("Caught sun",typeof(Light));sun.transform.SetParent(mirror.transform,true);sun.transform.position=centre+tilt*new Vector3(Mathf.Cos((lit+.5f)*Mathf.PI*2/sectors[1]+.37f)*46,14,Mathf.Sin((lit+.5f)*Mathf.PI*2/sectors[1]+.37f)*46);
             var glow=sun.GetComponent<Light>();glow.type=LightType.Point;glow.color=new Color(1,.92f,.7f);glow.range=70;glow.intensity=3;glow.shadows=LightShadows.None;
@@ -659,7 +701,7 @@ namespace Lattice.EditorTools
             foreach(var (dx,dz,size,yaw,roll) in new[]{(-20f,-16f,8f,20f,24f),(15f,-22f,10f,-50f,-18f),(24f,9f,7f,70f,30f),(-9f,22f,9f,-15f,-26f),(-30f,6f,6.5f,110f,16f),(6f,34f,8.5f,40f,-22f),(36f,-9f,6f,-80f,28f)})
             {
                 var at=new Vector3(barge.x+dx,ZoneKit.FlightPlane,barge.z+dz);var turn=Quaternion.Euler(roll,yaw,roll*.4f);
-                var pane=new ZoneKit.Shape().Slot(0).Box(Vector3.zero,new Vector3(size,.5f,size*.62f),Quaternion.identity,new Color(.8f,.86f,.95f),null,.08f).Slot(1).Box(Vector3.zero,new Vector3(size+.5f,.34f,size*.62f+.5f),Quaternion.identity,frame);
+                var pane=new ZoneKit.Shape().Slot(0).Box(Vector3.zero,new Vector3(size,.5f,size*.62f),Quaternion.identity,new Color(.8f,.86f,.95f),null,.08f).Slot(1).Box(Vector3.zero,new Vector3(size+.5f,.34f,size*.62f+.5f),Quaternion.identity,new Color(.2f,.24f,.3f));
                 var slab=kit.Built("Loose pane "+dx+" "+dz,pane,Pane,Cloth);slab.transform.SetParent(loose.transform,true);slab.transform.SetPositionAndRotation(at,turn);
                 // Its box stands up through the plane whatever way the pane has rolled: a ship can't slip under a slab it sees edge on.
                 var box=slab.AddComponent<BoxCollider>();box.size=new Vector3(size,3.4f,size*.62f);slab.isStatic=true;

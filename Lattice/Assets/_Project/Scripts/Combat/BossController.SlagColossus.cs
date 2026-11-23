@@ -77,8 +77,53 @@ namespace Lattice.Combat
             /// <summary>Its rest between specials: glowing, cooled, coming apart.</summary>
             public const float RestHot=3,RestCooled=2.6f,RestApart=2.2f;
         }
-        /// <summary>Slag that slows as it crusts: a pale boundary in cooled iron's grey-blue, never a danger's colour (D217). Coolant, and the glow of what is still hot.</summary>
-        static readonly Color CrustTone=new(.6f,.62f,.68f,.38f),CoolantTone=new(.7f,.94f,1.1f,.85f),SlagTone=new(1.6f,.62f,.22f,.9f);
+        /// <summary>Slag that slows as it crusts: a boundary in cooled iron's steel-blue, never a danger's colour (D217), round a body of black crust. Coolant, and the glow of what is still hot.
+        /// At (.6, .62, .68) with nothing under it a crust was a grey, see-through disc in its own grey steam, and nobody could tell it from steam or hazard (whole-game capture s49/046).</summary>
+        static readonly Color CrustTone=new(.6f,.7f,.86f,.44f),CoolantTone=new(.7f,.94f,1.1f,.85f),SlagTone=new(1.6f,.62f,.22f,.9f);
+        /// <summary>The crusts it has laid, each with its body, which sinks into the floor over its last half second.</summary>
+        readonly List<(LingeringArea area,Transform body)> colossusCrustBodies=new();
+        static Material crustLook;static bool crustLookTried;Light colossusLight;
+        /// <summary>Crust where slag ran: the slowing ground (its ring the boundary every slow is) and what it is, drawn under the ring: a lobed patch of black, ropy slag skin, a little
+        /// raised and dull, cooled iron's pale ash at its edge. Dark crust is safe ground in this chapter (the Flows' rule); bright slag is the danger, drawn as one. The body is the zone's
+        /// own material from Resources (the Foundry's builder makes it), so the player draws it as the editor does.</summary>
+        LingeringArea Crust(Vector3 at,float radius,float seconds)
+        {
+            var area=LingeringArea.Lay(at,radius,seconds,AreaEffect.Slow,ColossusTune.CrustPace,0,health,DamageType.Plasma,CrustTone);
+            if(!crustLookTried){crustLookTried=true;crustLook=Resources.Load<Material>("WorldMaterials/foundry-slag-crust")??Resources.Load<Material>("WorldMaterials/scoria-crust");}
+            if(crustLook==null)return area;
+            var body=new GameObject("Slag crust",typeof(MeshFilter),typeof(MeshRenderer));body.transform.SetParent(area.transform,false);body.transform.position=at+Vector3.up*.02f;
+            body.GetComponent<MeshFilter>().sharedMesh=CrustMesh(radius,Mathf.RoundToInt(at.x*13+at.z*7));
+            var view=body.GetComponent<MeshRenderer>();view.sharedMaterial=crustLook;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            colossusCrustBodies.Add((area,body.transform));return area;
+        }
+        static Mesh CrustMesh(float radius,int seed)
+        {
+            const int Around=20;var points=new List<Vector3>{new(0,.035f,0)};var tones=new List<Color>{new(.34f,.33f,.34f)};var tris=new List<int>();
+            float s=seed*.37f;
+            for(int k=0;k<Around;k++)
+            {
+                float a=k*Mathf.PI*2/Around,lobe=.84f+.2f*Mathf.PerlinNoise(Mathf.Cos(a)*1.6f+s,Mathf.Sin(a)*1.6f+s*.7f)+.06f*Mathf.Sin(a*5+s);
+                var d=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));
+                points.Add(d*radius*lobe*.62f+Vector3.up*.03f);tones.Add(new Color(.26f,.25f,.26f));
+                points.Add(d*radius*lobe+Vector3.up*.012f);tones.Add(new Color(.58f,.58f,.6f));
+            }
+            for(int k=0;k<Around;k++)
+            {
+                int i=1+k*2,j=1+((k+1)%Around)*2;
+                tris.AddRange(new[]{0,j,i});tris.AddRange(new[]{i,j,j+1});tris.AddRange(new[]{i,j+1,i+1});
+            }
+            var mesh=new Mesh{name="Slag crust"};mesh.SetVertices(points);mesh.SetColors(tones);mesh.SetUVs(0,points.ConvertAll(p=>new Vector2(p.x,p.z)*.45f));mesh.SetTriangles(tris,0);
+            mesh.RecalculateNormals();mesh.RecalculateBounds();return mesh;
+        }
+        /// <summary>A crust's body goes with its ring: down into the floor over the ring's last half second, not gone between two frames.</summary>
+        void CrustBodies()
+        {
+            for(int i=colossusCrustBodies.Count-1;i>=0;i--)
+            {
+                var (area,body)=colossusCrustBodies[i];if(area==null||body==null){colossusCrustBodies.RemoveAt(i);continue;}
+                float k=Mathf.Clamp01(area.Remaining/.5f);body.localScale=new Vector3(1,k,1);
+            }
+        }
         /// <summary>A heat plate on its body: a break target with its own integrity (not shared with the body, so the body's heat doesn't stop it), shut while it glows.</summary>
         sealed class ColossusPlate{public Health health;public Transform node;public Renderer slab;public SphereCollider shape;public bool shed;public float darkUntil=-1;public int index;}
         readonly List<ColossusPlate> colossusPlates=new();
@@ -164,7 +209,7 @@ namespace Lattice.Combat
                 // The second arm torn loose: its bar goes over the line, and the shift is it coming apart.
                 colossusTearAt=-1;if(health.integrity>ColossusLine-1)health.integrity=Mathf.Max(1,ColossusLine-1);
             }
-            ColossusLeak();ColossusLooks(hot);
+            ColossusLeak();CrustBodies();ColossusLooks(hot);
             if(busy||health.Broken||brain.Passive||brain.Telegraphing)return;
             // It heaves on its four legs, the crucible slopping; coming apart it shudders.
             if(Phase<2)Pose(1.2f*Mathf.Sin(Time.time*1.1f),.05f*Mathf.Sin(Time.time*2.2f));else Pose(2+1.4f*Mathf.Sin(Time.time*2.6f),-.12f+.06f*Mathf.Sin(Time.time*7.3f));
@@ -175,6 +220,10 @@ namespace Lattice.Combat
         {
             colossusBlock??=new MaterialPropertyBlock();
             float t=Time.time,glow=hot?1.6f+.25f*Mathf.Sin(t*3.1f):Phase<2?.55f:.35f+.25f*Mathf.PerlinNoise(t*4,7);
+            // Its crucible lights the floor round it, as hot as it is: the heart is lit by what is fought in it (whole-game capture s49/033: a dim brown floor and no heat light).
+            if(colossusLight==null){var at=new GameObject("Crucible glow",typeof(Light));at.transform.SetParent(transform,false);at.transform.localPosition=Vector3.up*5.4f;
+                colossusLight=at.GetComponent<Light>();colossusLight.type=LightType.Point;colossusLight.range=13;colossusLight.color=new Color(1,.6f,.32f);colossusLight.shadows=LightShadows.None;}
+            colossusLight.intensity=Mathf.Clamp(glow,.3f,1.9f)*(health!=null&&health.Alive?1:0);
             if(colossusBody!=null)foreach(var body in colossusBody){if(body==null||body.name=="Plate")continue;body.GetPropertyBlock(colossusBlock);colossusBlock.SetColor("_EmissionColor",colossusGlow*glow);body.SetPropertyBlock(colossusBlock);}
             foreach(var plate in colossusPlates)
             {
@@ -317,7 +366,7 @@ namespace Lattice.Combat
             for(int i=colossusCrusts.Count-1;i>=0;i--)
             {
                 if(Time.time<colossusCrusts[i].when)continue;
-                LingeringArea.Lay(colossusCrusts[i].at,ColossusTune.LeakRadius,ColossusTune.LeakCrust,AreaEffect.Slow,ColossusTune.CrustPace,0,health,DamageType.Plasma,CrustTone);
+                Crust(colossusCrusts[i].at,ColossusTune.LeakRadius,ColossusTune.LeakCrust);
                 colossusCrusts.RemoveAt(i);
             }
             var now=transform.position;float step=Flat(now-colossusLastAt).magnitude;colossusLastAt=now;
@@ -331,7 +380,7 @@ namespace Lattice.Combat
         void ColossusDown()
         {
             if(colossusHears){CoolantSluice.Opened-=ColossusQuenched;if(health!=null)health.Damaged-=ColossusStruck;colossusHears=false;}
-            CoolantSluice.SettleAll();colossusCrusts.Clear();LingeringArea.DismissAll();
+            CoolantSluice.SettleAll();colossusCrusts.Clear();LingeringArea.DismissAll();if(colossusLight!=null)colossusLight.enabled=false;
             if(colossusArms!=null)colossusArms.Expose(false);
             foreach(var plate in colossusPlates){plate.health.Damageable=false;plate.shape.enabled=false;}
         }
@@ -391,7 +440,7 @@ namespace Lattice.Combat
             for(int i=1;i<=ColossusTune.PourCrusts;i++)
             {
                 var at=CombatCover.Ground(transform.position+direction*(colossusRadius+ColossusTune.PourReach*i/(ColossusTune.PourCrusts+1f))+Vector3.up*3);
-                LingeringArea.Lay(at,ColossusTune.CrustRadius,ColossusTune.CrustSeconds,AreaEffect.Slow,ColossusTune.CrustPace,0,health,DamageType.Plasma,CrustTone);
+                Crust(at,ColossusTune.CrustRadius,ColossusTune.CrustSeconds);
             }
             strikeAt=0;yield return Windup(.25f,0);Pose(0);Finish(ColossusRest);
         }
@@ -474,7 +523,7 @@ namespace Lattice.Combat
             {
                 var at=CombatCover.Ground(transform.position+Quaternion.Euler(0,i*360f/ColossusTune.SpillCrusts,0)*Vector3.forward*((inner+outer)*.5f)+Vector3.up*3);
                 CombatVfx.Burst(at+Vector3.up*.3f,SlagTone,"kill");
-                LingeringArea.Lay(at,ColossusTune.CrustRadius,ColossusTune.CrustSeconds,AreaEffect.Slow,ColossusTune.CrustPace,0,health,DamageType.Plasma,CrustTone);
+                Crust(at,ColossusTune.CrustRadius,ColossusTune.CrustSeconds);
             }
             yield return ColossusOpens(ColossusTune.Emptied,"ITS CRUCIBLE IS EMPTY","COLOSSUS_EMPTIED");
         }

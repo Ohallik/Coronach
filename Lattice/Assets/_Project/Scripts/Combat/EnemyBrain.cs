@@ -95,7 +95,7 @@ namespace Lattice.Combat
         CantorCollar collar;
         /// <summary>Awake bodies on the ground, so they can keep out of each other without asking the scene.</summary>
         static readonly List<EnemyBrain> crowd=new();
-        const float KeepApartSpeed=2.4f,HeroBody=.45f,HeroCapsule=.35f,MostBody=2;
+        const float KeepApartSpeed=2.4f,HeroBody=.45f,HeroCapsule=.35f,MostBody=2,MostFront=3;
         /// <summary>How long after its last tell a shooter stays framed, past the cooldown between shots; and how far from the hero one is worth drawing back for.</summary>
         const float ShooterFramedFor=3,ShooterReach=24;
         float shotAt=float.NegativeInfinity;
@@ -123,6 +123,25 @@ namespace Lattice.Combat
             return false;
         }
         float bodyRadius=.5f;bool crowded;
+        /// <summary>How far its drawn body reaches round its middle on the plan (never less than its capsule): what a hero keeps off.</summary>
+        public float BodyRadius=>bodyRadius;
+        /// <summary>How far its drawn body reaches ahead of its middle, the way it faces (never less than its capsule): where its head is. A hound's or a grazer's capsule is round its
+        /// middle and its head a body's length ahead of that, so run in until the capsules met, its head and shoulders stood in the hero (Lantern Gorge, nov20-whole s14/017;
+        /// BodiesKeepApartTests). It walks in, and lunges, until that front meets his capsule, and no further.</summary>
+        public float FrontReach=>front;
+        float front=.5f;
+        static float FrontOf(Transform root,Renderer drawn)
+        {
+            Bounds box;Matrix4x4 into;var toRoot=root.worldToLocalMatrix;
+            if(drawn is SkinnedMeshRenderer skin){box=skin.localBounds;into=toRoot*(skin.rootBone!=null?skin.rootBone:skin.transform).localToWorldMatrix;}
+            else if(drawn is MeshRenderer&&drawn.TryGetComponent<MeshFilter>(out var filter)&&filter.sharedMesh!=null){box=filter.sharedMesh.bounds;into=toRoot*drawn.transform.localToWorldMatrix;}
+            else return 0;
+            if(drawn.name=="Telegraph"||drawn.shadowCastingMode==UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly)return 0;
+            float most=0;for(int i=0;i<8;i++)most=Mathf.Max(most,into.MultiplyPoint3x4(box.center+Vector3.Scale(box.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1))).z);
+            return most;
+        }
+        /// <summary>How far from a hero's middle its own middle stops: its front at his capsule.</summary>
+        float Contact(CombatActor hero)=>front+(hero.TryGetComponent<CharacterController>(out var his)?his.radius:HeroCapsule)+.05f;
         void OnEnable(){if(!crowd.Contains(this))crowd.Add(this);}
         void OnDisable(){crowd.Remove(this);}
         void Awake(){Health=GetComponent<Health>();controller=GetComponent<CharacterController>();home=transform.position;}
@@ -132,10 +151,12 @@ namespace Lattice.Combat
             bodyRadius=controller!=null?controller.radius:.5f;
             foreach(var body in GetComponentsInChildren<Renderer>())
                 if(body is MeshRenderer||body is SkinnedMeshRenderer)bodyRadius=Mathf.Max(bodyRadius,Mathf.Min(MostBody,Mathf.Min(body.bounds.extents.x,body.bounds.extents.z)));
+            front=controller!=null?controller.radius:.5f;
+            foreach(var body in GetComponentsInChildren<Renderer>())front=Mathf.Max(front,Mathf.Min(MostFront,FrontOf(transform,body)));
             Health.Damaged+=OnDamaged;
             boss=GetComponent<BossController>();
             collar=GetComponent<CantorCollar>();
-            Health.Died+=OnDeath;
+            Health.Died+=OnDeath;Health.Revived+=OnRevived;
             nextAttack=Time.time+.6f;
             behaviour=EnemyBehaviour.For(this);
         }
@@ -265,14 +286,14 @@ namespace Lattice.Combat
         }
         public void RestoreAfterRecovery()
         {
-            CancelAttack();ImpactStarted=float.NegativeInfinity;ImpactSequence=0;
+            OpenItsParts();CancelAttack();ImpactStarted=float.NegativeInfinity;ImpactSequence=0;
             nextAttack=Time.time+.6f;enabled=true;
         }
         void OnDestroy()
         {
             if(behaviour!=null)behaviour.Dispose();
             if(Health==null)return;
-            Health.Damaged-=OnDamaged;Health.Died-=OnDeath;
+            Health.Damaged-=OnDamaged;Health.Died-=OnDeath;Health.Revived-=OnRevived;
         }
         void OnDeath(Health _,DamagePacket packet)
         {
@@ -301,8 +322,31 @@ namespace Lattice.Combat
             CancelAttack();
             if(behaviour!=null)behaviour.Fell(packet);
             if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true,weight=HitWeight.Medium});
+            if(definition.boss)ShutItsParts();
             controller.enabled=false;enabled=false;
         }
+        /// <summary>A beaten boss takes nothing more (D355): its parts (BossParts' targets, a collar's links), which share its break but not its death, are shut with it, their knots dark,
+        /// so no blow lands on what is left of it and no number rises from it.</summary>
+        void ShutItsParts()
+        {
+            foreach(var set in GetComponentsInChildren<BossParts>(true)){if(set.Exposed)shutSets.Add(set);set.Expose(false);}
+            for(int i=0;i<Health.All.Count;i++)
+            {
+                var part=Health.All[i];if(part==null||part==Health||part.reactionOwner!=Health)continue;
+                if(part.Damageable){part.Damageable=false;shutParts.Add(part);}
+                foreach(var shape in part.GetComponents<Collider>())if(shape.enabled){shape.enabled=false;shutShapes.Add(shape);}
+            }
+        }
+        /// <summary>A beaten boss brought back (the Cantor's delayed recovery) has its parts back as they stood: what this shut, and only that, opens again (CantorCollarTests).</summary>
+        void OpenItsParts()
+        {
+            foreach(var part in shutParts)if(part!=null)part.Damageable=true;
+            foreach(var shape in shutShapes)if(shape!=null)shape.enabled=true;
+            foreach(var set in shutSets)if(set!=null)set.Expose(true);
+            shutParts.Clear();shutShapes.Clear();shutSets.Clear();
+        }
+        readonly List<Health> shutParts=new();readonly List<Collider> shutShapes=new();readonly List<BossParts> shutSets=new();
+        void OnRevived(Health _)=>OpenItsParts();
         void Update()
         {
             // Charges can step onto geometry or another controller. Settling
@@ -346,6 +390,9 @@ namespace Lattice.Combat
             float range=attack!=null?attack.range:2.6f;
             bool dive=definition.archetype==EnemyArchetype.PackHunter||definition.id=="ChoristerDart";
             if(dive)range=6;
+            // A lunge is judged from its head: a hound drawn a body's length ahead of its capsule marks and commits from as far off, head to hero, as a short body does middle to middle,
+            // so it covers the same ground before its front meets him (CorePlayTests' pack lunge, more than 2.2 m) and stops there rather than in him.
+            float near=dive?distance-Mathf.Max(0,front-(controller!=null?controller.radius:.5f)):distance;
             bool ranged=definition.archetype==EnemyArchetype.Spitter||definition.archetype==EnemyArchetype.Serpent;
             if(Telegraphing)
             {
@@ -385,7 +432,7 @@ namespace Lattice.Combat
                 return;
             }
             KeepApart(d,distance,range);
-            if(distance<range&&Time.time>=nextAttack&&Time.time>=draggedAt+DragSettles&&InSight(victim))
+            if(near<range&&Time.time>=nextAttack&&Time.time>=draggedAt+DragSettles&&InSight(victim))
             {
                 float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;if(ranged)shotAt=Time.time;
                 markedFrom=transform.position;dragged=0;
@@ -407,7 +454,7 @@ namespace Lattice.Combat
             }
             // Pressed in among its own, a body in reach stops there instead of shoving for a place at the front.
             // But with no line it walks on: stood 4 m from a hero round a pillar, a hound would never get one.
-            else if(distance>range*(crowded?1:.7f)||Time.time<nextSight)
+            else if((near>range*(crowded?1:.7f)||Time.time<nextSight)&&distance>Contact(victim))
             {
                 Vector3 approach=d.normalized;
                 if(definition.archetype==EnemyArchetype.PackHunter)approach+=Vector3.Cross(Vector3.up,approach)*Mathf.Sin(Time.time+GetInstanceID())*.35f;
@@ -456,17 +503,35 @@ namespace Lattice.Combat
         IEnumerator LungeAttack(DamagePacket packet)
         {
             lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;
-            // Exactly its travel, however long a frame runs: the lane is painted to the end of it.
+            // The bite is at its mouth: for a body drawn long ahead of its middle, further ahead than the half metre a short one bites at, so stopping at the hero's capsule still reaches him.
+            float bite=Mathf.Max(LungeAhead,front-.5f);
+            // Exactly its travel, however long a frame runs: the lane is painted to the end of it. Or to where its front meets a hero in the lane: it stops there, it doesn't run on into him.
             for(float travelled=0;travelled<LungeTravel&&Health.Alive&&!Health.Broken&&!Warded;)
             {
                 if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
-                float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled);travelled+=step;
-                if(controller.enabled)controller.Move(direction*step);
+                float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled),room=RoomAhead(direction);bool met=room<=step;step=Mathf.Min(step,room);travelled+=step;
+                if(controller.enabled&&step>0)controller.Move(direction*step);
                 if(SlidOffItsLane(direction))break;
-                var hit=CombatActor.Strike(transform.position+Vector3.up*StrikeHeight+direction*LungeAhead,LungeRadius,packet);hit.hit=victims;hit.ThroughWalls=false;
+                var hit=CombatActor.Strike(transform.position+Vector3.up*StrikeHeight+direction*bite,LungeRadius,packet);hit.hit=victims;hit.ThroughWalls=false;
+                if(met)break;
                 yield return null;
             }
             lunging=false;
+        }
+        /// <summary>How far it can lunge on before its drawn front meets the capsule of a hero in its way (a hero its body would pass over), on the plan.</summary>
+        float RoomAhead(Vector3 direction)
+        {
+            float room=float.PositiveInfinity;if(PartyController.Current==null)return room;
+            var at=transform.position;direction.y=0;direction.Normalize();
+            foreach(var hero in PartyController.Current.members)
+            {
+                if(hero==null||!hero.Health.Alive||hero.flight!=Flying)continue;
+                float his=hero.TryGetComponent<CharacterController>(out var capsule)?capsule.radius:HeroCapsule;
+                var off=hero.transform.position-at;off.y=0;float along=Vector3.Dot(off,direction);if(along<=0)continue;
+                if((off-direction*along).magnitude>=his+bodyRadius)continue;
+                room=Mathf.Min(room,Mathf.Max(0,along-front-his-.02f));
+            }
+            return room;
         }
         /// <summary>A controller slides along a wall it meets at an angle, and the strike slid with it, off the lane it painted: there it stops. Only a wall does that: round a hero or one of its own in
         /// the way it goes on as it always has. It casts only once it is off its line, so an ordinary lunge never does.</summary>

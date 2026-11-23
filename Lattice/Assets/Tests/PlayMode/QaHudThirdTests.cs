@@ -273,7 +273,7 @@ namespace Lattice.Tests.PlayMode
         static void CardClear(string doing,List<string> failures)
         {
             var hud=Surface("HUD");var root=(RectTransform)hud.transform;var corner=(RectTransform)Surface("Objective").transform;var scaler=hud.GetComponent<CanvasScaler>();
-            string[] others={"BossBand","BossName","BossEpithet","BossIntegrityBack","BossBreakBack","BossState","Skills","Skill0","Skill1","Skill2","Skill3","SkillLabel0","SkillLabel1","SkillLabel2","SkillLabel3","Target","VitalsFrame"};
+            string[] others={"BossBand","BossName","BossEpithet","BossIntegrityBack","BossBreakBack","BossState","Skills","Skill0","Skill1","Skill2","Skill3","SkillLabel0","SkillLabel1","SkillLabel2","SkillLabel3","Zone","VitalsFrame"};
             foreach(var (w,h,label) in new[]{(1920,1080,"16:9"),(1600,1200,"4:3")})
             {
                 var size=CanvasAt(scaler,w,h);var objective=Placed(Spot("Objective","ObjectiveFrame"),corner,size);
@@ -289,56 +289,67 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheBossCardStandsClearOfTheBarTheStripAndTheSkillsOnAnyScreen()
         {
             yield return null;
-            var failures=new List<string>();CardClear("just over the bar",failures);
-            Assert.AreEqual(new Vector2(.5f,0),Spot("HUD","BossTitleCard").anchorMin,"the card doesn't hang from the foot of the screen, over the bar");
+            var failures=new List<string>();CardClear("before any fight",failures);
+            // One place, across the top between the vitals and the objective (November 21): over the bar it lay on Sela's feet and over the bar's own name, in the middle on Taren.
+            Assert.AreEqual(new Vector2(.5f,1),Spot("HUD","BossTitleCard").anchorMin,"the card isn't in its one place across the top of the screen");
             var hero=Hero;Guard();
             var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),hero.transform.position+Vector3.forward*14);boss.Passive=false;
+            // The aim on her, not a lock: the plain aim's card waits for the title card.
+            hero.target=boss.Health;hero.TargetLocked=false;
             yield return new WaitForSecondsRealtime(.3f);
-            CardClear("in the gap",failures);
-            boss.Passive=true;Object.Destroy(boss.gameObject);
+            Assert.Greater(Text("BossTitleCard").alpha,.5f,"fixture: the card is up");
+            CardClear("with the card up",failures);
+            // The target card stands in that place too, and gives way for the card's moment.
+            if(Text("Target").text.Length>0)failures.Add("the target card stands under the title card: '"+Text("Target").text+"'");
+            // A lock is the player asking: the title card gives the place back at once.
+            hero.TargetLocked=true;yield return null;yield return null;
+            if(Text("BossTitleCard").alpha>.01f)failures.Add("the title card stays over a lock the player has just made");
+            if(!Text("Target").text.Contains("LOCKED"))failures.Add("a lock made under the title card has no card: '"+Text("Target").text+"'");
+            hero.target=null;hero.TargetLocked=false;boss.Passive=true;Object.Destroy(boss.gameObject);
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct()));
         }
-        [UnityTest] public IEnumerator ABossCloseByHasItsCardOverTheBarClearOfBoth()
+        [UnityTest] public IEnumerator ABossCloseByHasItsCardInItsPlaceClearOfTheHeroAndHer()
         {
             var hero=Hero;Guard();yield return Settle();
             var up=Quaternion.Euler(0,ZoneController.Current.definition.cameraProfile.yaw,0)*Vector3.forward;
             var at=hero.transform.position+up*4;var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),at);boss.Passive=false;
             for(float wait=Time.unscaledTime+.3f;Time.unscaledTime<wait;){Stay(boss,at);yield return null;}
             var card=Text("BossTitleCard");var line=Text("BossTitleEpithet");Assert.Greater(card.alpha,.5f,"fixture: the card is up");
-            Assert.AreEqual(new Vector2(.5f,0),card.rectTransform.anchorMin,"with the boss close there's room over the bar, and the card's elsewhere: at Hessa's it lay on her, the numbers across her from the hips up");
+            Assert.AreEqual(new Vector2(.5f,1),card.rectTransform.anchorMin,"with the boss close the card has left its one place");
             var camera=Camera.main;
             for(float end=Time.unscaledTime+1.2f;Time.unscaledTime<end;)
             {
-                Stay(boss,at);float top=Box(card.rectTransform).yMax;
-                Assert.Less(top,camera.WorldToScreenPoint(hero.transform.position).y,"the card lies across the hero");
+                Stay(boss,at);
+                Assert.Greater(Box(line.rectTransform).yMin,camera.WorldToScreenPoint(hero.transform.position+Vector3.up*2.1f).y,"the card lies across the hero");
                 Assert.IsFalse(Box(card.rectTransform).Contains((Vector2)camera.WorldToScreenPoint(boss.transform.position+Vector3.up))||Box(line.rectTransform).Contains((Vector2)camera.WorldToScreenPoint(boss.transform.position+Vector3.up)),"the card lies across the boss");
                 yield return null;
             }
             boss.Passive=true;Object.Destroy(boss.gameObject);
         }
-        [UnityTest] public IEnumerator ABossFarUpTheScreenHasItsCardBetweenHerAndTheHero()
+        [UnityTest] public IEnumerator ABossFarUpTheScreenHasItsCardInTheSamePlaceClearOfTheHero()
         {
             var hero=Hero;Guard();yield return Settle();
-            // The camera slides until she fits and carries the hero down, with his feet a quarter of the way up the screen at the Bellows and three tenths at the Burrower. Just over the bar the words would lie on him.
+            // The camera slides until she fits and carries the hero down, with his feet a quarter of the way up the screen at the Bellows and three tenths at the Burrower: the card at the top is clear of him wherever that leaves him.
             var up=Quaternion.Euler(0,ZoneController.Current.definition.cameraProfile.yaw,0)*Vector3.forward;
             var at=hero.transform.position+up*14;var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),at);boss.Passive=false;
             for(float wait=Time.unscaledTime+.6f;Time.unscaledTime<wait;){Stay(boss,at);yield return null;}
             var card=Text("BossTitleCard");var line=Text("BossTitleEpithet");Assert.Greater(card.alpha,.5f,"fixture: the card is up");var camera=Camera.main;
-            Assert.AreEqual(new Vector2(.5f,.5f),card.rectTransform.anchorMin,"the card doesn't stand in the gap between them");
+            Assert.AreEqual(new Vector2(.5f,1),card.rectTransform.anchorMin,"the card has a second place for a boss far up the screen");
             for(float end=Time.unscaledTime+1;Time.unscaledTime<end;)
             {
                 Stay(boss,at);float head=camera.WorldToScreenPoint(hero.transform.position+Vector3.up*1.9f).y;
                 Assert.Greater(Box(line.rectTransform).yMin,head,"the card lies across the hero the camera has carried down");
-                Assert.Less(Box(card.rectTransform).yMax,camera.WorldToScreenPoint(boss.transform.position).y,"the card lies across the boss");
+                Assert.Greater(Box(line.rectTransform).yMin,Box(Picture("BossBand").rectTransform).yMax,"the card lies on the bar");
                 yield return null;
             }
             boss.Passive=true;Object.Destroy(boss.gameObject);
-            // A flight frames both from their middle, and its card stays over the bar.
+            // A flight frames both from their middle, and its card is in the same place.
             yield return Zone("Arena_Flight");
             var ship=Hero;ship.GetComponent<FlightMotor>().Halt();ship.Health.InvulnerableUntil=GameTime.Now+60;
             var cantor=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Cantor"),ship.transform.position+new Vector3(20,0,0));cantor.Passive=false;cantor.enabled=true;
             yield return new WaitForSecondsRealtime(.3f);cantor.Passive=false;yield return null;
-            Assert.AreEqual(new Vector2(.5f,0),Text("BossTitleCard").rectTransform.anchorMin,"a flight's card has left its place over the bar");
+            Assert.AreEqual(new Vector2(.5f,1),Text("BossTitleCard").rectTransform.anchorMin,"a flight's card has left the card's one place");
+            Assert.Greater(Box(Text("BossTitleEpithet").rectTransform).yMin,Camera.main.WorldToScreenPoint(ship.transform.position).y,"a flight's card lies across the ship");
             cantor.Passive=true;Object.Destroy(cantor.gameObject);
         }
         [UnityTest] public IEnumerator ABossBehindTheLensIsNotTakenForOneUpTheScreen()
@@ -349,18 +360,19 @@ namespace Lattice.Tests.PlayMode
             var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),at);boss.Passive=false;
             for(float wait=Time.unscaledTime+.3f;Time.unscaledTime<wait;){Stay(boss,at);yield return null;}
             var card=Text("BossTitleCard");Assert.Greater(card.alpha,.5f,"fixture: the card is up");
-            // A viewport reading behind the lens comes back mirrored, and she read as far up the screen. The camera will carry the hero up, away from the foot, so the card keeps its place over the bar.
-            Assert.AreEqual(new Vector2(.5f,0),card.rectTransform.anchorMin,"a boss far down the screen is taken for one far up it");
+            // Where she stands decides nothing now: the card has one place (it used to read a mirrored viewport behind the lens as a boss far up the screen).
+            Assert.AreEqual(new Vector2(.5f,1),card.rectTransform.anchorMin,"a boss behind the lens moved the card");
+            Assert.Greater(Box(Text("BossTitleEpithet").rectTransform).yMin,Camera.main.WorldToScreenPoint(hero.transform.position+Vector3.up*2.1f).y,"the card lies across the hero");
             boss.Passive=true;Object.Destroy(boss.gameObject);
         }
-        [UnityTest] public IEnumerator ANumberOnTheCardGoesUpOffItNotDownOntoTheBar()
+        [UnityTest] public IEnumerator ANumberOnTheCardGoesDownOffItIntoThePlayfield()
         {
             var hero=Hero;Guard();var camera=Camera.main;
             var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),hero.transform.position+Vector3.forward*14);boss.Passive=false;
             yield return new WaitForSecondsRealtime(.3f);
             var line=Box(Text("BossTitleEpithet").rectTransform);var card=Box(Text("BossTitleCard").rectTransform);
             var body=new GameObject("Body fixture").AddComponent<Health>();body.id="Fixture";body.maximum=body.integrity=1000000;body.breakThreshold=1e9f;
-            body.transform.position=camera.ScreenToWorldPoint(new Vector3(line.center.x,line.center.y,20))-Vector3.up*1.9f;
+            body.transform.position=camera.ScreenToWorldPoint(new Vector3(card.center.x,card.center.y,20))-Vector3.up*1.9f;
             body.Receive(new DamagePacket{amount=41,type=DamageType.Pulse});
             for(int i=0;i<4;i++)
             {
@@ -369,7 +381,8 @@ namespace Lattice.Tests.PlayMode
                 {
                     var at=Box(number.rectTransform,1);
                     Assert.IsFalse(at.Overlaps(line)||at.Overlaps(card),"a number prints across the boss's card");
-                    Assert.GreaterOrEqual(at.yMin,card.yMax-camera.pixelHeight*.02f,"a number on the card's epithet was put into its name or down toward the bar");
+                    Assert.LessOrEqual(at.yMax,line.yMin+camera.pixelHeight*.02f,"a number on the card at the top of the screen was put up off it, against the edge, instead of down into the fight");
+                    foreach(string plate in new[]{"VitalsFrame","ObjectiveFrame"})Assert.IsFalse(at.Overlaps(Box(Picture(plate).rectTransform,1)),"a number put off the card lands on "+plate);
                 }
             }
             boss.Passive=true;Object.Destroy(boss.gameObject);Object.Destroy(body.gameObject);

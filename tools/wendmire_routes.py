@@ -71,6 +71,14 @@ def veil_solids():
     return boxes
 
 
+# What the Waystation's builder stands on a floor the route walks, as the block a body meets (WendmireBuilder.Waystation): the low floor's lamp on the pier between
+# its two north alcoves, moved there from the mouth of the western one when the low floor's sentries were stood in those alcoves (D358).
+STATION_FIXED = [("the low floor's north lamp", (-13, 249.4), 0, 0.3, 0.3)]
+# The low floor's two Drowned Sentries, in its north wall's alcoves facing the room (Waystation.FloorSentries, D358); until November 22 in the west wall's, at (-23.2, 209.5) and (-23.2, 237.5).
+FLOOR_SENTRIES = [(-16, 250.6), (-10, 250.6)]
+BODY = 0.55  # the bake's agent radius
+
+
 def station_y(x, z):
     """The floor's height at a plan point of the Drowned Waystation, from its map's levels (docs/maps/DrownedWaystation.md, Layout): the mire at 0, the hall's
     dry walk +0.3, the stair down to the terrace at -2.4, the low floor -4.0 with Pim's pocket -2.0 up its west stair, the vault passage -2.4 and its sump
@@ -108,6 +116,15 @@ class Checked(Route):
     def walk(self, name, x, y, z, tolerance=0.8, seconds=None, stop=None, buttons=None):
         if self.scene == "DrownedWaystation" and y == 0:
             y = station_y(x, z)
+        if self.scene == "DrownedWaystation" and self.at is not None:
+            start = self.at
+            steps = max(1, int(math.dist(start, (x, z)) / 0.25))
+            for i in range(steps + 1):
+                p = (start[0] + (x - start[0]) * i / steps, start[1] + (z - start[1]) * i / steps)
+                hit = next((label for label, c, yaw, hx, hz in STATION_FIXED if box_distance(p, c, yaw, hx, hz) < BODY), None)
+                if hit:
+                    self.problems.append(f"{self.name}: '{name}' walks into {hit} at ({p[0]:.1f}, {p[1]:.1f})")
+                    break
         if self.scene == "SporeVeil":
             start = self.at
             steps = 1 if start is None else max(1, int(math.dist(start, (x, z)) / 0.5))
@@ -363,6 +380,10 @@ def waystation():
     r.wait("the low floor drains", 5)
     # Round the north sump's edge, which the straight line from the ramp foot grazes.
     r.path("down onto the low floor", [(16, 0, 244), (6, 0, 245), (-2, 0, 245), (-10.1, 0, 233.6), (-12, 0, 230)])
+    # Its sentries stand in the north wall's alcoves: across the floor to face them from the south, 7.6 m short of each and south of the lamp on the pier between them,
+    # so the chase to either goes up one side of the lamp (D358).
+    north = (round((FLOOR_SENTRIES[0][0] + FLOOR_SENTRIES[1][0]) / 2, 1), 243.5)
+    r.walk("across the low floor to the sentries' alcoves", north[0], 0, north[1], tolerance=0.6)
     r.fight_ground("Gallery_Floor")
     r.path("to Pim's grille", [(-12, 0, 230), (-22, 0, 221.5), (-26.5, 0, 221.5)], tolerance=0.5)
     r.talk("Pim behind the grille", 10, flag="wend.pimFound")  # PimFound

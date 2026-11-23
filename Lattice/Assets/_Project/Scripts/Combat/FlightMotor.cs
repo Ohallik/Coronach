@@ -61,7 +61,7 @@ namespace Lattice.Combat
                 velocity=dashVelocity;Vector3 before=transform.position;
                 if(controller.enabled&&step>0)
                 {
-                    controller.Move(dashVelocity*step+Vector3.up*(plane-transform.position.y));
+                    HeroCollision.ThroughParty(controller);controller.Move(dashVelocity*step+Vector3.up*(plane-transform.position.y));
                     DashMoved?.Invoke(DashSequence,before,transform.position);
                 }
                 if(dashRemaining<=0)velocity=Vector3.ClampMagnitude(velocity,maxSpeed);
@@ -71,7 +71,7 @@ namespace Lattice.Combat
             Vector3 displacement=Advance(ref velocity,thrust,dt,acceleration*(boost?2.1f:1),drag,maxSpeed*(boost?1.9f:1)*(actor!=null?actor.Health.Pace:1),brake);
             if(thrust.sqrMagnitude>.01f)Facing=thrust.normalized;
             if(Facing.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(Facing);
-            if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
+            if(controller.enabled){HeroCollision.ThroughParty(controller);controller.Move(displacement+Vector3.up*(plane-transform.position.y));}
         }
         /// <summary>For a dash that doesn't turn the ship: the nose stays on what it was looking at.</summary>
         public void KeepFacing(Vector3 facing){if(facing.sqrMagnitude<.01f)return;Facing=facing.normalized;transform.rotation=Quaternion.LookRotation(Facing);}

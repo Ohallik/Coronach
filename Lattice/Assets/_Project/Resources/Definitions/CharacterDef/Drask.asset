@@ -28,7 +28,7 @@ MonoBehaviour:
     response: 0
     resonance: 0
     fortune: 0
-  natural: {fileID: 9159717404405517970, guid: 48157ae895bae3a43966e7105f2e4646, type: 3}
+  natural: {fileID: 310465921828847246, guid: 53853b321ec20c0438dcec1c78552d88, type: 3}
   shaped: {fileID: 0}
   flight: {fileID: 0}
   portraitNatural: {fileID: 11400000, guid: 537a0623ae6ac3c47abcaf58063ab22c, type: 2}

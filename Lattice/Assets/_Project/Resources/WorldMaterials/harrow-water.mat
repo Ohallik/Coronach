@@ -123,7 +123,7 @@ Material:
     - _SurfColor: {r: 1, g: 1, b: 1, a: 1}
     - _SurfGlow: {r: 0, g: 0, b: 0, a: 1}
     - _SurfParams: {r: 1.5, g: 0.5, b: 6, a: 0.5}
-    - _WaterParams: {r: 7, g: 0.12, b: 5, a: 0.07}
+    - _WaterParams: {r: 1, g: 0.12, b: 5, a: 0.022}
     - _WindParams: {r: 0.12, g: 1.7, b: 3, a: 0.35}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

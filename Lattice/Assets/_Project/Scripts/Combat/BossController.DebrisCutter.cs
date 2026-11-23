@@ -74,7 +74,7 @@ namespace Lattice.Combat
         sealed class CutterPod{public Health health;public Transform node;public Renderer knot;public SphereCollider shape;public float ventUntil=-1,left;public bool down,open;public int index;}
         readonly List<CutterPod> cutterPods=new();
         int cutterFirstDown=-1,cutterDown,cutterRadio,cutterLastVent=-1;float cutterKeepUntil,cutterOrbit,cutterStruckAt=-1;Vector3 cutterStation;bool cutterVentSaid,cutterMarketSaid,cutterHears;string cutterOpenWhy="";
-        float cutterRadius=CutterTune.Radius;
+        float cutterRadius=CutterTune.Radius;HullKeepsOff cutterHull;bool cutterRunning;
         /// <summary>Its pods still working, and whether one is (by index: <see cref="CutterTune.Beam"/>, <see cref="CutterTune.Mines"/>, <see cref="CutterTune.Tractor"/>).</summary>
         public int CutterPodsLeft=>CutterTune.Pods-cutterDown;
         public bool CutterHas(int pod)=>pod>=0&&pod<cutterPods.Count&&!cutterPods[pod].down;
@@ -111,6 +111,10 @@ namespace Lattice.Combat
             }
             // No hold and no plate: the bar is paid in blows, on the hull or on a venting pod alike.
             health.Holds=null;health.Plate=null;
+            // No ship sinks into its hull: its capsule is 2.6 m round a hull drawn about twice that long, and Idra's tug flew into its underside mid-fight (whole-game capture, November
+            // 20, s61/065). What is drawn about the ships' height keeps them off; what strikes it and what it strikes stay its capsule's (HullKeepsOff).
+            cutterHull=HullKeepsOff.Fit(gameObject,visual,-1.2f,2.8f);
+            Debug.Log($"CUTTER_HULL corners={cutterHull.outline.Length} reach={cutterHull.Reach:0.0} capsule={cutterRadius:0.0} whole={HullKeepsOff.Furthest(HullKeepsOff.Outline(gameObject,visual,-10,20)):0.0}");
             health.Damaged+=CutterStruck;cutterHears=true;
             // She holds the Ring: whenever she isn't the ship leading, the radio says so (manifest section 7).
             CutterRadio("Idra","hail.ring");
@@ -181,6 +185,8 @@ namespace Lattice.Combat
         void CutterUpdate()
         {
             brain.Rooted=true;
+            // Its hull keeps the ships off again once a run through them is over, however it ended (a run cut short by a pod going leaves no one to switch it back).
+            if(cutterRunning&&!busy){cutterRunning=false;if(cutterHull!=null)cutterHull.enabled=true;}
             // Each third the bar passes takes the pod struck most (the player's choice: a pod nobody struck goes in order, beam first). Set past a line with no blow landing (a test), it goes
             // quietly.
             if(cutterDown<CutterTune.Pods-1)
@@ -233,6 +239,8 @@ namespace Lattice.Combat
         {
             if(cutterHears){health.Damaged-=CutterStruck;cutterHears=false;}
             health.Holds=null;health.Plate=null;
+            // Dead in space it is still a hull a ship stops at, run or no run.
+            if(cutterHull!=null)cutterHull.enabled=true;
             foreach(var pod in cutterPods){CutterPodOpen(pod,false);pod.ventUntil=-1;if(pod.knot!=null)pod.knot.enabled=false;}
             // Dead in space and whole: it stays where it went dead, its lights out, until the tug takes it.
             var presentation=GetComponent<DefeatPresentation>();if(presentation!=null)presentation.enabled=false;
@@ -421,7 +429,8 @@ namespace Lattice.Combat
             if(Interrupted)yield break;
             lane.Steady=true;Debug.Log("CUTTER_RUN");
             AudioManager.PlayAt("thrusterFire_000",transform,transform.position,.28f,AudioBus.SFX,60,.05f,.75f);
-            var controller=GetComponent<CharacterController>();bool walked=controller.enabled;controller.enabled=false;Collide(false);
+            // A run goes through the party (it strikes what it touches): its hull lets them be until it has passed.
+            var controller=GetComponent<CharacterController>();bool walked=controller.enabled;controller.enabled=false;Collide(false);if(cutterHull!=null){cutterHull.enabled=false;cutterRunning=true;}
             var from=transform.position;var hit=new HashSet<Health>();
             for(float travelled=0;travelled<length&&!Interrupted;)
             {
@@ -433,7 +442,7 @@ namespace Lattice.Combat
                 if(Time.frameCount%3==0)CombatVfx.Burst(transform.position-direction*3,CutterBeamTone,"steam");
                 yield return null;
             }
-            controller.enabled=walked;Physics.SyncTransforms();Collide(true);strikeAt=0;lane.Release();
+            controller.enabled=walked;Physics.SyncTransforms();Collide(true);if(cutterHull!=null){cutterHull.enabled=true;cutterRunning=false;}strikeAt=0;lane.Release();
             if(Interrupted)yield break;
             // It banks wide round the nearest district to come about: open (the party's line names the turn).
             var round=RingDistrict.Nearest(transform.position,40);cutterOpenWhy="IT IS TURNING WIDE";

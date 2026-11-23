@@ -111,7 +111,7 @@ namespace Lattice.EditorTools
                 new("channel",new Vector3(0,Plane,60),true),new("lee-east",new Vector3(15,Plane,96),true),new("pair1",Pair1,true),new("cover1",Cover1+new Vector3(4,0,-4),true),
                 new("pair2",Pair2,true),new("cover2",Cover2+new Vector3(-4,0,-4),true),new("channel-end",new Vector3(0,Plane,206),true),new("checkpoint",Checkpoint,true),
                 new("crescent",new Vector3(-26,Plane,264),true),new("crescent-front",new Vector3(-42,Plane,250),true),new("dock",new Vector3(26,Plane,264),true),new("dock-front",new Vector3(42,Plane,250),true),
-                new("fight-west",new Vector3(-20,Plane,280),true),new("fight-east",new Vector3(20,Plane,280),true),new("tug",new Vector3(-48,Plane,280),true),new("lane-0",Lane(0),true),
+                new("fight-west",new Vector3(-20,Plane,280),true),new("fight-east",new Vector3(20,Plane,280),true),new("tug",new Vector3(-48,Plane,280),true),new("tug-boom",Tug+new Vector3(-2,0,0),true),new("lane-0",Lane(0),true),
                 new("exit",new Vector3(0,Plane,352),true),new("warp",HomeWarp+Vector3.back*4,true),
                 new("approach-wide",new Vector3(0,Plane,70),true,3.6f),new("fight-wide",C,true,3.6f),new("overview",new Vector3(0,Plane,190),true,11),
             };
@@ -144,8 +144,12 @@ namespace Lattice.EditorTools
                     m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");m.renderQueue=(int)RenderQueue.Transparent-30;m.SetFloat("_ReceiveShadows",0);m.SetColor("_BaseColor",new Color(.34f,.27f,.17f));});
                 s.cloth=ZoneKit.TwoSided(ZoneKit.Tinted(ZoneKit.Toon("ring-cloth",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_LightFloor",.35f);})));
                 s.rope=ZoneKit.Tinted(ZoneKit.Toon("ring-rope",null,m=>m.SetColor("_BaseColor",Color.white)));
-                // The Crawl's engines burn warm white (never a danger's orange): a cone of unlit glow and a soft flare at each nozzle.
-                s.flame=ZoneKit.Toon("ring-flame",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.6f,0,0,0));});
+                // The Crawl's engines burn warm white (never a danger's orange): a cone of light added to what is behind it, hot at the nozzle and gone by its point, and a soft flare at
+                // each nozzle. Drawn solid (unlit glow, written over what was behind it) each cone was a flat white funnel from the flight camera, three under every district's stern
+                // as it lifted (whole-game capture, November 20, s61/058, 071, 083, 102, 112).
+                s.flame=ZoneKit.Toon("ring-flame",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.3f,0,0,0));
+                    m.SetFloat("_SrcBlend",(float)BlendMode.One);m.SetFloat("_DstBlend",(float)BlendMode.One);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");
+                    m.renderQueue=(int)RenderQueue.Transparent-20;m.SetFloat("_ReceiveShadows",0);m.SetColor("_BaseColor",new Color(.62f,.56f,.46f));});
                 s.flare=kit.Glow("Engine flare",false,new Color(1.6f,1.45f,1.1f,1));
                 s.halo=kit.Glow("Buoy halo",false,new Color(1.1f,1.25f,1.4f,1));
                 // The Halo's own roof paint from chapter 1 (RoomDressing): the trade on each roof, read from the flight camera.
@@ -237,8 +241,13 @@ namespace Lattice.EditorTools
                 Below(kit,stuff,keep);
                 Hub();
                 Convoy(kit,stuff);
-                // Vorun at a third of the size it was: at 300 it filled a quarter of every frame, the arrival's and the fight's, and the districts were the small things in them.
-                WorldArt.Planet("Vorun",new Vector3(260,-470,820),110);WorldArt.Planet("Sorrel",new Vector3(-170,-330,640),46);
+                // Vorun at a third of the size it was: at 300 it filled a quarter of every frame, the arrival's and the fight's, and the districts were the small things in them. Each
+                // stands where the flight camera sees it in the open band down a side of the frame the whole way north (Vorun the right's, from 370 px down to 810 at the exit, Sorrel the
+                // left's): at (260, -470, 820) and (-170, -330, 640) they rode up under the objective panel and the party's, where no still showed more than an edge of either
+                // (whole-game capture, November 20, s60/250, s61/050). Far enough down that the camera's own travel moves them little.
+                WorldArt.Planet("Vorun",new Vector3(399,-907,986),208);WorldArt.Planet("Sorrel",new Vector3(-303,-692,760),58);
+                // ---- what is left of the ring's own spans, broken off and adrift under the lanes: the broken ring is what the party flies through
+                Adrift(kit,stuff,keep);
                 var motes=kit.Glow("Motes",false,new Color(1.2f,1.15f,1.05f,1));
                 for(float z=0;z<380;z+=95)kit.Drift("Drifting grit",new Vector3(0,-3,z+40),new Vector3(WallX*2+20,12,100),motes,new Color(.92f,.92f,1,.22f),300,.05f,.16f,.1f,20);
 
@@ -498,8 +507,8 @@ namespace Lattice.EditorTools
                 // The light itself, over the deck by its windows: what lights the stalls, the bay, the court and the cradles.
                 var deckLight=new GameObject("Its windows' light",typeof(Light));deckLight.transform.SetParent(t,true);deckLight.transform.position=new Vector3(d.Inner*2,2.6f,-2.5f);
                 var dl=deckLight.GetComponent<Light>();dl.type=LightType.Point;dl.range=13;dl.intensity=1.5f;dl.color=Warm;dl.shadows=LightShadows.None;
-                // ---- its name, on the plane by its stern on the inner side, where its lee begins
-                WorldBuilder.Label(d.label,new Vector3(d.Inner*(hw+5.5f),Plane-1,-hl-1.5f),3).transform.SetParent(t,true);
+                // ---- its name, on the plane by its stern on the inner side, against its hull: 5.5 m out it read as a word floating in empty space (s60/250)
+                WorldBuilder.Label(d.label,new Vector3(d.Inner*(hw+1.5f),Plane-1,-hl-1.5f),3).transform.SetParent(t,true);
                 // ---- its cover: solid from 2 m under the plane to 4 m over (contract) in the shape it is drawn there, kinematic on its moving root
                 var box=FitCover(t,"district-"+d.id,"Its cover",out var foot);
                 var body=root.AddComponent<Rigidbody>();body.isKinematic=true;body.useGravity=false;body.interpolation=RigidbodyInterpolation.None;
@@ -540,7 +549,8 @@ namespace Lattice.EditorTools
                     s.Slot(3).Tube(new[]{mouth+Vector3.forward*.15f,mouth},new[]{1.04f,1.04f},14,Brass,Brass,1,.3f);
                     s.Slot(3).Beam(new Vector3(x,y+.9f,z+.2f),new Vector3(x,y,z+.2f),.3f,.3f,Brass);
                     var holder=new GameObject("Engine flame").transform;holder.SetParent(t,true);holder.position=mouth;
-                    var cone=new ZoneKit.Shape().Slot(0).Tube(new[]{Vector3.zero,new Vector3(0,0,-1.6f),new Vector3(0,-.2f,-3.6f)},new[]{.82f,.55f,.05f},12,new Color(1f,.96f,.86f),new Color(1f,.84f,.55f),1,.3f,false);
+                    // Hot at the nozzle and black (adding nothing) at its point, so the cone fades into the dark rather than ending in an edge.
+                    var cone=new ZoneKit.Shape().Slot(0).Tube(new[]{Vector3.zero,new Vector3(0,0,-1.6f),new Vector3(0,-.2f,-3.6f)},new[]{.82f,.55f,.05f},12,new Color(1f,.94f,.8f),new Color(0,0,0),1,.3f,false);
                     var flame=kit.Built("Flame "+t.name.Replace("District: ","")+" "+flames.Count,cone,stuff.flame);flame.transform.SetParent(holder,false);flame.transform.localPosition=Vector3.zero;Unshadowed(flame);
                     var flare=GameObject.CreatePrimitive(PrimitiveType.Quad);UnityEngine.Object.DestroyImmediate(flare.GetComponent<Collider>());flare.name="Engine flare";flare.transform.SetParent(holder,false);
                     flare.transform.localPosition=new Vector3(0,.3f,-.8f);flare.transform.rotation=Quaternion.Euler(ZoneKit.FlightPitch,0,0);flare.transform.localScale=Vector3.one*3.4f;
@@ -889,7 +899,12 @@ namespace Lattice.EditorTools
                 }
                 var s=new ZoneKit.Shape();var turn=root.transform.rotation;Color trim=new(.9f,.84f,.62f),soot=new(.18f,.19f,.2f);var c=Tug+Vector3.down*.4f;
                 for(int k=0;k<8;k++){var f=c+turn*new Vector3((k%2==0?-1:1)*2.2f,.2f,-3.4f+(k/2)*2.2f);s.Slot(0).Tube(new[]{f+Vector3.up*.35f,f+Vector3.down*.35f},new[]{.36f,.36f},10,soot,soot,1,1);}
-                s.Slot(0).Beam(c+turn*new Vector3(0,1.2f,-3.2f),c+turn*new Vector3(0,3.4f,-6.2f),.3f,.3f,trim);
+                // Her tow boom off the stern: a dark steel arm with cream bands, its stay down to the stern bollard and its hook block at the tip. A plain cream beam three metres long
+                // read as a plank laid through whatever stood beside her (whole-game capture, November 20, s61/086 to 095).
+                var heel=c+turn*new Vector3(0,1.1f,-3.1f);var tip=c+turn*new Vector3(0,2.5f,-5.3f);
+                s.Slot(0).Beam(heel,tip,.2f,.2f,soot).Beam(c+turn*new Vector3(0,.7f,-3.6f),tip,.06f,.06f,soot);
+                foreach(float t in new[]{.3f,.62f}){var band=Vector3.Lerp(heel,tip,t);s.Slot(0).Box(band,new Vector3(.26f,.26f,.16f),Quaternion.LookRotation(tip-heel),trim);}
+                s.Slot(0).Box(tip+Vector3.down*.32f,new Vector3(.3f,.36f,.22f),turn,new Color(.3f,.31f,.34f)).Box(tip+Vector3.down*.56f,new Vector3(.08f,.18f,.18f),turn,trim);
                 var built=kit.Built("The tug Welcome Back",s,ZoneKit.WorldMaterial("ring-steel"));built.transform.SetParent(root.transform,true);Unshadowed(built,true);
                 var lamp=new GameObject("Her beacon",typeof(Light));lamp.transform.SetParent(root.transform,true);lamp.transform.position=Tug+Vector3.up*3;var l=lamp.GetComponent<Light>();l.type=LightType.Point;l.range=14;l.intensity=2;l.color=new Color(.7f,1,.86f);l.shadows=LightShadows.None;
                 var away=new GameObject("Where she tows it").transform;away.position=TugAway;
@@ -929,6 +944,73 @@ namespace Lattice.EditorTools
                 // The ring's own lights, a few still on: the station's work lamps on its inner fascia, cold.
                 foreach(float b in new[]{176f,196,240,108})
                 {var lamp=new GameObject("Ring work lamp",typeof(Light));lamp.transform.SetParent(root.transform,true);lamp.transform.position=OnRing(b,4);var l=lamp.GetComponent<Light>();l.type=LightType.Point;l.range=26;l.intensity=2.6f;l.color=new Color(.74f,.86f,1f);l.shadows=LightShadows.None;}
+            }
+            /// <summary>Spans of the ring itself, broken off where the districts tore out of it and adrift under the lanes and beyond the limits: each a run of the ring's own deck and both
+            /// its fascias on the ring's own curve, tilted the way it came away, torn at its ends, with a gap where a span is gone and a pane or two still lit, a few turning slowly. The
+            /// Ring was a starfield with crates in it (whole-game capture, November 20, s60/250, s61/050): this is the wreck the party flies through, the biggest thing in most frames and
+            /// never at the plane (8 m and more under it in the lanes, a little less past the limits), each span kept off what must be read by where it shows.</summary>
+            static void Adrift(ZoneKit kit,Stuff stuff,List<(Vector2 at,float clear)> keep)
+            {
+                var root=new GameObject("The ring's spans adrift");var rng=new System.Random(6262);const float Width=5,Fascia=3.5f,Step=5;int made=0,dropped=0;
+                // Where each arc's middle lies, how deep, which way it runs, how many spans, how it is tilted, and whether it turns.
+                var arcs=new (float x,float z,float y,float yaw,int spans,float pitch,float roll,bool turns)[]
+                {
+                    (-25,34,-11,24,7,8,-14,false),(26,62,-13,-35,6,-10,12,true),(-37,98,-15,70,8,6,18,false),(36,128,-11,-80,6,12,-10,false),
+                    (-21,166,-13,-20,7,-8,-16,true),(24,206,-16,40,7,10,14,false),(-35,214,-10,-60,5,-14,8,false),
+                    (-61,64,-5,10,8,4,-20,false),(63,152,-6,-15,8,-6,16,true),(-63,236,-6,30,7,8,12,false),(66,300,-5,-40,8,-10,-12,false),
+                    // North of the fight, clear of the districts' ways down to the convoy (ExitOf), and two far under the fight itself.
+                    (-66,330,-12,55,7,12,10,true),(64,350,-14,-65,6,-8,-18,false),(30,252,-21,15,6,6,-8,false),(-28,302,-22,-25,6,-10,10,false),
+                }.ToList();
+                // And a run of them down both sides of the whole approach and round the fight, one every twenty-odd metres each side, so a frame of the flight has one in it: the
+                // fifteen above alone left most of the lane's frames empty sky.
+                var strewn=new System.Random(6363);
+                for(float z=12;z<370;z+=22)foreach(int s in new[]{-1,1})
+                {
+                    float x=s*(15+(float)strewn.NextDouble()*20),at=z+(s>0?11:0)+((float)strewn.NextDouble()-.5f)*8;
+                    // Tilted less than the fifteen, and deeper: the districts fly the columns at x 30 over them, their engines four metres under the plane.
+                    arcs.Add((x,at,-9.5f-(float)strewn.NextDouble()*5,(float)strewn.NextDouble()*360,4+strewn.Next(4),((float)strewn.NextDouble()-.5f)*14,((float)strewn.NextDouble()-.5f)*18,strewn.NextDouble()<.25));
+                }
+                foreach(var arc in arcs)
+                {
+                    // The group stands at the arc's middle, so one that turns turns about it.
+                    var at=new Vector3(arc.x,Plane+arc.y,arc.z);var turn=Quaternion.Euler(arc.pitch,arc.yaw,arc.roll);
+                    var group=new GameObject("A span of the ring, adrift").transform;group.position=at;group.SetParent(root.transform,true);
+                    var lit=new ZoneKit.Shape();int gap=1+rng.Next(Mathf.Max(1,arc.spans-2));int kept=0;bool firstKept=false,lastKept=false,panes=false;
+                    for(int k=0;k<arc.spans;k++)
+                    {
+                        if(k==gap&&arc.spans>5)continue;
+                        // On the ring's own curve, about the arc's middle: its centre the ring's radius behind it.
+                        float bearing=(k-(arc.spans-1)*.5f)*Step;var local=new Vector3(Mathf.Sin(bearing*Mathf.Deg2Rad)*RingRadius,0,-RingRadius+Mathf.Cos(bearing*Mathf.Deg2Rad)*RingRadius);
+                        var world=at+turn*local;var spin=turn*Quaternion.Euler(0,bearing,0);
+                        if(!ZoneKit.ClearOnScreen(world,3.2f,keep)){dropped++;continue;}
+                        float half=Mathf.Tan(Step*.5f*Mathf.Deg2Rad);
+                        var deck=Piece(group,"DeckFloor",world+spin*Vector3.up*(-.25f+(k%2)*.02f),new Vector3(2*(RingRadius+Width*.5f)*half+.08f,.5f,Width));if(deck!=null)deck.transform.rotation=spin;
+                        foreach(int side in new[]{-1,1})
+                        {
+                            var face=Piece(group,"DeckWall",world+spin*(Vector3.forward*side*(Width*.5f-.28f)+Vector3.up*(-.5f-Fascia*.5f)),new Vector3(2*(RingRadius+side*Width*.5f)*half+.06f,Fascia,.55f));
+                            if(face!=null)face.transform.rotation=spin;
+                        }
+                        // A pane still lit on the outer fascia, now and then.
+                        if(rng.NextDouble()<.4){var centre=world+spin*(Vector3.forward*(Width*.5f+.02f)+Vector3.up*(-1.6f));Window(lit,centre,spin*Vector3.right,1.1f,.7f,spin*Vector3.forward,rng.NextDouble()<.3?Cool:Warm,Soot);panes=true;}
+                        kept++;made++;if(k==0)firstKept=true;if(k==arc.spans-1)lastKept=true;
+                    }
+                    // Its torn ends: collar plates bent proud where the span parted (only where its end span is there to have parted).
+                    foreach(int end in new[]{-1,1})
+                    {
+                        if(end<0&&!firstKept||end>0&&!lastKept)continue;
+                        float bearing=end*((arc.spans-1)*.5f+.5f)*Step;var edge=at+turn*new Vector3(Mathf.Sin(bearing*Mathf.Deg2Rad)*RingRadius,0,-RingRadius+Mathf.Cos(bearing*Mathf.Deg2Rad)*RingRadius);
+                        var spin=turn*Quaternion.Euler(0,bearing,0);
+                        for(int j=0;j<3;j++)lit.Slot(1).Box(edge+spin*(Vector3.forward*(j-1)*1.6f+Vector3.down*1.2f),new Vector3(.2f,2,1.3f),spin*Quaternion.Euler(0,0,end*(12+j*9)),new Color(.5f,.52f,.56f));
+                    }
+                    if(kept==0){UnityEngine.Object.DestroyImmediate(group.gameObject);continue;}
+                    // Slot 1 the torn plates and the panes' frames (the ring's steel), slot 2 the panes (lit).
+                    // A material for each slot the shape has: an arc with no pane lit has none for the glow.
+                    if(lit.Vertices>0){var drawn=panes?kit.Built("A span of the ring, adrift "+made,lit,stuff.steel,stuff.steel,stuff.glow):kit.Built("A span of the ring, adrift "+made,lit,stuff.steel,stuff.steel);drawn.transform.SetParent(group,true);}
+                    Unshadowed(group.gameObject);
+                    if(arc.turns){var tumble=group.gameObject.AddComponent<Tumble>();tumble.axis=(turn*Vector3.up+new Vector3(.2f,0,.1f)).normalized;tumble.rate=.35f+(float)rng.NextDouble()*.4f;}
+                    else foreach(var t in group.GetComponentsInChildren<Transform>(true))t.gameObject.isStatic=true;
+                }
+                Debug.Log($"RING_ADRIFT_SPANS made={made} dropped={dropped}");
             }
             /// <summary>Wreckage 6 to 40 m under the plane over the whole zone, the ring's plate and fascia, crates and pallets, kept clear of what must be read by where it shows on screen.</summary>
             static void Below(ZoneKit kit,Stuff stuff,List<(Vector2 at,float clear)> keep)

@@ -33,6 +33,11 @@ namespace Lattice.EditorTools
                 new("forecourt-west",new Vector3(-18,0,28)),new("forecourt-east",new Vector3(16,0,28)),new("stair",new Vector3(0,0,25)),
                 new("gallery",new Vector3(0,GalleryTop,44)),new("gallery-east",new Vector3(12,GalleryTop,49)),new("gallery-west",new Vector3(-14,GalleryTop,46)),
                 new("overview",new Vector3(0,0,-2),false,4.6f),new("overview-north",new Vector3(18,0,36),false,3),
+                // Where the whole-game capture's stills stood (nov20-whole s30 284 and 327: the galley; s30 129: the cabins' breach; s28 197: the raft quay; s31 163: the garden).
+                new("galley-s30-284",new Vector3(59.6f,0,3)),new("galley-s30-327",new Vector3(60.8f,0,-5.2f)),new("cabins-s30-129",new Vector3(-57.3f,0,49.3f)),
+                new("raft-s28-197",new Vector3(-21.3f,0,-24)),new("garden-s31-163",new Vector3(62.6f,0,24.2f)),
+                // November 22's (nov22-whole s28 043: the spine under the gantry; s29 070: the freight hall's arrival; s31 285 and s28 222: the raft bay's water).
+                new("spine-s28-043",new Vector3(0,0,-20.75f)),new("freight-s29-070",new Vector3(32,0,-59)),new("raft-s31-285",new Vector3(-43.3f,0,-35)),new("raft-s28-222",new Vector3(-24,0,-11.9f)),
             };
 
             // ---------------------------------------------------------------- named people
@@ -260,9 +265,10 @@ namespace Lattice.EditorTools
                 ground.Shade(p=>.08f*(1-ZoneKit.Smooth(0,1.4f,FromWays(p)))*-1+.06f*Grimy(p)*ground.Noise(p,4,3));
                 Color soot=new(.3f,.28f,.28f,.7f),oil=new(.22f,.22f,.24f,.6f),scuff=new(.5f,.48f,.44f,.7f),litter=new(.6f,.54f,.42f,.8f);
                 ground.Decals(new[]{"Stain","Scorch"},11,p=>Grimy(p)*ZoneKit.Smooth(1,2.6f,FromWays(p)),1.2f,3,oil,false,.12f,1);
-                ground.Decals(new[]{"Stain","Ruts"},5,p=>Grimy(p)*(1-ZoneKit.Smooth(.6f,2,FromWays(p))),.8f,1.8f,scuff,false,.12f,11);
+                // No wheel ruts: each laid at its own turn, short pairs of dark bars read from the fixed camera as the shadow of something that isn't there (Lastlight's s34/010).
+                ground.Decals(new[]{"Stain"},5,p=>Grimy(p)*(1-ZoneKit.Smooth(.6f,2,FromWays(p))),.8f,1.8f,scuff,false,.12f,11);
                 ground.Decals(new[]{"CracksA","CracksB"},3,p=>Grimy(p),1,2.4f,scuff,true,.1f,2);
-                ground.Decals(new[]{"Tracks","Ruts"},2.4f,p=>MakeAt(p)==Make.Hauler?1:0,2,4,soot,false,.1f,3);
+                ground.Decals(new[]{"Tracks"},2.4f,p=>MakeAt(p)==Make.Hauler?1:0,2,4,soot,false,.1f,3);
                 ground.Decals(new[]{"Litter","Stain"},5,p=>MakeAt(p)==Make.Liner||MakeAt(p)==Make.Station?ZoneKit.Smooth(1,2.4f,FromWays(p)):0,.6f,1.4f,litter,false,.12f,4);
                 ground.Decals(new[]{"Litter","Lichen","PebblesA"},7,p=>MakeAt(p)==Make.Carrier?1:0,.6f,1.6f,new Color(.5f,.56f,.36f,.8f),false,.14f,6);
                 ground.Decals(new[]{"Scorch"},3,p=>MakeAt(p)==Make.Hall?1:0,1.6f,3.4f,soot,false,.1f,7);

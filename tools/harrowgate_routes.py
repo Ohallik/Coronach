@@ -240,7 +240,9 @@ CAMP_CRADLE_STAND = (S["CampCradle"][0] + 2.1, S["CampCradle"][1] + .1)
 # Into the camp south of its water barrels, and round its fire ring by the south: the builder's way from (28, 208) passes the barrels at (34, 207.5) within a body.
 INTO_CAMP = [(30, 206.2), (35, 204.6), S["CampSpawn"]]
 CAMP_SOUTH = [(42, 203.2), (46.8, 203.6)]
-SCORIA_FOLK = [(float(a), float(b)) for a, b, _ in re.findall(r'\("\w+Body",' + NUMBER + "," + NUMBER + "," + NUMBER, block(SCORIA_SOURCE, "kit.Townsfolk(new[]"))]
+# The camp's standing people: since November 21 (D336) each wears a body of nobody named here, placed from a list of (x, z, yaw, tint).
+SCORIA_FOLK = [(float(a), float(b)) for a, b, _ in re.findall(r"\(" + NUMBER + "," + NUMBER + "," + NUMBER + r",new Color", block(SCORIA_SOURCE, "foreach(var (x,z,yaw,tint) in new[]"))]
+assert len(SCORIA_FOLK) >= 4, "the Scoria camp's people were not read from HarrowgateBuilder.Scoria.cs"
 BUILT_SCORIA = [(l, c, yaw, hx, hz) for l, c, yaw, hx, hz, y0, y1 in scene_solids("ScoriaFlows", ("Brekk leading", "Generated civilian", "Townsperson", "Walker"))
                 if y0 < 1.8 + 1 and y1 > .3 - .4 and hx < 30 and hz < 30]
 
@@ -307,7 +309,8 @@ BUILT_FOUNDRY = [(l, c, yaw, hx, hz) for l, c, yaw, hx, hz, y0, y1 in scene_soli
 
 
 # ------------------------------------------------------------------ Harrowgate, as HarrowgateBuilder.Town lays it
-_TOWN = block(TOWN_SOURCE, "internal static class Town")
+# The town's class is partial since November 21 (its look lives in HarrowgateBuilder.TownLook.cs); the plan's tables stayed in Town.cs.
+_TOWN = block(TOWN_SOURCE, "internal static partial class Town" if "internal static partial class Town" in TOWN_SOURCE else "internal static class Town")
 T = vectors(_TOWN[:_TOWN.index("/// <summary>The muster field inside its kerb")])
 TOWN_LEVELS = {k: const(_TOWN, k) for k in ("Quay", "Lower", "Upper", "Podium", "Cells")}
 RAMPS = [(float(x), float(h), float(a), float(b), TOWN_LEVELS[lo], TOWN_LEVELS[hi]) for x, h, a, b, lo, hi in re.findall(

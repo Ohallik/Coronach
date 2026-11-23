@@ -78,3 +78,5 @@ MonoBehaviour:
   discountFlag: 
   discountNote: 
   discount: 1
+  noteFlag: 
+  note: 

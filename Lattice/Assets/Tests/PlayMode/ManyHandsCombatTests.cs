@@ -48,12 +48,15 @@ namespace Lattice.Tests.PlayMode
             // TheWholeFightLastsWhatThePlanAsksAtThePartysMeasuredRates holds the two together to the plan's two to five minutes (about three). Met at the plan's Sync 15 (the chapter runs
             // 15 to 16). The doors are the hull's and the hall's (docs/maps/ManyHandsHull.md, "Boss arena contract" and "Freight hall contract"). The driver's share in flight is the
             // Cantor's, the one flight boss measured off a chain.
+            // Since D362 (November 22) each part's share is its own scouts' (nov22-recon-e s29 and s30, the 10:30 build; nov22-recon-h-29 and -30, the 14:52 build) against this
+            // morning's shared rates (d355-dome3 and d355-lengths), the lower: the hull's 30,000 in 72.3 and 81.0 s against 1,250 and 1,264 a second (.33 and .30, so .29 held),
+            // the suit's 44,000 in 48.5 s and 60,500 in 63.6 s against 1,720 and 1,704 (.53 and .56).
             book.Boss(new ContentRegistry.BossSheet{id="Hulljack",zone="ManyHandsHull",door="Hulljack",doorFlags=new[]{"hands.claimRead"},flight=true,sync=15,driverShare=.29f,minSeconds=60,maxSeconds=150,
                 specials=new[]{("TorchSweep",new Vector3(0,0,8)),("GrappleShot",new Vector3(0,0,10)),("DebrisFan",new Vector3(0,0,10)),("Leap",new Vector3(0,0,14)),("Plant",new Vector3(0,0,4))},
                 // A planted foot opens the frame in both halves.
                 windows=new[]{("Plant",new Vector3(0,0,5)),("Plant",new Vector3(0,0,5))}});
             // The cargo throw lands a crate where its hero stood, so it goes after the moves stood for at that spot; the torch's burning lines outlast it, so it goes last.
-            book.Boss(new ContentRegistry.BossSheet{id="DessikVarn",zone="ManyHands",door="DessikVarn",doorFlags=new[]{"hands.claimRead","bossdown.Hulljack","hands.hallEntered"},sync=15,driverShare=.3f,
+            book.Boss(new ContentRegistry.BossSheet{id="DessikVarn",zone="ManyHands",door="DessikVarn",doorFlags=new[]{"hands.claimRead","bossdown.Hulljack","hands.hallEntered"},sync=15,driverShare=.53f,
                 minSeconds=60,maxSeconds=150,
                 specials=new[]{("Claw",new Vector3(0,0,8)),("MagnetPulse",new Vector3(0,0,4)),("CargoThrow",new Vector3(0,0,10)),("TorchLines",new Vector3(0,0,6))},
                 // A claw thrown at a hero past its reach bites nothing (or the wall behind him) and leaves the frame open, in both halves.
@@ -484,7 +487,11 @@ namespace Lattice.Tests.PlayMode
 
         // ------------------------------------------------------------------ what the fight is sized on
         /// <summary>The flight driver's share is the Cantor's, the ground driver's the plan's .3 (ContentRegistry). How long the frame waits between plants, and a leap's cost from cut to clamp.</summary>
-        const float FlightShare=.29f,GroundShare=.3f,FlatOutSeconds=15,PlantGap=11,LeapCost=11;
+        /// Since D362 (November 22), each from today's scouts (Builds/quality/nov22-recon-e s29 and s30, the 10:30 build; nov22-recon-h-29 and -30, the 14:52 build) against this
+        /// test's own rates that morning (d355-chapters: 1,220 a second flying, 1,784 on foot): the hull fell in 72.3 and 81.0 s where these terms gave 97 (its feet take one opening
+        /// each, so no share moves it: the frame's gap between plants and a leap's cost, 11 s each before, are both scaled by .79 to the longer), and the suit's 44,000 in 48.5 s and
+        /// 60,500 in 63.6 s, .51 and .53 of the floor rate where .3 gave 82 s (the lower). The flight share is the hull's own, 30,000 in 81.0 s at 1,220 (.30).
+        const float FlightShare=.3f,GroundShare=.51f,FlatOutSeconds=15,PlantGap=8.7f,LeapCost=8.7f;
         /// <summary>The party flat out on a body that never moves, as QaPlanCombatTests measures it: both heroes attacking, every skill as its cooldown and Charge allow. The body alone and open:
         /// its feet and its clamp are counted apart.</summary>
         IEnumerator Rate(string id,bool flight,System.Action<float> measured)
@@ -494,7 +501,7 @@ namespace Lattice.Tests.PlayMode
             var enemy=Enemy(id,at);yield return Frames(3);var body=enemy.Health;
             enemy.GetComponent<BossController>().enabled=false;body.Plate=null;var parts=enemy.GetComponent<BossParts>();if(parts!=null)parts.Expose(false);
             body.maximum=body.integrity=10000000;
-            float reach=enemy.GetComponent<CharacterController>().radius+.9f;
+            float reach=BossReach.Edge(enemy);
             var tarenAt=flight?at+new Vector3(-2,0,-6):at+Vector3.back*reach;var selaAt=flight?at+new Vector3(2,0,-6):at+Vector3.back*8+Vector3.right*2;
             Put(taren,tarenAt);Put(sela,selaAt);taren.target=sela.target=body;taren.charge=sela.charge=100;yield return null;
             float landed=0;body.Damaged+=(_,packet,amount)=>{if(packet.source==taren.Health||packet.source==sela.Health)landed+=amount;};
@@ -546,7 +553,7 @@ namespace Lattice.Tests.PlayMode
             {
                 var sheet=ContentRegistry.Boss(id);
                 if(integrity<rate*share*sheet.minSeconds)failures.Add($"{id}'s {integrity:0} at {rate:0} a second lasts {integrity/(rate*share):0} s at the driver's share: its sheet's floor is {sheet.minSeconds:0}");
-                if(integrity/(rate*.25f)>sheet.maxSeconds)failures.Add($"{id}'s {integrity:0} at a quarter of {rate:0} a second lasts {integrity/(rate*.25f):0} s: its sheet's ceiling is {sheet.maxSeconds:0}");
+                if(integrity/(rate*.25f)>ContentRegistry.SlowPairCeiling(sheet.maxSeconds))failures.Add($"{id}'s {integrity:0} at a quarter of {rate:0} a second lasts {integrity/(rate*.25f):0} s: its slow pair's ceiling is {ContentRegistry.SlowPairCeiling(sheet.maxSeconds):0} (D362 continued)");
             }
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }

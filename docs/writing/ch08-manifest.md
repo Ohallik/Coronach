@@ -134,7 +134,7 @@ Lines are dialogue lines. "Compulsory" marks the main path; the longest, `DraskR
 |---|---|---|---|---|---|---|
 | `IdraFirstSluice` | 3 | Taren, Idra | Taren | **Compulsory.** Crossing point at the first sluice wheel. Teaches flood and drain. | *vask.sluiceRead* | |
 | `VessaGallery` | 4 | Vessa, Sela | Vessa | **Compulsory.** As the party enters the casting gallery. She is on the floor this time, not a loudhailer. | *vask.vessaMet* | |
-| `VessaFallsBack` | 3 | Vessa, Idra | Vessa | **Compulsory.** At half Integrity (`Npc.Say`). She writes off her squad aloud and wakes the Colossus. | `vask.vessaBeaten` | |
+| `VessaFallsBack` | 3 | Vessa, Idra | Vessa | **Compulsory.** At half Integrity (`Npc.Say`). She writes off her squad aloud and wakes the Colossus. | `vask.vessaFellBack` (the step's `vask.vessaBeaten` is set as she leaves at nought, `BossController.VessaDown`, November 21) | |
 | `SelaCagedRoad` | 4 | Sela, Taren, Idra | Sela | **Compulsory.** Crossing point at the heart's door, the cage in view, before the Colossus stands. Idra times the pull. | *vask.cageSeen* | |
 | `TovraRelease` | 13 | Tovra, Brekk, Idra, Sela, Taren | Tovra | **Compulsory.** After `bossdown.SlagColossus`: the smiths file in. The release, the room it is given, and who saw it. | `vask.juvenileFreed` | |
 | `BrekkAnvil` | 1 | Brekk | | **Compulsory.** Interaction beside Tovra, who has sat down on an anvil. She has no node of her own here. | *vask.anvilSeen* | |
@@ -213,7 +213,7 @@ Lines are dialogue lines. "Compulsory" marks the main path; the longest, `DraskR
 
 ## 3. Flags
 
-**From the brief, and who sets them:** `vask.lockAdmitted` (`IdraPicketPlan`, aboard, before the Picket), `vask.picketCrossed` (world), `vask.lockRemoved` (`IdraLockOff`), `vask.unswornMet` (`TovraFirst`), `vask.sluice1..3` (world), `vask.vessaBeaten` (`VessaFallsBack`), `vask.colossusDestroyed` (world), `vask.juvenileFreed` (`TovraRelease`), `vask.parley` (`HessaParley`), `vask.draskMet` (`DraskReceives`), `vask.duelWon` (`DraskLeavesField`), `vask.pursuitWon` (world), `vask.deposed` (`OdrunVerdict`), `vask.nacreHeard` (`BrynNacreTraffic`), `chapter8.complete` (`MeretAllStations`).
+**From the brief, and who sets them:** `vask.lockAdmitted` (`IdraPicketPlan`, aboard, before the Picket), `vask.picketCrossed` (world), `vask.lockRemoved` (`IdraLockOff`), `vask.unswornMet` (`TovraFirst`), `vask.sluice1..3` (world), `vask.vessaBeaten` (world: her leaving at nought), `vask.colossusDestroyed` (world), `vask.juvenileFreed` (`TovraRelease`), `vask.parley` (`HessaParley`), `vask.draskMet` (`DraskReceives`), `vask.duelWon` (`DraskLeavesField`), `vask.pursuitWon` (world), `vask.deposed` (`OdrunVerdict`), `vask.nacreHeard` (`BrynNacreTraffic`), `chapter8.complete` (`MeretAllStations`).
 
 **Added by the script:** `vask.roadSaid`, `vask.odrunMet`, `tovra.cagesHeard`, `tovra.messagesLeft`, `hessa.warmasterHeard`, `odrun.sleeplessHeard`, `odrun.kitchenStocked`, `pip.fieldTalked`, `pip.galleryTalked`, `pip.oathLeft`.
 

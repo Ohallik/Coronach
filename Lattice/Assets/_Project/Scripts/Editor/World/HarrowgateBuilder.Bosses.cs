@@ -53,7 +53,7 @@ namespace Lattice.EditorTools
 
             // ---- the Slag Colossus. A walking crucible: three heat plates make it too hot to hurt until the heart's sluices darken and the party breaks them, then two pour-arms hold
             // its bar at half, then it comes apart on its own slag. A furnace shrugs heat and cracks under shock. A 3 m round body by its registration, so 7 m tall, its own height.
-            ArenaBuilder.Asset<EnemyDef>("SlagColossus",e=>{e.id="SlagColossus";e.displayName="THE SLAG COLOSSUS";e.prefab=Body("SlagColossus","Rotbloom");e.integrity=94000;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{colossusTread};
+            ArenaBuilder.Asset<EnemyDef>("SlagColossus",e=>{e.id="SlagColossus";e.displayName="THE SLAG COLOSSUS";e.prefab=Body("SlagColossus","Rotbloom");e.integrity=135000;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{colossusTread};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1800;e.scrip=480;e.scrap=24;e.boss=true;
                 e.bossMusicId="Glitch Boss";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;
                 e.capsuleHeight=7;
@@ -63,9 +63,11 @@ namespace Lattice.EditorTools
             // killed. His frame grounds a shock and a torch cuts it. 165,000 (November 15): fought through the pad by chapter 8's floor party (Tempered parts) he fell at 150,000 in 84 and 85 s,
             // a share of .49 to .50 and not the .42 an under-geared replay party had measured; at that share the duel test's arrival pair stood at 77 s, under his 80. At 165,000 the
             // same fight took 91.8 and 110.3 s, a share of .41 to .47 (FloorPartyBossReplayTests).
-            ArenaBuilder.Asset<EnemyDef>("DraskVaal",e=>{e.id="DraskVaal";e.displayName="WARMASTER DRASK VAAL";e.prefab=Body("DraskVaal","HessaKorl");e.integrity=165000;e.breakThreshold=750;e.speed=3.4f;e.attacks=new[]{warmasterJab};
+            // His body is his own (the town engineer's, November 21: HarrowgateBuilder.TownLook's Warmaster): his war-frame under a crimson mantle, drawn a head over his guard wing. Until
+            // then he was the guard wing's own armoured shape, told apart only by the lock box (s52/085). What he hits and is hit by is his capsule, below, and didn't change.
+            ArenaBuilder.Asset<EnemyDef>("DraskVaal",e=>{e.id="DraskVaal";e.displayName="WARMASTER DRASK VAAL";e.prefab=Body("DraskWarmaster","DraskVaal");e.integrity=225000;e.breakThreshold=750;e.speed=3.4f;e.attacks=new[]{warmasterJab};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1200;e.scrip=300;e.scrap=12;e.boss=true;
-                e.bossMusicId="Alien Boss Battle";e.yieldsOnDefeat=true;e.heavyDeath=true;e.drawnScale=1;
+                e.bossMusicId="Alien Boss Battle";e.yieldsOnDefeat=true;e.heavyDeath=true;e.drawnScale=e.prefab!=null&&e.prefab.name=="DraskWarmaster"?Town.WarmasterScale:1;
                 e.capsuleHeight=2.5f;
                 e.lootTable=Loot("DraskVaal",Drop("BridleWire",4,1),Drop("ScoriaGlass",4,1),Drop("RepairSalve",1,1),ProgressionBuilder.AnyPart(4,GearSlot.Edge,1));});
 

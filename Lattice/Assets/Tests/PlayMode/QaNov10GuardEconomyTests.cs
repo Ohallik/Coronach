@@ -145,7 +145,8 @@ namespace Lattice.Tests.PlayMode
             yield return null;
             foreach(var (trophy,_,_) in Trophies)State.materials[trophy]=1;
             var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(PauseMenu.ItemsPage);yield return null;
-            string shown=string.Join(" | ",Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None).Where(t=>t.isActiveAndEnabled).Select(t=>t.text));
+            // Each row's words, cell by cell: the Items page stands in columns (D357).
+            string shown=string.Join(" | ",Object.FindObjectsByType<UnityEngine.UI.Button>(FindObjectsSortMode.None).Select(b=>ListRow.Words(b)));
             foreach(var (trophy,_,_) in Trophies)StringAssert.Contains(DisplayNames.Item(trophy)+" ×1  ·  used to fabricate",shown,$"{DisplayNames.Item(trophy)} doesn't say it's for fabricating");
             StringAssert.DoesNotContain("no use yet",shown,"a material still says it has no use");
             menu.Close();
