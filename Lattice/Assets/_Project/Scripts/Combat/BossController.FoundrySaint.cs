@@ -16,7 +16,9 @@ namespace Lattice.Combat
     /// an arm's collar unlocks for <see cref="SaintTune.SlamUnlock"/> seconds while it lies planted; under the head's lift every collar unlocks for <see cref="SaintTune.HeadUp"/>. A blow on an unlocked
     /// collar comes off the bar as a blow on the open press does. <b>The bar is paid in blows, and an arm decides which and when, never how much</b> (D272: a boss whose limbs take bar with them
     /// gave the replay party half again of flat out): each fifth the bar passes releases the arm whose collar was struck most, and a collar carries a fifth of the bar, so one struck through by
-    /// itself goes at its line and no sooner. Three released, the rig is bare: the shift.</item>
+    /// itself goes at its line and no sooner. <b>An opening lets one arm go at most</b> (D364): the bar passes one arm's line in it and holds at the next, and once an arm has gone the
+    /// others' collars shut until the press next opens; the third holds the rig's two fifths whole. A lift used to hand over the fight in whole lifts: an EXTRA under the head's lift took
+    /// 32 and 41% of the bar, two arms and most of the rig's share (61 and 76 s in the player, 145 where the EXTRA met a held press). Three released, the rig is bare: the shift.</item>
     /// <item><b>The rig is bare</b>. A blow from the floor is resisted, except in the head's opening; a blow from up on a fallen arm lands, and twice over on the rig. Its last three arms sweep
     /// the roads instead of slamming: the top half of each road a sweep will cross is marked on the road itself, and a climber caught there is thrown off its side to the floor.</item>
     /// </list>
@@ -82,7 +84,7 @@ namespace Lattice.Combat
         static readonly Color SaintCyan=new(.45f,1.45f,1.6f,.95f),SaintWarm=new(1.3f,.82f,.5f,1),SaintSpark=new(1.5f,.9f,.45f,.9f),SaintDust=new(.55f,.52f,.48f);
         readonly List<SaintArm> saintArms=new();
         GameObject saintRigTarget,saintRig;LineRenderer saintBar;Renderer[] saintBody;MaterialPropertyBlock saintBlock;Color saintGlow=new(.5f,1.2f,1.3f);BoxCollider saintFrame;CharacterController saintOwn;
-        float saintFloor,saintRadius=SaintTune.Radius,saintStruckAt=-1;bool saintHears,saintBared,saintCollarSaid,saintHeldSaid,saintFloorSaid;string saintOpenWhy="";
+        float saintFloor,saintRadius=SaintTune.Radius,saintStruckAt=-1,saintHold;bool saintHears,saintBared,saintCollarSaid,saintHeldSaid,saintFloorSaid;string saintOpenWhy="";
         readonly Dictionary<SaintArm,float> saintCollarLeft=new();
         /// <summary>Its arms let go so far (of six), and whether three are: the rig bare.</summary>
         public int SaintReleased{get{int n=0;foreach(var arm in saintArms)if(arm!=null&&arm.IsReleased)n++;return n;}}
@@ -98,6 +100,20 @@ namespace Lattice.Combat
         /// <summary>Its bearing from its own front (degrees clockwise) to a point.</summary>
         float SaintBearing(Vector3 point){var local=transform.InverseTransformPoint(point);return Mathf.Repeat(Mathf.Atan2(local.x,local.z)*Mathf.Rad2Deg,360);}
         float ArmBearing(SaintArm arm)=>Mathf.Repeat(arm.Bearing-transform.eulerAngles.y,360);
+        /// <summary>The bar at an arm's line: the k-th arm goes as the bar passes it.</summary>
+        float SaintLine(int k)=>health.maximum*(1-k*SaintTune.ArmShare);
+        /// <summary>The least its bar may come to now (D364: an opening lets one arm go at most, and the bar no further than that arm's line). With an arm gone in this opening, where the
+        /// bar stood as it went; else just past the next arm's line (the third's is the rig's two fifths, kept whole). Nought, none: held passive (its door, the shared flat-out
+        /// measure), or bare with nothing held.</summary>
+        float SaintHoldLine()
+        {
+            if(health==null||brain==null||brain.Passive)return 0;
+            // A collar unlocked since is a new opening (the others were shut as the arm went, and nothing unlocks them until the press opens again).
+            if(saintHold>0){foreach(var arm in saintArms)if(arm!=null&&!arm.IsReleased&&arm.Unlocked){saintHold=0;break;}}
+            if(saintHold>0)return saintHold;
+            if(SaintBare)return 0;
+            return SaintLine(Mathf.Min(SaintReleased+1,SaintTune.ArmsToBare))-1;
+        }
 
         void SaintStart()
         {
@@ -117,6 +133,8 @@ namespace Lattice.Combat
                 if(arm.IsReleased)continue;
                 arm.Claim(health.maximum*SaintTune.CollarShare,health.weakness,health.resistance);saintCollarLeft[arm]=arm.Collar.integrity;
                 arm.LetGo+=SaintArmLetGo;var held=arm;arm.Collar.Damaged+=(_,packet,amount)=>SaintCollarStruck(held,packet,amount);
+                // A collar takes no more than the bar may give now (SaintHoldLine), so its number is what came off the bar.
+                var collar=arm.Collar;collar.Holds=()=>{float hold=SaintHoldLine();if(hold<=0||health==null)return 0;return Mathf.Max(0,collar.integrity-Mathf.Max(0,health.integrity-hold));};
             }
             // Its frame, solid as drawn: ten metres across and five deep, wider than the capsule, and nobody walks into it. It was two legs either side of the round capsule, which left a
             // pocket between them behind each pair of middle collars a body could step into, and the arms' high ends, coming down, shut it (route 59's lead, carried in by his Extra,
@@ -141,8 +159,8 @@ namespace Lattice.Combat
             saintRigTarget=new GameObject("Override rig");saintRigTarget.transform.SetParent(transform,false);saintRigTarget.transform.localPosition=SaintTune.RigTarget;
             var shape=saintRigTarget.AddComponent<BoxCollider>();shape.isTrigger=true;shape.size=SaintTune.RigTargetSize;
             var target=saintRigTarget.AddComponent<Hurtbox>();target.owner=health;target.multiplier=2;saintRigTarget.SetActive(false);
-            // No hold: the bar is paid in blows. The plate is the arms' weight (SaintPlate).
-            health.Holds=null;health.Plate=SaintPlate;
+            // The bar is paid in blows, an arm's line an opening at most (SaintHoldLine). The plate is the arms' weight (SaintPlate).
+            health.Holds=SaintHoldLine;health.Plate=SaintPlate;saintHold=0;
             health.Damaged+=SaintStruck;saintHears=true;
             saintBody=visual!=null?visual.GetComponentsInChildren<Renderer>():new Renderer[0];saintBlock??=new MaterialPropertyBlock();
             foreach(var body in saintBody)if(body!=null&&body.sharedMaterial!=null&&body.sharedMaterial.HasProperty("_EmissionColor")){saintGlow=body.sharedMaterial.GetColor("_EmissionColor");break;}
@@ -185,8 +203,8 @@ namespace Lattice.Combat
             if(packet.source==null||!packet.source.friendly||health==null||!health.Alive)return;
             if(engaged<0)engaged=Time.realtimeSinceStartup;
             float before=saintCollarLeft.TryGetValue(arm,out var was)?was:arm.Collar.maximum,lost=Mathf.Max(0,before-arm.Collar.integrity);saintCollarLeft[arm]=arm.Collar.integrity;
-            // Never the last of it: the rig is bare by two fifths, and only the rig ends the fight.
-            if(lost>0){health.integrity=Mathf.Max(1,health.integrity-lost);saintStruckAt=Time.time;return;}
+            // Never the last of it: the rig is bare by two fifths, and only the rig ends the fight. Nor past the line an opening stops at (SaintHoldLine).
+            if(lost>0){health.integrity=Mathf.Min(health.integrity,Mathf.Max(Mathf.Max(1,SaintHoldLine()),health.integrity-lost));saintStruckAt=Time.time;return;}
             if(amount>0||arm.Unlocked||saintCollarSaid)return;
             // The fault the brief warned of: hitting a collar and wondering why nothing happens. The first time, it is said on screen.
             saintCollarSaid=true;Debug.Log("SAINT_COLLAR_SHUT "+arm.index);
@@ -205,6 +223,14 @@ namespace Lattice.Combat
                 Tremor(.4f,.1f);
             }
             Debug.Log($"SAINT_ARM_RELEASED {arm.index} released={released}{(settling?" by=bar":"")}");
+            // One arm an opening (D364): its weight comes onto the others, their collars shut, and the bar holds where it stood as the arm went (at the third, the rig's two fifths
+            // kept whole) until the press opens again.
+            if(!settling&&brain!=null&&!brain.Passive)
+            {
+                saintHold=Mathf.Max(1,health.integrity);
+                foreach(var other in SaintStanding)other.Lock();
+                Debug.Log($"SAINT_HOLDS {saintHold/health.maximum:0.00}");
+            }
             if(released>=SaintTune.ArmsToBare)SaintBareNow();
         }
         /// <summary>The rig bare: its target opens to blows from the arms, the arms still raised stop answering at their collars (they sweep now), and the bar and cables say so.</summary>
@@ -235,9 +261,12 @@ namespace Lattice.Combat
                     if(most==null)break;most.Release(!struck);
                 }
             }
+            // The opening an arm went in is over (nothing unlocked, the press not open): the hold lifts, and the next opening may let the next arm go.
+            if(saintHold>0&&!health.Broken){saintHold=0;Debug.Log("SAINT_HOLD_LIFTS");}
             if(SaintBare)SaintBareNow();
             // Broken (its meter filled by blows on the press), it reels and its arms' weight comes off their collars as the head's lift takes it off: struck enough, the press opens them too.
-            else if(health.Broken)
+            // Not in the opening an arm has just gone in: their collars stay shut under its weight (D364).
+            else if(health.Broken&&saintHold<=0)
             {
                 if(Time.time>=openingUntil)saintOpenWhy="IT REELS";
                 foreach(var arm in SaintStanding)arm.Unlock(Mathf.Max(.1f,health.BrokenUntil-Time.time));

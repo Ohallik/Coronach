@@ -412,5 +412,58 @@ namespace Lattice.Tests.PlayMode
             LogAssert.ignoreFailingMessages=false;
             TestContext.WriteLine(line);Debug.Log(line);Assert.IsNotEmpty(line);
         }
+
+        // ================================================================== 6. the Burrower's wreck lies clear of the heroes (D374)
+        /// <summary>When the Burrower has finished falling (a boss's 1.5 s, and a little).</summary>
+        const float BurrowerFallen=1.6f;
+        /// <summary>The Burrower killed with Taren at its side (nov22b-whole s06/053, 064): it rolled onto its lower side where it stood, its fins swung over him, and the wreck that takes
+        /// its place there (BossWreck, at the body's own pose) stayed for the rest of the scene with him standing in it. Now its fall slides it off any hero it would lie in, as an
+        /// ordinary body's does. Taren is stood just clear of it on each of sixteen bearings; the one where the old roll laid it deepest in him is where it is killed (shown to fail first:
+        /// laid there by hand on the old roll). From the blow until its body starts to give way to the wreck, none of what it draws comes inside his capsule, nor, once it has fallen,
+        /// within a quarter metre of it.</summary>
+        [UnityTest,Timeout(150000)] public IEnumerator TheBurrowerKilledBesideTheHeroLiesClearOfHim()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            yield return Zone("chapter10","Arena_Ground","Taren");
+            var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.name="Bodies fixture floor";floor.transform.position=new Vector3(230,-.5f,0);floor.transform.localScale=new Vector3(160,1,160);Physics.SyncTransforms();
+            var lead=Lead;Place(Partner,new Vector3(280,0,40),Vector3.forward);Hold(lead);lead.Health.InvulnerableUntil=float.PositiveInfinity;
+            var at=new Vector3(230,0,10);var boss=Body("Burrower",at,Vector3.back);yield return new WaitForSecondsRealtime(.8f);
+            var outline=FloorOutline(boss,at.y);var shown=boss.GetComponent<DefeatPresentation>().visual;Assert.IsNotNull(shown,"fixture: the Burrower has a body to lay down");
+            // Where a hero stands just clear of it, living, on a bearing: outside its floor outline and its capsule, and moved out until nothing it draws is in him.
+            Vector3 Beside(int bearing)
+            {
+                var way=Quaternion.Euler(0,bearing*22.5f,0)*Vector3.forward;float r=Mathf.Max(outline[bearing],Capsule(boss))+Capsule(lead)+.05f;
+                var living=DrawnPoints(boss,12000);
+                for(int k=0;k<40;k++){Place(lead,at+way*r,-way);if(Inside(living,lead)<=0)break;r+=.1f;}
+                return at+way*r;
+            }
+            // The fault first: the old roll by hand (DefeatPresentation's rest for it, onto its lower side where it stood), its lowest point on the floor, against him on every bearing.
+            var rest=shown.localRotation;var rested=shown.localPosition;
+            shown.localRotation=rest*Quaternion.Euler(-10,0,128);float lowest=DrawnPoints(boss,40000).Min(p=>p.y);shown.position+=Vector3.up*(at.y+.025f-lowest);
+            var rolled=DrawnPoints(boss,12000);shown.localRotation=rest;shown.localPosition=rested;
+            float old=0;int worst=0;string table="";
+            for(int bearing=0;bearing<16;bearing++){Beside(bearing);float d=Inside(rolled,lead,LiesClear);table+=$" {bearing*22.5f:0}:{d:0.00}";if(d>old){old=d;worst=bearing;}}
+            var place=Beside(worst);var lead0=lead.transform.position;
+            Assert.AreEqual(0f,Inside(DrawnPoints(boss,12000),lead),.02f,"fixture: standing, the Burrower is not in him");
+            Assert.Greater(old,.1f,"the check doesn't see the Burrower laid on the old roll in the hero:"+table);
+            float full=boss.transform.localScale.x;
+            var health=boss.Health;health.maximum=health.integrity=100;health.Damageable=true;health.InvulnerableUntil=0;health.ShieldUntil=0;health.Plate=null;health.Holds=null;
+            health.Receive(new DamagePacket{source=lead.Health,amount=1e7f,type=DamageType.Kinetic});
+            float falling=0,lying=0,began=GameTime.Now,watched=Time.unscaledTime;string when="";bool shot=false;int looked=0;
+            while(Time.unscaledTime-watched<8&&boss!=null&&boss.transform.localScale.x>=full*.999f)
+            {
+                yield return null;float since=GameTime.Now-began;
+                var drawn=DrawnPoints(boss,12000);falling=Mathf.Max(falling,Inside(drawn,lead));looked++;
+                if(!shot&&since>=2.4f){shot=true;BossDeathTests.GameStill("burrower-lying-2.4s");}
+                if(since<BurrowerFallen)continue;float d=Inside(drawn,lead,LiesClear);if(d>lying){lying=d;when=$"{since:0.00} s";}
+            }
+            float until=GameTime.Now-began;
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"BODIES_APART Burrower killed at bearing {worst*22.5f:0} ({Flat(place,at):0.00} m out) old-roll={old:0.00} falling={falling:0.00} lying={lying:0.00} {when} watched-to={until:0.00} s frames={looked} heroMoved={Flat(lead.transform.position,lead0):0.00} | old roll by bearing:{table}";
+            TestContext.WriteLine(line);Debug.Log(line);
+            Assert.GreaterOrEqual(until,BurrowerFallen+.5f,"fixture: the body lay on for a while before giving way: "+line);
+            Assert.LessOrEqual(falling,.03f,$"the Burrower killed at Taren's side fell {falling:0.00} m into him: "+line);
+            Assert.LessOrEqual(lying,.03f,$"the Burrower killed at Taren's side lay {lying:0.00} m inside a quarter metre round him ({when}): "+line);
+        }
     }
 }

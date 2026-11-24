@@ -428,6 +428,31 @@ namespace Lattice.Tests.PlayMode
             var at=bloom.transform.position;bloom.Passive=false;Put(hero,bloom.transform.position+new Vector3(0,0,16));yield return Wait(2,hero);
             Assert.Less(Flat(at,bloom.transform.position),.3f,"grounded, it still moves");
         }
+        /// <summary>D375: the hall drains on the second stalk and on nothing else. In three of four fights of November 22 blows on a gaping mouth (an EXTRA among them) carried the
+        /// bar over half with one stalk burned, and the fishing half went with a quarter of its stalks.</summary>
+        [UnityTest] public IEnumerator WhileItFishesTheRotbloomsBarHoldsAtHalfUntilTheSecondStalkBurns()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,12));
+            var basin=Flood();var stalks=Stalks();yield return Frames(2);
+            var bloom=Enemy("Rotbloom",At(0,.1f,0));yield return Frames(3);var boss=bloom.GetComponent<BossController>();var body=bloom.Health;
+            float whole=body.maximum,line=whole*boss.Thresholds[0];
+            // One stalk, and its mouth gapes.
+            Kill(stalks[0].Health,hero);yield return Frames(2);Assert.IsTrue(body.Broken,"fixture: the first stalk's mouth gapes");
+            // The broken state, in this test only: with nothing holding the bar, blows on the gaping mouth take it over half on one stalk.
+            var holds=body.Holds;Assert.IsNotNull(holds,"nothing holds the fishing Rotbloom's bar");
+            body.Holds=null;body.integrity=line+whole*.02f;Hit(body,hero,whole*.05f);
+            Assert.Less(body.integrity,line,"fixture: the blow is heavy enough to cross half");
+            body.Holds=holds;body.integrity=line+whole*.02f;yield return Frames(2);
+            Hit(body,hero,whole*.05f);
+            Assert.AreEqual(line+1,body.integrity,.5f,"a blow on its gaping mouth took it over half with one stalk burned");
+            Assert.AreEqual(1,boss.Phase,"on one stalk it shifted");yield return Frames(3);Assert.IsFalse(basin.told.Any(t=>t.fraction<1),"one stalk and a blow drained the hall");
+            // The second carries it over, and from then on the bar is its own.
+            Kill(stalks[1].Health,hero);yield return Frames(2);
+            Assert.Less(body.integrity,line,"the second stalk doesn't carry it over half");Assert.IsFalse(boss.Fishing&&body.Holds()>0,"over half and drained, its bar still holds");
+            // Just over, not a quarter on from the held line (where it began its grounded half at a quarter of its bar, nov23-recon-c-26 and -d-26): the grounded half is whole.
+            Assert.AreEqual(line-1,body.integrity,1,"the second stalk took a quarter on from the held line: its grounded half isn't whole");
+            float bar=body.integrity;Hit(body,hero,whole*.05f);Assert.Less(body.integrity,bar-whole*.04f,"past the second stalk a blow is still held");
+        }
         [UnityTest] public IEnumerator ItsRootLashesStrikeOnlyWhoStandsInTheWater()
         {
             yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();
@@ -475,6 +500,8 @@ namespace Lattice.Tests.PlayMode
             var bloom=Enemy("Rotbloom",At(0,.1f,0));yield return Frames(3);var body=bloom.transform;
             LingeringArea.Lay(At(4,0,4),2,30,AreaEffect.Slow,.6f,0,bloom.Health,DamageType.Kinetic);yield return null;
             var spoken=new List<string>();System.Action<string,string> heard=(who,line)=>spoken.Add(who+": "+line);BarkService.Spoken+=heard;
+            // A fight ends past its second stalk, where nothing holds the bar (D375): this one is ended from full, so its held line is set aside.
+            bloom.Health.Holds=null;
             try{cues.Clear();Kill(bloom.Health,hero);yield return Frames(3);}finally{BarkService.Spoken-=heard;}
             Assert.AreEqual(0,bloom.Health.integrity,"fixture: the kill, through its shut mouths");
             Assert.IsTrue(Set("bossdown.Rotbloom"),"killed, it isn't counted as beaten");Assert.IsTrue(Said("BOSS_DOWN Rotbloom"));

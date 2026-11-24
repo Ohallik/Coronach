@@ -15,13 +15,13 @@ namespace Lattice.UI
         /// <summary>Above the box, whose top edge is 370 of 1080, with room for the portrait's corner; and in from the sides. At six hundredths from the edge the talk on Rootmarket's
         /// rope opened with Taren at the left edge, Sela cut off past it and Ruva at the far right (nov20 s18 010).</summary>
         static readonly Rect Above=Rect.MinMaxRect(.1f,.38f,.9f,.94f),HeroAbove=Rect.MinMaxRect(.18f,.38f,.82f,.9f);
-        CameraRig rig;Renderer[] speaker;string framing;DialoguePanel panel;int liftAsked=-1;bool lifted;
+        CameraRig rig;Renderer[] speaker;string framing;DialoguePanel panel;int liftAsked=-1;bool lifted,speakerAtSide;
         /// <summary>How far over the choices' top the people stand while the choices are up, as a share of the screen's height.</summary>
         const float OverChoices=.02f;
         void Update()
         {
             var dialogue=DialogueSystem.Current;var party=PartyController.Current;
-            if(dialogue==null||!dialogue.Running||dialogue.Preparing||party==null||party.Active==null){framing=null;speaker=null;return;}
+            if(dialogue==null||!dialogue.Running||dialogue.Preparing||party==null||party.Active==null){framing=null;speaker=null;speakerAtSide=false;return;}
             if(framing!=dialogue.Speaker){framing=dialogue.Speaker;speaker=Find(framing,party);}
             if(speaker==null||party.Active.flight)return;
             bool any=false;var bounds=default(Bounds);
@@ -39,12 +39,17 @@ namespace Lattice.UI
             var choices=panel!=null?panel.ChoiceArea:null;Bounds? partner=Partner(party,dialogue.Speaker);
             if(!choices.HasValue)lifted=false;
             else if(liftAsked!=panel.ChoicesFrame){liftAsked=panel.ChoicesFrame;lifted=Under(bounds,choices.Value)||Under(Body(party.Active.transform.position),choices.Value)||partner.HasValue&&Under(partner.Value,choices.Value);}
-            if(!lifted){rig.FrameGround(bounds,Above,HeroAbove,Farthest,OutranksAFight);return;}
+            // A speaker standing in a side third is drawn under the corner panels (Binna at Rootmarket, nov22b s22 018: a sliver of her under the objective panel),
+            // so she is held to the part of the screen below their foot, as the hero is.
+            var above=Above;var seen=Camera.main!=null?Camera.main.WorldToViewportPoint(bounds.center):Vector3.zero;
+            float side=speakerAtSide?CameraRig.PanelSide+.05f:CameraRig.PanelSide;speakerAtSide=seen.z>0&&(seen.x<side||seen.x>1-side);
+            if(speakerAtSide)above.yMax=Mathf.Max(above.yMin+.2f,Mathf.Min(above.yMax,CameraRig.PanelFoot));
+            if(!lifted){rig.FrameGround(bounds,above,HeroAbove,Farthest,OutranksAFight);return;}
             float floor=choices.Value.yMax+OverChoices;
             Rect Lift(Rect area)=>Rect.MinMaxRect(area.xMin,Mathf.Min(Mathf.Max(area.yMin,floor),area.yMax-.2f),area.xMax,area.yMax);
             // The partner is held with the speaker, not given what room is left: left over, she stayed under the choices.
             if(partner.HasValue)bounds.Encapsulate(partner.Value);
-            rig.FrameGround(bounds,Lift(Above),Lift(HeroAbove),Farthest,OutranksAFight);
+            rig.FrameGround(bounds,Lift(above),Lift(HeroAbove),Farthest,OutranksAFight);
         }
         /// <summary>A standing body's box, as a fight's framing takes one.</summary>
         static Bounds Body(Vector3 feet)=>new(feet+Vector3.up*.95f,new Vector3(1,1.9f,1));

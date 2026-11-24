@@ -444,6 +444,65 @@ namespace Lattice.Tests.PlayMode
             Object.Destroy(colossus.gameObject);yield return null;
         }
 
+        /// <summary>The whole-game capture of November 22 (s49/033): a quenched heat plate was a hard-edged black box on the Colossus's flank, a cube of its iron, where its crust is
+        /// lobed slag with an ash rim (D336). Each plate is now a lobed shell of the Foundry's slag, its cracks glowing while hot, with a band of pale ash round it (D380). The old slab (a
+        /// cube) is checked in the fixture first and fails the same check. Its target, place and integrity are the fight's and are not looked at here.</summary>
+        [UnityTest] public IEnumerator TheColossussHeatPlatesAreLobedSlagWithAnAshRim()
+        {
+            Set("vask.sluice1","vask.sluice2","bossdown.VessaKorl","clear.VessaKorl",BossController.BeatenFlag);
+            yield return Zone("Heart");Put(Lead,new Vector2(0,221));Put(Partner,new Vector2(2,221));
+            string Boxy(Renderer slab)
+            {
+                var mesh=slab.GetComponent<MeshFilter>()!=null?slab.GetComponent<MeshFilter>().sharedMesh:null;if(mesh==null)return "nothing is drawn";
+                if(mesh.vertexCount<=24)return "it is a box ("+mesh.vertexCount+" vertices)";
+                var materials=slab.sharedMaterials;if(mesh.subMeshCount<2||materials.Length<2||materials[1]==null)return "it has no rim";
+                if(materials[0]==null||!materials[0].name.Contains("slag"))return "its skin isn't slag ("+(materials[0]!=null?materials[0].name:"none")+")";
+                var colours=new List<Color>();mesh.GetColors(colours);var rim=mesh.GetTriangles(1);if(colours.Count==0||rim.Length==0)return "its rim has no colour of its own";
+                float pale=rim.Average(v=>colours[v].grayscale)*materials[1].GetColor("_BaseColor").grayscale;
+                return pale<.4f?$"its rim is not pale ash (tone {pale:0.00})":null;
+            }
+            var old=GameObject.CreatePrimitive(PrimitiveType.Cube);old.transform.localScale=new Vector3(2.2f,2,.4f);
+            Assert.IsNotNull(Boxy(old.GetComponent<Renderer>()),"fixture: the check can't tell the old slab (a cube) from a shell of slag");Object.Destroy(old);
+            var colossus=ActorFactory.Enemy(GameCatalog.Find<Lattice.Data.EnemyDef>("SlagColossus"),Ground(new Vector2(0,245))+Vector3.up*.1f);yield return new WaitForSecondsRealtime(.5f);
+            var boss=colossus.GetComponent<BossController>();Assert.AreEqual(3,boss.PlatesWorn,"fixture: in the heart, with its sluices, it wears three plates");
+            foreach(var plate in boss.HeatPlates)
+            {
+                var slab=plate.GetComponentsInChildren<MeshRenderer>().FirstOrDefault(r=>r.name=="Plate");Assert.IsNotNull(slab,plate.name+" is not drawn");
+                var fault=Boxy(slab);Assert.IsNull(fault,plate.name+": "+fault);
+                Assert.LessOrEqual(Mathf.Max(slab.bounds.size.x,slab.bounds.size.z),3.2f,plate.name+" is drawn wider than the slab it replaced");
+            }
+            Object.Destroy(colossus.gameObject);yield return null;
+        }
+
+        /// <summary>The whole-game capture of November 22 (s48/075, s48/232): a faint lavender patch lay on the plate beside each hero, bluer than the lit floor round it. It was the
+        /// hero's own shadow. The toon shader's least light is a grey, per channel; under the furnaces' warm key (its blue a fifth of its red) it gave a shadow on the floor most of its
+        /// blue and green while the red stayed the light's, and the shadow tint could not change that (D371 tried; D380). The shade a body casts on the floor and the sand is worked
+        /// here as the shader makes it under the zone's own key, at full shadow and at the ramp's first step: darkened, the floor may not keep more of its blue than of its red.
+        /// The old least light (.2) is checked first and fails.</summary>
+        [UnityTest] public IEnumerator AHerosShadowOnTheFoundryFloorIsTheFloorDarkenedNotLavender()
+        {
+            yield return Zone();
+            var sun=RenderSettings.sun!=null&&RenderSettings.sun.isActiveAndEnabled?RenderSettings.sun:
+                Object.FindObjectsByType<Light>(FindObjectsSortMode.None).Where(l=>l.type==LightType.Directional&&l.isActiveAndEnabled).OrderByDescending(l=>l.intensity).FirstOrDefault();
+            Assert.IsNotNull(sun,"fixture: the Foundry has no key light");
+            var key=sun.color.linear*sun.intensity;
+            string Lavender(Material floor,float least)
+            {
+                var tint=floor.GetColor("_ShadowTint").linear;
+                foreach(float step in new[]{0f,.34f})
+                {
+                    var shade=Color.Lerp(tint,Color.white,step)*key;shade=new Color(Mathf.Max(shade.r,least),Mathf.Max(shade.g,least),Mathf.Max(shade.b,least));
+                    float red=shade.r/Mathf.Max(key.r,1e-4f),blue=shade.b/Mathf.Max(key.b,1e-4f);
+                    if(blue>red*1.2f)return $"{floor.name}'s shade at ramp step {step} keeps {blue:P0} of the lit floor's blue and {red:P0} of its red: lavender";
+                }
+                return null;
+            }
+            var floors=new[]{"foundry-floor","ground-BridleFoundry","foundry-sand"}.Select(n=>Resources.Load<Material>("WorldMaterials/"+n)).ToArray();
+            Assert.IsTrue(floors.All(f=>f!=null),"fixture: a Foundry floor material is missing from Resources/WorldMaterials");
+            Assert.IsNotNull(Lavender(floors[0],.2f),"fixture: the check can't tell the old least light (.2) from the floor darkened");
+            foreach(var floor in floors){var fault=Lavender(floor,floor.GetFloat("_LightFloor"));Assert.IsNull(fault,fault);}
+        }
+
         // ------------------------------------------------------------------ the casting gallery and its door
         [UnityTest] public IEnumerator TheCastingGalleryIsBuiltToItsContract()
         {

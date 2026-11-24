@@ -73,10 +73,21 @@ namespace Lattice.EditorTools
             float Yaw(float fx,float fz)=>Mathf.Atan2(fx,fz)*Mathf.Rad2Deg;
 
             // ---- the anchor chamber
-            if(Wants("well-116")||Wants("well-182")||Wants("landing-099")||Wants("collar-203")||Wants("collar-210"))
+            if(Wants("well-116")||Wants("well-182")||Wants("landing-099")||Wants("collar-203")||Wants("collar-210")||Wants("well-117"))
             {
                 Open(ChamberZone);
                 var meretAt=new Vector3(6.4f,Chamber.Well,62.6f);
+                // nov22b-whole s67/117 (D373): her duel at its first cover anchor, in her emergency frame, from that still's camera; and closer.
+                if(Wants("well-117"))
+                {
+                    var at=new Vector3(5.2f,Chamber.Well,71.6f);
+                    Stand("Characters","TarenShaped",new Vector3(3.57f,Chamber.Well,73.07f),Yaw(.6f,-.8f));Stand("Characters","IdraNatural",new Vector3(7.6f,Chamber.Well,70.4f),-60);
+                    var her=Stand("Enemies","MeretWellDirector",at,200);if(her!=null)foreach(var gear in her.GetComponentsInChildren<HessaRegalia>(true))gear.Follow();
+                    // Her fight shuts the well's two seals (the plain tiled wall behind her in the still was one).
+                    foreach(var seal in Object.FindObjectsByType<Membrane>(FindObjectsSortMode.None))seal.SetOpen(false);
+                    Shot("well-117",ground,new Vector3(-2.196f,-2.694f,58.11f));Shot("well-117-close",ground,Near(ground,at+Vector3.up*1.1f,.32f));
+                    Clear();
+                }
                 if(Wants("well-116"))
                 {
                     Stand("Characters","TarenShaped",new Vector3(9.09f,Chamber.Well,60.74f),Yaw(-.776f,.63f));Stand("Characters","IdraNatural",new Vector3(3.2f,Chamber.Well,64.8f),110);
@@ -110,9 +121,12 @@ namespace Lattice.EditorTools
             }
 
             // ---- the Continuance: the spine's head, the berth, her relays
-            if(Wants("spine-013")||Wants("berth-154")||Wants("relay-157")||Wants("relay-162"))
+            if(Wants("spine-013")||Wants("berth-154")||Wants("relay-157")||Wants("relay-162")||Wants("spine-021")||Wants("berth-153"))
             {
                 Open(ContinuanceZone);
+                // nov22b-whole s66/021 (the spine's head, the party at the hatch) and s66/153 (into her lane over the working deck), from those stills' cameras (D373).
+                if(Wants("spine-021")){Stand("Characters","TarenShaped",new Vector3(0,.08f,-8.59f),0);Stand("Characters","IdraNatural",new Vector3(3.6f,.08f,-11.4f),330);Shot("spine-021",ground,new Vector3(-5.109f,12.614f,-23.793f));Clear();}
+                if(Wants("berth-153")){Stand("Characters","TarenFlight",new Vector3(-4.3f,19,211.6f),0);Shot("berth-153",flight,new Vector3(-4.091f,39.292f,195.005f));Clear();}
                 if(Wants("spine-013")){Stand("Characters","TarenShaped",new Vector3(0,.08f,-14.1f),0);Stand("Characters","IdraNatural",new Vector3(1.8f,.08f,-15.2f),330);Shot("spine-013",ground,new Vector3(-5.156f,12.72f,-28.673f));Clear();}
                 if(Wants("berth-154")){Stand("Characters","TarenFlight",new Vector3(-4.07f,19,213.41f),Yaw(.125f,.992f));Shot("berth-154",flight,new Vector3(-3.9f,39.045f,196.752f));Clear();}
                 if(Wants("relay-157")||Wants("relay-162"))

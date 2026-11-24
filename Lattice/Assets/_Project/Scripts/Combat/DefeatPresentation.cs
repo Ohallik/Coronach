@@ -164,6 +164,9 @@ namespace Lattice.Combat
                     if(InHeroes(supportVertices,otherAt,otherRotation,visualScale,out Vector3 _)<InHeroes(supportVertices,terminal,terminalRotation,visualScale,out Vector3 _)){terminalRotation=otherRotation;terminal=otherAt;}
                 }
                 if(!enemy.definition.boss)FallClear(supportVertices);
+                // D374: the Burrower is the one boss that falls as a body and stays, as its wreck (BossWreck takes over where it lies). Rolled onto its side where it died, its
+                // fins swung over Taren and he stood in the wreck for the rest of the scene (nov22b-whole s06/053, 064).
+                else if(enemy.definition.id=="Burrower")FallClear(supportVertices,WreckMostSlide,true);
             }
             else if(!airborne)
             {
@@ -204,6 +207,8 @@ namespace Lattice.Combat
         /// <summary>A body that falls does so clear of the heroes on foot: drawn where it would lie, none of it comes within a third of a metre of a hero's capsule, between his feet and
         /// the top of his head. Laid just off his capsule, the two Gloomgrazers still read from the game's camera as lying in him, one at each side.</summary>
         const float HeroClearance=.35f,MostSlide=1.4f;
+        /// <summary>How far the Burrower may slide clear (D374): a body some ten metres long whose fins reach well past its side, and what it leaves lies there for the rest of the scene.</summary>
+        const float WreckMostSlide=3f;
         /// <summary>How deep what it would draw, lying at this pose, stands inside the nearest hero's capsule on the plan (0: in none), and the way its body leaves him.</summary>
         float InHeroes(Vector3[] local,Vector3 position,Quaternion rotation,Vector3 scale,out Vector3 away)
         {
@@ -225,16 +230,35 @@ namespace Lattice.Combat
             return deepest;
         }
         /// <summary>Where it lies is moved off any hero it would lie in, along the way from him through its middle, as the killing blow knocks it back: it slides there as it falls.</summary>
-        void FallClear(Vector3[] local)
+        void FallClear(Vector3[] local,float most=MostSlide,bool wholeFall=false)
         {
             float slid=0;
-            for(int i=0;i<5&&slid<MostSlide;i++)
+            for(int i=0;i<8&&slid<most;i++)
             {
                 float depth=InHeroes(local,terminal,terminalRotation,visualScale,out var away);
                 if(depth<=0)break;
-                float step=Mathf.Min(depth+.03f,MostSlide-slid);slid+=step;
+                float step=Mathf.Min(depth+.03f,most-slid);slid+=step;
                 terminal+=visual.parent.InverseTransformVector(away*step);
             }
+            // D374: a long body rolled 128 degrees sweeps its fins through whoever stood at it on the way down, though where it ends lies clear (the Burrower, 0.24 m into
+            // Taren mid-fall). Every pose of the fall is judged as LateUpdate draws it (slid the square root of the way, rolled the way, held on the floor), and it slides
+            // further until none is in him: what clears a pose a share t of the way down takes that pose's depth over the root of t at its end.
+            if(wholeFall)
+                for(int pass=0;pass<6&&slid<most;pass++)
+                {
+                    float need=0;Vector3 way=Vector3.zero;
+                    for(float t=.05f;t<1;t+=.05f)
+                    {
+                        var turn=Quaternion.Slerp(originRotation,terminalRotation,t);
+                        visual.localRotation=turn;visual.localPosition=Vector3.Lerp(origin,terminal,Mathf.Sqrt(t));SupportRigidBody();var at=visual.localPosition;
+                        visual.localPosition=origin;visual.localRotation=originRotation;
+                        float depth=InHeroes(local,at,turn,visualScale,out var away),n=(depth+.03f)/Mathf.Sqrt(t);
+                        if(depth>0&&n>need){need=n;way=away;}
+                    }
+                    if(need<=0)break;
+                    float step=Mathf.Min(need,most-slid);slid+=step;
+                    terminal+=visual.parent.InverseTransformVector(way*step);
+                }
             if(slid>0){knockedClear=true;Debug.Log($"BODY_FALLS_CLEAR {enemy.definition.id} slid={slid:0.00}");}
         }
         bool CaptureSupport()

@@ -773,6 +773,74 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct().Take(60)));
         }
 
+        // ------------------------------------------------------------------ a two-line row's plate (D366)
+        /// <summary>The row plate's cyan strokes stand 14 units in from the row's top and bottom (measured off nov22b-whole s05/028 at 1080 tall: strokes 24.5 units from the middle of a 74
+        /// row, three thick). The earlier checks measured each text against its own box, never against the plate, so a recipe's two lines passed while the strokes cut the first.
+        /// The ink of every letter of a two-line row (the bench's, the quest log's) must stand inside that. Canvas units, so the screen's size doesn't change it.</summary>
+        static string PlateCuts(string surface,IEnumerable<Button> rows)
+        {
+            const float Stroke=14;var cuts=new List<string>();
+            foreach(var row in rows)
+            {
+                var rect=(RectTransform)row.transform;float half=rect.rect.height*.5f;float scale=Units(row);var listed=row.GetComponent<ListRow>();if(listed==null)continue;
+                foreach(var text in listed.cells)
+                {
+                    if(text==null||!text.gameObject.activeSelf||string.IsNullOrEmpty(text.text))continue;
+                    text.ForceMeshUpdate();var info=text.textInfo;float low=float.MaxValue,high=float.MinValue;
+                    for(int i=0;i<info.characterCount;i++){var c=info.characterInfo[i];if(!c.isVisible)continue;low=Mathf.Min(low,c.bottomLeft.y);high=Mathf.Max(high,c.topRight.y);}
+                    if(low>high)continue;
+                    float top=rect.InverseTransformPoint(text.transform.TransformPoint(new Vector3(0,high))).y,bottom=rect.InverseTransformPoint(text.transform.TransformPoint(new Vector3(0,low))).y;
+                    if(top>half-Stroke+.01f||bottom<-half+Stroke-.01f)cuts.Add($"{surface}, {row.name}: \"{text.GetParsedText()}\" is inked from {bottom:0.0} to {top:0.0} in a row {half*2:0} tall whose strokes stand at +-{half-Stroke:0.0}");
+                }
+            }
+            return cuts.Count==0?null:string.Join("\n",cuts);
+        }
+        [UnityTest] public IEnumerator ATwoLineRowsStrokesCutNoneOfItsLetters()
+        {
+            var failures=new List<string>();var menu=Menu;
+            foreach(var material in GameCatalog.All<MaterialDef>()){State.materials[material.id]=2;State.collectedMaterials[material.id]=2;}
+            menu.Open(PauseMenu.FabricatePage,true);yield return null;
+            for(int page=0;page<8;page++)
+            {
+                var rows=Numbered("Row_",1);var cut=PlateCuts("the bench, page "+(page+1),rows);if(cut!=null)failures.Add(cut);
+                var pager=Row("Pager");if(pager==null)break;pager.onClick.Invoke();yield return null;if(Words(Row("Pager")).Contains("(1/"))break;
+            }
+            menu.Close();yield return null;
+            State.questSteps.Clear();foreach(var q in GameCatalog.All<QuestDef>())State.questSteps[q.id]=0;
+            menu.Open(PauseMenu.QuestsPage);yield return null;
+            for(int page=0;page<12;page++)
+            {
+                var rows=Numbered("Row_",0);var cut=PlateCuts("the quest log, page "+(page+1),rows);if(cut!=null)failures.Add(cut);
+                var pager=Row("Pager");if(pager==null)break;pager.onClick.Invoke();yield return null;if(Words(Row("Pager")).Contains("(1/"))break;
+            }
+            menu.Close();
+            Assert.IsEmpty(failures,string.Join("\n",failures.Distinct().Take(40)));
+        }
+
+        /// <summary>The Party page's Response, Resonance and Fortune stand in columns under headings (one dotted line a hero in the footer in nov22b s05 042): a column's cells start together,
+        /// no cell holds more than its one number, and the card clears the save slots above and the note and footer below.</summary>
+        [UnityTest] public IEnumerator ThePartysOtherThreeStatsStandInColumnsClearOfTheSlotsAndTheNote()
+        {
+            var menu=Menu;menu.Open(PauseMenu.PartyPage);yield return null;var failures=new List<string>();
+            var cells=Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Where(t=>t.name.StartsWith("Totals_")).ToArray();
+            if(cells.Length<4)failures.Add($"fixture: the card holds {cells.Length} cells");
+            foreach(string stat in new[]{"Response","Resonance","Fortune"})
+            {
+                var column=cells.Where(t=>t.name.EndsWith("_"+stat)).ToArray();if(column.Length<1)failures.Add($"no {stat} column");
+                foreach(var c in column){if(c.GetParsedText().Contains("·")||!float.TryParse(c.GetParsedText(),out _))failures.Add($"{c.name} says \"{c.GetParsedText()}\", not one number");}
+                if(column.Select(c=>Mathf.Round(Box(c).xMin*10)).Distinct().Count()>1)failures.Add($"the {stat} cells don't start together");
+            }
+            if(!Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Any(t=>t.name=="ColumnHead"&&t.text=="FORTUNE"))failures.Add("no FORTUNE heading");
+            float top=cells.Length>0?cells.Max(c=>Box(c).yMax):0,bottom=cells.Length>0?cells.Min(c=>Box(c).yMin):0;
+            foreach(var slot in Numbered("Row_",3))if(Box(slot).yMin<top&&Box(slot).yMax>bottom)failures.Add($"{slot.name} stands over the card");
+            var note=Label("Note");var footer=Label("Footer");
+            if(note!=null&&note.GetParsedText().Contains("Resonance"))failures.Add("the note still carries the stats");
+            if(note!=null&&Box(note).yMax>bottom+.01f&&Box(note).yMin<top)failures.Add("the note's box overlaps the card");
+            if(note!=null&&footer!=null){var n=Ink(note,note.GetParsedText().Trim());var f=Ink(footer,footer.GetParsedText().Trim());if(n!=null&&f!=null&&n.Value.yMin<f.Value.yMax)failures.Add("the note comes down onto the footer");}
+            menu.Close();
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+
         // ------------------------------------------------------------------ stills
         /// <summary>What the game's camera draws with every canvas over it, as a 1920 by 1080 still in the mirror's Builds/quality/focused/menus (CreditsTests.Still's way).</summary>
         static string Still(string name)=>Still(name,1920,1080);

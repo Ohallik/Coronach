@@ -41,6 +41,11 @@ namespace Lattice.Combat
         /// <summary>Its boss takes its clamps in order (Mother of Doors: each clamp's guns wait on the one before, D292), set by that boss's fight as it wakes: only the lowest-numbered of
         /// them still shut is the one to work, and a berth whose shelf holds any other says which comes first (World's Berth).</summary>
         [NonSerialized] public bool inOrder;
+        /// <summary>How many of its boss's slacks it is held through before it opens: each eases it a notch, kept while nobody holds it and wound back by a tender at work on it.
+        /// One for chapter 7's; Mother of Doors sets her own (D364: her room was four clamps of one slack each, and over in 101 to 104 s against a bar from 120).</summary>
+        [NonSerialized] public int slacks=1;
+        /// <summary>The notches it has eased so far (of <see cref="slacks"/>).</summary>
+        public int Eased=>eased;
         /// <summary>The clamp of this boss's to work next, when its clamps are taken in order: the lowest-numbered still shut. Null when they aren't, or none is shut.</summary>
         public static BridleClamp NextOf(string settledBy)
         {
@@ -74,7 +79,7 @@ namespace Lattice.Combat
         public override bool InFight=>true;
         public override bool Available=>isActiveAndEnabled&&Offered&&State==Hold.Shut&&Holder==null&&!GameTime.Paused;
         public Tended Tended{get;private set;}
-        float weight,ease;bool easedSaid;Telegraph seatRing,fill;int fillPhase;
+        float weight,ease;bool easedSaid,notched;int eased;Telegraph seatRing,fill;int fillPhase;
         void Awake()
         {
             Tended=GetComponent<Tended>();Tended.seat=transform;
@@ -122,13 +127,22 @@ namespace Lattice.Combat
             Tended.contested=Holder!=null;
             if(GameTime.Paused)return;
             float dt=Time.deltaTime;bool tended=Tended.Tending;
+            // A notch a slack: once one is eased in a slack, the next waits for the next slack.
+            if(!Slack)notched=false;
+            // A tender at work on it winds back what was eased.
+            if(tended&&eased>0){eased=0;Debug.Log("CLAMP_WOUND_BACK "+index);}
             if(Holder!=null&&!tended)
             {
                 weight=Mathf.Min(TakeWeight,weight+dt);
-                if(Carried&&Slack)
+                if(Carried&&Slack&&!notched)
                 {
                     if(!easedSaid){easedSaid=true;Debug.Log("CLAMP_EASED "+index);}
-                    ease+=dt;if(ease>=EaseHold){Open(Holder);return;}
+                    ease+=dt;
+                    if(ease>=EaseHold)
+                    {
+                        if(++eased>=Mathf.Max(1,slacks)){Open(Holder);return;}
+                        notched=true;ease=0;easedSaid=false;Debug.Log($"CLAMP_NOTCH {index} {eased}/{slacks}");
+                    }
                 }
                 else ease=Mathf.Max(0,ease-dt*Drains);
             }

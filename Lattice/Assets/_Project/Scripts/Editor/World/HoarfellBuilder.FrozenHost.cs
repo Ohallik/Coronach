@@ -225,6 +225,14 @@ namespace Lattice.EditorTools
                     if(within<.035f){tone-=.12f;blue+=.14f;}
                     if(within>.5f&&within<.53f&&own>.7f)tone-=.2f;
                     float plane=Mathf.Abs(Mathf.Repeat(u*3+v*.8f+ZoneKit.Cloud(u,v,5,31)*.6f,1)-.5f);if(plane<.006f){tone+=.08f;blue+=.08f;}
+                    // Faces (D378): the wall broken down its height into three uneven faces to a repeat, each at its own angle to the light (its own tone), a dark fracture
+                    // between each and the next with a pale lip, wandering as a break does. Without them every wall read as one smooth extruded ribbon (nov22b s35).
+                    float wob=(ZoneKit.Cloud(u,v,3,41)-.5f)*.12f+(ZoneKit.Cloud(u,v,9,43)-.5f)*.03f,fu=Mathf.Repeat(u+wob,1);
+                    int face=fu<.27f?0:fu<.61f?1:2;float gap=Mathf.Min(Mathf.Min(fu,Mathf.Abs(fu-.27f)),Mathf.Min(Mathf.Abs(fu-.61f),1-fu));
+                    // Each fracture runs part of the wall's height and dies out (drawn full height and full strength, the faces read as a striped wallpaper, ch45-d378-b).
+                    float broken=ZoneKit.Smooth(.42f,.58f,ZoneKit.Cloud(u,v,3,45+face)),facet=ZoneKit.Cloud(u,v,2,49);
+                    tone+=(face==0?.03f:face==1?-.03f:.01f)*facet;blue+=face==1?.03f*facet:0;
+                    if(gap<.005f){tone-=.22f*broken;blue+=.1f*broken;}else if(gap<.011f)tone+=.06f*broken;
                     float bubble=ZoneKit.Tile(u*90,v*90,90,23);if(bubble>.95f)tone+=.06f;
                     return new Color(tone*(1-blue*1.4f),tone*(1-blue*.5f),Mathf.Min(1,tone*(1+blue*.3f)),1);
                 });
@@ -1262,6 +1270,29 @@ namespace Lattice.EditorTools
                 (new(104,181),new(20,22)),(new(90,207.5f),new(12,13)),(new(124,184),new(20,18)),(new(124,219),new(22,26)),(new(146,221),new(18,22)),
             };
             static bool InFight(Vector2 p,float inset=0){foreach(var (at,size) in Fights)if(Mathf.Abs(p.x-at.x)<size.x*.5f-inset&&Mathf.Abs(p.y-at.y)<size.y*.5f-inset)return true;return InArena(p,-1);}
+            /// <summary>A bed where blocks have come out of the floor (D378): a grid of cells 1.2 by 0.9 m sawn round, some lifted, about a point and turned by a yaw. Off every walked
+            /// line and every fight; a duckboard and spoil beside each (Dress).</summary>
+            sealed class Bed
+            {
+                const float W=1.2f,D=.9f;readonly int cols,rows,seed;readonly float yaw;internal readonly Vector2 at;
+                internal Bed(float x,float z,int cols,int rows,float yaw,int seed){at=new Vector2(x,z);this.cols=cols;this.rows=rows;this.yaw=yaw;this.seed=seed;}
+                Vector2 Right=>new(Mathf.Cos(yaw*Mathf.Deg2Rad),-Mathf.Sin(yaw*Mathf.Deg2Rad));Vector2 Fore=>new(Mathf.Sin(yaw*Mathf.Deg2Rad),Mathf.Cos(yaw*Mathf.Deg2Rad));
+                Vector2 Corner=>at-Right*cols*W*.5f-Fore*rows*D*.5f;
+                bool Out(int c,int r)=>new System.Random(seed*97+c*13+r*7).NextDouble()<.5;
+                internal bool Lifted(Vector2 p)
+                {
+                    var d=p-Corner;float u=Vector2.Dot(d,Right)/W,v=Vector2.Dot(d,Fore)/D;if(u<0||v<0||u>=cols||v>=rows)return false;
+                    float fu=u-Mathf.Floor(u),fv=v-Mathf.Floor(v);return Out((int)u,(int)v)&&fu>.06f&&fu<.94f&&fv>.08f&&fv<.92f;
+                }
+                internal IEnumerable<(Vector2 a,Vector2 b)> Kerfs()
+                {
+                    for(int c=0;c<=cols;c++)yield return (Corner+Right*c*W,Corner+Right*c*W+Fore*rows*D);
+                    for(int r=0;r<=rows;r++)yield return (Corner+Fore*r*D,Corner+Fore*r*D+Right*cols*W);
+                }
+                /// <summary>A point beside the bed, <paramref name="out"/> metres past its east end (negative: its west).</summary>
+                internal Vector2 Side(float @out)=>at+Right*(Mathf.Sign(@out)*cols*W*.5f+@out);
+            }
+            static readonly Bed[] Beds={new(18.8f,183.9f,3,2,0,1),new(85.6f,175.6f,4,3,8,2),new(90f,218.4f,3,1,0,3),new(182f,206.4f,3,2,-6,4)};
             /// <summary>A serac: a leaning column of glacier ice, five to seven faces, cut off ragged at the top under a cap of snow.</summary>
             static void Serac(ZoneKit.Shape shape,Vector3 foot,float tall,float girth,int seed)
             {
@@ -1356,6 +1387,98 @@ namespace Lattice.EditorTools
             {
                 var rng=new System.Random(seed);float length=Vector3.Distance(from,to);
                 for(float t=0;t<length;t+=.22f+(float)rng.NextDouble()*.3f){var at=Vector3.Lerp(from,to,t/length);float drop=.15f+(float)rng.NextDouble()*longest;shape.Slot(0).Post(at+Vector3.down*drop,drop,.006f,.06f,5,new Color(.8f,.92f,1.05f),Color.white);}
+            }
+            /// <summary>The dig's walls as an excavation leaves them (D378; they were the heightfield's smooth ribbons): the faces the blades cut, flat, each at its own lean and a
+            /// hand or two proud of the glacier, a fracture down some; and what the glacier took in long before the Muster came: moraine boulders, the host's spears and shields,
+            /// a sledge and its timbers lost down a crevasse. Only on walls the camera looks at across a floor; never over a floor, a frozen rank, a plug, a rig or a coupling, and
+            /// nothing tall enough to stand across a floor behind it. Drawn only (the glacier is the stop), one small mesh to each six metres so no mesh's bounds span a floor.</summary>
+            static void WallFaces(ZoneKit kit)
+            {
+                var keep=new List<Bounds>();var held=new HashSet<Material>{IceBlock,AmberBlock,Refrozen,InIce};if(guardLooks!=null)held.UnionWith(guardLooks.Where(m=>m!=null));
+                foreach(var r in UnityEngine.Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+                {
+                    var b=r.bounds;if(b.size.x>24||b.size.z>24||!InDig(new Vector2(b.center.x,b.center.z)))continue;
+                    if(r.sharedMaterials.Any(m=>m!=null&&held.Contains(m))||r.GetComponentInParent<IceThaw>()!=null||r.GetComponentInParent<Membrane>()!=null){b.Expand(new Vector3(2.4f,0,2.4f));keep.Add(b);}
+                }
+                bool Kept(Vector2 p,float half)=>KeptTop(p,half)>float.NegativeInfinity;
+                float KeptTop(Vector2 p,float half){float top=float.NegativeInfinity;foreach(var b in keep)if(p.x>b.min.x-half&&p.x<b.max.x+half&&p.y>b.min.z-half&&p.y<b.max.z+half)top=Mathf.Max(top,b.max.y);return top;}
+                bool HidesBeyond(Vector2 p,float tall){float reach=ZoneKit.Shadowed(tall)+1.5f;for(float d=.6f;d<=reach;d+=.5f)if(Walkable(p+Away*d))return true;return false;}
+                bool NearCoupling(Vector2 p){if(Vector2.Distance(p,C)>ShelfRadius+5)return false;float b=BearingOf(p);foreach(float c in CouplingBearings)if(Mathf.Abs(Mathf.DeltaAngle(b,c))<18)return true;return false;}
+                float Clear(Vector2 p)=>FloorAt(p,out _);
+                var rng=new System.Random(5113);float R()=>(float)rng.NextDouble();
+                var stretches=new Dictionary<(int x,int z),ZoneKit.Shape>();var placed=new List<Vector2>();int faces=0,things=0;
+                ZoneKit.Shape At(Vector2 p){var key=(Mathf.FloorToInt(p.x/6),Mathf.FloorToInt(p.y/6));if(!stretches.TryGetValue(key,out var s))stretches[key]=s=new ZoneKit.Shape().Slot(4);return s;}
+                Color fracture=new(.22f,.32f,.5f),side=new(.5f,.62f,.82f);var low=new List<Vector2>();int set=0;
+                for(float x=12;x<=232;x+=.5f)for(float z=168;z<=246;z+=.5f)
+                {
+                    var p=new Vector2(x,z);if(!InDig(p))continue;float clear=FloorAt(p,out float level);if(clear<.25f||clear>.55f)continue;
+                    var n=new Vector2(Clear(p+new Vector2(.25f,0))-Clear(p-new Vector2(.25f,0)),Clear(p+new Vector2(0,.25f))-Clear(p-new Vector2(0,.25f)));if(n.sqrMagnitude<1e-4f)continue;n.Normalize();
+                    float facing=Vector2.Dot(n,Away);
+                    float wall=Height(p+n*1.6f)-level;if(wall<2.8f)continue;
+                    if(facing<.3f)
+                    {
+                        // A wall beside a floor, not behind it: anything tall on it stands across the floor from the camera. Only what lies low in its foot, under a chest:
+                        // a boulder, a sledge's runner, the host's spears, frozen in where the blades cut down to them.
+                        if(facing<-.6f||NearCoupling(p))continue;bool close=false;foreach(var q in low)if((q-p).sqrMagnitude<3.4f*3.4f){close=true;break;}
+                        if(close||Kept(p,.8f)||R()>.55f)continue;low.Add(p);var s=At(p);var o3=new Vector3(n.x,0,n.y);var a3=Vector3.Cross(Vector3.up,o3).normalized;
+                        var at=new Vector3(p.x,level+.25f+R()*.35f,p.y)+o3*.15f;set++;
+                        if(R()<.55f)for(int k=0;k<2+rng.Next(2);k++)s.Slot(1).Lump(at+a3*(R()-.5f)*1.4f+o3*R()*.3f,new Vector3(.3f+R()*.25f,.26f+R()*.2f,.3f+R()*.25f),1300+set*5+k,.35f,RockPale,RockDark,10,5);
+                        else if(R()<.5f){var run=Quaternion.AngleAxis(8+R()*14,o3)*a3*1.3f;s.Slot(4).Beam(at-run,at+run,.1f,.12f,IronDark,IronPale);
+                            for(int k=-1;k<=1;k++){var c=at+run*k*.55f+o3*.2f+Vector3.up*.06f;s.Slot(3).Beam(c-o3*.5f,c+o3*.5f,.34f,.05f,WoodDark,WoodPale);}}
+                        else for(int k=0;k<3;k++){var c=at+a3*(k-1)*.4f;var tilt=Quaternion.AngleAxis(-15-R()*20,a3)*(-o3);s.Slot(2).Tube(new[]{c+o3*1.1f,c+tilt*.5f},new[]{.06f,.05f},6,BronzeDark,BronzePale,1,.25f);}
+                        continue;
+                    }
+                    bool near=false;foreach(var q in placed)if((q-p).sqrMagnitude<2.6f*2.6f){near=true;break;}if(near)continue;
+                    float wide=1.5f+R()*1.8f,start=level-.35f,above=KeptTop(p,wide*.5f);
+                    // Over a frozen rank, a plug or a rig the face starts above it: the host stands at the wall's foot, the blades cut the glacier over its heads.
+                    if(above>float.NegativeInfinity){start=above+.25f;if(level+wall-start<2.4f)continue;}
+                    float tall=Mathf.Min((level+wall-start)*(.55f+.4f*R()),6.2f);
+                    if(HidesBeyond(p,start+tall-level)||NearCoupling(p))continue;
+                    placed.Add(p);var shape=At(p);faces++;
+                    // A cut face: a slab of the glacier's own ice, fresh and pale where it was cut, its front nearly upright (the wall behind leans back further), its top broken off
+                    // ragged, its sides in the wall's own blue.
+                    var into=Quaternion.Euler(0,(R()-.5f)*18,0)*new Vector3(n.x,0,n.y);var along=Vector3.Cross(Vector3.up,into).normalized;
+                    float lean=.02f+R()*.08f,depth=.7f+R()*.5f;var foot=new Vector3(p.x,start,p.y)+into*(start>level?.25f:0);
+                    Vector3 Up(float h)=>Vector3.up*h+into*lean*h;
+                    var bl=foot-along*wide*.5f;var br=foot+along*wide*.5f;
+                    var tl=foot-along*wide*(.3f+.16f*R())+Up(tall*(.7f+.22f*R()));var tr=foot+along*wide*(.3f+.16f*R())+Up(tall*(.7f+.22f*R()));var peak=foot+along*wide*(R()-.5f)*.5f+Up(tall);
+                    var lit=Color.Lerp(new Color(.84f,.92f,1),Color.white,R()*.6f);var middle=foot+Up(tall*.5f);
+                    shape.Slot(0).Quad(bl,br,tr,tl,-into,lit,.3f).Triangle(tl,tr,peak,-into,lit,.3f);
+                    var rim=new[]{br,tr,peak,tl,bl};
+                    for(int k=0;k<rim.Length-1;k++){var a=rim[k];var b=rim[k+1];var outward=Vector3.ProjectOnPlane((a+b)*.5f-middle,into);
+                        shape.Slot(0).Quad(a,b,b+into*depth,a+into*depth,outward,outward.y>.3f?Color.Lerp(lit,Color.white,.4f):side,.3f);}
+                    // A fracture down about half of them: a dark line from the broken top toward the foot, wandering.
+                    if(R()<.5f)
+                    {
+                        var top=Vector3.Lerp(tl,tr,.2f+.6f*R());var end=Vector3.Lerp(bl,br,.2f+.6f*R())+Vector3.up*.3f;var at=top;var w=along*(.03f+.03f*R());
+                        for(int k=1;k<=4;k++){var next=Vector3.Lerp(top,end,k/4f)+(k<4?along*(R()-.5f)*.4f:Vector3.zero);var lift=-into*.025f;
+                            shape.Slot(0).Quad(at-w+lift,at+w+lift,next+w+lift,next-w+lift,-into,fracture,.3f);at=next;}
+                    }
+                    // Beside one face in three, something the glacier took in, set into the wall beside it.
+                    if(R()>.36f)continue;
+                    var q2=p+new Vector2(along.x,along.z)*(wide*.5f+.5f+R()*.6f)*(R()<.5f?-1:1);float qc=Clear(q2);if(qc<.2f||qc>1.1f||Kept(q2,.8f))continue;
+                    var n3=new Vector3(n.x,0,n.y);var spot=new Vector3(q2.x,level+.7f+R()*Mathf.Min(wall*.55f,3.2f),q2.y)+n3*(.6f-qc)*.6f;float roll=R();things++;
+                    if(roll<.5f)
+                        for(int k=0;k<1+rng.Next(3);k++)shape.Slot(1).Lump(spot+n3*.25f+along*(R()-.5f)*1.2f+Vector3.up*(R()-.5f)*.8f,Vector3.one*(.35f+R()*.45f),900+faces*5+k,.35f,RockPale,RockDark,10,5);
+                    else if(roll<.72f)
+                        for(int k=0;k<2+rng.Next(2);k++){var o=spot+along*(k-.5f)*.45f;var tilt=Quaternion.AngleAxis(-25-R()*25,along)*(-n3);
+                            shape.Slot(2).Tube(new[]{o+n3*1.2f,o+tilt*.7f},new[]{.06f,.05f},6,BronzeDark,BronzePale,1,.25f);}
+                    else if(roll<.84f)
+                    {
+                        var face=Quaternion.AngleAxis((R()-.5f)*50,Vector3.up)*Quaternion.AngleAxis(-20-R()*30,along)*(-n3);
+                        shape.Slot(2).Disc(spot+n3*.18f,face,.44f,16,BronzePale,0,BronzeDark).Disc(spot+n3*.18f-face*.03f,-face,.44f,16,BronzeDark,0,BronzeDark);
+                    }
+                    else
+                    {
+                        // A sledge lost down a crevasse: a runner and three of its boards, tipped, half in the ice.
+                        var tip=Quaternion.AngleAxis(15+R()*20,n3);var run=tip*along*1.6f;
+                        shape.Slot(4).Beam(spot+n3*.2f-run,spot+n3*.2f+run,.1f,.12f,IronDark,IronPale);
+                        for(int k=-1;k<=1;k++){var c=spot+n3*.45f+run*k*.5f+Vector3.up*.1f;shape.Slot(3).Beam(c-n3*.55f,c+n3*.55f,.36f,.05f,WoodDark,WoodPale);}
+                    }
+                }
+                foreach(var ((sx,sz),shape) in stretches)kit.Built($"Dig wall faces {sx}-{sz}",shape,IceWall,Rock,Bronze,Timber,Iron);
+                Debug.Log($"FROZEN_HOST_WALL_FACES faces={faces} things={things} low={low.Count} meshes={stretches.Count}");
+                Debug.Log("FROZEN_HOST_WALL_AT "+string.Join(";",placed.Concat(low).Select(p=>p.x.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture)+","+p.y.ToString("0.0",System.Globalization.CultureInfo.InvariantCulture))));
             }
             static void Dress(ZoneKit kit,Material steam)
             {
@@ -1472,8 +1595,24 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                     var run=b-a;var along=run.normalized;var side=new Vector2(-along.y,along.x);float y=Mathf.Max(kit.Y(a.x,a.y),kit.Y(b.x,b.y))+.04f;
                     foreach(int lane in new[]{-1,1})dig.Slot(1).Deck(new Vector3(a.x+side.x*lane*.8f,y,a.y+side.y*lane*.8f),new Vector3(b.x+side.x*lane*.8f,y,b.y+side.y*lane*.8f),1.3f,.06f,WoodDark,rng,.38f,.05f);
                 }
+                // Duckboards where the Muster stand to work (D378): beside each bed where blocks come out. Slats on two bearers, a hand off the ice; none on a walked line.
+                foreach(var (a,b,w) in new[]{(new Vector2(15.2f,181.2f),new Vector2(15.6f,185.8f),.9f),(new Vector2(81.8f,173.6f),new Vector2(82.2f,179.4f),.9f),
+                    (new Vector2(178.6f,204.2f),new Vector2(184f,203.8f),.9f),(new Vector2(85.8f,215.6f),new Vector2(85.8f,219.2f),.8f)})
+                {
+                    if(NearWay(a,1.6f)||NearWay(b,1.6f)||InFight(a)||InFight(b))throw new InvalidOperationException("FROZEN_HOST duckboard on a walked line "+a+" "+b);
+                    var from=new Vector3(a.x,kit.Y(a.x,a.y)+.07f,a.y);var to=new Vector3(b.x,kit.Y(b.x,b.y)+.07f,b.y);var across=Vector3.Cross(Vector3.up,(to-from).normalized)*w*.36f;
+                    foreach(int s in new[]{-1,1})dig.Slot(1).Beam(from+across*s+Vector3.down*.045f,to+across*s+Vector3.down*.045f,.09f,.05f,WoodDark);
+                    dig.Slot(1).Deck(from,to,w,.035f,WoodPale,rng,.17f,.06f);
+                }
+                // Spoil beside every bed: the chips the saws threw out, heaped.
+                foreach(var bed in Beds)foreach(float side in new[]{1f,-1f})
+                {
+                    var p=bed.Side(side*(1+R()*.4f))+new Vector2(0,(R()-.5f)*1.2f);if(NearWay(p,1.8f)||InFight(p)||FloorAt(p,out float level)>-.6f)continue;
+                    for(int j=0;j<5;j++)dig.Slot(2).Lump(new Vector3(p.x+(R()-.5f)*1.1f,level+.04f,p.y+(R()-.5f)*1.1f),new Vector3(.3f+R()*.3f,.14f+R()*.16f,.3f+R()*.25f),(int)(p.x*7+p.y)+j,.35f,new Color(.9f,.95f,1),new Color(.6f,.72f,.88f),10,5);
+                }
                 kit.Built("Dig works",dig,Timber,Timber,SnowFloor,IceWall);
                 DigLevels(kit,steam);
+                WallFaces(kit);
                 var hoses=new ZoneKit.Shape();
                 for(int i=0;i<3;i++)foreach(float off in new[]{-9f,0f,9f})
                 {
@@ -1655,24 +1794,26 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                     float tone=.9f+shown+.02f*flat+.05f*(plate-.5f)+.03f*(grain-.5f)-(crack<.006f?.1f:0);
                     return new Color(tone*(1-.1f*lee),tone*(1-.05f*lee),Mathf.Min(1,tone*1.02f),1);
                 });
-                ZoneKit.Texture("Ground/ground-host-cutice",512,(u,v)=>
+                ZoneKit.Texture("Ground/ground-host-cutice",1024,(u,v)=>
                 {
-                    // Plates of ice, each its own tone, a crack between neighbours (a tiling cell pattern: nearest and second-nearest of a jittered grid that wraps, looked up through a
-                    // gentle warp so no joint runs straight), a few blade scores across the plates where the Muster cut. Plates a metre or two across at the scale the layer is laid.
-                    const int Cells=4;float best=9,second=9;int owner=0;
-                    float wu=u+(ZoneKit.Cloud(u,v,4,71)-.5f)*.07f,wv=v+(ZoneKit.Cloud(u,v,4,73)-.5f)*.07f;
-                    for(int dy=-1;dy<=1;dy++)for(int dx=-1;dx<=1;dx++)
-                    {
-                        int cx=Mathf.FloorToInt(wu*Cells)+dx,cy=Mathf.FloorToInt(wv*Cells)+dy;int wx=(cx%Cells+Cells)%Cells,wy=(cy%Cells+Cells)%Cells;
-                        float jx=ZoneKit.Tile(wx*1.7f,wy*2.3f,64,3),jy=ZoneKit.Tile(wx*3.1f,wy*1.9f,64,9);
-                        float d=new Vector2(wu*Cells-(cx+.15f+.7f*jx),wv*Cells-(cy+.15f+.7f*jy)).magnitude;
-                        if(d<best){second=best;best=d;owner=wx*17+wy*5;}else if(d<second)second=d;
-                    }
-                    float own=ZoneKit.Tile(owner*.37f,.5f,64,13),cloud=ZoneKit.Cloud(u,v,8,5),fine=ZoneKit.Cloud(u,v,32,7),chip=ZoneKit.Tile(u*70,v*70,70,11);
-                    float edge=second-best,score=Mathf.Repeat(u*14+v*3+own*5,1);
-                    float tone=.84f+.22f*(own-.5f)+.07f*(cloud-.5f)+.03f*(fine-.5f)-(score<.03f&&own>.55f?.05f:0)+(chip>.94f?.07f:0);
-                    if(edge<.055f)tone-=.27f*(1-edge/.055f);else if(edge<.09f)tone+=.07f;
-                    return new Color(tone*.9f,tone*.96f,Mathf.Min(1,tone*1.06f),1);
+                    // The floor the Muster's blades left: a flat cut through the glacier's years (D378; it was a cell pattern of plates, one crack network from wall to wall).
+                    // Each year a band across the floor, folded as the ice moved, its own tone, a grey seam of dust at some and a bluer, denser line at others; a fracture now and
+                    // then wandering across the bands with a pale lip beside it; the blades' scores in runs of parallel grooves a hand apart, each run its own way, where a block was
+                    // cut; chips and bubbles. Seven metres to a repeat; the zone's own strata (Ground: Strata) lie over it at a larger scale so the repeat doesn't show.
+                    float fold=ZoneKit.Cloud(u,v,2,81)*2.2f+ZoneKit.Cloud(u,v,5,83)*.5f+.3f*Mathf.Sin((u+v)*Mathf.PI*2);
+                    float lay=v*11+fold;int year=Mathf.FloorToInt(lay);float within=lay-year;int y11=((year%11)+11)%11;
+                    float own=ZoneKit.Tile(y11*3.7f,y11*1.3f,64,85),grain=ZoneKit.Cloud(u,v,14,87),fine=ZoneKit.Cloud(u,v,48,89),chip=ZoneKit.Tile(u*160,v*160,160,91);
+                    float tone=.85f+.2f*(own-.5f)+.05f*(grain-.5f)+.025f*(fine-.5f),blue=.05f+.08f*own;
+                    float seam=Mathf.Min(within,1-within);
+                    if(own>.55f&&seam<.06f)tone-=.17f*(1-seam/.06f);else if(own<.25f&&seam<.07f){tone-=.06f;blue+=.12f;}else if(seam<.02f)tone-=.07f;
+                    // (Fractures are the ground kit's crack decals, branching and placed: a noise field's contours here read as wandering outlines, ch45-d378-a.)
+                    // Scores: three ways a run can lie (whole repeats across the texture, so it tiles), each where its own field is strongest, over about a third of the floor.
+                    float ra=ZoneKit.Cloud(u,v,3,97),rb=ZoneKit.Cloud(u,v,3,99),rc=ZoneKit.Cloud(u,v,3,101),best=Mathf.Max(ra,Mathf.Max(rb,rc));
+                    float groove=best==ra?Mathf.Repeat(u*27+v*6,1):best==rb?Mathf.Repeat(v*26-u*7,1):Mathf.Repeat((u-v)*19,1);
+                    float scored=ZoneKit.Smooth(.5f,.58f,best)*ZoneKit.Smooth(.3f,.45f,ZoneKit.Cloud(u,v,6,103));
+                    if(groove<.18f)tone-=.1f*scored;else if(groove<.27f)tone+=.04f*scored;
+                    if(chip>.965f)tone+=.07f;
+                    return new Color(tone*(1-blue*1.3f),tone*(1-blue*.45f),Mathf.Min(1,tone*(1+blue*.25f)),1);
                 });
                 var ground=GroundKit.Open(kit.zone,GroundKit.FindFloor(),37,CliffTop-.2f);
                 float Smooth(float a,float b,float x)=>GroundKit.Smooth(a,b,x);
@@ -1695,7 +1836,7 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 }
                 foreach(var way in Ways)ground.ClearLane(way,1.4f);
                 ground.Look("Canyon",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Hoarfell/host-ice.png"));
-                ground.Layers(new Vector4(.05f,.3f,.38f,.3f),1.1f,new GroundKit.Layer("host-crust",new Color(1,1,1),12),new GroundKit.Layer("host-cutice",new Color(.94f,.97f,1),4.6f),
+                ground.Layers(new Vector4(.05f,.3f,.38f,.3f),1.1f,new GroundKit.Layer("host-crust",new Color(1,1,1),12),new GroundKit.Layer("host-cutice",new Color(.94f,.97f,1),7),
                     new GroundKit.Layer("scree",new Color(.6f,.6f,.64f),3.6f));
                 // Crust over most of the Reach in fields a dozen metres across, the polished snow between; thinning in the hollows; in the dig, snow drifted in against the walls' feet and in a few patches.
                 ground.Paint(0,p=>Dig(p)?DigSnow(p):Smooth(.33f,.49f,ground.Noise(p,13,3))*(1-Vent(p))*Smooth(-.3f,0,Lvl(p)));
@@ -1703,7 +1844,16 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 ground.Paint(1,p=>Dig(p)?.95f*(1-DigSnow(p)):Scoured(p));
                 // Grit: thin moraine streaks on the Reach, the vents' warm hearts, spoil right at the dig's wall feet.
                 ground.Paint(2,p=>Dig(p)?.5f*(1-Smooth(.3f,1.2f,ground.Edge(p))):Smooth(.64f,.7f,ground.Noise(p,16,17))*.55f*(1-Hollow(p)));
-                ground.Shade(p=>Dig(p)?.16f*Smooth(1.8f,.3f,ground.Edge(p)):.08f*Smooth(.1f,-.3f,Lvl(p))).ShadeRelief(p=>Dig(p)?0:Drifts(p),3);
+                // The years again at the floor's own scale (D378): broad bands, folded, each a shade of its own, so the cut ice's seven-metre repeat lies under something that never
+                // repeats; and the beds where blocks have come out, their lifted cells a hand lower and in shade.
+                float Strata(Vector2 p)
+                {
+                    float s=(p.x*.38f+p.y*.92f+6*Mathf.Sin(p.x*.05f+1.3f)+4*Mathf.Sin(p.y*.08f+.4f))/3.1f+ground.Noise(p,16,91)*1.6f;int band=Mathf.FloorToInt(s);
+                    float own=Mathf.PerlinNoise(band*.73f+.31f,band*.29f+.17f)-.5f,next=Mathf.PerlinNoise((band+1)*.73f+.31f,(band+1)*.29f+.17f)-.5f;
+                    return .55f*Mathf.Lerp(own,next,Smooth(.85f,1,s-band));
+                }
+                float Lifted(Vector2 p){foreach(var bed in Beds)if(bed.Lifted(p))return .16f;return 0;}
+                ground.Shade(p=>Dig(p)?.16f*Smooth(1.8f,.3f,ground.Edge(p))+Strata(p)+Lifted(p):.08f*Smooth(.1f,-.3f,Lvl(p))).ShadeRelief(p=>Dig(p)?0:Drifts(p),3);
                 // Idra's steps across the Reach ("stay in my steps"), the herd's churned line, sledge runners down into the dig.
                 ground.Strip("Tracks",Ways[0],.35f,1.1f,new Color(.56f,.66f,.86f,.85f));
                 ground.Strip("Tracks",HerdLine,0,3.2f,new Color(.52f,.6f,.8f,.6f));ground.Strip("Tracks",HerdLine,1.6f,2.2f,new Color(.56f,.64f,.82f,.5f));
@@ -1719,6 +1869,14 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 int pools=0;
                 foreach(var (at,radius) in Vents)if(ground.Puddle(at+new Vector2(.4f,-.3f),radius*.26f,radius*.2f,20))pools++;
                 Debug.Log("FROZEN_HOST_POOLS "+pools);
+                // Meltwater in the dig (D378): where the rigs' heat ran off and lies on the cut ice, over the second level the thaw went across, in the beds, by the winch.
+                int melt=0;
+                foreach(var (x,z,rx,rz,yaw) in new[]{(84.2f,175.4f,1.5f,1f,20f),(89f,179.6f,1.1f,.8f,-30f),(88f,218.2f,1.2f,.8f,15f),(170.4f,224.4f,1.5f,1f,0f),(182.6f,227.6f,1.2f,.9f,30f),
+                    (171.4f,209.6f,1f,.8f,-15f),(62.2f,182f,1f,.8f,0f),(16.6f,188.6f,.8f,.6f,0f),(136f,234f,1f,.7f,0f),(180.6f,208.6f,.9f,.7f,10f)})
+                    if(ground.Puddle(new Vector2(x,z),rx,rz,yaw))melt++;
+                Debug.Log("FROZEN_HOST_MELTWATER "+melt);
+                // The beds' kerfs: sawn lines a hand wide round every block, dark with the cold in them.
+                foreach(var bed in Beds)foreach(var (a,b) in bed.Kerfs())ground.Strip("SurveyLine",new[]{a,b},0,.12f,new Color(.3f,.4f,.58f,.9f));
                 // Drift shadows on the Reach (blue), snow patches on the dig's ice (white): what makes one stretch of either unlike the next.
                 ground.Decals(new[]{"Shadow"},4,p=>Dig(p)?0:Smooth(.45f,.6f,ground.Noise(p,8,23))*(1-Vent(p)),2.6f,5,new Color(.5f,.62f,.9f,.45f),false,.1f,25);
                 // Meltwater lying on the ice where the thaw has been at it.

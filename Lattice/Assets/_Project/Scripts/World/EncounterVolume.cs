@@ -12,6 +12,11 @@ namespace Lattice.World
         public string encounterId;
         public Transform previewPoint;
         public float previewRadius=6;
+        /// <summary>Its body isn't put on show until this flag is set (empty: on show from the first). For a boss who is somewhere else as a person until then: the
+        /// Warmaster stood dormant on his field while he sat at his table in the hall, before the party had met him (whole-game capture of November 22, s52/014 and 017).</summary>
+        public string previewFlag;
+        bool previewHeld;
+        bool PreviewWaits=>!string.IsNullOrEmpty(previewFlag)&&!GameServices.Current.Flags.GetBool(previewFlag);
         /// <summary>Stays asleep until this flag is set (empty: wakes on entry).</summary>
         public string requiredFlag;
         /// <summary>A boss door: starting this fight moves the respawn to this spawn point and saves there.</summary>
@@ -74,6 +79,7 @@ namespace Lattice.World
         {
             if(Started||previewPoint==null)return;
             if(SavedClear){FinishSaved();return;}
+            previewHeld=PreviewWaits;if(previewHeld)return;
             foreach(var spawner in spawners)spawner.Prepare(previewPoint.position,previewRadius);
         }
         void CancelPreview(){if(spawners!=null)foreach(var spawner in spawners)if(spawner!=null)spawner.CancelPreview();}
@@ -81,6 +87,7 @@ namespace Lattice.World
         void Update()
         {
             if(!Started&&previewPoint!=null&&SavedClear)FinishSaved();
+            if(previewHeld&&!Started&&!PreviewWaits)PreparePreview();
             if(cued&&Remaining>0&&Time.unscaledTime>=nextCue){nextCue=Time.unscaledTime+.5f;MusicDirector.Fight(this,InEarshot());}
         }
         void OnTriggerEnter(Collider other)=>TryEnter(other);

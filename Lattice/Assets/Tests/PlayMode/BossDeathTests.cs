@@ -127,6 +127,11 @@ namespace Lattice.Tests.PlayMode
             return covered>0?changed/(float)covered:0;
         }
         static int Covered(Color[] pixels){int n=0;var ground=pixels[0];foreach(var c in pixels)if(Body(c,ground))n++;return n;}
+        /// <summary>How light what shows its body looks, on average (luma, 0 to 1).</summary>
+        static float Lightness(Color[] pixels,Color ground){double sum=0;int n=0;foreach(var c in pixels)if(Body(c,ground)){sum+=.299f*c.r+.587f*c.g+.114f*c.b;n++;}return n>0?(float)(sum/n):0;}
+        /// <summary>A body that goes dark (BodyGoesDark: killed, shut down or driven off) looks at most this light a second after as it did alive. D363: the ash it went to was paler
+        /// than the body, the Slag Colossus's dark iron .21 to .30 (nov22b-whole s49/049, a pale ochre shell).</summary>
+        const float Darker=.8f;
 
         IEnumerator Arena(string id)
         {
@@ -144,6 +149,28 @@ namespace Lattice.Tests.PlayMode
             var bosses=GameCatalog.All<EnemyDef>().Where(d=>d.boss).Select(d=>d.id).OrderBy(i=>i,System.StringComparer.Ordinal).ToArray();
             Assert.IsNotEmpty(bosses,"fixture: the catalog has its bosses");
             CollectionAssert.AreEquivalent(bosses,All,"BossDeathTests.All must name every boss: add a new one there, so its ending is checked");
+        }
+
+        /// <summary>D363: a net of Sela's that lands after its fight is won lies for no time. Begun as the Bellows died, hers landed after the win had cleared the field and lay round the
+        /// dead dome for four seconds (nov22b-whole s08/098 to 104). One laid with a foe in reach lies its life out.</summary>
+        [UnityTest,Timeout(60000)] public IEnumerator ANetLandingAfterTheFightIsWonLiesForNoTime()
+        {
+            yield return Arena("Rotbloom");
+            var lead=PartyController.Current.Active;Place(lead,LeadAt("Rotbloom"));
+            var packet=new DamagePacket{source=lead.Health,amount=10,type=DamageType.Pulse};
+            var standing=Health.All.Where(h=>h!=null&&h.Alive&&h.Damageable&&!h.friendly&&(h.transform.position-BossAt("Rotbloom")).magnitude<40).Select(h=>h.id).ToList();
+            Assert.IsEmpty(standing,"fixture: the arena has no foe left standing near the net");
+            NetSeed.Land(BossAt("Rotbloom"),packet);
+            yield return new WaitForSecondsRealtime(.6f);
+            int afterWin=Object.FindObjectsByType<PulseField>(FindObjectsSortMode.None).Length;
+            var foe=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Rotbloom"),BossAt("Rotbloom")+new Vector3(0,0,6));foe.Passive=true;
+            foe.Health.InvulnerableUntil=float.PositiveInfinity;
+            yield return new WaitForSecondsRealtime(.3f);
+            NetSeed.Land(BossAt("Rotbloom"),packet);
+            yield return new WaitForSecondsRealtime(.6f);
+            int inFight=Object.FindObjectsByType<PulseField>(FindObjectsSortMode.None).Length;
+            Assert.AreEqual(0,afterWin,"a net laid with no foe left in reach still lay on the floor .6 s later");
+            Assert.AreEqual(1,inFight,"fixture: a net laid with a foe in reach lies its life out");
         }
 
         /// <summary>A boss beaten shows it within a second, and from that moment nothing lands on it or its parts, no number spawns on it, and the lead's lock lets go. Shows it: one
@@ -203,7 +230,7 @@ namespace Lattice.Tests.PlayMode
             var darkening=boss!=null?boss.GetComponent<BodyGoesDark>():null;
             string dark=darkening!=null?$"{darkening.Painted} renderers at {darkening.Share:0.00}":"none";
             string shaders=boss!=null?string.Join("+",Drawn(boss).Where(r=>r!=null&&r.sharedMaterial!=null).Select(r=>r.sharedMaterial.shader.name).Distinct().Take(3)):"";
-            float shown=Changed(before,after,out _),early=Changed(before,half,out _);
+            float shown=Changed(before,after,out _),early=Changed(before,half,out _),lightBefore=Lightness(before,before[0]),lightAfter=Lightness(after,before[0]);
             Save(before,id+"-0-before");Save(half,id+"-1-half");Save(after,id+"-2-second");
             // When it is gone: destroyed, or nothing of it drawn.
             string gone="stays";int first=covered;
@@ -216,13 +243,14 @@ namespace Lattice.Tests.PlayMode
             }
             Object.Destroy(camera.gameObject);DefeatPresentation.Yielded-=yielded;
             LogAssert.ignoreFailingMessages=false;
-            string line=$"BOSS_DEATH {id} ending={ending} living={living:0.00} half-second={early:0.00} second={shown:0.00} handed-over={(handed<0?"no":handed.ToString("0.00")+"s")} dark={dark} drawn-with={shaders} numbers={numbered.Count} landed={(landed==""?"none":landed)} lock={(locked?"held":"let go")} gone={gone}";
+            string line=$"BOSS_DEATH {id} ending={ending} living={living:0.00} half-second={early:0.00} second={shown:0.00} handed-over={(handed<0?"no":handed.ToString("0.00")+"s")} dark={dark} light={lightBefore:0.00}->{lightAfter:0.00} drawn-with={shaders} numbers={numbered.Count} landed={(landed==""?"none":landed)} lock={(locked?"held":"let go")} gone={gone}";
             TestContext.WriteLine(line);Debug.Log(line);
             var faults=new List<string>();
             // What is killed, shut down, driven off or freed shows it on its body within the second: it darkens, draws in, falls, turns away. Who yields gives up where she stands (Meret
             // Well yields standing by decision: LastMooringBossTests) and the person she is takes over from her body within the beat DefeatPresentation gives a yield.
             if(ending==BossController.Ending.Yields){if(handed<0||handed>YieldsWithin)faults.Add($"{line}: yielding, the person did not take over from the body within {YieldsWithin} s");}
             else if(shown<Shows||shown<living+.1f)faults.Add($"{line}: a second after its bar emptied, {shown:P0} of its body had changed (alive, {living:P0} changes in a second)");
+            if(darkening!=null&&lightAfter>lightBefore*Darker)faults.Add($"{line}: going dark, a second after its bar emptied it looks {lightAfter/Mathf.Max(.001f,lightBefore):P0} as light as it did alive");
             if(landed!="")faults.Add(line+": blows still landed on it after its bar emptied:"+landed);
             if(numbered.Count>0)faults.Add(line+": damage numbers spawned on it after its bar emptied: "+string.Join(", ",numbered.Take(4)));
             if(locked)faults.Add(line+": the lead's lock still held it a second after its bar emptied");

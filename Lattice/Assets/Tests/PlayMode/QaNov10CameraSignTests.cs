@@ -122,8 +122,9 @@ namespace Lattice.Tests.PlayMode
             var words=Rect.MinMaxRect(Mathf.Min(one.x,two.x),Mathf.Min(one.y,two.y),Mathf.Max(one.x,two.x),Mathf.Max(one.y,two.y));
             Assert.IsTrue(words.Contains(new Vector2(feet.x,Mathf.Clamp(words.center.y,Mathf.Min(feet.y,head.y),Mathf.Max(feet.y,head.y)))),"fixture: his body stands across the word on the screen");
             TestContext.WriteLine($"COVERED_SIGN alpha={sign.alpha:0.00}");
-            Assert.Greater(sign.alpha,.05f,"the sign went altogether: cut by a plate or the edge, which isn't what's being judged");
-            Assert.LessOrEqual(sign.alpha,.4f,$"his legs go through the middle of a word at {sign.alpha:P0}: it reads 'LO R CHAMBER'");
+            // Gone for his body, not cut by a plate or the edge (which isn't what's being judged): since D365 the word says why it's gone, where it once kept a trace to tell them apart.
+            Assert.AreEqual("body",fade.GoneFor,"the sign went for something other than the body over it: cut by a plate or the edge, which isn't what's being judged");
+            Assert.LessOrEqual(sign.alpha,.01f,$"his legs go through the middle of a word at {sign.alpha:P0}: it reads 'LO R CHAMBER' (a trace reads as a ghost in the player, D365)");
         }
 
         // ------------------------------------------------------------------ E3-tallow-01: the curtain's moment

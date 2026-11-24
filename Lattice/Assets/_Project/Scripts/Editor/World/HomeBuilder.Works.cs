@@ -40,6 +40,47 @@ namespace Lattice.EditorTools
                 exposure=.14f,contrast=12,saturation=9,splitShadows=C(.45f,.47f,.53f),splitHighlights=C(.6f,.55f,.46f),
                 bloomThreshold=1.05f,bloomIntensity=.42f,vignette=.24f});
         }
+        /// <summary>The presses' lamps as play shows them once a rig is cut: an editor still of the built scene has every press driven (its warm lamps are off until play frees it), so
+        /// the flat pale-yellow bars of the November 22 capture (s58 133, 171) were in no still. Opens the zone with the live pipeline, puts every press's lamps in the state named
+        /// (<c>-works-lamps local|driven</c>, local by default) and draws the two captured stills from the cameras the capture had, Taren where the hero stood. Run:
+        /// exec-when-green.ps1 -Method Lattice.EditorTools.HomeBuilder.WorksLampStills -Marker WORKS_LAMP_STILLS_OK -Graphics -ExtraArgs @('-look-run','name').</summary>
+        public static void WorksLampStills()=>BatchTools.Run(()=>
+        {
+            string run=DevArgs.Value("-look-run")??throw new ArgumentException("-look-run <name> is required");
+            string folder=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,"../../Builds/quality/look",run));
+            if(System.IO.Directory.Exists(folder))throw new InvalidOperationException("Preserve earlier look run: "+folder);
+            System.IO.Directory.CreateDirectory(folder);bool local=DevArgs.Value("-works-lamps")!="driven";
+            var before=GraphicsSettings.defaultRenderPipeline;var beforeQuality=QualitySettings.renderPipeline;
+            var pipeline=Resources.Load<RenderPipelineAsset>("LocalBiomes/LocalPipeline")??throw new InvalidOperationException("WORKS_LAMP_STILLS the live pipeline is missing");
+            try
+            {
+                GraphicsSettings.defaultRenderPipeline=pipeline;QualitySettings.renderPipeline=pipeline;
+                UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+WorksZone+".unity");
+                foreach(var text in UnityEngine.Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+                var def=Find<ZoneDef>(WorksZone);if(def!=null)RenderSettings.skybox=def.skybox;
+                int presses=0;foreach(var press in UnityEngine.Object.FindObjectsByType<DrivenPress>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+                {if(press.drivenLamps!=null)press.drivenLamps.SetActive(!local);if(press.localLamps!=null)press.localLamps.SetActive(local);presses++;}
+                var profile=AssetDatabase.LoadAssetAtPath<CameraProfile>("Assets/_Project/Resources/Definitions/CameraProfile/Ground.asset");
+                var camera=new GameObject("Lamp camera",typeof(Camera),typeof(UnityEngine.Rendering.Universal.UniversalAdditionalCameraData)).GetComponent<Camera>();
+                camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.02f,.03f,.06f);camera.nearClipPlane=.3f;camera.farClipPlane=600;camera.fieldOfView=profile.fov;
+                var data=camera.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();data.renderPostProcessing=true;data.antialiasing=UnityEngine.Rendering.Universal.AntialiasingMode.None;
+                var taren=(GameObject)PrefabUtility.InstantiatePrefab(ZoneKit.Prefab("Characters","TarenNatural"));
+                var rig=taren.GetComponentInChildren<Animator>();var idle=rig!=null&&rig.runtimeAnimatorController!=null?rig.runtimeAnimatorController.animationClips.FirstOrDefault(c=>c!=null&&c.name.ToLowerInvariant().Contains("idle")):null;
+                // Where the capture's hero and camera stood (frames.csv of nov22b-whole s58, steps 133 and 171).
+                foreach(var (name,hero,eye) in new[]{("s58-133",new Vector3(2.87f,-1.42f,95.38f),new Vector3(-2.64f,11.12f,81.41f)),("s58-171",new Vector3(.67f,-2.92f,122.99f),new Vector3(-4.96f,11.74f,106.64f))})
+                {
+                    taren.transform.SetPositionAndRotation(hero,Quaternion.Euler(0,200,0));if(idle!=null)idle.SampleAnimation(rig.gameObject,.3f);
+                    camera.transform.SetPositionAndRotation(eye,Quaternion.Euler(profile.pitch,profile.yaw,0));
+                    var rt=new RenderTexture(1920,1080,24,RenderTextureFormat.ARGB32){antiAliasing=4};camera.targetTexture=rt;camera.Render();camera.Render();
+                    var prior=RenderTexture.active;RenderTexture.active=rt;var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();
+                    System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder,WorksZone+"-"+name+(local?"-freed":"-driven")+".png"),image.EncodeToPNG());
+                    RenderTexture.active=prior;camera.targetTexture=null;UnityEngine.Object.DestroyImmediate(image);UnityEngine.Object.DestroyImmediate(rt);
+                }
+                UnityEngine.Object.DestroyImmediate(camera.gameObject);UnityEngine.Object.DestroyImmediate(taren);
+                Debug.Log($"WORKS_LAMP_STILLS_OK presses={presses} lamps={(local?"local":"driven")} folder={folder}");
+            }
+            finally{GraphicsSettings.defaultRenderPipeline=before;QualitySettings.renderPipeline=beforeQuality;}
+        });
 
         internal static class Works
         {
@@ -318,8 +359,10 @@ namespace Lattice.EditorTools
                 // The Compact's cyan (a rig's lamps, a driven press's), the plant's warm work light (a freed press, an open joint, the work lamps), and unlit glass.
                 // Each lamp and strip in its own hue, its brightest channel a little over the bloom's threshold: at 1.5 to 1.7 over a pale base the joints' strips and the rigs' clamps clipped to
                 // flat white blocks in the player (the November 20 capture, s58 130 and 176).
-                LampCyan=ZoneKit.Toon("works-lamp-cyan",null,m=>{m.SetColor("_BaseColor",new Color(.32f,.62f,.68f));m.SetColor("_EmissionColor",new Color(.06f,.72f,.86f));});
-                LampWarm=ZoneKit.Toon("works-lamp-warm",null,m=>{m.SetColor("_BaseColor",new Color(.7f,.6f,.44f));m.SetColor("_EmissionColor",new Color(.95f,.66f,.3f));});
+                // Still clipped in the November 22 capture (s58 133, 171: a freed press's lamps flat pale yellow, 255 255 153): the lit base added to the emission and the Works'
+                // exposure and warm highlights took both channels over. The glass is dark now, so what shows is the lamp's own colour: amber, and the Compact's cyan.
+                LampCyan=ZoneKit.Toon("works-lamp-cyan",null,m=>{m.SetColor("_BaseColor",new Color(.1f,.2f,.24f));m.SetColor("_EmissionColor",new Color(.04f,.6f,.78f));});
+                LampWarm=ZoneKit.Toon("works-lamp-warm",null,m=>{m.SetColor("_BaseColor",new Color(.22f,.15f,.08f));m.SetColor("_EmissionColor",new Color(.74f,.36f,.08f));});
                 LampDim=ZoneKit.Toon("works-lamp-dim",null,m=>{m.SetColor("_BaseColor",new Color(.3f,.33f,.37f));m.SetColor("_EmissionColor",Color.black);m.SetFloat("_LightFloor",.3f);});
                 Glass=ZoneKit.Toon("works-porthole",null,m=>{m.SetColor("_BaseColor",new Color(.16f,.22f,.26f));m.SetColor("_EmissionColor",new Color(.04f,.08f,.1f));m.SetFloat("_LightFloor",.4f);});
                 // A torch cut in the keel where work is going on: unlit, white-gold at its core, coloured in its vertices; never a marking's orange.
@@ -582,9 +625,17 @@ namespace Lattice.EditorTools
                     var face=-axis*((length-.5f)*.5f+.035f)+Vector3.up*.18f;
                     GameObject Lamps(string state,Material mat,Color light)
                     {
-                        var g=new ZoneKit.Shape();g.Slot(0).Box(face,new Vector3(width-1.1f,.2f,.05f),turn,Color.white);
-                        foreach(int side in new[]{-1,1})g.Slot(0).Box(face+across*side*(width*.5f-.45f)+Vector3.up*.02f,new Vector3(.3f,.3f,.06f),turn,Color.white);
-                        var go=kit.Built("Press "+name+" "+(i+1)+" lamps "+state,g,mat);go.transform.SetParent(drawnRam.transform,false);go.transform.localPosition=Vector3.zero;
+                        // A row of lamps in an iron rail, not one lit bar: one glass the length of the ram read as a flat block of colour (s58 133, 171). Each lens is set a little
+                        // proud of the rail, with the rail's iron between them, and a beacon in its own iron cup at each end.
+                        var g=new ZoneKit.Shape();float run=width-1.1f;int lenses=Mathf.Max(3,Mathf.RoundToInt(run/.42f));float pitch=run/lenses;
+                        g.Slot(1).Box(face+axis*.01f,new Vector3(run+.12f,.28f,.06f),turn,IronDark,IronPale);
+                        for(int k=0;k<lenses;k++)g.Slot(0).Box(face+across*((k+.5f)*pitch-run*.5f)-axis*.03f,new Vector3(pitch-.1f,.16f,.04f),turn,Color.white);
+                        foreach(int side in new[]{-1,1})
+                        {
+                            var cup=face+across*side*(width*.5f-.45f)+Vector3.up*.02f;
+                            g.Slot(1).Box(cup-axis*.02f,new Vector3(.38f,.38f,.07f),turn,IronDark,IronPale);g.Slot(0).Box(cup-axis*.045f,new Vector3(.24f,.24f,.04f),turn,Color.white);
+                        }
+                        var go=kit.Built("Press "+name+" "+(i+1)+" lamps "+state,g,mat,IronMat);go.transform.SetParent(drawnRam.transform,false);go.transform.localPosition=Vector3.zero;
                         if(i==bays.Length/2){var l=new GameObject("Press light",typeof(Light)).GetComponent<Light>();l.type=LightType.Point;l.color=light;l.range=8;l.intensity=1.2f;l.shadows=LightShadows.None;
                             l.transform.SetParent(go.transform,false);l.transform.localPosition=face-axis*1.2f;}
                         return go;

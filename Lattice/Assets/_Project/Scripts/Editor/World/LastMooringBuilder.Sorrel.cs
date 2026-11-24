@@ -254,7 +254,7 @@ namespace Lattice.EditorTools
             internal static float HaulX(float z)=>2.2f*Mathf.Sin(z/37f)-1;
 
             // ---------------------------------------------------------------- the build
-            internal sealed class Stuff{public Material ground,rock,crag,works,worksDark,cable,lamp,young,glow,warm,shaft;}
+            internal sealed class Stuff{public Material ground,rock,crag,works,worksDark,cable,lamp,young,glow,warm,shaft,spill;}
             static Color L(float r,float g,float b)=>new Color(r,g,b).linear;
 
             /// <summary>Builds SorrelSecondSky.</summary>
@@ -393,6 +393,8 @@ namespace Lattice.EditorTools
                 var soft=ZoneKit.Texture("Sorrel/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(1,1,1,a);},false,true);
                 Material Soft(string asset,Color colour){var m=kit.Glow(asset,false,colour);m.SetTexture("_BaseMap",soft);return m;}
                 s.young=Soft("Young glow",new Color(.35f,1.2f,1.25f,1));s.glow=Soft("Works glow",new Color(.5f,1.3f,1.5f,1));s.warm=Soft("Window glow",new Color(1.4f,1.05f,.65f,1));
+                // The young's light round a bore's mouth, a little of it (D382): the full glow laid over a mouth was a blown-out pool with no source.
+                s.spill=Soft("Young spill",new Color(.13f,.42f,.44f,1));
                 return s;
             }
             /// <summary>The floor's tone: Sorrel's ochre, darker clay in broad patches, olive scrub where it is sheltered (as chapter 1 dressed its margins), and the crater's floor and walls
@@ -717,22 +719,30 @@ namespace Lattice.EditorTools
             static void Nursery(ZoneKit kit,Stuff stuff,out GameObject young)
             {
                 var root=new GameObject("The nursery");young=new GameObject("The young in the voids");young.transform.SetParent(root.transform,true);young.transform.position=new Vector3(Centre.x,-9.5f,Centre.y);
-                var voids=new ZoneKit.Shape();var rng=new System.Random(77);var places=new List<Vector3>();
+                var voids=new ZoneKit.Shape();var rng=new System.Random(77);var places=new List<Vector3>();var mouthsWide=new List<float>();
                 for(int k=0;k<11;k++)
                 {
                     // Five on the crown, six in the moat.
                     bool crown=k<5;float a=k*(crown?72:60)+rng.Next(-14,14),r=crown?3+(float)rng.NextDouble()*5:33+(float)rng.NextDouble()*6;
                     var p=Centre+new Vector2(Mathf.Sin(a*Mathf.Deg2Rad),Mathf.Cos(a*Mathf.Deg2Rad))*r;
-                    var at=new Vector3(p.x,Height(p)+.15f,p.y);places.Add(at);voids.Disc(at,Vector3.up,crown?1.6f+(float)rng.NextDouble():2.4f+(float)rng.NextDouble()*1.6f,18,Color.white);
+                    var at=new Vector3(p.x,Height(p)+.15f,p.y);places.Add(at);float wide=crown?1.6f+(float)rng.NextDouble():2.4f+(float)rng.NextDouble()*1.6f;mouthsWide.Add(wide);voids.Disc(at,Vector3.up,wide,18,Color.white);
                 }
                 var mouths=kit.Built("The drilled voids",voids,stuff.shaft);mouths.transform.SetParent(root.transform,true);mouths.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                // Round each mouth only a little of that light, on its rim and the floor a few metres out, dim enough that the mouth stays dark round its throat. It was a quad of
+                // the young's full glow 9 to 15 m across laid over the mouth and lit from 3 m over it by a 30 m lamp: from the east clamp's pad a flat, blown-out cyan pool with no
+                // source in it (nov22b-whole s63/164, D382). The lamps now stand just over the lip, low and short, so what they light is the rim and the floor round it.
+                var spill=stuff.spill;
                 for(int k=0;k<places.Count;k++)
                 {
                     var at=places[k];
                     var halo=GameObject.CreatePrimitive(PrimitiveType.Quad);UnityEngine.Object.DestroyImmediate(halo.GetComponent<Collider>());halo.name="Glow from the void";halo.transform.SetParent(root.transform,true);
-                    halo.transform.SetPositionAndRotation(at+Vector3.up*.3f,Quaternion.Euler(90,0,0));halo.transform.localScale=Vector3.one*(k<5?6:9+k%3*3);
-                    var view=halo.GetComponent<Renderer>();view.sharedMaterial=stuff.young;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
-                    if(k==0||k%3==1){var l=Lit(kit,at+Vector3.up*3,k<5?16:30,k<5?2.4f:4,new Color(.4f,.95f,1f));l.transform.SetParent(root.transform,true);}
+                    halo.transform.SetPositionAndRotation(at+Vector3.up*.3f,Quaternion.Euler(90,0,0));halo.transform.localScale=Vector3.one*mouthsWide[k]*4.4f;
+                    var view=halo.GetComponent<Renderer>();view.sharedMaterial=spill;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
+                    // The source: the young's own glow, small, down the throat inside the dark mouth.
+                    var throat=GameObject.CreatePrimitive(PrimitiveType.Quad);UnityEngine.Object.DestroyImmediate(throat.GetComponent<Collider>());throat.name="The young's light down the bore";throat.transform.SetParent(root.transform,true);
+                    throat.transform.SetPositionAndRotation(at+Vector3.up*.32f,Quaternion.Euler(90,0,0));throat.transform.localScale=Vector3.one*mouthsWide[k]*1.3f;
+                    var core=throat.GetComponent<Renderer>();core.sharedMaterial=stuff.young;core.shadowCastingMode=ShadowCastingMode.Off;core.receiveShadows=false;
+                    if(k==0||k%3==1){var l=Lit(kit,at+Vector3.up*1.2f,k<5?10:14,k<5?1.4f:1.8f,new Color(.4f,.95f,1f));l.transform.SetParent(root.transform,true);}
                 }
                 // The young: a head and two segments each, curled, circling about her at their own pace; three on the crown under her, four in the moat.
                 for(int k=0;k<7;k++)

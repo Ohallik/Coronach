@@ -426,6 +426,8 @@ namespace Lattice.Tests.PlayMode
             var definition=GameCatalog.Find<Lattice.Data.EnemyDef>("Rotbloom");Assert.IsNotNull(definition,"fixture: the Rotbloom is defined");
             var bloom=ActorFactory.Enemy(definition,Ground(C)+Vector3.up*.1f);bloom.Passive=true;yield return null;yield return null;
             var hero=PartyController.Current.Active;
+            // Its bar holds over half while it fishes with a stalk standing (D375): the hall's stalks go first, as they have by the time it dies in play.
+            LureStalk.SettleAll();
             bloom.Health.Receive(new DamagePacket{source=hero.Health,amount=bloom.Health.maximum*20,type=Lattice.Data.DamageType.Kinetic});
             Assert.IsFalse(bloom.Health.Alive,"fixture: the kill");Assert.IsTrue(Flag("bossdown.Rotbloom"),"fixture: the kill is counted");
             float deadline=Time.unscaledTime+12;

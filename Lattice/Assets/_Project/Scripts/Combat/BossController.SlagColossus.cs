@@ -180,16 +180,46 @@ namespace Lattice.Combat
             part.weakness=health.weakness;part.resistance=health.resistance;part.breakThreshold=1e9f;part.Damageable=false;
             var shape=node.AddComponent<SphereCollider>();shape.isTrigger=true;shape.radius=ColossusTune.PlateTarget;shape.enabled=false;
             node.AddComponent<Hurtbox>().owner=part;
-            // The plate drawn: a slab of the engine's own iron, glowing while hot and dark when quenched (its look is set every frame by property block).
-            var slab=GameObject.CreatePrimitive(PrimitiveType.Cube);slab.name="Plate";Destroy(slab.GetComponent<Collider>());slab.transform.SetParent(node.transform,false);
-            slab.transform.localScale=new Vector3(2.2f,2,.4f);var view=slab.GetComponent<Renderer>();
-            if(colossusPlateMaterial!=null){var material=new Material(colossusPlateMaterial);material.SetTextureScale("_BaseMap",new Vector2(.3f,.3f));view.sharedMaterial=material;}
-            else view.sharedMaterial=ActorFactory.Energy(SlagTone);
+            // The plate drawn: a lobed shell of the slag it is armoured in, its cracks glowing while hot and black glassy skin when quenched, with cooled iron's pale ash round its
+            // edge (D336's crust, in the zone's own slag materials from Resources). It was a cube of the engine's iron, and dark it was a hard-edged black box (s49/033, D380).
+            // Its look is set every frame by property block on its first material; the ash rim is the second and keeps its colour.
+            var slab=new GameObject("Plate",typeof(MeshFilter),typeof(MeshRenderer));slab.transform.SetParent(node.transform,false);
+            slab.GetComponent<MeshFilter>().sharedMesh=PlateMesh(i);var view=slab.GetComponent<MeshRenderer>();
+            if(!plateLookTried){plateLookTried=true;plateSkin=Resources.Load<Material>("WorldMaterials/foundry-hot-slag");plateAsh=Resources.Load<Material>("WorldMaterials/foundry-slag-crust");}
+            Material skin=plateSkin;
+            if(skin==null&&colossusPlateMaterial!=null){skin=new Material(colossusPlateMaterial);skin.SetTextureScale("_BaseMap",new Vector2(.3f,.3f));}
+            if(skin==null)skin=ActorFactory.Energy(SlagTone);
+            view.sharedMaterials=plateAsh!=null?new[]{skin,plateAsh}:new[]{skin};
             view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             var plate=new ColossusPlate{health=part,node=node.transform,slab=view,shape=shape,index=i};
             part.Damaged+=(_,packet,amount)=>{CombatActor.PayHit(packet,amount);if(amount>0&&engaged<0)engaged=Time.realtimeSinceStartup;};
             part.Died+=(_,__)=>PlateShed(plate);
             return plate;
+        }
+        static Material plateSkin,plateAsh;static bool plateLookTried;
+        /// <summary>A heat plate's shell, standing on the body's flank and facing out (+z): a dome of slag with a lobed edge (submesh 0), and a band of pale ash round it sloping back
+        /// to the body (submesh 1, vertex colour). As wide and as high as the slab it replaced (2.2 by 2 m), so the target it marks is where it was.</summary>
+        static Mesh PlateMesh(int index)
+        {
+            const int Around=22;float s=index*2.3f+.7f;
+            var points=new List<Vector3>{new(0,0,.32f)};var tones=new List<Color>{Color.white};var skin=new List<int>();var ash=new List<int>();
+            for(int k=0;k<Around;k++)
+            {
+                float a=k*Mathf.PI*2/Around,lobe=.8f+.24f*Mathf.PerlinNoise(Mathf.Cos(a)*1.4f+s,Mathf.Sin(a)*1.4f+s*.6f)+.07f*Mathf.Sin(a*4+s);
+                var d=new Vector3(Mathf.Cos(a)*1.08f,Mathf.Sin(a)*.96f,0);
+                points.Add(d*lobe*.55f+new Vector3(0,0,.25f));tones.Add(Color.white);   // 1+k*4: the dome's shoulder
+                points.Add(d*lobe+new Vector3(0,0,.04f));tones.Add(Color.white);         // 2+k*4: the skin's edge
+                points.Add(d*lobe+new Vector3(0,0,.04f));tones.Add(new Color(.8f,.78f,.75f)); // 3+k*4: the ash's inner edge, where it meets the skin
+                points.Add(d*lobe*1.15f+new Vector3(0,0,-.14f));tones.Add(new Color(.97f,.95f,.92f)); // 4+k*4: the ash's outer edge, down on the body
+            }
+            for(int k=0;k<Around;k++)
+            {
+                int i=1+k*4,j=1+((k+1)%Around)*4;
+                skin.AddRange(new[]{0,i,j});skin.AddRange(new[]{i,i+1,j+1});skin.AddRange(new[]{i,j+1,j});
+                ash.AddRange(new[]{i+2,i+3,j+3});ash.AddRange(new[]{i+2,j+3,j+2});
+            }
+            var mesh=new Mesh{name="Heat plate"};mesh.SetVertices(points);mesh.SetColors(tones);mesh.SetUVs(0,points.ConvertAll(p=>new Vector2(p.x,p.y)*.45f+new Vector2(s,s*.5f)));
+            mesh.subMeshCount=2;mesh.SetTriangles(skin,0);mesh.SetTriangles(ash,1);mesh.RecalculateNormals();mesh.RecalculateBounds();return mesh;
         }
         void ColossusUpdate()
         {
@@ -231,10 +261,11 @@ namespace Lattice.Combat
                 bool dark=Time.time<plate.darkUntil;
                 // Dark, it steams off and fades back toward red over its last two seconds, so the end of the opening can be seen coming.
                 float heat=dark?Mathf.Clamp01(1-(plate.darkUntil-Time.time)/2f)*.6f:1;
-                plate.slab.GetPropertyBlock(colossusBlock);
-                colossusBlock.SetColor("_BaseColor",Color.Lerp(new Color(.36f,.4f,.48f),new Color(1.25f,.62f,.42f),heat));
+                // On its skin only (material 0): hot, the slag's cracks glow through it; dark, it is black glassy skin inside its ash rim (material 1, untouched).
+                plate.slab.GetPropertyBlock(colossusBlock,0);
+                colossusBlock.SetColor("_BaseColor",Color.Lerp(new Color(.22f,.2f,.2f),new Color(.5f,.3f,.22f),heat));
                 colossusBlock.SetColor("_EmissionColor",new Color(2.6f,.95f,.3f)*(heat*(dark?.4f:1.1f+.2f*Mathf.Sin(t*5+plate.index))));
-                plate.slab.SetPropertyBlock(colossusBlock);
+                plate.slab.SetPropertyBlock(colossusBlock,0);
                 if(dark&&Time.frameCount%11==plate.index)CombatVfx.Burst(plate.node.position+Vector3.up*.6f,new Color(.82f,.88f,.92f,.45f),"steam");
             }
         }

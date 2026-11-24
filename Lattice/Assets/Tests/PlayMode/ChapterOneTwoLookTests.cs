@@ -132,43 +132,86 @@ namespace Lattice.Tests.PlayMode
             return drawn/(float)seen;
         }
 
-        /// <summary>The haul road from the outpost to the drill, and the fights on it (SorrelRedesign.Haul, Encounters).</summary>
+        /// <summary>The haul road from the outpost to the drill (SorrelRedesign.Haul).</summary>
         static readonly Vector2[] Haul={new(0,24),new(9,39),new(4,58),new(-8,75),new(-5,94),new(9,111),new(16,129),new(7,145)};
-        static readonly Vector2[] HaulFights={new(9,45),new(-7,75),new(-4,101),new(15,129)};
-        /// <summary>Where the drill site's apron begins: from there on the drill, its bench and its seals are in the frame, which is where the objective's ridges lead.</summary>
-        const float DrillApron=135;
-        static IEnumerable<Vector2> AlongTheHaul(float step)
+        /// <summary>Where nov22b-whole's route stood for its stills on the haul road, from the outpost to the drill's apron, out and back (frames.csv, the last frame of each step): the
+        /// lead's feet, the companion's, and the camera. Every one is in a fight's clearing or at a bend: the route stops there.</summary>
+        static readonly (string still,Vector2 lead,Vector2 partner,Vector3 camera)[] HaulStills=
         {
-            for(int i=1;i<Haul.Length;i++){var a=Haul[i-1];var d=Haul[i]-a;float length=d.magnitude;for(float t=0;t<length;t+=step)yield return a+d*(t/length);}
+            ("s03/007",new(8.795f,38.672f),new(9.008f,35.958f),new(3.436f,12.606f,24.194f)),
+            ("s04/019",new(4.133f,57.452f),new(6.969f,54.244f),new(-.882f,12.514f,43.026f)),
+            ("s04/020",new(-7.694f,74.558f),new(-3.816f,72.487f),new(-12.576f,12.514f,60.192f)),
+            ("s04/031",new(-5.063f,97.448f),new(-3.743f,93.327f),new(-10.218f,12.514f,83.013f)),
+            ("s04/042",new(8.6f,110.614f),new(7.21f,106.502f),new(3.202f,12.514f,96.3f)),
+            ("s04/053",new(15.557f,128.68f),new(14.477f,124.41f),new(10.232f,12.514f,114.306f)),
+            ("s04/055",new(2.871f,106.967f),new(5.607f,109.77f),new(-1.868f,12.514f,93.08f)),
+            ("s04/058",new(-4.741f,98.295f),new(-3.987f,102.201f),new(-9.586f,12.514f,84.559f)),
+            ("s04/059",new(-7.947f,75.375f),new(-9.407f,79.36f),new(-13.001f,12.514f,61.734f)),
+            ("s04/060",new(3.825f,58.255f),new(.044f,60.228f),new(-1.511f,12.514f,44.548f)),
+            ("s04/061",new(8.896f,39.387f),new(6.103f,42.065f),new(3.683f,12.514f,25.736f)),
+        };
+        /// <summary>The spines D368 brought into those frames; the rest stand where the capture had them.</summary>
+        static readonly string[] Brought={"Haul ridge west 1","Haul ridge west 2","Haul ridge west 3","Haul ridge west 3b","Haul ridge west 4","Haul ridge west 6","Haul ridge east 5","Haul ridge east 7"};
+        /// <summary>Of the frame round the HUD's panels, the share these renderers are drawn over (all), and of each side beside the party (the outer thirds, from 300 to 900 px down a
+        /// 1080 frame, round the panels): a ridge at a corner under a panel is not beside anyone.</summary>
+        static (float all,float left,float right) Beside(Renderer[] parts)
+        {
+            const int W=960,H=540;var with=Grab(W,H);foreach(var p in parts)p.enabled=false;var without=Grab(W,H);foreach(var p in parts)p.enabled=true;
+            int seen=0,drawn=0,leftSeen=0,left=0,rightSeen=0,right=0;
+            for(int y=0;y<H;y++)for(int x=0;x<W;x++)
+            {
+                if(UnderAPanel(x,y,W,H))continue;seen++;var a=with[y*W+x];var b=without[y*W+x];
+                bool on=Mathf.Abs(a.r-b.r)+Mathf.Abs(a.g-b.g)+Mathf.Abs(a.b-b.b)>.06f;if(on)drawn++;
+                float down=(H-1-y)*1080f/H;if(down<300||down>=900)continue;
+                if(x<W/3){leftSeen++;if(on)left++;}else if(x>=W*2/3){rightSeen++;if(on)right++;}
+            }
+            return (drawn/(float)seen,left/(float)leftSeen,right/(float)rightSeen);
         }
-        /// <summary>s04/019, 054 (and s02/019, s04/020 before them): "Follow the ridges", and from the haul road the frame was road, scrub and one rock clump. Wherever the road isn't
-        /// crossing a fight's clearing, from the outpost's gate to the drill site's apron, a ridge is in the frame round the HUD's panels now, as the game's camera sees it from the road's middle.
-        /// On the capture's state (only the spine by the outpost, which is where the first round's corner spines were) almost none of the road had one.</summary>
+        /// <summary>s03/007, s04/020, s04/053 (nov22b-whole): "Follow the ridges", and from where the route stood the frames were road and scrub, red rock only at a corner or an edge. D360's
+        /// spines ran 7 m and more from the road's middle and swung out round the fights' clearings, and its check stood the camera on the road between the fights, where the route never
+        /// stops for a still. From the capture's own cameras, with the lead and the companion where they stood: a ridge fills a sixteenth of the frame round the panels and a side beside
+        /// the party, and no ridge stands within 1.5 m of either of them or between either and the lens. With the spines D368 brought in hidden (the rest as the capture had them, which
+        /// understates the capture by its far corners), the named stills have no ridge beside the party.</summary>
         [UnityTest] public IEnumerator TheHaulRoadRunsBetweenRidges()
         {
             NeedsGraphics();yield return Zone("Sorrel_Ridges","met.Survivor");
             var spines=GameObject.Find("Sorrel ridge spines");Assert.IsNotNull(spines,"Sorrel has no ridge spines");
             var ridges=spines.GetComponentsInChildren<MeshRenderer>();
-            Assert.GreaterOrEqual(ridges.Length,14,"a ridge was refused where it stood (CH1_LOOK_RIDGE_REFUSED in the builder's log): "+string.Join(", ",ridges.Select(r=>r.name)));
-            var outpost=ridges.Where(r=>r.name=="Outpost ridge").ToArray();var lead=PartyController.Current.Active;
-            var partner=PartyController.Current.members.First(m=>m!=lead);
-            var now=new List<(Vector2 at,float share)>();var then=new List<(Vector2 at,float share)>();
-            foreach(var p in AlongTheHaul(3))
+            var refused=Brought.Where(n=>ridges.All(r=>r.name!=n)).ToList();
+            Assert.IsEmpty(refused,"a ridge was refused where it stood (CH1_LOOK_RIDGE_REFUSED in the builder's log): "+string.Join(", ",refused));
+            var kept=ridges.Where(r=>!Brought.Contains(r.name)).ToArray();
+            var lead=PartyController.Current.Active;var partner=PartyController.Current.members.First(m=>m!=lead);
+            var view=Resources.Load<CameraProfile>("Definitions/CameraProfile/Ground");var camera=Camera.main;camera.fieldOfView=view.fov;
+            bool Ridge(Collider c)=>c!=null&&c.transform.IsChildOf(spines.transform);
+            const float Seen=1/16f,Side=.15f,Clear=1.5f;
+            var now=new List<string>();var bare=new List<string>();var thenBare=new List<string>();var then=new List<string>();var crowded=new List<string>();var hidden=new List<string>();
+            foreach(var (still,at,beside,eye) in HaulStills)
             {
-                if(p.y<30||p.y>DrillApron||HaulFights.Any(f=>Vector2.Distance(f,p)<10))continue;
-                var feet=new Vector3(p.x,GroundAt(p),p.y);Place(lead,feet+Vector3.up*.1f);Place(partner,feet+new Vector3(1.8f,.1f,-1.6f));
-                Frame(feet,"Ground");yield return null;yield return null;
-                now.Add((p,Share(ridges)));
-                // The capture's state: only the outpost's spine.
-                foreach(var r in ridges.Except(outpost))r.enabled=false;then.Add((p,Share(outpost)));foreach(var r in ridges)r.enabled=true;
+                var feet=new Vector3(at.x,GroundAt(at),at.y);var hers=new Vector3(beside.x,GroundAt(beside),beside.y);
+                Place(lead,feet+Vector3.up*.1f);Place(partner,hers+Vector3.up*.1f);
+                camera.transform.SetPositionAndRotation(eye,Quaternion.Euler(view.pitch,view.yaw,0));yield return null;yield return null;
+                var (all,left,right)=Beside(ridges);string line=$"{still} {all:0.000} (beside L {left:0.000} R {right:0.000})";now.Add(line);
+                if(all<Seen||Mathf.Max(left,right)<Side)bare.Add(line);
+                foreach(var (who,ground) in new[]{("the lead",feet),("the companion",hers)})
+                {
+                    // Solid within 1.5 m of where they stood, from a hand over the ground up: the collision's buried skirt (.45 m under the basin) is below the capsule.
+                    var near=Physics.OverlapCapsule(ground+Vector3.up*(Clear+.1f),ground+Vector3.up*4,Clear,~0,QueryTriggerInteraction.Ignore).Where(Ridge).ToList();
+                    if(near.Count>0)crowded.Add($"{still} {who}: {near[0].name}");
+                    var chest=ground+Vector3.up*1.2f;var toward=chest-eye;
+                    var between=Physics.RaycastAll(eye,toward.normalized,toward.magnitude-.3f,~0,QueryTriggerInteraction.Ignore).Where(h=>Ridge(h.collider)).ToList();
+                    if(between.Count>0)hidden.Add($"{still} {who} behind {between[0].collider.name}");
+                }
+                // The capture's state, near enough: the spines D368 brought in hidden.
+                foreach(var r in ridges)r.enabled=kept.Contains(r);
+                var (was,wasLeft,wasRight)=Beside(kept);foreach(var r in ridges)r.enabled=true;
+                then.Add($"{still} {was:0.000} (beside L {wasLeft:0.000} R {wasRight:0.000})");
+                if(was<Seen||Mathf.Max(wasLeft,wasRight)<Side)thenBare.Add(still);
             }
-            string Say(List<(Vector2 at,float share)> list)=>string.Join(" ",list.Select(s=>$"({s.at.x:0},{s.at.y:0}) {s.share:0.000}"));
-            TestContext.WriteLine("HAUL_RIDGES now: "+Say(now)+"\nHAUL_RIDGES then: "+Say(then));
-            Assert.Greater(now.Count,10,"fixture: the haul road's stretches between its fights");
-            const float Seen=.03f;
-            Assert.Greater(then.Count(s=>s.share<Seen),then.Count*2/3,"fixture: put back as the capture had it, most of the haul road has no ridge in frame: "+Say(then));
-            var bare=now.Where(s=>s.share<Seen).ToList();
-            Assert.IsEmpty(bare,$"from the haul road, where the objective says to follow the ridges, no ridge fills {Seen:P0} of the frame round the panels at: "+Say(bare));
+            TestContext.WriteLine("HAUL_RIDGES now: "+string.Join("; ",now)+"\nHAUL_RIDGES then: "+string.Join("; ",then));
+            Assert.That(thenBare,Is.SupersetOf(new[]{"s03/007","s04/020","s04/053"}),"fixture: with the spines D368 brought in hidden, the named stills have a ridge beside the party: "+string.Join("; ",then));
+            Assert.IsEmpty(bare,$"from where the capture stood on the haul road, no ridge fills {Seen:P0} of the frame and {Side:P0} of a side beside the party at: "+string.Join("; ",bare));
+            Assert.IsEmpty(crowded,$"a ridge stands within {Clear} m of where the capture's party stood: "+string.Join("; ",crowded));
+            Assert.IsEmpty(hidden,"a ridge stands between the capture's camera and the party: "+string.Join("; ",hidden));
         }
         /// <summary>s04/019, 054: the one rock clump either frame had was the same stacked rubble, at the bend below the strata and again past the upper ore. The verge's clumps (a
         /// rock three quarters of a metre tall or more within six and a half metres of the haul road's middle) are each a different piece.</summary>

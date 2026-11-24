@@ -33,7 +33,9 @@ namespace Lattice.EditorTools
                     e.bodySegment=ZoneKit.Prefab("Enemies","MotherBody");e.tailSegment=ZoneKit.Prefab("Enemies","MotherTail");
                     // Sized from the shared length test's flat out against her in the flight yard (BOSS_RATE MotherOfDoors 1,453 a second at Sync 27, November 14): 80,000 lasts 183 s at
                     // the assumed .3 and 220 s at a quarter, inside her sheet's 120 to 300.
-                    e.integrity=80000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{still};
+                    // 105,000 since D364: her clamps ease over two of her slacks and her room ran 131 to 135 s in the player (nov23-recon-a-63, -b-63), so her yard is sized to last
+                    // as long (about 133 s at the sheet's .53 of 1,491 a second; 80,000 left it 101 s).
+                    e.integrity=105000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{still};
                     e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1500;e.scrip=0;e.scrap=0;e.boss=true;
                     e.bossMusicId="Boss of the Ages";e.yieldsOnDefeat=false;e.heavyDeath=false;e.drawnScale=1;e.motion=EnemyMotion.None;
                     e.capsuleRadius=0;e.capsuleHeight=BossController.MotherTune.Height;e.lootTable=null;});

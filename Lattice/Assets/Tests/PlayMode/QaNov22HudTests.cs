@@ -340,12 +340,13 @@ namespace Lattice.Tests.PlayMode
             return Rect.MinMaxRect(Mathf.Min(one.x,two.x),Mathf.Min(one.y,two.y),Mathf.Max(one.x,two.x),Mathf.Max(one.y,two.y));
         }
         /// <summary>A floor word through a conversation closing, at a run past the vitals' foot and back, and under a hero who stands on it and steps off: every frame it is read
-        /// (full strength), a trace (a body on its letters) or gone. Anything between is the ghost the capture caught.</summary>
+        /// (full strength) or gone. Anything between is the ghost the capture caught: since D365 that takes in the old trace under a body (.08), which the player drew a third
+        /// of the way to the letters.</summary>
         IEnumerator Ghosts(List<string> faults)
         {
             var camera=Camera.main;float pixel=camera.pixelHeight/1080f;var sign=FixtureSign("FIRST ARCH",false);
             void Lay(Vector2 screen){sign.transform.position=Under(screen,.05f)+Vector3.up*.05f;}
-            void Look(string when){float a=sign.alpha;if(a>.1f&&a<.95f)faults.Add($"{when}: the word at {a:0.00}");}
+            void Look(string when){float a=sign.alpha;if(a>.01f&&a<.95f)faults.Add($"{when}: the word at {a:0.00}");}
             // Open floor: the first of these places where the word shows (a test screen is often 4:3, where the panels reach further in).
             var open=Vector2.zero;
             foreach(var share in new[]{new Vector2(.3f,.66f),new Vector2(.68f,.6f),new Vector2(.62f,.36f),new Vector2(.36f,.36f),new Vector2(.72f,.45f)})
@@ -382,7 +383,7 @@ namespace Lattice.Tests.PlayMode
             sign.transform.position=hero.transform.position+Vector3.up*1.1f+TowardCamera*1.2f;yield return Settle(.5f);
             var letters=Letters(sign);var body=Body(hero);float over=Mathf.Min(letters.yMax,body.yMax)-Mathf.Max(letters.yMin,body.yMin);
             if(!letters.Overlaps(body)||over<letters.height*.5f)faults.Add($"fixture: the sign's letters {letters} aren't over the hero {body}");
-            else if(sign.alpha>.1f)faults.Add($"a hanging sign stays at {sign.alpha:0.00} across the hero under it");
+            else if(sign.alpha>.01f)faults.Add($"a hanging sign stays at {sign.alpha:0.00} across the hero under it");
             Object.Destroy(sign.gameObject);yield return null;
         }
         [UnityTest] public IEnumerator AHangingSignStepsAsideForAHerosBodyAndANameStaysWithItsPerson()
@@ -396,7 +397,7 @@ namespace Lattice.Tests.PlayMode
             Object.Destroy(name.gameObject);
         }
         /// <summary>A word lying under the plane in a flight zone (a gate's name, a pad's) with the lead's ship over its letters: drawn nearer the camera than it lies, it was drawn
-        /// over the ship. It goes to its trace while the hull is over it and comes back after.</summary>
+        /// over the ship. It goes while the hull is over it (no trace since D365) and comes back after.</summary>
         IEnumerator UnderAShip(List<string> faults)
         {
             var ship=Hero;ship.GetComponent<FlightMotor>().Halt();var camera=Camera.main;
@@ -405,7 +406,7 @@ namespace Lattice.Tests.PlayMode
             float hull=HeroCollision.HullRadius(ship.character);PanelFade.ScreenBounds(camera,new Bounds(ship.transform.position,new Vector3(hull*2,hull*.5f,hull*2)),out var body);
             var letters=Letters(sign);float over=Mathf.Min(letters.yMax,body.yMax)-Mathf.Max(letters.yMin,body.yMin);
             if(!letters.Overlaps(body)||over<letters.height*.25f)faults.Add($"fixture: the word's letters {letters} aren't under the ship {body}");
-            else if(sign.alpha>.1f)faults.Add($"a word lying under the plane is drawn at {sign.alpha:0.00} over the ship flying across it");
+            else if(sign.alpha>.01f)faults.Add($"a word lying under the plane is drawn at {sign.alpha:0.00} over the ship flying across it");
             sign.transform.position=ship.transform.position+Vector3.forward*9+Vector3.down*.7f;yield return Settle(.6f);
             if(sign.alpha<.95f)faults.Add($"a word lying ahead of the ship, clear of it, stays at {sign.alpha:0.00}");
             Object.Destroy(sign.gameObject);yield return null;

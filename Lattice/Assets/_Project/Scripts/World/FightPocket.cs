@@ -48,7 +48,8 @@ namespace Lattice.World
         void OnDisable()
         {
             var zone=ZoneController.Current;var party=PartyController.Current;
-            bool whole=zone!=null&&zone.isActiveAndEnabled&&party!=null&&party.members!=null&&System.Array.TrueForAll(party.members,m=>m!=null);
+            // The services go at an unload too, sometimes before this does (suite nov24a, the Warmaster's field: the zone's Apply threw on them).
+            bool whole=GameServices.Current!=null&&zone!=null&&zone.isActiveAndEnabled&&party!=null&&party.members!=null&&System.Array.TrueForAll(party.members,m=>m!=null);
             if(inside&&whole){zone.FightPocket(false);Debug.Log("FIGHT_POCKET "+name+" out");}
             inside=false;
         }

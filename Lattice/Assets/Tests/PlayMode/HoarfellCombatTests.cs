@@ -701,6 +701,33 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(landed,0,$"a hound in the gap behind Rig three stood {Flat(hound.transform.position,standAt):0.0} m from the lead, round the rig's corner, for 4 s while he swung at it {swings} times and landed nothing");
         }
 
+        /// <summary>Cold in its room it is outlasted, as its goal says (D364): its bar comes down no faster than its heat fails, from where it stood as the wall slept to nothing over
+        /// <see cref="BossController.MarshalTune.HeatSeconds"/>, so a blow big enough to end the fight as it shifts takes only what the frost has taken. Open after every move, it lasted 30
+        /// to 48 s cold in the player (Builds/quality/nov22b-whole s36, nov22-recon-h-36 and -k-36).</summary>
+        [UnityTest] public IEnumerator ColdInItsRoomItsBarComesDownNoFasterThanItsHeatFails()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,-6));
+            var couplings=Couplings(At(0,0,0));yield return Frames(2);
+            var marshal=Enemy("HostMarshal",At(0,.1f,0));yield return Frames(3);var boss=marshal.GetComponent<BossController>();var body=marshal.Health;
+            marshal.Passive=false;foreach(var coupling in couplings)Kill(coupling.Health,hero);yield return Frames(2);
+            // MARSHAL_COLD and not MARSHAL_COLDER (a coupling broken): the wall asleep.
+            yield return Until(()=>Said("MARSHAL_COLD heat"),9,hero);Assert.IsTrue(Said("MARSHAL_COLD heat"),"fixture: three couplings broken and the wall never slept");
+            // Past the shift's own brace, when nothing lands on it.
+            yield return Until(()=>Said("BOSS_SHIFT HostMarshal 2")&&GameTime.Now>body.InvulnerableUntil+.05f,4,hero);
+            Put(hero,At(0,.05f,-40));float from=body.integrity,blow=body.maximum*.4f;
+            // The old way first: its bar held nowhere, the blow takes it far under what its heat still holds.
+            var holds=body.Holds;body.Holds=null;Hit(body,hero,blow);
+            Assert.Less(body.integrity,from*boss.MarshalHeatLeft-blow*.5f,"fixture: with its bar held nowhere the blow didn't land, so the check can't see the fault");
+            body.integrity=from;body.Holds=holds;
+            Hit(body,hero,blow);yield return Frames(2);float left=boss.MarshalHeatLeft;
+            Assert.Greater(left,.8f,"fixture: its heat was already failing well before the blow");Assert.IsTrue(body.Alive,"the blow ended the fight as it went cold");
+            Assert.GreaterOrEqual(body.integrity,from*left-2,"a blow took its bar past what its failing heat still holds");
+            // What the frost has taken since comes off.
+            yield return Wait(3,hero);float later=boss.MarshalHeatLeft;Hit(body,hero,blow);
+            Assert.AreEqual(from*later,body.integrity,from*.02f,"three seconds on, a blow doesn't take what its heat has lost");
+            StringAssert.Contains("Outlast",boss.FightGoal(""));marshal.Passive=true;
+        }
+
         // ------------------------------------------------------------------ what the fight is sized on
         /// <summary>The driver's share of this test's own flat out. .51 since D362 (November 22): at .3 the two terms gave 199 s for 125,000 at the 1,791 to 1,811 a second read
         /// that morning (d355-chapters), and today's scout felled it in 115.5 s (Builds/quality/nov22-recon-e s36): .52, rounded down.</summary>

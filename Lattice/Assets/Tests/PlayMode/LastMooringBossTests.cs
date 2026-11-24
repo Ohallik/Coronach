@@ -526,6 +526,34 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(0,lost,$"the ship in flight went out of the view showing her going for {lost} of {seen+lost} frames; first: {first}");
         }
 
+        /// <summary>A clamp of hers is held through two of her slacks before it opens, a notch each (D364), so a shelf is worked through one of her moves between them: one slack each left
+        /// her room four quick cycles, 101 to 104 s in the player against a bar from 120 (Builds/quality/nov22b-whole s63, nov22-recon-h-63 and -k-63). A notch eased stays while the hand
+        /// is off it, and a tender at work on it winds it back.</summary>
+        [UnityTest] public IEnumerator AClampOfHersIsHeldThroughTwoOfHerSlacksANotchEach()
+        {
+            roomClamps=4;yield return Load("Arena_Flight");
+            var boss=Her(false);yield return Frames(3);
+            var lead=Lead;Fresh(lead);Fresh(Partner);var berth=Berth.Find("Clamp1");
+            yield return Until(()=>berth.MayMove,2,lead);Put(lead,berth.pad.transform.position);yield return Press(berth.pad);
+            var seat=BridleClamp.All.First(c=>c.index==1);lead=Lead;Fresh(lead);Fresh(Partner);
+            // Built wrong on purpose: one slack, as it was.
+            if(Broken)seat.slacks=1;
+            int notchedAt=-1,openAt=-1;
+            for(float end=Time.time+60;seat.State==BridleClamp.Hold.Shut&&Time.time<end;)
+            {
+                foreach(var hero in PartyController.Current.members)if(hero.Health.Alive)hero.motor.Move(Vector2.zero,false,false);
+                foreach(var t in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>Tended.IsTender(e.Health)&&e.Health.Alive))t.Health.Receive(new DamagePacket{source=Partner.Health,amount=1e7f,type=DamageType.Pulse});
+                if(seat.Holder==null&&lead.CanAct&&lead.State!=ActorState.Dodge){if(Flat(lead.transform.position,seat.transform.position)>.5f)Put(lead,seat.transform.position);if(seat.Available)seat.Interact();}
+                lead.Health.InvulnerableUntil=GameTime.Now+1;
+                yield return null;
+            }
+            notchedAt=log.FindIndex(l=>l.StartsWith("CLAMP_NOTCH 1 1/2"));openAt=log.FindIndex(l=>l.StartsWith("CLAMP_OPEN 1"));
+            Assert.AreNotEqual(BridleClamp.Hold.Shut,seat.State,"clamp 1 never opened in 60 s on its shelf");
+            Assert.GreaterOrEqual(notchedAt,0,"her clamp opened on one slack: "+string.Join(", ",log.Where(l=>l.StartsWith("CLAMP_")||l.StartsWith("MOTHER_SLACK"))));
+            Assert.Greater(openAt,notchedAt,"her clamp opened before its first notch");
+            Assert.Greater(log.Skip(notchedAt).Count(l=>l.StartsWith("MOTHER_SLACK")),0,"the second notch came without a second slack of hers");
+        }
+
         // ------------------------------------------------------------------ her length, really docking
         /// <summary>The clamps' guns are the first combat engineer's encounters, not hers: each is allowed this long (two guns flown down at the chapter's arrival).</summary>
         /// 12 since D362 (November 22), where 24 was allowed: today's scout was through her room, guns and all, in 103.8 s (Builds/quality/nov22-recon-g s63), and this test's own

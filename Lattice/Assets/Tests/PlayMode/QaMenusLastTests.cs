@@ -223,7 +223,12 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(Body("Taren").resonance,plain,"fixture: Taren's module counts");
             var menu=Menu;menu.Open(PauseMenu.PartyPage);yield return null;
             foreach(var hero in PartyController.Current.members)
-                StringAssert.Contains($"{DisplayNames.Speaker(hero.character)}  ·  Response {hero.response:0}  ·  Resonance {hero.resonance:0}  ·  Fortune {hero.fortune:0}",Note(),$"the page doesn't give {hero.character}'s other three stats as the fight has them");
+            {
+                string Cell(string stat)=>Label($"Totals_{hero.character}_{stat}")?.GetParsedText();
+                Assert.AreEqual($"{hero.response:0}",Cell("Response"),$"the page doesn't give {hero.character}'s Response as the fight has it");
+                Assert.AreEqual($"{hero.resonance:0}",Cell("Resonance"),$"the page doesn't give {hero.character}'s Resonance as the fight has it");
+                Assert.AreEqual($"{hero.fortune:0}",Cell("Fortune"),$"the page doesn't give {hero.character}'s Fortune as the fight has it");
+            }
             StringAssert.Contains($"{State.scrip} scrip",Note(),"the note lost the party's scrip");StringAssert.Contains("autosaves",Note(),"the note lost what it says about saving");
             menu.Close();yield return null;
             // The longest it can read: the level cap, every part on, a fortune in scrip.
@@ -233,7 +238,7 @@ namespace Lattice.Tests.PlayMode
             var note=Label("Note");var box=note.rectTransform.rect;
             Assert.GreaterOrEqual(note.fontSize,24,"the note is under the type floor");
             Assert.LessOrEqual(note.GetPreferredValues(note.text,box.width,0).y,box.height+1,"the note runs out of its box: "+note.text);
-            foreach(var hero in PartyController.Current.members)StringAssert.Contains($"Resonance {hero.resonance:0}",Note());
+            foreach(var hero in PartyController.Current.members)Assert.AreEqual($"{hero.resonance:0}",Label($"Totals_{hero.character}_Resonance")?.GetParsedText());
             menu.Close();
         }
 

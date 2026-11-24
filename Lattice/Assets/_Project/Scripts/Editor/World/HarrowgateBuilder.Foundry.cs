@@ -36,7 +36,8 @@ namespace Lattice.EditorTools
         {
             // The key is the furnaces' glow, amber, and the ambient the warm dark of a room full of fires; shade goes cool, so iron and stone still model.
             // (Dark enough that the floor's own courses, rivets and clinker stopped reading at all, the first try measured as plain floor nearly everywhere: look_density.)
-            // Shade toned slate, not blue: under this warm ambient a blue split turned shadows on the floor lavender, nearest a purple marking of anything in the room
+            // Shade toned slate, not blue (the floor's and the sand's own shadow tint is the furnaces' amber dimmed, D371: against the warm key a neutral or blue tint laid the heroes' shadows lavender on the plate, s48/075):
+            // under this warm ambient a blue split turned shadows on the floor lavender, nearest a purple marking of anything in the room
             // (render scoria-lookfix-07, gallery; the round ones there were the cranes' crucibles, which now cast none).
             ZoneLook.Register(FoundryZone,new ZoneLook.Spec{sun=C(1f,.72f,.5f),sunIntensity=1f,sunPitch=56,shadowStrength=.66f,
                 sky=C(.27f,.2f,.17f),equator=C(.31f,.21f,.16f),ground=C(.13f,.08f,.06f),
@@ -238,12 +239,15 @@ namespace Lattice.EditorTools
                 var flow=ZoneKit.Texture("Foundry/foundry-flow",256,(u,v)=>{float lit=Crack(u,v).r,swirl=ZoneKit.Cloud(u,v,5,53);float glow=.55f+.25f*swirl+.45f*lit;return new Color(glow,glow*.9f,glow*.75f,1);});
                 // Moulding sand: fine, pale, with tool marks.
                 var sand=ZoneKit.Texture("Foundry/foundry-sand",256,(u,v)=>{float grain=ZoneKit.Cloud(u,v,30,61),mark=Mathf.Abs(Mathf.Repeat(u*9+ZoneKit.Cloud(u,v,4,63)*.6f,1)-.5f);float tone=.66f+.12f*(grain-.5f)-(mark<.03f?.08f:0);return new Color(tone*1.04f,tone,tone*.9f,1);});
-                FloorMat=ZoneKit.Toon("foundry-floor",flags,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",Color.white);m.SetFloat("_BaseMapStrength",.9f);m.SetColor("_ShadowTint",new Color(.52f,.52f,.6f));m.SetFloat("_LightFloor",.2f);});
+                // The floor's and the sand's least light is low (D380): it is a grey per channel, and under the furnaces' key (linear (1, .48, .21)) a hero's shadow took nearly all
+                // its blue and much of its green from it while its red stayed the light's, so the shadow came out a lavender patch beside each hero, bluer than the lit plate round it
+                // (s48/075, s48/232); the shadow tint could not change it. At .05 the shade under a body is the warm floor darkened.
+                FloorMat=ZoneKit.Toon("foundry-floor",flags,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",Color.white);m.SetFloat("_BaseMapStrength",.9f);m.SetColor("_ShadowTint",new Color(.56f,.45f,.37f));m.SetFloat("_LightFloor",.05f);});
                 WallMat=ZoneKit.Toon("foundry-masonry",masonry,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.66f,.62f,.62f));m.SetColor("_ShadowTint",new Color(.46f,.46f,.6f));m.SetFloat("_LightFloor",.24f);});
                 Iron=ZoneKit.Toon("foundry-iron",iron,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.76f,.72f,.7f));m.SetColor("_ShadowTint",new Color(.46f,.48f,.6f));m.SetColor("_RimColor",new Color(.5f,.46f,.42f));m.SetFloat("_LightFloor",.26f);});
                 Brass=ZoneKit.Toon("foundry-brass",iron,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.95f,.76f,.48f));m.SetColor("_ShadowTint",new Color(.5f,.48f,.58f));m.SetColor("_RimColor",new Color(.7f,.56f,.36f));m.SetFloat("_LightFloor",.3f);});
                 Soot=ZoneKit.Toon("foundry-soot",masonry,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.42f,.38f,.36f));m.SetColor("_ShadowTint",new Color(.4f,.4f,.52f));m.SetFloat("_LightFloor",.18f);});
-                Sand=ZoneKit.Toon("foundry-sand",sand,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.84f,.78f,.68f));m.SetColor("_ShadowTint",new Color(.5f,.5f,.62f));m.SetFloat("_LightFloor",.24f);});
+                Sand=ZoneKit.Toon("foundry-sand",sand,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.84f,.78f,.68f));m.SetColor("_ShadowTint",new Color(.56f,.46f,.38f));m.SetFloat("_LightFloor",.05f);});
                 // The metal in a trough: crust by day, lit from inside by a PourChannel's property block while it pours. Opaque, so it draws before every marking.
                 Melt=ZoneKit.Toon("foundry-melt",crust,m=>{m.SetTexture("_EmissionMap",flow);m.SetColor("_EmissionColor",Color.black);m.SetColor("_BaseColor",new Color(.16f,.13f,.12f));m.SetFloat("_LightFloor",.2f);});
                 // What glows for good, and only on the walls: the furnaces' mouths and a tap's spout. Never laid on the floor (D217).
@@ -264,8 +268,9 @@ namespace Lattice.EditorTools
                 Quenched=ZoneKit.Toon("foundry-quench",null,m=>{m.SetColor("_BaseColor",new Color(.14f,.27f,.28f));m.SetColor("_EmissionColor",new Color(.02f,.06f,.06f));m.SetFloat("_LightFloor",.3f);});
                 // The Muster's work lamps: cold white glass, so a lamp is never read as heat.
                 Lamp=ZoneKit.Toon("foundry-lamp",null,m=>{m.SetColor("_BaseColor",new Color(.9f,.95f,1));m.SetColor("_EmissionColor",new Color(1.1f,1.2f,1.3f));});
-                // Coolant: a pale green-teal, clear over the bed going to a dark teal: neither the party's cream and cyan nor a danger's orange, red or purple.
-                Coolant=WaterKit.Look("foundry-coolant",new Color(.46f,.66f,.62f,.55f),new Color(.1f,.26f,.28f,.95f),new Color(.84f,.94f,.9f,1),.6f,4.2f,.03f);
+                // Coolant: a green-teal, going to a dark teal over the bed: neither the party's cream and cyan nor a danger's orange, red or purple. Pale (.46, .66, .62) at .55 over
+                // a trough a hand deep it read as a flat pale-green band laid across the charging floor (whole-game capture of November 22, s48/075, D371).
+                Coolant=WaterKit.Look("foundry-coolant",new Color(.3f,.5f,.47f,.72f),new Color(.1f,.26f,.28f,.95f),new Color(.84f,.94f,.9f,1),.6f,4.2f,.03f);
                 // After the ground kit's flat details (Transparent-20), before danger markings (-10): a marking over a flooded trough lies on the water.
                 Coolant.renderQueue=(int)UnityEngine.Rendering.RenderQueue.Transparent-15;
                 // What the whole-game capture found missing (November 20, "no heat in it"): castings fresh out of their moulds, dull red going to orange where they are thickest, on racks,
@@ -833,6 +838,10 @@ namespace Lattice.EditorTools
                     var d=new Vector2(Mathf.Sin((bearing+(k-1)*16)*Mathf.Deg2Rad),Mathf.Cos((bearing+(k-1)*16)*Mathf.Deg2Rad));var at=CageAt+d*(6.4f+(k%2)*.9f);
                     var who=kit.Townsperson(bodies[n%bodies.Length],new Vector3(at.x,0,at.y),Mathf.Atan2(-d.x,-d.y)*Mathf.Rad2Deg,tints[(n*3+rng.Next(2))%tints.Length],"BrekkBody");
                     Folk.Set(kit,who,n);
+                    // Each in a dye of their own body (tools/townsfolk_dyes.py: teal, oxblood, moss, indigo), round the clamps in turn so the three at one clamp wear three: in
+                    // their own paintings most wear a pale shirt and dark trousers, and two side by side read as twins at play size however their heads or builds differed (s49/140, D380).
+                    var worn=TownsfolkLook.Body(who);var dye=worn!=null?AssetDatabase.LoadAssetAtPath<Material>($"Assets/_Project/Art/Generated/Townsfolk/{bodies[n%bodies.Length]}/{bodies[n%bodies.Length]}_dye{1+n%4}.mat"):null;
+                    if(dye!=null){worn.sharedMaterial=dye;PrefabUtility.RecordPrefabInstancePropertyModifications(worn);}
                     foreach(var t in who.GetComponentsInChildren<Transform>())t.gameObject.isStatic=false;
                     who.name="Smith "+n;who.transform.SetParent(smiths.transform,true);
                     // In at the door in ones and twos, from further back the later they come, round the cage's side to their clamp.

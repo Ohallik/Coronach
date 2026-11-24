@@ -164,7 +164,7 @@ namespace Lattice.World
                 {
                     var run=Flat(to-from);if(run.sqrMagnitude<.01f)continue;
                     // Each stretch a little over its own length, so the stretches of a bend overlap and nothing between them is unmarked.
-                    var mark=Telegraph.Line(from-run.normalized*.4f,run,run.magnitude+.8f,width,1,Telegraph.Threat);mark.Steady=true;mark.owner=this;
+                    var mark=Telegraph.Line(from-run.normalized*.4f,run,run.magnitude+.8f,width,1,Telegraph.Threat,false,Total+.8f);mark.Steady=true;mark.owner=this;
                     marked[j]=(mark,GameTime.Now);
                 }
                 else if(!hot&&marked.TryGetValue(j,out var gone)){if(gone.mark!=null)gone.mark.Release();marked.Remove(j);}

@@ -518,6 +518,85 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(0,LineReach(was),.001f,"fixture: the check can't see a waterline that reaches nowhere");Object.Destroy(was);
             foreach(var (key,art) in found)Assert.GreaterOrEqual(LineReach(art.material),.4f,key+"'s waterline reaches "+LineReach(art.material).ToString("0.00")+" m of water: it can't be seen at a raft's edge");
         }
+        /// <summary>Driftreed's rafts as WendmireBuilder.Rafts lays them (centre, half its size, yaw degrees, the corners' radius), and metres from their edge, negative on them (RaftLand).</summary>
+        static readonly (Vector2 c,Vector2 half,float yaw,float round)[] RaftsOnPlan={(new(0,12),new(15,6),0,2.5f),(new(0,46),new(16,12),0,3),(new(21,41),new(10,6.5f),0,2.5f),
+            (new(0,86),new(20,11),0,3),(new(-40,44),new(10,9),8,2.5f),(new(40,58),new(10,8),-10,2.5f),(new(46,96),new(8,7),15,2.5f)};
+        static float RaftEdge(Vector2 p)
+        {
+            float d=float.PositiveInfinity;
+            foreach(var (c,half,yaw,round) in RaftsOnPlan)
+            {
+                float a=-yaw*Mathf.Deg2Rad,cos=Mathf.Cos(a),sin=Mathf.Sin(a);var v=p-c;var q=new Vector2(v.x*cos-v.y*sin,v.x*sin+v.y*cos);
+                var e=new Vector2(Mathf.Abs(q.x)-half.x+round,Mathf.Abs(q.y)-half.y+round);
+                d=Mathf.Min(d,new Vector2(Mathf.Max(e.x,0),Mathf.Max(e.y,0)).magnitude+Mathf.Min(Mathf.Max(e.x,e.y),0)-round);
+            }
+            return d;
+        }
+        /// <summary>The pale line runs round every raft as the play camera sees it. From scene depth alone it reaches .64 m of water from where a raft's side goes in, and from the fixed
+        /// camera every side but the lens's hides that strip behind its knee-high rim: the first water seen past a north or east rim lies over more than a metre and a half of water, and
+        /// the rafts met dark water with no line (s24 116 and 178, November 22). At that first water, round each raft, the line's strength (the licensed water's from depth, the bed along
+        /// the camera's ray through the landform's collider, plus the sheet's vertex red where the material reads it) reaches the material's falloff, where its line is solid.</summary>
+        [UnityTest] public IEnumerator EveryRaftsWaterlineIsInSightFromThePlayCamera()
+        {
+            Heard();yield return Zone("Driftreed");
+            var sheet=All<BiomePatch>().SingleOrDefault(p=>p.resourceKey=="Driftreed-mire");Assert.IsNotNull(sheet,"fixture: Driftreed's water sheet");
+            if(!sheet.UsingLocalArt)Assert.Ignore("the licensed water isn't installed here: the public toon water draws the mire");
+            var land=All<MeshCollider>().Single(c=>c.name=="Reed rafts");
+            var water=sheet.GetComponent<MeshRenderer>().sharedMaterial;var mesh=sheet.GetComponent<MeshFilter>().sharedMesh;var points=mesh.vertices;var red=mesh.colors;
+            Assert.IsTrue(water.IsKeywordEnabled("_INTERSECTION_FOAM")&&water.GetColor("_IntersectionColor").a>.3f,"the mire's water draws no line at all");
+            var origin=points[0];float cell=points[1].x-origin.x;int nx=1;while(nx<points.Length&&Mathf.Abs(points[nx].z-origin.z)<1e-4f)nx++;
+            float level=sheet.transform.TransformPoint(origin).y,length=water.GetFloat("_IntersectionLength"),falloff=water.GetFloat("_IntersectionFalloff");
+            var toLens=SightlineAudit.ToCamera;
+            // The sheet's red where a point lies, as its two triangles a cell share it (a cell's diagonal runs from its low corner to its high one, as ZoneKit.Water lays them).
+            float Red(Vector3 at)
+            {
+                if(red==null||red.Length!=points.Length)return 0;
+                var local=sheet.transform.InverseTransformPoint(at);float gx=(local.x-origin.x)/cell,gz=(local.z-origin.z)/cell;int x=Mathf.FloorToInt(gx),z=Mathf.FloorToInt(gz);float fx=gx-x,fz=gz-z;int i=z*nx+x;
+                float c00=red[i].r,c10=red[i+1].r,c01=red[i+nx].r,c11=red[i+nx+1].r;
+                return fz>=fx?c00+fz*(c01-c00)+fx*(c11-c01):c00+fx*(c10-c00)+fz*(c11-c10);
+            }
+            float Line(Vector3 at,float source)
+            {
+                float depth=0;
+                if(source!=1&&land.Raycast(new Ray(at,-toLens),out var bed,30))depth=Mathf.Max(0,1-Mathf.Exp(level-bed.point.y)/length);
+                return Mathf.Clamp01(depth+(source>0?Red(at):0));
+            }
+            // Round each raft from its centre: out to its edge, then on until the camera sees water past the rim (the landform alone; a deck or a skiff may stand over it).
+            var firstSeen=new List<(int raft,Vector3 at)>();
+            for(int r=0;r<RaftsOnPlan.Length;r++)
+            {
+                var (c,half,_,_)=RaftsOnPlan[r];int around=Mathf.CeilToInt((half.x+half.y)*4/.5f);
+                for(int k=0;k<around;k++)
+                {
+                    float a=k*Mathf.PI*2/around;var dir=new Vector2(Mathf.Cos(a),Mathf.Sin(a));float s=0;
+                    while(RaftEdge(c+dir*s)<0&&s<60)s+=.05f;
+                    for(float t=0;t<3;t+=.05f)
+                    {
+                        var p=c+dir*(s+t);if(RaftEdge(p)<0)break;
+                        var at=new Vector3(p.x,level,p.y);
+                        if(land.Raycast(new Ray(at+toLens*30,-toLens),out _,29.98f))continue;
+                        firstSeen.Add((r,at));break;
+                    }
+                }
+            }
+            Assert.Greater(firstSeen.Count,200,"fixture: the water first seen round the rafts");
+            float source=water.GetFloat("_IntersectionSource");
+            // The check sees the fault: the line from depth alone, as the mire drew it until November 23, is solid at the lens's side of each raft and nowhere past its other rims.
+            float was=firstSeen.Count(f=>Line(f.at,0)>=falloff)/(float)firstSeen.Count;
+            Assert.Less(was,.7f,"fixture: the check can't see a line that misses the rims the camera looks over");
+            for(int r=0;r<RaftsOnPlan.Length;r++)
+            {
+                var round=firstSeen.Where(f=>f.raft==r).ToArray();if(round.Length==0)continue;
+                var dark=round.Where(f=>Line(f.at,source)<falloff).ToArray();
+                Assert.LessOrEqual(dark.Length,round.Length/10,$"the raft at {RaftsOnPlan[r].c} meets dark water with no line at {dark.Length} of {round.Length} places round it, the first at {(dark.Length>0?dark[0].at:Vector3.zero)}");
+            }
+            // And the mask is the rafts' alone: open water well off every raft gets none, or the whole mire is scum.
+            for(int i=0;i<points.Length;i++)
+            {
+                var p=sheet.transform.TransformPoint(points[i]);
+                if(red!=null&&red.Length==points.Length&&RaftEdge(new Vector2(p.x,p.z))>3.5f)Assert.Less(red[i].r,.01f,$"open water at {p} carries the rafts' line");
+            }
+        }
         [UnityTest] public IEnumerator DriftreedIsLivedInByIluInSeveralCoatsWhoStandOffTheWaysAndNeverTwoAlikeSideBySide()
         {
             Heard();yield return Zone("Driftreed");

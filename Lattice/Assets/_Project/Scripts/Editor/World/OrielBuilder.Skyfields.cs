@@ -280,19 +280,16 @@ namespace Lattice.EditorTools
                 // The stair gardens' own raking: rows of fans, each three arcs deep, every row set half a fan over from the last. Raked by hand: each fan's centre a little off its
                 // neighbour's, its arcs a little more or fewer, some raked deep and some gone soft, over a sheet that covers more ground before it comes round. Drawn evenly at a
                 // groove of .22 every 83 cm, it read from the play camera as a bold wallpaper of scallops (s39/242, s39/245, D359).
+                // D378: still a wallpaper at the lighter groove (nov22b s39/242, 245): any rows of one motif repeat plainly at play size. The beds are raked in waves instead,
+                // sweeps a stride apart running the bed's length, swelling and narrowing as the hand went, five tines to a sweep, some raked deep and some gone soft: lines that
+                // carry on, with no motif to count.
                 var waves=ZoneKit.Texture("Oriel/skyfields-waves",512,(u,v)=>
                 {
-                    float best=9;int rows=8,cols=6,fan=0;
-                    for(int r=-1;r<=rows;r++)for(int c=-1;c<=cols;c++)
-                    {
-                        int wr=(r+rows)%rows,wc=(c+cols)%cols;float jx=(ZoneKit.Tile(wc*1.7f+wr*3.1f,wr*.9f,64,97)-.5f)*.3f,jy=(ZoneKit.Tile(wr*2.3f,wc*1.3f+wr,64,99)-.5f)*.2f;
-                        float cx=(c+(r%2==0?0:.5f)+jx)/cols,cy=(r+.5f+jy)/rows;var d=new Vector2((u-cx)*cols,(v-cy)*rows*.66f);
-                        if(d.y<-.05f)continue;float rad=d.magnitude;if(rad<best){best=rad;fan=wr*cols+wc;}
-                    }
-                    float own=ZoneKit.Tile(fan*1.37f,fan*.71f,128,101),arcs=3+own*1.2f;
-                    float t=Mathf.Repeat(best*arcs,1);float groove=Mathf.Exp(-Mathf.Pow((t-.5f)/.14f,2));float grain=ZoneKit.Tile(u*120,v*120,120,91);
-                    float depth=.025f+.04f*ZoneKit.Smooth(.2f,.8f,ZoneKit.Cloud(u,v,3,103));
-                    float tone=.8f-depth*groove+.04f*(grain-.5f)+.03f*(ZoneKit.Cloud(u,v,5,105)-.5f);return new Color(tone*1.02f,tone,tone*.93f,1);
+                    float swell=.45f+.55f*ZoneKit.Cloud(u,v,2,107);
+                    float row=v*9+swell*.34f*Mathf.Sin((u*2+ZoneKit.Cloud(u,v,3,109)*.8f)*Mathf.PI*2)+ZoneKit.Cloud(u,v,4,111)*.7f;
+                    float t=Mathf.Repeat(row,1);float groove=Mathf.Exp(-Mathf.Pow((t-.5f)/.15f,2)),tine=Mathf.Abs(Mathf.Sin(row*5*Mathf.PI));float grain=ZoneKit.Tile(u*120,v*120,120,91);
+                    float depth=.07f+.06f*ZoneKit.Smooth(.2f,.8f,ZoneKit.Cloud(u,v,3,103));
+                    float tone=.8f-depth*groove-depth*.3f*tine+.04f*(grain-.5f)+.03f*(ZoneKit.Cloud(u,v,5,105)-.5f);return new Color(tone*1.02f,tone,tone*.93f,1);
                 });
                 Waves=ZoneKit.Toon("skyfields-waves",waves,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.96f,.93f,.84f));m.SetFloat("_LightFloor",.22f);m.SetColor("_ShadowTint",new Color(.56f,.6f,.74f));});
                 // The Choir's own glass, so the door and what lies beyond it are one body: the dungeon's engineer tunes it; this only draws with it (ours if theirs isn't made yet).
@@ -308,7 +305,16 @@ namespace Lattice.EditorTools
             static (int course,int flag,float up,float along,float own,float crack) CourtFlag(float u,float v)
             {
                 float row=v*8;int course=Mathf.FloorToInt(row);float up=row-course;float across=u*6+(course%2)*.5f+ZoneKit.Tile(course*1.3f,.7f,8,9)*.4f;int flag=Mathf.FloorToInt(across);
-                return (course,flag,up,across-flag,ZoneKit.Tile(flag*2.7f+course*5.3f,course*1.9f,48,4),Mathf.Abs(ZoneKit.Cloud(u,v,7,33)-.5f));
+                // The crack field: one flag in three broken across, edge to edge, along a line of its own a little crooked (D378: it was the contours of one noise field over the
+                // whole paving, thin wandering outlines across the joints that read as the texture's seams, s39/242). In flag units, a third of a metre to .1.
+                var rng=new System.Random(((course%8+8)%8)*131+((flag%6+6)%6)*17+5);float crack=1;
+                if(rng.NextDouble()<.34)
+                {
+                    float angle=(float)rng.NextDouble()*Mathf.PI,offset=((float)rng.NextDouble()-.5f)*.5f;
+                    var at=new Vector2((across-flag-.5f)*1.33f,up-.5f);
+                    crack=Mathf.Abs(Vector2.Dot(at,new Vector2(Mathf.Cos(angle),Mathf.Sin(angle)))-offset+.05f*(ZoneKit.Cloud(u,v,24,35)-.5f))/3;
+                }
+                return (course,flag,up,across-flag,ZoneKit.Tile(flag*2.7f+course*5.3f,course*1.9f,48,4),crack);
             }
             /// <summary>Drawn added to what is behind it, writing no depth, at this place in the transparent queue.</summary>
             static void Added(Material m,int fromTransparent)

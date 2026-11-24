@@ -49,7 +49,7 @@ namespace Lattice.EditorTools
                 // press's own height. Its arms are drawn from the SaintArm model (bodySegment) and the rig on its back from the Override Rig's (tailSegment).
                 ArenaBuilder.Asset<EnemyDef>("FoundrySaint",e=>{e.id="FoundrySaint";e.displayName="THE FOUNDRY SAINT";e.prefab=Body("FoundrySaint","SlagColossus");
                     e.bodySegment=ZoneKit.Prefab("Environment","SaintArm");e.tailSegment=ZoneKit.Prefab("Enemies","OverrideRig");
-                    e.integrity=115000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{pressStill};
+                    e.integrity=140000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{pressStill};
                     e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1600;e.scrip=520;e.scrap=26;e.boss=true;
                     e.bossMusicId="Glitch Boss";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;e.motion=EnemyMotion.None;
                     e.capsuleRadius=0;e.capsuleHeight=12;

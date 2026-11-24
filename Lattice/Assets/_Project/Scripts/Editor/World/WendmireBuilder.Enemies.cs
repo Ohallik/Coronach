@@ -121,8 +121,10 @@ namespace Lattice.EditorTools
             // The whole suite then read 830 a second with the measure at full frame rate (November 14, nov14b): its flat-out rate has ranged from 830 to 1,047 on one day, and the
             // sheet's floor (.48 of flat out for two minutes) and the ceiling (a quarter of it inside five) leave room for all of that range only between 60,307 and 62,250.
             // 61,500 is inside it; in the player 68,000 fell in 108 s of fighting for the driver, so this is about 98 s.
+            // 108,000 since D375 (November 23): with its two stalks always burned and its grounded half always whole, its length goes with its integrity, and 83,000 fell in 59 and
+            // 78 s (nov23-recon-c-26, -d-26). It is held by the slow pair's 400 s: at 112,000 the shared measure read 1,138 a second (1,114 and 1,162) and its quarter 394 s; this is 380 s.
             // It drops the region's rare, the Lure Bulb, which is the key to the Lurelight Drive.
-            ArenaBuilder.Asset<EnemyDef>("Rotbloom",e=>{e.id="Rotbloom";e.displayName="THE ROTBLOOM";e.prefab=Body("Rotbloom","Floodcrown");e.integrity=83000;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{rotSnap};
+            ArenaBuilder.Asset<EnemyDef>("Rotbloom",e=>{e.id="Rotbloom";e.displayName="THE ROTBLOOM";e.prefab=Body("Rotbloom","Floodcrown");e.integrity=108000;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{rotSnap};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=520;e.scrip=380;e.scrap=18;e.boss=true;
                 // A capsule can't stand shorter than it is wide: at 3.2 m tall on its 3.4 m radius Unity stretched it and the bloom hung 1.8 m over the floor.
                 e.capsuleHeight=6.8f;

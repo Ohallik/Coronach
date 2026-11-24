@@ -300,6 +300,48 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(2,read,"fixture: both bays were photographed");
             Assert.IsEmpty(weak,"a press's marking doesn't read over its bay: "+string.Join("; ",weak));
         }
+        /// <summary>D372. A freed press's warm lamps were one glass bar clipped to flat pale yellow in the player (nov22b s58 133, 171: 255 252 153): the lit base added to the emission and
+        /// the Works' exposure and warm highlights took red and green both over the top. Seen from where a player stands south of the throat, its lamps must read amber, with the rail's
+        /// iron between the lenses, and not as one clipped block.</summary>
+        [UnityTest] public IEnumerator AFreedPressesLampsReadAsAmberLampsAndNotAFlatClippedBar()
+        {
+            // Joint 2's press, freed (the control room's rig cut), seen from where the capture's hero stood in its bay (s58/133).
+            Set("home.joint1","clear.Works_ControlRig");
+            yield return Zone();
+            var press=Presses("on joint 2")[0];yield return Until(()=>press.Freed&&press.AtRest,6,"joint 2's press isn't freed and at rest with its rig cut");
+            Assert.IsTrue(press.localLamps.activeSelf,"fixture: the freed press's warm lamps are on");
+            Put(Lead,new Vector2(2.87f,95.38f));yield return new WaitForSecondsRealtime(1.5f);
+            const int W=1280,H=720;var camera=Camera.main;var image=new Texture2D(W,H,TextureFormat.RGB24,false);var bare=new Texture2D(W,H,TextureFormat.RGB24,false);
+            var rt=new RenderTexture(W,H,24,RenderTextureFormat.ARGB32);var active=RenderTexture.active;var target=camera.targetTexture;int lit=0,clipped=0,amber=0,runs=0;
+            var lamps=press.localLamps.GetComponent<Renderer>();
+            try
+            {
+                Assert.IsTrue(rt.Create());camera.targetTexture=rt;RenderTexture.active=rt;
+                camera.Render();image.ReadPixels(new Rect(0,0,W,H),0,0);image.Apply();
+                // The same frame without the lamps: what differs is the lamps' own pixels, and nothing else lit near them (the bay's hazard paint) is counted.
+                lamps.enabled=false;camera.Render();bare.ReadPixels(new Rect(0,0,W,H),0,0);bare.Apply();lamps.enabled=true;
+                string folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality/focused/works-press"));Directory.CreateDirectory(folder);File.WriteAllBytes(Path.Combine(folder,"freed-lamps.png"),image.EncodeToPNG());
+                var b=lamps.bounds;float x0=W,x1=0,y0=H,y1=0;
+                for(int k=0;k<8;k++){var s=camera.WorldToScreenPoint(b.center+Vector3.Scale(b.extents,new Vector3((k&1)==0?-1:1,(k&2)==0?-1:1,(k&4)==0?-1:1)));x0=Mathf.Min(x0,s.x);x1=Mathf.Max(x1,s.x);y0=Mathf.Min(y0,s.y);y1=Mathf.Max(y1,s.y);}
+                Assert.IsTrue(x1>x0+40&&x0>=1&&x1<=W-2&&y0>=1&&y1<=H-2,$"fixture: the lamps are wholly on screen and big enough to read ({x0:0},{y0:0} to {x1:0},{y1:0})");
+                bool Lamp(int x,int y,out Color c){c=image.GetPixel(x,y);var d=bare.GetPixel(x,y);return Mathf.Max(Mathf.Abs(c.r-d.r),Mathf.Abs(c.g-d.g),Mathf.Abs(c.b-d.b))>.12f&&c.maxColorComponent>=.5f;}
+                for(int y=(int)y0;y<=(int)y1;y++)for(int x=(int)x0;x<=(int)x1;x++)
+                {
+                    if(!Lamp(x,y,out var c))continue;lit++;
+                    if(c.r>.97f&&c.g>.93f)clipped++;else if(c.r>=c.g&&c.g<c.r*.88f&&c.b<c.g*.8f)amber++;
+                }
+                // Along the bar, lit and dark in turn: lamps in a rail, not one block. The row through the most lamp pixels.
+                int row=(int)y0,most=-1;
+                for(int y=(int)y0;y<=(int)y1;y++){int n=0;for(int x=(int)x0;x<=(int)x1;x++)if(Lamp(x,y,out _))n++;if(n>most){most=n;row=y;}}
+                bool on=false;for(int x=(int)x0;x<=(int)x1;x++){bool now=Lamp(x,row,out _);if(now&&!on)runs++;on=now;}
+                Debug.Log($"WORKS_FREED_LAMPS box=({x0:0},{y0:0})-({x1:0},{y1:0}) lit={lit} clipped={clipped} amber={amber} runs={runs} row={row}");
+            }
+            finally{lamps.enabled=true;camera.targetTexture=target;RenderTexture.active=active;rt.Release();Object.Destroy(rt);Object.Destroy(image);Object.Destroy(bare);}
+            Assert.Greater(lit,20,"the freed press's lamps don't show at all");
+            Assert.Less(clipped,lit*.15f,$"the freed press's lamps clip to flat pale yellow ({clipped} of {lit} lit pixels at red and green's top)");
+            Assert.Greater(amber,lit*.5f,$"the freed press's lamps don't read amber ({amber} of {lit} lit pixels)");
+            Assert.GreaterOrEqual(runs,3,$"the freed press's lamps read as one bar ({runs} lit runs along it)");
+        }
         struct Shot{public float rimOrange,rimLuma,floorLuma;}
         static Shot Grab(string folder,string name,Vector3 rim,Vector3 floor,Vector3 margin)
         {

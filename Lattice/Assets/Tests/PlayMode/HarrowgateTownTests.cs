@@ -194,6 +194,23 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ================================================================== the duel ground (docs/maps/Harrowgate.md, "Duel ground contract")
+        const string WarmasterOnHisPost="The Warmaster standing on his post";
+        /// <summary>Whole-game capture of November 22, s52/014 and 017: the Warmaster stood on show on the field at F while he sat at his table in the hall, 22 m on, before the
+        /// party had met him. He is on the field, with what stops a hero at his post, only once he has received them (vask.draskMet) and until the duel begins (D383).</summary>
+        [UnityTest] public IEnumerator TheWarmasterIsAtHisTableOrOnTheFieldNeverBoth()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen"})Flag(f);yield return Zone();
+            yield return null;yield return null;
+            System.Func<int> onShow=()=>All<DormantEnemy>().Count(d=>Flat(d.transform.position,F)<1.5f);
+            System.Func<int> stops=()=>All<Collider>().Count(c=>c.name==WarmasterOnHisPost&&c.gameObject.activeInHierarchy);
+            Assert.AreEqual(0,onShow(),"the Warmaster is on show on the field before he has received the party at his table");
+            Assert.AreEqual(0,stops(),"something stops a hero at the Warmaster's post while he sits at his table");
+            Flag("vask.draskMet");for(int i=0;i<5;i++)yield return null;
+            Assert.AreEqual(1,onShow(),"the Warmaster isn't on show on the field once he has gone out to it");
+            Assert.AreEqual(1,stops(),"nothing stops a hero walking into the Warmaster on his post once he has gone out to it");
+            Flag("vask.fieldTaken");for(int i=0;i<5;i++)yield return null;
+            Assert.AreEqual(0,stops(),"what stops a hero at the Warmaster's post stays once the duel has begun");
+        }
         [UnityTest] public IEnumerator TheMusterFieldIsBuiltToTheDuelsContractAndIsACombatPlaceOnlyWhileTheDuelIsOwed()
         {
             InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask"})Flag(f);yield return Zone();
@@ -205,11 +222,19 @@ namespace Lattice.Tests.PlayMode
             var at=Floor(F);
             for(float x=-FieldHalfX+.8f;x<FieldHalfX;x+=2.4f)for(float z=FieldSouth+.8f;z<FieldNorth;z+=2.4f)
             {
-                // The cadets at drill walk the field before the duel is owed; anything else standing there is in the way.
-                var hits=Physics.RaycastAll(new Vector3(x,Upper+6,z),Vector3.down,10,~0,QueryTriggerInteraction.Ignore).Where(h=>h.collider.GetComponentInParent<WalkLoop>()==null).OrderBy(h=>h.distance).ToArray();
+                // The cadets at drill walk the field before the duel is owed, and the Warmaster stands on his post at F (checked below); anything else standing there is in the way.
+                var hits=Physics.RaycastAll(new Vector3(x,Upper+6,z),Vector3.down,10,~0,QueryTriggerInteraction.Ignore).Where(h=>h.collider.GetComponentInParent<WalkLoop>()==null&&h.collider.name!=WarmasterOnHisPost).OrderBy(h=>h.distance).ToArray();
                 Assert.IsNotEmpty(hits,$"no floor at ({x:0.0}, {z:0.0})");
                 Assert.AreEqual(Upper,hits[0].point.y,.08f,$"something stands on the field or its floor isn't level at ({x:0.0}, {z:0.0}): {hits[0].collider.name}");
             }
+            // Shown before the duel he is a dormant body with every collider off, and Taren walked into him (whole-game capture of November 22, s51/147): what stops a hero
+            // stands on his post at F, no wider than he is, and only until the duel begins (D371).
+            var standing=All<Collider>().Where(c=>c.name==WarmasterOnHisPost).ToArray();
+            Assert.AreEqual(1,standing.Length,"nothing stops a hero walking into the Warmaster on his post before the duel");
+            Assert.Less(Flat(standing[0].transform.position,F),.3f,"what stops a hero at the Warmaster isn't on his post at F");Assert.IsFalse(standing[0].isTrigger);
+            Assert.LessOrEqual(Mathf.Max(standing[0].bounds.extents.x,standing[0].bounds.extents.z),.9f,"what stops a hero at the Warmaster is wider than he is");
+            Assert.IsTrue(All<FlagGate>().Any(g=>g.flag=="vask.fieldTaken"&&!g.showWhenSet&&g.targets.Contains(standing[0].gameObject)),"what stops a hero at the Warmaster's post stays once the duel has begun");
+            Assert.IsTrue(All<FlagGate>().Any(g=>g.flag=="vask.draskMet"&&g.showWhenSet&&g.targets.Any(t=>t!=null&&standing[0].transform.IsChildOf(t.transform))),"what stops a hero at the Warmaster's post is there before he has gone out to it");
             // Four openings, each its own seal, the encounter's when there is one.
             var seals=All<Membrane>().Where(m=>m.name.StartsWith("Muster field seal")).ToArray();Assert.AreEqual(4,seals.Length,"the field's four openings aren't each sealed");
             foreach(var seal in seals)Assert.IsTrue(seal.Open,$"{seal.name} is shut before the duel");

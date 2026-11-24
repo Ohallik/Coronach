@@ -419,7 +419,9 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ bosses
-        [UnityTest] public IEnumerator AnExtraTakesABossAcrossOnePhaseLineAndNoFurther()
+        /// <summary>D375: one EXTRA takes at most half of the phase it lands in and never crosses that phase's line; in the last phase it may end the fight. Before, it could cross
+        /// one line, and a full gauge carried in from the road took a sixth to a third of a two-phase boss's bar at its door (November 22).</summary>
+        [UnityTest] public IEnumerator AnExtraTakesAtMostHalfThePhaseItLandsInAndNeverCrossesItsLine()
         {
             yield return Zone(false);Unlock();var taren=Lead("Taren");Place(taren,new Vector3(200,0,0));Place(Sela,new Vector3(260,0,0));
             var boss=Enemy("Burrower",new Vector3(200,0,5));yield return Frames(3);
@@ -427,19 +429,27 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(2,lines.Length,"fixture: the Burrower has two phase lines");Assert.Greater(lines[0],lines[1],"fixture: the lines come down in order");
             // A boss small enough that twelve of his Output would end the whole fight from full.
             health.maximum=health.integrity=Output(taren,false)*8;health.breakThreshold=1e9f;health.weakness=health.resistance=DamageType.Pulse;taren.target=health;
-            Assert.AreEqual(lines[1]*health.maximum+1,controller.ExtraFloor,.01f,"from full, the floor isn't just over the second line");
+            float whole=health.maximum,half=BossController.ExtraOfAPhase;
+            // From full: half the first phase, which is over its line. The rule before (over the second line) is the broken state this would catch.
+            float first=whole-half*(1-lines[0])*whole;
+            Assert.Greater(first,lines[0]*whole+1,"fixture: half the first phase stops short of its line");Assert.Greater(first,lines[1]*whole+1+1,"fixture: the old floor is lower");
+            Assert.AreEqual(first,controller.ExtraFloor,.01f,"from full, the floor isn't half the first phase down");
             yield return Fire(taren);
             Assert.IsTrue(health.Alive,"one EXTRA ended a boss fight from full Integrity");
-            Assert.AreEqual(lines[1]*health.maximum+1,health.integrity,1.5f,"one EXTRA carried a boss across both of its phase lines, or stopped short of the second");
-            Assert.Less(health.integrity/health.maximum,lines[0],"fixture: it did cross the first line");
-            // On the last line: the fight can't be ended by the move that crosses it.
-            Assert.AreEqual(1,controller.ExtraFloor,.0001f,"with one line left the floor isn't 1 Integrity");
+            Assert.AreEqual(first,health.integrity,1.5f,"one EXTRA took more than half the phase it landed in, or stopped short of it");
+            // Just over the first line: the line holds, and the party's own blows cross it.
+            health.integrity=(lines[0]+.02f)*whole;yield return Frames(2);
+            Assert.AreEqual(lines[0]*whole+1,controller.ExtraFloor,.01f,"just over a line, the floor isn't the line");
             taren.target=health;yield return Fire(taren);
-            Assert.IsTrue(health.Alive,"an EXTRA crossed the last phase line and ended the fight in the same move");
-            Assert.AreEqual(1,health.integrity,.6f,"past the last line the move didn't spend itself down to the floor");
-            // In the last phase, with no shift owed, there's nothing left to skip.
-            yield return Frames(3);
-            Assert.AreEqual(0,controller.ExtraFloor,.0001f,"in its last phase a boss still has a floor");
+            Assert.AreEqual(lines[0]*whole+1,health.integrity,1.5f,"an EXTRA carried a boss over the line of the phase it landed in");
+            // In the second phase: half of it, from wherever it lands.
+            health.integrity=(lines[0]-.01f)*whole;yield return Frames(2);
+            Assert.AreEqual(Mathf.Max(lines[1]*whole+1,health.integrity-half*(lines[0]-lines[1])*whole),controller.ExtraFloor,.01f,"in the second phase the floor isn't half of it");
+            // In the last phase, with no shift owed, a little left is the move's to end; much left, half the phase again.
+            health.integrity=lines[1]*whole*.3f;yield return Frames(3);
+            Assert.AreEqual(0,controller.ExtraFloor,.0001f,"in its last phase an EXTRA can't end a boss with little left");
+            health.integrity=lines[1]*whole-2;yield return Frames(3);
+            Assert.AreEqual(health.integrity-half*lines[1]*whole,controller.ExtraFloor,.01f,"in its last phase an EXTRA takes more than half of it");
         }
         [UnityTest] public IEnumerator AnExtraLandsNothingOnABossInTheMiddleOfItsPhaseShift()
         {

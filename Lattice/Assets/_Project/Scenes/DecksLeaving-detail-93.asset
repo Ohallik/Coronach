@@ -6,7 +6,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hub_Decks detail DecalHazard 1,2 market
+  m_Name: Hub_Decks detail DecalHazard -2,2 market
   serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
@@ -14,10 +14,10 @@ Mesh:
     indexCount: 3
     topology: 0
     baseVertex: 0
-    firstVertex: 0
+    firstVertex: 5
     vertexCount: 3
     localAABB:
-      m_Center: {x: 12.55, y: 0.02, z: 21.5}
+      m_Center: {x: -12.55, y: 0.02, z: 21.5}
       m_Extent: {x: 0.17000008, y: 0, z: 2.2999992}
   m_Shapes:
     vertices: []
@@ -35,7 +35,7 @@ Mesh:
   m_KeepVertices: 0
   m_KeepIndices: 0
   m_IndexFormat: 1
-  m_IndexBuffer: 000000000200000001000000
+  m_IndexBuffer: 060000000700000005000000
   m_VertexData:
     serializedVersion: 3
     m_VertexCount: 8
@@ -97,7 +97,7 @@ Mesh:
       format: 0
       dimension: 0
     m_DataSize: 256
-    _typelessdata: 7b1446410ad7a33c9a999941000000000000803f0000000000000000000000001f854b410ad7a33c9a999941000000000000803f00000000176cc13e000000007b1446410ad7a33c6666be41000000000000803f0000000000000000398ea3401f854b410ad7a33c6666be41000000000000000000000000176cc13e398ea340e17a74410ad7a33c9a999941000000000000000000000000000000000000000085eb79410ad7a33c9a999941000000000000000000000000176cc13e00000000e17a74410ad7a33c6666be4100000000000000000000000000000000398ea34085eb79410ad7a33c6666be41000000000000000000000000176cc13e398ea340
+    _typelessdata: 85eb79c10ad7a33c9a9999410000000000000000000000000000000000000000e17a74c10ad7a33c9a999941000000000000000000000000176cc13e0000000085eb79c10ad7a33c6666be4100000000000000000000000000000000398ea340e17a74c10ad7a33c6666be41000000000000000000000000176cc13e398ea3401f854bc10ad7a33c9a99994100000000000000000000000000000000000000007b1446c10ad7a33c9a999941000000000000803f00000000176cc13e000000001f854bc10ad7a33c6666be41000000000000803f0000000000000000398ea3407b1446c10ad7a33c6666be41000000000000803f00000000176cc13e398ea340
   m_CompressedMesh:
     m_Vertices:
       m_NumItems: 0
@@ -151,7 +151,7 @@ Mesh:
       m_BitSize: 0
     m_UVInfo: 0
   m_LocalAABB:
-    m_Center: {x: 14, y: 0.02, z: 21.5}
+    m_Center: {x: -14, y: 0.02, z: 21.5}
     m_Extent: {x: 1.6199999, y: 0, z: 2.2999992}
   m_MeshUsageFlags: 0
   m_CookingOptions: 30

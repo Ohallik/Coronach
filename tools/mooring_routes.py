@@ -566,8 +566,10 @@ def tollkeeper():
         r.at = None
         # About three seconds later the arm runs out of the gate with the motor on it: the driver flies at its pad where it is (in, behind the gate, it comes out to it).
         r.dock("the Tollkeeper's arm", ARM, seconds=30)
-        r.walk("to the gate motor", MOTOR_STAND[0], SK["ShelfY"], MOTOR_STAND[1], tolerance=0.5)
         stop = "flag:" + (f"end.motor{n}" if n < 3 else "bossdown.Tollkeeper")
+        # An EXTRA let go as the party lands can stop the motor's stage before the walk to it is over, and the arm then puts the party off: the walk ends with the stage
+        # (nov23-recon-s-65/s65b: the third stage fell to it, the Tollkeeper with it, and the walk was counted as never arriving).
+        r.walk("to the gate motor", MOTOR_STAND[0], SK["ShelfY"], MOTOR_STAND[1], tolerance=0.5, stop=stop)
         r.press(f"take aim at the gate motor {n}", "LeftShoulder", 0.2)
         for i in range(4):
             r.rotation(f"motor {n} {i + 1}", stop)
@@ -595,7 +597,8 @@ def tollkeeper():
 
 
 # ------------------------------------------------------------------ the Continuance (Continuance.md, "For route writers")
-_CONT = block(source("LastMooringBuilder.Continuance.cs"), "internal static class Continuance")
+# The class is partial since its finish got a file of its own (LastMooringBuilder.ContinuanceFinish.cs, D373): the places and ways are still in this one.
+_CONT = block(source("LastMooringBuilder.Continuance.cs"), "internal static partial class Continuance")
 CN = hm.vec2s(_CONT)
 CONT_WAYS = [[(float(a), float(b)) for a, b in re.findall(r"new\(" + NUMBER + "," + NUMBER + r"\)", part)] for part in
              re.findall(r"new Vector2\[\]\{(.*?)\}", block(_CONT, "internal static readonly Vector2[][] Ways=")[1:-1])]

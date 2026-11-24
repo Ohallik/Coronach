@@ -1117,6 +1117,8 @@ FROM_FORECOURT = [(0, 56), (0, 52), (0, 35)]
 # Up the field's middle between the cadets' drill lines (x 4.2 to 14 either side) to its cross walk at z 85, which runs out of its west and east openings.
 FIELD_UP = [(0, 66), T["FieldSouthAt"], (0, 85)]
 FIELD_TO_GALLERY = [(-FIELD_HALF_X, 85), (-24, 85), (-24, 104)]
+# The way round the Warmaster on his post at F (the Ways entry that starts at (0, 85)), from the field's cross walk to the hall steps' line at (0, 90).
+ROUND_HIS_POST = [p for p in next(w for w in TOWN_WAYS if w[0] == (0, 85) and len(w) == 4)[1:]]
 GALLERY_TO_FIELD = [(-24, 85), (-FIELD_HALF_X, 85), (0, 85), T["FieldSouthAt"], (0, 66)]
 TO_KITCHEN = [(-25, 35), T["KitchenDoor"], (-25, 44.4)]
 FROM_KITCHEN = [T["KitchenDoor"], (-25, 35)]
@@ -1213,7 +1215,8 @@ def town_errands():
     r.walk("back to the gallery's walk", case2[0], None, 104, tolerance=0.5)
     # The oath hall: down the wall walk to the field, across it, up the hall steps to the third case and Pip's wall of names.
     case3 = (T["Case3"][0], T["Case3"][1] - 1.4)
-    r.go("down to the field and up the hall steps", [(38, 104), (43.6, 99), (43.6, 85), (FIELD_HALF_X, 85), (0, 85), T["F"], (0, 98), (0, 107.8), (case3[0], 108.2)], tolerance=0.5)
+    # Round the Warmaster on his post at F (he stops a hero until the duel; Town.Duel), east of him by the way the builder declares for it.
+    r.go("down to the field and up the hall steps", [(38, 104), (43.6, 99), (43.6, 85), (FIELD_HALF_X, 85), (0, 85)] + ROUND_HIS_POST + [(0, 98), (0, 107.8), (case3[0], 108.2)], tolerance=0.5)
     r.stand_for("the oath hall's case", case3, T["Case3"], TOWN_RANGES["case"], tolerance=0.3)
     r.press_for("take the relay glass from the oath hall's case", "vask.glass3")
     names = (T["NamesAt"][0], T["NamesAt"][1] - 1.8)
@@ -1221,7 +1224,7 @@ def town_errands():
     r.stand_for("the wall of names with Pip", names, T["NamesAt"], TOWN_RANGES["Pip"], tolerance=0.3)
     r.look("look at the wall of names", 4, "pip.hallSeen")  # PipOathHall
     case1 = (T["Case1"][0], T["Case1"][1] - 1.6)
-    r.go("down the steps and across to the trophy gallery", [(names[0], 108.2), (0, 108.2), (0, 107.8), (0, 98), T["F"], (0, 85)] + FIELD_TO_GALLERY + [(case1[0], 104)], tolerance=0.5)
+    r.go("down the steps and across to the trophy gallery", [(names[0], 108.2), (0, 108.2), (0, 107.8), (0, 98)] + ROUND_HIS_POST[::-1] + [(0, 85)] + FIELD_TO_GALLERY + [(case1[0], 104)], tolerance=0.5)
     r.stand_for("the trophy gallery's case", case1, T["Case1"], TOWN_RANGES["case"], tolerance=0.3)
     r.press_for("take the relay glass from the gallery's case", "vask.glass1")
     r.wait("the glass is all back", 0.5, expectedFlag="quest.RelayGlass.complete")

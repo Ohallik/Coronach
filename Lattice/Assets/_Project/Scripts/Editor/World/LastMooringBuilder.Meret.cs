@@ -69,7 +69,10 @@ namespace Lattice.EditorTools
                     e.lootTable=Loot("MeretGantry",Drop("StillwaterCore",1,1),Drop("AnchorThread",4,1),Drop("RepairSalve",2,1),ProgressionBuilder.AnyPart(5,1));});
 
                 // ---- phase three: her emergency frame, a coat on her own body (1.85 m, rigged). A person: she yields standing. Her coat grounds a shock and a torch cuts it.
-                ArenaBuilder.Asset<EnemyDef>("MeretWell",e=>{e.id="MeretWell";e.displayName="MERET VENN";e.prefab=Body("MeretWell","Characters","MeretBody");
+                // At play size she was a pale figure a hero's height with no face or fronds to make out (nov22b-whole s67/117): her boss body wears her emergency frame (MeretFrame,
+                // D373), and her body takes a lilac rim of her own that the chamber's light isn't. The woman who yields afterwards wears her plain body: the frame is what she puts down.
+                ChapterOneLook.BodyReads("MeretWell",MeretFrame.Rim,MeretFrame.RimUnlit,MeretFrame.LightFloor,MeretFrame.RimPower);
+                ArenaBuilder.Asset<EnemyDef>("MeretWell",e=>{e.id="MeretWell";e.displayName="MERET VENN";e.prefab=MeretFrame.Director(ZoneKit.Prefab("Enemies","MeretWell"))??Body("MeretWell","Characters","MeretBody");
                     // Sized on what the replay driver's pad gets of flat out (MeretReplayTests, November 15; her sheet's share), under the shared ceiling (a quarter of flat out inside 150 s).
                     // Hard to break (750 broke her six times in a 70 s duel, a quarter of it standing stunned): the woman who will not stop doesn't stand about. 150,000 lasted 104 and 92 s
                     // through the pad (.33 and .42 of 4,328 and 3,887 a second): 140,000 stays under the ceiling down to 3,733 a second flat out.

@@ -107,7 +107,9 @@ namespace Lattice.EditorTools
             SorrelGround();
             // Habs: equipment in front of each hab, where the hab itself is what lies behind it.
             Put("DressFuelTank",16f,12.2f,0);Put("DressCommsMast",12.9f,11.9f,0);Put("DressSolarArray",21.6f,16f,90);Put("DressWaterBarrels",19f,20.6f,0,.8f);
-            Put("DressRover",-15.3f,11.6f,0);Put("DressSolarArray",-21.6f,16f,90);Put("DressWaterBarrels",-19f,20.6f,0,.8f);
+            // The rover against its hab (D368): 0.4 m apart, a body pressed into the gap between them could not walk away (TheBodyNeverSticksAtAWallFootOrAProp, once the haul
+            // road's spines changed where the floor's edges are sampled).
+            Put("DressRover",-15.3f,12f,0);Put("DressSolarArray",-21.6f,16f,90);Put("DressWaterBarrels",-19f,20.6f,0,.8f);
             // Receiving, stores and the repair pad, beside (never across) the chapter tour path.
             Put("DressCargoPallet",5f,-8.6f,0);Put("DressCargoPallet",8.6f,-8.4f,90);Put("DressWaterBarrels",2.6f,-9f,0,.8f);
             Put("HushwellOreCart",12f,-7.6f,0);Put("DressCargoPallet",19f,-4f,0);

@@ -278,6 +278,38 @@ namespace Lattice.Tests.PlayMode
                 Assert.AreEqual(1,g.Count(),$"{g.Key} is worn {g.Count()} times at the meeting ({g.Count(b=>b.west)} west of the aisle)");
             }
         }
+        /// <summary>The November 22 capture's town meeting (s57 139, 142, 156): every body posed off a seat was drawn with its pelvis and chest turned about 164 degrees from the way it
+        /// was placed (the generated bodies' idle, sampled outside play, turns them round), so the seated sat with their backs to the board and their knees bent back under them, and
+        /// Oda and Jun stood up facing the back of the room; and Oda left an empty cushion on the bench beside her. Here, as the meeting loads after Ilo's talk: everyone posed off a
+        /// seat is drawn facing the way their body faces, the seated with their knees that way too; and once Oda's talk is over nobody standing has a seat left out.</summary>
+        [UnityTest] public IEnumerator TheSeatedFaceTheWayTheySitAndWhoeverStandsLeavesNoEmptySeat()
+        {
+            Home("home.meetingGathered","home.meetingOpened","home.offerMade","home.halAsked","home.manifestShown","home.namesRead");yield return Load(Zone,"Meeting");
+            yield return new WaitForSecondsRealtime(1.2f);
+            var room=All<Transform>().First(t=>t.name=="The town meeting"&&t.parent==null);
+            var posed=room.GetComponentsInChildren<Posed>().Where(p=>p.seat>0).ToArray();
+            Assert.GreaterOrEqual(posed.Length,10,"fixture: the seated town, Oda, Jun and Oda's mother aren't in the room");
+            // The pelvis's facing (across the hip joints) and the knees' (hip to knee), against the way the body faces.
+            static Transform Bone(Posed p,HumanBodyBones b)=>p.GetComponentInChildren<Animator>(true).GetBoneTransform(b);
+            static float Twist(Posed p){var drawn=Vector3.Cross(Vector3.up,Bone(p,HumanBodyBones.LeftUpperLeg).position-Bone(p,HumanBodyBones.RightUpperLeg).position);drawn.y=0;var f=p.transform.forward;f.y=0;return Vector3.Angle(drawn,f);}
+            static float Knees(Posed p){var k=Bone(p,HumanBodyBones.LeftLowerLeg).position-Bone(p,HumanBodyBones.LeftUpperLeg).position+Bone(p,HumanBodyBones.RightLowerLeg).position-Bone(p,HumanBodyBones.RightUpperLeg).position;k.y=0;var f=p.transform.forward;f.y=0;return Vector3.Angle(k,f);}
+            // The check sees a body turned round: one sitter's pelvis turned as the capture drew it, measured, and put back (one frame; nothing runs between).
+            var probe=posed.First(p=>p.Seated);var hips=Bone(probe,HumanBodyBones.Hips);var kept=hips.rotation;hips.rotation=Quaternion.AngleAxis(164,Vector3.up)*kept;
+            float turned=Twist(probe);hips.rotation=kept;
+            Assert.Greater(turned,120,"fixture: a pelvis turned round should read as turned round");
+            foreach(var p in posed)
+            {
+                Assert.Less(Twist(p),35,$"{p.name} at ({p.transform.position.x:0.0},{p.transform.position.z:0.0}) is drawn {Twist(p):0} degrees from the way it faces ({p.Showing})");
+                if(p.Seated)Assert.Less(Knees(p),50,$"{p.name} at ({p.transform.position.x:0.0},{p.transform.position.z:0.0}) sits with its knees {Knees(p):0} degrees off the way it faces");
+            }
+            // Oda's talk: she stands, then Jun, then her mother. After it nobody who has stood up off a seat has a seat of their own left out on the bench (the capture's green
+            // cushion was Oda's: sitting turned round, her pelvis hung over the slats and the seating rule gave her one).
+            yield return Talk(Person("Oda"));
+            Assert.IsTrue(Has("home.odaStood"),"fixture: Oda's talk didn't finish");
+            var stood=room.GetComponentsInChildren<Posed>().Where(p=>p.seat>0&&!p.Seated).ToArray();
+            Assert.GreaterOrEqual(stood.Length,3,"fixture: Oda, Jun and Oda's mother should be on their feet");
+            foreach(var p in stood){var fit=p.GetComponent<SeatFit>();bool left=fit!=null&&fit.seat!=null&&fit.seat.activeInHierarchy;Assert.IsFalse(left,$"{p.name} has stood up and left {(left?fit.seat.name:"")} out on the bench");}
+        }
         /// <summary>Which body a townsperson wears (its rig's avatar, one to each generated body).</summary>
         static string BodyOf(Transform person){var rig=person.GetComponentInChildren<Animator>(true);return rig!=null&&rig.avatar!=null?rig.avatar.name:person.GetComponentInChildren<SkinnedMeshRenderer>(true)?.sharedMesh?.name??"?";}
 

@@ -307,8 +307,12 @@ namespace Lattice.EditorTools
                 // The dock's tower: a shaft with two rows of lit windows and DOCK down its face, a glazed cab on top lit cool, its roof and a short aerial under the plane.
                 var t=P(DockTowerAt,y);
                 s.Slot(0).Box(t+Vector3.up*2.1f,new Vector3(4.2f,4.2f,4.2f),Quaternion.identity,ZoneKit.Shape.Dim(grey,.92f),grey,1/6f).Slot(1).Box(t+Vector3.up*3.9f,new Vector3(4.3f,.36f,4.3f),Quaternion.identity,teal);
-                for(int row=0;row<2;row++)for(int i=0;i<2;i++){var c=t+new Vector3(-1+i*2,1.2f+row*1.4f,-2.13f);if(row==0&&i==0)continue;Pane(s,1,c,Vector3.right,1.2f,.8f,Vector3.back,trim);Pane(s,2,c+Vector3.back*.01f,Vector3.right,1,.62f,Vector3.back,Lit(rng,.6f));}
-                LettersUp(s,2,"DOCK",t+new Vector3(-WordWide("DOCK",.62f)*.5f-.9f,.5f,-2.16f),.62f,new Color(.55f,1f,.95f));
+                // DOCK runs down the face's west half, a letter over the next, the windows in the east half. Across the face's foot the word ended under the objective panel from the
+                // arrival (its K at 1360 px of 1920, the panel from 1340: s44/097); this column stands at 1268 to 1305 px there. It stops under 2.9 m: the cab overhangs the face by
+                // 1.1 m at 4.3, and from the flight camera's 48 degrees it hides the face above 3 m. The skipped window still draws its light, so every other lit window and the
+                // dock's wear come out as they did.
+                for(int row=0;row<2;row++)for(int i=0;i<2;i++){var c=t+new Vector3(-1+i*2,1.2f+row*1.4f,-2.13f);if(i==0){if(row==1)Lit(rng,.6f);continue;}Pane(s,1,c,Vector3.right,1.2f,.8f,Vector3.back,trim);Pane(s,2,c+Vector3.back*.01f,Vector3.right,1,.62f,Vector3.back,Lit(rng,.6f));}
+                for(int k=0;k<4;k++)LettersUp(s,2,"DOCK"[k].ToString(),t+new Vector3(-1.65f,.3f+(3-k)*.68f,-2.16f),.56f,new Color(.55f,1f,.95f));
                 s.Slot(1).Box(t+Vector3.up*4.18f,new Vector3(6.6f,.2f,6.6f),Quaternion.identity,trim).Box(t+Vector3.up*5.52f,new Vector3(6.9f,.2f,6.9f),Quaternion.identity,trim);
                 foreach(var (normal,along) in new[]{(Vector3.back,Vector3.right),(Vector3.left,Vector3.forward),(Vector3.right,Vector3.forward),(Vector3.forward,Vector3.right)})
                     for(int i=0;i<4;i++){var c=t+Vector3.up*4.85f+normal*3.3f+along*(-2.4f+i*1.6f);Pane(s,2,c,along,1.42f,1.05f,normal,new Color(.62f,.86f,1f));}

@@ -78,6 +78,9 @@ namespace Lattice.UI
         /// a fallen arm's road it goes before it strikes the press's back from it (RoadAt: 0 the foot, 1 the collar).</summary>
         public const float CollarStand = 1.3f, CollarNear = .6f, RoadTop = .86f;
         bool saintPress; double saintPressAt = -1;
+        /// <summary>The lead stands where the Saint is worked from (at an unlocked collar's spot, or at the top of a fallen road), striking: he has arrived for the step, though
+        /// that is never within a blade of the press's own body. A fight round spent wholly on the climb missed its checkpoint (November 23).</summary>
+        bool saintAtWork;
         static BossController Saint(Vector3 near)
         {
             foreach (var body in Health.All)
@@ -109,7 +112,7 @@ namespace Lattice.UI
         /// step's own buttons is pressed meanwhile.</summary>
         Vector2 WorkSaint(CombatActor lead, SaintArm arm)
         {
-            saintPress = false;
+            saintPress = false; saintAtWork = false;
             var at = lead.transform.position; float yaw = ZoneController.Current.CameraProfile.yaw;
             Vector2 Push(Vector3 heading, float speed = 1) { var local = Quaternion.Euler(0, -yaw, 0) * heading.normalized; return new Vector2(local.x, local.z) * speed; }
             bool Strike() { double now = clock.Elapsed.TotalSeconds; if (now - saintPressAt > .46) saintPressAt = now; return now - saintPressAt < .1; }
@@ -117,7 +120,7 @@ namespace Lattice.UI
             {
                 var spot = CollarSpot(arm); var gap = spot - at; gap.y = 0;
                 if (gap.magnitude > CollarNear) return Push(ReviveHeading(lead, spot, gap, false), Mathf.Clamp(gap.magnitude, .35f, 1));
-                saintPress = Strike(); return Vector2.zero;
+                saintAtWork = true; saintPress = Strike(); return Vector2.zero;
             }
             bool up = at.y - arm.Floor >= BossController.SaintTune.ClimbHeight * .8f || arm.OnRoad(at);
             if (!up)
@@ -127,7 +130,7 @@ namespace Lattice.UI
                 var along = arm.RoadPoint(RoadTop) - at; along.y = 0; return Push(along);
             }
             if (arm.RoadAt(at) < RoadTop) { var along = arm.RoadPoint(RoadTop) - at; along.y = 0; return Push(along, .8f); }
-            saintPress = Strike(); return Vector2.zero;
+            saintAtWork = true; saintPress = Strike(); return Vector2.zero;
         }
 
         // ---------- the Debris Cutter: flown after, and fired on wherever its shots reach ----------

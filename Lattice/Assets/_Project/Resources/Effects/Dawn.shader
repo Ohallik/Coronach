@@ -60,7 +60,9 @@ Shader "Lattice/Dawn"
                 output.color=input.color;
                 return output;
             }
-            float Hash(float2 p){p=frac(p*float2(123.34,456.21));p+=dot(p,p+45.32);return frac(p.x*p.y);}
+            // A cell's number, folded small first: the band runs to z 760, and a cell index of thousands times 456 is past where a float keeps its fraction (3 million: quarters),
+            // so the old hash fell into a few values in rows and columns, and the rime's glints were a regular grid of white squares (the November 22 capture, s55/152).
+            float Hash(float2 p){p=p-289.0*floor(p/289.0);float3 q=frac(float3(p.xyx)*0.1031);q+=dot(q,q.yzx+33.33);return frac((q.x+q.y)*q.z);}
             float Noise(float2 p)
             {
                 float2 i=floor(p),f=frac(p);f=f*f*(3-2*f);
@@ -87,9 +89,12 @@ Shader "Lattice/Dawn"
                     float keep=smoothstep(-px,px,ahead);
                     float flash=(1-keep)*(1-smoothstep(0,_FlashWidth,-ahead));
                     float2 p=input.positionWS.xz;
-                    float sparkle=step(0.93,Hash(floor(p*9)))*0.6+Noise(p*2.1)*0.25;
-                    half3 colour=lerp(_Frost.rgb*(0.82+sparkle),_Flash.rgb,flash);
-                    half alpha=input.color.a*(_Frost.a*keep+0.85*flash);
+                    // Rime lies in grains and drifts on the plates, the ground showing between: laid evenly at its alpha over a few metres it was a pale see-through sheet over
+                    // the ground, and its glints (11 cm cells lit whole) were squares. Here it is patchy at three sizes, thickest where it has drifted, with no hard-edged cell anywhere.
+                    float grain=Noise(p*0.9)*0.4+Noise(p*2.7+17.0)*0.32+Noise(p*7.3+41.0)*0.28;
+                    float lie=smoothstep(0.38,0.7,grain);
+                    half3 colour=lerp(_Frost.rgb*(0.74+0.3*lie),_Flash.rgb,flash);
+                    half alpha=input.color.a*(_Frost.a*keep*lie*0.9+0.85*flash*(0.35+0.65*lie));
                     return half4(colour,saturate(alpha));
                 }
                 float up=saturate(input.uv.y);float along=saturate(input.uv.x);

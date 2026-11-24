@@ -1259,7 +1259,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 1/9",
+      "name": "down to the field and up the hall steps 1/11",
       "seconds": 3.56,
       "navigate": true,
       "point": {
@@ -1272,7 +1272,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 2/9",
+      "name": "down to the field and up the hall steps 2/11",
       "seconds": 4.67,
       "navigate": true,
       "point": {
@@ -1285,7 +1285,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 3/9",
+      "name": "down to the field and up the hall steps 3/11",
       "seconds": 6.98,
       "navigate": true,
       "point": {
@@ -1298,7 +1298,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 4/9",
+      "name": "down to the field and up the hall steps 4/11",
       "seconds": 11.28,
       "navigate": true,
       "point": {
@@ -1311,7 +1311,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 5/9",
+      "name": "down to the field and up the hall steps 5/11",
       "seconds": 8.22,
       "navigate": true,
       "point": {
@@ -1324,21 +1324,47 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 6/9",
-      "seconds": 2.71,
+      "name": "down to the field and up the hall steps 6/11",
+      "seconds": 2.92,
       "navigate": true,
       "point": {
-        "x": 0.0,
+        "x": 2.4,
         "y": 4.8,
-        "z": 87.0
+        "z": 86.0
       },
       "tolerance": 0.5,
       "until": "arrived",
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 7/9",
-      "seconds": 5.91,
+      "name": "down to the field and up the hall steps 7/11",
+      "seconds": 2.85,
+      "navigate": true,
+      "point": {
+        "x": 2.4,
+        "y": 4.8,
+        "z": 88.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down to the field and up the hall steps 8/11",
+      "seconds": 3.03,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 4.8,
+        "z": 90.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down to the field and up the hall steps 9/11",
+      "seconds": 4.84,
       "navigate": true,
       "point": {
         "x": 0,
@@ -1350,7 +1376,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 8/9",
+      "name": "down to the field and up the hall steps 10/11",
       "seconds": 5.48,
       "navigate": true,
       "point": {
@@ -1363,7 +1389,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down to the field and up the hall steps 9/9",
+      "name": "down to the field and up the hall steps 11/11",
       "seconds": 5.2,
       "navigate": true,
       "point": {
@@ -1578,7 +1604,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 1/10",
+      "name": "down the steps and across to the trophy gallery 1/12",
       "seconds": 2.0,
       "navigate": true,
       "point": {
@@ -1591,7 +1617,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 2/10",
+      "name": "down the steps and across to the trophy gallery 2/12",
       "seconds": 4.84,
       "navigate": true,
       "point": {
@@ -1604,7 +1630,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 3/10",
+      "name": "down the steps and across to the trophy gallery 3/12",
       "seconds": 2.14,
       "navigate": true,
       "point": {
@@ -1617,7 +1643,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 4/10",
+      "name": "down the steps and across to the trophy gallery 4/12",
       "seconds": 5.48,
       "navigate": true,
       "point": {
@@ -1630,21 +1656,47 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 5/10",
-      "seconds": 5.91,
+      "name": "down the steps and across to the trophy gallery 5/12",
+      "seconds": 4.84,
       "navigate": true,
       "point": {
         "x": 0.0,
         "y": 4.8,
-        "z": 87.0
+        "z": 90.0
       },
       "tolerance": 0.5,
       "until": "arrived",
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 6/10",
-      "seconds": 2.71,
+      "name": "down the steps and across to the trophy gallery 6/12",
+      "seconds": 3.03,
+      "navigate": true,
+      "point": {
+        "x": 2.4,
+        "y": 4.8,
+        "z": 88.4
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down the steps and across to the trophy gallery 7/12",
+      "seconds": 2.85,
+      "navigate": true,
+      "point": {
+        "x": 2.4,
+        "y": 4.8,
+        "z": 86.0
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "Harrowgate"
+    },
+    {
+      "name": "down the steps and across to the trophy gallery 8/12",
+      "seconds": 2.92,
       "navigate": true,
       "point": {
         "x": 0,
@@ -1656,7 +1708,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 7/10",
+      "name": "down the steps and across to the trophy gallery 9/12",
       "seconds": 8.22,
       "navigate": true,
       "point": {
@@ -1669,7 +1721,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 8/10",
+      "name": "down the steps and across to the trophy gallery 10/12",
       "seconds": 4.31,
       "navigate": true,
       "point": {
@@ -1682,7 +1734,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 9/10",
+      "name": "down the steps and across to the trophy gallery 11/12",
       "seconds": 8.76,
       "navigate": true,
       "point": {
@@ -1695,7 +1747,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 10/10",
+      "name": "down the steps and across to the trophy gallery 12/12",
       "seconds": 8.76,
       "navigate": true,
       "point": {

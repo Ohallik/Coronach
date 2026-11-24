@@ -274,7 +274,12 @@ namespace Lattice.UI
                 lantern.sprite=known?Lit:Unlit;lantern.raycastTarget=false;UiKit.Rect(lantern.gameObject,Mid,Mid,new Vector2(0,14),Vector2.one*(mark.standing==Standing.Here?56:46));
                 mark.ink=mark.standing==Standing.Here||mark.standing==Standing.Open?UiKit.LooseTextColor:UiKit.DimTextColor;
                 mark.label=UiKit.Legible(UiKit.Text(holder.transform,"Label",known?Name(stop):"Uncharted",24,mark.ink));mark.label.textWrappingMode=TextWrappingModes.NoWrap;
-                UiKit.Rect(mark.label.gameObject,Mid,Mid,new Vector2(Inward(mark.label,Name(stop),mark.at.x),-24),new Vector2(320,32));
+                // The diamond round the story's next step reaches down to the name's top (nov22b s42 148: it sat on "Ishen's Camp"), so that name stands lower; and every name has a plate of the field's
+                // colour behind its letters, so that a route line passing through it doesn't strike through "Tallow Drift" or "Lastlight".
+                float nameDown=stop==objective?-44:-24,nameAt=Inward(mark.label,Name(stop),mark.at.x);
+                UiKit.Rect(mark.label.gameObject,Mid,Mid,new Vector2(nameAt,nameDown),new Vector2(320,32));
+                var plate=UiKit.SoftBand(holder.transform,"LabelPlate",new Color(FlatField.r,FlatField.g,FlatField.b,.88f));
+                UiKit.Rect(plate.gameObject,Mid,Mid,new Vector2(nameAt,nameDown),new Vector2(mark.label.GetPreferredValues(mark.label.text).x+28,30));plate.transform.SetSiblingIndex(mark.label.transform.GetSiblingIndex());
                 mark.button.onClick.AddListener(()=>UiSounds.Run(()=>Choose(mark)));
                 holder.gameObject.AddComponent<SelectNote>().selected=()=>Show(mark);
                 marks.Add(mark);

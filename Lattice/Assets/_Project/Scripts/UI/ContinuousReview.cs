@@ -149,6 +149,9 @@ namespace Lattice.UI
         // ("InitializeNavMeshPath is not allowed to be called from a MonoBehaviour constructor"), which failed every driver test at its set-up.
         UnityEngine.AI.NavMeshPath revivePath;
         Vector3[] reviveCorners;
+        /// <summary>Where the kept way leads. Two walks can ask in one frame (a sluice's wheel, then the fallen partner): kept by time alone, the second took the first's way, and
+        /// with Idra down across the Foundry's heart Taren stepped side to side on the way to a wheel for six minutes, turning nothing and raising nobody (nov23-recon-s-49/s49b).</summary>
+        Vector3 revivePathGoal;
         double revivePathAt=-1, reviveGainedAt, detourUntil=-1;
         float reviveBest=float.PositiveInfinity, detourSide=1;
         Health stepTarget;
@@ -697,7 +700,7 @@ namespace Lattice.UI
                     if (clamp != null) { direction = WorkClamp(actor, clamp); inReach = false; }
                     // The Foundry Saint: a planted arm's collar struck, and with three arms down the climb to the press's back (ContinuousReview.Home.cs).
                     var saintArm = step.approachTarget && !actor.flight ? SaintArmToWork(actor) : null;
-                    if (saintArm != null) { direction = WorkSaint(actor, saintArm); inReach = false; }
+                    if (saintArm != null) { direction = WorkSaint(actor, saintArm); inReach = false; arrived |= saintAtWork; }
                     // What a shut boss's bar names, standing beyond the lock's reach: walked toward until the lock can take it (ContinuousReview.Chase.cs).
                     var named = step.approachTarget && !actor.flight && wheel == null && clamp == null && saintArm == null ? TowardNamed(actor) : null;
                     if (named.HasValue) { direction = named.Value; inReach = false; }
@@ -857,7 +860,7 @@ namespace Lattice.UI
             {
                 // The lead's end on his own ground (ContinuousReview.Chase.cs): the nearest navigation to a body in the gap behind a plinth is the plinth's top. The goal on its own
                 // ground only when it is a body (the fallen hero: sidestep); a findWay walk's point, a wheel's or a collar's spot is a plan point, taken as it always was.
-                if (now - revivePathAt > .25) { revivePathAt = now; revivePath ??= new UnityEngine.AI.NavMeshPath(); reviveCorners = (chaseHandsOff ? GroundNavigation.Current.FindPath(at, goal, goal, revivePath) : FloorPath(at, goal, revivePath, out _, out _, sidestep)) ? revivePath.corners : null; }
+                if (now - revivePathAt > .25 || (goal - revivePathGoal).sqrMagnitude > .25f) { revivePathAt = now; revivePathGoal = goal; revivePath ??= new UnityEngine.AI.NavMeshPath(); reviveCorners = (chaseHandsOff ? GroundNavigation.Current.FindPath(at, goal, goal, revivePath) : FloorPath(at, goal, revivePath, out _, out _, sidestep)) ? revivePath.corners : null; }
                 if (reviveCorners != null) foreach (var corner in reviveCorners) { var gap = corner - at; gap.y = 0; if (gap.magnitude > .6f) { heading = gap; break; } }
             }
             // A way round a wall leads away from its end for a while: only a walk to a body (which the bake doesn't hold) steps aside when the straight gap stops closing.

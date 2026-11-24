@@ -366,6 +366,34 @@ namespace Lattice.Tests.PlayMode
             body.integrity=body.maximum*.3f;yield return Frames(3);
             Assert.AreEqual(3,boss.SaintReleased,"its bar under its shift and three arms aren't down");Assert.IsTrue(boss.SaintBare);
         }
+        /// <summary>An opening lets one arm go at most, and the bar no further than that arm's line (D364). An EXTRA under the head's lift took 32 and 41% of its bar in the player, two arms
+        /// and most of the rig's share (Builds/quality/nov22b-whole s59, nov22-recon-k-59: 76 and 61 s, where one that met a held press ran 145).</summary>
+        [UnityTest] public IEnumerator AnOpeningLetsOneArmGoAndTheBarNoFurtherThanItsLine()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));
+            EnemyBrain enemy=null;BossController boss=null;yield return Saint((e,b)=>{enemy=e;boss=b;});var body=enemy.Health;
+            Put(hero,At(0,.05f,-40));enemy.Passive=false;yield return Frames(2);
+            // Built wrong on purpose: its bar held nowhere, as it was.
+            if(Broken)body.Holds=null;
+            float share=BossController.SaintTune.ArmShare;
+            // The head's lift: the press open and every collar unlocked, and a blow of 45% of its bar on it, as the EXTRA was.
+            body.Expose(3);foreach(var arm in boss.SaintArms)arm.Unlock(3);
+            Hit(body,hero,body.maximum*.45f);yield return Frames(3);
+            Assert.AreEqual(1,boss.SaintReleased,"one opening let more than one arm go");
+            Assert.GreaterOrEqual(body.integrity,body.maximum*(1-share)-2,"one opening took its bar past the arm's line");
+            Assert.IsTrue(Said("SAINT_HOLDS"),"the arm went and nothing holds its bar");
+            // The rest of that lift takes nothing more, on the press or on a collar.
+            float held=body.integrity;var other=boss.SaintArms.First(a=>!a.IsReleased);
+            Hit(body,hero,body.maximum*.1f);Hit(other.Collar,hero,other.Collar.maximum);yield return Frames(2);
+            Assert.AreEqual(held,body.integrity,1,"the lift an arm went in took more off its bar");Assert.AreEqual(1,boss.SaintReleased,"the lift an arm went in let another go");
+            // The next opening lets the next arm go, at its line.
+            yield return Until(()=>!body.Broken,4);Assert.IsFalse(body.Broken,"fixture: the lift is over");yield return Frames(2);
+            body.Expose(3);foreach(var arm in boss.SaintArms)arm.Unlock(3);
+            Hit(body,hero,body.maximum*.45f);yield return Frames(3);
+            Assert.AreEqual(2,boss.SaintReleased,"the next opening didn't let the next arm go");
+            Assert.GreaterOrEqual(body.integrity,body.maximum*(1-2*share)-2,"the next opening took its bar past the next arm's line");
+            enemy.Passive=true;
+        }
         /// <summary>The rig bare: a blow from the floor is resisted (the first says so on screen); a blow from up on a fallen arm lands; and from the top of every fallen road a blade reaches the rig,
         /// which takes a blow twice over, while from the floor nothing does.</summary>
         [UnityTest] public IEnumerator WithTheRigBareOnlyABlowFromUpOnTheArmsLandsAndEveryRoadReachesTheRig()
@@ -772,7 +800,9 @@ namespace Lattice.Tests.PlayMode
         /// quarter metre off it (BossReach.Edge) it reads 2,922, so the chain's own share of flat out is .28 x 1,800 / 2,922. The fight and its predicted length are unchanged.
         /// .29 since D362 (November 22), measured, no longer expected: today's scouts felled 88,000 in 60.6 s (Builds/quality/nov22-recon-g s59) and 123,000 in 144.5 s
         /// (nov22-recon-h-59) against 2,922 and 2,889 a second (d355-dome3, d355-lengths): .50 and .293, the lower. It is 115,000 now: at 123,000 Sela and Idra read 2,429 a second
-        /// and their dodging fight (at <see cref="PlantedLeast"/>) stood at 302 s of 300 (d362-ch8to10); at 115,000 that is about 283.
+        /// and their dodging fight (at <see cref="PlantedLeast"/>) stood at 302 s of 300 (d362-ch8to10); at 115,000 that is about 283. 140,000 since D364: an opening lets one arm go
+        /// at most, so an EXTRA no longer hands over two arms and the rig's share, and the fight is paid for in openings again. 150,000 ran 161 to 194 s in the player
+        /// (nov23-recon-a-59, -b-59) and its slow pair read 416 s of 400 on a slow climb reading (1,467 a second where 3,000 is usual); 140,000 leaves that reading inside.
         const float SaintExpectedShare=.29f;
         /// <summary>How much of the bare phase a climber is up on a road and striking: a sweep about every seven seconds sends him down the road or off it.</summary>
         const float ClimbUptime=.65f;

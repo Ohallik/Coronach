@@ -55,18 +55,24 @@ namespace Lattice.Combat
         public string GuardedText=>health!=null&&Own.guarded!=null?Own.guarded(this):collar!=null&&collar.Remaining>0?"THE COLLAR HOLDS  ·  CUT THE LINKS":burrowed?"BELOW GROUND":"PROTECTED";
         /// <summary>Integrity fractions at which the next phase begins (boss bar notches).</summary>
         public float[] Thresholds=>health==null?System.Array.Empty<float>():Own.thresholds;
-        /// <summary>How low one EXTRA move may take this boss (S3): across the next phase line and no further, so a burst of twelve hits' worth can't carry the fight over a
-        /// line whose shift then never plays. With one line left that's 1 Integrity, the last shift being still to come; in the last phase there's no floor, unless its
-        /// shift is owed or playing. The shift's own invulnerability needs no help: an EXTRA lands through <see cref="Health.Receive"/> like anything else.
-        /// The floor stands 1 Integrity over the line it keeps: on the line itself, rounding decides which side the boss is on.</summary>
+        /// <summary>The most of a phase's share of the bar one EXTRA may take (D375).</summary>
+        public const float ExtraOfAPhase=.5f;
+        /// <summary>How low one EXTRA move may take this boss (S3, D375): half of the phase it lands in at most, and never over that phase's line. An EXTRA carried in from the
+        /// road is the player's reward for it and lands whole up to there; but one move doesn't skip a phase. Before D375 it could cross one line, and a full gauge spent at a
+        /// two-phase boss's door or on its first opening took a sixth to a third of the bar (the Seedthane, the Rotbloom, Vessa, the Colossus, the skiff, November 22). The
+        /// floor is reckoned where the move first lands and stands 1 Integrity over the line it keeps (on the line itself rounding decides the side), so the party's own blows
+        /// cross it and its shift plays. In the last phase it may end the fight, unless the shift into it is owed or playing. The shift's own invulnerability needs no help: an
+        /// EXTRA lands through <see cref="Health.Receive"/> like anything else.</summary>
         public float ExtraFloor
         {
             get
             {
                 if(health==null||!health.Alive)return 0;
-                float ratio=health.integrity/Mathf.Max(1,health.maximum),second=0;int ahead=0;var thresholds=Thresholds;
-                for(int i=0;i<thresholds.Length;i++)if(ratio>=thresholds[i]&&++ahead==2)second=thresholds[i];
-                return ahead>=2?second*health.maximum+1:ahead==1||shiftPending||shifting?1:0;
+                float ratio=health.integrity/Mathf.Max(1,health.maximum),below=0,above=1;bool line=false;var thresholds=Thresholds;
+                // The phase it is in runs from the lowest line over it (or full) down to the highest line still ahead (or nothing).
+                for(int i=0;i<thresholds.Length;i++){if(ratio>=thresholds[i]){if(!line||thresholds[i]>below)below=thresholds[i];line=true;}else above=Mathf.Min(above,thresholds[i]);}
+                float floor=Mathf.Max(line?below*health.maximum+1:0,health.integrity-ExtraOfAPhase*(above-below)*health.maximum);
+                return !line&&(shiftPending||shifting)?Mathf.Max(1,floor):floor;
             }
         }
 

@@ -33,7 +33,7 @@ North up, metres.
        BEAST PENS (-48..-29, 14..34)        vents (-4,21) (7,28) (16,17) (23,30.5) (36,29); one in the yard (-30,48)
        Hask (-25,26.5), Idra arguing (-24,24.2)
                                   arrival crossing across z 12
-                         pad (-7,7)   ARRIVAL (0,4)
+                         pad (-5.2,4.8) ARRIVAL (0,4)
    z -8  ---- low drift (camera's side) ----
 ```
 
@@ -76,7 +76,7 @@ Plan x, z (a route walks on the floor at its height). From the builder's constan
 | Place | Plan (x, z) | Id / flag |
 |---|---|---|
 | Arrival | (0, 4) | spawn `Arrival` |
-| Landing pad | (-7, 7) | `Launch — The Aurora Shear` -> the Shear's spawn `Lastlight` |
+| Landing pad | (-5.2, 4.8) | `Launch — The Aurora Shear` -> the Shear's spawn `Lastlight` |
 | Arrival crossing | across z 12, x -12 to 12 | `SelaLastlightArrival`, `hoar.ribsSeen` |
 | Hask at the pens | (-25, 26.5) | `Hask`, counter `Lastlight` |
 | Idra arguing at the pens (until the talk; she walks to the yard as it closes) | (-24, 24.2) | |
@@ -110,7 +110,7 @@ The declared ways (`TownZone.Ways`, with the climb's ledge as one more): what th
 | On to the shrine, south of the bath's basin | (23.4, 34.6) > (31.5, 34.4) > (37.2, 36.6) > (39.6, 41) > (42.4, 44) |
 | Up to Tern's hall | (-2, 34) > (2, 46) > (6, 54) > (8, 58.6) |
 | West to the Reach gate | (-8, 42) > (-24, 42) > (-40, 42) > (-57, 42) > (-60.8, 42), inside the gate's reach |
-| To the pad | (0, 4) > (-7, 7) |
+| To the pad | (0, 4) > (-5.2, 4.8) |
 | Shrine to the climb's foot | (42.4, 44) > (38, 51.5) |
 | Across the shrine floor | (39.6, 41) > (45, 42.6) > (48.5, 46.4) > (55.4, 44.6) |
 | The high rib-hall | (58.5, 57.8) > (55, 60.5) > L2 (52, 63) > (56, 64.8) > L3 (60, 68) |

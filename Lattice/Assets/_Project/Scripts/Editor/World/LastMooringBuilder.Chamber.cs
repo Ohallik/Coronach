@@ -237,27 +237,39 @@ namespace Lattice.EditorTools
                 foreach(var filter in seal.GetComponentsInChildren<MeshFilter>())UnityEngine.Object.DestroyImmediate(filter);
                 foreach(var view in seal.GetComponentsInChildren<Renderer>())UnityEngine.Object.DestroyImmediate(view);
                 var box=seal.GetComponent<BoxCollider>();var carve=seal.gameObject.AddComponent<NavMeshObstacle>();carve.shape=NavMeshObstacleShape.Box;carve.center=box.center;carve.size=box.size;carve.carving=true;carve.carveOnlyStationary=false;carve.enabled=false;
-                var s=new ZoneKit.Shape();var turn=Quaternion.Euler(0,yaw,0);var right=turn*Vector3.right;var back=turn*Vector3.back;
+                var s=new ZoneKit.Shape();var lit=new ZoneKit.Shape();var turn=Quaternion.Euler(0,yaw,0);
                 foreach(int side in new[]{-1,1})
                 {
-                    s.Slot(0).Box(foot+right*side*width*.25f+Vector3.up*tall*.5f,new Vector3(width*.5f-.06f,tall,.22f),turn,Pale,White);
-                    s.Slot(1).Box(foot+right*side*width*.25f+Vector3.up*tall*.55f+back*.12f,new Vector3(width*.5f-.5f,.12f,.04f),turn,Teal);
-                    s.Slot(1).Box(foot+right*side*.12f+Vector3.up*tall*.5f+back*.12f,new Vector3(.06f,tall-.4f,.04f),turn,TealDeep);
+                    s.Slot(0).Box(foot+turn*Vector3.right*side*width*.25f+Vector3.up*tall*.5f,new Vector3(width*.5f-.06f,tall,.22f),turn,Pale,White);
+                    // A blast door's leaves, as the Continuance's are (the look pass of November 23: s67/117's door was a plain tiled wall with two teal bars).
+                    Continuance.SealLeaf(s,lit,foot,turn,side,width,tall);
                 }
                 var drawn=Made(kit,name+" leaves",s,WhiteMat,TealMat);drawn.transform.SetParent(seal.transform,true);
+                var lamps=Made(kit,name+" lamps",lit,LampTeal,LampWarm);lamps.transform.SetParent(seal.transform,true);lamps.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 seal.SetOpen(true);return seal;
             }
             /// <summary>A cover anchor: a mooring bitt of the Compact's, a drum with a cap and a gold band, solid and nothing a blow can break (CombatCover reads its box).</summary>
             static GameObject Bitt(ZoneKit kit,string name,Vector3 foot,float wide,float tall)
             {
-                var s=new ZoneKit.Shape();float r=wide*.5f;
+                // The look pass of November 23 (s67/117: a bare grey cylinder with a yellow cap): a capstan of the Compact's on a bolted iron foot, ribbed, a hawser wound on its
+                // waist, a heavy iron head with its gold ring and a teal-lit crown where the cap was flat gold. Its solid box is as it was.
+                var s=new ZoneKit.Shape();var lit=new ZoneKit.Shape();float r=wide*.5f;var iron=new Color(.3f,.33f,.37f);var ironTop=new Color(.5f,.54f,.58f);
                 s.Slot(0).Box(foot+Vector3.up*.12f,new Vector3(wide+.5f,.24f,wide+.5f),Quaternion.identity,IronPale,Pale);
-                s.Slot(0).Post(foot+Vector3.up*.24f,tall-.6f,r*.92f,r*.82f,14,Pale,White);
-                s.Slot(0).Post(foot+Vector3.up*(tall-.36f),.36f,r*1.05f,r*1.05f,14,Pale,White);
-                s.Slot(1).Post(foot+Vector3.up*(tall*.42f),.22f,r*.95f,r*.95f,14,Teal,Teal);
-                s.Slot(2).Post(foot+Vector3.up*(tall-.42f),.08f,r*1.08f,r*1.08f,14,Gold,Gold);
-                s.Slot(2).Disc(foot+Vector3.up*(tall+.01f),Vector3.up,r*.5f,12,Gold);
-                var bitt=Made(kit,name,s,WhiteMat,TealMat,GoldMat);bitt.isStatic=true;
+                s.Slot(3).Post(foot+Vector3.up*.24f,.14f,r*1.16f,r*1.1f,16,iron,ironTop);
+                for(int k=0;k<8;k++){float a=(k*45+22.5f)*Mathf.Deg2Rad;s.Slot(3).Box(foot+new Vector3(Mathf.Sin(a)*r*1.04f,.4f,Mathf.Cos(a)*r*1.04f),new Vector3(.1f,.06f,.1f),Quaternion.Euler(0,k*45,0),ironTop);}
+                s.Slot(0).Post(foot+Vector3.up*.38f,tall-.74f,r*.9f,r*.8f,16,Pale,White);
+                for(int k=0;k<8;k++){float a=k*45*Mathf.Deg2Rad;var d=new Vector3(Mathf.Sin(a),0,Mathf.Cos(a));s.Slot(3).Box(foot+d*r*.86f+Vector3.up*(.38f+(tall-.74f)*.5f),new Vector3(.12f,tall-.8f,.1f),Quaternion.LookRotation(d),new Color(.56f,.6f,.64f),ironTop);}
+                // The hawser: two and a half turns on its waist, dark.
+                var turns=new List<Vector3>();var radii=new List<float>();for(int k=0;k<=40;k++){float t=k/40f,a=t*Mathf.PI*5;turns.Add(foot+new Vector3(Mathf.Sin(a)*r*.98f,.62f+t*.42f,Mathf.Cos(a)*r*.98f));radii.Add(.07f);}
+                s.Slot(3).Tube(turns,radii,6,new Color(.2f,.24f,.27f),new Color(.2f,.24f,.27f),4,.5f);
+                s.Slot(1).Post(foot+Vector3.up*(tall*.62f),.16f,r*.93f,r*.93f,16,Teal,Teal);
+                s.Slot(3).Post(foot+Vector3.up*(tall-.4f),.4f,r*1.12f,r*1.18f,16,iron,ironTop);
+                s.Slot(2).Post(foot+Vector3.up*(tall-.24f),.07f,r*1.2f,r*1.2f,16,Gold,Gold);
+                s.Slot(3).Disc(foot+Vector3.up*(tall+.005f),Vector3.up,r*1.18f,16,new Color(.36f,.4f,.44f),r*.56f,ironTop);
+                lit.Slot(0).Disc(foot+Vector3.up*(tall+.012f),Vector3.up,r*.56f,16,Color.white,r*.38f);
+                s.Slot(3).Disc(foot+Vector3.up*(tall+.008f),Vector3.up,r*.38f,16,new Color(.14f,.17f,.2f));
+                var bitt=Made(kit,name,s,WhiteMat,TealMat,GoldMat,DarkMat);bitt.isStatic=true;
+                var crown=Made(kit,name+" crown",lit,LampTeal);crown.transform.SetParent(bitt.transform,true);crown.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 ZoneKit.Block(bitt,foot+Vector3.up*tall*.5f,new Vector3(wide,tall,wide),0,name+" (solid)");
                 return bitt;
             }

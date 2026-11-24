@@ -43,7 +43,7 @@ namespace Lattice.Combat
     /// has half their Integrity back, on their feet if they were down. The least damage of the three, and the only one that raises.</item>
     /// </list>
     /// Both are the same move in flight, with a ship's reach. Bosses: every hit goes through Health.Receive, so a phase shift's invulnerability holds against it, and one EXTRA
-    /// crosses at most one phase line (BossController.ExtraFloor): what's left of it past that is spent on the line.
+    /// takes at most half of the phase it lands in and never crosses its line (BossController.ExtraFloor, D375): what's left of it past that is spent on the floor.
     /// </summary>
     public sealed class ExtraMove:MonoBehaviour
     {

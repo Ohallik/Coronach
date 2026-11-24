@@ -237,6 +237,20 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine($"HUGE_WASH wash={wash:0.000} hatch={hatch:0.000}");
             Assert.LessOrEqual(hatch-wash,.02f,$"inside a ring wider than the screen the lines stand {hatch-wash:0.000} over the wash: they still read as planks");
         }
+        /// <summary>D379: WreckTrack lays its 9 m lane as a chain of 6.8 m stretches, each told the length of the whole lane: the hatch is sized by the lane, not by the stretch.</summary>
+        [UnityTest] public IEnumerator ALaneLaidInStretchesHasTheHatchOfOneWholeLane()
+        {
+            yield return Zone("Arena_Ground");Arena();
+            Put(Hero,new Vector3(200,.1f,0));Put(Partner,new Vector3(215,.1f,0));yield return new WaitForSecondsRealtime(1.5f);
+            const float Whole=120,Stretch=6.8f,Width=9;var origin=new Vector3(200,0,0);
+            var one=Telegraph.Line(origin,Vector3.forward,Whole,Width,1,Telegraph.Threat);one.Steady=true;
+            var pieces=new List<Telegraph>();
+            for(float a=0;a<Whole;a+=Stretch)pieces.Add(Telegraph.Line(origin+Vector3.forward*(a-.4f),Vector3.forward,Mathf.Min(Stretch,Whole-a)+.8f,Width,1,Telegraph.Threat,false,Whole));
+            yield return null;
+            var want=HatchOf(one);Assert.Less(want.w,.2f,"a lane this long is faint as one marking: the premise");
+            foreach(var piece in pieces){var got=HatchOf(piece);Assert.AreEqual(want.w,got.w,.001f,$"a stretch of the lane has hatch strength {got.w:0.00} where the whole lane would have {want.w:0.00}: strong orange all along it, over what lies under");Assert.AreEqual(want.z,got.z,.001f,"a stretch's hatch spacing differs from the whole lane's");}
+            foreach(var piece in pieces)Object.Destroy(piece.gameObject);Object.Destroy(one.gameObject);yield return null;
+        }
         [UnityTest] public IEnumerator ABreathWithAnOrganBlowingMarksOneThingAndLeavesASafeSide()
         {
             yield return Zone("Hushwell");

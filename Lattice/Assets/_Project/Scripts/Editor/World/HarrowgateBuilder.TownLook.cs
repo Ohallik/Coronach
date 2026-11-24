@@ -205,8 +205,13 @@ namespace Lattice.EditorTools
                         edge=Mathf.Min(edge,Mathf.Min(ToPolygon(p,Vane),ToPolygon(p,mirror)));
                         tone=.3f+.16f*Hash(ring*977+k)+1.3f*grain;hue=new Color(.96f,1,1.08f);
                     }
-                    // The Warmaster's post: a pale square stone where he stands to receive a challenge.
-                    var post=p-new Vector2(0,2);if(Mathf.Abs(post.x)<.42f&&Mathf.Abs(post.y)<.42f){iron=false;tone=.8f+grain;hue=new Color(1,.98f,.92f);edge=Mathf.Min(.42f-Mathf.Abs(post.x),.42f-Mathf.Abs(post.y));}
+                    // The Warmaster's post: a square of the vanes' weathered limestone where he stands to receive a challenge, a groove cut round it a hand in. Polished pale
+                    // (.8) it was the brightest thing on the field, a flat white card under his feet in the player (whole-game capture of November 22, s51/180, s52/085).
+                    var post=p-new Vector2(0,2);if(Mathf.Abs(post.x)<.42f&&Mathf.Abs(post.y)<.42f)
+                    {
+                        iron=false;edge=Mathf.Min(.42f-Mathf.Abs(post.x),.42f-Mathf.Abs(post.y));tone=.5f+1.4f*grain;hue=new Color(1,.97f,.9f);
+                        if(edge>.085f&&edge<.115f)tone=.24f;
+                    }
                     // Wear: paler down the field's middle where the files march, and round where duellists circle; pits; cracks.
                     if(!iron)
                     {

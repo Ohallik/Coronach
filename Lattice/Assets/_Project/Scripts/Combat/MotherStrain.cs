@@ -59,7 +59,7 @@ namespace Lattice.Combat
             {
                 float a=fromBearing+sweep*i/Pieces,b=fromBearing+sweep*(i+1)/Pieces;
                 var from=pivot+Quaternion.Euler(0,a,0)*Vector3.forward*r;var to=pivot+Quaternion.Euler(0,b,0)*Vector3.forward*r;from.y=to.y=pivot.y;
-                var way=to-from;marks[i]=Telegraph.Line(from,way,way.magnitude,2.4f,9999,PathTone);marks[i].Steady=true;marks[i].owner=this;
+                var way=to-from;marks[i]=Telegraph.Line(from,way,way.magnitude,2.4f,9999,PathTone,false,Mathf.Abs(sweep)*Mathf.Deg2Rad*r);marks[i].Steady=true;marks[i].owner=this;
             }
         }
         /// <summary>A boundary's colour (under .99 alpha), the clamps' cream: where the shelf will be, never where a blow lands.</summary>

@@ -425,6 +425,36 @@ namespace Lattice.Tests.PlayMode
             Put(hero,thane.transform.position+new Vector3(0,0,16));var stood=thane.transform.position;
             yield return Wait(4,hero);Assert.Greater(Flat(stood,thane.transform.position),2,"in its second phase it still stands planted");
         }
+        /// <summary>D375: the planted half is its legs' to end. In four of five fights of November 22 the bar crossed half with two or three legs standing, on the openings of the
+        /// two that went (37 to 55 s against a bar from 60). While a leg stands no blow and no leg but the last takes it over half; the last takes its own share and carries it.</summary>
+        [UnityTest] public IEnumerator PlantedOnALegTheSeedthanesBarHoldsAtHalfAndOnlyTheLastLegCarriesItOver()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,14));
+            var thane=Enemy("Seedthane",At(0,.1f,0));yield return Frames(3);
+            var boss=thane.GetComponent<BossController>();var body=thane.Health;var legs=thane.GetComponent<BossParts>();float whole=body.maximum,line=whole*boss.Thresholds[0];
+            Assert.AreEqual(BossController.SeedthaneTune.LegIntegrity,BossController.SeedthaneTune.LegBar,.0001f,"a leg costs less than it takes off the bar");
+            // The broken state, in this test only: with nothing holding the bar, a heavy blow just over half takes it over with every leg standing.
+            var holds=body.Holds;Assert.IsNotNull(holds,"nothing holds the planted Seedthane's bar");
+            body.Holds=null;body.integrity=line+whole*.02f;Hit(body,hero,whole*.05f);
+            Assert.Less(body.integrity,line,"fixture: the blow is heavy enough to cross half");
+            body.Holds=holds;body.integrity=line+whole*.02f;yield return Frames(2);
+            float took=Hit(body,hero,whole*.05f);
+            Assert.AreEqual(line+1,body.integrity,.5f,"a blow took the planted Seedthane over half with four legs standing");
+            Assert.AreEqual(whole*.02f-1,took,1,"a blow on the held line doesn't say what it took");
+            Assert.IsTrue(body.Alive);Assert.AreEqual(1,boss.Phase,"with its legs in the ground it shifted");
+            // A leg with others standing stops there too.
+            for(int i=0;i<3;i++)
+            {
+                log.Clear();Kill(legs.Parts[i],hero);Assert.IsTrue(Said("SEEDTHANE_LISTS"));
+                Assert.AreEqual(line+1,body.integrity,.5f,$"leg {i+1} of four took it over half");
+                yield return Until(()=>!body.Broken,4,hero);Hit(body,hero,whole*.05f);Assert.AreEqual(line+1,body.integrity,.5f,"held, a blow went through");
+            }
+            // The last takes its share and carries it over: it topples, and once it is up the bar is its own again.
+            log.Clear();Kill(legs.Parts[3],hero);
+            Assert.IsTrue(Said("SEEDTHANE_TOPPLED"),"its last leg broke and it didn't go over");
+            Assert.AreEqual(line+1-whole*BossController.SeedthaneTune.LegBar,body.integrity,2,"the last leg didn't take its own share over half");
+            float bar=body.integrity;Assert.AreEqual(150,Hit(body,hero),1,"toppled, a blow doesn't land whole and half again");Assert.AreEqual(bar-150,body.integrity,1);
+        }
         [UnityTest] public IEnumerator AShakenPodComesDownOnItsMarkAndAFallenPodStopsTheFan()
         {
             yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(12,.05f,-12));Put(hero,At(0,.05f,4.5f));
@@ -453,7 +483,8 @@ namespace Lattice.Tests.PlayMode
             var way=new GameObject("Fixture way out").AddComponent<BossExit>();way.boss="Seedthane";way.transform.position=At(40,0,0);
             var thane=Enemy("Seedthane",At(0,.1f,0));yield return Frames(3);var body=thane.transform;
             Assert.AreEqual(BossController.Ending.Leaves,BossController.EndingOf("Seedthane"));
-            cues.Clear();Kill(thane.Health,hero);
+            // A fight ends with its legs gone, where nothing holds the bar (D375): this one is ended from full, so its held line is set aside.
+            thane.Health.Holds=null;cues.Clear();Kill(thane.Health,hero);
             Assert.IsTrue(Set("bossdown.Seedthane"),"driven off, it isn't counted as beaten");Assert.IsTrue(Said("BOSS_DOWN Seedthane"));Assert.IsTrue(Said("BOSS_LEAVES Seedthane"),"at nothing it lay down where it stood");
             Assert.IsFalse(cues.Any(c=>c.key=="explosionCrunch_000"&&c.emitter==body),"it went with a boss's explosion");
             Assert.IsFalse(thane.GetComponent<BossParts>().Parts.Any(p=>p.Targetable),"its legs can be targeted as it leaves");

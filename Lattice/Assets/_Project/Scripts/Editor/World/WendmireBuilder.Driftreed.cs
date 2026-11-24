@@ -318,14 +318,35 @@ namespace Lattice.EditorTools
             shape.Slot(notchSlot).Triangle(centre+Vector3.up*.006f+(a+b)*radius*.03f,centre+Vector3.up*.006f+a*radius*1.01f,centre+Vector3.up*.006f+b*radius*1.01f,Vector3.up,new Color(.12f,.15f,.11f),.5f);
         }
 
+        /// <summary>How far toward the lens the camera loses the water behind a raft's rim (the crest stands about 1.15 m over the water and the camera looks down at 40 degrees; seen in
+        /// the editor, about .9 m of water past a north rim is hidden), where a raft's side goes into the water, and how far the line runs out from there.</summary>
+        const float BehindRim=1f,Waterline=.25f,LineReach=.6f;
+        /// <summary>The pale line round every raft, as a mask in the water's vertex red that the licensed water adds to the line it reads from scene depth (LocalBiomeBake, MireRafts).
+        /// From depth alone the line reaches .64 m of water from where a raft's side goes in, and from the fixed camera every side but the lens's hides that strip behind its knee-high rim,
+        /// over 1.6 m of water, so those edges met dark water with no line (s24 116 and 178, November 22). The mask is measured from the rim as the camera sees it, the raft's edge or that
+        /// edge a metre toward the lens, whichever is nearer, and runs out .6 m past the waterline, about as far as the line from depth at a side the camera faces. Nothing far from a raft gets any.
+        /// At 1.4 m and 1.2 m it lay a metre and a half wide past the north rims, a beach and not a line (look run d369-driftreed).</summary>
+        static void RaftWaterline(GameObject water)
+        {
+            var mesh=water.GetComponent<MeshFilter>().sharedMesh;var points=mesh.vertices;var colors=new Color[points.Length];
+            var toLens=new Vector2(SightlineAudit.ToCamera.x,SightlineAudit.ToCamera.z).normalized*BehindRim;
+            for(int i=0;i<points.Length;i++)
+            {
+                var p=new Vector2(points[i].x,points[i].z);float seen=Mathf.Min(RaftLand(p),RaftLand(p+toLens));
+                // Not clamped above: a point under the raft keeps its slope, so the line between it and the next point out lies where the distance says.
+                colors[i]=new Color(Mathf.Max(0,1-(seen-Waterline)/LineReach),0,0,0);
+            }
+            mesh.colors=colors;UnityEditor.EditorUtility.SetDirty(mesh);
+        }
+
         static void Driftreed()
         {
             var kit=ZoneKit.Ground(Town,ReedHeight,3.2f);
             var scene=WorldBuilder.Begin(kit.zone);
             var land=kit.Terrain("Reed rafts",-66,82,-14,120,.5f,ReedMat,ReedBundle,ReedTone,new Color(.62f,.6f,.5f),new Color(1,.98f,.92f));
-            var water=kit.Water("Mire water",-66,82,-14,120,1,ReedWater,Water,5);
-            // The licensed water takes this sheet over where it is installed (LocalBiomeBake, palette Mire); the public look under it is the one above.
-            var patch=water.AddComponent<BiomePatch>();patch.resourceKey="Driftreed-mire";patch.palette="Mire";patch.water=true;
+            var water=kit.Water("Mire water",-66,82,-14,120,1,ReedWater,Water,5);RaftWaterline(water);
+            // The licensed water takes this sheet over where it is installed (LocalBiomeBake, palette MireRafts: the Mire look, its line also read from the mask above); the public look under it is the one above.
+            var patch=water.AddComponent<BiomePatch>();patch.resourceKey="Driftreed-mire";patch.palette="MireRafts";patch.water=true;
             WorldBuilder.Spawn("Arrival",kit.On(ReedArrival.x,ReedArrival.y));WorldBuilder.Spawn("Mire",kit.On(MireSpawn.x,MireSpawn.y));WorldBuilder.Spawn("Pump",kit.On(PumpSpawn.x,PumpSpawn.y));
 
             OnTheRaft("someone with a name",ReedPeople);OnTheRaft("a floor sign",ReedSigns.Select(s=>s.at).ToArray());OnTheRaft("a townsperson",ReedFolk.Select(f=>new Vector2(f.x,f.z)).ToArray());

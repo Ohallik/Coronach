@@ -79,6 +79,10 @@ namespace Lattice.Combat
             public const float HeaveTell=1.6f,HeaveInner=9,HeaveOuter=24.5f,HeaveDamage=185,HeaveShove=2.2f;
             /// <summary>Her slack after every move (she draws back: a held clamp eases), and her rest after it.</summary>
             public static readonly float[] Slack={3.2f,3,2.8f,2.6f},Rest={2.6f,2.4f,2.2f,2};
+            /// <summary>How many of her slacks a clamp is held through before it opens, a notch each (BridleClamp.slacks), so a shelf is worked through one of her moves between
+            /// them: on foot under her sweep, her wave or her heave, with the hand kept on the clamp where her marking leaves the seat in a gap and the tender kept off it. One slack each
+            /// left her room four quick cycles, 101 to 104 s in the player against a bar from 120 (D364).</summary>
+            public const int EaseSlacks=2;
             /// <summary>The Clamp Tenders that step out beside a seat as the party docks at it, by clamps off, and how far to each side.</summary>
             public static readonly int[] Tenders={1,1,2,2};
             public const float TenderBeside=2.6f;
@@ -114,8 +118,8 @@ namespace Lattice.Combat
             motherClamps.Clear();
             foreach(var clamp in BridleClamp.All)if(clamp!=null&&clamp.settledBy==health.id)motherClamps.Add(clamp);
             motherClamps.Sort((a,b)=>a.index.CompareTo(b.index));
-            // Taken in order, 1 to 4: a shelf out of its turn says which comes first and takes nobody (World's Berth).
-            foreach(var clamp in motherClamps)clamp.inOrder=true;
+            // Taken in order, 1 to 4: a shelf out of its turn says which comes first and takes nobody (World's Berth). Each eases over two of her slacks (D364).
+            foreach(var clamp in motherClamps){clamp.inOrder=true;clamp.slacks=MotherTune.EaseSlacks;}
             BridleClamp.Opened+=MotherClampOpened;motherHears=true;
             int open=MotherOpen;
             if(MotherRoom)
@@ -250,7 +254,8 @@ namespace Lattice.Combat
         {
             if(health==null||!health.Alive||!MotherRoom)return label;
             int open=MotherOpen;
-            if(DockedSeat()!=null)return $"Take its weight and wait for the slack ({Mathf.Min(open+1,MotherTune.Clamps)}/{MotherTune.Clamps})";
+            var seat=DockedSeat();
+            if(seat!=null)return seat.Eased>0?$"Hold it through her next slack ({Mathf.Min(open+1,MotherTune.Clamps)}/{MotherTune.Clamps})":$"Take its weight and wait for the slack ({Mathf.Min(open+1,MotherTune.Clamps)}/{MotherTune.Clamps})";
             return open>=MotherTune.Clamps-1?"Open the last clamp alongside her as she moves":"Fly the clamp's guns down, then dock";
         }
 

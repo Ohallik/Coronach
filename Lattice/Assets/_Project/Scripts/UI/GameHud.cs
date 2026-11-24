@@ -699,12 +699,12 @@ namespace Lattice.UI
         /// stand round it as one group, seated apart at their popped size and moved off the panels and the screen's edge together, so they never touch each other or the
         /// body's name. Keyed by the kind of hit and a one-second window instead, every reviewer of the November 22 capture still saw two to four numbers on one body:
         /// '295 273 42! 33' on the Bellows (s08 067), '621!! 180 257!!' on the Burrower (s06 037), '1587 2371!! 568!! 2254' on the Warden (s41 037), '78!' over '48' (s14 144).
-        /// A number holds most of its life and then fades.</summary>
-        const float NumberLife=1.05f,NumberHold=.7f;
+        /// A number is full strength for its whole life and then gone (D376: the fade left pale ghosts over a white hull and over empty ground, s65 066, s14 017).</summary>
+        const float NumberLife=1.05f;
         /// <summary>A hit added to a live number pops it: it comes back this much larger and settles over this long. Its room on the screen is the popped size.</summary>
         const float PopLarger=.28f,PopSeconds=.16f;
         /// <summary>How long a body's numbers stay once it's down: the killing blow is read, and the rest don't go on rising off a beaten skiff while the party says it's over (s52 177, s26 457).</summary>
-        const float DownLinger=.6f;
+        const float DownLinger=.35f;
         /// <summary>Less than this is no hit at all to show: '0!!' stood beside '5113!!' on the Warden (s41 036).</summary>
         const float LeastShown=.5f;
         /// <summary>The air between neighbours: with 8, '16 16 216!' read as one string; with 4 over and under, '78!' sat on '48' (s14 144).</summary>
@@ -815,7 +815,7 @@ namespace Lattice.UI
             for(int i=floaters.Count-1;i>=0;i--)
             {
                 var f=floaters[i];f.quiet+=dt;
-                if(f.from==null||!f.from.Alive)f.quiet=Mathf.Max(f.quiet,NumberLife-DownLinger);
+                if(f.from==null)f.quiet=NumberLife;else if(!f.from.Alive)f.quiet=Mathf.Max(f.quiet,NumberLife-DownLinger);
                 if(f.quiet>=NumberLife){Destroy(f.text.gameObject);floaters.RemoveAt(i);continue;}
                 if(f.from!=null)f.world=Head(f.from);
                 f.age=-1;
@@ -831,7 +831,7 @@ namespace Lattice.UI
                     // Its room, not its size this frame: a pop near a panel would otherwise shift the whole group for as long as it lasts.
                     var half=f.room*.5f;var at=anchor+f.offset;
                     left=Mathf.Min(left,at.x-half.x);right=Mathf.Max(right,at.x+half.x);low=Mathf.Min(low,at.y-half.y);high=Mathf.Max(high,at.y+half.y);
-                    f.text.alpha=f.quiet<NumberHold?1:1-(f.quiet-NumberHold)/(NumberLife-NumberHold);
+                    f.text.alpha=1;
                 }
                 var middle=new Vector2((left+right)*.5f,(low+high)*.5f);var size=new Vector2(right-left,high-low);
                 var moved=ClearOfFrames(OnScreen(middle,size),size)-middle;

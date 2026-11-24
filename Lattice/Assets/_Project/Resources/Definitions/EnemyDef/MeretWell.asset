@@ -15,7 +15,7 @@ MonoBehaviour:
   yieldsOnDefeat: 1
   collarPlate: {fileID: 0}
   id: MeretWell
-  prefab: {fileID: 2544871532548827296, guid: 23917a9ba69d87648a6dbc316aed3da1, type: 3}
+  prefab: {fileID: 4926705325910674024, guid: efdd231f1c54f8a4381ffe515e0f80be, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

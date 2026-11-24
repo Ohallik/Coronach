@@ -233,7 +233,22 @@ namespace Lattice.UI
                         $"Save to slot {number}",ItemMarks.Kind.None,null,saves-48-(i-1)*64);
                 }
                 // The note holds three lines: the two heroes out and the scrip. The one resting says theirs while the cursor is on their row.
-                Note(string.Join("\n",Deployment.Of(state).Select(m=>PartyTotals(state,m)))+$"\n{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");
+                // The three stats the rows have no room for stand in a card of their own under the slots, in columns under headings, not as one dotted line each (nov22b s05 042).
+                float cardAt=saves-48-2*64-28-30;
+                MenuList.Headings(panel.transform,new(170,cardAt),1220,TotalsColumns);
+                int hero1=0;
+                foreach(var m in Deployment.Of(state))
+                {
+                    var stats=Gear.Calculate(state,m,GameCatalog.Find<CharacterDef>(m.id),GearSlot.Edge,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
+                    string[] words={DisplayNames.Speaker(m.id),$"{stats.response:0}",$"{stats.resonance:0}",$"{stats.fortune:0}"};
+                    for(int i=0;i<TotalsColumns.Length;i++)
+                    {
+                        var c=TotalsColumns[i];var cell=UiKit.Text(panel.transform,"Totals_"+m.id+"_"+c.name,words[i],i==0?26:24,i==0?UiKit.TextColor:UiKit.FrostColor,TextAlignmentOptions.MidlineLeft);cell.textWrappingMode=TextWrappingModes.NoWrap;
+                        UiKit.Rect(cell.gameObject,new(.5f,.5f),new(.5f,.5f),new(170+c.left+c.width*.5f-610,cardAt-42-hero1*34),new(c.width,32));
+                    }
+                    hero1++;
+                }
+                Note($"{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");;note.rectTransform.anchoredPosition=new(170,-392);
             }
             else if(page==SkillsPage)
             {
@@ -418,7 +433,7 @@ namespace Lattice.UI
                     // footer (nov22 s05 026).
                     var line=Columns(RecipeColumns,new[]{MenuList.Say(r.displayName),MenuList.Say($"T{r.tier}"),MenuList.Say(does,does.Split(',')[0],does.Replace("restores ",""),made!=null&&block==Fabrication.Block.None&&Ranked(r)?PartText.Brief(made):null),
                         MenuList.Say("Takes "+PartText.TakesHeld(state,r.inputs),"Takes "+PartText.TakesHeld(state,r.inputs,true),"Takes "+PartText.Takes(state,r.inputs))},
-                        ()=>Fabricate(r,fabricator),r.displayName,kindOf,null,RecipeTop-(row-1)*RecipeStep,RecipeRow,15);
+                        ()=>Fabricate(r,fabricator),r.displayName,kindOf,null,RecipeTop-(row-1)*RecipeStep,RecipeRow,RecipeSpread);
                     if(block!=Fabrication.Block.None)MenuList.Dim(line);
                     string makes=r.output!=null?$"{r.output.displayName}: {string.Join("  ·  ",new[]{PartText.Effect(r.output),PartText.Passive(r.output)}.Where(s=>s!=""))}":made!=null?$"{made.displayName} {PartText.Restores(made)}. You carry {PartText.Carried(state,made)}.":"";
                     string holding=PartText.Holding(state,r.inputs);
@@ -610,7 +625,7 @@ namespace Lattice.UI
             new("Does",460,740,"MAKES",TextAlignmentOptions.MidlineLeft,24,null,1),new("Takes",MenuList.FirstColumn,1112,"",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor,2),
         };
         /// <summary>The bench's rows: where the first stands, the step between them and their height. Six two-line rows end over the answer to a press and the strip.</summary>
-        const float RecipeTop=200,RecipeStep=78,RecipeRow=74;
+        const float RecipeTop=200,RecipeStep=78,RecipeRow=78,RecipeSpread=13.5f;
         /// <summary>A quest's row is two lines: its title, and on the right whether it's the story's or done; under them its step. The step ran out of a one-line row. Both lines stand
         /// inside the row's bevel, which takes ten units of its top and bottom: at 70 tall the title sat on the top line and the step on the bottom one.</summary>
         static readonly MenuList.Column[] QuestColumns=
@@ -627,6 +642,8 @@ namespace Lattice.UI
             return new[]{MenuList.Say(DisplayNames.Speaker(m.id)),MenuList.Say($"{m.level}"),MenuList.Say($"{m.xp} of {Levels.RequiredXp(m.level)}"),MenuList.Say($"{m.integrity:0}/{Levels.MaxIntegrity(m.level):0}"),
                 MenuList.Say($"{stats.output:0}"),MenuList.Say($"{stats.plating:0}")};
         }
+        /// <summary>The Party page's card of the three stats the hero rows have no room for: a name and one column each.</summary>
+        static readonly MenuList.Column[] TotalsColumns={new("Name",42,250,""),new("Response",300,150,"RESPONSE"),new("Resonance",460,170,"RESONANCE"),new("Fortune",650,150,"FORTUNE")};
         static string PartyLine(GameState state,MemberState m)
         {
             // The weapon the hero fights with on foot, read off their definition (DevLoadout.Weapon): Idra's is an Edge, and by name she read as Sela, by her Emitter's Output.

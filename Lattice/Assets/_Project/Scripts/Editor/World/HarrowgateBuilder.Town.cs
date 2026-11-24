@@ -69,6 +69,8 @@ namespace Lattice.EditorTools
                 new[]{new Vector2(43.6f,66),new Vector2(43.6f,99),new Vector2(44,113.6f),Lookout},
                 new[]{new Vector2(-24,85),new Vector2(-24,104)},new[]{new Vector2(-52,104),new Vector2(-20,104)},new[]{new Vector2(22,104),new Vector2(38,104),new Vector2(43.6f,99)},
                 new[]{F,new Vector2(0,98),new Vector2(0,107.8f)},new[]{new Vector2(-10,108.2f),new Vector2(10,108.2f)},
+                // Round the Warmaster on his post at F, east of him, while he stands there before the duel (he stops a hero: Duel's "The Warmaster standing on his post").
+                new[]{new Vector2(0,85),new Vector2(2.4f,86),new Vector2(2.4f,88.4f),new Vector2(0,90)},
                 new[]{new Vector2(43.6f,80.25f),new Vector2(48,80.25f),new Vector2(50.8f,81.4f),StairFootAt,CellFront},
             };
             internal static readonly (Vector2 at,float half)[] Signs=
@@ -310,6 +312,7 @@ namespace Lattice.EditorTools
                 Life(kit);
                 Story(kit);
                 Duel(kit);
+                Streets(kit);
                 Smoke(kit);
                 FaceSomething();
 
@@ -1059,7 +1062,8 @@ namespace Lattice.EditorTools
                 void LampPost(Vector2 at,Color? light=null){var f=kit.On(at.x,at.y);shape.Slot(1).Post(f,3.2f,.08f,.06f,6,dark,iron).Beam(f+Vector3.up*3.1f,f+new Vector3(.5f,3.1f,0),.05f,.05f,iron);
                     shape.Slot(4).Lump(f+new Vector3(.5f,2.8f,0),new Vector3(.17f,.24f,.17f),(int)(at.x*5+at.y),.03f,Color.white,Color.white,8,5);Solid(at,new Vector3(.26f,2,.26f));
                     if(light!=null){var l=kit.Lamp(new Vector3(at.x+.5f,0,at.y),8,1.5f,light.Value);l.transform.position=f+new Vector3(.5f,2.7f,0);}}
-                Color warm=new(1,.74f,.44f),cold=new(.72f,.84f,1f);
+                // The street lamps burn without a light of their own: by day a lamp's light laid a flat ochre disc on the paving (s53/016); the lantern itself is still lit.
+                Color? warm=null,cold=null;
                 void PikeRack(Vector2 at,float yaw)
                 {
                     var t=Quaternion.Euler(0,yaw,0);var f=kit.On(at.x,at.y);
@@ -1204,10 +1208,24 @@ namespace Lattice.EditorTools
                 var person=new GameObject("Townsperson");person.transform.SetPositionAndRotation(kit.On(at),Quaternion.Euler(0,yaw,0));person.isStatic=solid;
                 var prefab=ZoneKit.Prefab("Enemies",id)??ZoneKit.Prefab("Characters","BrekkBody");var model=(GameObject)PrefabUtility.InstantiatePrefab(prefab);model.transform.SetParent(person.transform,false);model.name="Generated civilian";
                 foreach(var b in model.GetComponentsInChildren<GroundLifecycleSupport>())UnityEngine.Object.DestroyImmediate(b);
+                if(id=="MusterSergeant"||id=="MusterScav")foreach(var part in model.GetComponentsInChildren<Renderer>(true))part.sharedMaterials=part.sharedMaterials.Select(PlainRim).ToArray();
                 if(solid){var box=person.AddComponent<BoxCollider>();box.size=new Vector3(.7f,1.9f,.7f);box.center=Vector3.up*.95f;}
                 person.AddComponent<PropTint>().tint=tint;
                 foreach(var rig in model.GetComponentsInChildren<Animator>()){rig.cullingMode=AnimatorCullingMode.CullCompletely;PrefabUtility.RecordPrefabInstancePropertyModifications(rig);}
                 return person;
+            }
+            /// <summary>A garrison frame worn in town takes the Pikeguard's plain rim ((.25, .25, .3), power 4, none in shade), saved as a material of its own so the player draws what
+            /// the editor does. The Sergeant's and the Scav's hot orange rim was made for the Lantern Road's dark floors; under PropTint's base of 1 it covered the drill sergeant on
+            /// the muster field, a glowing shell (whole-game capture of November 22, s51/147, s51/180).</summary>
+            static Material PlainRim(Material source)
+            {
+                if(source==null||!source.HasProperty("_RimColor"))return source;
+                const string folder="Assets/_Project/Art/Generated/Harrowgate";var path=$"{folder}/{source.name}_Town.mat";
+                var plain=AssetDatabase.LoadAssetAtPath<Material>(path);
+                if(plain==null){Directory.CreateDirectory(folder);plain=new Material(source);AssetDatabase.CreateAsset(plain,path);}
+                else{plain.shader=source.shader;plain.CopyPropertiesFromMaterial(source);plain.shaderKeywords=source.shaderKeywords;}
+                plain.SetColor("_RimColor",new Color(.25f,.25f,.3f));plain.SetFloat("_RimPower",4);if(plain.HasProperty("_RimUnlit"))plain.SetFloat("_RimUnlit",0);
+                EditorUtility.SetDirty(plain);return plain;
             }
             /// <summary>What someone is carrying or holding, which is how a still says what they are doing.</summary>
             static void Carry(ZoneKit kit,GameObject who,string doing)
@@ -1528,6 +1546,19 @@ namespace Lattice.EditorTools
                     var spawner=duel.GetComponentInChildren<Spawner>();spawner.transform.position=At(kit,F);spawner.transform.rotation=Quaternion.Euler(0,180,0);spawner.faceAsPlaced=true;spawner.radius=0;
                     duel.requiredFlag="vask.fieldTaken";duel.checkpointSpawn="Field";
                     var viewpoint=new GameObject("The Warmaster on show");viewpoint.transform.position=At(kit,new Vector2(0,FieldSouth));duel.previewPoint=viewpoint.transform;duel.previewRadius=20;talk.previewEncounter=duel;
+                    // Shown before the fight he is a dormant body with every collider off, so nothing stopped a hero walking into him (Taren stood .44 m from his middle, s51/147).
+                    // While he stands on his post as a person, this does; it goes as the duel begins (his own capsule then), and after it Drask, yielded, has his. An obstacle, so the
+                    // companion steps round him too.
+                    var standing=new GameObject("The Warmaster standing on his post",typeof(CapsuleCollider),typeof(NavMeshObstacle));standing.transform.position=At(kit,F);
+                    var stood=standing.GetComponent<CapsuleCollider>();stood.radius=.75f;stood.height=2.5f;stood.center=Vector3.up*1.25f;
+                    var round=standing.GetComponent<NavMeshObstacle>();round.shape=NavMeshObstacleShape.Capsule;round.radius=.75f;round.height=2.5f;round.center=Vector3.up*1.25f;round.carving=false;
+                    // And he is on the field only once he has received the party at his table and gone out to it (DraskReceives sets vask.draskMet): until then he sits in the hall,
+                    // and the body on show at F with what stops a hero there made two of him, 22 m apart (whole-game capture of November 22, s52/014 and 017; D383).
+                    duel.previewFlag="vask.draskMet";
+                    var goneOut=new GameObject("The Warmaster has gone out to the field");goneOut.transform.position=At(kit,F);goneOut.transform.SetParent(duel.transform,true);
+                    standing.transform.SetParent(goneOut.transform,true);
+                    Gate("The Warmaster is on the field once he has received the party","vask.draskMet",true,goneOut);
+                    Gate("The Warmaster stands on his post until the duel begins","vask.fieldTaken",false,standing);
                 }
                 else Debug.LogWarning("HARROWGATE_DUEL_PENDING: no DraskVaal EnemyDef yet, so the field has its seals and no encounter");
                 // ---- the room: a combat place while the duel is owed and the lead is on the field.
@@ -1732,6 +1763,8 @@ namespace Lattice.EditorTools
                 ground.Decals(new[]{"Scorch","Stain"},12,p=>p.y>40&&p.y<56&&p.x>11&&p.x<40?1:0,1,2.4f,soot,false,.12f,2);
                 ground.Decals(new[]{"Litter","Stain"},6,p=>p.y>36&&p.y<56&&p.x<-2?ZoneKit.Smooth(.6f,2,FromWays(p)):0,.6f,1.4f,litter,false,.12f,3);
                 ground.Decals(new[]{"Stain","Slabs"},3,p=>Dry(p)*(p.y<22.6f?1:0),1.2f,3,stain,false,.1f,4);
+                // Wear along the streets the town walks (D371): stains, chipped slabs and litter at their edges, where carts stand and stalls trade (bare paving, s50/087, s51/136).
+                ground.Decals(new[]{"Stain","Slabs","Litter"},5,p=>Dry(p)*(!OnTheField(p)&&FromWays(p)>1.4f&&FromWays(p)<5f?1:0),.8f,2.2f,new Color(.3f,.29f,.28f,.55f),false,.1f,31);
                 ground.Decals(new[]{"Flagstones","Slabs"},2,p=>Dry(p)*(p.y>58.6f&&!OnTheField(p)?1:0),1.4f,2.8f,new Color(.7f,.68f,.64f,.7f),true,.1f,5);
                 ground.Decals(new[]{"PebblesA","PebblesB"},3,p=>OnTheField(p)?1:0,.8f,1.6f,new Color(.44f,.43f,.44f,.8f),false,.1f,6);
                 // The field's drill lines: the files' marks, pale, north to south, and the line the front rank dresses on.
@@ -1759,7 +1792,8 @@ namespace Lattice.EditorTools
                 // Embers kicked out in front of the two hearths that burn from the start.
                 ground.Glows(140,p=>p.y>50.4f&&p.y<52.6f&&(Mathf.Abs(p.x-21.3f)<1.3f||Mathf.Abs(p.x-34.3f)<1.3f)?1:0,.08f,.22f,new Color(1,.5f,.2f,1),11);
                 ground.Cover(new[]{"Shards","Twigs"},4,p=>p.y>40&&p.y<56&&p.x>11&&p.x<40&&FromWays(p)>1.6f?1:0,.08f,.2f,new Color(.6f,.58f,.56f,1),2,.14f,8);
-                ground.Look("Canyon",null).LampPools(2.4f,new Color(1,.78f,.5f,.45f));
+                // No painted lamp pools: the town is seen by day, and a pool of lamplight belongs to night or to shade (flat ochre discs on the paving, s50/087, s53/016).
+                ground.Look("Canyon",null);
                 ground.MovingShade("cloud",40,new Vector2(.5f,.3f),.2f,.5f,.05f,default,new Vector2(12,24));
                 ground.Finish();
             }

@@ -95,8 +95,9 @@ namespace Lattice.UI
             }
         }
         static Material PaleGround=>paleGround!=null?paleGround:paleGround=Reaching(Paint,new Color(.1f,.07f,.05f,.42f),"sign plate on bright ground (runtime)",Band);
-        /// <summary>Snow, pale stone, a white hull: dark enough that white type stands 3 to 1 on ground as bright as there is.</summary>
-        static Material Strong=>strong!=null?strong:strong=Reaching(Paint,new Color(.03f,.05f,.09f,.95f),"sign plate at full strength (runtime)",Band);
+        /// <summary>Snow, pale stone, a white hull: dark enough that white type stands 3 to 1 on ground as bright as there is. Solid in its middle (D365): at .95 a twentieth of
+        /// what is behind came through, and a sunlit crate drifting behind WARP — THE WICK REACH, many times brighter than the plate before the grade, showed through above THE (s12 026).</summary>
+        static Material Strong=>strong!=null?strong:strong=Reaching(Paint,new Color(.03f,.05f,.09f,1),"sign plate at full strength (runtime)",Band);
         /// <summary>The most Sorrel's sunlit floors are given: a warm shade just under half, which is what they're held to (a dark plate on Sorrel's tan was a dirty
         /// brown rectangle with tyre tracks through it; QaWorldThirdTests keeps SORREL OUTPOST's under .5).</summary>
         static Material SunlitMost=>sunlitMost!=null?sunlitMost:sunlitMost=Reaching(Paint,new Color(.08f,.06f,.04f,.49f),"sign plate on sunlit ground, its most (runtime)",Band);
@@ -133,7 +134,8 @@ namespace Lattice.UI
             float wide=text.GetPreferredValues(words).x/em;
             return NameBacking+"<color=#00000000>"+words+"</color></mark>​<space=-"+wide.ToString("0.###",System.Globalization.CultureInfo.InvariantCulture)+"em>";
         }
-        const string NameBacking="<mark=#05080EDB padding=\"90,90,90,90\">";
+        /// <summary>Solid (D365): at DB, .86, the floor and a passer-by's legs showed through MIRA's tag on the Decks' pale floor (s01 031), which in linear light is a seventh of them.</summary>
+        public const string NameBacking="<mark=#05080EFF padding=\"90,90,90,90\">";
 
         public static void Apply()
         {

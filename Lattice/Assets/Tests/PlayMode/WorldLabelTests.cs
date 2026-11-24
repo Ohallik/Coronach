@@ -439,10 +439,10 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(back,.9f,"the sign doesn't come back once the fight is over");
         }
         /// <summary>s43/044 and s08/112: the party standing on a word left it at a third of its strength through their legs, 'LAST LANTERN' and 'LO R CHAMBER'. A body over a word's
-        /// letters takes it down to a trace (AWordUnderAHerosLegsStepsAside asks that it isn't gone outright), not to a ghost.</summary>
-        [UnityTest] public IEnumerator AWordUnderThePartysFeetIsATraceNotAGhost()
+        /// letters takes it away, for that body (a trace of .08 still read as a ghost in the player: D365).</summary>
+        [UnityTest] public IEnumerator AWordUnderThePartysFeetIsGoneNotAGhost()
         {
-            float shown=float.NaN;
+            string why=null;
             IEnumerator Moment(System.Action<float> got)
             {
                 yield return Zone("Hushwell");
@@ -455,10 +455,10 @@ namespace Lattice.Tests.PlayMode
                 var camera=Camera.main;var feet=camera.WorldToScreenPoint(Lead.transform.position);
                 sign.ForceMeshUpdate();var b=sign.textBounds;var low=camera.WorldToScreenPoint(sign.transform.TransformPoint(new Vector3(b.center.x,b.min.y,0)));var high=camera.WorldToScreenPoint(sign.transform.TransformPoint(new Vector3(b.center.x,b.max.y,0)));
                 Assert.IsTrue(feet.y<Mathf.Max(low.y,high.y),"fixture: the hero's body rises over the word's letters on the screen");
-                shown=sign.alpha;got(sign.alpha);
+                why=sign.GetComponent<SignFade>().GoneFor;got(sign.alpha);
             }
-            yield return Holds(Moment,v=>v>.1f,"LOWER CHAMBER reads as a ghost through the legs of the hero standing on its letters");
-            Assert.Greater(shown,.02f,"the word went altogether, which AWordUnderAHerosLegsStepsAside rules out");
+            yield return Holds(Moment,v=>v>.01f,"LOWER CHAMBER reads as a ghost through the legs of the hero standing on its letters");
+            Assert.AreEqual("body",why,"the word went for something other than the body on it");
         }
         static TextMeshPro FixtureSign(string words)
         {

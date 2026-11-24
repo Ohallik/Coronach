@@ -346,6 +346,7 @@
       },
       "tolerance": 0.5,
       "until": "arrived",
+      "stopWhen": "flag:end.motor1",
       "expectedScene": "LastMooring"
     },
     {
@@ -840,6 +841,7 @@
       },
       "tolerance": 0.5,
       "until": "arrived",
+      "stopWhen": "flag:end.motor2",
       "expectedScene": "LastMooring"
     },
     {
@@ -1334,6 +1336,7 @@
       },
       "tolerance": 0.5,
       "until": "arrived",
+      "stopWhen": "flag:bossdown.Tollkeeper",
       "expectedScene": "LastMooring"
     },
     {

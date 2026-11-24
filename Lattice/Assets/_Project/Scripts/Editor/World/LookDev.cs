@@ -45,7 +45,11 @@ namespace Lattice.EditorTools
                 new View("outpost-wide",new Vector3(4,0,22),false,2.6f),new View("haul-wide",new Vector3(-6,0,72),false,2.6f),
                 // The haul road between its ridges (D360): where nov22-whole s04 019 and 054 stood, and the stretches between its fights.
                 new View("haul-s04-019",new Vector3(4.1f,0,57.5f)),new View("haul-s04-054",new Vector3(9.1f,0,111.4f)),new View("haul-63",new Vector3(.4f,0,63.1f)),
-                new View("haul-86",new Vector3(-6.3f,0,85.6f)),new View("haul-108",new Vector3(6.5f,0,107.9f)),new View("haul-121",new Vector3(12.9f,0,121)),new View("haul-50",new Vector3(6.2f,0,49.6f))}),
+                new View("haul-86",new Vector3(-6.3f,0,85.6f)),new View("haul-108",new Vector3(6.5f,0,107.9f)),new View("haul-121",new Vector3(12.9f,0,121)),new View("haul-50",new Vector3(6.2f,0,49.6f)),
+                // The haul road's stills in nov22b-whole (D368), the lens exactly where the capture's camera was (frames.csv: its point is that camera plus the Ground profile's 19.5 m
+                // along its pitch and yaw, less the metre Render lifts it): s03 007, s04 020, 031, 042, 053.
+                new View("cap-s03-007",new Vector3(8.55f,-.93f,38.23f)),new View("cap-s04-020",new Vector3(-7.47f,-1.02f,74.23f)),new View("cap-s04-031",new Vector3(-5.11f,-1.02f,97.05f)),
+                new View("cap-s04-042",new Vector3(8.31f,-1.02f,110.34f)),new View("cap-s04-053",new Vector3(15.34f,-1.02f,128.35f))}),
             ("Arena_Ground",new[]{new View("yard",new Vector3(-6,0,4))}),
             ("Hushwell",new[]{new View("descent",new Vector3(0,0,20)),new View("nursery",new Vector3(14,-15,334)),
                 new View("breach",new Vector3(0,0,6)),new View("gallery-a",new Vector3(-12,0,48)),new View("gallery-b",new Vector3(8,0,84)),

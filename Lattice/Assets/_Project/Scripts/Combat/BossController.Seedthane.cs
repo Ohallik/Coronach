@@ -12,7 +12,7 @@ namespace Lattice.Combat
     /// <item><b>Planted</b> (to half): it stands rooted and turns where it stands. Thorn Fan, a wide marked sweep; Fan Volley, three of them one after another, after which it has
     /// overreached and is open; Pod Shake, which rains loose husks on marked circles at each hero and brings the nearest hanging pods (<see cref="CoverPod"/>) down where they
     /// hang. A fallen pod is cover, and a fan stops at cover. Its four planted legs are break targets (<see cref="BossParts"/>): each one broken takes a share of its bar and
-    /// leaves it listing and open, and the fourth topples it for longer.</item>
+    /// leaves it listing and open, and the fourth topples it for longer. While a leg stands its bar holds just over half (D375): the planted half ends with its legs.</item>
     /// <item><b>Mobile</b> (under half): it pulls its legs up, so there is nothing left to break. Circle Fan, a quarter-turn round the hero and a fan from where it stops, twice;
     /// Stamping Advance, three marked stamps that walk it onto him, the last of which leaves it spent and open; Pod Shake still.</item>
     /// </list>
@@ -34,9 +34,10 @@ namespace Lattice.Combat
         /// bar in Refined parts (bar 300, a hit landing at .735) in whichever phase it is used, more than anything on the river (the Thornback's charge, 11.8%; XylosCombatTests).</summary>
         public static class SeedthaneTune
         {
-            /// <summary>Legs: how many, each one's integrity and the bar it takes with it as shares of the boss's, and how long it lists for one and lies toppled for the last.</summary>
+            /// <summary>Legs: how many, each one's integrity and the bar it takes with it as shares of the boss's, and how long it lists for one and lies toppled for the last.
+            /// A leg costs what it takes (D375), as the Rotbloom's stalks do: at .035 for .06 two legs were a quarter of the planted half for a fourteenth of its integrity.</summary>
             public const int Legs=4;
-            public const float LegIntegrity=.035f,LegBar=.06f,Lists=3,Topples=5;
+            public const float LegIntegrity=.06f,LegBar=.06f,Lists=3,Topples=5;
             public const float FanReach=7.5f,FanAngle=100,FanTell=.8f,FanTellMobile=.65f,FanNext=.55f,FanDamage=52,Overreached=1.5f;
             public const int VolleyFans=3;
             /// <summary>Pod Shake: the time everything is in the air, each landing's radius and damage, how many hanging pods one shake brings down, and from how far.</summary>
@@ -55,8 +56,13 @@ namespace Lattice.Combat
             legs=gameObject.AddComponent<BossParts>();
             legs.Build(health,"Seedthane - leg",SeedthaneTune.Legs,girth+.9f,.9f,.8f,brain.definition.integrity*SeedthaneTune.LegIntegrity,45,new Color(1.3f,.85f,.35f,.9f));
             legs.Broke+=SeedthaneLegBroke;
+            // Planted on a leg, it can't be driven over half: the planted half is its legs' to end (D375). Before, the bar crossed with two or three legs standing in four of
+            // five fights of November 22 (37 to 55 s against a bar from 60), the openings of the two legs that did go carrying it.
+            health.Holds=()=>SeedthaneHold;
             var leaving=gameObject.AddComponent<BossDeparture>();leaving.sound="root_groan";leaving.speed=7;
         }
+        /// <summary>Where its bar holds: 1 Integrity over half while it is planted on a leg, and nowhere once the last is broken or it is up.</summary>
+        float SeedthaneHold=>health!=null&&Phase<2&&!shifting&&legs!=null&&legs.Standing>0?health.maximum*Thresholds[0]+1:0;
         void SeedthaneUpdate()
         {
             // Planted, it doesn't walk; its legs can be reached only while they are in the ground.
@@ -65,7 +71,7 @@ namespace Lattice.Combat
             // A rigid body's life between moves: a planted thing sways low, one on its legs rides high and treads.
             if(!busy&&!health.Broken&&!brain.Telegraphing)Pose(1.5f*Mathf.Sin(Time.time*1.3f),Phase<2?-.25f:.15f+.07f*Mathf.Sin(Time.time*5));
         }
-        void SeedthaneDown(){if(legs!=null)legs.Expose(false);}
+        void SeedthaneDown(){if(legs!=null)legs.Expose(false);health.Holds=null;}
         void SeedthaneUproots()
         {
             if(legs!=null)legs.Expose(false);brain.Rooted=false;
@@ -75,8 +81,10 @@ namespace Lattice.Combat
         {
             if(health==null||!health.Alive)return;
             bool last=parts.Standing==0;
-            // A leg is a share of what holds it up, and goes off its bar with it. It can't be driven off by its legs alone: the last of its bar is its own.
-            health.integrity=Mathf.Max(1,health.integrity-health.maximum*SeedthaneTune.LegBar);
+            // A leg is a share of what holds it up, and goes off its bar with it. It can't be driven off by its legs alone: the last of its bar is its own. Only the last leg
+            // takes it over half: one with others still standing stops where the planted bar holds.
+            float after=health.integrity-health.maximum*SeedthaneTune.LegBar,hold=SeedthaneHold;
+            health.integrity=Mathf.Max(1,hold>0?Mathf.Max(after,Mathf.Min(health.integrity,hold)):after);
             if(engaged<0)engaged=Time.realtimeSinceStartup;
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;
             float seconds=last?SeedthaneTune.Topples:SeedthaneTune.Lists;

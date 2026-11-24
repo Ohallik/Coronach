@@ -18,6 +18,7 @@ namespace Lattice.EditorTools
                 CabinFronts(kit);
                 LinerFloor(kit);
                 FreightDeck(kit);
+                WorkingDeck(kit);
                 QuayGoods(kit);
                 SchoolRaftAboard(kit);
                 Arrivals.Build(kit);
@@ -122,6 +123,75 @@ namespace Lattice.EditorTools
                     ZoneKit.Block(parked,foot+Vector3.up*1,new Vector3(1.6f,2,3.2f),yaw,"Loader");
                 }
                 Shade(kit.Built("Parked loaders",loaders,Panel,Panel,Lamp),true).transform.SetParent(parked.transform,true);
+            }
+
+            // ---------------------------------------------------------------- the spine's lanes, as a working deck carries them (D370)
+            /// <summary>Between the spine's centre line and its kerbs, down to its foot inside the dock door, the deck was wide bare plating from the play camera (nov20-whole
+            /// s44/092, s55/014; the dock's own plate beyond the door has its painted bays, rings and cargo, and the five spots tried for hatches there all had something solid at a body's height, d370-b): flush hatches to the holds under the deck in a striped border, hinged, slotted and numbered; an arrow down each lane; tie-down points along both lanes'
+            /// edges; lashing lockers on the kerbs with straps coiled on them. The hatches and the paint are flat, off the ways by the ways' own margin and off every spot and
+            /// sign; the lockers are solid, off the ways as anything put down is, where no route of the whole-game capture walked (nov22b-whole s27 to s62).</summary>
+            static void WorkingDeck(ZoneKit kit)
+            {
+                var flat=new ZoneKit.Shape();int placed=0,refused=0;string refusedAt="";
+                bool Open(Vector2 c,float half)
+                {
+                    for(int i=0;i<9;i++){var p=c+new Vector2((i%3-1)*half,(i/3-1)*half);if(FromWays(p)<1.8f||OnASign(p)||p.y<ZMin+2.5f)return false;}
+                    foreach(var spot in Spots)if(Vector2.Distance(c,spot)<half+3.4f)return false;
+                    return true;
+                }
+                void Patch(Vector2 c,float x0,float x1,float z0,float z1,float up,Color tone)=>flat.Quad(At(c.x+x0,c.y+z0,up),At(c.x+x1,c.y+z0,up),At(c.x+x1,c.y+z1,up),At(c.x+x0,c.y+z1,up),Vector3.up,tone,.5f);
+                Color cover=new(.54f,.56f,.58f),frame=new(.26f,.26f,.28f);
+                void Hatch(Vector2 c)
+                {
+                    const float h=.72f,rim=.12f,outer=h+rim+.16f;
+                    if(!Open(c,outer)||!Clear(c)){refused++;refusedAt+=$" hatch({c.x:0.#},{c.y:0.#}){(Open(c,outer)?" not clear":"")}";return;}
+                    // The border in hazard stripes as the rails' kick plates are, the dark frame, the cover a cooler grey than the plate round it.
+                    for(int k=0;k<8;k++){float a=-outer+k*outer/4,b=a+outer/4;var tone=k%2==0?Hazard:Soot;Patch(c,a,b,-outer,-h-rim,.021f,tone);Patch(c,a,b,h+rim,outer,.021f,tone);}
+                    for(int k=0;k<6;k++){float a=-h-rim+k*(h+rim)/3,b=a+(h+rim)/3;var tone=k%2==0?Soot:Hazard;Patch(c,-outer,-h-rim,a,b,.021f,tone);Patch(c,h+rim,outer,a,b,.021f,tone);}
+                    Patch(c,-h-rim,h+rim,-h-rim,-h,.022f,frame);Patch(c,-h-rim,h+rim,h,h+rim,.022f,frame);Patch(c,-h-rim,-h,-h,h,.022f,frame);Patch(c,h,h+rim,-h,h,.022f,frame);
+                    Patch(c,-h,h,-h,h,.022f,cover);
+                    // Its two hinges at the back, the lifting slot at the front, and the hold's number in the stencilled blocks the cargo bays are numbered in.
+                    foreach(float x in new[]{-.42f,.42f})flat.Box(At(c.x+x,c.y+h-.07f,.045f),new Vector3(.34f,.05f,.12f),Quaternion.identity,Soot,frame);
+                    Patch(c,-.24f,.24f,-h+.1f,-h+.2f,.024f,Soot);
+                    for(int k=0;k<1+placed%3;k++)Patch(c,-.36f+k*.26f,-.2f+k*.26f,-.28f,.3f,.024f,Cream);
+                    placed++;
+                }
+                void Arrow(Vector2 c,float north)
+                {
+                    if(!Open(c,.9f)){refused++;return;}
+                    Patch(c,-.11f,.11f,north>0?-.9f:-.2f,north>0?.2f:.9f,.021f,Cream);
+                    var tip=At(c.x,c.y+.9f*north,.021f);flat.Triangle(At(c.x-.42f,c.y+.2f*north,.021f),At(c.x+.42f,c.y+.2f*north,.021f),tip,Vector3.up,Cream);
+                }
+                // The spine: a hatch every nine metres or so, side to side; between them each lane's arrow, the east lane up to the arcade and the west lane down to the dock.
+                foreach(var at in new[]{new Vector2(3.4f,-49.5f),new Vector2(-3.4f,-40.5f),new Vector2(3.4f,-35),new Vector2(-3.4f,-30.5f),new Vector2(3.4f,-27),new Vector2(-3.4f,-18.5f),new Vector2(3.4f,-15)})Hatch(at);
+                foreach(float z in new[]{-44.5f,-31f,-21f})Arrow(new Vector2(3.4f,z),1);
+                foreach(float z in new[]{-35.5f,-27.3f,-14.2f})Arrow(new Vector2(-3.4f,z),-1);
+                // Tie-down points down both lanes' edges, inside the green lines, a pace apart from each other and from the hatches.
+                foreach(float x in new[]{-4.75f,4.75f})for(float z=-51;z<=-13;z+=3)
+                {
+                    var p=new Vector2(x,z);if(FromWays(p)<1.8f||OnASign(p))continue;bool byHatch=false;
+                    foreach(var hz in x<0?new[]{-40.5f,-30.5f,-18.5f}:new[]{-49.5f,-35f,-27f,-15f})if(Mathf.Abs(z-hz)<1.4f)byHatch=true;if(byHatch)continue;
+                    var c=At(p,.02f);flat.Box(c+Vector3.up*.01f,new Vector3(.36f,.02f,.36f),Quaternion.identity,frame).Disc(c+Vector3.up*.022f,Vector3.up,.13f,10,new Color(.62f,.62f,.6f),.08f,new Color(.7f,.7f,.68f));
+                }
+                Shade(kit.Built("Floor detail the spine's and the dock's hatches, lane arrows and tie-downs",flat,Panel),false);
+                // Lashing lockers on the kerbs, each in a hull's paint with its lid, hasps and a strap coiled on it: solid, knee-high, between the lane's edge and the kerb's stripes.
+                var lockers=new ZoneKit.Shape();var held=new GameObject("Lashing lockers");int n=0;
+                foreach(var (x,z) in new[]{(-6.05f,-33.5f),(6.05f,-38f),(6.05f,-25f),(6.05f,-14.5f)})
+                {
+                    var p=new Vector2(x,z);if(KeepsOff(p)||KeepsOff(p+Vector2.up*.9f)||KeepsOff(p-Vector2.up*.9f)||!Clear(p)){refused++;continue;}
+                    var paint=Paints[(n*5+4)%Paints.Length];var foot=At(p);float side=x<0?1:-1;n++;
+                    lockers.Slot(0).Box(foot+Vector3.up*.27f,new Vector3(.7f,.54f,1.8f),Quaternion.identity,paint,ZoneKit.Shape.Dim(paint,1.1f)).Box(foot+Vector3.up*.57f,new Vector3(.76f,.08f,1.86f),Quaternion.identity,ZoneKit.Shape.Dim(paint,.8f),ZoneKit.Shape.Dim(paint,1.15f));
+                    lockers.Slot(1).Box(foot+Vector3.up*.03f,new Vector3(.74f,.06f,1.84f),Quaternion.identity,Soot);
+                    foreach(float dz in new[]{-.5f,.5f})lockers.Slot(1).Box(foot+new Vector3(side*.37f,.44f,dz),new Vector3(.04f,.14f,.1f),Quaternion.identity,new Color(.8f,.78f,.7f));
+                    for(int k=0;k<1+n%3;k++)lockers.Slot(1).Box(foot+new Vector3(side*.36f,.24f,-.2f+k*.16f),new Vector3(.02f,.22f,.08f),Quaternion.identity,Cream);
+                    // The strap, coiled flat on the lid: three turns, a tail hanging over the lane side.
+                    var lid=foot+Vector3.up*.63f+Vector3.forward*.3f;Color strap=n%2==0?new Color(.94f,.6f,.2f):Hazard;
+                    for(int turn=0;turn<3;turn++){var coil=new Vector3[13];var thick=new float[13];for(int k=0;k<13;k++){float a=k*Mathf.PI*2/12,r=.26f-turn*.06f;coil[k]=lid+new Vector3(Mathf.Cos(a)*r,turn*.025f,Mathf.Sin(a)*r);thick[k]=.025f;}lockers.Slot(2).Tube(coil,thick,4,strap,strap,1,1,false);}
+                    lockers.Slot(2).Tube(new[]{lid+new Vector3(side*.26f,0,0),foot+new Vector3(side*.4f,.6f,.3f),foot+new Vector3(side*.42f,.3f,.36f)},new[]{.022f,.022f,.022f},4,strap,strap,1,1,false);
+                    ZoneKit.Block(held,foot+Vector3.up*.31f,new Vector3(.76f,.62f,1.86f),0,"Lashing locker");
+                }
+                if(!lockers.Empty)Shade(kit.Built("Lashing lockers",lockers,Panel,Panel,Cloth),true).transform.SetParent(held.transform,true);
+                Debug.Log($"MANYHANDS_WORKING_DECK hatches={placed} lockers={n} refused={refused}{refusedAt}");
             }
 
             // ---------------------------------------------------------------- the Ilu's goods along the north quay

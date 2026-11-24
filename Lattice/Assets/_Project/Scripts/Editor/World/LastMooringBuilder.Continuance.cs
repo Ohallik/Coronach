@@ -37,7 +37,7 @@ namespace Lattice.EditorTools
                 bloomThreshold=1f,bloomIntensity=.55f,vignette=.24f});
         }
 
-        internal static class Continuance
+        internal static partial class Continuance
         {
             // ---------------------------------------------------------------- the numbers (docs/maps/Continuance.md reads these; so do the tests and the fights)
             /// <summary>The decks' two levels, the spine's foot, the flight berth's plane and the hull's top drawn under it.</summary>
@@ -225,41 +225,62 @@ namespace Lattice.EditorTools
                     if(edge<.011f)tone=.32f;
                     return new Color(tone,tone,tone*1.01f,1);
                 });
-                // The hull's inner plating, behind every deck's own: pale panels with a rib every few metres, laid along each wall.
+                // The hull's inner plating, behind every deck's own: pale panels in courses laid half a panel over, each raised (a lit lip at its head and its left, a dark seam at its
+                // foot and its right), a stiffener near each course's head, fixings along its foot, and what a working ship's walls gather: grime at each course's foot and runs down
+                // from the seam over it (the look pass of November 23: s66/021's walls were plain grey blocks with a grid on them).
                 var keel=ZoneKit.Texture("Continuance/continuance-keel",512,(u,v)=>
                 {
-                    float row=v*4;int course=Mathf.FloorToInt(row);float up=row-course;float across=u*4;int panel=Mathf.FloorToInt(across);float along=across-panel;
-                    float own=H(panel+course*7,course),grain=ZoneKit.Cloud(u,v,16,9);
-                    float tone=.74f+.06f*(own-.5f)+.04f*(grain-.5f);
-                    if(up<.035f||along<.012f)tone=.42f;
-                    if(up>.86f&&up<.92f)tone=.6f;
+                    float row=v*4;int course=Mathf.FloorToInt(row);float up=row-course;float across=u*4+(course%2==1?.5f:0);int panel=Mathf.FloorToInt(across);float along=across-panel;
+                    float own=H(panel+course*7,course),grain=ZoneKit.Cloud(u,v,16,9),streak=ZoneKit.Cloud(u,.31f,64,21);
+                    float tone=.77f+.08f*(own-.5f)+.05f*(grain-.5f);
+                    tone-=.07f*(1-Mathf.SmoothStep(0,.4f,up))*(.4f+streak);
+                    tone-=.2f*Mathf.Max(0,streak-.56f)*(1-Mathf.SmoothStep(.5f,1,up));
+                    if(up>.84f&&up<.9f)tone=.6f;if(up>=.9f&&up<.92f)tone=.86f;
+                    if(Mathf.Abs(up-.075f)<.016f&&Mathf.Abs(Mathf.Repeat(along*8,1)-.5f)<.12f)tone=.92f;
+                    if(up>.968f||along<.022f)tone=Mathf.Max(tone,.9f);
+                    if(up<.03f||along>.982f)tone=.32f;
                     return new Color(tone*.98f,tone,tone*1.02f,1);
                 });
-                // The wall plate on each deck's walls: panels 1.2 m square, a fine seam, small fixings, and on every one, low on its right, the builder's signature: a name and a
-                // date in the same neat hand ("Every panel is signed"), too small to read from the camera and there on every panel.
+                // The wall plate on each deck's walls: panels 1.2 m square, each raised (a lit lip at its head and left, a dark seam at its foot and right), small fixings, a rail a third
+                // up one panel in four and a service hatch in one in five, a little grime at each foot; and on every one, low on its right, the builder's signature: a name and a date in
+                // the same neat hand ("Every panel is signed"), too small to read from the camera and there on every panel.
                 var plate=ZoneKit.Texture("Continuance/continuance-plate",512,(u,v)=>
                 {
                     float x=u*2,y=v*2;int ix=Mathf.FloorToInt(x),iy=Mathf.FloorToInt(y);float fx=x-ix,fy=y-iy;
-                    float own=H(ix+3,iy+9),grain=ZoneKit.Cloud(u,v,18,7);
-                    float tone=.86f+.04f*(own-.5f)+.03f*(grain-.5f);
+                    float own=H(ix+3,iy+9),kind=H(ix+11,iy+5),grain=ZoneKit.Cloud(u,v,18,7),streak=ZoneKit.Cloud(u,.53f,48,13);
+                    float tone=.86f+.06f*(own-.5f)+.03f*(grain-.5f);
+                    tone-=.06f*(1-Mathf.SmoothStep(0,.3f,fy))*(.5f+streak);
+                    if(kind<.25f&&Mathf.Abs(fy-.34f)<.03f)tone=fy>.34f?.95f:.6f;
+                    if(kind>.8f)
+                    {
+                        float hx=Mathf.Abs(fx-.42f)/.2f,hy=Mathf.Abs(fy-.56f)/.24f,h=Mathf.Max(hx,hy);
+                        if(h<1){tone=.8f+.04f*(own-.5f);if(h>.9f)tone=hy>hx?(fy>.56f?.95f:.58f):(fx<.42f?.95f:.58f);if(Mathf.Abs(fx-.42f)<.06f&&Mathf.Abs(fy-.46f)<.014f)tone=.34f;}
+                    }
                     float edge=Mathf.Min(Mathf.Min(fx,1-fx),Mathf.Min(fy,1-fy));
-                    if(edge<.03f&&edge>.018f&&new Vector2(Mathf.Repeat(fx*10,1)-.5f,Mathf.Repeat(fy*10,1)-.5f).magnitude<.18f)tone=.66f;
+                    if(edge<.034f&&edge>.02f&&new Vector2(Mathf.Repeat(fx*10,1)-.5f,Mathf.Repeat(fy*10,1)-.5f).magnitude<.2f)tone=.62f;
                     float sx=(fx-.66f)/.24f;if(sx>0&&sx<1&&Mathf.Abs(fy-.12f-.012f*Mathf.Sin(sx*40)-.006f*Mathf.Sin(sx*97))<.0045f)tone=.38f;
                     if(sx>0&&sx<.5f&&Mathf.Abs(fy-.085f)<.002f)tone=.5f;
-                    if(own>.82f&&Mathf.Abs(fx-.3f)<.12f&&Mathf.Abs(fy-.78f)<.05f)tone=.62f;
-                    if(edge<.008f)tone=.4f;
+                    if(fy>.978f||fx<.016f)tone=Mathf.Max(tone,.97f);
+                    if(fy<.02f||fx>.982f)tone=.4f;
+                    if(edge<.007f)tone=.32f;
                     return new Color(tone,tone,tone,1);
                 });
-                // The hull from outside: plates four metres square, seams, a fine panel line, service hatches and small vents here and there.
+                // The hull from outside: plates four metres square, each in two courses of panels two metres by one laid half a panel over, every panel raised with a fixing row at
+                // its foot; the plate's own seam a heavy groove with a lit lip; service hatches with their handles and vent grilles here and there; the wear of a working hull (patches
+                // dulled by the drive's wash and runs down from the seams), and no two panels quite the same white.
                 var hull=ZoneKit.Texture("Continuance/continuance-hull",512,(u,v)=>
                 {
                     float x=u*2,y=v*2;int ix=Mathf.FloorToInt(x),iy=Mathf.FloorToInt(y);float fx=x-ix,fy=y-iy;
-                    float own=H(ix+21,iy+5),kind=H(ix+2,iy+31),grain=ZoneKit.Cloud(u,v,14,3);
-                    float tone=.86f+.05f*(own-.5f)+.04f*(grain-.5f);
-                    if(Mathf.Abs(fx-.5f)<.004f||Mathf.Abs(fy-.5f)<.004f)tone=.7f;
-                    if(kind<.25f&&Mathf.Abs(fx-.25f)<.1f&&Mathf.Abs(fy-.25f)<.07f){tone=.6f;if(Mathf.Repeat(fy*40,1)<.4f)tone=.45f;}
-                    if(kind>.85f&&Mathf.Abs(Mathf.Max(Mathf.Abs(fx-.72f)/.12f,Mathf.Abs(fy-.7f)/.12f)-1)<.08f)tone=.55f;
-                    float edge=Mathf.Min(Mathf.Min(fx,1-fx),Mathf.Min(fy,1-fy));if(edge<.006f)tone=.46f;
+                    float own=H(ix+21,iy+5),kind=H(ix+2,iy+31),grain=ZoneKit.Cloud(u,v,14,3),wear=ZoneKit.Cloud(u,v,24,17),streak=ZoneKit.Cloud(u,.71f,96,29);
+                    int sub=fy<.5f?0:1;float sy=fy*2-sub,sx=fx*2+(sub==1?.5f:0);int px=Mathf.FloorToInt(sx);float pf=sx-px;
+                    float tone=.84f+.07f*(H(ix*4+px+sub*13,iy*3+sub)-.5f)+.03f*(own-.5f)+.04f*(grain-.5f);
+                    tone-=.15f*Mathf.Max(0,wear-.56f);
+                    tone-=.16f*Mathf.Max(0,streak-.58f)*(1-sy*.6f);
+                    if(sy<.035f||pf>.986f)tone=.56f;else if(sy>.97f||pf<.014f)tone=Mathf.Max(tone,.93f);
+                    if(Mathf.Abs(sy-.09f)<.018f&&Mathf.Abs(Mathf.Repeat(pf*6,1)-.5f)<.1f)tone=.95f;
+                    if(kind<.25f&&Mathf.Abs(fx-.25f)<.1f&&Mathf.Abs(fy-.25f)<.07f){tone=.5f;if(Mathf.Repeat(fy*40,1)<.4f)tone=.34f;if(Mathf.Abs(fx-.25f)>.09f||Mathf.Abs(fy-.25f)>.06f)tone=.8f;}
+                    if(kind>.85f){float h=Mathf.Max(Mathf.Abs(fx-.72f)/.12f,Mathf.Abs(fy-.7f)/.12f);if(h<1.08f){tone=h>.92f?.5f:.8f;if(Mathf.Abs(fx-.72f)<.05f&&Mathf.Abs(fy-.62f)<.012f)tone=.36f;}}
+                    if(fy<.008f||fx>.992f)tone=.3f;else if(fy>.994f||fx<.006f)tone=.38f;else if(fy>.976f||fx<.024f)tone=Mathf.Max(tone,.97f);
                     return new Color(tone,tone,tone*1.01f,1);
                 });
                 FloorMat=ZoneKit.Toon("continuance-deck",deck,m=>{ZoneKit.Tinted(m);m.SetFloat("_RampSteps",4);m.SetColor("_BaseColor",Color.white);m.SetFloat("_BaseMapStrength",.9f);m.SetColor("_ShadowTint",new Color(.56f,.6f,.7f));m.SetFloat("_LightFloor",.26f);});
@@ -282,7 +303,8 @@ namespace Lattice.EditorTools
                 ChartMat=ZoneKit.Toon("continuance-chart",ChartTexture(),m=>{m.SetColor("_BaseColor",new Color(.4f,.7f,.74f));m.SetColor("_EmissionColor",new Color(.4f,1.2f,1.3f));m.SetTexture("_EmissionMap",m.GetTexture("_BaseMap"));});
                 SpaceMat=ZoneKit.Toon("continuance-void",null,m=>{m.SetColor("_BaseColor",new Color(.03f,.05f,.08f));m.SetColor("_EmissionColor",Color.black);m.SetFloat("_LightFloor",0);});
                 // Every material a fading piece is made of carries the fade's variant from its paint, so no later paint of it can take it away (D359: these drew their pieces solid while the rest faded).
-                foreach(var fadeMat in new[]{HotMat,ArcMat,CoolMat,LampWarm,SpaceMat}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
+                FinishMaterials();
+                foreach(var fadeMat in new[]{HotMat,ArcMat,CoolMat,LampWarm,SpaceMat,WindowMat,GlassMat,IronMat,LampTeal,LampWhite}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
                 AssetDatabase.SaveAssets();
             }
             /// <summary>The director's chart: the road on a dark glass, the convoy as a string of lit beads along it, the anchor as a ring where the road narrows, the number in the corner.</summary>
@@ -445,14 +467,15 @@ namespace Lattice.EditorTools
                 foreach(var filter in seal.GetComponentsInChildren<MeshFilter>())UnityEngine.Object.DestroyImmediate(filter);
                 foreach(var view in seal.GetComponentsInChildren<Renderer>())UnityEngine.Object.DestroyImmediate(view);
                 var box=seal.GetComponent<BoxCollider>();var carve=seal.gameObject.AddComponent<NavMeshObstacle>();carve.shape=NavMeshObstacleShape.Box;carve.center=box.center;carve.size=box.size;carve.carving=true;carve.carveOnlyStationary=false;carve.enabled=false;
-                var s=new ZoneKit.Shape();var foot=On(kit,at);
+                var s=new ZoneKit.Shape();var lit=new ZoneKit.Shape();var foot=On(kit,at);
                 foreach(int side in new[]{-1,1})
                 {
                     s.Slot(0).Box(foot+new Vector3(side*width*.25f,tall*.5f,0),new Vector3(width*.5f-.06f,tall,.22f),Quaternion.identity,Pale,White);
-                    s.Slot(1).Box(foot+new Vector3(side*width*.25f,tall*.55f,-.12f),new Vector3(width*.5f-.5f,.12f,.04f),Quaternion.identity,Teal);
-                    s.Slot(1).Box(foot+new Vector3(side*.12f,tall*.5f,-.12f),new Vector3(.06f,tall-.4f,.04f),Quaternion.identity,TealDeep);
+                    // A blast door's leaves (the look pass of November 23: s66/077's door was a white tiled wall with two teal bars).
+                    SealLeaf(s,lit,foot,Quaternion.identity,side,width,tall);
                 }
                 var drawn=Made(kit,name+" leaves",s,WhiteMat,TealMat);drawn.transform.SetParent(seal.transform,true);
+                var lamps=Made(kit,name+" lamps",lit,LampTeal,LampWarm);lamps.transform.SetParent(seal.transform,true);lamps.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 seal.SetOpen(open);
                 return seal;
             }
@@ -659,6 +682,15 @@ namespace Lattice.EditorTools
                 foreach(var t in root.GetComponentsInChildren<Transform>())t.gameObject.isStatic=true;
                 ZoneKit.Fadeable(ringed);
                 for(int i=0;i<Rings.Length;i++)Painted(kit,"Ring "+(i+1),"RING "+(i+1),W(0,SpineY(Rings[i]-1.6f)+.03f,Rings[i]-1.6f),Vector3.right,Vector3.up,2.2f,new Color(.3f,.62f,.66f)).transform.SetParent(root.transform,true);
+                // The landing at the hatch (the look pass of November 23, s66/021: eight metres of plain plate before the door): the Compact's hazard band across the threshold, the hatch's
+                // number painted before it, and a lit stud every metre along both edges. Paint and studs, flush: nothing a body meets.
+                var landing=new ZoneKit.Shape();var studs=new ZoneKit.Shape();
+                for(float x=-3.7f;x<3.75f;x+=.5f)landing.Slot(0).Box(W(x,Up+.012f,-8.75f),new Vector3(.22f,.02f,.7f),Quaternion.Euler(0,32,0),Mathf.RoundToInt((x+3.7f)/.5f)%2==0?Teal:White);
+                landing.Slot(0).Box(W(0,Up+.008f,-8.75f),new Vector3(7.8f,.012f,.82f),Quaternion.identity,new Color(.9f,.92f,.93f));
+                foreach(int side in new[]{-1,1})for(float z=-15.5f;z<-8.6f;z+=1)studs.Slot(0).Box(W(side*3.7f,Up+.02f,z),new Vector3(.14f,.03f,.14f),Quaternion.identity,Color.white);
+                var threshold=Made(kit,"The landing's threshold",landing,TealMat);threshold.transform.SetParent(root.transform,true);threshold.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                var studLit=Made(kit,"The landing's studs",studs,LampTeal);studLit.transform.SetParent(root.transform,true);studLit.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                Painted(kit,"Hatch number","HATCH 1",W(0,Up+.03f,-11.2f),Vector3.right,Vector3.up,3.4f,new Color(.3f,.62f,.66f)).transform.SetParent(root.transform,true);
                 Braces(kit,root);
                 // A floodlight over the platform where the party docks, the convoy's cold light coming up from below.
                 var flood=new ZoneKit.Shape();foreach(int side in new[]{-1,1}){var foot=W(side*6.2f,Foot,-84.6f);flood.Slot(0).Post(foot,3.4f,.12f,.1f,8,IronPale,Pale).Box(foot+W(0,3.5f,.2f),new Vector3(.8f,.36f,.5f),Quaternion.Euler(30,0,0),IronPale,White);}
@@ -709,11 +741,14 @@ namespace Lattice.EditorTools
             /// in the Compact's hand; it runs down into the dark under the spine. Drawn only (the decks' own plating is the wall), and faded where it stands before the hatch hall.</summary>
             static void HullFlank(ZoneKit kit)
             {
-                var s=new ZoneKit.Shape();var windows=new ZoneKit.Shape();var panes=new ZoneKit.Shape();float z=HullFace-.3f;
+                var s=new ZoneKit.Shape();var ribs=new ZoneKit.Shape();var frames=new ZoneKit.Shape();var lit=new ZoneKit.Shape();var glass=new ZoneKit.Shape();float z=HullFace-.3f;
                 float TopAt(float x){float a=Mathf.Abs(x);return a<3.2f?4.2f:a<11?5.2f:a<20?8:10;}
+                // Where the ship's name and mark are painted, its frames stop under them.
+                bool Signed(float x)=>x>10.5f&&x<31||x>-29&&x<-15;
                 // The look pass of November 21 (s66/013: the flank read as white tile with bright window grids, flat and over-bright behind the spine's head): its plates in courses of
-                // the hull's own whites and the Compact's pale teal-grey, darker toward the dark under the spine, a rib every four strips; one window in three lit warm, the rest dark
-                // glass, each in a dark frame.
+                // the hull's own whites and the Compact's pale teal-grey, darker toward the dark under the spine. The look pass of November 23 (s66/021: plain grey panelled blocks, flat
+                // teal beams, white rectangles for windows): a frame of the hull stands out of it every eight metres in two steps, a strake runs along it at each deck below, and every
+                // window is set in a frame proud of the plate, under a hood, on a sill, a mullion down it; one in three is a room lit warm (under the bloom: they were white), the rest dark glass.
                 for(float x=-40;x<EdgeX-.01f;x+=2)
                 {
                     float x1=Mathf.Min(x+2,EdgeX),mid=(x+x1)*.5f,top=TopAt(mid);int ix=Mathf.FloorToInt((x+400)/2);float own=H(ix,17);
@@ -722,22 +757,51 @@ namespace Lattice.EditorTools
                     s.Slot(0).Quad(W(x,-30,z),W(x1,-30,z),W(x1,-2,z),W(x,-2,z),Vector3.back,ZoneKit.Shape.Dim(plate,.72f),1/8f);
                     s.Slot(0).Quad(W(x,-2,z),W(x1,-2,z),W(x1,top,z),W(x,top,z),Vector3.back,plate,1/8f);
                     s.Slot(1).Box(W(mid,top-.15f,z+.15f),new Vector3(x1-x+.02f,.3f,.6f),Quaternion.identity,Gold);
-                    if(ix%4==0)panes.Slot(0).Box(W(x,(top-30)*.5f,z-.08f),new Vector3(.22f,top+30,.12f),Quaternion.identity,new Color(.42f,.48f,.52f));
+                    if(ix%4==0&&Mathf.Abs(x)>4.5f)
+                    {
+                        float head=Signed(x)?4.6f:top;
+                        ribs.Slot(0).Box(W(x,(head-30)*.5f,z-.22f),new Vector3(.9f,head+30,.44f),Quaternion.identity,ZoneKit.Shape.Dim(Pale,.84f),White);
+                        ribs.Slot(0).Box(W(x,(head-30)*.5f-.2f,z-.52f),new Vector3(.42f,head+29.6f,.2f),Quaternion.identity,new Color(.34f,.4f,.45f),new Color(.6f,.66f,.7f));
+                        // The frame's running light, the Compact's teal, down its face from its head into the dark under the spine.
+                        lit.Slot(3).Box(W(x,(head-26)*.5f-.4f,z-.63f),new Vector3(.08f,head+25.2f,.03f),Quaternion.identity,Color.white);
+                    }
                     if(Mathf.Abs(mid)>5)for(float y=-24;y<top-1.6f;y+=3.2f)
                     {
-                        if(Mathf.Abs(mid)<11&&y>-3)continue;var at=W(mid,y+1.2f,z-.03f);
-                        panes.Slot(0).Box(at+Vector3.back*.01f,new Vector3(1.34f,.76f,.03f),Quaternion.identity,new Color(.16f,.19f,.22f));
-                        if(H(ix,Mathf.FloorToInt(y+100))<.34f)windows.Slot(0).Box(at+Vector3.back*.03f,new Vector3(1.1f,.55f,.04f),Quaternion.identity,Color.white);
-                        else panes.Slot(1).Box(at+Vector3.back*.03f,new Vector3(1.1f,.55f,.04f),Quaternion.identity,Color.white);
+                        if(Mathf.Abs(mid)<11&&y>-3)continue;if(Signed(mid)&&y+1.2f>4.4f)continue;
+                        Window(frames,lit,glass,frames,W(mid,y+1.2f,z),Vector3.back,1.24f,.66f,H(ix,Mathf.FloorToInt(y+100))<.34f,plate);
                     }
                 }
-                s.Slot(1).Box(W(-6,2.4f,z-.05f),new Vector3(68,.36f,.08f),Quaternion.identity,Teal);
-                // The hatch's collar: a ring in the flank, teal-lined, a lamp over it.
-                foreach(int side in new[]{-1,1})s.Slot(0).Box(W(side*4.3f,1.9f,z-.2f),new Vector3(.5f,3.8f,.5f),Quaternion.identity,Pale,White);
+                // The strakes: a ledge along the flank at each deck under the spine's head, lit along its top, shadowed under it.
+                foreach(float y in new[]{-2.6f,-12.2f,-21.8f})foreach(var (x0,x1) in new[]{(-40f,-4.6f),(4.6f,EdgeX)})
+                    s.Slot(0).Box(W((x0+x1)*.5f,y,z-.3f),new Vector3(x1-x0,.34f,.6f),Quaternion.identity,ZoneKit.Shape.Dim(Pale,.78f),White);
+                // The teal line along the flank, stopped either side of the hatch (it ran across the doorway at chest height).
+                foreach(var (x0,x1) in new[]{(-40f,-4.6f),(4.6f,EdgeX)})s.Slot(1).Box(W((x0+x1)*.5f,2.4f,z-.05f),new Vector3(x1-x0,.36f,.08f),Quaternion.identity,Teal);
+                // The ship's name and mark on white bands, a teal pinstripe over and under each.
+                foreach(var (cx,w) in new[]{(20.6f,18.6f),(-22f,13.4f)})
+                {
+                    s.Slot(0).Quad(W(cx-w*.5f,5.05f,z-.03f),W(cx+w*.5f,5.05f,z-.03f),W(cx+w*.5f,7.95f,z-.03f),W(cx-w*.5f,7.95f,z-.03f),Vector3.back,new Color(.97f,.97f,.98f),1/8f);
+                    foreach(float y in new[]{4.92f,8.08f})s.Slot(1).Box(W(cx,y,z-.05f),new Vector3(w,.12f,.04f),Quaternion.identity,Teal);
+                }
+                // The hatch's collar: a ring in the flank, teal-lined, its jambs banded teal and white, an amber lamp at each top corner, a lamp over it.
+                foreach(int side in new[]{-1,1})
+                {
+                    s.Slot(0).Box(W(side*4.3f,1.9f,z-.2f),new Vector3(.5f,3.8f,.5f),Quaternion.identity,Pale,White);
+                    for(int k=0;k<8;k++)s.Slot(k%2==0?1:0).Box(W(side*4.3f,.32f+k*.42f,z-.46f),new Vector3(.46f,.2f,.03f),Quaternion.identity,k%2==0?Teal:White);
+                    lit.Slot(0).Box(W(side*4.3f,4.3f,z-.4f),new Vector3(.3f,.18f,.18f),Quaternion.identity,new Color(1,.62f,.3f));
+                }
                 s.Slot(0).Box(W(0,3.95f,z-.2f),new Vector3(9.1f,.4f,.5f),Quaternion.identity,Pale,White);s.Slot(1).Box(W(0,3.62f,z-.46f),new Vector3(6.4f,.1f,.04f),Quaternion.identity,Teal);
+                // Floods on the frames either side of the spine's head, turned down onto its landing: a housing on an arm, its lens lit; the light they give is the landing's.
+                foreach(int side in new[]{-1,1})
+                {
+                    ribs.Slot(0).Beam(W(side*8,4.7f,z-.55f),W(side*8,4.5f,z-1f),.14f,.14f,new Color(.4f,.45f,.5f));
+                    ribs.Slot(0).Box(W(side*8,4.35f,z-1.15f),new Vector3(.9f,.44f,.6f),Quaternion.Euler(-32,side*-14,0),new Color(.3f,.34f,.38f),new Color(.56f,.6f,.64f));
+                    lit.Slot(2).Box(W(side*8,4.13f,z-1.3f),new Vector3(.74f,.05f,.42f),Quaternion.Euler(-32,side*-14,0),Color.white);
+                    PointLight(W(side*5.4f,3.6f,-12.6f),11,1.25f,new Color(.9f,.95f,1),"Flank flood light");
+                }
                 var flank=Made(kit,"The hull's south flank",s,HullMat,GoldMat);flank.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;ZoneKit.Fadeable(flank);
-                var lit=Made(kit,"The hull's south windows",windows,LampWarm);lit.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;lit.transform.SetParent(flank.transform,true);
-                var framed=Made(kit,"The hull's south window frames and dark glass",panes,DarkMat,SpaceMat);framed.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;framed.transform.SetParent(flank.transform,true);
+                foreach(var (name,shape,mats) in new[]{("The hull's south frames",ribs,new[]{IronMat}),("The hull's south windows",lit,new[]{WindowMat,LampWarm,LampWhite,LampTeal}),
+                    ("The hull's south window frames",frames,new[]{IronMat}),("The hull's south dark glass",glass,new[]{GlassMat})})
+                {var part=Made(kit,name,shape,mats);part.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;part.transform.SetParent(flank.transform,true);}
                 Painted(kit,"Ship name","CONTINUANCE",W(20.6f,6.5f,z-.05f),Vector3.right,Vector3.back,17,new Color(.14f,.4f,.44f)).transform.SetParent(flank.transform,true);
                 Painted(kit,"Ship mark","COMPACT 1",W(-22,6.5f,z-.05f),Vector3.right,Vector3.back,12,new Color(.14f,.4f,.44f)).transform.SetParent(flank.transform,true);
             }
@@ -1340,20 +1404,28 @@ namespace Lattice.EditorTools
                 const float X0=-40,X1=EdgeX,Z0=126,Z1=NorthEdge+10,HatchX0=-13,HatchX1=-3,HatchZ0=190,HatchZ1=202;
                 // The back, in strips (the hatch's opening left), and its two flanks curving down.
                 // The back in plates eight metres square, each its own white, one in five the Compact's pale teal-grey: from the flight camera one white sheet was a glare with nothing in it.
+                Color PlateTone(float x,float x1,float za,float zb)
+                {
+                    int ix=Mathf.FloorToInt((x+400)/8),iz=Mathf.FloorToInt((za+400)/8);float own=H(ix,iz),kind=H(ix+5,iz+11);
+                    var tone=kind<.2f?new Color(.4f,.56f,.6f):kind<.34f?new Color(.52f,.55f,.6f):Color.Lerp(new Color(.8f,.82f,.85f),new Color(.95f,.95f,.96f),own);
+                    // The working deck her lanes lie over: plates in the Compact's deep teal-grey, each its own, a white rim of hull round them (the look pass, November 14:
+                    // from the flight camera the whole back was one white glare, and a ship over it had nothing to stand out against).
+                    float mx=(x+x1)*.5f,mz=(za+zb)*.5f;
+                    if(mx>-36&&mx<28&&mz>197&&mz<246)tone=kind<.25f?new Color(.07f,.1f,.12f):Color.Lerp(new Color(.13f,.17f,.2f),new Color(.27f,.32f,.35f),own);
+                    return tone;
+                }
+                // The plate under a point of the back (on the grid the back is laid on west of the hatch; what stands east of it is off the hatch's rows).
+                Color ToneAt(Vector2 p){float x=X0+8*Mathf.Floor((p.x-X0)/8),za=Z0+8*Mathf.Floor((p.y-Z0)/8);return PlateTone(x,Mathf.Min(x+8,X1),za,Mathf.Min(za+8,Z1));}
                 void Back(float xa,float xb,float za,float zb)
                 {
                     if(xb-xa<.01f||zb-za<.01f)return;
                     for(float x=xa;x<xb-.01f;x+=8)
                     {
-                        float x1=Mathf.Min(x+8,xb);int ix=Mathf.FloorToInt((x+400)/8),iz=Mathf.FloorToInt((za+400)/8);float own=H(ix,iz),kind=H(ix+5,iz+11);
-                        var tone=kind<.2f?new Color(.4f,.56f,.6f):kind<.34f?new Color(.52f,.55f,.6f):Color.Lerp(new Color(.8f,.82f,.85f),new Color(.95f,.95f,.96f),own);
-                        // The working deck her lanes lie over: plates in the Compact's deep teal-grey, each its own, a white rim of hull round them (the look pass, November 14:
-                        // from the flight camera the whole back was one white glare, and a ship over it had nothing to stand out against).
-                        float mx=(x+x1)*.5f,mz=(za+zb)*.5f;
-                        if(mx>-36&&mx<28&&mz>197&&mz<246)tone=kind<.25f?new Color(.07f,.1f,.12f):Color.Lerp(new Color(.13f,.17f,.2f),new Color(.27f,.32f,.35f),own);
+                        float x1=Mathf.Min(x+8,xb);var tone=PlateTone(x,x1,za,zb);
                         s.Slot(0).Quad(W(x,HullTop,za),W(x1,HullTop,za),W(x1,HullTop,zb),W(x,HullTop,zb),Vector3.up,tone,1/8f);
                     }
                 }
+                var mach=new ZoneKit.Shape();var machTrim=new ZoneKit.Shape();var pools=new ZoneKit.Shape();
                 for(float z=Z0;z<Z1-.01f;z+=8)
                 {
                     float z1=Mathf.Min(z+8,Z1);
@@ -1399,6 +1471,12 @@ namespace Lattice.EditorTools
                     dark.Slot(0).Box(W(x,HullTop+.03f,z),new Vector3(1.7f,.04f,2.1f),Quaternion.identity,Color.white);
                     lamps.Slot(1).Box(W(x,HullTop+.05f,z),new Vector3(1.2f,.04f,1.6f),Quaternion.identity,Color.white);
                     trim.Slot(0).Box(W(x,HullTop+.06f,z),new Vector3(.08f,.04f,1.6f),Quaternion.identity,new Color(.22f,.3f,.34f));
+                    // Set in a raised coaming (the look pass of November 23, s66/153: flat cyan rectangles on the plate), crossed by a transom, a pool of its light on the plate round it.
+                    trim.Slot(0).Box(W(x,HullTop+.065f,z),new Vector3(1.2f,.04f,.08f),Quaternion.identity,new Color(.22f,.3f,.34f));
+                    foreach(int side in new[]{-1,1}){mach.Slot(0).Box(W(x+side*.93f,HullTop+.11f,z),new Vector3(.16f,.22f,2.42f),Quaternion.identity,new Color(.42f,.47f,.52f),new Color(.78f,.8f,.83f));
+                        mach.Slot(0).Box(W(x,HullTop+.11f,z+side*1.13f),new Vector3(1.7f,.22f,.16f),Quaternion.identity,new Color(.42f,.47f,.52f),new Color(.78f,.8f,.83f));}
+                    var under=ToneAt(new Vector2(x,z));var cool=Color.Lerp(under,new Color(.62f,.9f,.94f),.22f);
+                    pools.Slot(0).Box(W(x,HullTop+.012f,z),new Vector3(2.9f,.01f,3.3f),Quaternion.identity,new Color(Mathf.Max(cool.r,under.r*1.06f),Mathf.Max(cool.g,under.g*1.1f),Mathf.Max(cool.b,under.b*1.1f)));
                 }
                 // The working deck's plates read as plates: a seam round each (a dark line with a pale lip), a panel line across its middle, a row of fixings at each end, and here and there
                 // a service hatch let into it and the deck's number painted in a corner.
@@ -1458,9 +1536,17 @@ namespace Lattice.EditorTools
                     if(p.x>-15&&p.x<-1&&p.y>186&&p.y<206)continue;if(ClampSeats.Any(c=>Vector2.Distance(p,new Vector2(c.x,c.z))<4))continue;if(Mathf.Abs(p.x+26)<2||Mathf.Abs(p.x-18)<2)continue;
                     if(Relays.Any(r=>Vector2.Distance(p,new Vector2(r.x,r.z))<4.5f))continue;
                     if(banks.Any(b=>p.x>b.x0-2&&p.x<b.x1+2&&p.y>b.z0-2&&p.y<b.z1+2)||Vector2.Distance(p,new Vector2(roundel.x,roundel.z))<7)continue;
-                    if(i%3==0)s.Slot(1).Box(W(p.x,HullTop+.4f,p.y),new Vector3(2.4f,.8f,1.4f),Quaternion.Euler(0,(i%2)*90,0),Pale,ZoneKit.Shape.Dim(Pale,.8f));
-                    else if(i%3==1){s.Slot(1).Box(W(p.x,HullTop+.03f,p.y),new Vector3(1.8f,.06f,1.8f),Quaternion.identity,new Color(.4f,.46f,.5f),new Color(.46f,.52f,.56f));trim.Slot(0).Box(W(p.x,HullTop+.04f,p.y-1),new Vector3(2.1f,.03f,.1f),Quaternion.identity,Teal);}
-                    else{s.Slot(1).Post(W(p.x,HullTop,p.y),1.4f,.08f,.06f,8,IronPale,Pale);lamps.Slot(0).Box(W(p.x,HullTop+1.5f,p.y),new Vector3(.24f,.24f,.24f),Quaternion.identity,Color.white);}
+                    // The look pass of November 23 (s66/153): the blank boxes here were the grey blocks of a blockout; each is the machinery of a working deck now (Housing).
+                    if(i%3==0)Housing(mach,machTrim,lamps,p,i);
+                    else if(i%3==1){s.Slot(1).Box(W(p.x,HullTop+.03f,p.y),new Vector3(1.8f,.06f,1.8f),Quaternion.identity,new Color(.4f,.46f,.5f),new Color(.46f,.52f,.56f));trim.Slot(0).Box(W(p.x,HullTop+.04f,p.y-1),new Vector3(2.1f,.03f,.1f),Quaternion.identity,Teal);
+                        foreach(int side in new[]{-1,1})mach.Slot(0).Box(W(p.x+side*.5f,HullTop+.075f,p.y+.55f),new Vector3(.3f,.05f,.08f),Quaternion.identity,new Color(.22f,.25f,.28f));}
+                    else
+                    {
+                        // A lamp post with its head hooded, and the pool of its light on the plate.
+                        s.Slot(1).Post(W(p.x,HullTop,p.y),1.4f,.08f,.06f,8,IronPale,Pale);mach.Slot(0).Box(W(p.x,HullTop+.04f,p.y),new Vector3(.5f,.08f,.5f),Quaternion.identity,new Color(.3f,.34f,.38f));
+                        lamps.Slot(0).Box(W(p.x,HullTop+1.5f,p.y),new Vector3(.24f,.2f,.24f),Quaternion.identity,Color.white);mach.Slot(0).Box(W(p.x,HullTop+1.66f,p.y),new Vector3(.46f,.1f,.46f),Quaternion.identity,new Color(.3f,.34f,.38f),new Color(.6f,.64f,.68f));
+                        Pool(pools,W(p.x,HullTop,p.y),ToneAt(p),2.6f);
+                    }
                 }
                 // The name across the back, and the Compact's mark.
                 Painted(kit,"Hull name","CONTINUANCE",W(-4,HullTop+.03f,156),Vector3.right,Vector3.up,52,new Color(.16f,.44f,.48f)).transform.SetParent(root.transform,true);
@@ -1475,13 +1561,19 @@ namespace Lattice.EditorTools
                     wings.Slot(1).Box(W(cx,HullTop+5.4f,WingSouth+.04f),new Vector3(w-.4f,.4f,.06f),Quaternion.identity,Teal);
                     for(float y=HullTop+1;y<HullTop+4.6f;y+=1.2f)supLit.Slot(0).Box(W(cx,y,WingSouth+.04f),new Vector3(w-1.2f,.3f,.06f),Quaternion.identity,Color.white);
                 }
-                foreach(var (x0,x1,y0,y1,z0,z1) in new[]{(-30f,22f,HullTop,HullTop+10,Superstructure,NorthEdge+42),(-22f,14f,HullTop+10,HullTop+17,Superstructure+5,NorthEdge+40),(-13f,5f,HullTop+17,HullTop+23,Superstructure+10,NorthEdge+36)})
+                var tiers=new[]{(-30f,22f,HullTop,HullTop+10,Superstructure,NorthEdge+42),(-22f,14f,HullTop+10,HullTop+17,Superstructure+5,NorthEdge+40),(-13f,5f,HullTop+17,HullTop+23,Superstructure+10,NorthEdge+36)};
+                var supFrames=new ZoneKit.Shape();var supWindows=new ZoneKit.Shape();var supGlass=new ZoneKit.Shape();
+                foreach(var (x0,x1,y0,y1,z0,z1) in tiers)
                 {
                     sup.Slot(0).Box(W((x0+x1)*.5f,(y0+y1)*.5f,(z0+z1)*.5f),new Vector3(x1-x0,y1-y0,z1-z0),Quaternion.identity,Pale,White);
-                    sup.Slot(1).Box(W((x0+x1)*.5f,y1-1.2f,z0-.03f),new Vector3(x1-x0-1,.5f,.06f),Quaternion.identity,Teal);
-                    for(float x=x0+1.4f;x<x1-1;x+=1.8f)supLit.Slot(0).Box(W(x,(y0+y1)*.5f,z0-.04f),new Vector3(1.1f,.7f,.06f),Quaternion.identity,Color.white);
+                    sup.Slot(1).Box(W((x0+x1)*.5f,y1-1.2f,z0-.4f),new Vector3(x1-x0-1,.5f,.06f),Quaternion.identity,Teal);
                 }
+                // Its faces as a ship's (the look pass of November 23: stepped white blocks with lit squares on them): ribs, cornices, framed window bands (SuperstructureFinish).
+                SuperstructureFinish(sup,supFrames,supWindows,supGlass,tiers.Select(t=>(t.Item1,t.Item2,t.Item3,t.Item4,t.Item5)).ToArray());
                 sup.Slot(0).Post(W(-4,HullTop+23,NorthEdge+24),9,.3f,.16f,8,IronPale,Pale);supLit.Slot(0).Box(W(-4,HullTop+32.2f,NorthEdge+24),new Vector3(.5f,.5f,.5f),Quaternion.identity,Color.white);
+                // A dish and two short masts on its crown, a beacon on each.
+                sup.Slot(0).Post(W(6,HullTop+23,NorthEdge+30),2.4f,.5f,.3f,10,IronPale,Pale);sup.Slot(0).Disc(W(6,HullTop+26.2f,NorthEdge+29),new Vector3(0,.7f,-.7f).normalized,1.8f,24,White,0,Pale);
+                foreach(float x in new[]{-12f,2f}){sup.Slot(0).Post(W(x,HullTop+23,NorthEdge+20),4.2f,.12f,.08f,8,IronPale,Pale);supLit.Slot(0).Box(W(x,HullTop+27.3f,NorthEdge+20),new Vector3(.3f,.3f,.3f),Quaternion.identity,Color.white);}
                 // The frame gantry: two legs off the back, a beam over, its walkway under the plane with a rail at hand height, where she will stand.
                 var gx0=16f;var gx1=32f;var gz=256f;
                 foreach(float x in new[]{gx0,gx1}){gan.Slot(0).Box(W(x,HullTop+7,gz),new Vector3(1.4f,14,1.4f),Quaternion.identity,Pale,White);gan.Slot(2).Box(W(x,HullTop+9,gz-.73f),new Vector3(1.2f,.4f,.06f),Quaternion.identity,Teal);}
@@ -1495,6 +1587,12 @@ namespace Lattice.EditorTools
                 var superstructure=Made(kit,"The superstructure",sup,WhiteMat,TealMat);superstructure.transform.SetParent(root.transform,true);superstructure.isStatic=true;
                 ZoneKit.Block(superstructure,W(-4,HullTop+5,(Superstructure+NorthEdge+42)*.5f),new Vector3(52,10,NorthEdge+42-Superstructure),0,"Superstructure");
                 Made(kit,"The superstructure, lit",supLit,LampWarm).transform.SetParent(superstructure.transform,true);
+                Made(kit,"The superstructure's window frames",supFrames,IronMat).transform.SetParent(superstructure.transform,true);
+                Made(kit,"The superstructure's windows",supWindows,WindowMat,LampWarm).transform.SetParent(superstructure.transform,true);
+                Made(kit,"The superstructure's dark glass",supGlass,GlassMat).transform.SetParent(superstructure.transform,true);
+                Made(kit,"The hull's back, its machinery",mach,IronMat).transform.SetParent(root.transform,true);
+                Made(kit,"The hull's back, its machinery banded",machTrim,TealMat).transform.SetParent(root.transform,true);
+                Made(kit,"The hull's back, lamplight",pools,PoolMat).transform.SetParent(root.transform,true);
                 var frame=Made(kit,"The frame gantry",gan,WhiteMat,GoldMat,TealMat);frame.transform.SetParent(root.transform,true);frame.isStatic=true;
                 foreach(float x in new[]{gx0,gx1})ZoneKit.Block(frame,W(x,HullTop+7,gz),new Vector3(1.4f,14,1.4f),0,"Gantry leg");
                 // The dock's plate on the walkway.

@@ -82,8 +82,11 @@ namespace Lattice.Combat
             Create(Kind.Ring,center,Vector3.forward,outer,inner,360,0,0,duration,color);
         public static Telegraph Cone(Vector3 origin,Vector3 forward,float radius,float angle,float duration,Color color,bool light=false)=>
             Create(Kind.Cone,origin,forward,radius,0,Mathf.Clamp(angle,5,360),0,0,duration,color,light);
-        public static Telegraph Line(Vector3 origin,Vector3 direction,float length,float width,float duration,Color color,bool light=false)=>
-            Create(Kind.Line,origin,direction,0,0,0,length,width,duration,color,light);
+        public static Telegraph Line(Vector3 origin,Vector3 direction,float length,float width,float duration,Color color,bool light=false,float wholeLength=0)
+        {var line=Create(Kind.Line,origin,direction,0,0,0,length,width,duration,color,light);line.Whole=wholeLength;line.Rehatch();return line;}
+        /// <summary>The length of the whole marking this line is one piece of (a lane laid in stretches), or 0 for a line that is the whole. The hatch and the wash are sized by the whole, so a long lane laid in short pieces is not strong all along it (D379).</summary>
+        public float Whole{get;private set;}
+        void Rehatch(){if(block!=null)block.SetVector(HatchId,Hatch());}
 
         bool light;
         static Telegraph Create(Kind kind,Vector3 origin,Vector3 forward,float radius,float inner,float angle,float length,float width,float duration,Color color,bool light=false)
@@ -430,7 +433,7 @@ namespace Lattice.Combat
         Vector4 Hatch()
         {
             var across=Shape==Kind.Line?Quaternion.Euler(0,45,0)*Forward:new Vector3(-.607f,0,.795f);
-            float size=Shape==Kind.Line?Mathf.Sqrt(Length*Width):Shape==Kind.Ring?10:Mathf.Sqrt(Mathf.PI*Radius*Radius*Angle/360);
+            float size=Shape==Kind.Line?Mathf.Sqrt(Mathf.Max(Length,Whole)*Width):Shape==Kind.Ring?10:Mathf.Sqrt(Mathf.PI*Radius*Radius*Angle/360);
             float thin=Mathf.InverseLerp(8,22,size),strength=Mathf.Lerp(1,.08f,thin);
             if(Shape==Kind.Line&&Width<1.5f)strength*=.3f;
             return new Vector4(across.x,across.z,Mathf.Lerp(.62f,1.6f,thin),strength);

@@ -38,6 +38,8 @@ namespace Lattice.EditorTools
                 new("raft-s28-197",new Vector3(-21.3f,0,-24)),new("garden-s31-163",new Vector3(62.6f,0,24.2f)),
                 // November 22's (nov22-whole s28 043: the spine under the gantry; s29 070: the freight hall's arrival; s31 285 and s28 222: the raft bay's water).
                 new("spine-s28-043",new Vector3(0,0,-20.75f)),new("freight-s29-070",new Vector3(32,0,-59)),new("raft-s31-285",new Vector3(-43.3f,0,-35)),new("raft-s28-222",new Vector3(-24,0,-11.9f)),
+                // November 22b's (nov22b-whole s31 129 and 208: the galley's flues and hatch wall from the garden's walk; s44 092 and s55 014: the spine's lanes and its foot).
+                new("garden-s31-129",new Vector3(62,0,24.5f)),new("garden-s31-208",new Vector3(55,0,24.2f)),new("spine-s44-092",new Vector3(0,0,-39.5f)),new("spine-s55-014",new Vector3(-.15f,0,-52.2f)),
             };
 
             // ---------------------------------------------------------------- named people

@@ -18,7 +18,9 @@ namespace Lattice.Combat
     /// Marshal's bar goes with it; the first two never carry it over half, the third always does, and that is the shift.</item>
     /// <item><b>The cold</b> (under half). The wall sleeps, frost comes in from the rim (<see cref="FrostRing"/>), and it is slower (its own pace at <see cref="MarshalTune.ColdPace"/>, its tells
     /// longer) and heavier (the phase's +18%). Cracking Sweep, a wide marked fan whose blow splits the floor down three marked lines a beat later, after which its heat fails it and it
-    /// sinks to a knee, open; the lunge and the bash still, slower.</item>
+    /// sinks to a knee, open; the lunge and the bash still, slower. <b>It is outlasted, as its goal says</b> (D364): its bar comes down no faster than its heat fails, from where it stood
+    /// at the shift to nothing over <see cref="MarshalTune.HeatSeconds"/>, so a party that beats it to that line waits on the frost. It is open after every move, so its length was the
+    /// moves it made before the bar went, and its cold half lasted 30 to 48 s in the player (75 to 138 s in all, against a bar from 120).</item>
     /// </list>
     /// It fights without couplings too (the proving yard): its call brings a rank out beside it twice, its bar holds nowhere, and its phase turns on integrity alone.
     /// </summary>
@@ -58,6 +60,9 @@ namespace Lattice.Combat
             public const int Cracks=3;
             /// <summary>The cold: its pace, the frost ring's rim and where it stops, how long it takes, and a hero's pace on it.</summary>
             public const float ColdPace=.6f,RingOuter=17,RingInner=9,RingSeconds=70,RingPace=.6f;
+            /// <summary>How long its heat takes to fail in its room once the wall sleeps, the frost's own time in: its bar comes down no faster than that, from where it stood at the shift
+            /// to nothing (in a yard, with no wall, its bar holds nowhere).</summary>
+            public const float HeatSeconds=RingSeconds;
             /// <summary>Its rest between specials, warm and cold, and how long it takes to kneel when it is put to sleep.</summary>
             public const float RestWarm=2.6f,RestCold=3.1f,KneelSeconds=2.4f;
             /// <summary>How far it sinks into the frost and bows as it is put to sleep, and the same for the body a later visit finds (HoarfellBuilder.FrozenHost.Kneeling): its head has to
@@ -69,14 +74,23 @@ namespace Lattice.Combat
         /// <summary>A rank's place on the floor is no blow: a pale boundary in the ice's own blue (D217, D222). Ice, for a soldier or the Marshal put back to sleep.</summary>
         static readonly Color RankTone=new(.72f,.86f,1f,.42f),IceTone=new(.66f,.82f,1f,1),ThawLight=new(1.4f,.8f,.32f);
         readonly List<(EnemyBrain guard,ThawCoupling from)> rallied=new();
-        int yardRallies;bool hearsCouplings,stood;float marshalRadius=MarshalTune.Radius,breaksAt;string openWhy="";Vector3 stoodAt;Quaternion stoodTurned=Quaternion.identity;
+        int yardRallies;bool hearsCouplings,stood;float marshalRadius=MarshalTune.Radius,breaksAt,marshalColdAt=-1,marshalHeatFrom;string openWhy="";Vector3 stoodAt;Quaternion stoodTurned=Quaternion.identity;
+        /// <summary>The least its bar may come to while cold in its room: what its failing heat still holds up (D364). Nought, none: warm, in a yard, held passive, or its heat gone.</summary>
+        float MarshalHeat()
+        {
+            if(marshalColdAt<0||brain==null||brain.Passive||health==null)return 0;
+            float left=1-Mathf.Clamp01((GameTime.Now-marshalColdAt)/MarshalTune.HeatSeconds);
+            return left<=0?0:Mathf.Max(1,marshalHeatFrom*left);
+        }
+        /// <summary>The share of its heat still to fail (1 as the wall sleeps, 0 once it has), or -1 while it isn't failing.</summary>
+        public float MarshalHeatLeft=>marshalColdAt<0?-1:1-Mathf.Clamp01((GameTime.Now-marshalColdAt)/MarshalTune.HeatSeconds);
         bool Cold=>Phase>=2;
         float MarshalRest=>Cold?MarshalTune.RestCold:MarshalTune.RestWarm;
         /// <summary>Soldiers it has called out of the wall who are still up.</summary>
         public int RalliedStanding{get{rallied.RemoveAll(r=>r.guard==null||!r.guard.Health.Alive);return rallied.Count;}}
         void MarshalStart()
         {
-            marshalRadius=GetComponent<CharacterController>().radius;breaksAt=health.breakThreshold;
+            marshalRadius=GetComponent<CharacterController>().radius;breaksAt=health.breakThreshold;marshalColdAt=-1;health.Holds=null;
             // The couplings are a sixth of its bar each, so their integrity is the fight's to say: a share of its own, broken by a blow and shrugging off heat as a heater would.
             float each=health.maximum*MarshalTune.CouplingIntegrity;
             foreach(var coupling in ThawCoupling.All)
@@ -143,11 +157,14 @@ namespace Lattice.Combat
             foreach(var (guard,_) in rallied)Refreeze(guard);rallied.Clear();
             var middle=ThawCoupling.Centre(out var centre)?centre:brain.Home;
             FrostRing.Lay(CombatCover.Ground(middle+Vector3.up*3),MarshalTune.RingOuter,MarshalTune.RingInner,MarshalTune.RingSeconds,MarshalTune.RingPace);
-            AudioManager.PlayAt("root_groan",null,transform.position,.34f,AudioBus.SFX,40,.2f,.55f);Debug.Log("MARSHAL_COLD");
+            // In its room it is outlasted: its bar comes down no faster than its heat fails, from here (D364). A yard has no wall to sleep, and its bar holds nowhere.
+            if(ThawCoupling.All.Count>0){marshalColdAt=GameTime.Now;marshalHeatFrom=health.integrity;health.Holds=MarshalHeat;}
+            AudioManager.PlayAt("root_groan",null,transform.position,.34f,AudioBus.SFX,40,.2f,.55f);Debug.Log($"MARSHAL_COLD heat={MarshalTune.HeatSeconds:0}s from={health.integrity/health.maximum:0.00}");
         }
         void MarshalDown()
         {
             if(hearsCouplings){ThawCoupling.Broke-=MarshalCouplingBroke;hearsCouplings=false;}
+            health.Holds=null;marshalColdAt=-1;
             ThawCoupling.SettleAll();
             foreach(var (guard,_) in rallied)Refreeze(guard);rallied.Clear();
             if(FrostRing.Current!=null)FrostRing.Current.Dismiss();

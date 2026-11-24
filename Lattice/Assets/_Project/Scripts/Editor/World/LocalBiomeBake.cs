@@ -139,8 +139,12 @@ namespace Lattice.EditorTools
                 Float(material,"_SpecularReflectionsOn",1);material.DisableKeyword("_SPECULARHIGHLIGHTS_OFF");
                 Float(material,"_SunReflectionStrength",.12f);Float(material,"_PointSpotLightReflectionStrength",.3f);
                 Float(material,"_SparkleIntensity",.015f);Float(material,"_CausticsOn",0);
-                if(palette=="Mire")
+                if(palette=="Mire"||palette=="MireRafts")
                 {
+                    // Driftreed's sheet (MireRafts) also reads its line from a mask in its vertex red, measured from each raft's rim as the fixed camera sees it: from depth alone the line
+                    // reaches .64 m of water, and every rim but the lens's side hides that strip, so the rafts met dark water with no line (s24 116 and 178, November 22; WendmireBuilder.RaftWaterline).
+                    // Its own material, because the station's sheets carry no vertex colour, and a mesh without it can hand the shader white: all foam.
+                    if(palette=="MireRafts")Float(material,"_IntersectionSource",2);
                     // Wendmire's mire (Driftreed's rafts, the Drowned Waystation): tea-dark and still, a dusk sheen on it, a pale scum line working at every raft's and bank's edge.
                     // These zones fell back to the public toon water in the player (they were never baked), which read as navy camouflage (s24 022, s25 066, November 20).
                     material.SetColor("_BaseColor",new Color(.18f,.2f,.13f,.96f).linear);material.SetColor("_ShallowColor",new Color(.4f,.39f,.25f,1).linear);

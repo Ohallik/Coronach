@@ -375,7 +375,19 @@ namespace Lattice.EditorTools
                 s.Slot(0).Box(At(66,14,.5f),new Vector3(13,1,1.1f),Quaternion.identity,new Color(.62f,.5f,.4f),top);
                 s.Slot(1).Box(At(66,15,3.5f),new Vector3(10,1.4f,2.4f),Quaternion.identity,new Color(.76f,.72f,.66f)).Quad(At(61,13.8f,2.8f),At(71,13.8f,2.8f),At(71,15,4.2f),At(61,15,4.2f),new Vector3(0,.4f,-1),new Color(.7f,.66f,.6f));
                 // The stacks stop under the camera's line from the garden's walk behind the galley: at 7.8 to 9.4 m they stood across it and hid the party a stride at a time (D359).
-                foreach(var (x,tall) in new[]{(62.6f,6.4f),(66f,6.9f),(69.4f,6f)})s.Slot(1).Tube(new[]{At(x,15.6f,4.2f),At(x,15.6f,tall)},new[]{.42f,.36f},12,new Color(.6f,.58f,.56f),new Color(.4f,.38f,.38f),1,.4f).Slot(2).Disc(At(x,15.6f,tall+.02f),Vector3.up,.36f,12,Soot);
+                // From the garden's walk they are what stands over the hatch wall, and in the hood's grey panel they read as a bare grey pillar (s31/129, 164): each is a stovepipe
+                // now, black iron browned with heat toward its mouth, a brass collar where it leaves the hood, brass bands up it, and an iron rain cowl on three stays (in copper
+                // with iron bands they read as a striped bollard, d370-a). The cowls' tops stay under the camera's line to the garden's walk (8.2 m over the stacks from z 24.2, D359).
+                foreach(var (x,tall) in new[]{(62.6f,6.1f),(66f,6.5f),(69.4f,5.9f)})
+                {
+                    var flue=At(x,15.6f);Color iron=new(1,.96f,.92f),heat=new(1.25f,1.02f,.84f),brass=new(.92f,.84f,.72f);
+                    s.Slot(2).Tube(new[]{flue+Vector3.up*4.2f,flue+Vector3.up*(tall-1.2f),flue+Vector3.up*tall},new[]{.4f,.37f,.36f},12,iron,heat,1,.4f);
+                    s.Slot(6).Tube(new[]{flue+Vector3.up*4.16f,flue+Vector3.up*4.44f},new[]{.5f,.48f},12,brass,brass,1,.5f);
+                    foreach(float band in new[]{.4f,.75f})s.Slot(6).Tube(new[]{flue+Vector3.up*Mathf.Lerp(4.44f,tall,band),flue+Vector3.up*(Mathf.Lerp(4.44f,tall,band)+.07f)},new[]{.41f,.41f},12,brass,brass,1,.5f);
+                    s.Slot(2).Disc(flue+Vector3.up*(tall+.02f),Vector3.up,.36f,12,Soot);
+                    s.Slot(2).Tube(new[]{flue+Vector3.up*(tall+.28f),flue+Vector3.up*(tall+.36f),flue+Vector3.up*(tall+.6f)},new[]{.62f,.5f,.04f},12,new Color(1.3f,1.3f,1.3f),iron,1,.5f);
+                    for(int k=0;k<3;k++){float a=k*Mathf.PI*2/3+.5f;var rim=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));s.Slot(2).Beam(flue+Vector3.up*(tall-.04f)+rim*.34f,flue+Vector3.up*(tall+.32f)+rim*.5f,.04f,.04f,iron);}
+                }
                 // The range on the counter: two fires under the big pots, the pots' lids off and steam over them, more pots along it, ladles and pans hung on the hatch wall
                 // behind. With pots alone on a counter nothing read as cooking (s30/284).
                 for(int i=0;i<6;i++)if(i!=1&&i!=4)s.Slot(3).Lump(At(61.6f+i*1.6f,14,1.22f),new Vector3(.32f,.22f,.32f),i,.05f,new Color(.7f,.6f,.48f),new Color(.4f,.32f,.26f),10,5);
@@ -397,6 +409,30 @@ namespace Lattice.EditorTools
                     else{s.Slot(2).Disc(At(x,16.1f,2.08f)+Vector3.back*.02f,Vector3.back,.24f+.06f*(i%2),14,new Color(.24f,.24f,.26f),0,new Color(.4f,.38f,.36f)).Post(At(x,16.1f,2.3f),.25f,.02f,.02f,4,Soot,Soot);}
                 }
                 Solid(blocks,new Vector2(66,14),new Vector3(13,1,1.1f));Solid(blocks,new Vector2(65.5f,17.2f),new Vector3(25,4.8f,2));
+                // The hatch wall's top, seen from every step of the garden's walk behind it (it filled the frame's foot as a flat grey tiled slab, s31/129, 164, 208): Binna's herb
+                // boxes, planted from the garden next door, a timber trough the length of the wall with what the galley cooks with growing in it and trailing over both faces.
+                // Out of reach and under the camera's line to the walk (its leaves to 5.9 m; the line crosses the wall at 6.7 m).
+                var herbs=new ZoneKit.Shape();var herbRng=new System.Random(371);Color plank=new(.62f,.46f,.3f),plankTop=new(.78f,.6f,.4f);
+                herbs.Slot(0).Box(At(65.5f,16.42f,5.01f),new Vector3(24.6f,.42f,.12f),Quaternion.identity,plank,plankTop).Box(At(65.5f,17.98f,5.01f),new Vector3(24.6f,.42f,.12f),Quaternion.identity,plank,plankTop);
+                for(float x=53.26f;x<78;x+=6.13f)herbs.Slot(0).Box(At(x,17.2f,5.01f),new Vector3(.12f,.42f,1.68f),Quaternion.identity,plank,plankTop);
+                herbs.Slot(1).Box(At(65.5f,17.2f,5.1f),new Vector3(24.4f,.04f,1.46f),Quaternion.identity,new Color(.42f,.32f,.24f),new Color(.48f,.37f,.27f),.5f);
+                for(float x=53.6f;x<77.6f;x+=.46f)for(int row=0;row<3;row++)
+                {
+                    if(herbRng.NextDouble()<.14)continue;var root=At(x+((float)herbRng.NextDouble()-.5f)*.2f,16.75f+row*.45f,5.12f);int kind=((int)(x/2.3f)+row)%4;
+                    if(kind==0)herbs.Slot(2).Fern(root,.34f+(float)herbRng.NextDouble()*.18f,5,herbRng,new Color(.3f,.5f,.26f),new Color(.56f,.8f,.42f));
+                    else if(kind==1)herbs.Slot(2).Lump(root+Vector3.up*.14f,new Vector3(.2f,.16f,.2f),(int)(x*10)+row,.25f,new Color(.5f,.74f,.38f),new Color(.3f,.46f,.24f),8,4);
+                    else if(kind==2)herbs.Slot(2).Frond(root,new Vector3((float)herbRng.NextDouble()-.5f,0,(float)herbRng.NextDouble()-.5f),.5f,.14f,.55f,.25f,new Color(.36f,.52f,.26f),new Color(.56f,.72f,.34f));
+                    else herbs.Slot(2).Lump(root+Vector3.up*.12f,new Vector3(.17f,.13f,.17f),(int)(x*10)+row+3,.3f,new Color(.62f,.72f,.4f),new Color(.4f,.5f,.26f),8,4);
+                }
+                // What trails over the faces: down the galley's side to the band and down the garden's side toward the channel.
+                // Each strand leaves the trough's lip and clears the wall's edge before it drops (it is past the face by its middle, still over the top there).
+                // Dark and short: long pale strands read as icicles down the wall (d370-a).
+                for(float x=53.8f;x<77.4f;x+=.4f)foreach(var (z,dir) in new[]{(16.3f,Vector3.back),(18.1f,Vector3.forward)})
+                {
+                    if(herbRng.NextDouble()<.3)continue;float hang=.45f+(float)herbRng.NextDouble()*.6f;
+                    herbs.Slot(2).Frond(At(x+((float)herbRng.NextDouble()-.5f)*.3f,z,5.2f),dir,.2f,.3f,.02f,hang,new Color(.24f,.4f,.2f),new Color(.36f,.54f,.26f),6);
+                }
+                Shade(kit.Built("Binna's herb boxes on the hatch wall",herbs,Wood,Soil,Leaf),true);
                 var steam=kit.Drift("Galley steam",At(66,14,2.2f),new Vector3(8,.4f,.6f),kit.Glow("Steam",false,new Color(.9f,.9f,.92f,1)),new Color(.92f,.92f,.94f,.3f),40,.5f,1.2f,.6f,4);
                 var main=steam.main;main.startSpeed=.6f;
                 // The long tables, three rows, benches both sides, the middle row laid for fourteen. Trestle tables and plank benches on legs, the floor showing under them: built as
@@ -690,10 +726,45 @@ namespace Lattice.EditorTools
                     }
                     s.Slot(6).Tube(new[]{a+new Vector3(-.84f,.02f,-.05f),a+new Vector3(.84f,.02f,-.05f)},new[]{.035f,.035f},6,Bronze,Bronze,1,1).Lump(a+new Vector3(-.88f,.02f,-.05f),Vector3.one*.06f,i,.05f,Bronze,Bronze,6,4).Lump(a+new Vector3(.88f,.02f,-.05f),Vector3.one*.06f,i+9,.05f,Bronze,Bronze,6,4);}
                 // Sela's chart table: a big slanted table with the chart on it lit from inside, the scopes round it, Abri's desk and its piles of forms, Ilo's beside it.
-                var table=At(ChartTable,0);
-                s.Slot(3).Box(table+new Vector3(0,.5f,0),new Vector3(3.2f,1,2),Quaternion.identity,new Color(.42f,.34f,.26f)).Box(table+new Vector3(0,1.06f,0),new Vector3(3.4f,.08f,2.2f),Quaternion.Euler(-8,0,0),new Color(.5f,.4f,.3f));
-                s.Slot(4).Quad(table+new Vector3(-1.5f,1.12f,-.9f),table+new Vector3(1.5f,1.12f,-.9f),table+new Vector3(1.5f,1.36f,.9f),table+new Vector3(-1.5f,1.36f,.9f),Vector3.up,new Color(.9f,.86f,.7f),.4f);
-                for(int i=0;i<7;i++)s.Slot(5).Tube(new[]{table+new Vector3(-1.3f+i*.4f,1.16f+i*.002f,-.7f),table+new Vector3(-1+i*.3f,1.24f,0),table+new Vector3(-1.2f+i*.42f,1.33f,.7f)},new[]{.012f,.012f,.012f},3,new Color(.3f,.5f,.6f),new Color(.6f,.3f,.3f),1,1,false);
+                // The table was a crate with a pale lid and seven lines across it, which read as painted chevrons where five chapters' plans are heard round it (nov22b-whole s62/037,
+                // D382). It is a table now: four turned legs, an apron, a shelf of rolled charts under it, the slanted top in a brass rail, and on it the route chart itself, dark
+                // glass with the lanterns and roads lit in it where the pause menu's chart sets them (every ChartStop at its own place, joined as RouteChart joins them), inside a ruled
+                // brass border. Drawn only: its solid is the one it had, so nobody stands any differently round it.
+                var table=At(ChartTable,0);var slope=Quaternion.Euler(-8,0,0);var facing=slope*Vector3.up;
+                Vector3 Top(float x,float z,float lift)=>table+Vector3.up*1.06f+slope*new Vector3(x,.04f+lift,z);
+                var oak=new Color(.42f,.34f,.26f);var dark=new Color(.3f,.24f,.18f);
+                s.Slot(3).Box(table+new Vector3(0,1.06f,0),new Vector3(3.4f,.08f,2.2f),slope,new Color(.5f,.4f,.3f));
+                foreach(var (x,z) in new[]{(-1.48f,-.86f),(1.48f,-.86f),(-1.48f,.86f),(1.48f,.86f)})
+                {
+                    float under=1.02f+z*Mathf.Tan(8*Mathf.Deg2Rad);
+                    s.Slot(3).Tube(new[]{table+new Vector3(x,0,z),table+new Vector3(x,.14f,z),table+new Vector3(x,.24f,z),table+new Vector3(x,under*.62f,z),table+new Vector3(x,under,z)},new[]{.11f,.1f,.07f,.085f,.075f},8,dark,oak,1,1);
+                }
+                foreach(var (x,z,w,d) in new[]{(0f,-.92f,2.96f,.06f),(0f,.92f,2.96f,.06f),(-1.56f,0f,.06f,1.7f),(1.56f,0f,.06f,1.7f)})s.Slot(3).Box(Top(x,z,-.15f),new Vector3(w,.18f,d),slope,dark,oak);
+                s.Slot(3).Box(table+new Vector3(0,.3f,0),new Vector3(2.96f,.05f,1.72f),Quaternion.identity,dark,oak);
+                for(int i=0;i<5;i++){float z=-.6f+i*.3f,x=-.3f+(i%2)*.5f,r=.06f+.012f*(i%3);s.Slot(2).Tube(new[]{table+new Vector3(x-.8f,.33f+r,z),table+new Vector3(x+.8f,.33f+r,z)},new[]{r,r},8,Cream,new Color(.86f,.8f,.64f),1,1);}
+                // The chart: dark glass, its ruled border, the roads and the lanterns lit in it.
+                s.Slot(4).Quad(Top(-1.56f,-.96f,.004f),Top(1.56f,-.96f,.004f),Top(1.56f,.96f,.004f),Top(-1.56f,.96f,.004f),facing,new Color(.07f,.11f,.17f),.4f);
+                foreach(var (a,b) in new[]{(new Vector2(-1.46f,-.86f),new Vector2(1.46f,-.86f)),(new Vector2(1.46f,-.86f),new Vector2(1.46f,.86f)),(new Vector2(1.46f,.86f),new Vector2(-1.46f,.86f)),(new Vector2(-1.46f,.86f),new Vector2(-1.46f,-.86f))})
+                    s.Slot(6).Beam(Top(a.x,a.y,.012f),Top(b.x,b.y,.012f),.025f,.008f,Bronze);
+                var stops=Resources.LoadAll<ChartStop>("Definitions/ChartStop");
+                Vector3 Chart(Vector2 p)=>Top(Mathf.Lerp(-1.3f,1.3f,Mathf.Clamp01(p.x)),Mathf.Lerp(-.72f,.72f,Mathf.Clamp01(p.y)),.012f);
+                var roads=new HashSet<string>();int lit=0;
+                foreach(var stop in stops)foreach(string id in stop.routes??Array.Empty<string>())
+                {
+                    var other=Array.Find(stops,o=>o.id==id);if(other==null||!roads.Add(string.CompareOrdinal(stop.id,id)<0?stop.id+"|"+id:id+"|"+stop.id))continue;
+                    s.Slot(5).Tube(new[]{Chart(stop.position),Chart(other.position)},new[]{.016f,.016f},4,Color.white,Color.white,1,1,false);
+                }
+                foreach(var stop in stops){s.Slot(5).Disc(Chart(stop.position)+facing*.008f,facing,.06f,12,Color.white);lit++;}
+                // A chart without its stops (a project with none yet) still shows the Halo's roads: the old plan's three, lit.
+                if(lit==0)for(int i=0;i<3;i++)s.Slot(5).Tube(new[]{Top(-1.2f,-.5f+i*.5f,.012f),Top(0,-.3f+i*.4f,.012f),Top(1.2f,-.6f+i*.6f,.012f)},new[]{.016f,.016f,.016f},4,Color.white,Color.white,1,1,false);
+                // The rail round the top, on posts, a hand above it: what keeps a rolled chart from going off the low edge.
+                var rim=new[]{new Vector2(-1.68f,-1.08f),new Vector2(1.68f,-1.08f),new Vector2(1.68f,1.08f),new Vector2(-1.68f,1.08f)};
+                for(int k=0;k<4;k++)
+                {
+                    var a=rim[k];var b=rim[(k+1)%4];s.Slot(6).Tube(new[]{Top(a.x,a.y,.07f),Top(b.x,b.y,.07f)},new[]{.03f,.03f},6,Bronze,Bronze,1,1);
+                    for(float t=0;t<.99f;t+=.5f){var p=Vector2.Lerp(a,b,t);s.Slot(6).Tube(new[]{Top(p.x,p.y,-.01f),Top(p.x,p.y,.07f)},new[]{.022f,.022f},6,Bronze,Bronze,1,1,false);}
+                }
+                Debug.Log("HANDS_CHART_TABLE lanterns="+lit+" roads="+roads.Count);
                 Solid(blocks,ChartTable,new Vector3(3.4f,1.2f,2.2f),0,"Chart table",top);
                 foreach(var at in Scopes){var f=At(at);foreach(int k in new[]{0,1,2}){float a=k*Mathf.PI*2/3;s.Slot(6).Tube(new[]{f+new Vector3(Mathf.Cos(a)*.35f,0,Mathf.Sin(a)*.35f),f+Vector3.up*1.3f},new[]{.025f,.02f},4,Bronze,Bronze,1,1,false);}
                     var aim=(new Vector3(GalleryLamps[Array.IndexOf(Scopes,at)].x,top+2,GalleryLamps[Array.IndexOf(Scopes,at)].y)-(f+Vector3.up*1.35f)).normalized;

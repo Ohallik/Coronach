@@ -146,7 +146,7 @@ namespace Lattice.EditorTools
             }
 
             // ---------------------------------------------------------------- what the town is made of
-            internal static Material Plate,Skirt,Iron,Brass,Timber,Cloth,Window,Lamp,Glass,Dark,Soil,Leaf,Rope,Belt,PlainLook,Track,Stone,Scrub,Copper;
+            internal static Material Plate,Skirt,Iron,Brass,Timber,Cloth,Window,WindowLow,Mirror,Lamp,Glass,Dark,Soil,Leaf,Rope,Belt,PlainLook,Track,Stone,Scrub,Copper;
             static Material[] coats;static readonly string[] CoatNames={"rust","olive","slate","soot","teal"};
             static float Hash(int a,int b,int seed){uint h=(uint)(a*374761393+b*668265263+seed*1442695041);h=(h^(h>>13))*1274126177;h^=h>>16;return (h&0xffff)/65535f;}
             internal static void Materials()
@@ -259,7 +259,13 @@ namespace Lattice.EditorTools
                 Cloth=ZoneKit.Toon("crawl-cloth",cloth,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.52f,.5f,.64f));});
                 // Lamps and windows in their own colour, a little over the bloom's threshold in their brightest channel and no more: at 2.3 over a pale base every lamp of the Crawl and the run
                 // clipped to a flat disc of white or yellow with no body (the November 20 capture, s56 060).
-                Window=ZoneKit.Toon("crawl-window",null,m=>{m.SetColor("_BaseColor",new Color(.82f,.62f,.36f));m.SetColor("_EmissionColor",new Color(1.0f,.62f,.24f));});
+                // A lit window is the room behind it: dark glass whose own light is amber, brighter in its upper lights (the room's lamp hangs high) than its lower. Over a pale base
+                // lit by the dawn, 1.0 of emission summed to 255 234 110 at play, one flat yellow tile with a cross on it (the November 22 capture, s55 138; D381).
+                Window=ZoneKit.Toon("crawl-window",null,m=>{m.SetColor("_BaseColor",new Color(.22f,.14f,.08f));m.SetColor("_EmissionColor",new Color(.85f,.5f,.18f));});
+                WindowLow=ZoneKit.Toon("crawl-window-low",null,m=>{m.SetColor("_BaseColor",new Color(.16f,.1f,.06f));m.SetColor("_EmissionColor",new Color(.5f,.26f,.09f));});
+                // The helm's dawn mirror shows the dawn: painted in the vertices band by band, as bright as it is whatever light falls on it (it faces away from the sun). In the lamps'
+                // emissive amber it was a flat bright yellow disc (s55 138).
+                Mirror=ZoneKit.Toon("crawl-mirror",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",Color.white);m.SetFloat("_LightFloor",.9f);m.SetFloat("_RampSteps",2);m.SetColor("_EmissionColor",new Color(.1f,.07f,.05f));});
                 Lamp=ZoneKit.Toon("crawl-lamp",null,m=>{m.SetColor("_BaseColor",new Color(.72f,.56f,.34f));m.SetColor("_EmissionColor",new Color(.92f,.56f,.2f));m.SetFloat("_RampSteps",4);});
                 Glass=ZoneKit.Toon("crawl-glass",null,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.78f,.86f,.86f));m.SetColor("_EmissionColor",new Color(.16f,.2f,.2f));});
                 Dark=ZoneKit.Toon("crawl-dark",null,m=>m.SetColor("_BaseColor",new Color(.07f,.065f,.07f)));
@@ -284,7 +290,8 @@ namespace Lattice.EditorTools
                 Stone=ZoneKit.Toon("crawl-stone",stone,m=>{ZoneKit.Tinted(m);m.SetColor("_ShadowTint",new Color(.5f,.48f,.66f));});
                 Scrub=ZoneKit.Toon("crawl-scrub",null,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_ShadowTint",new Color(.5f,.48f,.62f));});
                 // Every material a fading piece is made of carries the fade's variant from its paint, so no later paint of it can take it away (D359: these drew their pieces solid while the rest faded).
-                foreach(var fadeMat in new[]{Timber,Brass,Stone,Rope,Window,Dark}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
+                // The lamp too: the Terminator's build gives it the fade (its lamps hang on fading bodies), and a build of the Crawl alone took it away again (D381).
+                foreach(var fadeMat in new[]{Timber,Brass,Stone,Rope,Window,WindowLow,Lamp,Dark}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
                 Coats();
                 AssetDatabase.SaveAssets();
             }
@@ -903,13 +910,27 @@ namespace Lattice.EditorTools
                         if(door){s.Slot(4).Box(new Vector3(x,y+1.0f,z0-.03f),new Vector3(1.0f,2.0f,.04f),Quaternion.identity,shutter*.8f);s.Slot(3).Box(new Vector3(x+.3f,y+1.0f,z0-.06f),new Vector3(.05f,.12f,.03f),Quaternion.identity,new Color(.1f,.1f,.1f));
                             s.Slot(1).Beam(new Vector3(x-.56f,y+2.05f,z0-.06f),new Vector3(x+.56f,y+2.05f,z0-.06f),.08f,.08f,trim);continue;}
                         bool lit=rng.NextDouble()<.62;var wc=new Vector3(x,y+storey*.58f,z0-.025f);
-                        if(lit)s.Slot(2).Box(wc,new Vector3(.72f,1.0f,.03f),Quaternion.identity,Color.white);
-                        else{s.Slot(4).Box(wc,new Vector3(.72f,1.0f,.03f),Quaternion.identity,shutter);s.Slot(3).Box(wc+new Vector3(0,0,-.018f),new Vector3(.025f,.98f,.02f),Quaternion.identity,new Color(.1f,.1f,.12f));}
+                        if(lit)
+                        {
+                            // A lit window with depth (D381): the glass set back in a casing that stands 12 cm proud of the wall (head, jambs, a deep sill), the room brighter in the
+                            // upper lights than the lower, glazing bars across the split and down the middle, and a curtain drawn to one side or a jug on the sill. One amber box with a
+                            // cross on it read as a flat yellow tile (s55 138).
+                            var glass=new Vector3(x,wc.y,z0-.004f);int dress=Mathf.Abs(seed*31+f*7+c*13)%4;
+                            s.Slot(2).Box(glass+new Vector3(0,.2f,0),new Vector3(.72f,.6f,.02f),Quaternion.identity,Color.white);
+                            s.Slot(5).Box(glass+new Vector3(0,-.3f,0),new Vector3(.72f,.4f,.02f),Quaternion.identity,Color.white);
+                            s.Slot(1).Box(glass+new Vector3(0,.55f,-.06f),new Vector3(.98f,.1f,.12f),Quaternion.identity,trim).Box(glass+new Vector3(-.41f,0,-.06f),new Vector3(.1f,1.0f,.12f),Quaternion.identity,trim)
+                                .Box(glass+new Vector3(.41f,0,-.06f),new Vector3(.1f,1.0f,.12f),Quaternion.identity,trim).Box(glass+new Vector3(0,-.54f,-.08f),new Vector3(1.02f,.07f,.16f),Quaternion.identity,trim)
+                                .Box(glass+new Vector3(0,-.1f,-.025f),new Vector3(.72f,.05f,.03f),Quaternion.identity,trim).Box(glass+new Vector3(0,0,-.025f),new Vector3(.045f,1.0f,.03f),Quaternion.identity,trim);
+                            if(dress<2)s.Slot(4).Box(glass+new Vector3((dress==0?-1:1)*.25f,.1f,-.018f),new Vector3(.2f,.8f,.015f),Quaternion.identity,ZoneKit.Shape.Dim(shutter,.85f));
+                            else if(dress==2)s.Slot(3).Box(glass+new Vector3(.17f,-.38f,-.05f),new Vector3(.13f,.22f,.08f),Quaternion.identity,Color.white);
+                            continue;
+                        }
+                        s.Slot(4).Box(wc,new Vector3(.72f,1.0f,.03f),Quaternion.identity,shutter);s.Slot(3).Box(wc+new Vector3(0,0,-.018f),new Vector3(.025f,.98f,.02f),Quaternion.identity,new Color(.1f,.1f,.12f));
                         s.Slot(1).Box(wc+new Vector3(0,0,-.02f),new Vector3(.86f,.07f,.03f),Quaternion.identity,trim).Box(wc+new Vector3(0,-.52f,-.03f),new Vector3(.9f,.07f,.06f),Quaternion.identity,trim).Box(wc+new Vector3(0,0,-.02f),new Vector3(.06f,1.0f,.03f),Quaternion.identity,trim);
                     }
                 }
                 s.Slot(0).Post(new Vector3(x0+.8f,eave,zm+(z1-z0)*.2f),(ridge-eave)+1.4f,.22f,.2f,8,dark,dark).Slot(1).Tube(new[]{new Vector3(x0+.8f,ridge+1.4f,zm+(z1-z0)*.2f),new Vector3(x0+.8f,ridge+1.55f,zm+(z1-z0)*.2f)},new[]{.3f,.3f},8,trim,trim);
-                s.Slot(4);var body=kit.Built(Name(name),s,Iron,Brass,Window,Dark,Timber);body.transform.SetParent(go.transform,true);ZoneKit.Block(body,new Vector3((x0+x1)*.5f,floor+tall*.5f,zm),new Vector3(x1-x0,tall,z1-z0),0,name);ZoneKit.Fadeable(body);
+                s.Slot(5);var body=kit.Built(Name(name),s,Iron,Brass,Window,Dark,Timber,WindowLow);body.transform.SetParent(go.transform,true);ZoneKit.Block(body,new Vector3((x0+x1)*.5f,floor+tall*.5f,zm),new Vector3(x1-x0,tall,z1-z0),0,name);ZoneKit.Fadeable(body);
                 if(lampSide!=0)
                 {
                     var bracket=new ZoneKit.Shape();bracket.Slot(0).Beam(Vector3.zero,new Vector3(0,0,-.7f),.05f,.05f,new Color(.28f,.28f,.31f)).Slot(2).Tube(new[]{new Vector3(0,0,-.7f),new Vector3(0,-.4f,-.7f)},new[]{.012f,.012f},4,new Color(.3f,.3f,.3f),new Color(.3f,.3f,.3f));
@@ -941,11 +962,26 @@ namespace Lattice.EditorTools
                 var spun=Pivoted(kit,"The great wheel",wheel,wheelFoot+new Vector3(.4f,1.7f,0),holder.transform,Brass,Timber);spun.transform.rotation=Quaternion.Euler(0,0,0);
                 var turning=spun.AddComponent<Turning>();turning.axis=Vector3.right;turning.degrees=0;
                 for(int k=0;k<5;k++){float z=-4.6f+k*.5f;s.Slot(1).Tube(new[]{new Vector3(-82.6f,Raised,z),new Vector3(-82.6f,Raised+1.6f,z),new Vector3(-82.2f,Raised+1.9f,z)},new[]{.07f,.07f,.11f},8,brass,brass);}
-                var mirror=new Vector3(-75.6f,Raised,5.2f);s.Slot(0).Post(mirror,1.6f,.08f,.06f,6,iron,iron).Slot(1).Tube(Enumerable.Range(0,25).Select(i=>mirror+new Vector3(Mathf.Cos(i*Mathf.PI/12)*.75f,2.2f+Mathf.Sin(i*Mathf.PI/12)*.75f,0)).ToArray(),Enumerable.Repeat(.06f,25).ToArray(),6,brass,brass,1,1,false);
-                s.Slot(3).Disc(mirror+new Vector3(0,2.2f,.02f),new Vector3(-.3f,0,-1),.72f,24,new Color(1,.86f,.66f));
+                // The mirror (D381): its glass in an iron dish with a brass bezel, hung between the arms of a fork on its post, and showing what it is turned to: dark ground, the
+                // dawn's gold line and glow, the night's blue over it, the sun's rim on the line. In the lamps' amber it was a flat bright yellow disc on a stick (s55 138).
+                var mirror=new Vector3(-75.6f,Raised,5.2f);var glassAt=mirror+Vector3.up*2.2f;var faces=new Vector3(-.3f,0,-1).normalized;var across=Vector3.Cross(Vector3.up,faces).normalized;
+                var fork=mirror+Vector3.up*1.3f;s.Slot(0).Post(mirror,1.36f,.08f,.06f,6,iron,iron).Beam(fork-across*.9f,fork+across*.9f,.07f,.07f,iron)
+                    .Beam(fork-across*.9f,glassAt-across*.9f,.06f,.06f,iron).Beam(fork+across*.9f,glassAt+across*.9f,.06f,.06f,iron)
+                    .Tube(new[]{glassAt-faces*.01f,glassAt-faces*.16f,glassAt-faces*.24f},new[]{.79f,.64f,.26f},24,iron,iron);
+                s.Slot(1).Tube(Enumerable.Range(0,25).Select(i=>glassAt+faces*.02f+(across*Mathf.Cos(i*Mathf.PI/12)+Vector3.up*Mathf.Sin(i*Mathf.PI/12))*.76f).ToArray(),Enumerable.Repeat(.06f,25).ToArray(),6,brass,brass,1,1,false)
+                    .Box(glassAt-across*.86f,new Vector3(.16f,.16f,.16f),Quaternion.LookRotation(faces),brass).Box(glassAt+across*.86f,new Vector3(.16f,.16f,.16f),Quaternion.LookRotation(faces),brass);
+                const float R=.72f;const int bands=18;
+                static Color Seen(float t)=>t<.3f?Color.Lerp(new Color(.2f,.15f,.14f),new Color(.34f,.25f,.2f),t/.3f):t<.36f?new Color(1,.86f,.58f)
+                    :t<.6f?Color.Lerp(new Color(.98f,.66f,.38f),new Color(.5f,.44f,.54f),(t-.36f)/.24f):Color.Lerp(new Color(.5f,.44f,.54f),new Color(.18f,.22f,.38f),(t-.6f)/.4f);
+                for(int b=0;b<bands;b++)
+                {
+                    float y0=-R+2*R*b/bands,y1=-R+2*R*(b+1)/bands,w0=Mathf.Sqrt(Mathf.Max(0,R*R-y0*y0)),w1=Mathf.Sqrt(Mathf.Max(0,R*R-y1*y1));var at=glassAt+faces*.012f;
+                    s.Slot(3).Quad(at-across*w0+Vector3.up*y0,at+across*w0+Vector3.up*y0,at+across*w1+Vector3.up*y1,at-across*w1+Vector3.up*y1,faces,Seen((b+.5f)/bands));
+                }
+                s.Slot(3).Disc(glassAt+faces*.02f+Vector3.up*(-R+2*R*.36f),faces,.12f,14,new Color(1,.95f,.8f));
                 // A signal mast at the head with flags that swing; a bell on its frame on the deck below.
                 var mast=new Vector3(-87.2f,Raised,-6.0f);s.Slot(0).Post(mast,7.5f,.1f,.07f,6,iron,iron);
-                var helm=kit.Built("The helm drawn",s,Iron,Brass,Timber,Lamp);helm.transform.SetParent(holder.transform,true);
+                var helm=kit.Built("The helm drawn",s,Iron,Brass,Timber,Mirror);helm.transform.SetParent(holder.transform,true);
                 ZoneKit.Block(helm,wheelFoot+Vector3.up*.6f,new Vector3(.6f,1.2f,.6f),0,"Wheel pedestal");ZoneKit.Block(helm,mirror+Vector3.up*.8f,new Vector3(.3f,1.6f,.3f),0,"Mirror post");ZoneKit.Block(helm,mast+Vector3.up*1,new Vector3(.3f,2,.3f),0,"Signal mast");
                 for(int k=0;k<4;k++)
                 {

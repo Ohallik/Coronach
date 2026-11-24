@@ -19,7 +19,7 @@ namespace Lattice.EditorTools
         internal static class TownZone
         {
             // ---------------------------------------------------------------- who and what stands where (plan coordinates; routes, tests and LookDev read these)
-            internal static readonly Vector2 Arrival=new(0,4),Pad=new(-7,7),Hask=new(-25,26.5f),IdraArguing=new(-24,24.2f),PensCrossing=new(-20,25),IdraYard=new(-12,48),MapStand=new(-12,51.4f),
+            internal static readonly Vector2 Arrival=new(0,4),Pad=new(-5.2f,4.8f),Hask=new(-25,26.5f),IdraArguing=new(-24,24.2f),PensCrossing=new(-20,25),IdraYard=new(-12,48),MapStand=new(-12,51.4f),
                 BenchAt=new(-18.5f,46),TallyAt=new(-10,47.6f),BathHouse=new(28,46),Cradle=new(25.6f,37.6f),BathSpawn=new(23.4f,34.6f),VentSeat=new(31.8f,38.6f),Tern=new(8,60.5f),TernHall=new(8,68),
                 RibTally=new(12,58.4f),IruShrine=new(44,44),IruHall=new(5.2f,59.6f),LowLamp=new(48.5f,48),Seats=new(58,46),ScarsAt=new(55.4f,44.2f),ReachGate=new(-63.5f,42),ReachSpawn=new(-57,42);
             /// <summary>The ribs, numbered from the skull: each a generated RibArch standing over the back of the town, spanning north to south from z 60 to z 76.</summary>
@@ -82,7 +82,7 @@ namespace Lattice.EditorTools
             internal static readonly Vector2[] Longhouses={TernHall,new(20,68),new(32,68),new(-16,68),new(-40,68)};
 
             /// <summary>LookDev's stills of the town (registered in LookDev.Views): each place as it is first walked, at its floor's height, then two wide.</summary>
-            internal static LookDev.View[] Views=>new[]{new LookDev.View("arrival",new Vector3(0,0,4)),new LookDev.View("pad",new Vector3(-7,0,7)),new LookDev.View("commons",new Vector3(2,0,24)),
+            internal static LookDev.View[] Views=>new[]{new LookDev.View("arrival",new Vector3(0,0,4)),new LookDev.View("pad",new Vector3(-5.2f,0,4.8f)),new LookDev.View("commons",new Vector3(2,0,24)),
                 new LookDev.View("pens",new Vector3(-32,0,24)),new LookDev.View("hask",new Vector3(-23,0,26)),new LookDev.View("yard",new Vector3(-12,0,45)),new LookDev.View("bath",new Vector3(27,0,39)),
                 new LookDev.View("tern",new Vector3(8,0,57.5f)),new LookDev.View("fourth-rib",new Vector3(13,0,56.5f)),new LookDev.View("longhouses",new Vector3(-16,0,58)),new LookDev.View("west",new Vector3(-46,0,46)),
                 new LookDev.View("shrine",new Vector3(46,0,44)),new LookDev.View("skull",new Vector3(56,0,44)),new LookDev.View("climb",new Vector3(47.5f,2.4f,53.8f)),new LookDev.View("high-hall",new Vector3(52,4.8f,63)),

@@ -364,10 +364,19 @@ namespace Lattice.Combat
             // Faster than a cruise and the way to her place well off her travel: off the lead's way at 27 m/s, the way to her place was across it, she never closed on it, and ran six
             // metres past it sideways. Her own travel, not his: at rest behind a lead flying off, she would read as going backwards at his speed. Only near it: far behind a lead who has turned
             // (the Aurora Shear's short lane, PartnerInViewTests) braking for the turn only left her further behind.
-            return own.magnitude>FastTurn&&Vector3.Angle(own,toward)>45&&far<stop+TurnBrakeWithin;
+            if(own.magnitude<=FastTurn||Vector3.Angle(own,toward)<=45)return false;
+            if(far<stop+TurnBrakeWithin)return true;
+            // Further off, while her place is inside the circle she turns at a boost going as she goes against him (whose place it is): at that speed there is no way to it but round it.
+            // As the lead curled up to barge three's flank knot at the end of a loop she came off it at 26 m/s ten metres out of him with her place a quarter-turn off her nose, and
+            // swung on south under the frame's bottom edge and round his far side (nov22b-whole s17/282 and s17/286; PartnerInViewTests). Braked to a cruise she turns inside it. Her
+            // own speed alone would brake her on the outside of a turn he is still flying, behind a place that needs more speed than his.
+            float thrust=actor.motor is FlightMotor ship?ship.acceleration*BoostThrust:0;
+            return thrust>0&&far<2*relative.sqrMagnitude/thrust*Mathf.Sin(Vector3.Angle(relative,toward)*Mathf.Deg2Rad);
         }
-        /// <summary>How near her place a turn she can't make at speed is braked for.</summary>
+        /// <summary>How near her place a turn she can't make at speed is braked for, wherever the turn would take her.</summary>
         const float TurnBrakeWithin=6;
+        /// <summary>A boost's share of a hull's thrust (FlightMotor.Move).</summary>
+        const float BoostThrust=2.1f;
         /// <summary>The speed past a hull's cruise (12 m/s) above which a ship can't turn onto a way well off its travel.</summary>
         const float FastTurn=15;
         // ---------- keeping up with a lead on the move ----------

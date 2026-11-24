@@ -59,7 +59,7 @@ namespace Lattice.UI
                 case Act.Move:cue.who.SetPositionAndRotation(cue.to,Quaternion.Euler(cue.turn));break;
                 case Act.Show:cue.who.gameObject.SetActive(true);break;
                 case Act.Hide:cue.who.gameObject.SetActive(false);break;
-                case Act.Pose:foreach(var body in Bodies(cue))if(body.TryGetComponent<Posed>(out var posed))posed.Show(cue.pose,true);break;
+                case Act.Pose:foreach(var body in Bodies(cue))if(body.TryGetComponent<Posed>(out var posed)){posed.Show(cue.pose,true);Seat(body,posed);}break;
                 case Act.Face:if(cue.toward!=null)foreach(var body in Bodies(cue))Turn(body,cue.toward.position,1);break;
                 case Act.Hold:if(string.IsNullOrEmpty(cue.hero)&&cue.toward!=null)Grip(cue.who,Hand(cue.toward));break;
             }
@@ -74,9 +74,18 @@ namespace Lattice.UI
         {
             var look=toward-who.position;look.y=0;if(look.sqrMagnitude<.01f)return;
             // Someone on a bench turns as far as a seat lets them: turned whole, their knees went through the bench in front (the November 20 capture's town meeting).
-            var want=Quaternion.LookRotation(look);if(who.TryGetComponent<Posed>(out var posed))want=posed.WithinSeat(want);
+            var want=Quaternion.LookRotation(look);
+            // Not all to the degree: someone with no name turns a little short of the speaker or past them, the same few degrees each time, so a room turned to one voice reads as
+            // people and not as a drill (D381).
+            if(!who.TryGetComponent<Npc>(out _))want=Quaternion.Euler(0,want.eulerAngles.y+Lean(who.position),0);
+            if(who.TryGetComponent<Posed>(out var posed))want=posed.WithinSeat(want);
             who.rotation=Quaternion.Slerp(who.rotation,want,share);
         }
+        /// <summary>How far one place in a room turns off true (degrees, either way, at most 8).</summary>
+        static float Lean(Vector3 at)=>(Mathf.Repeat(Mathf.Sin(at.x*12.9898f+at.z*78.233f)*43758.5453f,1)-.5f)*16;
+        /// <summary>A seat given to a sitter (<see cref="SeatFit"/>) is out while they sit and put away when they stand: Oda stood up from hers and left an empty cushion on the
+        /// bench beside her (the November 22 capture, s57 142 and 156; D381).</summary>
+        static void Seat(Transform body,Posed posed){if(body.TryGetComponent<SeatFit>(out var fit)&&fit.seat!=null)fit.seat.SetActive(posed.Seated);}
         static Transform Hero(string id)
         {
             var party=PartyController.Current;if(party==null)return null;
@@ -125,7 +134,7 @@ namespace Lattice.UI
             switch(cue.act)
             {
                 case Act.Face:foreach(var body in Bodies(cue)){facing.RemoveAll(f=>f.who==body);facing.Add((body,cue.toward,cue.hero));}break;
-                case Act.Pose:foreach(var body in Bodies(cue))if(body.TryGetComponent<Posed>(out var posed))posed.Show(cue.pose);break;
+                case Act.Pose:foreach(var body in Bodies(cue))if(body.TryGetComponent<Posed>(out var posed)){posed.Show(cue.pose);Seat(body,posed);}break;
                 case Act.Move:facing.RemoveAll(f=>f.who==cue.who);moving.Add((cue.who,cue.who.position,cue.who.rotation,cue.to,Quaternion.Euler(cue.turn),Time.unscaledTime+cue.delay,cue.seconds,cue.lift));break;
                 case Act.Show:cue.who.gameObject.SetActive(true);break;
                 case Act.Hide:cue.who.gameObject.SetActive(false);break;

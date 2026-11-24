@@ -19,7 +19,12 @@ namespace Lattice.UI
     /// third, the capture caught names and floor words at a fifth to a half of their strength again and again: RUVA OKH, KEEPER ABRI and ILO the frame a conversation closed
     /// (s30 277), TEO MARROW (s31 125), FIRST ARCH, STILT MARKET, LAMP GALLERY, PILOTS' STAGE and LOWER GALLERY as the party ran past a panel's edge (s20 019, s25 090, s30 118,
     /// s27 013, s26 512), HADDA by the objective (s22 014). The one level between is the trace a body over a floor word's letters leaves. And a hanging sign steps aside for a
-    /// hero's body over its letters as a floor word does (PRESSURE LIFT across Sela in the lift's door, s16 144); a person's name doesn't.</para></summary>
+    /// hero's body over its letters as a floor word does (PRESSURE LIFT across Sela in the lift's door, s16 144); a person's name doesn't.</para>
+    /// <para>Since the November 22 night capture (D365): a body over a word's letters takes it away too, no trace. The trace was .08 of the word's alpha, and the checks counted
+    /// anything under a tenth as gone; but a word is blended in linear light, so .08 of white over a dark floor or open space lifts it by about .07, which the screen shows as
+    /// a third of the way to the letters: THE BASIN beside Sela (s21 327), LOWER GALLERY under Taren (s26 513), MARROW-3 (s20 346), THE WEIGHER under the ship (s42 216),
+    /// ARRIVALS / DOCK OFFICE under a walker (s60 189) were all that trace, measured in the stills at .06 to .09 over their ground. Why a word is gone is kept
+    /// (<see cref="GoneFor"/>), which is how a test tells a word gone for a body from one cut by a plate.</para></summary>
     [DefaultExecutionOrder(910)]
     public sealed class SignFade:MonoBehaviour
     {
@@ -30,15 +35,18 @@ namespace Lattice.UI
         const float BackAfter=.25f;
         /// <summary>A person's name over their head (PeopleMarks): it keeps to its person, and no body takes it away.</summary>
         [System.NonSerialized] public bool nameTag;
-        float goneUntil=-1,tracedUntil=-1;
+        /// <summary>What has taken it, while it's gone: "away" (a conversation, a menu, the card, a boss's bar), "cut" (a plate or the screen's edge), "speck" (under the type
+        /// floor), "fight", or "body" (a body over its letters). Empty while it's read.</summary>
+        public string GoneFor{get;private set;}="";
+        float goneUntil=-1;
         /// <summary>How far ahead a moving sign is looked for, as a share of the screen's height: enough for a run and the camera catching up, and no more, since a jump isn't a heading.</summary>
         const float MostAhead=.12f;
         static readonly int FadeId=Shader.PropertyToID("_Fade");
         static MaterialPropertyBlock block;
         /// <summary>A body over a floor word's letters: legs through the middle of a word read 'LO R CHAMBER' (E4-hushwell-03), and two heroes standing on LAST LANTERN left it at a third,
-        /// through both of them (s43/044). It goes down to a trace at once, and comes back at once a moment after the body has gone: not to nothing (AWordUnderAHerosLegsStepsAside tells it from a word cut by a plate
-        /// that way). A body counts when it covers a quarter of the letters' height: one standing behind the word, its feet above it on the screen, or past its end, is beside it.</summary>
-        const float CoveredFloor=.08f,BodyTall=1.8f,BodyHalfWide=.4f,LeastOver=.25f;
+        /// through both of them (s43/044). It goes at once, and comes back at once a moment after the body has gone (a trace of .08 read as a ghost in the player, D365). A body
+        /// counts when it covers a quarter of the letters' height: one standing behind the word, its feet above it on the screen, or past its end, is beside it.</summary>
+        const float BodyTall=1.8f,BodyHalfWide=.4f,LeastOver=.25f;
         /// <summary>A sign below this lies on the floor under the ships, and how much bigger than made a held sign may grow at most. In a flight zone a lying sign grows only as far as its
         /// letters stay over the floor: grown three times at the farthest pull, SALVAGE EDDY's outer letters went into the Gullet's curving bed (QA-037).</summary>
         const float LyingBelow=1,MostLying=3.4f,GrowthStep=.1f;
@@ -74,14 +82,18 @@ namespace Lattice.UI
             if(keepsTurn&&transform.rotation!=reading)transform.rotation=reading;
             if(holdsSize&&view!=null)HoldSize(view,lead.y);
             bool away=input!=null&&input.Blocked||QuestToast.CardUp||BossController.Focus(lead)!=null;
-            // Read or gone. Away (a conversation, a menu, the card, a boss's bar) it's gone for that frame and back the frame it ends; set aside by where it stands, it stays gone
-            // a moment after, so a word riding the edge of a plate doesn't flicker; a body over its letters leaves the trace, and that too lifts a moment after it's gone.
+            // Read or gone. Away (a conversation, a menu, the card, a boss's bar) it's gone for that frame and back the frame it ends; set aside by where it stands, or by a body
+            // over its letters, it stays gone a moment after, so a word riding the edge of a plate or a body doesn't flicker.
             float now=Time.unscaledTime;
-            if(away)tracked=false;
-            else if(Cut(view)||Speck(view)||!bossOnly&&Fighting(lead))goneUntil=now+BackAfter;
+            if(away){tracked=false;GoneFor="away";}
+            else
+            {
+                string took=Cut(view)?"cut":Speck(view)?"speck":!bossOnly&&Fighting(lead)?"fight":null;
+                if(took==null&&now>=goneUntil&&!nameTag&&Covered(view,bossOnly))took="body";
+                if(took!=null){goneUntil=now+BackAfter;GoneFor=took;}
+                else if(now>=goneUntil)GoneFor="";
+            }
             float shown=away||now<goneUntil?0:1;
-            if(shown>0&&!nameTag&&Covered(view,bossOnly))tracedUntil=now+BackAfter;
-            if(shown>0&&now<tracedUntil)shown=CoveredFloor;
             float alpha=full*shown;
             if(Mathf.Abs(text.alpha-alpha)<=.01f&&alpha>0)return;
             if(text.alpha==alpha)return;

@@ -14,7 +14,7 @@ namespace Lattice.Combat
     /// lines that erupt under the water and strike only who stands in it: a plinth is dry. Lure Flash: the lure nearest the hero blazes, a stalk he stands at or its own crown, and the ring it
     /// marks is struck; roll through it, guard it, or hug the bloom. Drag: a pale cone of pull toward a marked mouth that snaps when the pull ends; a roll breaks the pull, and a snap that
     /// takes nobody leaves it gaping (an opening). Burn a stalk and one of its mouths gapes for <see cref="RotbloomTune.Gape"/> seconds; a stalk is a quarter of what holds it up and takes
-    /// that much of its bar, and the second carries it over half.</item>
+    /// that much of its bar, and the second carries it just over half: until it burns nothing else does, and what is left of the fishing half goes with it (D375).</item>
     /// <item><b>Grounded</b> (under half). The shift is the last pump running: the water goes, the stalks still standing go dark, it grounds where it is and seeds two rot-pods on the rim.
     /// On the bare floor, faster: Crack Lash, three lashes anywhere, the last of which lodges a root in the cracked floor and leaves it open; Thrash, a marked circle round it that shoves;
     /// the breath, quicker; the drag still.</item>
@@ -88,7 +88,13 @@ namespace Lattice.Combat
             LureStalk.Expose(true);LureStalk.Burned+=RotbloomStalkBurned;hearsStalks=true;
             // Shut mouths: a blow on its body lands at a share while it fishes. An opening (a gaping mouth, a lodged root) is a break, which the plate never touches.
             health.Plate=_=>Fishing?RotbloomTune.Shell:1;
+            // And whatever lands, the hall drains only on its second stalk (D375): blows on a gaping mouth, an EXTRA among them, carried the bar over half with one stalk burned
+            // in three of four fights of November 22, and the fishing half went with a quarter of its stalks.
+            health.Holds=()=>RotbloomHold;
         }
+        /// <summary>Where its bar holds: 1 Integrity over half while it fishes with fewer than <see cref="RotbloomTune.StalksToDrain"/> stalks burned; nowhere after, or in a hall
+        /// without stalks (the proving yard).</summary>
+        float RotbloomHold=>health!=null&&Fishing&&!shifting&&stalksBurned<RotbloomTune.StalksToDrain?health.maximum*(Thresholds.Length>0?Thresholds[0]:.5f)+1:0;
         void RotbloomUpdate()
         {
             // Grounded it is rooted where the water left it; afloat it keeps to the middle of its hall, whatever its walk toward the hero would make of that.
@@ -114,8 +120,10 @@ namespace Lattice.Combat
             if(shifting||HealthPhase>=2)return;
             bool drains=stalksBurned>=RotbloomTune.StalksToDrain;
             float line=health.maximum*(Thresholds.Length>0?Thresholds[0]:.5f),after=health.integrity-health.maximum*RotbloomTune.StalkBar;
-            // A quarter of what holds it up goes with each stalk; only the second carries it over the line, and the shift into its second phase is the water going.
-            if(health.integrity>line)health.integrity=Mathf.Max(1,drains?Mathf.Min(after,line-1):Mathf.Max(after,line+1));
+            // A quarter of what holds it up goes with each stalk; only the second carries it over the line, and the shift into its second phase is the water going. It carries it
+            // just over and no further (D375): the grounded half is the bloom's own whole. Taken a quarter on from the held line, it began at a quarter of the bar and fell in about
+            // ten seconds, one or two of its moves (nov23-recon-c-26, -d-26).
+            if(health.integrity>line)health.integrity=Mathf.Max(1,drains?line-1:Mathf.Max(after,line+1));
             // Whatever it was doing, a mouth gapes where the lure fed it.
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;
             OpenFor(RotbloomTune.Gape);nextSpecial=Time.time+RotbloomTune.Gape+.6f;
@@ -156,6 +164,7 @@ namespace Lattice.Combat
         void RotbloomDown()
         {
             if(hearsStalks){LureStalk.Burned-=RotbloomStalkBurned;hearsStalks=false;}
+            health.Holds=null;
             LureStalk.SettleAll();LingeringArea.DismissAll();ArenaWater.SetLevel(0,RotbloomTune.DrainSeconds);
         }
 

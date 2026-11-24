@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHATEST_ON
+  - _OCCFADE_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -66,7 +67,7 @@ Material:
     - _OccFade: 0
     - _OccFadeDepth: 0.82
     - _OccFadeSoft: 0
-    - _OccFadeToggle: 0
+    - _OccFadeToggle: 1
     - _Panels: 0
     - _RampSteps: 3
     - _ReceiveShadows: 1

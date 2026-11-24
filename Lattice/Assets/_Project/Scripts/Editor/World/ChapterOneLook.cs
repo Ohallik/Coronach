@@ -99,30 +99,43 @@ namespace Lattice.EditorTools
         /// them the frame was road and scrub. The haul road now runs between ridges from the outpost to the drill: a spine on one side or both wherever the road isn't crossing a fight's
         /// clearing, each piece a dozen metres or so with its own height along it, its face at 7 to 8 m from the road's middle (inside the 9 m either side the play camera sees), swinging
         /// out round the clearings and stopping short of the seam and service roads, whose side of a spine slopes away over a shorter back. Laid out and measured from the play camera
-        /// beside the road before it was built (scratchpad d360/ridgeplan.py): in frame at 52 of 66 two-metre steps between the outpost and the drill; the rest are inside fights' clearings.</para></summary>
+        /// beside the road before it was built (scratchpad d360/ridgeplan.py): in frame at 52 of 66 two-metre steps between the outpost and the drill; the rest are inside fights' clearings.</para>
+        /// <para>Third round (nov22b-whole s03/007, s04/020, s04/053, D368): the route stops for its stills at the road's bends and in its fights' clearings (every still between the
+        /// outpost and the drill is within ten metres of a fight or at a bend), and those were exactly where the spines swung out or stopped, and where the test skipped. With feet 7 m and
+        /// more from the road's middle a spine is at the frame's very edge (the camera sees 9 m either side at the party's depth), and round a clearing it was at a corner, under a panel.
+        /// So the side of the road the camera sees past is pulled in, its foot 4.4 to 6 m from the road's middle (held 1.5 m and more off every line the lead and the companion walked in
+        /// nov22b s02 to s07, and 1 m off the verge's crates, lamp and rocks), and the clearings have their own: west 3b round the wash's fight (s04/020), west 1 inside the outpost bend
+        /// (s03/007), west 6 down past the upper ore to the excavation's fight, and east 7 brought down beside the road to the drill (s04/053). Measured from the capture's own
+        /// cameras (ChapterOneTwoLookTests.TheHaulRoadRunsBetweenRidges).</para></summary>
         internal static readonly (string name,Vector2[] spine,float[] tall,float half,Vector2 away,int seed,float back)[] Ridges=
         {
             ("Outpost ridge",new[]{new Vector2(10.5f,24),new Vector2(12.5f,27)},new[]{2.8f,3.4f},2,new Vector2(1,0),11,RidgeBack),
-            // West of the road, from the Scrapmites' first fight to the bend: south-west of the road where it bends north-west, so the camera looks along it, not over it.
-            ("Haul ridge west 1",new[]{new Vector2(-2.9f,37.6f),new Vector2(-2.4f,41.5f),new Vector2(-2.9f,45.4f)},new[]{3,3.9f,3.4f},1.7f,new Vector2(-1,0),41,RidgeBack),
-            ("Haul ridge west 2",new[]{new Vector2(-2.7f,46.6f),new Vector2(-3.4f,49.2f),new Vector2(-4.2f,52.1f),new Vector2(-5.3f,54.9f)},new[]{3.3f,3.7f,3.1f,2.9f},1.7f,new Vector2(-.97f,-.25f),43,RidgeBack),
-            ("Haul ridge west 3",new[]{new Vector2(-6,56.2f),new Vector2(-7.1f,57.6f),new Vector2(-8.9f,59.9f),new Vector2(-10.3f,61.9f)},new[]{2.8f,3.4f,4,3.6f},1.7f,new Vector2(-.82f,-.58f),47,RidgeBack),
-            // Between the Scrapmites' fight and the wash's: the seam road's fight is ten metres west of its back, so it is narrow and its back short.
-            ("Haul ridge west 4",new[]{new Vector2(-15.2f,83.8f),new Vector2(-14.9f,86.4f),new Vector2(-14.6f,89),new Vector2(-14.2f,91.6f),new Vector2(-13.7f,94.2f)},new[]{3,3.8f,4.2f,3.6f,3.1f},1.4f,new Vector2(-.99f,.16f),53,1.6f),
-            // Past the upper ore, toward the excavation: the seam road comes back in behind them, so their backs are short.
+            // West of the road, from the Scrapmites' first fight to the drill: on the left of every frame the road's stills stand in. Inside the outpost bend, its back short of the seam road.
+            ("Haul ridge west 1",new[]{new Vector2(-.6f,36.2f),new Vector2(.6f,41.6f),new Vector2(-.6f,45.6f)},new[]{3,3.9f,3.4f},1.7f,new Vector2(-1,0),41,3),
+            // Behind the verge's crates at its south end.
+            ("Haul ridge west 2",new[]{new Vector2(-1.4f,47),new Vector2(-2.1f,49.6f),new Vector2(-2.2f,52.6f),new Vector2(-3.5f,56.2f)},new[]{3.3f,3.7f,3.1f,2.9f},1.7f,new Vector2(-.97f,-.25f),43,RidgeBack),
+            ("Haul ridge west 3",new[]{new Vector2(-4.4f,57.4f),new Vector2(-5.4f,58.8f),new Vector2(-7.1f,61.2f),new Vector2(-8.5f,63.2f)},new[]{2.8f,3.4f,4,3.6f},1.7f,new Vector2(-.82f,-.58f),47,RidgeBack),
+            // Round the wash's fight (s04/020), where the road bends north: the left of the frame from the fight's middle.
+            ("Haul ridge west 3b",new[]{new Vector2(-12.6f,65.5f),new Vector2(-14.6f,69.5f),new Vector2(-15.9f,73.6f),new Vector2(-15.4f,78.2f),new Vector2(-14.4f,82.2f)},new[]{3.2f,3.8f,4.2f,3.7f,3.2f},1.7f,new Vector2(-1,.1f),49,RidgeBack),
+            // Between the Scrapmites' fight and the wash's: the seam road's fight is ten metres west of its back, so it is narrow and its back short; behind the fallen lamp at its south end, and on past the bend to the edge of the basin's fight (s04/031).
+            ("Haul ridge west 4",new[]{new Vector2(-14.9f,83.8f),new Vector2(-14.5f,86.3f),new Vector2(-13.3f,88.8f),new Vector2(-12.3f,91.3f),new Vector2(-11.9f,93.9f),new Vector2(-11.8f,96.2f)},new[]{3,3.8f,4.2f,3.6f,3.4f,3},1.4f,new Vector2(-.99f,.16f),53,1.6f),
+            // Past the upper ore, toward the excavation: the seam road comes back in behind them, so their backs are short. West 6 runs on past the verge's ledge to the excavation's fight.
             ("Haul ridge west 5",new[]{new Vector2(-6.2f,113.1f),new Vector2(-2.7f,114.1f),new Vector2(-1.1f,115.4f)},new[]{3.1f,3.9f,4.1f},1.7f,new Vector2(-.77f,.64f),59,2.4f),
-            ("Haul ridge west 6",new[]{new Vector2(.4f,116.5f),new Vector2(1.5f,119.3f),new Vector2(2.5f,122.1f),new Vector2(3.3f,123.9f)},new[]{3.6f,4.2f,3.8f,3.2f},1.7f,new Vector2(-.93f,.36f),61,2.4f),
+            ("Haul ridge west 6",new[]{new Vector2(3.4f,115.3f),new Vector2(3.8f,118.4f),new Vector2(4.4f,121.8f),new Vector2(5.8f,125.2f),new Vector2(6.3f,128.5f),new Vector2(6.4f,131.4f)},new[]{3.6f,4.2f,3.8f,4.1f,3.9f,3.3f},1.6f,new Vector2(-.95f,.3f),61,1.6f),
             // East of the road, from the bend below the strata past the Scrapmites' and the wash's fights to the upper ore, and past the excavation's fight to the drill.
             ("Haul ridge east 1",new[]{new Vector2(17,53.5f),new Vector2(14.3f,55.9f),new Vector2(13.3f,59.8f)},new[]{3.6f,4.1f,3.7f},1.7f,new Vector2(.97f,.25f),67,RidgeBack),
             ("Haul ridge east 2",new[]{new Vector2(11.7f,63.4f),new Vector2(9.9f,65.9f),new Vector2(8.2f,68.3f),new Vector2(6.6f,70.6f)},new[]{3.4f,4,4.3f,3.8f},1.7f,new Vector2(.82f,.58f),71,RidgeBack),
             ("Haul ridge east 3",new[]{new Vector2(5.7f,72),new Vector2(4.7f,75),new Vector2(4.4f,78.2f),new Vector2(3,81.4f)},new[]{3.6f,4.2f,3.9f,3.3f},1.7f,new Vector2(.99f,-.16f),73,RidgeBack),
             ("Haul ridge east 4",new[]{new Vector2(2.9f,83.2f),new Vector2(3.3f,86.4f),new Vector2(3.9f,89.3f),new Vector2(5.6f,92)},new[]{3,3.6f,4.1f,3.7f},1.7f,new Vector2(.99f,-.16f),79,RidgeBack),
-            ("Haul ridge east 5",new[]{new Vector2(6.6f,93.4f),new Vector2(8.6f,95.7f),new Vector2(11.2f,98.8f),new Vector2(13.1f,101.1f),new Vector2(15.6f,104.2f)},new[]{3.2f,4,4.3f,3.6f,3.1f},1.7f,new Vector2(.77f,-.64f),83,RidgeBack),
+            // Pulled in to the road where it turns north-east, behind the verge's crates at its south end.
+            ("Haul ridge east 5",new[]{new Vector2(5.1f,94.6f),new Vector2(6.7f,97.2f),new Vector2(9.2f,100.5f),new Vector2(11,102.8f),new Vector2(13.6f,105.9f)},new[]{3.2f,4,4.3f,3.6f,3.1f},1.7f,new Vector2(.77f,-.64f),83,RidgeBack),
             ("Haul ridge east 6",new[]{new Vector2(19.2f,109.4f),new Vector2(20.2f,111.8f),new Vector2(20.9f,113.9f)},new[]{3,3.8f,3.2f},1.7f,new Vector2(.93f,-.36f),89,2),
-            ("Haul ridge east 7",new[]{new Vector2(23.6f,136.7f),new Vector2(21.3f,138.8f),new Vector2(19.8f,141.5f),new Vector2(18.3f,144.1f),new Vector2(17.3f,145.8f)},new[]{3.2f,3.7f,4.1f,3.7f,3.2f},1.7f,new Vector2(.87f,.49f),97,RidgeBack),
+            // Down from the drill's apron to the excavation's fight, beside the road that leaves it (s04/053), its south end short of the service road's fight.
+            ("Haul ridge east 7",new[]{new Vector2(22.8f,133.8f),new Vector2(20.6f,136.6f),new Vector2(19,139.6f),new Vector2(17.9f,142.6f),new Vector2(17.3f,145.8f)},new[]{3.2f,3.7f,4.1f,3.7f,3.2f},1.7f,new Vector2(.87f,.49f),97,RidgeBack),
         };
-        /// <summary>How far a ridge's foot keeps from a road's middle (the road is graded six metres either side), a fight's middle and an ore body.</summary>
-        internal const float RidgeFromRoad=7.2f,RidgeFromFight=8,RidgeFromOre=3.5f,RidgeBack=4.5f;
+        /// <summary>How far a ridge's foot keeps from a road's middle, a fight's middle and an ore body. A road is graded six metres either side and its gravel runs about three; a
+        /// foot past 4.2 m stands on the verge (D368: at 6.6 m the spines were at the frame's edge).</summary>
+        internal const float RidgeFromRoad=4.8f,RidgeFromFight=8,RidgeFromOre=3.5f,RidgeBack=4.5f;
         /// <summary>Height a ridge adds over the basin at a point: a steep face on the road side, a crest that keeps rising away from it over <paramref name="back"/> metres, ends rounded,
         /// its edges ragged.</summary>
         internal static float RidgeAt(Vector2 p,Vector2[] spine,float[] tall,float half,Vector2 away,int seed,float back=RidgeBack)
@@ -169,11 +182,17 @@ namespace Lattice.EditorTools
                     float rise=0;for(int k=0;k<3;k++){var v=at[tris[t+k]];rise=Mathf.Max(rise,RidgeAt(new Vector2(v.x,v.z),spine,tall,half,away,seed,back));}
                     if(rise>.3f){kept.Add(tris[t]);kept.Add(tris[t+1]);kept.Add(tris[t+2]);}
                 }
-                drawn.SetTriangles(kept,0);drawn.RecalculateBounds();
+                // And only those triangles' corners are kept (D368): a mesh's bounds take every vertex it holds, drawn or not. With the skirt's kept, east 7's box rose to the
+                // excavation's cliff tops beside it (11 m), and the scenery fade read it as passing under the lens and faded it whole wherever the camera stood inside its box
+                // with the origin (SceneryOcclusion: within 8 m of the lens, over its height less 4), which was most of the haul road: in the editor it stood, in play it was gone.
+                var shown=Compact(drawn,kept);Object.DestroyImmediate(drawn);
+                // And it stands at its own middle, not at the world's origin: that fade's box starts at the transform's position, so every spine's box ran from the outpost to
+                // itself, and east 7's reaches the excavation's rim (it stands on it at its north end) and so still came within 8 m of a lens 12.5 m up on most of the road.
+                var middle=shown.bounds.center;middle.y=0;Shift(shown,-middle);Shift(land.collision,-middle);
                 string file=name.Replace(' ','-');
                 string drawnPath="Assets/_Project/Scenes/Sorrel_Ridges-"+file+".asset",solidPath="Assets/_Project/Scenes/Sorrel_Ridges-"+file+"-collision.asset";saved.Add(drawnPath);saved.Add(solidPath);
-                var cliffs=Save(land.cliffs,drawnPath);var solid=Save(land.collision,solidPath);
-                var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.transform.SetParent(root.transform,false);go.isStatic=true;
+                var cliffs=Save(shown,drawnPath);var solid=Save(land.collision,solidPath);
+                var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.transform.SetParent(root.transform,false);go.transform.position=middle;go.isStatic=true;
                 go.GetComponent<MeshFilter>().sharedMesh=cliffs;go.GetComponent<MeshRenderer>().sharedMaterial=rock;go.GetComponent<MeshCollider>().sharedMesh=solid;stood++;
                 // The dressing scattered where the ridge now stands would grow out of its rock: a rock or a low ledge deep in it goes (one at its foot stays, fallen from it), and
                 // the scrub anywhere in the ridge's drawn box. By its shape alone, plants were left standing in the box at its back and ends, where the outpost's dressing reads a
@@ -195,7 +214,9 @@ namespace Lattice.EditorTools
                     hole.transform.SetPositionAndRotation(new Vector3(mid.x,SorrelRedesign.Height(mid)+1,mid.y),Quaternion.LookRotation(new Vector3(b.x-a.x,0,b.y-a.y)));
                     float toBack=Vector3.Dot(hole.transform.right,new Vector3(away.x,0,away.y))>=0?1:-1,face=half*1.15f+.3f,rear=half*1.15f+back;
                     var obstacle=hole.GetComponent<NavMeshObstacle>();obstacle.shape=NavMeshObstacleShape.Box;
-                    obstacle.center=new Vector3(toBack*(rear-face)*.5f,0,0);obstacle.size=new Vector3(face+rear+.4f,6,Vector2.Distance(a,b)+4.4f);obstacle.carving=true;obstacle.carveOnlyStationary=true;
+                    // From 2 m under the road to 14 m over it (D368): six metres tall, the box stopped under the basin where it rises behind a spine, and the floor baked there
+                    // before the spine stood was left under its back (west 2's at 4.7 m, under rock at 7.2: a body set on it was inside the ridge; TheBodyNeverSticksAtAWallFootOrAProp).
+                    obstacle.center=new Vector3(toBack*(rear-face)*.5f,5,0);obstacle.size=new Vector3(face+rear+.4f,16,Vector2.Distance(a,b)+4.4f);obstacle.carving=true;obstacle.carveOnlyStationary=true;
                 }
                 // Drawn through for a hero behind it, as every tall thing on a walked floor is (D345): its back and its ends can be stood at, and from there the camera's line crosses
                 // its crest (QaPlanEarlyTests.TheCameraNeverHidesTheHeroAtTheFootOfAWall).
@@ -207,6 +228,10 @@ namespace Lattice.EditorTools
                 string path=found.Replace('\\','/');
                 if(!saved.Contains(path)&&AssetDatabase.LoadAssetAtPath<Mesh>(path)!=null){AssetDatabase.DeleteAsset(path);Debug.Log("CH1_LOOK_RIDGE_STALE "+path);}
             }
+            // The outpost's rover stood 0.4 m off its hab, and a body pressed into the gap could not walk away (TheBodyNeverSticksAtAWallFootOrAProp, sampled there once these
+            // spines changed the floor's edges). RoomDressing puts it against the hab now (no gap, and no floor baked under it), but its step runs only where the dressing is missing, so the built one moves here.
+            foreach(var rover in All<Transform>().Where(t=>t!=null&&t.name=="DressRover"&&Vector2.Distance(new Vector2(t.position.x,t.position.z),new Vector2(-15.3f,11.6f))<.3f).ToArray())
+                {rover.position+=new Vector3(0,0,.4f);Debug.Log("CH1_LOOK_ROVER moved to "+rover.position);}
             Debug.Log($"CH1_LOOK_RIDGES {stood} of {Ridges.Length}");
         }
         // ---------------------------------------------------------------- Sorrel: the haul road's verge (s04/019, 054)
@@ -263,6 +288,20 @@ namespace Lattice.EditorTools
             for(int i=1;i<path.Length;i++){var a=path[i-1];var d=path[i]-a;var q=a+d*Mathf.Clamp01(Vector2.Dot(p-a,d)/d.sqrMagnitude);best=Mathf.Min(best,Vector2.Distance(p,q));}
             return best;
         }
+        /// <summary>The mesh of only these triangles: their corners and nothing else, so its bounds are what is drawn.</summary>
+        static Mesh Compact(Mesh source,List<int> tris)
+        {
+            var map=new Dictionary<int,int>();var used=new List<int>();var index=new int[tris.Count];
+            for(int i=0;i<tris.Count;i++){if(!map.TryGetValue(tris[i],out int at)){at=used.Count;map[tris[i]]=at;used.Add(tris[i]);}index[i]=at;}
+            var mesh=new Mesh{name=source.name};var v=source.vertices;mesh.vertices=used.Select(i=>v[i]).ToArray();
+            var n=source.normals;if(n.Length==v.Length)mesh.normals=used.Select(i=>n[i]).ToArray();
+            var t=source.tangents;if(t.Length==v.Length)mesh.tangents=used.Select(i=>t[i]).ToArray();
+            var c=source.colors;if(c.Length==v.Length)mesh.colors=used.Select(i=>c[i]).ToArray();
+            var uv=source.uv;if(uv.Length==v.Length)mesh.uv=used.Select(i=>uv[i]).ToArray();
+            var uv2=source.uv2;if(uv2.Length==v.Length)mesh.uv2=used.Select(i=>uv2[i]).ToArray();
+            mesh.SetTriangles(index,0);mesh.RecalculateBounds();return mesh;
+        }
+        static void Shift(Mesh mesh,Vector3 by){var v=mesh.vertices;for(int i=0;i<v.Length;i++)v[i]+=by;mesh.vertices=v;mesh.RecalculateBounds();}
         static Mesh Save(Mesh mesh,string path)
         {
             var prior=AssetDatabase.LoadAssetAtPath<Mesh>(path);

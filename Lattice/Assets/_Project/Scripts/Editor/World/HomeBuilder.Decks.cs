@@ -536,7 +536,7 @@ namespace Lattice.EditorTools
             }
             /// <summary>Holds a body in poses no clip has, measured on the body itself from its own idle (<see cref="Posed"/>): seated on something <paramref name="seat"/> high, a hand
             /// up, bent over a hatch. Its first pose is how it loads and how an editor still shows it.</summary>
-            static Posed Pose(GameObject person,float seat,params string[] poses)
+            internal static Posed Pose(GameObject person,float seat,params string[] poses)
             {
                 var rig=person.GetComponentInChildren<Animator>(true);if(rig==null||!rig.isHuman||rig.avatar==null)return null;
                 var clips=rig.runtimeAnimatorController!=null?rig.runtimeAnimatorController.animationClips:Array.Empty<AnimationClip>();
@@ -557,11 +557,21 @@ namespace Lattice.EditorTools
                     // 20 capture's town meeting). Whatever of it is lowest under the hips (the seat of its trousers, the backs of its thighs) rests on the slats.
                     if(hips!=null){float low=SeatOf(person,hips,right,forward);if(!float.IsInfinity(low))hips.position+=Vector3.up*Mathf.Clamp(floor+height+.01f-low,-.12f,.12f);}
                 }
+                void FaceHips()
+                {
+                    Transform hips=rig.GetBoneTransform(HumanBodyBones.Hips),left=rig.GetBoneTransform(HumanBodyBones.LeftUpperLeg),rightLeg=rig.GetBoneTransform(HumanBodyBones.RightUpperLeg);
+                    if(hips==null||left==null||rightLeg==null)return;var drawn=Vector3.Cross(Vector3.up,left.position-rightLeg.position);drawn.y=0;if(drawn.sqrMagnitude<1e-6f)return;
+                    float off=Vector3.SignedAngle(drawn,new Vector3(forward.x,0,forward.z),Vector3.up);if(Mathf.Abs(off)>1)hips.rotation=Quaternion.AngleAxis(off,Vector3.up)*hips.rotation;
+                }
                 void Hand(){Turn(HumanBodyBones.RightUpperArm,forward,158);Turn(HumanBodyBones.RightLowerArm,forward,8);}
                 void Bend(){Turn(HumanBodyBones.Spine,right,20);Turn(HumanBodyBones.Chest,right,16);Turn(HumanBodyBones.Neck,right,10);Turn(HumanBodyBones.Head,right,18);}
                 Posed.Pose Capture(string name)
                 {
                     if(idle!=null)idle.SampleAnimation(rig.gameObject,.3f);
+                    // The generated bodies' idle, sampled outside play, turns the pelvis round (164 degrees for Oda's and Jun's): every body posed off a seat sat with its back to the
+                    // board, its knees bent back under it, and Oda and Jun stood up facing the back of the room (s57/139, 142, 156; D381). The hips are turned back to face the way
+                    // the body was placed before anything is posed. (The standing poses are as they were: nothing turned theirs round.)
+                    if(seat>0)FaceHips();
                     bool seated=seat>0&&name!="stand"&&name!="standhand";
                     if(seated)Sit(seat);
                     // Up off the seat, a step forward clear of it: stood where they sat, Oda and Jun stood in the bench's slats (the meeting's still, November 21).

@@ -57,9 +57,9 @@ Nathan's instruction on November 11: finish the game without check-ins, fix rath
 - **Side stories (D199).** Steps advance on `ObjectiveKind.Flag` from `<<setFlag>>`; Sorrel's beacons are staged by `SideStoryStaging.Refresh`.
 - **Balance (D208).** 125 XP a level; the main path ends chapter 1 near Sync 7 and chapter 2 at Sync 8 to 10.
 
-## State on November 22 (read this first)
+## State on November 24 (read this first)
 
-All ten chapters are built and have been played end to end. The last commit is `983be319` (pushed November 21): the game as it was captured on the night of November 20, 69 segments from a new save to the credits (`Builds/quality/nov20-whole`). Since then two rounds of look fixes sit uncommitted in the working tree; `docs/PROGRESS.md`'s newest entry lists them and D333 to D362 record them. Snapshots of the tree are kept as local refs (`git show-ref | findstr snapshots`, the latest `nov22-1355`; never push them).
+All ten chapters are built and have been played end to end four times. Committed and pushed: `983be319` (the first whole playthrough, November 20), `14da4239` (look rounds one and two, the tree of the third capture) and the round-three commit of November 24 (D363 to D383, the tree of the fourth capture, `Builds/quality/nov23-whole`, 69 of 69 segments valid first time). A fourth round of fixes (D384 to D395) from the fourth look is in the working tree on top of that; `docs/PROGRESS.md`'s newest entry lists it. Snapshots of the tree are kept as local refs (`git show-ref | findstr snapshots`, the latest `nov24-0026`; never push them).
 
 **How this run is worked.** A lead with engineers as subagents in one working tree (CHAPTER_GUIDE section 0). The loop that has found everything worth finding: capture the whole game in the player, have reviewers read the stills against a written fix list, fix by system (companion, fights, HUD and labels, menus, each chapter's zones), scout the changed routes windowless, run the suite, capture again. Tests and editor renders have been green through every fault a capture then showed, so nothing counts as fixed until a capture shows it.
 

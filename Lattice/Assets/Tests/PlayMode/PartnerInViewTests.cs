@@ -203,24 +203,28 @@ namespace Lattice.Tests.PlayMode
         /// side, which the route never asks (route 17 at barge two's rest: the capture had him at 13.6 m/s as step 229 began; the Aurora Shear's short lane: at 14.2 m/s as step 102
         /// began). From rest she fell six to eight metres behind for a second while he gathered speed and was off the bottom edge for it: in eight readings each on November 22,
         /// 2 to 17% of route 17's leg and 9 to 18% of the Aurora Shear's, from one run to the next. <paramref name="share"/> is the leg's own bound where it has one (route 17).</summary>
-        IEnumerator Leg(string loadout,string zone,string route,string from,string to,Vector3 lead,Vector3 facing,Vector3 her,string still,string quest=null,string readFrom=null,float share=Share)
+        IEnumerator Leg(string loadout,string zone,string route,string from,string to,Vector3 lead,Vector3 facing,Vector3 her,string still,string quest=null,string readFrom=null,float share=Share,
+            System.Action begin=null,bool herHeld=false,System.Action loaded=null,float readAfter=0)
         {
-            yield return Zone(loadout,zone,route,from);
+            yield return Zone(loadout,zone,route,from);loaded?.Invoke();
             float level=Lead.transform.position.y;lead.y=her.y=Lead.flight?level:lead.y;
             Put(Lead,lead,facing);Put(Partner,her,facing);
             // The view is cut to him where he now stands, as a load does, and let come to rest: the rig would otherwise still be sliding over from the arrival.
             var rig=Object.FindFirstObjectByType<CameraRig>();if(rig!=null)rig.Apply(Lead.transform,ZoneController.Current.CameraProfile);
             // The lead held where the capture had him while it does (an Aurora current carried him forty metres up the short lane in the six seconds it took, and the leg then began
-            // somewhere the capture never flew); she, her brain running, comes to her place by him as she would at the end of the step before.
-            float held=Time.unscaledTime+.6f;while(Time.unscaledTime<held){Put(Lead,lead,facing);yield return null;}
+            // somewhere the capture never flew); she, her brain running, comes to her place by him as she would at the end of the step before. Held too (herHeld) where the leg
+            // begins with something the capture had moving through where her place would be (barge three adrift).
+            void Hold(){Put(Lead,lead,facing);if(herHeld)Put(Partner,her,facing);}
+            float held=Time.unscaledTime+.6f;while(Time.unscaledTime<held){Hold();yield return null;}
             var eye=Camera.main.transform.position;float since=Time.unscaledTime,deadline=Time.unscaledTime+6;
-            while(Time.unscaledTime-since<.5f&&Time.unscaledTime<deadline){Put(Lead,lead,facing);yield return null;var now=Camera.main.transform.position;if(Vector3.Distance(eye,now)>.002f){eye=now;since=Time.unscaledTime;}}
-            Put(Lead,lead,facing);
+            while(Time.unscaledTime-since<.5f&&Time.unscaledTime<deadline){Hold();yield return null;var now=Camera.main.transform.position;if(Vector3.Distance(eye,now)>.002f){eye=now;since=Time.unscaledTime;}}
+            Hold();
             // A quest given by the talk the leg follows comes up as its card in the top right corner as the leg begins, as the capture had it (s33/104: "NEW QUEST Cutter Down").
             if(quest!=null){GameServices.Current.State.questSteps.Remove(quest);Lattice.Rpg.RpgServices.Quests.Start(quest);}
+            begin?.Invoke();
             var tally=new Tally();float began=Time.unscaledTime;var slice=Slice(route,zone,from,to);
             int read=readFrom==null?0:System.Array.FindIndex(slice.steps,s=>s.name==readFrom);Assert.GreaterOrEqual(read,0,$"fixture: the slice has no step '{readFrom}'");
-            yield return Play(slice,90,()=>tally.Look(Time.unscaledTime-began,false,Get<int>("stepIndex")>=read));
+            yield return Play(slice,90,()=>tally.Look(Time.unscaledTime-began,false,Get<int>("stepIndex")>=read&&Time.unscaledTime-began>=readAfter));
             bool ground=!Lead.flight;
             if(ground)
             {
@@ -248,6 +252,51 @@ namespace Lattice.Tests.PlayMode
         /// and half as much again.</summary>
         [UnityTest,Timeout(300000)] public IEnumerator XylosNearspacePastBargeTwosRest()=>
             Leg("chapter3","XylosNearspace","chapter-17-xylos-nearspace","back to the lane past the panes","past barge two's rest",new Vector3(336.86f,1,870.85f),new Vector3(.973f,0,-.232f),new Vector3(332.89f,1,870.79f),"s17/229",readFrom:"past barge two's rest",share:.25f);
+        /// <summary>Barge three, cut free in the fight with its skimmers, drifts across its flank knot's point as step 282 begins (nov22b-whole s17, 323.4 s): the lead is shoved east
+        /// along its flank and flies a loop back round to the point, and she keeps beside him on the outside of the loop. As he comes down its last leg past the point at 13.7 m/s and
+        /// curls back up to it, she, at a boost twelve metres out, is too fast to turn after her place: she flew a circle round him sixteen metres across, south under the frame's
+        /// bottom edge, and came back round his far side as the knots' steps began (s17/282 at the step's end, s17/286 half a second into the knots' steps). Each leg is flown from
+        /// 327.5 s, 4.1 s into the step, the pair moving as the capture had them there and the barge as far down its drift; the 4.1 s before it are the barge between them, from
+        /// where the skimmers' fight had left her, which no place of hers can put in the frame. s17/282 is read from 1.7 s on (329.2 s in the capture), as he comes down the
+        /// loop's last leg past the point and curls up to it, through the knots' steps (they were cleared with the skimmers); s17/286 from the knots' steps on. Before 1.7 s she
+        /// rides the outside of his loop ten metres out of him, as the capture had her, which on the test's 640x480 screen puts her under its corner plates for part of it. s17/282 has its own bound, 15%: what it reads out
+        /// on the fix is HUD plates of that screen, never an edge (the corner status plate for a tenth of a second as she comes in off the loop eight metres out, and a plate at the left
+        /// edge for a fifth of a second at 2.1 s), 9.0 and 9.6% in two runs on November 23; the bound is the most of those and half as much again. On the code before (D361) it read
+        /// 60.8%, off the bottom edge, and s17/286 29.9%.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceBesideBargeThreesFlankKnot()=>
+            Leg("chapter3","XylosNearspace","chapter-17-xylos-nearspace","beside barge three's flank knot","Barge3_Knots cleared",BargeThreeLead,BargeThreeFacing,BargeThreeHer,"s17/282",
+                begin:BargeThreeLoop,herHeld:true,loaded:BargeThreeKnotsCleared,readAfter:1.7f,share:.15f);
+        [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceAtBargeThreesKnots()=>
+            Leg("chapter3","XylosNearspace","chapter-17-xylos-nearspace","beside barge three's flank knot","barge three comes free",BargeThreeLead,BargeThreeFacing,BargeThreeHer,"s17/286",
+                readFrom:"lock Barge3_Knots",begin:BargeThreeLoop,herHeld:true,loaded:BargeThreeKnotsCleared);
+        /// <summary>The pair at 327.508 s in the capture's frames.csv: where each was, the lead's nose, and how fast each was going (from the frames either side).</summary>
+        static readonly Vector3 BargeThreeLead=new(772.803f,1,1157.654f),BargeThreeFacing=new(-.542f,0,-.84f),BargeThreeHer=new(779.929f,1,1163.661f),
+            BargeThreeLeadGoing=new(-11.55f,0,-2.15f),BargeThreeHerGoing=new(-17.06f,0,7.11f);
+        /// <summary>How much of its twelve seconds' drift barge three had gone at 327.5 s: 0.27 as the step began (the lead against its starboard flank at (767.99, 1141.59) and
+        /// shoved east at five metres a second, Sela against its stern at (771.94, 1134.53) a second later, in the capture's player.log), and 4.1 s more.</summary>
+        const float BargeThreeGone=.27f+4.1f/12;
+        /// <summary>The knots' fight cleared, as the capture's log has it (cleared with the skimmers'), before the pair stand in it: its knots are gone with the zone's enemies.</summary>
+        static void BargeThreeKnotsCleared()
+        {
+            GameServices.Current.Flags.SetBool("clear.Barge3_Knots",true);
+            var knots=Object.FindObjectsByType<Lattice.World.EncounterVolume>(FindObjectsInactive.Include,FindObjectsSortMode.None).First(v=>v.encounterId=="Barge3_Knots");
+            typeof(Lattice.World.EncounterVolume).GetMethod("FinishSaved",Private).Invoke(knots,null);
+        }
+        /// <summary>Barge three cut free and as far down its drift as the capture had it, and the pair going as the capture had them, as the leg begins.</summary>
+        static void BargeThreeLoop()
+        {
+            var barge=Object.FindObjectsByType<Lattice.World.SnaggedBarge>(FindObjectsSortMode.None).First(b=>b.freedFlag=="xylos.barge3");
+            var type=typeof(Lattice.World.SnaggedBarge);
+            // Free without what its release said and reported (the lead's bark, the quest's card): the capture had those as the last knot went, seconds before.
+            type.GetField("free",Private).SetValue(barge,true);GameServices.Current.Flags.SetBool(barge.freedFlag,true);type.GetMethod("Show",Private).Invoke(barge,null);
+            type.GetField("gone",Private).SetValue(barge,BargeThreeGone);type.GetMethod("Place",Private).Invoke(barge,new object[]{Mathf.SmoothStep(0,1,BargeThreeGone)});
+            Physics.SyncTransforms();
+            Going(Lead,BargeThreeLeadGoing,BargeThreeFacing);Going(Partner,BargeThreeHerGoing,BargeThreeHerGoing);
+        }
+        static void Going(CombatActor actor,Vector3 velocity,Vector3 facing)
+        {
+            var ship=(FlightMotor)actor.motor;typeof(FlightMotor).GetField("velocity",Private).SetValue(ship,velocity);ship.KeepFacing(facing);
+        }
         [UnityTest,Timeout(300000)] public IEnumerator WickReachTowardTheFirstRelay()=>
             Leg("chapter2","WickReach","chapter-12-wick-reach","toward the first relay","settle at the first relay",new Vector3(2.9f,1,122.02f),new Vector3(.674f,0,.739f),new Vector3(6.78f,1,121.32f),"s12/055");
         [UnityTest,Timeout(300000)] public IEnumerator SporeVeilPastTheSecondBeacon()=>

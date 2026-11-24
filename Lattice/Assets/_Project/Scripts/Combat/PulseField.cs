@@ -19,6 +19,17 @@ namespace Lattice.Combat
             if(!factionCaptured)RememberFaction(packet.source!=null,packet.source!=null&&packet.source.friendly);
             ring=gameObject.AddComponent<GroundRing>();ring.Initialize(radius,flight?0:.12f,flight?0:.75f);
             ring.Draw(radius,new Color(.12f,.85f,1,.8f));
+            // D363: laid after its fight was won it goes as one cleared at the win. Sela's net, begun as the Bellows died, landed after the win had cleared the field and lay
+            // round the dead dome for four seconds, a bright cyan ring that read as the boss's (nov22b-whole s08/098 to 104).
+            if(hasFaction&&!AnyFoeNear())Dismiss();
+        }
+        /// <summary>A living body of the other side that can still be hurt, anywhere a fight round here could be (a beaten boss's parts are shut with it: EnemyBrain.ShutItsParts).</summary>
+        bool AnyFoeNear()
+        {
+            const float reach=40;
+            foreach(var health in Health.All)
+                if(health!=null&&health.Alive&&health.Damageable&&health.friendly!=friendly&&(health.transform.position-transform.position).sqrMagnitude<reach*reach)return true;
+            return false;
         }
         void Update()
         {
