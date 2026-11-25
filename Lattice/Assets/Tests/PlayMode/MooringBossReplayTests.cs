@@ -22,8 +22,8 @@ namespace Lattice.Tests.PlayMode
     /// tools/mooring_routes.py writes), in the zones as built, from each door to its fall: Mother of Doors from the east aperture (her checkpoint) through her four clamps, and the Tollkeeper
     /// from chain D's gap (its checkpoint) through its three braces, docks and stages. The party is the chapter's (DevLoadout chapter10, Taren and Idra out) at each sheet's Sync, whole, with
     /// the save's flags as the routes before set them. Each fight is first played the way the driver played it before its hands for that boss (the broken state, which must fail the way the
-    /// player's run did), then with them: it must fall inside its sheet's bounds through the pad, at no less than nine tenths of the share its sheet carries (of the same pair's flat out on
-    /// the boss in its yard, measured in the same run), and the party must not fall. Every line of the fight is written out (MOORING_PLAY) for its own account.</summary>
+    /// player's run did), then with them: it must fall inside its sheet's bounds through the pad, at a pace inside the player's own runs of it (D403; the same pair's flat out on the boss
+    /// in its yard is still read, for the share each fight writes out), and the party must not fall. Every line of the fight is written out (MOORING_PLAY) for its own account.</summary>
     public sealed class MooringBossReplayTests
     {
         const BindingFlags Private=BindingFlags.Instance|BindingFlags.NonPublic;
@@ -33,7 +33,8 @@ namespace Lattice.Tests.PlayMode
         InputSettings.EditorInputBehaviorInPlayMode priorEditor;
 #endif
         static readonly string[] Heeded={"MOTHER_","TOLL_","CLAMP_","CLAMPS_","TENDED","QUALITY_BOSS","QUALITY_EXTRA","QUALITY_ITEM","QUALITY_BERTH_GOAL","QUALITY_CHASE","QUALITY_TOWARD",
-            "QUALITY_UNSTRUCK","QUALITY_MOTHER","QUALITY_TOLL","QUALITY_LOCK","BERTH_","ENCOUNTER_","COMBAT_KILL","BREAK_OK","WALL_CONTACT","CURTAIN_BURST","REVIVE","DEFEAT","SWAP_OK"};
+            "QUALITY_UNSTRUCK","QUALITY_MOTHER","QUALITY_TOLL","QUALITY_LOCK","BERTH_","ENCOUNTER_","COMBAT_KILL","BREAK_OK","WALL_CONTACT","CURTAIN_BURST","REVIVE","DEFEAT","SWAP_OK",
+            "SKILL_OK","EXTRA_","FLASH_"};
         void Logged(string text,string stack,LogType type)
         {
             if(type==LogType.Exception||type==LogType.Error){errors.Add(text+" "+(stack??"").Split('\n').FirstOrDefault());return;}
@@ -53,7 +54,7 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {
-            Application.logMessageReceived-=Logged;HandsOff(false);
+            Application.logMessageReceived-=Logged;HandsOff(false);AsItWas(false,false);
             if(replay!=null){var pad=Get<Gamepad>("pad");if(pad!=null&&pad.added)InputSystem.RemoveDevice(pad);Set("pad",null);}
             if(fixture!=null)Object.Destroy(fixture);
             InputSystem.settings.backgroundBehavior=priorBackground;
@@ -132,21 +133,65 @@ namespace Lattice.Tests.PlayMode
             actor.transform.position=at;body.enabled=was;Physics.SyncTransforms();
         }
         /// <summary>The pair out (Taren leading, Idra beside him) at a Sync, whole, every skill at its last mastery, as the chain's own party arrives here (the save route 63 played from has
-        /// its main skills at mastery 5). Left to the fixture, mastery climbed through a run's cases, and the same pair measured 1,067 flat out on the Tollkeeper first and 1,662 fourth.</summary>
-        static IEnumerator Pair(int sync)
+        /// its main skills at mastery 5). Left to the fixture, mastery climbed through a run's cases, and the same pair measured 1,067 flat out on the Tollkeeper first and 1,662 fourth.
+        /// <para>Mastered, the pair is also dressed and charged as the player's chain brings it (D401, <see cref="AsThePlayerDresses"/>, <see cref="AsThePlayerArrives"/>); unmastered, in the
+        /// loadout's floor, as the shared length test measures its yardstick.</para></summary>
+        static IEnumerator Pair(int sync,bool mastered=true,string arrivingAt=null)
         {
+            var arrival=mastered&&arrivingAt!=null&&AsThePlayerArrives.TryGetValue(arrivingAt,out var a)?a:null;
             foreach(var member in State.party)
             {
                 member.level=sync;member.integrity=Levels.MaxIntegrity(sync);member.charge=100;member.skillUses??=new Dictionary<string,int>();
+                // Unmastered, every skill at its first mastery as the shared length test's Sync leaves it (QaPlanCombatTests.Sync clears the uses): its flat out is the yardstick (D398).
+                if(!mastered){member.skillUses.Clear();continue;}
                 foreach(var skill in GameCatalog.All<SkillDef>())if(skill!=null&&skill.id.StartsWith(member.id+"_"))member.skillUses[skill.id]=SkillBook.MasteryUses[SkillBook.MasteryUses.Length-1];
+                if(arrival!=null)foreach(var (hero,level,charge,extra) in arrival)if(hero==member.id){member.level=level;member.integrity=Levels.MaxIntegrity(level);member.charge=charge;member.extra=extra;}
             }
+            Dress(mastered);
             Assert.IsTrue(Deployment.Set(State,new[]{"Taren","Idra"}),"fixture: Taren and Idra can be put out");
+            // Reform writes each body's charge back over the save's (PartyField.Reform): a hero kept from the case before (the flat out first of all) came to the door with what that
+            // case left, Idra with none (d401-asis). Each body is given the save's.
+            var charges=State.party.ToDictionary(m=>m.id,m=>m.charge);
             PartyField.Reform(PartyController.Current);yield return Frames(3);PartyController.Current.RefreshStats();yield return null;
             if(Lead.character!="Taren")PartyController.Current.Swap();yield return Frames(3);
-            foreach(var hero in PartyController.Current.members){hero.Health.integrity=hero.Health.maximum;hero.Health.InvulnerableUntil=0;}
+            foreach(var hero in PartyController.Current.members)
+            {
+                hero.Health.integrity=hero.Health.maximum;hero.Health.InvulnerableUntil=0;
+                if(charges.TryGetValue(hero.character,out float charge)){hero.charge=charge;State.party.Find(m=>m.id==hero.character).charge=charge;}
+            }
+        }
+        /// <summary>What the player's Taren and Idra wear at chapter 10's doors (Builds/quality/nov23-whole s62 and s64 final-state.json, the saves routes 63 and 65 resume from; the same in
+        /// both): each part by its definition and what it rolled, and the second module. The loadout dresses the chapter's plain floor with one module: Taren read Resonance 89 there
+        /// where the player's reads 121 (64 at Sync 28, +20 and +8 Resonant on the Tempered module, +4 Balanced on the frame, +25 the Choirwrought second), Idra 87 against about 110,
+        /// and Resonance is what a skill strikes with and how fast the charge for one comes (CombatActor: 1 + 2.5% a point over 10).</summary>
+        static readonly (string hero,(string part,string[] rolled)[] worn,string second)[] AsThePlayerDresses=
+        {
+            ("Taren",new[]{("EdgesT5",new string[0]),("EmittersT4",new string[0]),("FramesT4",new[]{"Balanced"}),("ModulesT4",new[]{"Lucky","Resonant"}),("DrivesT5",new[]{"Fleet"})},"ModulesT5"),
+            ("Idra",new[]{("EdgesT5",new string[0]),("EmittersT4",new string[0]),("FramesT4",new[]{"Plated","Balanced"}),("ModulesT5",new string[0]),("DrivesT5",new string[0])},"ModulesT4"),
+        };
+        /// <summary>The pair as the save each route resumes from holds it (the same final-state files): Sync, charge and EXTRA by hero. Route 63 from s62's (Idra one Sync behind,
+        /// her charge low, Taren's EXTRA nearly empty), route 65 from s64's (both full).</summary>
+        static readonly Dictionary<string,(string hero,int level,float charge,float extra)[]> AsThePlayerArrives=new()
+        {
+            ["MotherOfDoors"]=new[]{("Taren",27,98f,11f),("Idra",26,13f,100f)},
+            ["Tollkeeper"]=new[]{("Taren",28,98f,100f),("Idra",27,98f,100f)},
+        };
+        /// <summary>Dresses Taren and Idra in fresh parts: as the player's (<paramref name="asThePlayers"/>), or in the chapter's floor as the loadout does (DevLoadout, PartyFloor.Parts).</summary>
+        static void Dress(bool asThePlayers)
+        {
+            var inv=new Inventory(State);
+            foreach(var member in State.party)
+            {
+                if(member.id!="Taren"&&member.id!="Idra")continue;
+                member.equipped.Clear();member.module2=null;
+                if(!asThePlayers){foreach(var (_,part) in PartyFloor.Parts(DevLoadout.LastChapter,member.id)){var def=GameCatalog.Find<TechPartDef>(part);Assert.IsTrue(inv.Equip(member,inv.GivePart(def),def),"fixture: "+member.id+" wears "+part);}continue;}
+                var dress=AsThePlayerDresses.First(d=>d.hero==member.id);
+                foreach(var (part,rolled) in dress.worn){var def=GameCatalog.Find<TechPartDef>(part);var item=inv.GivePart(def);item.affixes.AddRange(rolled);Assert.IsTrue(inv.Equip(member,item,def),"fixture: "+member.id+" wears "+part);}
+                var second=GameCatalog.Find<TechPartDef>(dress.second);Assert.IsTrue(inv.Equip(member,inv.GivePart(second),second,true),"fixture: "+member.id+"'s second module");
+            }
         }
         /// <summary>A zone as the route's save has it: every flag the routes set before the step, loaded at the spawn the save names, and the fight's own flags (what a case before set) cleared.</summary>
-        IEnumerator Zone(string zone,string spawn,string[] flags,string[] cleared,int sync)
+        IEnumerator Zone(string zone,string spawn,string[] flags,string[] cleared,int sync,string arrivingAt=null)
         {
             foreach(string flag in cleared)GameServices.Current.Flags.SetBool(flag,false);
             foreach(string flag in flags)GameServices.Current.Flags.SetBool(flag,true);
@@ -154,7 +199,7 @@ namespace Lattice.Tests.PlayMode
             while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
             Assert.IsFalse(SceneFlow.Current.Loading,"fixture: "+zone+" never finished loading");
             deadline=Time.unscaledTime+10;while(!DialogueSystem.Current.Prepared&&Time.unscaledTime<deadline)yield return null;
-            yield return new WaitForSecondsRealtime(1f);yield return Pair(sync);yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSecondsRealtime(1f);yield return Pair(sync,true,arrivingAt);yield return new WaitForSecondsRealtime(.5f);
         }
         static readonly string[] MotherFlags={"bossdown.MotherOfDoors","end.motherFreed","end.clamp1","end.clamp2","end.clamp3","end.clamp4","clear.Sorrel_Clamp1","clear.Sorrel_Clamp2","clear.Sorrel_Clamp3","clear.Sorrel_Clamp4","clear.MotherOfDoors"};
         static readonly string[] TollFlags={"bossdown.Tollkeeper","end.gateOpen","end.motorStopped","end.motor1","end.motor2","end.brace1","end.brace2","end.brace3","clear.Tollkeeper",
@@ -162,7 +207,11 @@ namespace Lattice.Tests.PlayMode
 
         // ------------------------------------------------------------------ flat out (QaPlanCombatTests.FlatOut's measure, the pair the route plays with)
         /// <summary>The pair flat out on the boss standing still in the flight yard (its room has no clamps or cage there, so it fights on integrity as the shared length test measures it): both
-        /// ships six metres off, every skill as it comes, else a shot, for 60 s. What the driver's share is a share of.</summary>
+        /// ships six metres off, every skill as it comes, else a shot, for 60 s. What the driver's share is a share of.
+        /// Since D398 (November 24) it is the shared length test's own reading (ABossLastsTwoToFiveMinutesAtItsExpectedSync): the chapter's arrival pair at the sheet's Sync with every
+        /// skill at its first mastery, as that test's Sync leaves them, so the share checked here is a share of the yardstick the sheet's share is (one yardstick for both). Measured
+        /// with the fight's own mastery (the last) it read 1.3 to 1.5 times the shared one (the Mother 1,792 against 1,392, the Tollkeeper 1,631 to 1,747 against 1,152, D384), and the
+        /// check asked the fight for a sheet share of the larger number. The fight itself is still played at the last mastery (Zone's Pair).</summary>
         static IEnumerator FlatOut(string id,System.Action<float> measured)
         {
             var sheet=ContentRegistry.Boss(id);
@@ -170,7 +219,7 @@ namespace Lattice.Tests.PlayMode
             while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
             foreach(var left in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))Object.Destroy(left.gameObject);
             yield return new WaitForSecondsRealtime(.6f);
-            yield return Pair(sheet.sync);
+            yield return Pair(sheet.sync,false);
             var taren=Lead;var idra=PartyController.Current.members.First(m=>m!=taren);
             foreach(var hero in new[]{taren,idra}){hero.GetComponent<PlayerBrain>().AutoPilot=true;hero.GetComponent<PartnerBrain>().enabled=false;}
             var at=new Vector3(200,1,0);var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),at);enemy.Passive=true;yield return Frames(3);
@@ -208,8 +257,22 @@ namespace Lattice.Tests.PlayMode
         {
             public string boss;public float woke=-1,fell=-1,lastSample;public BossController her;public string move="(none)";
             public readonly Dictionary<string,int> hits=new();public readonly Dictionary<string,float> taken=new();public int leadFalls,partnerFalls,defeats;
-            public float frames,flying,onFoot,attacking,dodging,holding;public readonly HashSet<Health> hooked=new();public readonly Dictionary<CombatActor,bool> alive=new();
+            public float frames,flying,onFoot,attacking,dodging,holding,partnerAttacking;public int ticks;public readonly HashSet<Health> hooked=new();public readonly Dictionary<CombatActor,bool> alive=new();
             public readonly List<string> lines=new();
+            /// <summary>What the party's blows did to the boss's parts (braces, motor, clamps, her body): by hero, part, plain or skill, crit or not.</summary>
+            public readonly Dictionary<string,(float amount,int hits)> dealt=new();public readonly HashSet<Health> struck=new();
+        }
+        /// <summary>The pair at the door, by the numbers a fight reads (PartyController.RefreshStats), and the clock and the frame rate it runs at.</summary>
+        static void Party(string at)
+        {
+            foreach(var hero in PartyController.Current.members)
+            {
+                var m=State.party.Find(p=>p.id==hero.character);
+                TestContext.WriteLine($"MOORING_PARTY {at} {hero.character} lead={hero==Lead} level={m?.level} damage={hero.damage:0} ranged={hero.rangedDamage:0} resonance={hero.resonance:0} response={hero.response:0} fortune={hero.fortune:0} " +
+                    $"scale={hero.damageScale:0.00} charge={hero.charge:0} extra={m?.extra:0} uses={(m?.skillUses==null?"":string.Join(",",m.skillUses.Select(p=>p.Key+":"+p.Value)))} module2={m?.module2} " +
+                    $"worn={string.Join(",",m.equipped.Select(p=>State.parts.Find(x=>x.instanceId==p.Value)?.definitionId))} partner={hero.GetComponent<PartnerBrain>().enabled} auto={hero.GetComponent<PlayerBrain>().AutoPilot}");
+            }
+            TestContext.WriteLine($"MOORING_CLOCK {at} timeScale={Time.timeScale} target={Application.targetFrameRate} vSync={QualitySettings.vSyncCount} difficulty={Difficulty.Current} fixedDelta={Time.fixedDeltaTime} maxDelta={Time.maximumDeltaTime}");
         }
         static Health Body(string id)=>Health.All.FirstOrDefault(h=>h!=null&&!h.friendly&&h.id==id);
         void Watch(Account a)
@@ -229,7 +292,16 @@ namespace Lattice.Tests.PlayMode
                 a.alive[member]=up;
             }
             if(a.woke<0||a.fell>=0)return;
-            float dt=Time.unscaledDeltaTime;a.frames+=dt;var lead=party.Active;if(lead==null)return;
+            foreach(var part in Health.All)
+                if(part!=null&&!part.friendly&&a.struck.Add(part))
+                {
+                    string what=part.id;
+                    part.Damaged+=(h,packet,amount)=>{if(amount<=0||a.fell>=0||packet.source==null||!packet.source.friendly)return;var by=packet.source.GetComponent<CombatActor>();
+                        string key=$"{(by!=null?by.character:packet.source.id)}{(by!=null&&by==PartyController.Current.Active?"(lead)":"(partner)")} -> {what} {(by!=null&&by.State==ActorState.Skill?"skill":"blow")}{(packet.isCrit?" crit":"")}{(string.IsNullOrEmpty(packet.tag)?"":" /"+packet.tag)}";
+                        var t=a.dealt.TryGetValue(key,out var was)?was:(0f,0);a.dealt[key]=(t.Item1+amount,t.Item2+1);};
+                }
+            float dt=Time.unscaledDeltaTime;a.frames+=dt;a.ticks++;var lead=party.Active;if(lead==null)return;
+            var other=party.members.FirstOrDefault(m=>m!=null&&m!=lead);if(other!=null&&(other.State==ActorState.Attack||other.State==ActorState.Skill))a.partnerAttacking+=dt;
             if(lead.flight)a.flying+=dt;else a.onFoot+=dt;
             if(lead.State==ActorState.Attack||lead.State==ActorState.Skill)a.attacking+=dt;if(lead.State==ActorState.Dodge)a.dodging+=dt;
             foreach(var clamp in BridleClamp.All)if(clamp!=null&&clamp.Holder==lead){a.holding+=dt;break;}
@@ -246,7 +318,8 @@ namespace Lattice.Tests.PlayMode
             var body=Body(a.boss);float left=a.fell>0?0:body!=null?body.integrity/body.maximum:-1;
             float rate=integrity*(1-Mathf.Max(0,left))/Mathf.Max(1,seconds);float frames=Mathf.Max(1,a.frames);
             TestContext.WriteLine($"MOORING_PLAY {a.boss} fell={a.fell>0} seconds={seconds:0.0} left={left:P0} rate={rate:0}/s flatOut={flat:0}/s share={(flat>0?rate/flat:0):0.000} leadFalls={a.leadFalls} partnerFalls={a.partnerFalls} " +
-                $"flying={a.flying/frames:P0} onFoot={a.onFoot/frames:P0} attacking={a.attacking/frames:P0} dodging={a.dodging/frames:P0} holding={a.holding/frames:P0}");
+                $"flying={a.flying/frames:P0} onFoot={a.onFoot/frames:P0} attacking={a.attacking/frames:P0} dodging={a.dodging/frames:P0} holding={a.holding/frames:P0} partnerAttacking={a.partnerAttacking/frames:P0} fps={a.ticks/frames:0}");
+            foreach(var p in a.dealt.OrderByDescending(p=>p.Value.amount))TestContext.WriteLine($"MOORING_DEALT {p.Key} {p.Value.amount:0} in {p.Value.hits} ({p.Value.amount/Mathf.Max(1,p.Value.hits):0} each)");
             TestContext.WriteLine("MOORING_TAKEN "+string.Join(", ",a.taken.Select(p=>$"{p.Key} {p.Value:P0}")));
             TestContext.WriteLine("MOORING_HITS "+string.Join(", ",a.hits.OrderByDescending(p=>p.Value).Select(p=>$"{p.Key} x{p.Value}")));
             foreach(var line in a.lines)TestContext.WriteLine("MOORING_TIMELINE "+line);
@@ -267,21 +340,23 @@ namespace Lattice.Tests.PlayMode
         /// <summary>A fight played from its door through the pad, with its account.</summary>
         IEnumerator Fight(string id,QualityRoute route,string zone,string spawn,string[] flags,string[] cleared,float most,System.Func<bool> enough,System.Action<Account> done,System.Action ready=null)
         {
-            yield return Zone(zone,spawn,flags,cleared,ContentRegistry.Boss(id).sync);ready?.Invoke();
+            yield return Zone(zone,spawn,flags,cleared,ContentRegistry.Boss(id).sync,id);ready?.Invoke();Party(id);
             var a=new Account{boss=id};var unhook=Moves(a);began=Time.unscaledTime;
             yield return Play(route,most,()=>Watch(a),()=>Ui()=="defeat"||enough!=null&&enough());
             unhook();a.defeats=Ui()=="defeat"?1:0;done(a);
         }
-        /// <summary>A fight against its sheet: it falls inside the sheet's bounds through the pad, at no less than nine tenths of the share the sheet carries, and the party stands throughout.</summary>
-        static void Judge(Account a,float flat,string id)
+        /// <summary>A fight against its sheet and the player's own runs: it falls inside the sheet's bounds through the pad, at a pace (its integrity over its seconds) inside the player's
+        /// runs, .85 of the slowest to 1.15 of the fastest (<see cref="PlayerRun.Band"/>, D403), and the party stands throughout. Not a floor on a share of the flat out (D398 to D402): the
+        /// in-house fight and the player's both scatter as widely as the room between the share's floor and their middle, so the floor failed or passed by the run.</summary>
+        static void Judge(Account a,float flat,string id,PlayerRun[] runs)
         {
             var sheet=ContentRegistry.Boss(id);float integrity=GameCatalog.Find<EnemyDef>(id).integrity;
             Assert.Greater(a.woke,0,$"{id}'s fight never began");
             Assert.AreEqual(0,a.defeats,$"the party fell to {id}");
             Assert.Greater(a.fell,0,$"{id} never fell through the pad");
-            float seconds=a.fell-a.woke,share=integrity/seconds/flat;
+            float seconds=a.fell-a.woke,rate=integrity/seconds;var (low,high)=PlayerRun.Band(runs);
             Assert.That(seconds,Is.InRange(sheet.minSeconds,sheet.maxSeconds),$"{id} lasted {seconds:0} s through the pad: its sheet's bounds are {sheet.minSeconds:0} to {sheet.maxSeconds:0}");
-            Assert.GreaterOrEqual(share,sheet.driverShare*.9f,$"the driver got {share:0.00} of flat out against {id}, under the sheet's {sheet.driverShare:0.00}");
+            Assert.That(rate,Is.InRange(low,high),$"the driver took {id}'s {integrity:0} in {seconds:0.0} s, {rate:0} a second ({rate/flat:0.000} of flat out), outside {PlayerRun.Describe(runs)}");
             Assert.AreEqual(0,a.leadFalls,$"the lead fell {a.leadFalls} times to {id}");
             Assert.AreEqual(0,a.partnerFalls,$"the partner fell {a.partnerFalls} times to {id}");
         }
@@ -304,10 +379,14 @@ namespace Lattice.Tests.PlayMode
             Account a=null;
             yield return Fight(id,Slice(MotherRoute,MotherDoor,"she lets go"),"SorrelSecondSky","Clamps",flags,MotherFlags,900,null,r=>a=r);
             Report(a,flat,GameCatalog.Find<EnemyDef>(id).integrity);Dump("with the hands");
-            Judge(a,flat,id);
-            Assert.IsTrue(finished,"route 63 never reached her release from her door");
-            CollectionAssert.IsEmpty(Failures,"route 63 failed a step from her door on: "+string.Join(" | ",Failures));
+            bool reached=finished;var failed=Failures.ToList();
+            Judge(a,flat,id,MotherRuns);
+            Assert.IsTrue(reached,"route 63 never reached her release from her door");
+            CollectionAssert.IsEmpty(failed,"route 63 failed a step from her door on: "+string.Join(" | ",failed));
         }
+        /// <summary>The player's runs of Mother of Doors on the round-three build (D384), her 105,000 then as now; her in-house fight is held between them (D403).</summary>
+        static readonly PlayerRun[] MotherRuns={new("Builds/quality/nov23-whole s63",143.2f,105000),new("Builds/quality/nov23-recon-C s63",123.9f,105000),
+            new("Builds/quality/nov23-recon-s-63 s63",134.1f,105000)};
 
         /// <summary>Her wave is a band filling at her coil's edge that then runs out at 12 m/s across every lane. The companion read only markings already over her, which a running band
         /// is only the frame it strikes: in the player's run she took every wave of the fight (nov14-recon32 s63, a seventh of her bar each). Built first as the band was marked before
@@ -465,6 +544,133 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(docked,"with the first clamp open, the second shelf's pad didn't take the party");
         }
 
+        // ------------------------------------------------------------------ her first shelf docked (D406)
+        /// <summary>The game as it was for D406's broken states: the companion's way round the lead carried on through a berth's change (PartnerBrain), and a clamp offered while a
+        /// tender works it (BridleClamp). Put back by every case and the tear-down.</summary>
+        static void AsItWas(bool talk,bool tended,bool reach=false)
+        {
+            typeof(PartnerBrain).GetField("talkThroughMoves",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,talk);
+            typeof(BridleClamp).GetField("offeredWhileTended",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,tended);
+            typeof(ContinuousReview).GetField("tenderReachAsItWas",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,reach);
+        }
+        /// <summary>Her room before the first clamp (its guns flown down), her fight begun at her door; still (Passive) or as she fights.</summary>
+        IEnumerator FirstShelfRoom(bool still)
+        {
+            var flags=FlagsBefore(MotherRoute,MotherDoor).Concat(new[]{"clear.Sorrel_Clamp1","clear.Sorrel_Clamp2","clear.Sorrel_Clamp3","clear.Sorrel_Clamp4"}).ToArray();
+            yield return Zone("SorrelSecondSky","Clamps",flags,new[]{"bossdown.MotherOfDoors","end.clamp1","end.clamp2","end.clamp3","end.clamp4","end.motherFreed"},27);
+            foreach(var hero in PartyController.Current.members){hero.Health.maximum=hero.Health.integrity=9000;}
+            Object.FindObjectsByType<EncounterVolume>(FindObjectsSortMode.None).Single(e=>e.encounterId=="MotherOfDoors").Begin();
+            BossController her=null;
+            for(float end=Time.unscaledTime+5;Time.unscaledTime<end&&her==null;){her=Object.FindObjectsByType<BossController>(FindObjectsSortMode.None).FirstOrDefault(b=>b.MotherRoom);yield return null;}
+            Assert.IsNotNull(her,"fixture: her fight began at her door");her.GetComponent<EnemyBrain>().Passive=still;yield return Frames(3);
+        }
+        /// <summary>The lead over the first shelf's pad, the pad pressed, and the party docked: <paramref name="hold"/> each frame before the press.</summary>
+        IEnumerator DockFirstShelf(System.Action hold,System.Action pressed=null,Vector3? from=null,System.Action during=null)
+        {
+            var berth=Berth.Find("Clamp1");Assert.IsNotNull(berth,"fixture: Sorrel has the first shelf's berth");
+            for(float end=Time.unscaledTime+GameInput.HandBackHold+1;Time.unscaledTime<end;){Place(Lead,from??berth.pad.transform.position);hold?.Invoke();yield return null;}
+            PromptService.FindInteraction(Lead.transform.position);Assert.AreEqual(berth.pad,PromptService.Interaction,"fixture: the first shelf's pad is offered over it");
+            pressed?.Invoke();Assert.IsTrue(PromptService.TryInteract(),"fixture: the first shelf's pad took the press");
+            for(float end=Time.unscaledTime+3;(Berth.Current!=berth||Berth.Changing)&&Time.unscaledTime<end;){during?.Invoke();yield return null;}
+            Assert.IsTrue(Berth.Current==berth&&!Berth.Changing&&!Lead.flight,"fixture: the party docked at the first shelf");
+        }
+
+        /// <summary>A berth's change holds the controls for its fade, and the companion's way round the lead as a talk opens in flight (D397) took it for a talk: reckoned from where
+        /// the pair had been in flight, it went on round Taren after the shelf had set them down side by side, and left Idra eleven metres off the west clamp's works, where she stayed
+        /// for the rest of the fight while he worked the clamp alone (nov24-recon-g-63 s63). The first shelf docked from where the pair were as it was pressed in that run, she where the
+        /// clear part of the frame doesn't reach (PartnerBrain.ClearOfTheBox: where her way round him begins). Built first as it was (her way carried on through the change), which
+        /// must carry her on from where the change set her down beside him; as it is she stays there, on the shelf.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator DockedAtHerShelfTheCompanionIsSetDownOnItBesideTheLead()
+        {
+            bool onShelf=false,went=false;float apart=0,setDown=0;
+            IEnumerator Dock(bool asItWas)
+            {
+                yield return FirstShelfRoom(true);
+                var lead=Lead;var partner=PartyController.Current.members.First(m=>m!=lead);var berth=Berth.Find("Clamp1");
+                Assert.IsTrue(lead.flight&&partner.flight,"fixture: the pair is in flight at her door");
+                // Where the pair were as the dock was pressed in nov24-recon-g-63 s63 (frames.csv, 58.50 s): he 4.8 m short of the pad, she 7.8 m off him up the screen and to his right.
+                // That was out of the frame's clear part in the player, at 1920 by 1080, and a place beside him was clear (PartnerBrain.TalkPlace): her way round him began. The frame the
+                // test mirror draws is 640 by 480, where the talk's box spans the whole width and no place beside him is ever clear, so her way never begins on its own here: it is begun
+                // as the player's frame began it, toward TalkPlace's first choice (beside him on her own side), on the first frame the change holds the controls.
+                var him=new Vector3(-18.8f,lead.transform.position.y,314.7f);var hers=new Vector3(-13.7f,lead.transform.position.y,320.6f);
+                var brain=partner.GetComponent<PartnerBrain>();var clear=typeof(PartnerBrain).GetMethod("ClearOfTheBox",Private);var going=typeof(PartnerBrain).GetField("talkTo",Private);
+                var since=typeof(PartnerBrain).GetField("talkSince",Private);var taking=typeof(PartnerBrain).GetField("talkFor",Private);
+                var talkPlace=typeof(PartnerBrain).GetMethod("TalkPlace",Private);
+                bool Clear(Vector3 p)=>(bool)clear.Invoke(brain,new object[]{Camera.main,p});
+                Vector3 pressedAt=default;bool hidden=false,ends=false,begun=false;var way=new List<string>();
+                void Begin()
+                {
+                    if(begun||(float)since.GetValue(brain)<0||going.GetValue(brain)!=null)return;begun=true;
+                    var nose=lead.motor.Facing;nose.y=0;nose.Normalize();int mine=Vector3.Dot(partner.transform.position-lead.transform.position,Vector3.Cross(Vector3.up,nose))<0?-1:1;
+                    var to=lead.transform.position+Quaternion.Euler(0,mine*90,0)*nose*3;to.y=partner.transform.position.y;going.SetValue(brain,(Vector3?)to);taking.SetValue(brain,1f);
+                }
+                void Note(){bool now=going.GetValue(brain)!=null;went|=now;way.Add($"{Flat(partner.transform.position,lead.transform.position):0.0}{(now?"*":"")}");}
+                went=false;
+                yield return DockFirstShelf(()=>Place(partner,hers),()=>{pressedAt=partner.transform.position;hidden=!Clear(pressedAt);ends=talkPlace.Invoke(brain,new object[]{Camera.main,lead})!=null;AsItWas(asItWas,false);},him,()=>{if(hidden&&!ends)Begin();Note();});
+                setDown=Flat(partner.transform.position,lead.transform.position);
+                for(float end=Time.unscaledTime+1.2f;Time.unscaledTime<end;){Note();yield return null;}
+                AsItWas(false,false);
+                var p=partner.transform.position;onShelf=berth.Contains(p+Vector3.up*.5f);apart=Flat(p,lead.transform.position);
+                TestContext.WriteLine($"MOORING_DOCKED_COMPANION asItWas={asItWas} screen={Camera.main.pixelWidth}x{Camera.main.pixelHeight} pressedAt={pressedAt:F1} hidden={hidden} ends={ends} went={went} lead={lead.transform.position:F1} her={p:F1} onShelf={onShelf} setDown={setDown:0.0} apart={apart:0.0} flight={partner.flight} berth={berth.transform.position:F1} box={berth.boxSize:F1} way(m off him, * going round)={string.Join(" ",way.Take(40))}");
+            }
+            yield return Dock(true);
+            Assert.IsTrue(went,"fixture: her way round him never began as the pad was pressed: the check below proves nothing");
+            // As it was her way went on from beside him (2 m, where the change set her down) to 6.7 to 13 m off him, and in one run of two off the shelf and down below its floor.
+            Assert.Greater(setDown,3f,"fixture: built as it was, her way round him didn't carry her on from where the change set her down: the check below proves nothing");
+            yield return Dock(false);
+            Assert.Less(setDown,3f,$"docked at the first shelf, the change set the companion down {setDown:0.0} m from the lead");
+            Assert.IsTrue(onShelf,$"docked at the first shelf, the companion stands off it a second later, {apart:0.0} m from the lead");
+        }
+
+        /// <summary>At her seat a Stillwater Tender stands a step aside of the clamp and works it shut, and a lead who comes to stop it stands within the seat's reach. On foot the interact
+        /// button is the attack button, and the clamp's prompt was offered while the tender worked it: every other press took a weight the tender drained as fast, and the next swung and
+        /// let go (nov24-recon-g-63 s63: 166 takes in five rounds, the tender never felled by him). And the driver swung from the step's 2.3 m, which a blade doesn't reach across to a
+        /// body half a person tall (both as they were, from where that run's roll set him down: 22 takes and no blow in 20 s, d406b). The first shelf docked through its pad as she
+        /// fights, Idra stood down (her brain off), the lead set where the run's roll left him, and the route's own step played through the pad. Each broken state first on its own: the
+        /// clamp as it was must take his presses, the chase as it was must leave the tender standing.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator AtHerSeatTheLeadStrikesTheTenderBesideTheClamp()
+        {
+            float felled=-1;int takes=0,blows=0;
+            IEnumerator Work(bool clampAsItWas,bool reachAsItWas)
+            {
+                yield return FirstShelfRoom(false);
+                var lead=Lead;var partner=PartyController.Current.members.First(m=>m!=lead);
+                yield return DockFirstShelf(null);
+                partner.GetComponent<PartnerBrain>().enabled=false;
+                Health tender=null;
+                for(float end=Time.unscaledTime+3;Time.unscaledTime<end&&tender==null;){tender=Health.All.FirstOrDefault(h=>h!=null&&!h.friendly&&h.Alive&&Tended.IsTender(h));yield return null;}
+                Assert.IsNotNull(tender,"fixture: a Stillwater Tender stepped out beside the first clamp as the party docked");
+                var clamp=BridleClamp.All.Single(c=>c.index==1&&c.settledBy=="MotherOfDoors");
+                for(float end=Time.unscaledTime+3;Time.unscaledTime<end&&!clamp.Tended.Tending;)yield return null;
+                Assert.IsTrue(clamp.Tended.Tending,"fixture: the tender set to work on the first clamp");
+                // Where the roll out of her sweep set him down as the step began in nov24-recon-g-63 s63 (frames.csv, 60.97 s): in the seat's reach, the tender a stride off.
+                var rolled=new Vector3(-21.4f,lead.transform.position.y,318.1f);Place(lead,rolled);
+                TestContext.WriteLine($"MOORING_SEAT_PLACES seat={clamp.transform.position:F2} tender={tender.transform.position:F2} lead={lead.transform.position:F2} seatRadius={clamp.seatRadius} toSeat={Flat(clamp.transform.position,rolled):0.00} toTender={Flat(tender.transform.position,rolled):0.00}");
+                AsItWas(false,clampAsItWas,reachAsItWas);blows=0;felled=-1;int logged=log.Count;
+                tender.Damaged+=(h,packet,amount)=>{if(amount>0&&packet.source==lead.Health)blows++;};
+                float from=Time.unscaledTime,sample=0;
+                yield return Play(Slice(MotherRoute,"work clamp 1 round 1","work clamp 1 round 1"),20,()=>
+                {
+                    if(Time.unscaledTime<sample)return;sample=Time.unscaledTime+.5f;var to=tender.transform.position-lead.transform.position;to.y=0;
+                    TestContext.WriteLine($"MOORING_AT_SEAT clamp={(clampAsItWas?"as it was":"now")} reach={(reachAsItWas?"as it was":"now")} t={Time.unscaledTime-from:0.0} lead={lead.transform.position:F1} {lead.State} target={(lead.target!=null?lead.target.id:"-")} locked={lead.TargetLocked} " +
+                        $"tender={to.magnitude:0.00} m {Vector3.Angle(lead.motor.Facing,to):0}deg {tender.integrity:0}/{tender.maximum:0} seat={Flat(clamp.transform.position,lead.transform.position):0.00} m tended={clamp.Tended.Tending} holder={(clamp.Holder!=null?clamp.Holder.character:"-")} " +
+                        $"offered={(PromptService.Interaction!=null?PromptService.Interaction.name:"-")} blows={blows}");
+                },()=>!tender.Alive);
+                if(!tender.Alive)felled=Time.unscaledTime-from;
+                AsItWas(false,false,false);takes=log.Skip(logged).Count(l=>l.Contains("CLAMP_TAKEN"));
+                TestContext.WriteLine($"MOORING_TENDER_BY_THE_LEAD clamp={(clampAsItWas?"as it was":"now")} reach={(reachAsItWas?"as it was":"now")} felled={(felled>=0?felled.ToString("0.0")+" s":"no")} blows={blows} takes={takes}");Dump($"the lead at her seat, clamp as it was {clampAsItWas}, reach as it was {reachAsItWas}");
+            }
+            // The clamp as it was (offered while the tender works it), the chase stepping in: his presses are the clamp's every other time.
+            yield return Work(true,false);
+            Assert.Greater(takes,0,"fixture: built as it was, the clamp was never taken with the tender at work on it: the check below proves nothing");
+            // The chase as it was (swinging from the step's 2.3 m), the clamp as it is now: his blade passes in front of the tender.
+            yield return Work(false,true);
+            Assert.Less(felled,0f,$"fixture: swinging from the step's reach as it was, the lead felled the tender all the same ({blows} blows): the check below proves nothing");
+            yield return Work(false,false);
+            Assert.GreaterOrEqual(felled,0f,$"the lead beside her tender never felled it in 20 s: {blows} blows landed, the clamp taken {takes} times");
+            Assert.AreEqual(0,takes,$"with the tender at work the lead's presses took the clamp {takes} times");
+        }
+
         /// <summary>In flight the companion read incoming shots, and marked areas only a boss had laid: an ordinary enemy's marking (a clamp gun's flak rows, a lunge's lane, a mine's
         /// ring) she never left, and the clamp guns' rows struck Idra four times in every Mother of Doors fight through the pad. A clamp gun in the flight yard, the lead idle inside its
         /// curtain and the companion at her place behind him in its second row. Built first with the gun's rows owned by nothing (no enemy's marking), which must strike her; then as the
@@ -570,9 +776,16 @@ namespace Lattice.Tests.PlayMode
             Account a=null;
             yield return Fight(id,Slice(TollRoute,TollDoor,"stage 3 is stopped"),"LastMooring","Gate",flags,TollFlags,900,null,r=>a=r);
             Report(a,flat,GameCatalog.Find<EnemyDef>(id).integrity);Dump("with the hands");
-            Judge(a,flat,id);
-            Assert.IsTrue(finished,"route 65 never reached its third stage from its door");
-            CollectionAssert.IsEmpty(Failures,"route 65 failed a step from its door on: "+string.Join(" | ",Failures));
+            bool reached=finished;var failed=Failures.ToList();
+            Judge(a,flat,id,TollRuns);
+            Assert.IsTrue(reached,"route 65 never reached its third stage from its door");
+            CollectionAssert.IsEmpty(failed,"route 65 failed a step from its door on: "+string.Join(" | ",failed));
         }
+        /// <summary>The player's runs of the Tollkeeper on the round-three build (D384), door to the third stage stopped, its stages with it, on both sides: braces 24,000 and the yard
+        /// 77,000 then, 30,000 and 85,000 now, the motor's 22,000 on the arm's clock unchanged. D384 raised the yard with the braces so the whole fight keeps its share (the braces
+        /// about 58 s of 118 then), so each run is its yard of the day over its seconds; the in-house fight is held between them (D403). The recon-C chain's (recon-C, -s-65, -f-65)
+        /// Taren wore a Pulse Emitter with Breaker (D401), not the party played here, and they are its fastest.</summary>
+        static readonly PlayerRun[] TollRuns={new("Builds/quality/nov23-whole s65",142.0f,77000),new("Builds/quality/nov23-recon-C s65",117.2f,77000),
+            new("Builds/quality/nov23-recon-s-65 s65",119.1f,77000),new("Builds/quality/nov23-recon-f-65 s65",113.9f,77000)};
     }
 }

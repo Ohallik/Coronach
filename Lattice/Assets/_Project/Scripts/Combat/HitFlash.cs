@@ -109,6 +109,9 @@ namespace Lattice.Combat
                     // long the frame was, so struck and dying are one curve (QaFightThirdTests.TheWreckTakesOverInTheBodysOwnColour).
                     float fading=1-Mathf.Clamp01(flashAge/Impact.Tune.DyingFlashSeconds);
                     level=Mathf.MoveTowards(level,strength*fading*fading,Impact.Tune.MostStepAFrame);
+                    // D385: a body going dark is lit by its killing blow no more than its darkening allows, from the kill's own frame (BodyGoesDark's first LateUpdate can come a frame
+                    // later, and this wrote the full flash over a body it had already darkened: the pale chrome Colossus of nov23-whole s49/052).
+                    if(TryGetComponent<BodyGoesDark>(out var dark))level=Mathf.Min(level,dark.MostFlash);
                     if(level<=0&&fading<=0)Clear();else{Shown=level*ImpactSettings.FlashScale;Write(Shown);}
                 }
                 else

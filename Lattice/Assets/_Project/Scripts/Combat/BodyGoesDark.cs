@@ -14,25 +14,38 @@ namespace Lattice.Combat
     /// curved plate of it, a glass shell. Now the paint is darkened over the texture as it is (destroyed: two fifths, shut down: half, driven off: three fifths), the killing blow's
     /// light on a body going dark is a glow, never the rim of a white shell, and it all runs through the kill's stop rather than waiting for it. A hero standing in a dead body sees
     /// out through a clean opening, not through two thirds of its pixels (BossOcclusion's living door).</para>
+    /// <para>D385 (nov23-whole s49/052, s36/071, s29/034, s21/280, s08/092): the first frame after the end was still the living body or paler. The darkening began at nought on the
+    /// frame after it was added, while the killing blow's flash burned at full on the kill's own frame (HitFlash writes after the boss's Died), the see-through door stood at its living
+    /// two pixels in three (BossOcclusion), and the lights were still on: a still taken as the step ended caught a pale chrome Colossus, a pale Marshal, a washed Hulljack, a speckled
+    /// Taren in the Floodcrown. Now the end is written on the frame it happens: half dark at once (<see cref="FirstShare"/>), its lights out (or to a tenth, driven off), the killing
+    /// blow's light held to <see cref="KillLight"/> by HitFlash itself (<see cref="MostFlash"/>), and the door opened whole by BossOcclusion on a beaten body.</para>
     [DefaultExecutionOrder(960)]
     public sealed class BodyGoesDark:MonoBehaviour
     {
         /// <summary>How long it takes, its lights first: out by the time its paint is half drained.</summary>
         public const float Seconds=.7f;
-        /// <summary>The most the killing blow lights a body going dark, falling as it darkens.</summary>
-        const float KillLight=.15f;
+        /// <summary>How dark it is on the frame its end comes: its lights out and half its paint gone, so no frame after the end is the living body.</summary>
+        public const float FirstShare=.5f;
+        /// <summary>The most the killing blow lights a body going dark: none. Its light is added to a dark body's colour before the screen's curve, so .03 at its rims lifted the
+        /// darkest bodies over what they were alive on the end's own frame (BossDeathTests: the Slag Colossus .21 to .22, the Foundry Saint .25 to .26, Vessa Korl .22 to .23).
+        /// The end is its own beat: the darkening, the stop, the sparks and the shake.</summary>
+        public const float KillLight=0;
         static readonly int BaseColor=Shader.PropertyToID("_BaseColor"),OldColor=Shader.PropertyToID("_Color"),Emission=Shader.PropertyToID("_EmissionColor"),
             Flash=Shader.PropertyToID("_HitFlash"),DoorDepth=Shader.PropertyToID("_OccFadeDepth");
         Renderer[] painted;Color[] paintRest;Vector4[] lightRest;bool[] lit;int[] paintId;
-        MaterialPropertyBlock block;float age,share,paintKeep,lightKeep;bool ashes,done,restoring;
+        MaterialPropertyBlock block;float age,share,paintKeep,lightKeep;bool ashes,done,restoring;Color tone=Color.white;
         /// <summary>How dark it is now, 0 its colours to 1 dark, for a check to read.</summary>
         public float Share=>share;
         /// <summary>How many of its renderers it darkens, for a check to read.</summary>
         public int Painted=>painted!=null?painted.Length:0;
+        /// <summary>The most a blow's flash may light this body now (HitFlash asks, on the kill's own frame too).</summary>
+        public float MostFlash=>restoring?float.PositiveInfinity:KillLight*(1-share);
         /// <param name="body">The whole body: everything drawn under its root, not only its presentation's model (a body staged with art of its own hangs that beside it).</param>
         public void Begin(Transform body,bool destroyed){ashes=destroyed;paintKeep=destroyed?.4f:.5f;lightKeep=0;Gather(body);}
-        /// <summary>A boss driven off (BossDeparture): it goes as one beaten, its lights down to a fifth and its paint to three fifths, in the second it turns away.</summary>
-        public void BeginBeaten(Transform body){ashes=false;paintKeep=.6f;lightKeep=.2f;Gather(body);}
+        /// <summary>A boss driven off (BossDeparture) or leaving by its own road (Mother of Doors): it goes as one beaten, its lights down to a tenth and its paint to half, from the frame it is beaten.</summary>
+        public void BeginBeaten(Transform body){ashes=false;paintKeep=.5f;lightKeep=.1f;Gather(body);}
+        /// <summary>Its dark taken toward a colour (the Host Marshal's frost): what it darkens to is its paint, kept, times this. A colour darker in every channel than white, so it stays dark.</summary>
+        public void Toward(Color colour){tone=new Color(Mathf.Clamp01(colour.r),Mathf.Clamp01(colour.g),Mathf.Clamp01(colour.b),1);Paint(share);}
         void Gather(Transform body)
         {
             share=0;age=0;done=false;block??=new MaterialPropertyBlock();
@@ -49,6 +62,8 @@ namespace Lattice.Combat
                 var m=painted[i].sharedMaterial;paintRest[i]=m.GetColor(paintId[i]);
                 lit[i]=m.HasProperty(Emission);lightRest[i]=lit[i]?m.GetVector(Emission):Vector4.zero;
             }
+            // Written now, in the Died that began it: this component's own LateUpdate may not run until the next frame, and the still taken as the fight's step ends is this one.
+            share=FirstShare;age=Seconds*(1-Mathf.Sqrt(1-FirstShare));Paint(share);
         }
         /// <summary>Its colours given back, as it stood (a body revived), and this gone.</summary>
         public void Restore(){restoring=true;Paint(0);Destroy(this);}
@@ -71,8 +86,8 @@ namespace Lattice.Combat
         /// to a dead brown and not a darker pink); shut down, to half; driven off, to three fifths. In the colour space the block is given, so these are shares of how light it looks.</summary>
         Color Dark(Color rest)
         {
-            if(ashes)return new Color(rest.r*.37f,rest.g*.4f,rest.b*.38f,rest.a);
-            return new Color(rest.r*paintKeep,rest.g*paintKeep,rest.b*paintKeep,rest.a);
+            if(ashes)return new Color(rest.r*.37f*tone.r,rest.g*.4f*tone.g,rest.b*.38f*tone.b,rest.a);
+            return new Color(rest.r*paintKeep*tone.r,rest.g*paintKeep*tone.g,rest.b*paintKeep*tone.b,rest.a);
         }
         void Paint(float k)
         {

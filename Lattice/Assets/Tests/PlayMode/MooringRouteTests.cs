@@ -196,6 +196,8 @@ namespace Lattice.Tests.PlayMode
             if(Over(nearest)>0)return $"{where}: '{nearest.name}' at ({nearest.transform.position.x:0.0}, {nearest.transform.position.z:0.0}) reaches {nearest.range:0.##} m, {Over(nearest):0.00} m too far to be surely offered";
             if(press.waited)return null;
             var stand=press.at;stand.y=flying?(press.berth!=null?press.at.y:1):(NavMesh.SamplePosition(press.at+Vector3.up*.5f,out var f2,2.5f,NavMesh.AllAreas)?f2.position.y:press.at.y);
+            // A route launches with the deck's fight behind it: what a dock woke on the deck is stood down, as Load stands down the zone's (D404: an awake foe on the deck holds the launch).
+            if(press.launch!=null)foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))enemy.Passive=true;
             PromptService.FindInteraction(stand);var offered=PromptService.Interaction;
             Debug.Log($"MOORING_PRESS {press.route} '{press.name}' offered '{(offered!=null?offered.name:"nothing")}', the arrow on '{(PromptService.Wanted!=null?PromptService.Wanted.name:"nothing")}'");
             if(offered==null)return $"{where}: the game offers nothing there (the meant '{nearest.name}' is in reach but not offered: hidden, refused, or waiting on something)";

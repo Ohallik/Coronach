@@ -741,7 +741,13 @@ namespace Lattice.Tests.PlayMode
             }
             for(int i=0;i<heroes.Length;i++){Put(heroes[i],homes[i]);heroes[i].target=body;heroes[i].charge=100;}
             yield return null;
-            float landed=0;System.Action<Health,DamagePacket,float> count=(_,packet,amount)=>{if(heroes.Any(h=>packet.source==h.Health))landed+=amount;};body.Damaged+=count;
+            float landed=0;var parts=new SortedDictionary<string,float>();
+            System.Action<Health,DamagePacket,float> count=(_,packet,amount)=>
+            {
+                var by=heroes.FirstOrDefault(h=>packet.source==h.Health);if(by==null)return;landed+=amount;
+                string key=$"{by.character}.{packet.type}.{packet.weight}{(packet.tag!=null?"/"+packet.tag:"")}";parts[key]=(parts.TryGetValue(key,out float sum)?sum:0)+amount;
+            };
+            body.Damaged+=count;
             int broke=Count("BREAK_OK"),shown=0;
             for(float end=Time.unscaledTime+seconds;Time.unscaledTime<end;shown++)
             {
@@ -763,6 +769,9 @@ namespace Lattice.Tests.PlayMode
             }
             body.Damaged-=count;Assert.Greater(landed,0,"fixture: "+string.Join(" and ",pair)+" are hitting it");measured(landed/seconds,(Count("BREAK_OK")-broke)/seconds);
             RateFrames=shown/seconds;
+            // Who dealt what, by kind of blow, a second (the lead at full scale, the partner at PartyController.PartnerShare): where a pair's rate comes from (D400).
+            RateParts=string.Join(" ",heroes.Select(h=>$"{h.character}(x{h.damageScale:0.0})={parts.Where(p=>p.Key.StartsWith(h.character+".")).Sum(p=>p.Value)/seconds:0}"))+" ["+
+                string.Join(" ",parts.Select(p=>$"{p.Key}={p.Value/seconds:0}"))+"]";
             enemy.Passive=true;Object.Destroy(enemy.gameObject);
             foreach(var left in Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))if(left is GravityWell||left is PulseField||left is StarfallStrike||left is NetSeed)Object.Destroy(left.gameObject);
             yield return Frames(3);
@@ -771,6 +780,8 @@ namespace Lattice.Tests.PlayMode
         /// rule, QaPlanCombatTests.FlatOutFrames): with a dozen engineers' Unitys at work on November 21 one pair's two readings in one run stood six per cent apart (3,924 and 4,177)
         /// where a quiet machine had read them a tenth of a per cent apart the day before (3,900 and 3,897), and the Cutter failed a floor it stands inside, a different pair each run.</summary>
         float RateFrames;
+        /// <summary>The last <see cref="Rate"/> by hero and kind of blow, a second (D400).</summary>
+        string RateParts="";
         const float RateFramesFloor=50;
         static void Pinned(string id,int breakThreshold,out float integrity)
         {
@@ -789,7 +800,15 @@ namespace Lattice.Tests.PlayMode
         /// .70 since D362 (November 22): today's scout of the 12:35 build felled 160,500 in 93.6 s (Builds/quality/nov22-recon-g s61) against 2,492 and 2,382 a second (d355-dome3,
         /// d355-lengths), which is .704; against this class's arrival pair (2,385, nov22a-part7) with its first five seconds and its shift it is .78. It is 210,000 since D362
         /// (continued): the shared slow pair's 400 s on its slowest reading (2,171) holds it there, about 113 s on the fastest scout (86.3 s at 160,500, nov22-recon-h-61).
-        const float CutterShare=.7f;
+        /// .61 since D384 (November 24): the round-three build felled 210,000 in 126.8 s and 184.7 s (Builds/quality/nov23-whole s61, nov23-recon-C s61, November 23), median 155.8,
+        /// against the shared test's 2,225 a second (nov24a): .606. At that share no integrity passes this class's length test: the pairs with Sela read 3,600 to 3,850 a second
+        /// flying, 1.6 times Taren and Idra's 2,395, so 120 s for them at .61 needs 264,000 and Taren and Idra's dodging pair holds it under 235,000 (D384).
+        /// Still .61 since D400 (November 24): the flight pairs were narrowed (Sela's ship at CombatActor.SelaShipShare with her fan spread, Idra's cutter at a ship's beat), which moved
+        /// the yardstick and the player's pace together, so the share is the same. This class's pairs then read Taren and Idra 2,647 and 2,557 a second, Taren and Sela 3,354 and
+        /// 3,244, Sela and Idra 2,970 and 3,094 (d400-b, d400-v1): 1.27 apart. The room they leave is 231,000 (Taren and Sela's 120 s on 3,354) to 251,000 (the slow pair's 400 s
+        /// on 2,557); the Cutter is 240,000, its middle (1.143 on 210,000, under D400's 1.164 between the flat outs, 2,236 to 2,602 a second on the shared test), Taren and Idra about
+        /// 160 s, Taren and Sela 124 to 128, the slow pair 382 to 370. The in-house fight is no longer held to a share of it: HomeReplayHandsTests.CutterRuns, as played (D403).
+        const float CutterShare=.61f;
         /// <summary>How long the Cutter's pairs are measured for, and how far apart two such readings have stood (a reading inside that of a bound is taken twice).</summary>
         const float CutterSeconds=60,CutterScatter=1.06f;
         /// <summary>The least a planted boss has given the driver (the Seedthane, .36): the Saint at that share of what lands while it is open is the slow fight the five minutes are for.
@@ -874,7 +893,9 @@ namespace Lattice.Tests.PlayMode
                 // shared length test takes (QaPlanCombatTests.FlatOutSeconds), not this class's fifteen seconds, which read Taren and Sela anywhere from 3,602 to 4,144.
                 Application.logMessageReceived-=Heard;yield return Boot();yield return Zone("Arena_Flight");yield return Level(26);
                 float rate=0;yield return Rate("DebrisCutter",pair,(r,_)=>rate=r,true,null,CutterSeconds);slowest=Mathf.Min(slowest,RateFrames);
+                TestContext.WriteLine($"CUTTER_PARTS {pair[0]}+{pair[1]} {RateParts}");Debug.Log($"CUTTER_PARTS {pair[0]}+{pair[1]} {RateParts}");
                 float first=rate;yield return Rate("DebrisCutter",pair,(r,_)=>rate=r,true,null,CutterSeconds);slowest=Mathf.Min(slowest,RateFrames);
+                TestContext.WriteLine($"CUTTER_PARTS {pair[0]}+{pair[1]} {RateParts}");Debug.Log($"CUTTER_PARTS {pair[0]}+{pair[1]} {RateParts}");
                 string readings=$"{first:0} and {rate:0}";rate=(first+rate)*.5f;
                 // Its own sheet's share (measured, HomeBossTests.HomeBosses), not the class's flight placeholder: D312's rule for the Warmaster.
                 float share=ContentRegistry.Boss("DebrisCutter").driverShare;

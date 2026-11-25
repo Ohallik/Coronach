@@ -410,5 +410,69 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsTrue(Physics.Raycast(hero.transform.position+Vector3.up*.5f,Vector3.down,1,~0,QueryTriggerInteraction.Ignore),hero.character+" came down with no floor under him");
             }
         }
+
+        // ------------------------------------------------------------------ D407: the screen clears on people, not on two hulls through each other
+        static bool Ship(CombatActor hero){var form=hero.GetComponent<FormController>();return form.flight!=null&&form.flight.activeInHierarchy;}
+        /// <summary>What a hero draws round his root on the plan: a ship's hull, or a person's capsule.</summary>
+        static float Reach(CombatActor hero)=>Ship(hero)?HeroCollision.HullRadius(hero.character):hero.GetComponent<CharacterController>().radius;
+        /// <summary>Presses <paramref name="prompt"/> as the lead and reads every frame for a second and a half that the screen isn't black: the least room left between the two
+        /// heroes' drawn bodies (below nought, they lie through each other), and what was drawn then.</summary>
+        static IEnumerator Watched(InteractionPrompt prompt,string what,System.Action<float,string> seen)
+        {
+            float fade=0;System.Action<float> faded=a=>fade=a;SceneFlow.Current.FadeChanged+=faded;
+            float least=float.MaxValue;string worst="nothing seen";var partner=Partner;
+            try
+            {
+                yield return new WaitForSecondsRealtime(GameInput.HandBackHold+.1f);
+                PromptService.FindInteraction(Lead.transform.position);
+                Assert.AreSame(prompt,PromptService.Interaction,$"{what}: the lead at {Lead.transform.position} isn't offered \"{prompt.prompt}\"");
+                Assert.IsTrue(PromptService.TryInteract(),what+": A didn't take the prompt");
+                for(float end=Time.unscaledTime+1.5f;Time.unscaledTime<end;)
+                {
+                    yield return null;
+                    if(fade>.99f)continue;
+                    float apart=Flat(Lead.transform.position,partner.transform.position),room=apart-Reach(Lead)-Reach(partner);
+                    if(room<least){least=room;worst=$"{Lead.character} a {(Ship(Lead)?"ship":"person")} and {partner.character} a {(Ship(partner)?"ship":"person")} {apart:0.00} m apart at a fade of {fade:0.00}, {(Berth.Docked?"docked":"not docked")}";}
+                }
+                Assert.IsFalse(Berth.Changing,what+": the change never finished");
+            }
+            finally{SceneFlow.Current.FadeChanged-=faded;}
+            TestContext.WriteLine($"D407 {what}: least room {least:0.00} m ({worst})");seen(least,worst);
+        }
+        /// <summary>D407: at every dock onto a fight's deck the screen cleared on the two ships lying through each other (nov24-recon-h-63 s63/111, -h-65 s65/028). The berth sets
+        /// the partner down 2 m beside the lead, right for two people, and the form change it begins under the black closed each ship for .23 s and opened its person .27 s
+        /// after, so the deck showed two hulls at a person's spacing. Read on every frame not under a black screen: onto the shelf, off it again, and (the other kind of berth,
+        /// the Continuance's) down from the space beside a ground zone onto its floor.</summary>
+        [UnityTest] public IEnumerator DockedOnADeckTheScreenClearsOnPeopleBesideEachOtherNotOnTwoHullsThroughEachOther()
+        {
+            yield return Load("Arena_Flight");
+            var berth=Berth.Find(Id);Assert.IsNotNull(berth,"fixture: the yard has no berth");var partner=Partner;
+            Put(Lead,Pad+Vector3.back*3);Put(partner,Pad+Vector3.back*3+Vector3.right*HeroCollision.Apart(Lead.character,partner.character));yield return null;
+            var faults=new List<string>();
+            yield return Watched(berth.pad,"docking onto the shelf",(least,worst)=>{if(least<-.05f)faults.Add($"docking onto the shelf: {worst}, drawn {-least:0.00} m through each other");});
+            Assert.IsTrue(Berth.Docked,"the pad didn't put the party on the shelf");Hold();
+            yield return new WaitForSecondsRealtime(1);
+            Assert.AreEqual(BodyForm.Shaped,Lead.GetComponent<FormController>().Current,"the lead isn't on his feet on the shelf");
+            Assert.Less(Flat(Lead.transform.position,partner.transform.position),3,"D406: she wasn't set down beside him on the shelf");
+            Put(Lead,Launch+Vector3.right*1.2f);Put(partner,Foot);yield return null;
+            yield return Watched(berth.launch,"launching off the shelf",(least,worst)=>{if(least<-.05f)faults.Add($"launching off the shelf: {worst}, drawn {-least:0.00} m through each other");});
+            Assert.IsFalse(Berth.Docked,"the launch left the party on the shelf");
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+        [UnityTest] public IEnumerator DownFromTheSpaceBesideAGroundZoneTheScreenClearsOnPeopleNotOnTwoHullsThroughEachOther()
+        {
+            yield return Load("Arena_Ground");
+            Vector3 pad=new(0,0,-10),launch=new(150,3,160),foot=new(2,0,-13),flightAt=new(150,3,140);
+            var berth=Berth.Declare("TestSpace","The test lane",ZoneKind.SpaceCombat,new Bounds(new Vector3(150,3,150),new Vector3(30,3,30)),pad,launch,foot,flightAt,"TestSpaceDoor",new Vector3(-3,0,-10));
+            yield return Frames(2);
+            Put(Lead,pad+Vector3.back*1.5f);yield return Press(berth.pad,"launching from the ground");Hold();
+            Assert.IsTrue(Berth.Docked,"the pad didn't put the party in the lane");
+            yield return new WaitForSecondsRealtime(1);
+            var partner=Partner;Put(Lead,launch+Vector3.back*3);Put(partner,launch+Vector3.back*3+Vector3.right*HeroCollision.Apart(Lead.character,partner.character));yield return null;
+            float seen=0;string what="";
+            yield return Watched(berth.launch,"docking back on the ground",(least,worst)=>{seen=least;what=worst;});
+            Assert.IsFalse(Berth.Docked,"the party wasn't put back on the ground");
+            Assert.GreaterOrEqual(seen,-.05f,$"docking back on the ground: {what}, drawn {-seen:0.00} m through each other");
+        }
     }
 }

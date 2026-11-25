@@ -215,9 +215,13 @@ namespace Lattice.EditorTools
             };
 
             // ---------------------------------------------------------------- what it is made of
-            internal sealed class Stuff{public Material works,worksDark,teal,cable,glow,cold,warm,lantern,scorch,mats,vapour;}
+            internal sealed class Stuff{public Material works,worksDark,teal,cable,glow,cold,warm,lantern,scorch,mats,vapour,poolWarm,poolCold,iron,keel,window;}
             static Color L(float r,float g,float b)=>new Color(r,g,b).linear;
-            static readonly Color White=L(.9f,.91f,.93f),Pale=L(.78f,.8f,.84f),Grey=L(.48f,.5f,.54f),Iron=L(.26f,.27f,.3f),Teal=L(.24f,.62f,.64f),Amber=L(.95f,.72f,.25f),Cyan=new(.55f,.95f,1f),Warm=new(1f,.8f,.48f);
+            // Warm and Cyan are the lenses of every lamp the zone lights (the glow material times 1.4): saturated, so a lens under the bloom is its colour and not a white solid. The
+            // capture's (1, .8, .48) and (.55, .95, 1) clipped in two channels and every lamp in the anchorage drew a flat white cube (nov23-whole s64/016's hexagons, D390).
+            static readonly Color White=L(.9f,.91f,.93f),Pale=L(.78f,.8f,.84f),Grey=L(.48f,.5f,.54f),Iron=L(.26f,.27f,.3f),Teal=L(.24f,.62f,.64f),Amber=L(.95f,.72f,.25f),Cyan=new(.08f,.48f,.7f),Warm=new(.95f,.45f,.12f);
+            /// <summary>The glow material's gain on a lens (<c>mooring-glow</c>'s <c>_GlowParams.x</c>): the tests read a lens's colour through it.</summary>
+            internal const float LensGain=1.4f;
             static Stuff Materials(ZoneKit kit)
             {
                 var s=new Stuff();
@@ -229,12 +233,17 @@ namespace Lattice.EditorTools
                 s.teal=ZoneKit.Tinted(ZoneKit.Toon("mooring-trim",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.42f);}));
                 s.cable=ZoneKit.Tinted(ZoneKit.Toon("mooring-cable",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",3);m.SetFloat("_LightFloor",.36f);}));
                 // Lamps: unlit, coloured in their vertices, bright enough to bloom (the ring's glow).
-                s.glow=ZoneKit.Toon("mooring-glow",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.4f,0,0,0));});
+                s.glow=ZoneKit.Toon("mooring-glow",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(LensGain,0,0,0));});
                 // The falloff in the alpha (D344): with it in the colour, URP's particle shader mixed the fog's colour into a quad's corners and added it, a square in any far or wide view.
                 var soft=ZoneKit.Texture("Mooring/soft-glow",128,(u,v)=>{float d=Vector2.Distance(new Vector2(u,v),new Vector2(.5f,.5f))*2;float a=Mathf.Pow(Mathf.Clamp01(1-d),2.2f);return new Color(1,1,1,a);},false,true);
                 Material Soft(string asset,Color colour){var m=kit.Glow(asset,false,colour);m.SetTexture("_BaseMap",soft);return m;}
                 s.cold=Soft("Pylon glow",new Color(.5f,1.2f,1.4f,1));s.warm=Soft("Window glow",new Color(1.4f,1.05f,.6f,1));s.lantern=Soft("Lantern glow",new Color(1.6f,1.1f,.55f,1));
                 s.vapour=Soft("Vapour",new Color(.85f,.9f,1f,1));
+                // A lamp's pool on what it stands on: its own colour at under half, so the middle of a pool is lit plate and not a white spot.
+                s.poolWarm=Soft("Lamp pool warm",new Color(1f,.56f,.22f,.42f));s.poolCold=Soft("Lamp pool cold",new Color(.2f,.72f,.95f,.38f));
+                // The Continuance's own iron, keel plate and lit windows (D373), for the works under the anchorage: the same Compact built both.
+                Material Theirs(string name,Material fallback){var m=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/"+name+".mat");if(m==null)Debug.LogWarning("MOORING_MATERIAL_MISSING "+name);return m??fallback;}
+                s.iron=Theirs("continuance-iron",s.worksDark);s.keel=Theirs("continuance-keel",s.works);s.window=Theirs("continuance-window",s.glow);
                 s.scorch=ZoneKit.Tinted(ZoneKit.Toon("mooring-scorch",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",2);m.SetFloat("_LightFloor",.1f);}));
                 // Driftreed's air-mats: reeds woven over and under, rough side out, in the weavers' green and straw.
                 var weave=ZoneKit.Texture("Mooring/reed-mat",128,(u,v)=>{float over=Mathf.Repeat(Mathf.Floor(u*16)+Mathf.Floor(v*16),2);float reed=over<1?.5f+.5f*Mathf.Abs(Mathf.Sin(v*16*Mathf.PI)):.5f+.5f*Mathf.Abs(Mathf.Sin(u*16*Mathf.PI));
@@ -378,66 +387,174 @@ namespace Lattice.EditorTools
             }
 
             // ---------------------------------------------------------------- the anchor works, far down
-            /// <summary>The floor of every frame: the Compact's anchor works about 135 m under the plane, dark plates on a 44 m grid at three levels, wells left open between them onto space,
-            /// girders along the grid, machine houses on the plates and their cold lamps, fogged toward the haze. Drawn only. The first build's were white at 105 m and every frame was a lit
-            /// white grid that drowned the convoy over it: the works are the night under the convoy, not its subject.</summary>
+            /// <summary>What is under every frame: the gulf the anchorage is moored over, and what holds it. Under every chain line a deep truss runs across the gulf from anchor head to
+            /// anchor head, each at a depth of its own (a beat a run is flown over, one a hundred metres); along each outer chain a keel truss ties the pylons' feet; under every head an
+            /// anchor shank goes on down into the dark; a works deck hangs under a truss here and there with its machinery (a hall with its rooms lit, tanks, a crane); cables sag from
+            /// truss to truss; far down in the gulf the deep anchors' lamps. Every lamp is a lens in an iron housing with its pool of light on what it stands on. Drawn only.
+            /// The first builds' were a floor (D390, nov23-whole s64/016, s65/056 and 064): plates on a 44 m grid, girders ruled on its lines, boxes on the plates and a glowing cube for
+            /// every lamp, a navy grid of boxes and bars lit by white cubes. Nothing here comes within 120 m of the plane.</summary>
             static void Works(ZoneKit kit,Stuff stuff)
             {
-                var s=new ZoneKit.Shape();var rng=new System.Random(1046);const float Cell=44,Gap=4;int plates=0;
-                for(float x=-176;x<176;x+=Cell)for(float z=-70;z<800;z+=Cell)
+                var root=new GameObject("The anchor works");root.isStatic=true;
+                // Slots: 0 iron (the trusses, housings, machinery), 1 the keel's plate (decks, halls), 2 lenses, 3 lit rooms.
+                var s=new ZoneKit.Shape();var rng=new System.Random(1046);var pools=new List<(Vector3 at,float size,bool warm)>();
+                float R(float a,float b)=>a+(float)rng.NextDouble()*(b-a);
+                int trusses=0,decks=0,cables=0;
+                // ---- across the gulf under each chain line (and the south chain, the gate's line, the north chain): its depth its own, out past the outer chains to an anchor head.
+                var cross=new List<(float z,float top,float half)>();
+                foreach(float z in new[]{SouthZ}.Concat(Lines.Select(l=>l.z)).Concat(new[]{GateZ,NorthZ}))cross.Add((z,WorksY+R(-14,10),(z>GateZ-1?BeyondX:OuterX)+R(52,70)));
+                foreach(var (z,top,half) in cross)
                 {
-                    float cx=x+Cell*.5f,cz=z+Cell*.5f,roll=(float)rng.NextDouble(),tier=WorksY-(roll<.45f?0:roll<.8f?7:14);int seed=rng.Next();
-                    if(roll>.72f)continue;
-                    plates++;var r=new System.Random(seed);
-                    s.Slot(1).Box(new Vector3(cx,tier-1.2f,cz),new Vector3(Cell-Gap,2.4f,Cell-Gap),Quaternion.identity,Iron,Grey,.12f);
-                    // A teal seam across it and its edge picked out, so a plate reads as a deck from 150 m.
-                    s.Slot(1).Box(new Vector3(cx,tier+.03f,cz),new Vector3(Cell-Gap-3,.08f,.9f),Quaternion.identity,Teal);
-                    s.Slot(1).Box(new Vector3(cx,tier+.03f,cz),new Vector3(.9f,.08f,Cell-Gap-3),Quaternion.identity,Teal);
-                    // What stands on a plate is a works' machinery (the look pass of November 21: boxes with a lamp on top and a strip on the side read as navy boxes with white dots and
-                    // dashes, s64/014 and 019): a hall with its roof's ridge and a row of lit windows on its camera's side and a stack with a beacon, a farm of tanks banded in teal with a
-                    // lit rim, or a crane's gantry over the plate; pipes run between them; the plate's south edge is lit as a yard's is.
-                    int houses=1+r.Next(4);var feet=new List<Vector3>();
-                    for(int k=0;k<houses;k++)
-                    {
-                        var size=new Vector3(5+(float)r.NextDouble()*12,3+(float)r.NextDouble()*9,5+(float)r.NextDouble()*12);
-                        var at=new Vector3(cx+((float)r.NextDouble()-.5f)*(Cell-Gap-size.x),tier+size.y*.5f,cz+((float)r.NextDouble()-.5f)*(Cell-Gap-size.z));
-                        int kind=(seed+k)%3;feet.Add(new Vector3(at.x,tier,at.z));
-                        if(kind==0)
-                        {
-                            s.Slot(1).Box(at,size,Quaternion.identity,k%2==0?Grey:Iron,Pale,.25f);
-                            s.Slot(1).Box(at+new Vector3(0,size.y*.5f+.5f,0),new Vector3(size.x*.92f,1,size.z*.4f),Quaternion.identity,Iron,Grey,.25f);
-                            for(float wx=-size.x*.5f+1;wx<size.x*.5f-.8f;wx+=1.6f)s.Slot(2).Box(at+new Vector3(wx,size.y*.15f,-size.z*.5f-.05f),new Vector3(.8f,.6f,.1f),Quaternion.identity,(int)(wx*3+seed)%4==0?Cyan:Warm);
-                            var stack=at+new Vector3(size.x*.3f,size.y*.5f,size.z*.2f);s.Slot(1).Tube(new[]{stack,stack+Vector3.up*6},new[]{.6f,.45f},8,Iron,Grey,1,.2f);s.Slot(2).Box(stack+Vector3.up*6.3f,new Vector3(.7f,.5f,.7f),Quaternion.identity,Warm);
-                        }
-                        else if(kind==1)
-                        {
-                            float tall=size.y*1.2f;int tanks=2+r.Next(3);
-                            for(int j=0;j<tanks;j++)
-                            {
-                                var foot=new Vector3(at.x-size.x*.35f+j*size.x*.7f/Mathf.Max(1,tanks-1),tier,at.z+(j%2)*2-1);float rad=2+(float)r.NextDouble()*1.4f;
-                                s.Slot(1).Tube(new[]{foot,foot+Vector3.up*tall},new[]{rad,rad},14,Grey,Pale,1,.2f);
-                                s.Slot(1).Tube(new[]{foot+Vector3.up*tall*.55f,foot+Vector3.up*(tall*.55f+.8f)},new[]{rad+.1f,rad+.1f},14,Teal,Teal,1,.2f);
-                                s.Slot(2).Disc(foot+Vector3.up*(tall+.05f),Vector3.up,rad*.9f,14,Cyan,rad*.72f);
-                            }
-                        }
-                        else
-                        {
-                            float span=size.x+4,high=size.y+4;var a0=at+new Vector3(-span*.5f,-size.y*.5f,0);var a1=at+new Vector3(span*.5f,-size.y*.5f,0);
-                            foreach(var leg in new[]{a0,a1})s.Slot(1).Box(leg+Vector3.up*high*.5f,new Vector3(1,high,1.4f),Quaternion.identity,Iron,Grey,.25f);
-                            s.Slot(1).Box(at+new Vector3(0,-size.y*.5f+high,0),new Vector3(span+1,1.2f,1.8f),Quaternion.identity,Grey,Pale,.25f);
-                            s.Slot(1).Box(at+new Vector3(span*.15f,-size.y*.5f+high-1.4f,0),new Vector3(2,1.6f,2.2f),Quaternion.identity,Iron,Grey,.25f);
-                            s.Slot(2).Box(at+new Vector3(-span*.5f,-size.y*.5f+high+.8f,0),new Vector3(.6f,.5f,.6f),Quaternion.identity,Warm);s.Slot(2).Box(at+new Vector3(span*.5f,-size.y*.5f+high+.8f,0),new Vector3(.6f,.5f,.6f),Quaternion.identity,Warm);
-                        }
-                    }
-                    for(int k=1;k<feet.Count;k++)s.Slot(1).Beam(feet[k-1]+Vector3.up*1.2f,feet[k]+Vector3.up*1.2f,.9f,.9f,Iron,Grey);
-                    for(float ex=cx-(Cell-Gap)*.5f+2;ex<cx+(Cell-Gap)*.5f-1;ex+=6)s.Slot(2).Box(new Vector3(ex,tier+.15f,cz-(Cell-Gap)*.5f+.4f),new Vector3(.5f,.3f,.5f),Quaternion.identity,Warm);
+                    Truss(s,pools,new Vector3(-half,top,z),new Vector3(half,top,z),7,5.5f,8,3,trusses%2==0);trusses++;
+                    foreach(int side in new[]{-1,1})Anchor(s,pools,new Vector3(side*half,top,z),R(50,80));
                 }
-                // Girders every other grid line, dark: pale, on every line, they ruled every frame like squared paper.
-                for(float x=-176;x<=176;x+=Cell*2)s.Slot(1).Beam(new Vector3(x,WorksY+1.4f,-70),new Vector3(x,WorksY+1.4f,800),2.2f,2.2f,Grey);
-                for(float z=-70;z<=800;z+=Cell*2)s.Slot(1).Beam(new Vector3(-176,WorksY+1.4f,z),new Vector3(176,WorksY+1.4f,z),2.2f,2.2f,Grey);
-                var built=kit.Built("The anchor works",s,stuff.works,stuff.worksDark,stuff.glow);built.isStatic=true;
+                // ---- the keel trusses along the outer chains, from the south chain to the gate, and beyond the gate along the narrower way; under each deep pylon's drum an anchor.
+                foreach(int side in new[]{-1,1})
+                {
+                    Truss(s,pools,new Vector3(side*OuterX,WorksY-2,SouthZ),new Vector3(side*OuterX,WorksY-2,GateZ),6,4.5f,9,4,side<0);
+                    Truss(s,pools,new Vector3(side*BeyondX,WorksY-2,GateZ),new Vector3(side*BeyondX,WorksY-2,NorthZ),6,4.5f,9,4,side>0);trusses+=2;
+                }
+                foreach(var (p,deep) in Pylons())if(deep)Anchor(s,null,new Vector3(p.x,WorksY-1,p.y),R(40,64));
+                // ---- a works deck hung under a truss, one under most chain lines, off the lane's middle: a plated deck with its coaming, four hangers, its machinery, its lamps.
+                foreach(var (z,top,half) in cross)
+                {
+                    if(rng.NextDouble()<.25)continue;
+                    var at=new Vector3(R(-46,46),top-5.5f-R(7,12),z+R(-3,3));var size=new Vector3(R(18,28),1.4f,R(12,17));
+                    Deck(s,pools,rng,at,size,top-5.5f);decks++;
+                }
+                // ---- cables from truss to truss, sagging into the gulf, on lines of their own across the anchorage (never the grid's).
+                for(int k=0;k+1<cross.Count;k++)foreach(float x in new[]{R(-52,-30),R(-14,8),R(26,48)})
+                {
+                    var a=new Vector3(x,cross[k].top-5.5f,cross[k].z);var b=new Vector3(x+R(-10,10),cross[k+1].top-5.5f,cross[k+1].z);
+                    float sag=R(20,36);s.Slot(0).Rope(a,b,sag,.42f,Iron,6,16);cables++;
+                    // One cable in three carries a run of small lamps hung under it: the works' night shift's way along.
+                    if(cables%3==1)for(float t=.2f;t<.85f;t+=.16f)Fitting(s,null,Sag(a,b,sag,t)+Vector3.down*1.2f,cables%2==0,1.3f,0);
+                }
+                // ---- far down: the deep anchors' lamps, a scatter of soft pools 220 to 320 m under the plane, warm and cold, in no grid.
+                for(int k=0;k<70;k++)pools.Add((new Vector3(R(-170,170),R(-320,-220),R(-80,820)),R(10,26),rng.NextDouble()<.45));
+                var built=kit.Built("The anchor works, drawn",s,stuff.iron,stuff.keel,stuff.glow,stuff.window);built.transform.SetParent(root.transform,true);built.isStatic=true;
                 built.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-                Debug.Log("MOORING_WORKS plates="+plates);
+                Pools(kit,"The anchor works' lamps",pools,stuff,root.transform);
+                Debug.Log("MOORING_WORKS trusses="+trusses+" decks="+decks+" cables="+cables+" lamps="+pools.Count);
+            }
+            /// <summary>Where along a sagging cable a point is (as <see cref="ZoneKit.Shape.Rope"/> hangs one: a parabola under the straight line).</summary>
+            static Vector3 Sag(Vector3 a,Vector3 b,float sag,float t)=>Vector3.Lerp(a,b,t)+Vector3.down*(sag*4*t*(1-t));
+            /// <summary>A box truss from <paramref name="a"/> to <paramref name="b"/> (its top's middle on the line), <paramref name="wide"/> across and <paramref name="deep"/> down: four
+            /// chords, a frame at every bay with a diagonal in each face, a teal band round it every fourth bay, and on its top every <paramref name="lampEvery"/> bays a lamp.</summary>
+            static void Truss(ZoneKit.Shape s,List<(Vector3 at,float size,bool warm)> pools,Vector3 a,Vector3 b,float wide,float deep,float bay,int lampEvery,bool warm)
+            {
+                var run=b-a;float length=run.magnitude;var dir=run/length;var side=Vector3.Cross(Vector3.up,dir).normalized;int bays=Mathf.Max(1,Mathf.RoundToInt(length/bay));
+                Vector3 P(float t,int i,int j)=>a+dir*(length*t)+side*(i==0?-wide*.5f:wide*.5f)+Vector3.down*(j==0?0:deep);
+                // Dark iron, the top chords' faces a step paler: the trusses are the night under the convoy, not its subject (the first render's pale chords read as scaffolding at the plane).
+                for(int i=0;i<2;i++)for(int j=0;j<2;j++)s.Slot(0).Beam(P(0,i,j),P(1,i,j),1.1f,1.1f,Iron,j==0?Grey:Iron,.25f);
+                for(int k=0;k<=bays;k++)
+                {
+                    float t=k/(float)bays,u=(k+1)/(float)bays;
+                    s.Slot(0).Beam(P(t,0,0),P(t,1,0),.6f,.6f,Iron,Grey,.25f);s.Slot(0).Beam(P(t,0,1),P(t,1,1),.6f,.6f,Iron,Iron,.25f);
+                    s.Slot(0).Beam(P(t,0,0),P(t,0,1),.6f,.6f,Iron,Iron,.25f);s.Slot(0).Beam(P(t,1,0),P(t,1,1),.6f,.6f,Iron,Iron,.25f);
+                    if(k<bays)
+                    {
+                        s.Slot(0).Beam(P(t,0,0),P(u,0,1),.42f,.42f,Iron,Iron,.25f);s.Slot(0).Beam(P(t,1,1),P(u,1,0),.42f,.42f,Iron,Iron,.25f);
+                        s.Slot(0).Beam(P(t,0,0),P(u,1,0),.36f,.36f,Iron,Grey,.25f);
+                    }
+                    if(k%4==2)foreach(int i in new[]{0,1})foreach(int j in new[]{0,1})s.Slot(0).Box(P(t,i,j),new Vector3(1.5f,1.5f,1.5f),Quaternion.LookRotation(dir),Teal,Teal,.25f);
+                    if(lampEvery>0&&k%lampEvery==lampEvery/2)Fitting(s,pools,(P(t,0,0)+P(t,1,0))*.5f+Vector3.up*.55f,warm,2.2f,9);
+                }
+            }
+            /// <summary>An anchor head where a truss ends or a pylon stands: a ringed drum, and under it the anchor's shank tapering on down into the gulf with teal bands, its foot lost in
+            /// the haze. With <paramref name="pools"/>, a lamp on the drum.</summary>
+            static void Anchor(ZoneKit.Shape s,List<(Vector3 at,float size,bool warm)> pools,Vector3 head,float down)
+            {
+                s.Slot(0).Tube(new[]{head+Vector3.down*7,head+Vector3.up*1.5f},new[]{8.5f,7.5f},18,Iron,Grey,1,.15f);
+                s.Slot(0).Tube(new[]{head+Vector3.up*1.2f,head+Vector3.up*2.1f},new[]{8.8f,8.8f},18,Teal,Teal,1,.2f);
+                s.Slot(0).Tube(new[]{head+Vector3.down*7,head+Vector3.down*(7+down)},new[]{4.2f,1.4f},12,Iron,Iron,1,.12f);
+                for(float d=14;d<down;d+=17)s.Slot(0).Tube(new[]{head+Vector3.down*(7+d),head+Vector3.down*(8.4f+d)},new[]{4.4f-2.9f*d/down,4.4f-2.9f*d/down},12,Teal,Teal,1,.2f);
+                if(pools!=null)Fitting(s,pools,head+Vector3.up*2.1f+Vector3.right*5.2f,true,2.6f,12);
+            }
+            /// <summary>A works deck hung from the truss over it (its underside at <paramref name="truss"/>): the keel's plate with an iron coaming and four hangers, and on it a hall with
+            /// its rooms lit along its camera's side and a stack, a pair of banded tanks under iron caps, or a crane's gantry; a lamp at each corner of its south edge.</summary>
+            static void Deck(ZoneKit.Shape s,List<(Vector3 at,float size,bool warm)> pools,System.Random rng,Vector3 at,Vector3 size,float truss)
+            {
+                float R(float a,float b)=>a+(float)rng.NextDouble()*(b-a);float hx=size.x*.5f,hz=size.z*.5f,top=at.y+size.y*.5f;
+                s.Slot(1).Box(at,size,Quaternion.identity,Grey,Pale,.12f);
+                foreach(int sz in new[]{-1,1})s.Slot(0).Box(at+new Vector3(0,size.y*.5f+.3f,sz*(hz-.3f)),new Vector3(size.x,.6f,.6f),Quaternion.identity,Iron,Grey,.25f);
+                foreach(int sx in new[]{-1,1})s.Slot(0).Box(at+new Vector3(sx*(hx-.3f),size.y*.5f+.3f,0),new Vector3(.6f,.6f,size.z),Quaternion.identity,Iron,Grey,.25f);
+                foreach(int sx in new[]{-1,1})foreach(int sz in new[]{-1,1})s.Slot(0).Beam(at+new Vector3(sx*(hx-1.5f),top,sz*(hz-1.5f)),new Vector3(at.x+sx*2.6f,truss,at.z+sz*2.6f),.4f,.4f,Iron,Iron,.25f);
+                int kind=rng.Next(3);
+                if(kind==0)
+                {
+                    // A hall: plated walls under an iron roof with its ridge, its rooms lit in a row of framed windows on the south face, a stack with a lamp on it.
+                    var hall=new Vector3(R(8,size.x-6),R(4,6),R(5,size.z-5));var c=new Vector3(at.x+R(-1,1),top+hall.y*.5f,at.z+R(-1,1));
+                    s.Slot(1).Box(c,hall,Quaternion.identity,Grey,Pale,.12f);
+                    s.Slot(0).Box(c+new Vector3(0,hall.y*.5f+.4f,0),new Vector3(hall.x+.6f,.8f,hall.z+.6f),Quaternion.identity,Iron,Grey,.25f);
+                    s.Slot(0).Box(c+new Vector3(0,hall.y*.5f+1.1f,0),new Vector3(hall.x*.9f,.6f,1.2f),Quaternion.identity,Iron,Grey,.25f);
+                    for(float wx=-hall.x*.5f+1.2f;wx<hall.x*.5f-1;wx+=2.2f)
+                    {
+                        var w=c+new Vector3(wx,hall.y*.08f,-hall.z*.5f-.08f);
+                        s.Slot(0).Box(w,new Vector3(1.5f,1.3f,.16f),Quaternion.identity,Iron,Iron,.25f);
+                        if(rng.NextDouble()<.62)s.Slot(3).Box(w+Vector3.back*.04f,new Vector3(1.1f,.9f,.12f),Quaternion.identity,Color.white);
+                    }
+                    var stack=c+new Vector3(hall.x*.3f,hall.y*.5f+.8f,hall.z*.15f);s.Slot(0).Tube(new[]{stack,stack+Vector3.up*7},new[]{.8f,.6f},10,Iron,Grey,1,.2f);
+                    s.Slot(0).Tube(new[]{stack+Vector3.up*5.2f,stack+Vector3.up*5.9f},new[]{.86f,.86f},10,Teal,Teal,1,.2f);
+                    Fitting(s,pools,stack+Vector3.up*7,true,1.6f,0);
+                }
+                else if(kind==1)
+                {
+                    // Tanks: two or three, banded in teal, each under an iron cap with a lamp on its rim.
+                    int tanks=2+rng.Next(2);
+                    for(int j=0;j<tanks;j++)
+                    {
+                        var foot=new Vector3(at.x-hx+3.5f+j*(size.x-7)/Mathf.Max(1,tanks-1),top,at.z+(j%2)*2.4f-1.2f);float rad=R(2.2f,3.2f),tall=R(6,9);
+                        s.Slot(1).Tube(new[]{foot,foot+Vector3.up*tall},new[]{rad,rad},16,Grey,Pale,1,.2f);
+                        s.Slot(0).Tube(new[]{foot+Vector3.up*tall*.55f,foot+Vector3.up*(tall*.55f+.9f)},new[]{rad+.12f,rad+.12f},16,Teal,Teal,1,.2f);
+                        s.Slot(0).Tube(new[]{foot+Vector3.up*tall,foot+Vector3.up*(tall+.9f)},new[]{rad+.1f,rad*.35f},16,Iron,Grey,1,.2f);
+                        if(j==0)Fitting(s,pools,foot+new Vector3(rad*.7f,tall+.1f,-rad*.4f),false,1.4f,6);
+                    }
+                }
+                else
+                {
+                    // A crane: two legs, its beam across the deck, its trolley and hook block on a cable.
+                    float span=size.x-3,high=R(8,11);
+                    foreach(int sx in new[]{-1,1})s.Slot(0).Box(new Vector3(at.x+sx*span*.5f,top+high*.5f,at.z),new Vector3(1.1f,high,1.6f),Quaternion.identity,Iron,Grey,.25f);
+                    s.Slot(0).Box(new Vector3(at.x,top+high,at.z),new Vector3(span+1.4f,1.3f,2f),Quaternion.identity,Grey,Pale,.25f);
+                    var trolley=new Vector3(at.x+R(-span*.3f,span*.3f),top+high-1.3f,at.z);s.Slot(0).Box(trolley,new Vector3(2.2f,1.4f,2.4f),Quaternion.identity,Iron,Grey,.25f);
+                    s.Slot(0).Beam(trolley+Vector3.down*.7f,trolley+Vector3.down*(high*.55f),.12f,.12f,Iron,Iron,.25f);
+                    s.Slot(0).Box(trolley+Vector3.down*(high*.55f+.5f),new Vector3(1,1,1),Quaternion.identity,Amber,Amber,.25f);
+                    foreach(int sx in new[]{-1,1})Fitting(s,pools,new Vector3(at.x+sx*span*.5f,top+high+.65f,at.z),sx<0,1.4f,0);
+                }
+                foreach(int sx in new[]{-1,1})Fitting(s,pools,at+new Vector3(sx*(hx-1.2f),size.y*.5f+.6f,-hz+1.2f),sx<0,1.6f,7);
+            }
+            /// <summary>A lamp: an iron foot, its lens (slot 2, the glow, its colour under the bloom), an iron hood over it; its pool of light on what it stands on
+            /// (<paramref name="pool"/> metres across; none at 0). <paramref name="scale"/> 1 is a lamp a person could carry.</summary>
+            static void Fitting(ZoneKit.Shape s,List<(Vector3 at,float size,bool warm)> pools,Vector3 foot,bool warm,float scale,float pool)
+            {
+                s.Slot(0).Box(foot+Vector3.up*.16f*scale,new Vector3(.62f,.32f,.62f)*scale,Quaternion.identity,Iron,Grey,.5f);
+                s.Slot(2).Box(foot+Vector3.up*.46f*scale,new Vector3(.34f,.28f,.34f)*scale,Quaternion.identity,warm?Warm:Cyan);
+                s.Slot(0).Box(foot+Vector3.up*.66f*scale,new Vector3(.56f,.1f,.56f)*scale,Quaternion.identity,Iron,Grey,.5f);
+                if(pool>0&&pools!=null)pools.Add((foot+Vector3.up*.08f,pool,warm));
+            }
+            /// <summary>Lamps' pools of light, laid flat where each stands: one mesh of soft quads for the warm and one for the cold (the falloff in the alpha, D344), under
+            /// <paramref name="parent"/>. Drawn only, no shadow.</summary>
+            static void Pools(ZoneKit kit,string name,List<(Vector3 at,float size,bool warm)> pools,Stuff stuff,Transform parent)
+            {
+                foreach(bool warm in new[]{true,false})
+                {
+                    var points=new List<Vector3>();var uv=new List<Vector2>();var tris=new List<int>();
+                    foreach(var (at,size,isWarm) in pools)
+                    {
+                        if(isWarm!=warm)continue;int i=points.Count;float h=size*.5f;
+                        points.Add(at+new Vector3(-h,0,-h));points.Add(at+new Vector3(-h,0,h));points.Add(at+new Vector3(h,0,h));points.Add(at+new Vector3(h,0,-h));
+                        uv.Add(new Vector2(0,0));uv.Add(new Vector2(0,1));uv.Add(new Vector2(1,1));uv.Add(new Vector2(1,0));tris.AddRange(new[]{i,i+1,i+2,i,i+2,i+3});
+                    }
+                    if(points.Count==0)continue;
+                    string called=name+(warm?", warm":", cold");
+                    var mesh=new Mesh{name=called,indexFormat=points.Count>65000?IndexFormat.UInt32:IndexFormat.UInt16};mesh.SetVertices(points);mesh.SetUVs(0,uv);
+                    mesh.SetColors(Enumerable.Repeat(Color.white,points.Count).ToList());mesh.SetTriangles(tris,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
+                    var saved=ZoneKit.SaveMesh(mesh,"Assets/_Project/Scenes/"+kit.zone+"-"+called.Replace(", ","-").Replace(' ','-').Replace("'","")+".asset");
+                    var go=new GameObject(called,typeof(MeshFilter),typeof(MeshRenderer));go.GetComponent<MeshFilter>().sharedMesh=saved;
+                    var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=warm?stuff.poolWarm:stuff.poolCold;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
+                    go.isStatic=true;go.transform.SetParent(parent,true);
+                }
             }
             /// <summary>Where the chains are held (<see cref="Pylons"/>): out of the works a white pylon with teal bands and a drum at its foot, or under a cut end a short drum; an anchor
             /// clamp's head gripping the chain at the plane and a cold lamp on it; solid at the plane. Returns how many.</summary>
@@ -458,7 +575,10 @@ namespace Lattice.EditorTools
                         s.Slot(1).Tube(new[]{new Vector3(p.x,WorksY-1,p.y),new Vector3(p.x,WorksY+5,p.y)},new[]{7f,6f},14,Grey,Pale,1,.15f);
                         s.Slot(0).Tube(new[]{new Vector3(p.x,Plane-3.4f,p.y),new Vector3(p.x,Plane+.5f,p.y)},new[]{PylonRadius,PylonRadius},10,White,White,1,.25f);
                         s.Slot(1).Tube(new[]{new Vector3(p.x,Plane-.2f,p.y),new Vector3(p.x,Plane+.45f,p.y)},new[]{PylonRadius+.18f,PylonRadius+.18f},10,Teal,Teal,1,.25f);
-                        s.Slot(2).Box(new Vector3(p.x,Plane+.75f,p.y),new Vector3(.8f,.5f,.8f),Quaternion.identity,Cyan);
+                        // Its lamp in a housing (D390: a lit cube was a white solid at every pylon's head).
+                        s.Slot(1).Tube(new[]{new Vector3(p.x,Plane+.45f,p.y),new Vector3(p.x,Plane+.72f,p.y)},new[]{.46f,.42f},10,Iron,Grey,1,.25f);
+                        s.Slot(2).Box(new Vector3(p.x,Plane+.86f,p.y),new Vector3(.38f,.28f,.38f),Quaternion.identity,Cyan);
+                        s.Slot(1).Box(new Vector3(p.x,Plane+1.05f,p.y),new Vector3(.66f,.1f,.66f),Quaternion.identity,Iron,Grey);
                         continue;
                     }
                     // A gap's edge (or an arena chain's cut end): the clamp head gripping the chain's end in dark iron, a teal band low on it and its rim lit cold, so the way through is
@@ -470,7 +590,9 @@ namespace Lattice.EditorTools
                     for(int k=0;k<8;k++){float a=k*45*Mathf.Deg2Rad;s.Slot(1).Box(c+new Vector3(Mathf.Sin(a)*(PylonRadius+.04f),Plane-.4f,Mathf.Cos(a)*(PylonRadius+.04f)),new Vector3(.36f,1.1f,.36f),Quaternion.Euler(0,k*45,0),L(.38f,.4f,.44f));}
                     s.Slot(1).Disc(c+Vector3.up*(Plane+.31f),Vector3.up,PylonRadius,24,L(.3f,.31f,.35f),0,null);
                     s.Slot(2).Disc(c+Vector3.up*(Plane+.34f),Vector3.up,PylonRadius-.14f,24,Cyan,PylonRadius-.52f);
-                    s.Slot(2).Box(c+Vector3.up*(Plane+.6f),new Vector3(.5f,.5f,.5f),Quaternion.identity,Cyan);
+                    s.Slot(1).Tube(new[]{c+Vector3.up*(Plane+.32f),c+Vector3.up*(Plane+.56f)},new[]{.4f,.36f},10,Iron,Grey,1,.25f);
+                    s.Slot(2).Box(c+Vector3.up*(Plane+.69f),new Vector3(.32f,.26f,.32f),Quaternion.identity,Cyan);
+                    s.Slot(1).Box(c+Vector3.up*(Plane+.87f),new Vector3(.56f,.09f,.56f),Quaternion.identity,Iron,Grey);
                     var solid=new GameObject("Pylon",typeof(BoxCollider));solid.isStatic=true;solid.transform.SetParent(root.transform,true);solid.transform.position=new Vector3(p.x,Plane,p.y);
                     solid.GetComponent<BoxCollider>().size=new Vector3(PylonRadius*2,12,PylonRadius*2);n++;
                 }
@@ -483,7 +605,7 @@ namespace Lattice.EditorTools
             /// along the top of each run the Wick-folk's count in warm lamps, two short and one long (Pell: "Two short, one long, at every turn"). Returns the pieces laid.</summary>
             static int Chains(ZoneKit kit,Stuff stuff)
             {
-                var root=new GameObject("Stillwater's chains");var beads=new ZoneKit.Shape();int pieces=0;
+                var root=new GameObject("Stillwater's chains");var beads=new ZoneKit.Shape();var saddles=new ZoneKit.Shape();int pieces=0;
                 var prefab=ZoneKit.Prefab("Environment","AnchorChain");float native=30,thick=2.4f;bool alongX=false;
                 if(prefab!=null)
                 {
@@ -517,8 +639,11 @@ namespace Lattice.EditorTools
                         var at=new Vector3(a.x,Plane+ChainOver+.15f,a.y)+dir*d;
                         beads.Box(at,new Vector3(.45f,.3f,.45f),Quaternion.Euler(0,yaw,0),Warm);beads.Box(at+dir*1.3f,new Vector3(.45f,.3f,.45f),Quaternion.Euler(0,yaw,0),Warm);
                         beads.Box(at+dir*3.4f,new Vector3(.45f,.3f,1.8f),Quaternion.Euler(0,yaw,0),Warm);
+                        // Each lamp of the count sits in an iron saddle on the link under it (D390: lit blocks laid on the chain).
+                        foreach(var (off,len) in new[]{(0f,.7f),(1.3f,.7f),(3.4f,2.1f)})saddles.Box(at+dir*off+Vector3.down*.17f,new Vector3(.72f,.12f,len),Quaternion.Euler(0,yaw,0),Iron,Grey);
                     }
                 }
+                var held=kit.Built("The count's saddles",saddles,stuff.iron);held.transform.SetParent(root.transform,true);held.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 if(!fallback.Empty){var drawn=kit.Built("Stillwater's chains, drawn",fallback,stuff.cable);drawn.transform.SetParent(root.transform,true);}
                 var lit=kit.Built("The Wick-folk's count",beads,stuff.glow);lit.transform.SetParent(root.transform,true);lit.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 return pieces;
@@ -574,16 +699,33 @@ namespace Lattice.EditorTools
                 if(barge!=null)queue.Add((barge,5,36,Through(barge)));if(raft1!=null)queue.Add((raft1,8,38,Through(raft1)));if(raft2!=null)queue.Add((raft2,10,38,Through(raft2)));
                 // What goes through is cast off already (no line to the chain) and carries no light of the convoy's static ones: they would stay behind it.
                 foreach(var q in queue)moored.Remove(q.Item1);
-                // Running lights on every hull: warm at the bow, cold at the stern.
-                var lights=new ZoneKit.Shape();var rng=new System.Random(77);
+                // ---- the deep convoy: the heavy hulls ride lower, 30 to 45 m under the plane between the arenas' hulls and the works, so the gulf has hulls in it at every depth.
+                // Nothing deeper than the carrier's top within the Tollkeeper's arena: they stop south of chain D.
+                H("Hauler",-30,46,-34,35,3f);H("RingSegmentB",30,124,-40,-25,2.6f);H("SeedBarge",-36,206,-36,100,2.4f);H("Hauler",34,232,-44,-120,3f);
+                H("RingSegmentA",-26,318,-38,15,2.6f);H("SeedBarge",30,368,-32,80,2.4f);
+                // Running lights on every hull (D390): each a lamp standing on the hull's own spine (found by casting down onto its mesh), warm at the bow, cold amidships and astern, in
+                // an iron housing with its pool on the plate. The capture's were cubes floating at the top of each hull's box and bigger the bigger the hull, every one drawn white
+                // (s64/016: the hexagons on the hauler and the white block in the lane).
+                var lights=new ZoneKit.Shape();var pools=new List<(Vector3 at,float size,bool warm)>();int lamps=0;
                 foreach(var hull in moored)
                 {
-                    if(hull.name.StartsWith("District"))continue;var box=ZoneKit.Drawn(hull);
-                    for(int j=0;j<3;j++){var p=new Vector3(box.center.x+((float)rng.NextDouble()-.5f)*box.size.x*.8f,box.max.y+.2f,box.center.z+((float)rng.NextDouble()-.5f)*box.size.z*.8f);
-                        lights.Box(p,Vector3.one*(.5f+Mathf.Min(box.size.x,box.size.z)*.02f),Quaternion.identity,j==0?Warm:Cyan);}
+                    if(hull==null||hull.name.StartsWith("District"))continue;var box=ZoneKit.Drawn(hull);
+                    var probes=new List<MeshCollider>();
+                    foreach(var f in hull.GetComponentsInChildren<MeshFilter>())if(f.sharedMesh!=null&&f.GetComponent<Renderer>()!=null){var c=f.gameObject.AddComponent<MeshCollider>();c.sharedMesh=f.sharedMesh;probes.Add(c);}
+                    Physics.SyncTransforms();
+                    bool alongX=box.size.x>=box.size.z;float length=alongX?box.size.x:box.size.z;float scale=Mathf.Clamp(length/24,.8f,1.8f);
+                    foreach(var (t,warm) in new[]{(.36f,true),(0f,false),(-.36f,false)})
+                    {
+                        var over=box.center+(alongX?Vector3.right:Vector3.forward)*(t*length);over.y=box.max.y+4;
+                        var hit=Physics.RaycastAll(over,Vector3.down,box.size.y+8,~0,QueryTriggerInteraction.Collide).Where(h=>probes.Contains(h.collider as MeshCollider)).OrderBy(h=>h.distance).FirstOrDefault();
+                        if(hit.collider==null)continue;
+                        Fitting(lights,pools,hit.point,warm,scale,3.2f*scale);lamps++;
+                    }
+                    foreach(var c in probes)UnityEngine.Object.DestroyImmediate(c);
                 }
-                var lit=kit.Built("The convoy's running lights",lights,stuff.glow);lit.transform.SetParent(root.transform,true);lit.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-                Debug.Log("MOORING_CONVOY hulls="+moored.Count+" districts="+districts.Count+" queue="+queue.Count);
+                var lit=kit.Built("The convoy's running lights",lights,stuff.iron,stuff.iron,stuff.glow);lit.transform.SetParent(root.transform,true);lit.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                Pools(kit,"The convoy's running lights' pools",pools,stuff,root.transform);
+                Debug.Log("MOORING_CONVOY hulls="+moored.Count+" districts="+districts.Count+" queue="+queue.Count+" running-lights="+lamps);
                 return queue;
             }
             /// <summary>The ring's two segment kinds in turn along an arc.</summary>
@@ -639,7 +781,7 @@ namespace Lattice.EditorTools
                 s.Slot(0).Disc(at+Vector3.up*.08f,Vector3.up,3.4f,18,L(.08f,.07f,.07f),0,L(.2f,.16f,.14f));
                 for(int k=0;k<9;k++){float a=k*40+rng.Next(-12,12);var dir=Quaternion.Euler(0,a,0)*Vector3.forward;
                     s.Slot(0).Box(at+dir*(3+(float)rng.NextDouble())+Vector3.up*.4f,new Vector3(1.6f,.12f,1.1f),Quaternion.Euler(-35-rng.Next(30),a,rng.Next(-20,20)),L(.4f,.42f,.48f));}
-                s.Slot(1).Disc(at+Vector3.up*.12f,Vector3.up,1.8f,14,new Color(1f,.55f,.2f));
+                s.Slot(1).Disc(at+Vector3.up*.12f,Vector3.up,1.8f,14,new Color(1f,.45f,.12f));
                 var hole=kit.Built("The breach",s,stuff.scorch,stuff.glow);hole.transform.SetParent(breach.transform,true);
                 var fire=kit.Lamp(at+Vector3.up*2,16,3.2f,new Color(1f,.55f,.25f));fire.transform.SetParent(breach.transform,true);
                 var venting=new GameObject("The air going");venting.transform.SetParent(breach.transform,false);venting.transform.position=at;

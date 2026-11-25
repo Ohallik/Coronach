@@ -280,5 +280,71 @@ namespace Lattice.Tests.PlayMode
             Time.timeScale=1;yield return Zone("Gate");
             Assert.IsFalse(All<LeavesAlong>().Any(l=>l.flag=="bossdown.Tollkeeper"&&l.gameObject.activeInHierarchy),"a zone opened after the gate has the first hulls still waiting at chain D");
         }
+
+        // ------------------------------------------------------------------ the look (D390)
+        /// <summary>nov23-whole s64/016, s65/056 and 064: under the plane a navy grid of plain boxes and bars, and every lamp in the anchorage (the convoy's running lights, the pylons'
+        /// heads, the works') a flat white cube. Under the lanes is a gulf now, crossed by the anchorage's trusses (the capture's plates covered three fifths of the lanes' plan), and
+        /// every lens in the zone's glow is its own colour under the bloom (times the glow's gain, a second channel at .75 or over is drawn near white). Each predicate holds of the
+        /// capture's state first: the plate grid as the first builds laid it, and their two lamp colours.</summary>
+        [UnityTest] public IEnumerator UnderTheLanesIsAGulfAndEveryLampIsItsOwnColourNotAWhiteSolid()
+        {
+            yield return Zone();
+            const float Gain=1.4f,WorksY=-135;   // mooring-glow's _GlowParams.x, the works' top (LastMooringBuilder.Mooring.LensGain, WorksY)
+            // How much of the lanes' plan has something under it from 30 m to 230 m down.
+            float Covered(){int hit=0,all=0;for(float x=-54;x<=54;x+=6)for(float z=0;z<=460;z+=6){all++;if(Physics.Raycast(new Vector3(x,-30,z),Vector3.down,200,~0,QueryTriggerInteraction.Ignore))hit++;}return hit/(float)all;}
+            var grid=new GameObject("The capture's plate grid");var rng=new System.Random(1046);
+            for(float x=-176;x<176;x+=44)for(float z=-70;z<800;z+=44)
+            {
+                float roll=(float)rng.NextDouble(),tier=WorksY-(roll<.45f?0:roll<.8f?7:14);rng.Next();if(roll>.72f)continue;
+                var plate=new GameObject("Plate",typeof(BoxCollider));plate.transform.SetParent(grid.transform);plate.transform.position=new Vector3(x+22,tier-1.2f,z+22);plate.GetComponent<BoxCollider>().size=new Vector3(40,2.4f,40);
+            }
+            Physics.SyncTransforms();float then=Covered();Object.Destroy(grid);yield return null;Physics.SyncTransforms();
+            var works=All<MeshFilter>().FirstOrDefault(f=>f.name=="The anchor works, drawn");Assert.IsNotNull(works,"the anchorage has nothing under it");
+            var probe=works.gameObject.AddComponent<MeshCollider>();probe.sharedMesh=works.sharedMesh;Physics.SyncTransforms();float now=Covered();Object.Destroy(probe);
+            TestContext.WriteLine($"MOORING_GULF the lanes' plan covered: the capture's grid {then:0.00}, now {now:0.00}");
+            Assert.GreaterOrEqual(then,.45f,"fixture: the capture's plate grid covers the lanes' plan");
+            Assert.Less(now,.3f,$"the works cover {now:P0} of the lanes' plan: a floor under the anchorage, not a gulf");
+            Assert.Greater(now,.03f,"nothing of the works crosses under the lanes");
+            bool Pale(Color c){var v=new[]{c.r,c.g,c.b}.Select(x=>x*Gain).OrderByDescending(x=>x).ToArray();return v[1]>=.75f;}
+            Assert.IsTrue(Pale(new Color(1f,.8f,.48f))&&Pale(new Color(.55f,.95f,1f)),"fixture: the capture's lamps read as near white");
+            var pale=new List<string>();int lenses=0;
+            foreach(var r in All<MeshRenderer>())
+            {
+                var f=r.GetComponent<MeshFilter>();if(f==null||f.sharedMesh==null)continue;var mats=r.sharedMaterials;
+                for(int i=0;i<mats.Length&&i<f.sharedMesh.subMeshCount;i++)
+                {
+                    if(mats[i]==null||mats[i].name!="mooring-glow")continue;
+                    Assert.AreEqual(Gain,mats[i].GetVector("_GlowParams").x,.001f,"fixture: the glow's gain");
+                    var mesh=f.sharedMesh;Assert.IsTrue(mesh.isReadable,"fixture: "+r.name+"'s mesh can be read");var colours=mesh.colors;
+                    foreach(int v in mesh.GetTriangles(i).Distinct()){lenses++;if(Pale(colours[v]))pale.Add(r.name+" "+colours[v]);}
+                }
+            }
+            TestContext.WriteLine($"MOORING_LENSES points={lenses} pale={pale.Count}");
+            Assert.Greater(lenses,400,"fixture: the zone's lamps");
+            CollectionAssert.IsEmpty(pale.Distinct().Take(6),"a lamp in the anchorage is drawn near white under the bloom");
+        }
+
+        /// <summary>nov23-whole s65/056: flat lilac patches on the Tollkeeper's white hull. The intake's toon drew the carrier and its outriggers at full white and in the shader's default shade
+        /// (.55, .55, .68): under the zone's sun the lit plate clipped to one white, and every face turned from it and every bar of the cage's shadow across the carrier was one flat lilac.
+        /// Its plate is under the sun now (its linear white times the sun alone is short of one) and its shade a neutral slate. Both predicates hold of the intake's state first.</summary>
+        [UnityTest] public IEnumerator TheTollkeepersPlateIsWhiteInTheSunAndSlateInItsShadeNotLilac()
+        {
+            yield return Zone();
+            var sun=All<Light>().Where(l=>l.type==LightType.Directional&&l.enabled&&l.gameObject.activeInHierarchy).OrderByDescending(l=>l.intensity).First();
+            float strength=sun.intensity*sun.color.maxColorComponent;
+            bool Lilac(Color shade){Color.RGBToHSV(shade,out float h,out float s,out _);return h*360>=220&&h*360<=300&&s>=.15f;}
+            bool Clips(Color white)=>white.linear.maxColorComponent*strength>=1;   // a material colour is sRGB; the shader lights its linear value
+            Assert.IsTrue(Lilac(new Color(.55f,.55f,.68f))&&Clips(Color.white),$"fixture: the intake's plate and shade read as one white and lilac under this sun ({strength:0.00})");
+            var def=GameCatalog.Find<EnemyDef>("Tollkeeper");Assert.IsNotNull(def,"fixture: the Tollkeeper's definition");
+            foreach(var (what,body) in new[]{("the carrier",def.prefab),("its outrigger",def.bodySegment)})
+            {
+                Assert.IsNotNull(body,"fixture: "+what+"'s body");
+                var m=body.GetComponentsInChildren<Renderer>(true).Select(r=>r.sharedMaterial).First(x=>x!=null&&x.HasProperty("_ShadowTint"));
+                var shade=m.GetColor("_ShadowTint");var white=m.GetColor("_BaseColor");
+                TestContext.WriteLine($"TOLL_PLATE {what} {m.name} base={white} shade={shade} sun={strength:0.00}");
+                Assert.IsFalse(Lilac(shade),what+"'s shade "+shade+" is lilac: every face from the sun is a flat lilac patch");
+                Assert.IsFalse(Clips(white),what+"'s plate "+white+" clips to one white under a sun of "+strength.ToString("0.00"));
+            }
+        }
     }
 }

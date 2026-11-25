@@ -62,12 +62,17 @@ namespace Lattice.Tests.PlayMode
             if(actor.motor is FlightMotor ship){ship.Halt();ship.KeepFacing(Vector3.forward);}
             Physics.SyncTransforms();
         }
-        /// <summary>Puts a body at nought now, whatever holds its bar up (a plate, a held line, a shield).</summary>
+        /// <summary>Puts a body at nought now, whatever holds its bar up (a plate, a held line, a shield), with a hero's finishing blow as the routes end a fight: weighted, so the
+        /// impact layer answers it as it does in play (its flash, its stop). D385: unweighted, the killing blow lit nothing here, and the pale first frame the player showed
+        /// (nov23-whole s49/052, s36/071) could not be seen.</summary>
         static void Beat(EnemyBrain body,CombatActor by)
         {
             var health=body.Health;health.Damageable=true;health.InvulnerableUntil=0;health.ShieldUntil=0;health.Plate=null;health.Holds=null;
-            health.Receive(new DamagePacket{source=by.Health,amount=1e7f,type=DamageType.Kinetic});
+            health.Receive(new DamagePacket{source=by.Health,amount=1e7f,type=DamageType.Kinetic,weight=HitWeight.Finisher});
         }
+        /// <summary>Endings whose first frame is their own presentation's, not a body going dark: who yields hands over to the person, the freed Cantor swims out (CantorRelease), the
+        /// Burrower burns out to its wreck's tint frame by frame (QaFightThirdTests), and the Last Warden stands down unbeaten.</summary>
+        static bool OwnFirstFrame(string id)=>BossController.EndingOf(id) is BossController.Ending.Yields or BossController.Ending.Released||id=="Burrower"||id=="LastWarden";
         /// <summary>Its drawn body only, on a layer of its own: everything with a renderer under it, and a serpent's sections wherever they hang.</summary>
         static List<Renderer> Drawn(EnemyBrain boss)
         {
@@ -173,6 +178,79 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(1,inFight,"fixture: a net laid with a foe in reach lies its life out");
         }
 
+        /// <summary>D385: a net laid in the fight, round the boss, goes on the frame the fight ends. Dismissed over a quarter second, Sela's cyan ring stood round the dead Bellows at
+        /// full strength in the still the route took as the fight ended, the rewards already up (nov23-whole s08/092), and round the driven-off Hulljack (s29/034).</summary>
+        [UnityTest,Timeout(60000)] public IEnumerator ANetLaidInTheFightGoesOnTheFrameItEnds()
+        {
+            yield return Arena("BellowsBelow");
+            var lead=PartyController.Current.Active;Place(lead,LeadAt("BellowsBelow"));lead.Health.InvulnerableUntil=float.PositiveInfinity;
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("BellowsBelow"),BossAt("BellowsBelow"));boss.Passive=true;
+            yield return new WaitForSecondsRealtime(1.2f);
+            Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Bellows stands");
+            NetSeed.Land(BossAt("BellowsBelow"),new DamagePacket{source=lead.Health,amount=10,type=DamageType.Pulse});
+            yield return new WaitForSecondsRealtime(.6f);
+            Assert.AreEqual(1,Object.FindObjectsByType<PulseField>(FindObjectsSortMode.None).Length,"fixture: a net laid round a living boss lies");
+            Beat(boss,lead);
+            yield return null;
+            int left=Object.FindObjectsByType<PulseField>(FindObjectsSortMode.None).Length;
+            Assert.AreEqual(0,left,"the frame after the Bellows' bar emptied, the net laid in its fight still lay round it");
+        }
+
+        /// <summary>D385: on a beaten boss only its killing blow's number finishes its rise; any other hero's number on it goes with the end. The Bellows wore '616' and '438' over its
+        /// rewards (nov23-whole s08/092), the Host Marshal '1514' and '828!' (s36/071): the partner's number stood on beside the killing one.</summary>
+        [UnityTest,Timeout(60000)] public IEnumerator OnlyTheKillingBlowsNumberStaysOnABeatenBoss()
+        {
+            yield return Arena("BellowsBelow");
+            var lead=PartyController.Current.Active;var partner=PartyController.Current.members.First(m=>m!=lead);
+            Place(lead,LeadAt("BellowsBelow"));Place(partner,LeadAt("BellowsBelow")+new Vector3(3,0,0));
+            foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("BellowsBelow"),BossAt("BellowsBelow"));boss.Passive=true;
+            yield return new WaitForSecondsRealtime(1.2f);
+            Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Bellows stands");
+            boss.Health.ShieldUntil=0;
+            Assert.Greater(boss.Health.Receive(new DamagePacket{source=partner.Health,amount=300,type=DamageType.Kinetic,weight=HitWeight.Light}),0,"fixture: the partner's blow lands");
+            yield return null;
+            int living=Numbers();
+            Assert.AreEqual(1,living,"fixture: the partner's blow shows its number on the living boss");
+            Beat(boss,lead);
+            yield return null;yield return null;
+            int beaten=Numbers();
+            Assert.AreEqual(1,beaten,$"two frames after the Bellows' bar emptied, {beaten} numbers stood on it: only the killing blow's may finish its rise");
+        }
+        /// <summary>The damage numbers on the HUD now (GameHud's, each a text named Damage).</summary>
+        static int Numbers()=>Object.FindObjectsByType<TMPro.TMP_Text>(FindObjectsSortMode.None).Count(t=>t!=null&&t.name=="Damage"&&t.gameObject.activeInHierarchy&&t.alpha>0&&t.text!="");
+
+        /// <summary>D385: released, the Foundry Saint is powered down, arms and all: a second after its bar empties its six arms are down and darker than they stood in the fight.
+        /// Its arms are the room's, not under its root, and lay in full gold and cream through the loot lines and Orrin's call (nov23-whole s59/038, 043).</summary>
+        [UnityTest,Timeout(90000)] public IEnumerator TheReleasedSaintsArmsGoDarkWithIt()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            yield return Arena("FoundrySaint");
+            var lead=PartyController.Current.Active;Place(lead,LeadAt("FoundrySaint"));
+            foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("FoundrySaint"),BossAt("FoundrySaint"));boss.Passive=true;
+            boss.transform.rotation=Quaternion.LookRotation(LeadAt("FoundrySaint")-BossAt("FoundrySaint"));
+            yield return new WaitForSecondsRealtime(1.5f);
+            Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Saint stands");
+            var arms=SaintArm.All.Where(a=>a!=null&&(a.transform.position-boss.transform.position).magnitude<14).ToList();
+            Assert.AreEqual(BossController.SaintTune.Arms,arms.Count,"fixture: the Saint has its six arms");
+            List<Renderer> ArmsDrawn()=>arms.SelectMany(a=>a.GetComponentsInChildren<Renderer>(true)).Where(r=>!(r is LineRenderer)&&r.name!="Collar ring").ToList();
+            // Framed on where they will lie as well as where they stand: their box now and the press's reach round it.
+            var drawn=ArmsDrawn();foreach(var r in drawn)r.gameObject.layer=Layer;
+            var box=Box(drawn);box.Encapsulate(new Bounds(boss.transform.position,Vector3.one*18));var camera=Eye(box);
+            var before=Shot(camera);float lightBefore=Lightness(before,before[0]);
+            Beat(boss,lead);
+            float died=Time.unscaledTime;while(Time.unscaledTime-died<SaintArm.Tune.Falls+.6f)yield return null;
+            foreach(var r in ArmsDrawn())r.gameObject.layer=Layer;
+            var after=Shot(camera);float lightAfter=Lightness(after,before[0]);
+            Save(before,"saint-arms-0-before");Save(after,"saint-arms-1-after");Object.Destroy(camera.gameObject);
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"BOSS_DEATH_SAINT_ARMS light {lightBefore:0.00} standing -> {lightAfter:0.00} down; powered down {arms.Count(a=>a.PoweredDown)} of {arms.Count}";
+            TestContext.WriteLine(line);Debug.Log(line);
+            Assert.IsTrue(arms.All(a=>a.Resting),line+": its arms are not all down and still");
+            Assert.LessOrEqual(lightAfter,lightBefore*Darker,line+": released, its arms look as light as they did in the fight");
+        }
+
         /// <summary>A boss beaten shows it within a second, and from that moment nothing lands on it or its parts, no number spawns on it, and the lead's lock lets go. Shows it: one
         /// that is killed, shut down, driven off or freed has changed at least <see cref="Shows"/> of the pixels its body covered (and a tenth more than it changes alive in a second,
         /// for a body that hovers); one that yields is handed over to the person she is within <see cref="YieldsWithin"/> s (DefeatPresentation.Yielded).</summary>
@@ -204,13 +282,23 @@ namespace Lattice.Tests.PlayMode
             System.Action<Health,float,HitKind> number=(victim,amount,_)=>{if(victim==boss.Health||parts.Contains(victim))numbered.Add($"{victim.id} {amount:0}");};
             var ending=BossController.EndingOf(id);
             Beat(boss,lead);Assert.IsFalse(boss.Health.Alive,"fixture: "+id+" is at nought");
-            float died=Time.unscaledTime,handed=-1;string landed="";
+            float died=Time.unscaledTime,diedOnClock=Time.time,handed=-1;string landed="";
+            // D395: a body that stands down (the Last Warden: StandsDown, LowerTheStaff) plays its end on the game's clock, and a boss's end holds that clock for the kill's stop
+            // (Impact.Tune.BossKill, a quarter second) as play does: the Warden's own end is the fourth clamp's release, a boss kill by whoever opened it, held the same. Its second is
+            // counted on that clock, from where its end begins to move; a body that goes dark does so through the stop (BodyGoesDark) and is counted in real time. D385's weighted
+            // finisher measured the Warden .75 s into its 1.2 s bow (28 %, d385b) where the unweighted blow before it, which held nothing, measured a whole second (50 %, d385a).
+            bool onClock=false;System.Func<float> since=()=>onClock?Time.time-diedOnClock:Time.unscaledTime-died;
             System.Action<string,Vector3,Quaternion> yielded=(who,_,__)=>{if(who==id&&handed<0)handed=Time.unscaledTime-died;};DefeatPresentation.Yielded+=yielded;
             Health.DamageNumber+=number;
-            Color[] half=null,after=null;
+            Color[] half=null,after=null,onEnd=null;float flashFirst=-1;
             try
             {
-                while(Time.unscaledTime-died<1f)
+                // D385: the frame its end came on, as the game drew it (the still a route takes as the fight's step ends is this one): the killing blow's flash and whatever its end
+                // has written by then. The Slag Colossus was a pale chrome shell here and black half a second later (nov23-whole s49/052, 054).
+                yield return null;
+                if(boss!=null){foreach(var r in Drawn(boss))r.gameObject.layer=Layer;onEnd=Shot(camera);flashFirst=boss.TryGetComponent<HitFlash>(out var flash)?flash.Shown:-1;}
+                onClock=boss!=null&&boss.GetComponent<StandsDown>()!=null;
+                while(since()<1f&&Time.unscaledTime-died<3f)
                 {
                     yield return null;
                     // Blows keep coming as a player's would: on its body and on each of its parts.
@@ -220,17 +308,18 @@ namespace Lattice.Tests.PlayMode
                         if(took>0)landed+=$" {id} took {took:0};";
                         foreach(var part in parts)if(part!=null){float on=part.Receive(new DamagePacket{source=lead.Health,amount=500,type=DamageType.Kinetic});if(on>0)landed+=$" {part.id} took {on:0};";}
                     }
-                    if(half==null&&Time.unscaledTime-died>=.5f){if(boss!=null)foreach(var r in Drawn(boss))r.gameObject.layer=Layer;half=Shot(camera);}
+                    if(half==null&&since()>=.5f){if(boss!=null)foreach(var r in Drawn(boss))r.gameObject.layer=Layer;half=Shot(camera);}
                 }
                 if(boss!=null)foreach(var r in Drawn(boss))r.gameObject.layer=Layer;
                 after=Shot(camera);
             }
             finally{Health.DamageNumber-=number;}
             bool locked=lead.TargetLocked&&lead.target==(boss!=null?boss.Health:null);
-            var darkening=boss!=null?boss.GetComponent<BodyGoesDark>():null;
+            var darkening=boss!=null?boss.GetComponent<BodyGoesDark>():null;bool wentDark=darkening!=null;
             string dark=darkening!=null?$"{darkening.Painted} renderers at {darkening.Share:0.00}":"none";
             string shaders=boss!=null?string.Join("+",Drawn(boss).Where(r=>r!=null&&r.sharedMaterial!=null).Select(r=>r.sharedMaterial.shader.name).Distinct().Take(3)):"";
             float shown=Changed(before,after,out _),early=Changed(before,half,out _),lightBefore=Lightness(before,before[0]),lightAfter=Lightness(after,before[0]);
+            float lightFirst=onEnd!=null?Lightness(onEnd,before[0]):lightBefore;
             Save(before,id+"-0-before");Save(half,id+"-1-half");Save(after,id+"-2-second");
             // When it is gone: destroyed, or nothing of it drawn.
             string gone="stays";int first=covered;
@@ -243,7 +332,7 @@ namespace Lattice.Tests.PlayMode
             }
             Object.Destroy(camera.gameObject);DefeatPresentation.Yielded-=yielded;
             LogAssert.ignoreFailingMessages=false;
-            string line=$"BOSS_DEATH {id} ending={ending} living={living:0.00} half-second={early:0.00} second={shown:0.00} handed-over={(handed<0?"no":handed.ToString("0.00")+"s")} dark={dark} light={lightBefore:0.00}->{lightAfter:0.00} drawn-with={shaders} numbers={numbered.Count} landed={(landed==""?"none":landed)} lock={(locked?"held":"let go")} gone={gone}";
+            string line=$"BOSS_DEATH {id} ending={ending} clock={(onClock?"game":"real")} living={living:0.00} half-second={early:0.00} second={shown:0.00} handed-over={(handed<0?"no":handed.ToString("0.00")+"s")} dark={dark} light={lightBefore:0.00}->first frame {lightFirst:0.00} (flash {flashFirst:0.00})->{lightAfter:0.00} drawn-with={shaders} numbers={numbered.Count} landed={(landed==""?"none":landed)} lock={(locked?"held":"let go")} gone={gone}";
             TestContext.WriteLine(line);Debug.Log(line);
             var faults=new List<string>();
             // What is killed, shut down, driven off or freed shows it on its body within the second: it darkens, draws in, falls, turns away. Who yields gives up where she stands (Meret
@@ -251,10 +340,83 @@ namespace Lattice.Tests.PlayMode
             if(ending==BossController.Ending.Yields){if(handed<0||handed>YieldsWithin)faults.Add($"{line}: yielding, the person did not take over from the body within {YieldsWithin} s");}
             else if(shown<Shows||shown<living+.1f)faults.Add($"{line}: a second after its bar emptied, {shown:P0} of its body had changed (alive, {living:P0} changes in a second)");
             if(darkening!=null&&lightAfter>lightBefore*Darker)faults.Add($"{line}: going dark, a second after its bar emptied it looks {lightAfter/Mathf.Max(.001f,lightBefore):P0} as light as it did alive");
+            // D385: killed, shut down or driven off, it goes dark (the Host Marshal and Mother of Doors had none: s36/076 in full rust, s63/150 in full lilac), and the frame its
+            // end comes on is already darker than it lived (s49/052, s36/071, s29/034: pale).
+            if(!OwnFirstFrame(id))
+            {
+                if(!wentDark)faults.Add($"{line}: beaten ({ending}), its body doesn't go dark");
+                if(onEnd!=null&&lightFirst>=lightBefore)faults.Add($"{line}: the frame its end came on it looks {lightFirst/Mathf.Max(.001f,lightBefore):P0} as light as it did alive (its killing blow's flash {flashFirst:0.00})");
+            }
             if(landed!="")faults.Add(line+": blows still landed on it after its bar emptied:"+landed);
             if(numbered.Count>0)faults.Add(line+": damage numbers spawned on it after its bar emptied: "+string.Join(", ",numbered.Take(4)));
             if(locked)faults.Add(line+": the lead's lock still held it a second after its bar emptied");
             Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+
+        // ------------------------------------------------------------------ D407: a hero left inside a beaten boss is eased out of it
+        /// <summary>Bosses whose body stays where it ends, or reels there before it goes, in flight (the Warmaster's skiff, the Cutter, Meret's ship) and on foot.</summary>
+        static readonly string[] Staying={"DraskSkiff","DebrisCutter","MeretShip","SlagColossus","HostMarshal","Rotbloom","BellowsBelow","FoundrySaint","LastWarden","Hulljack"};
+        static IEnumerable<string> StayingBosses()=>Staying;
+        static float Apart(Vector3 a,Vector3 b){a.y=b.y=0;return Vector3.Distance(a,b);}
+        /// <summary>D407: after the Warmaster's skiff was beaten Taren's ship sat inside its darkened hull through the quest card and his own line (nov24-recon-h-52 s52/177 to
+        /// 183): he had lunged into it as it ended, and a boss's body is not thrown clear as a small one is (D386). Each boss here is beaten with the lead half a metre from its
+        /// middle on his side, as a charge through the party or his own lunge leaves him; a second on he stands clear of its capsule, at his own height or plane.</summary>
+        [UnityTest,Timeout(120000)] public IEnumerator ABeatenBossEasesAHeroLeftInsideItOutOfItWithinASecond([ValueSource(nameof(StayingBosses))] string id)
+        {
+            LogAssert.ignoreFailingMessages=true;// a boss away from its own zone may miss its room's fixtures
+            yield return Arena(id);bool flier=Fliers.Contains(id);
+            var lead=PartyController.Current.Active;Place(lead,LeadAt(id));
+            foreach(var member in PartyController.Current.members){if(member!=lead)Place(member,LeadAt(id)+new Vector3(-30,0,-10));member.Health.InvulnerableUntil=float.PositiveInfinity;}
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),BossAt(id));boss.Passive=true;
+            boss.transform.rotation=Quaternion.LookRotation(LeadAt(id)-BossAt(id));
+            yield return new WaitForSecondsRealtime(1.2f);
+            Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: "+id+" stands");
+            var capsule=boss.GetComponent<CharacterController>();var own=lead.GetComponent<CharacterController>();
+            var way=LeadAt(id)-BossAt(id);way.y=0;way.Normalize();
+            var inside=boss.transform.TransformPoint(capsule.center)+way*.5f;inside.y=lead.transform.position.y;
+            Place(lead,inside);float height=lead.transform.position.y,its=capsule.radius*boss.transform.lossyScale.x,clear=its+own.radius;
+            Beat(boss,lead);
+            yield return new WaitForSecondsRealtime(1f);
+            float apart=boss!=null?Apart(lead.transform.position,boss.transform.TransformPoint(capsule.center)):float.PositiveInfinity;
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"D407 {id}: a second after its end the lead stands {apart:0.00} m from its middle, clear at {clear:0.00} (its {its:0.00}, his {own.radius:0.00}); his height moved {lead.transform.position.y-height:0.00} m";
+            TestContext.WriteLine(line);
+            Assert.GreaterOrEqual(apart,clear-.05f,line+": he is still inside its body");
+            Assert.AreEqual(height,lead.transform.position.y,flier?.05f:.3f,line+": easing him out took him off his floor or his plane");
+        }
+        /// <summary>D407: eased out, a hero goes only over floor at his own height and round what is solid. Inside the Host Marshal on a deck a metre up, its edge a step behind
+        /// him and a wall at his side, he comes out along the deck the other way: not off it, not through the wall.</summary>
+        [UnityTest,Timeout(120000)] public IEnumerator EasedOutOfABeatenBossAHeroIsNeverPutOffADeckOrThroughAWall()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            const string id="HostMarshal";
+            yield return Arena(id);
+            var deck=GameObject.CreatePrimitive(PrimitiveType.Cube);deck.name="D407 deck";deck.transform.position=new Vector3(232,.5f,21.15f);deck.transform.localScale=new Vector3(24,1,13.7f);
+            Physics.SyncTransforms();
+            var lead=PartyController.Current.Active;Place(lead,new Vector3(226,1,25));
+            foreach(var member in PartyController.Current.members){if(member!=lead)Place(member,new Vector3(202,0,-18));member.Health.InvulnerableUntil=float.PositiveInfinity;}
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),new Vector3(232,1,15));boss.Passive=true;boss.transform.rotation=Quaternion.LookRotation(Vector3.back);
+            yield return new WaitForSecondsRealtime(1.2f);
+            Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Marshal stands");
+            var capsule=boss.GetComponent<CharacterController>();var own=lead.GetComponent<CharacterController>();
+            var middle=boss.transform.TransformPoint(capsule.center);var inside=new Vector3(middle.x,1,middle.z-.5f);
+            // The deck's near edge runs .2 m behind where he stands; a wall stands a hand's width off his east side.
+            float edge=deck.transform.position.z-6.85f;deck.transform.position+=Vector3.forward*(inside.z-.2f-edge);edge=inside.z-.2f;
+            var wall=GameObject.CreatePrimitive(PrimitiveType.Cube);wall.name="D407 wall";float wallX=inside.x+own.radius+.05f;
+            wall.transform.position=new Vector3(wallX+.15f,2.5f,inside.z+2);wall.transform.localScale=new Vector3(.3f,3,10);
+            Physics.SyncTransforms();
+            Place(lead,inside);float its=capsule.radius*boss.transform.lossyScale.x,clear=its+own.radius;
+            Assert.IsTrue(Physics.Raycast(lead.transform.position+Vector3.up*.5f,Vector3.down,1,~0,QueryTriggerInteraction.Ignore),"fixture: the lead doesn't stand on the deck");
+            Beat(boss,lead);
+            yield return new WaitForSecondsRealtime(1.2f);
+            var at=lead.transform.position;float apart=boss!=null?Apart(at,boss.transform.TransformPoint(capsule.center)):float.PositiveInfinity;
+            bool floored=Physics.Raycast(at+Vector3.up*.5f,Vector3.down,1,~0,QueryTriggerInteraction.Ignore);
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"D407 {id} on a deck: a second after its end the lead stands at {at} ({apart:0.00} m from its middle, clear at {clear:0.00}), the edge at z {edge:0.00}, the wall at x {wallX:0.00}";
+            TestContext.WriteLine(line);
+            Assert.GreaterOrEqual(apart,clear-.05f,line+": he is still inside its body");
+            Assert.IsTrue(floored&&Mathf.Abs(at.y-1)<.3f,line+": he was put off the deck");
+            Assert.Less(at.x,wallX,line+": he was put through the wall");
         }
 
         /// <summary>The game's own camera as it stands, drawn to a 1920 by 1080 still for the lead to open beside the capture's (Builds/quality/focused/boss-death in the test's mirror).</summary>
@@ -410,7 +572,9 @@ namespace Lattice.Tests.PlayMode
             var drawn=Drawn(boss);foreach(var r in drawn)r.gameObject.layer=Layer;
             var camera=Eye(Box(drawn));var before=Shot(camera);
             Beat(boss,lead);
-            // Held as it stood: everything on it that could change what it draws, stopped in the frame it was beaten.
+            // Held as it stood: everything on it that could change what it draws, stopped in the frame it was beaten. Its darkening writes its first share in the Died itself
+            // (D385), so that is given back first.
+            var darkening=boss.GetComponent<BodyGoesDark>();if(darkening!=null)darkening.Restore();
             foreach(var behaviour in boss.GetComponentsInChildren<Behaviour>(true))if(!(behaviour is Health))behaviour.enabled=false;
             yield return new WaitForSecondsRealtime(1f);
             var after=Shot(camera);float shown=Changed(before,after,out int covered);Object.Destroy(camera.gameObject);

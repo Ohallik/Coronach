@@ -363,6 +363,9 @@ namespace Lattice.Tests.PlayMode
             var boss=Enemy("Burrower",hero.transform.position+toward*2.3f);yield return new WaitForSecondsRealtime(.5f);
             var body=boss.GetComponent<DefeatPresentation>().visual.GetComponentsInChildren<Renderer>().First(r=>r is MeshRenderer or SkinnedMeshRenderer);
             var block=new MaterialPropertyBlock();body.GetPropertyBlock(block);
+            // D395: drawn through it, he is its clean outline and the body keeps every pixel; the door below is for a lead nothing draws through.
+            Assert.Less(block.GetFloat("_OccFade"),.01f,"the boss opens a door over a hero it hides who is already drawn through it: dots among his outline (nov23-whole s49/033)");
+            var through=hero.GetComponent<HeroThrough>();through.enabled=false;yield return new WaitForSecondsRealtime(.4f);body.GetPropertyBlock(block);
             Assert.Greater(block.GetFloat("_OccFade"),.9f,"fixture: the boss is opening for the hero");
             var ellipse=block.GetVector("_OccFadeEllipse");
             var chest=hero.transform.position+Vector3.up*.95f;var middle=camera.WorldToViewportPoint(chest);
@@ -378,6 +381,7 @@ namespace Lattice.Tests.PlayMode
             var controller=boss.GetComponent<CharacterController>();controller.enabled=false;boss.transform.position=hero.transform.position-toward*15;controller.enabled=true;Physics.SyncTransforms();
             yield return new WaitForSecondsRealtime(.3f);
             body.GetPropertyBlock(block);Assert.Less(block.GetFloat("_OccFade"),.01f,"the door stays open on the boss after it has moved away from the hero");
+            through.enabled=true;
         }
         [UnityTest] public IEnumerator HessasBodyOpensForTheHeroToo()
         {
@@ -387,7 +391,12 @@ namespace Lattice.Tests.PlayMode
             var boss=Enemy("HessaKorl",hero.transform.position+toward*1.5f);yield return new WaitForSecondsRealtime(.5f);
             var body=boss.GetComponent<DefeatPresentation>().visual.GetComponentsInChildren<Renderer>().First(r=>r is MeshRenderer or SkinnedMeshRenderer);
             var block=new MaterialPropertyBlock();body.GetPropertyBlock(block);
-            Assert.Greater(block.GetFloat("_OccFade"),.9f,"a hero behind a captain half as tall again is simply gone: she has no see-through at all");
+            // D395: the hero behind her is drawn through her, a clean outline; her door is for a lead nothing draws through.
+            Assert.Greater(hero.GetComponent<HeroThrough>().Drawn,0,"a hero behind a captain half as tall again is simply gone: nothing draws him through her");
+            Assert.Less(block.GetFloat("_OccFade"),.01f,"she opens a door over a hero drawn through her: dots among his outline");
+            hero.GetComponent<HeroThrough>().enabled=false;yield return new WaitForSecondsRealtime(.4f);body.GetPropertyBlock(block);
+            Assert.Greater(block.GetFloat("_OccFade"),.9f,"a hero behind a captain half as tall again, with nothing drawing him through, is simply gone: she has no see-through at all");
+            hero.GetComponent<HeroThrough>().enabled=true;
             Assert.IsTrue(body.sharedMaterials.All(m=>m.IsKeywordEnabled("_OCCFADE_ON")),"her material was built without the fade, so a player build would draw nothing for it");
         }
         [UnityTest] public IEnumerator TheWreckOpensForAHeroBehindIt()
@@ -404,7 +413,12 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(1.5f);
             var body=site.rig.GetComponentsInChildren<Renderer>().First(r=>r is MeshRenderer or SkinnedMeshRenderer);
             var block=new MaterialPropertyBlock();body.GetPropertyBlock(block);
+            // D395: he is drawn through the wreck, a clean outline, and the wreck stays whole; its door is for a lead nothing draws through.
+            Assert.Greater(hero.GetComponent<HeroThrough>().Drawn,0,"Taren is a head and shoulders behind the downed rig and nothing draws him through it");
+            Assert.Less(block.GetFloat("_OccFade"),.01f,"the wreck opens a door over a hero drawn through it: dots among his outline");
+            hero.GetComponent<HeroThrough>().enabled=false;yield return new WaitForSecondsRealtime(.5f);body.GetPropertyBlock(block);
             Assert.Greater(block.GetFloat("_OccFade"),.9f,"Taren is a head and shoulders behind the downed rig: nothing opens for the hero, and it has no collider, so anyone can walk there");
+            hero.GetComponent<HeroThrough>().enabled=true;
         }
 
         // ------------------------------------------------------------------ ground bosses stay in the frame

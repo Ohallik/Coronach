@@ -158,33 +158,78 @@ namespace Lattice.Tests.PlayMode
             Color colour=particles[0].startColor;
             Assert.IsFalse(ReadsAsDanger(colour),$"Overdrive rings his hands in {colour}: the party's effects are cream and cyan, and orange on the hero is what's about to hit him");
         }
-        [UnityTest] public IEnumerator TheDoorDissolvesAndTheRestOfTheBodyStaysSolid()
+        /// <summary>D395 (nov23-whole s49/033, 043): the lead behind a boss is one clean outline, as the partner is, and the boss keeps every pixel of its body. BossOcclusion dissolved
+        /// about two pixels in three of the boss over him while HeroThrough drew his outline only on the boss pixels still there, so Taren behind the Slag Colossus was scattered gold
+        /// glints among dots, and Sela, who never had a door, a clean pale outline. Read in his own silhouette where the boss stands over it: the share his outline draws, and the share
+        /// of the boss's pixels the door takes away. Shown failing first with the old door written over him by hand (its ellipse, two in three, soft edge), then the game's own.
+        /// Replaces TheDoorDissolvesAndTheRestOfTheBodyStaysSolid, which asserted that door over the lead.</summary>
+        [UnityTest] public IEnumerator TheLeadBehindABossIsACleanOutlineAndTheBodyStaysWhole([Values("BellowsBelow","SlagColossus")] string id)
         {
             NeedsGraphics();yield return Zone("Arena_Ground");Arena();
-            var hero=Hero;Put(hero,new Vector3(200,.1f,0));Put(Partner,new Vector3(215,.1f,0));yield return new WaitForSecondsRealtime(1.5f);
+            var hero=Hero;Put(hero,new Vector3(200,.1f,0));Put(Partner,new Vector3(215,.1f,0));NoShadows(hero);yield return new WaitForSecondsRealtime(1.5f);
             var camera=Camera.main;var toward=Flat(camera.transform.position-hero.transform.position).normalized;
-            var boss=Enemy("BellowsBelow",hero.transform.position+toward*2.3f);boss.GetComponent<CharacterController>().enabled=false;yield return new WaitForSecondsRealtime(.5f);NoShadows(boss);Hide(hero,true);yield return null;
-            var body=BodyMesh(boss.GetComponent<DefeatPresentation>().visual);var block=new MaterialPropertyBlock();body.GetPropertyBlock(block);
-            Assert.Greater(block.GetFloat("_OccFade"),.9f,"fixture: the boss is opening for the hero");
-            Assert.GreaterOrEqual(block.GetFloat("_OccFadeSoft"),.99f,"what the door leaves is washed toward the zone's haze: a pale sticker on the boss, its outline the first thing anyone sees");
-            var ellipse=block.GetVector("_OccFadeEllipse");
-            var open=Shot(camera);var door=boss.GetComponent<BossOcclusion>();door.enabled=false;var shut=Shot(camera);door.enabled=true;Hide(hero,false);
-            // Open is where the floor shows through the body: well over what the glow off the floor does to the pixels beside it.
-            int inner=0,innerOpen=0,edge=0,edgeOpen=0,outside=0,outsideChanged=0;
-            for(int y=0;y<ShotHeight;y++)for(int x=0;x<ShotWidth;x++)
+            var definition=GameCatalog.Find<EnemyDef>(id);Assert.IsNotNull(definition,"fixture: "+id);
+            var boss=Enemy(id,new Vector3(200,.1f,60));var capsule=boss.GetComponent<CharacterController>();float apart=id=="BellowsBelow"?2.3f:capsule.radius+.8f;
+            capsule.enabled=false;boss.transform.position=hero.transform.position+toward*apart;Physics.SyncTransforms();
+            yield return new WaitForSecondsRealtime(.6f);NoShadows(boss);NoSpecials(boss);yield return Frames(2);
+            var through=hero.GetComponent<HeroThrough>();Assert.IsNotNull(through,"fixture: the lead is drawn through what hides him");
+            Assert.Greater(through.Drawn,0,"fixture: his drawing-through is on");
+            var bodies=boss.GetComponentsInChildren<Renderer>().Where(r=>(r is MeshRenderer||r is SkinnedMeshRenderer)&&r.enabled).ToArray();
+            var own=hero.GetComponentsInChildren<Renderer>().Where(r=>(r is MeshRenderer||r is SkinnedMeshRenderer)&&!r.transform.IsChildOf(through.Holder)).ToArray();
+            var copies=through.Copies.ToArray();
+            void Show(Renderer[] set,bool shown){foreach(var r in set)if(r!=null)r.forceRenderingOff=!shown;}
+            var block=new MaterialPropertyBlock();
+            void Door(float fade,Vector4 ellipse){foreach(var r in bodies){r.GetPropertyBlock(block);block.SetFloat("_OccFade",fade);block.SetFloat("_OccFadeDepth",.64f);block.SetFloat("_OccFadeSoft",1);block.SetVector("_OccFadeEllipse",ellipse);r.SetPropertyBlock(block);}}
+            float DoorNow(){float most=0;foreach(var r in bodies){r.GetPropertyBlock(block);most=Mathf.Max(most,block.GetFloat("_OccFade"));}return most;}
+            // A state as it stands, all its shots in one frame (nothing runs between them, so nothing rewrites them): his silhouette (the boss away), where the boss stands over it (he
+            // away), then of that part of him the share his outline draws (the frame against the same without his copies), and the share where the boss's own pixels are gone (he and
+            // his copies away, the door as it stands against the door shut).
+            int silhouette=0,under=0;
+            (float outline,float opened) Read(float fade,Vector4 ellipse)
             {
-                float dx=((x+.5f)/ShotWidth-ellipse.x)/ellipse.z,dy=((y+.5f)/ShotHeight-ellipse.y)/ellipse.w,r=dx*dx+dy*dy;
-                if(r>4)continue;
-                bool changed=Change(open[y*ShotWidth+x],shut[y*ShotWidth+x])>.08f;
-                if(r<.2f){inner++;if(changed)innerOpen++;}
-                else if(r>=.65f&&r<=.85f){edge++;if(changed)edgeOpen++;}
-                else if(r>=1.5f){outside++;if(changed)outsideChanged++;}
+                Door(0,ellipse);Show(bodies,false);Show(copies,false);var him=Shot(camera);Show(own,false);var empty=Shot(camera);Show(bodies,true);var bossAlone=Shot(camera);Show(own,true);Show(copies,true);
+                var over=new List<int>();silhouette=0;
+                for(int i=0;i<him.Length;i++){if(Change(him[i],empty[i])<=.04f)continue;silhouette++;if(Change(bossAlone[i],empty[i])>.04f)over.Add(i);}
+                under=over.Count;
+                Door(fade,ellipse);var frame=Shot(camera);Show(copies,false);var bare=Shot(camera);Show(own,false);var doorAsIs=Shot(camera);Door(0,ellipse);var shut=Shot(camera);Door(fade,ellipse);Show(own,true);Show(copies,true);
+                int drawn=0,gone=0;foreach(int i in over){if(Change(frame[i],bare[i])>.03f)drawn++;if(Change(doorAsIs[i],shut[i])>.08f)gone++;}
+                return (drawn/(float)Mathf.Max(1,over.Count),gone/(float)Mathf.Max(1,over.Count));
             }
-            float atMiddle=innerOpen/(float)Mathf.Max(1,inner),atEdge=edgeOpen/(float)Mathf.Max(1,edge),beyond=outsideChanged/(float)Mathf.Max(1,outside);
-            TestContext.WriteLine($"DOOR middle={atMiddle:0.00} edge={atEdge:0.00} beyond={beyond:0.000}");
-            Assert.Greater(atMiddle,.35f,"fixture: the door is open over him");
-            Assert.LessOrEqual(atEdge,atMiddle*.6f,$"the door opens {atEdge:P0} of the body near its edge against {atMiddle:P0} at its middle: a hard round patch with a screen-door rim, hiding what the player's hitting");
-            Assert.LessOrEqual(beyond,.01f,$"{beyond:P1} of the body away from the door changes when it opens: the whole boss going pale and see-through");
+            bool Clean((float outline,float opened) r)=>r.outline>=.85f&&r.opened<=.02f;
+            // The old door over him, as it was written: centred on his chest, hero-sized, open two pixels in three with a soft edge.
+            var chest=hero.transform.position+Vector3.up*.95f;var middle=camera.WorldToViewportPoint(chest);
+            var oldEllipse=new Vector4(middle.x,middle.y,Mathf.Abs(camera.WorldToViewportPoint(chest+camera.transform.right*.68f).x-middle.x),Mathf.Abs(camera.WorldToViewportPoint(chest+camera.transform.up*1.08f).y-middle.y));
+            var before=Read(1,oldEllipse);Door(1,oldEllipse);BossDeathTests.GameStill($"d395-{id}-door-and-outline");
+            Door(0,oldEllipse);yield return Frames(3);
+            float doorNow=DoorNow();var now=Read(doorNow,oldEllipse);BossDeathTests.GameStill($"d395-{id}-outline");
+            float hiddenShare=under/(float)Mathf.Max(1,silhouette);
+            string line=$"LEAD_BEHIND {id} {apart:0.0} m in front of him: under it {under} of his {silhouette} px ({hiddenShare:P0}); old door: outline {before.outline:0.00} body gone {before.opened:0.00}; now door {doorNow:0.00}: outline {now.outline:0.00} body gone {now.opened:0.00}";
+            TestContext.WriteLine(line);Debug.Log(line);
+            Assert.Greater(silhouette,500,"fixture: the lead is on screen: "+line);
+            Assert.GreaterOrEqual(hiddenShare,.5f,"fixture: the boss stands over at least half of him: "+line);
+            Assert.IsFalse(Clean(before),"fixture: the old door over him reads as dots, its body gone where the outline would draw: "+line);
+            Assert.Less(doorNow,.01f,"the boss opens its door over a lead drawn through it: dots among his outline: "+line);
+            Assert.IsTrue(Clean(now),"the lead behind the boss isn't one clean outline on a whole body (outline at least .85 of him under it, at most .02 of the body gone): "+line);
+        }
+        /// <summary>Of a hero's silhouette where a body stands over it on the screen, the share his drawing-through (HeroThrough) draws, from this camera as things stand. All shots in one
+        /// frame, his shadow kept out (it would count the floor beside him as his).</summary>
+        internal static float OutlineUnder(Camera camera,CombatActor hero,Component body,out int under,out int silhouette)
+        {
+            var through=hero.GetComponent<HeroThrough>();
+            var bodies=body.GetComponentsInChildren<Renderer>().Where(r=>(r is MeshRenderer||r is SkinnedMeshRenderer)&&r.enabled).ToArray();
+            var own=hero.GetComponentsInChildren<Renderer>().Where(r=>(r is MeshRenderer||r is SkinnedMeshRenderer)&&(through==null||through.Holder==null||!r.transform.IsChildOf(through.Holder))).ToArray();
+            var copies=through!=null?through.Copies.ToArray():new Renderer[0];var casting=own.Select(r=>r.shadowCastingMode).ToArray();
+            void Show(Renderer[] set,bool shown){foreach(var r in set)if(r!=null)r.forceRenderingOff=!shown;}
+            try
+            {
+                foreach(var r in own)r.shadowCastingMode=ShadowCastingMode.Off;
+                Show(bodies,false);Show(copies,false);var him=Shot(camera);Show(own,false);var empty=Shot(camera);Show(bodies,true);var alone=Shot(camera);Show(own,true);
+                var bare=Shot(camera);Show(copies,true);var frame=Shot(camera);
+                under=0;silhouette=0;int drawn=0;
+                for(int i=0;i<him.Length;i++){if(Change(him[i],empty[i])<=.04f)continue;silhouette++;if(Change(alone[i],empty[i])<=.04f)continue;under++;if(Change(frame[i],bare[i])>.03f)drawn++;}
+                return drawn/(float)Mathf.Max(1,under);
+            }
+            finally{Show(bodies,true);Show(copies,true);Show(own,true);for(int i=0;i<own.Length;i++)if(own[i]!=null)own[i].shadowCastingMode=casting[i];}
         }
 
         // ------------------------------------------------------------------ 2. one thing at all times

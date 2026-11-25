@@ -411,7 +411,7 @@ namespace Lattice.UI
                 // Each ladder by its level and, below the top, how far it is to the next: "Edges 2 (0/30)" was unexplained, and read as a fraction.
                 string Trained(Discipline d){int level=fabricator.Level(d);return level>=10?$"{d} {level}":$"{d} {level}, {fabricator.Xp(d)%30} of 30 to {d} {level+1}";}
                 // Every ladder in the same words: "Edges 2 (20 of 30)" beside a bare "Emitters 1" read as if Emitters had no progress to show, where it had none yet (nov22 s07 013).
-                string ladders="Bench levels rise by making their kind, 30 to a level: "+string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>{int level=fabricator.Level(d),xp=fabricator.Xp(d)%30;return level<10?$"{d} {level} ({xp} of 30)":$"{d} {level} (top)";}))+".";
+                string ladders="Bench levels rise by making their kind, 30 to a level: "+string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>{int level=fabricator.Level(d),xp=fabricator.Xp(d)%30;return level<10?$"<nobr>{d} {level} ({xp} of 30)</nobr>":$"<nobr>{d} {level} (top)</nobr>";}))+".";
                 string where=AtBench?"Parts and consumables can both be made here.":hostile?"Parts need a Lattice Anvil or Hal's bench. Consumables wait until the fight is over.":"Parts need a Lattice Anvil or Hal's bench. Consumables can be made anywhere.";
                 string turns=onlyMakeable?"Select to show every recipe.":"Select to show only what can be made now.";
                 anvil.gameObject.AddComponent<SelectNote>().selected=()=>Tell(turns,ladders,where);

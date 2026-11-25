@@ -211,6 +211,165 @@ namespace Lattice.Tests.PlayMode
             Flag("vask.fieldTaken");for(int i=0;i<5;i++)yield return null;
             Assert.AreEqual(0,stops(),"what stops a hero at the Warmaster's post stays once the duel has begun");
         }
+        // ================================================================== nobody stands in anybody where the party meets them (D391)
+        static CombatActor Partner=>PartyController.Current.members.First(m=>m!=Lead);
+        /// <summary>Where the party meets the Warmaster at his table (HarrowgateBuilder.Town.MeetingGround): his place and the four metres in front of it, 2.2 m either side of his line.</summary>
+        static readonly Rect MeetingGround=new(DraskAt.x-2.2f,DraskAt.y-4,4.4f,5);
+        /// <summary>Route 52's stand for his talk (docs/quality/routes/chapter-52-*.json, "up to the oath hall 10/10": within .4 m of it).</summary>
+        static readonly Vector2 DraskTalkStand=new(0,107.8f);
+        /// <summary>How far what a body draws may stand inside a hero's capsule, or past its own solid: a few centimetres an idle moves.</summary>
+        const float LiesIn=.05f;
+        /// <summary>Every point a body draws this frame between its feet and a hero's head (1.9 m), but what it carries and its name: its skin as its bones hold it, a mesh where it hangs.</summary>
+        static List<Vector3> Drawn(Component who)
+        {
+            var points=new List<Vector3>();var mesh=new List<Vector3>();
+            foreach(var r in who.GetComponentsInChildren<Renderer>())
+            {
+                if(!r.enabled||!r.gameObject.activeInHierarchy||r.shadowCastingMode==UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly||r.name.EndsWith(" carries")||r.name.StartsWith("Sign_"))continue;
+                if(r is SkinnedMeshRenderer skin&&skin.sharedMesh!=null)
+                {var baked=new Mesh();skin.BakeMesh(baked,true);var pose=Matrix4x4.TRS(skin.transform.position,skin.transform.rotation,Vector3.one);baked.GetVertices(mesh);foreach(var p in mesh)points.Add(pose.MultiplyPoint3x4(p));Object.Destroy(baked);}
+                else if(r is MeshRenderer&&r.TryGetComponent<MeshFilter>(out var filter)&&filter.sharedMesh!=null){filter.sharedMesh.GetVertices(mesh);foreach(var p in mesh)points.Add(r.transform.TransformPoint(p));}
+            }
+            float feet=who.transform.position.y;points.RemoveAll(p=>p.y<feet+.05f||p.y>feet+1.9f);return points;
+        }
+        static float Reach(Component who){var points=Drawn(who);return points.Count==0?0:points.Max(p=>Flat(p,who.transform.position));}
+        /// <summary>Its idle runs off screen too (a townsperson's rig stops animating off screen, and stands in its import pose).</summary>
+        static void Animate(Component who){foreach(var rig in who.GetComponentsInChildren<Animator>())rig.cullingMode=AnimatorCullingMode.AlwaysAnimate;}
+        static IEnumerator WalkTo(CombatActor lead,Vector2 point,System.Action each=null)
+        {
+            float began=Time.unscaledTime;
+            while(Time.unscaledTime-began<8)
+            {
+                var to=new Vector3(point.x,0,point.y)-lead.transform.position;to.y=0;if(to.magnitude<.35f)break;
+                lead.motor.Move(new Vector2(to.x,to.z).normalized,false,false);yield return null;each?.Invoke();
+            }
+            lead.motor.Move(Vector2.zero,false,false);
+        }
+
+        /// <summary>Whole-game capture of November 23, s51/179 and s52/016: at his table the Warmaster had a civilian's 0.35 m capsule under his war-frame and mantle, and the lead walked
+        /// to 1.2 m of his middle, his head in the Warmaster's chest. He stops a hero at what he draws, the way his post on the field does (D371): walked at from the hall steps the lead
+        /// stops in front of him, facing him, with his talk offered; and route 52's stand for the talk is clear of what stops a hero at him (D391).</summary>
+        [UnityTest] public IEnumerator AtHisTableTheWarmasterStopsTheLeadAtWhatHeDrawsFacingHimWithHisTalkOffered()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen"})Flag(f);yield return Zone();yield return Frames(4);
+            var drask=Here("Drask").Single();var at=drask.transform.position;Animate(drask);yield return new WaitForSecondsRealtime(.4f);
+            var lead=Lead;float leadR=lead.GetComponent<CharacterController>().radius;
+            var stand=Floor(DraskTalkStand);
+            var inTheWay=Physics.OverlapCapsule(stand+Vector3.up*(leadR+.06f),stand+Vector3.up*(1.8f-leadR),leadR,~0,QueryTriggerInteraction.Ignore).Where(c=>c.transform.IsChildOf(drask.transform)).Select(c=>c.name).ToArray();
+            Assert.IsEmpty(inTheWay,$"route 52's stand for the Warmaster's talk, ({DraskTalkStand.x}, {DraskTalkStand.y}), is inside what stops a hero at him");
+            PromptService.FindInteraction(stand);Assert.AreSame(drask,PromptService.Interaction,"the Warmaster's talk isn't the one offered at route 52's stand for it");
+            foreach(var from in new[]{new Vector2(0,102.6f),new Vector2(-1.6f,103.4f),new Vector2(1.8f,103.6f)})
+            {
+                Put(lead,Floor(from));yield return Frames(2);float began=Time.unscaledTime,deepest=0;
+                while(Time.unscaledTime-began<3.5f)
+                {
+                    var way=at-lead.transform.position;way.y=0;lead.motor.Move(new Vector2(way.x,way.z).normalized,false,false);yield return null;
+                    deepest=Mathf.Max(deepest,BodiesKeepApartTests.Inside(Drawn(drask),lead));
+                }
+                lead.motor.Move(Vector2.zero,false,false);yield return Frames(3);
+                var to=at-lead.transform.position;to.y=0;var facing=lead.transform.forward;facing.y=0;
+                TestContext.WriteLine($"D391 the lead walked at the Warmaster from ({from.x}, {from.y}): stopped at ({lead.transform.position.x:0.00}, {lead.transform.position.z:0.00}), {to.magnitude:0.00} m from his middle; what he draws stood {deepest:0.000} m into the lead; he draws {Reach(drask):0.00} m out from his feet");
+                Assert.LessOrEqual(deepest,LiesIn,$"walking at the Warmaster from ({from.x}, {from.y}) the lead stood {deepest:0.00} m inside what he draws");
+                Assert.Less(lead.transform.position.z,at.z-.3f,"the lead isn't in front of the Warmaster where he stops");
+                Assert.Less(Vector3.Angle(facing,to),35,"the lead doesn't face the Warmaster where he stops");
+                PromptService.FindInteraction(lead.transform.position);Assert.AreSame(drask,PromptService.Interaction,$"where the lead stops at the Warmaster, {to.magnitude:0.00} m from him, his talk isn't offered");
+            }
+        }
+
+        /// <summary>Whole-game capture of November 23, s51/179: Idra pressed into the Warmaster's back as the lead walked the portico past him (0.7 m from his middle from s51/160 to 179),
+        /// drawn through him as a pale ghost. Her way went through him and his 0.35 m capsule held her there. Walked as route 52 comes up the steps to him and as route 51 walks the
+        /// portico past him to the wall of names and back, what he draws is never in her, and wherever she comes to rest near him it is on the camera's side of him (D391).</summary>
+        [UnityTest] public IEnumerator AtHisTableThePartnerNeverStandsInTheWarmasterAndRestsNearHimOnlyOnTheCamerasSide()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen"})Flag(f);yield return Zone();yield return Frames(4);
+            var drask=Here("Drask").Single();var at=drask.transform.position;Animate(drask);
+            var lead=Lead;var partner=Partner;var camera=Camera.main;Assert.IsNotNull(camera,"fixture: the play camera");
+            Put(lead,Floor(new Vector2(0,97.6f)));Put(partner,Floor(new Vector2(2,93.8f)));partner.GetComponent<PartnerBrain>().enabled=true;yield return Frames(2);
+            float reach=Reach(drask),worst=0;string where="";var faults=new List<string>();
+            void Judge(string leg){float deep=BodiesKeepApartTests.Inside(Drawn(drask),partner);if(deep>worst){worst=deep;where=$"{leg}: Idra at ({partner.transform.position.x:0.00}, {partner.transform.position.z:0.00}), lead at ({lead.transform.position.x:0.00}, {lead.transform.position.z:0.00})";}}
+            foreach(var (leg,way,rest) in new (string,Vector2[],float)[]
+            {
+                ("up the hall steps to his talk (route 52)",new[]{new Vector2(0,107.44f)},4),
+                ("along the portico to the oath hall's case (route 51)",new[]{new Vector2(.7f,107.8f),new Vector2(9,108.2f)},2.5f),
+                ("back along the portico past him to the wall of names",new[]{new Vector2(-7.8f,108.2f)},5),
+                ("back to him from the wall of names",new[]{new Vector2(0,108.2f),new Vector2(0,107.8f)},5),
+            })
+            {
+                foreach(var point in way)yield return WalkTo(lead,point,()=>Judge(leg));
+                float still=Time.unscaledTime;while(Time.unscaledTime-still<rest){yield return null;Judge(leg);}
+                var her=partner.transform.position;float off=Flat(her,at);var view=camera.transform.forward;view.y=0;float behind=Vector3.Dot(her-at,view.normalized);
+                TestContext.WriteLine($"D391 {leg}: the lead at ({lead.transform.position.x:0.00}, {lead.transform.position.z:0.00}), Idra at rest at ({her.x:0.00}, {her.z:0.00}), {off:0.00} m from the Warmaster and {behind:0.00} m behind him along the camera's view, {Flat(her,lead.transform.position):0.00} m from the lead");
+                if(off<reach+2.5f&&behind>-.3f)faults.Add($"{leg}: Idra rests {off:0.00} m from the Warmaster and not on the camera's side of him ({behind:0.00} m behind him along its view)");
+            }
+            TestContext.WriteLine($"D391 the deepest the Warmaster's drawn body stood in Idra: {worst:0.000} m ({where}); he draws {reach:0.00} m out from his feet");
+            Assert.LessOrEqual(worst,LiesIn,$"the partner stood {worst:0.00} m inside what the Warmaster draws ({where})");
+            Assert.IsEmpty(faults,string.Join("; ",faults));
+        }
+
+        /// <summary>Whole-game capture of November 23: Pip, following the party, stood at the Warmaster's feet as the lead talked to him, the lead having walked back past him along the
+        /// portico (s51/179), and the cook carrying a pot set off from 0.7 m behind Pip at Odrun's door as the lead talked to him (s52/233). No errand's or drill's loop crosses where
+        /// the party meets the Warmaster or comes within 2.5 m of anyone the party talks to, no townsperson stands there, and Pip, following, walks off it (D391).</summary>
+        [UnityTest] public IEnumerator NobodyWalksThroughOrStandsWhereThePartyMeetsTheWarmasterOrBesideAnyoneTheyTalkTo()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.pipMet"})Flag(f);yield return Zone();yield return Frames(3);
+            var faults=new List<string>();var meeting=new Rect(MeetingGround.x-.5f,MeetingGround.y-.5f,MeetingGround.width+1,MeetingGround.height+1);
+            var named=All<Npc>().Select(n=>(who:n.speaker,at:new Vector2(n.transform.position.x,n.transform.position.z))).ToArray();
+            foreach(var walk in All<WalkLoop>())for(int i=0;i<walk.path.Length-(walk.thereAndBack?1:0);i++)
+            {
+                var a=walk.path[i];var b=walk.path[(i+1)%walk.path.Length];
+                for(float t=0;t<=1.001f;t+=.05f)
+                {
+                    var p=Vector3.Lerp(a,b,t);var plan=new Vector2(p.x,p.z);
+                    if(meeting.Contains(plan))faults.Add($"{walk.name} walks across where the party meets the Warmaster");
+                    foreach(var (who,at) in named)if(Vector2.Distance(plan,at)<2.5f)faults.Add($"{walk.name} walks within 2.5 m of {who} at ({at.x:0.0}, {at.y:0.0})");
+                }
+            }
+            foreach(var one in All<PropTint>().Where(t=>t.name.StartsWith("Townsperson")||t.name.StartsWith("A child")))
+                if(meeting.Contains(new Vector2(one.transform.position.x,one.transform.position.z)))faults.Add($"{one.name} stands where the party meets the Warmaster");
+            var pip=All<KeepsPace>().Single(k=>k.name=="Pip");var lead=Lead;
+            // Route 51 at the wall of names, Pip seven metres of path behind on the portico; then the lead walks back to the Warmaster's talk (s51/177 to 179).
+            Put(lead,Floor(new Vector2(-7.8f,108.2f)));yield return Frames(2);pip.transform.position=Floor(new Vector2(-.8f,108));yield return new WaitForSecondsRealtime(.5f);
+            yield return WalkTo(lead,new Vector2(0,108.2f));yield return WalkTo(lead,DraskTalkStand);yield return new WaitForSecondsRealtime(3);
+            var stood=pip.transform.position;
+            TestContext.WriteLine($"D391 Pip, following, stands at ({stood.x:0.00}, {stood.z:0.00}) as the lead talks to the Warmaster from ({lead.transform.position.x:0.00}, {lead.transform.position.z:0.00})");
+            if(MeetingGround.Contains(new Vector2(stood.x,stood.z)))faults.Add($"Pip stands where the party meets the Warmaster, at ({stood.x:0.00}, {stood.z:0.00})");
+            Assert.IsEmpty(faults.Distinct().ToArray(),string.Join("; ",faults.Distinct()));
+        }
+
+        /// <summary>Whole-game capture of November 23, s52/014: Idra walked through the drill sergeant on the muster medallion, two metres off the way up the field, where she walks
+        /// beside the lead; he had nothing solid, and every garrison frame in town stood in a 0.7 m box whatever it drew. Everyone standing in Harrowgate stops a hero at what they draw
+        /// (their solid holds their drawn body, idle, between the floor and a hero's head), and everyone walking has a solid (D391).</summary>
+        [UnityTest] public IEnumerator EveryoneInHarrowgateStopsAHeroAtWhatTheyDraw()
+        {
+            InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen"})Flag(f);yield return Zone();
+            var standing=Live<PropTint>().Where(t=>(t.name.StartsWith("Townsperson")||t.name.StartsWith("A child"))&&t.GetComponent<WalkLoop>()==null).ToArray();
+            foreach(var one in standing)Animate(one);yield return new WaitForSecondsRealtime(.6f);
+            var faults=new List<string>();float worst=0;string worstWho="";
+            foreach(var one in standing)
+            {
+                var solid=one.GetComponents<Collider>().FirstOrDefault(c=>c.enabled&&!c.isTrigger);var at=one.transform.position;
+                if(solid==null){faults.Add($"{one.name} at ({at.x:0.0}, {at.z:0.0}) has nothing that stops a hero");continue;}
+                float most=0;
+                foreach(var p in Drawn(one))
+                {
+                    float past;
+                    if(solid is BoxCollider box)
+                    {
+                        var local=box.transform.InverseTransformPoint(p)-box.center;var scale=box.transform.lossyScale;
+                        past=Mathf.Max((Mathf.Abs(local.x)-box.size.x*.5f)*Mathf.Abs(scale.x),(Mathf.Abs(local.z)-box.size.z*.5f)*Mathf.Abs(scale.z));
+                    }
+                    else if(solid is CapsuleCollider capsule)past=Flat(p,capsule.transform.TransformPoint(capsule.center))-capsule.radius*Mathf.Abs(capsule.transform.lossyScale.x);
+                    else continue;
+                    most=Mathf.Max(most,past);
+                }
+                if(most>worst){worst=most;worstWho=$"{one.name} at ({at.x:0.0}, {at.z:0.0})";}
+                if(most>LiesIn)faults.Add($"{one.name} at ({at.x:0.0}, {at.z:0.0}) draws {most:0.00} m past what stops a hero");
+            }
+            foreach(var walk in Live<WalkLoop>())if(!walk.GetComponents<Collider>().Any(c=>c.enabled&&!c.isTrigger))faults.Add($"{walk.name} walks with nothing that stops a hero");
+            TestContext.WriteLine($"D391 {standing.Length} standing; the furthest anyone draws past their solid: {worst:0.000} m ({worstWho}); {faults.Count} faults");
+            Assert.IsEmpty(faults,string.Join("; ",faults));
+        }
+
         [UnityTest] public IEnumerator TheMusterFieldIsBuiltToTheDuelsContractAndIsACombatPlaceOnlyWhileTheDuelIsOwed()
         {
             InTown();foreach(string f in new[]{"vask.odrunMet","vask.gallerySeen","vask.townSeen","met.Drask"})Flag(f);yield return Zone();

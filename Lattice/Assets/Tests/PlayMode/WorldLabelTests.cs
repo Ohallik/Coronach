@@ -107,12 +107,24 @@ namespace Lattice.Tests.PlayMode
             RenderTexture.active=target;into.ReadPixels(new Rect(0,0,target.width,target.height),0,0,false);RenderTexture.active=before;
             return into.GetPixels32();
         }
+        /// <summary>How much smaller than its bounds SignText draws a word from here: nearer the camera than its made distance it is held to its band, about its own middle (the
+        /// shader's shrink). D388 holds a name to its made size, so RUVA OKH at the foot of Hask's view was drawn about a fifth smaller than its bounds, and the ground past its
+        /// tag's edge was read as what stood behind its letters (1.9 to 1, its tag solid in the view).</summary>
+        static float Held(Camera camera,TextMeshPro label)
+        {
+            var face=label.fontSharedMaterial;if(face==null||!face.HasProperty("_Band"))return 1;
+            float band=face.GetFloat("_Band"),made=Shader.GetGlobalFloat("_SignMadeDistance"),far=Mathf.Max(.001f,Vector3.Distance(camera.transform.position,label.transform.position));
+            return band>0&&made>0?Mathf.Min(1,band*far/made):1;
+        }
+        /// <summary>SignText's pass for a name's marks (its tag, its pip), by its light mode.</summary>
+        const string MarksPass="SRPDefaultUnlit";
         static RectInt OnScreen(Camera camera,TextMeshPro label,float pad)
         {
             label.ForceMeshUpdate();var b=label.textBounds;float xMin=1e9f,xMax=-1e9f,yMin=1e9f,yMax=-1e9f;
+            float held=Held(camera,label);var middle=label.transform.position;
             foreach(var x in new[]{b.min.x,b.max.x})foreach(var y in new[]{b.min.y,b.max.y})
             {
-                var p=camera.WorldToScreenPoint(label.transform.TransformPoint(new Vector3(x,y,0)));if(p.z<=0)return new RectInt(-1,-1,0,0);
+                var p=camera.WorldToScreenPoint(middle+(label.transform.TransformPoint(new Vector3(x,y,0))-middle)*held);if(p.z<=0)return new RectInt(-1,-1,0,0);
                 xMin=Mathf.Min(xMin,p.x);xMax=Mathf.Max(xMax,p.x);yMin=Mathf.Min(yMin,p.y);yMax=Mathf.Max(yMax,p.y);
             }
             return new RectInt(Mathf.FloorToInt(xMin-pad),Mathf.FloorToInt(yMin-pad),Mathf.CeilToInt(xMax-xMin+2*pad),Mathf.CeilToInt(yMax-yMin+2*pad));
@@ -160,7 +172,11 @@ namespace Lattice.Tests.PlayMode
                     // Alone, on black, in white: where its letters are, whatever its ink.
                     foreach(var k in kept){k.label.gameObject.layer=layer;k.label.color=new Color(1,1,1,1);k.label.ForceMeshUpdate();}
                     camera.cullingMask=1<<layer;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Color.black;
-                    var alone=Shoot(camera,target,image);
+                    // Letters only: a name's tag and its news pip are SignText's marks pass, drawn in their own colours whatever the word's, and the gold pip (D396) was read as
+                    // letters the same in every render, so as letters that never reach the screen ('!Pell' cut 6% in Many Hands).
+                    var faces=kept.Select(k=>k.label.fontSharedMaterial).Where(m=>m!=null&&m.shader!=null&&m.shader.name=="Lattice/SignText"&&m.GetShaderPassEnabled(MarksPass)).Distinct().ToList();
+                    foreach(var m in faces)m.SetShaderPassEnabled(MarksPass,false);
+                    Color32[] alone;try{alone=Shoot(camera,target,image);}finally{foreach(var m in faces)m.SetShaderPassEnabled(MarksPass,true);}
                     foreach(var k in kept)k.label.gameObject.layer=k.layer;
                     camera.cullingMask=mask;camera.clearFlags=clear;camera.backgroundColor=back;
                     // Faces in magenta.

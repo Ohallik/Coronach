@@ -58,12 +58,14 @@ namespace Lattice.Combat
             /// The braces 24,000 since D362 (November 22), from 19,000: at 19,000 the replay was through the room in 116.6 and 122.4 s (nov22-recon-a-65, nov22-recon-g). At 26,500
             /// the plain hand's third brace took 51.9 s of the 60 its length test allows (d362-ch8to10). The motor stays: its stage is worked on the arm's clock (18 s in the third,
             /// where the plain hand spent 14.9 to 15.3 s on the arm), which a slower motor would run out.
-            public const float BraceIntegrity=24000,MotorIntegrity=22000,Tended=.25f;
+            /// 30,000 since D384 (November 24): the round-three build was through its room in 113.9 to 142.0 s, median 118 (nov23-whole, nov23-recon-C, -f-65, -s-65), the braces
+            /// about 58 s of it. The plain hand's slowest brace read 41.8 s of its 60 at 24,000 (nov24a), so about 52 at 30,000; more would run it out.
+            public const float BraceIntegrity=30000,MotorIntegrity=22000,Tended=.25f;
             /// <summary>The fall: the bars swing out past lying open to this angle, pitched down, dropped, over these seconds; the view holds the gate this long.</summary>
             public const float HangAngle=100,HangPitch=32,HangDrop=2.5f,HangSeconds=3.2f,FrameSeconds=6;
             /// <summary>The arm: its clock on the deck by stage, its last clock once the stage is stopped, how long it takes to run out or draw in, how long after drawing in it runs out
             /// again for a dock still owed.</summary>
-            public static readonly float[] ArmClock={26,22,18};
+            public static readonly float[] ArmClock={26,24,22}; // D404: 22 and 18 until an EXTRA was held to half a motor stage (D384); with it the third dock was lost in one in-house run in four when the Arc Cleave caught one Clamp Tender of two (d403-a).
             public const float ArmLast=5,ArmSeconds=3.2f,ArmAgain=4;
             /// <summary>The cage's clock by stage (none before the first stage is stopped), its tell, where the bars stop (degrees off the gate line), the sweep, the hold, the way back, the
             /// blow and the shove.</summary>
@@ -132,6 +134,7 @@ namespace Lattice.Combat
                 if(tollStages>0){health.integrity=Mathf.Max(1,TollLine(TollTune.Stages-tollStages)-1);HealthPhase=Phase=tollStages+1;}
                 TollRootAtTheGate();
                 tollCage.Motor.Damaged+=TollMotorStruck;tollCage.Motor.Died+=TollMotorStopped;tollCage.BraceBroken+=TollBraceBroken;tollHears=true;
+                PartFloor(tollCage.Motor,TollMotorExtraFloor);
                 // The arm draws in as it wakes (the zone builds it out), unless a dock is owed (a Continue with a brace broken and its stage still running): then it is out.
                 if(TollOwed)tollCage.SetArm(1);tollCage.ShowMotor(true);
                 if(!tollNoticed){tollNoticed=true;Notices.Post("THE TOLLKEEPER'S GATE","Its cage is held by braces on its two outriggers. Break one from your ship and the carrier runs its arm out of the gate to mend it, with its gate motor on the arm: dock on the arm, stop that stage of the motor on foot, and launch before the arm draws in. Three stages and the gate opens. From the second, the cage closes on a clock: its lamps count to it.");}
@@ -274,6 +277,14 @@ namespace Lattice.Combat
             float top=TollLine(TollTune.Stages-tollStages),floor=TollLine(TollTune.Stages-tollStages-1),share=tollCage.Motor.maximum>0?tollCage.Motor.integrity/tollCage.Motor.maximum:1;
             health.integrity=Mathf.Clamp(floor+(top-floor)*share,floor+1,top);
         }
+        /// <summary>How low one EXTRA may take the gate motor, D375's rule with a stage as the phase (D384): half a stage at most, and in the first two never the stage itself, which
+        /// is the party's own blows' to stop (its shift and the launch follow it); in the third it may end the fight.</summary>
+        float TollMotorExtraFloor()
+        {
+            var motor=tollCage!=null?tollCage.Motor:null;if(motor==null||!motor.Alive)return 0;
+            float floor=motor.integrity-ExtraOfAPhase*motor.maximum;
+            return tollStages+1<TollTune.Stages?Mathf.Max(1,floor):Mathf.Max(0,floor);
+        }
         void TollMotorStopped(Health _,DamagePacket packet)
         {
             if(this==null||health==null||!health.Alive)return;
@@ -300,7 +311,7 @@ namespace Lattice.Combat
         void TollShifts()=>Debug.Log($"TOLL_SHIFT stage={TollStage}");
         void TollDown()
         {
-            if(tollHears&&tollCage!=null&&tollCage.Motor!=null){tollCage.Motor.Damaged-=TollMotorStruck;tollCage.Motor.Died-=TollMotorStopped;tollCage.BraceBroken-=TollBraceBroken;tollHears=false;}
+            if(tollHears&&tollCage!=null&&tollCage.Motor!=null){tollCage.Motor.Damaged-=TollMotorStruck;tollCage.Motor.Died-=TollMotorStopped;tollCage.BraceBroken-=TollBraceBroken;tollHears=false;PartExtraFloors.Remove(tollCage.Motor);}
             var presentation=GetComponent<DefeatPresentation>();if(presentation!=null)presentation.enabled=false;
             if(visual!=null){visual.localPosition=visualRest;visual.localRotation=visualRestRotation;}
             if(!TollRoom)return;

@@ -170,6 +170,8 @@ namespace Lattice.Combat
             if(FrostRing.Current!=null)FrostRing.Current.Dismiss();
             // Put back to sleep, not destroyed: its body stays where it knelt, as ice, for the rest of the visit, instead of being cleared away as a beaten body is.
             var presentation=GetComponent<DefeatPresentation>();if(presentation!=null)Destroy(presentation);
+            // D385: dark from the frame it sleeps, its eye and rig out, toward the frost's blue (BodyGoesDark, begun by its presentation before this).
+            var dark=GetComponent<BodyGoesDark>();if(dark!=null)dark.Toward(IceTone);
             StartCoroutine(Kneel());
             Debug.Log("MARSHAL_ASLEEP");
         }
@@ -189,17 +191,13 @@ namespace Lattice.Combat
             // From where the body stood as it fell, not from where it stood when the fight began (where the death's Interrupt has just put it back): held passive or
             // mid-move, those differ, and a kneel measured from the fight's first pose ended where the body already stood.
             var from=stood?stoodAt:drawn.localPosition;var turned=stood?stoodTurned:drawn.localRotation;
-            var block=new MaterialPropertyBlock();var views=drawn.GetComponentsInChildren<Renderer>();
+            // D385: fastest at first and on real time through the kill's stop, as every beaten boss goes down (DefeatPresentation): eased in over 2.4 s of the game's clock it had
+            // barely moved a second after "Quest updated" (nov23-whole s36/076). Its colour is BodyGoesDark's (MarshalDown): this lit it thaw-orange from white first.
             for(float t=0;t<MarshalTune.KneelSeconds;)
             {
-                if(!GameTime.Paused)t+=Time.deltaTime;
-                float k=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/MarshalTune.KneelSeconds));
+                if(!GameTime.Paused)t+=Time.unscaledDeltaTime;
+                float u=Mathf.Clamp01(t/MarshalTune.KneelSeconds),k=1-(1-u)*(1-u);
                 drawn.localRotation=turned*Quaternion.Euler(MarshalTune.KneelBow*k,0,0);drawn.localPosition=from+Vector3.down*(MarshalTune.KneelSink*k);
-                foreach(var view in views)
-                {
-                    if(view==null)continue;view.GetPropertyBlock(block);
-                    block.SetColor("_BaseColor",Color.Lerp(Color.white,IceTone,k));block.SetColor("_EmissionColor",Color.Lerp(ThawLight,Color.black,k));view.SetPropertyBlock(block);
-                }
                 yield return null;
             }
             Debug.Log($"MARSHAL_KNELT {drawn.name} at {drawn.localPosition}");

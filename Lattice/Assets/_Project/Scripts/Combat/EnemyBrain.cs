@@ -142,6 +142,204 @@ namespace Lattice.Combat
         }
         /// <summary>How far from a hero's middle its own middle stops: its front at his capsule.</summary>
         float Contact(CombatActor hero)=>front+(hero.TryGetComponent<CharacterController>(out var his)?his.radius:HeroCapsule)+.05f;
+        // ---------- what it draws round its middle, bearing by bearing (D408) ----------
+        /// <summary>How many bearings its outline is kept on; how long after it wakes its outline is read (its rig posed by then, not in the pose it was saved in); how high above its
+        /// feet what it draws counts (a hero's height); and the furthest any bearing is taken to reach.</summary>
+        const int OutlineBearings=16;const float OutlineAfter=.3f,OutlineHigh=2.5f,MostOutline=3;
+        /// <summary>For a test's broken state only (BodiesKeepApartTests): one of a pack spaced from its own by half-widths, walking and lunging into them, as before D408.</summary>
+        static bool spacedAsBefore;
+        float[] outline;float startedAt;
+        /// <summary>How far what it draws reaches from its middle on the plan along a way in the world (its own frame turns with it), between its feet and a hero's head, read once
+        /// from its posed skin: a Gloomgrazer reaches 1.26 m ahead of its middle and about a metre behind, and only half a metre to either side. Spaced by that half-width alone
+        /// (<see cref="BodyRadius"/>), one of a pack walking in behind another stood with its head in the other's haunch (Lantern Gorge, nov24-recon-h-14 s14/051). Before its
+        /// outline is read, and for a body whose skin can't be read, its front ahead and its half-width elsewhere.</summary>
+        public float ReachToward(Vector3 way)
+        {
+            way.y=0;if(way.sqrMagnitude<.0001f)return bodyRadius;
+            var local=Quaternion.Inverse(transform.rotation)*way;
+            if(outline==null&&Time.time>=startedAt+OutlineAfter)outline=ReadOutline();
+            if(outline==null||outline.Length==0)return Mathf.Max(bodyRadius,local.z>0?Mathf.Lerp(bodyRadius,front,local.z*local.z/local.sqrMagnitude):bodyRadius);
+            float at=Mathf.Repeat(Mathf.Atan2(local.x,local.z)*Mathf.Rad2Deg,360)/(360f/OutlineBearings);int a=Mathf.FloorToInt(at)%OutlineBearings,b=(a+1)%OutlineBearings;
+            return Mathf.Max(controller!=null?controller.radius:.5f,Mathf.Max(outline[a],outline[b]));
+        }
+        float[] ReadOutline()
+        {
+            var reach=new float[OutlineBearings];var middle=transform.position;var turn=Quaternion.Inverse(transform.rotation);bool any=false;var mesh=new List<Vector3>();
+            void Take(Vector3 p)
+            {
+                if(p.y<middle.y+.05f||p.y>middle.y+OutlineHigh)return;
+                var off=turn*(p-middle);off.y=0;float d=off.magnitude;if(d<.01f)return;
+                int bearing=Mathf.RoundToInt(Mathf.Repeat(Mathf.Atan2(off.x,off.z)*Mathf.Rad2Deg,360)/(360f/OutlineBearings))%OutlineBearings;
+                reach[bearing]=Mathf.Max(reach[bearing],Mathf.Min(MostOutline,d));any=true;
+            }
+            foreach(var drawn in GetComponentsInChildren<Renderer>())
+            {
+                if(!drawn.enabled||drawn.name=="Telegraph"||drawn.shadowCastingMode==UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly)continue;
+                if(drawn is SkinnedMeshRenderer skin&&skin.sharedMesh!=null&&skin.sharedMesh.isReadable)
+                {
+                    try{foreach(var p in GeneratedGeometry.WorldSkinPoints(skin))Take(p);}
+                    catch(System.InvalidOperationException)
+                    {
+                        // A rig that isn't a generated one (the Warmaster's war-frame): its skin as Unity poses it, its renderer's scale baked in (as BodiesKeepApartTests reads it).
+                        var baked=new Mesh();skin.BakeMesh(baked,true);var pose=Matrix4x4.TRS(skin.transform.position,skin.transform.rotation,Vector3.one);
+                        baked.GetVertices(mesh);foreach(var p in mesh)Take(pose.MultiplyPoint3x4(p));Destroy(baked);
+                    }
+                }
+                else if(drawn is MeshRenderer&&drawn.TryGetComponent<MeshFilter>(out var filter)&&filter.sharedMesh!=null&&filter.sharedMesh.isReadable){filter.sharedMesh.GetVertices(mesh);foreach(var p in mesh)Take(drawn.transform.TransformPoint(p));}
+                // A mesh the player can't read (a held prop: the Warmaster's shield and lance): the corners of the box it is drawn in, editor and player alike.
+                else if(drawn is MeshRenderer||drawn is SkinnedMeshRenderer){var box=drawn.bounds;for(int i=0;i<8;i++)Take(box.center+Vector3.Scale(box.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1)));}
+            }
+            return any?reach:System.Array.Empty<float>();
+        }
+        /// <summary>Its spine on the plan: from its drawn back to its drawn front along the way it faces, each end brought in by its half-width, so the spine grown by that half-width
+        /// is the body. A round body's spine is its middle, and two of them keep apart exactly as before. Moved by <paramref name="shift"/> for a step it is about to take.</summary>
+        void Spine(Vector3 shift,out Vector3 back,out Vector3 ahead)=>Spine(shift,transform.forward,out back,out ahead);
+        /// <summary>The same, turned to face <paramref name="facing"/> (where a lunge it is about to tell would turn it, D409).</summary>
+        void Spine(Vector3 shift,Vector3 facing,out Vector3 back,out Vector3 ahead)
+        {
+            var own=transform.forward;own.y=0;own=own.sqrMagnitude>.0001f?own.normalized:Vector3.forward;facing.y=0;var way=facing.sqrMagnitude>.0001f?facing.normalized:own;
+            var at=transform.position+shift;at.y=0;
+            ahead=at+way*Mathf.Max(0,Mathf.Max(front,ReachToward(own))-bodyRadius);back=at-way*Mathf.Max(0,ReachToward(-own)-bodyRadius);
+        }
+        /// <summary>The nearest points of two segments (Ericson's).</summary>
+        static void Nearest(Vector3 p1,Vector3 q1,Vector3 p2,Vector3 q2,out Vector3 c1,out Vector3 c2)
+        {
+            var d1=q1-p1;var d2=q2-p2;var r=p1-p2;float a=Vector3.Dot(d1,d1),e=Vector3.Dot(d2,d2),f=Vector3.Dot(d2,r),s,t;
+            if(a<=1e-6f&&e<=1e-6f)s=t=0;
+            else if(a<=1e-6f){s=0;t=Mathf.Clamp01(f/e);}
+            else
+            {
+                float c=Vector3.Dot(d1,r);
+                if(e<=1e-6f){t=0;s=Mathf.Clamp01(-c/a);}
+                else
+                {
+                    float b=Vector3.Dot(d1,d2),denom=a*e-b*b;s=denom>1e-6f?Mathf.Clamp01((b*f-c*e)/denom):0;t=(b*s+f)/e;
+                    if(t<0){t=0;s=Mathf.Clamp01(-c/a);}else if(t>1){t=1;s=Mathf.Clamp01((b-c)/a);}
+                }
+            }
+            c1=p1+d1*s;c2=p2+d2*t;
+        }
+        /// <summary>How far its body stands in another's, spine to spine (positive: in it), and the way out of it on the plan. As before D408 it was middle to middle against their
+        /// half-widths: a grazer drawn 1.26 m ahead of its middle walked in behind another with its head in the other's haunch, and two converging on a hero from neighbouring
+        /// bearings stood with their heads in one another (Lantern Gorge, nov24-recon-h-14 s14/051).</summary>
+        float InOther(EnemyBrain other,Vector3 shift,out Vector3 away)
+        {
+            Vector3 mine,theirs;
+            if(spacedAsBefore){mine=transform.position+shift;theirs=other.transform.position;}
+            else{Spine(shift,out var b1,out var a1);other.Spine(Vector3.zero,out var b2,out var a2);Nearest(b1,a1,b2,a2,out mine,out theirs);}
+            var off=mine-theirs;off.y=0;float d=off.magnitude;
+            if(d>.01f)away=off/d;else{away=transform.position+shift-other.transform.position;away.y=0;away=away.sqrMagnitude>.0001f?away.normalized:transform.right;}
+            return bodyRadius+other.bodyRadius-d;
+        }
+        /// <summary>The same with both bodies where they are about to be: this one moved and turned for a lunge it would tell, the other at the end of the lunge it is telling or making.</summary>
+        float InOther(EnemyBrain other,Vector3 shift,Vector3 facing,Vector3 otherShift)
+        {
+            Spine(shift,facing,out var b1,out var a1);other.Spine(otherShift,out var b2,out var a2);Nearest(b1,a1,b2,a2,out var mine,out var theirs);
+            var off=mine-theirs;off.y=0;return bodyRadius+other.bodyRadius-off.magnitude;
+        }
+        // ---------- a pack round its prey (D409) ----------
+        /// <summary>How far ahead a lunge's way is looked along for one of its own; the step it is looked at in; how far round the hero a body whose way is shut stands off while it goes
+        /// round to another side; and how long it keeps to the side it chose.</summary>
+        const float LaneLooked=8,LaneStep=.2f,RoundOff=2,SideKept=1.5f;
+        int roundSide;float roundSince=float.NegativeInfinity;
+        /// <summary>For a test's broken state only (BodiesKeepApartTests): D408 as it was merged, a pack hunter telling its lunge with one of its own in the way.</summary>
+        static bool lanesAsBefore;
+        /// <summary>Where one of its pack telling or making a lunge will be at the end of it (its way to the hero's capsule, its travel at most); where it stands for any other.</summary>
+        Vector3 Bound()
+        {
+            if(!Telegraphing&&!lunging||definition==null||definition.archetype!=EnemyArchetype.PackHunter&&definition.id!="ChoristerDart")return Vector3.zero;
+            return aim*Mathf.Min(lunging?LungeTravel*.5f:LungeTravel,RoomAhead(aim));
+        }
+        /// <summary>A lunge along this way would be stopped by one of its own short of biting the hero (LungeAttack stops where a step takes it further into one, D408). Its own are taken where
+        /// they stand, or where a lunge they are telling or making will carry them. With the pack spaced as before D408 a lunge ran through its own, and nothing is shut.</summary>
+        bool LaneShut(Vector3 way,CombatActor victim)
+        {
+            if(spacedAsBefore||lanesAsBefore)return false;
+            way.y=0;if(way.sqrMagnitude<.0001f)return false;way.Normalize();
+            float travel=Mathf.Min(LaneLooked,RoomAhead(way)),bite=Mathf.Max(LungeAhead,front-.5f);if(travel<=.01f)return false;
+            var at=transform.position;
+            foreach(var other in crowd)
+            {
+                if(other==this||other.Passive||!other.Health.Alive||other.Flying!=Flying)continue;
+                var gap=other.transform.position-at;gap.y=0;if(gap.magnitude>travel+MostOutline*2)continue;
+                var there=other.Bound();float was=InOther(other,Vector3.zero,way,there),prev=0;
+                for(float s=LaneStep;;s+=LaneStep)
+                {
+                    float to=Mathf.Min(s,travel),now=InOther(other,way*to,way,there);
+                    if(now>0&&now>was+.005f)
+                    {
+                        // Stopped here: from here its bite still reaches him, or it doesn't.
+                        var mouth=at+way*(prev+bite);var off=victim.transform.position-mouth;off.y=0;
+                        if(off.magnitude>LungeRadius+.2f)return true;break;
+                    }
+                    was=now;prev=to;if(to>=travel)break;
+                }
+            }
+            return false;
+        }
+        /// <summary>Its way to the hero shut by one of its own, it goes round him to another side, a couple of metres off his capsule, keeping to the side its own aren't on.</summary>
+        Vector3 Round(Vector3 toVictim,float distance,CombatActor victim)
+        {
+            var mine=-toVictim/distance;var side=Vector3.Cross(Vector3.up,mine);
+            if(Time.time>roundSince+SideKept||roundSide==0)
+            {
+                float lean=0;
+                foreach(var other in crowd)
+                {
+                    if(other==this||other.Passive||!other.Health.Alive||other.Flying!=Flying)continue;
+                    var theirs=other.transform.position-victim.transform.position;theirs.y=0;if(theirs.magnitude>distance+4)continue;
+                    float angle=Vector3.SignedAngle(mine,theirs,Vector3.up);if(Mathf.Abs(angle)>=120)continue;
+                    lean-=(Mathf.Abs(angle)<2?((GetInstanceID()&1)==0?1:-1):Mathf.Sign(angle))*(120-Mathf.Abs(angle));
+                }
+                roundSide=lean>=0?1:-1;
+            }
+            roundSince=Time.time;
+            float ring=Contact(victim)+RoundOff,inward=Mathf.Clamp((distance-ring)/ring,-.7f,.7f);
+            return side*roundSide+toVictim/distance*inward;
+        }
+        /// <summary>One of its own it stands in by more than a hand: it starts no tell there, since what it marks is where it strikes from and it would hold there for the tell.</summary>
+        bool InOneOfItsOwn()
+        {
+            if(spacedAsBefore)return false;
+            foreach(var other in crowd)
+            {
+                if(other==this||other.Passive||!other.Health.Alive||other.Flying!=Flying)continue;
+                if(InOther(other,Vector3.zero,out _)>.2f)return true;
+            }
+            return false;
+        }
+        /// <summary>A step that would take it further into one of its own than it already stands (a lunge's): it stops there, as it stops at a hero.</summary>
+        bool IntoOneOfItsOwn(Vector3 step)
+        {
+            if(spacedAsBefore)return false;
+            foreach(var other in crowd)
+            {
+                if(other==this||other.Passive||!other.Health.Alive||other.Flying!=Flying)continue;
+                float after=InOther(other,step,out _);if(after>0&&after>InOther(other,Vector3.zero,out _)+.005f)return true;
+            }
+            return false;
+        }
+        /// <summary>Its walk in, less what would take it further into one of its own it already stands within: it slides round it instead. The shove apart is under walking pace
+        /// (so nothing is ever pinned), and walking straight at a hero with another of its pack ahead on the line, it overran the shove at 3.7 m/s and stood in the other's back.</summary>
+        Vector3 Unpressed(Vector3 way)
+        {
+            way.y=0;if(spacedAsBefore)return way;
+            foreach(var other in crowd)
+            {
+                if(other==this||other.Passive||!other.Health.Alive||other.Flying!=Flying)continue;
+                if(InOther(other,Vector3.zero,out var away)<=0&&InLane(other,out away)<=0)continue;
+                float into=-Vector3.Dot(way,away);if(into>0)way+=away*into;
+            }
+            return way;
+        }
+        /// <summary>How far its body stands in the lane one of its pack is telling or making a lunge down (its spine swept to where the lunge ends), and the way out (D409): going round
+        /// the hero, it walked across another's painted lane and the lunge stopped at it, short of him.</summary>
+        float InLane(EnemyBrain other,out Vector3 away)
+        {
+            away=Vector3.zero;var bound=other.Bound();if(bound.sqrMagnitude<.01f||lanesAsBefore)return 0;
+            Spine(Vector3.zero,out var b1,out var a1);other.Spine(Vector3.zero,out var b2,out var a2);Nearest(b1,a1,b2,a2+bound,out var mine,out var theirs);
+            var off=mine-theirs;off.y=0;float d=off.magnitude;if(d<.01f)return 0;away=off/d;return bodyRadius+other.bodyRadius+.1f-d;
+        }
         void OnEnable(){if(!crowd.Contains(this))crowd.Add(this);}
         void OnDisable(){crowd.Remove(this);}
         void Awake(){Health=GetComponent<Health>();controller=GetComponent<CharacterController>();home=transform.position;}
@@ -153,6 +351,7 @@ namespace Lattice.Combat
                 if(body is MeshRenderer||body is SkinnedMeshRenderer)bodyRadius=Mathf.Max(bodyRadius,Mathf.Min(MostBody,Mathf.Min(body.bounds.extents.x,body.bounds.extents.z)));
             front=controller!=null?controller.radius:.5f;
             foreach(var body in GetComponentsInChildren<Renderer>())front=Mathf.Max(front,Mathf.Min(MostFront,FrontOf(transform,body)));
+            startedAt=Time.time;
             Health.Damaged+=OnDamaged;
             boss=GetComponent<BossController>();
             collar=GetComponent<CantorCollar>();
@@ -432,7 +631,9 @@ namespace Lattice.Combat
                 return;
             }
             KeepApart(d,distance,range);
-            if(near<range&&Time.time>=nextAttack&&Time.time>=draggedAt+DragSettles&&InSight(victim))
+            // A pack hunter whose way in is shut by one of its own goes round to another side and tells from there (D409): told anyway, it lunged into the one in front, stopped short and bit nothing.
+            bool shut=dive&&boss==null&&distance>.01f&&distance<LaneLooked+front&&LaneShut(d,victim);
+            if(near<range&&!shut&&Time.time>=nextAttack&&Time.time>=draggedAt+DragSettles&&!InOneOfItsOwn()&&InSight(victim))
             {
                 float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;if(ranged)shotAt=Time.time;
                 markedFrom=transform.position;dragged=0;
@@ -444,7 +645,8 @@ namespace Lattice.Combat
             }
             if(definition.archetype==EnemyArchetype.Mine)return;
             if(distance>35){Move(home-transform.position,definition.speed);return;}
-            if(ranged)
+            if(shut){var round=Unpressed(Round(d,distance,victim));if(round.sqrMagnitude>.0001f)Move(round,definition.speed*Mathf.Min(1,round.magnitude));}
+            else if(ranged)
             {
                 // A shooter with a wall in the way closes until it has a line, rather than standing in range of nothing.
                 if(distance>range*.85f||Time.time<nextSight)Move(d,definition.speed);
@@ -458,7 +660,8 @@ namespace Lattice.Combat
             {
                 Vector3 approach=d.normalized;
                 if(definition.archetype==EnemyArchetype.PackHunter)approach+=Vector3.Cross(Vector3.up,approach)*Mathf.Sin(Time.time+GetInstanceID())*.35f;
-                Move(approach,definition.speed);
+                float pace=approach.magnitude;approach=Unpressed(approach);
+                if(approach.sqrMagnitude>.0001f)Move(approach,definition.speed*Mathf.Min(1,approach.magnitude/Mathf.Max(.01f,pace)));
             }
             // A boss turns at a heavy body's pace, so "behind it" is a place a player can get to.
             if(d.sqrMagnitude>.01f&&definition.archetype!=EnemyArchetype.Serpent)
@@ -486,7 +689,9 @@ namespace Lattice.Combat
             foreach(var other in crowd)
             {
                 if(other==this||other.Passive||!other.Health.Alive)continue;
-                if(Shove(at,other.transform.position,bodyRadius+other.bodyRadius,controller.radius+other.controller.radius,ref push))crowded=true;
+                // Spine to spine (D408); for two round bodies, middle to middle as it always was.
+                float into=InOther(other,Vector3.zero,out var away);if(into<=0)continue;crowded=true;
+                push+=away*Mathf.Min(1,into/Mathf.Max(.05f,bodyRadius+other.bodyRadius-controller.radius-other.controller.radius));
             }
             // In reach, its own can't press it further in: they fan out round the hero, or the one in front ends up on top of him.
             if(distance<reach&&distance>.01f){float inward=Vector3.Dot(push,toVictim)/distance;if(inward>0)push-=toVictim*(inward/distance);}
@@ -509,7 +714,14 @@ namespace Lattice.Combat
             for(float travelled=0;travelled<LungeTravel&&Health.Alive&&!Health.Broken&&!Warded;)
             {
                 if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
-                float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled),room=RoomAhead(direction);bool met=room<=step;step=Mathf.Min(step,room);travelled+=step;
+                float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled),room=RoomAhead(direction);bool met=room<=step;step=Mathf.Min(step,room);
+                // Nor into one of its own: two of a pack marked from beside each other and ran into one place, one drawn inside the other (nov24-recon-h-14 s14/051, D408).
+                if(step>0&&IntoOneOfItsOwn(direction*step))
+                {
+                    step=0;met=true;var left=Vector3.zero;foreach(var hero in PartyController.Current.members)if(hero.Health.Alive){var o=hero.transform.position-transform.position;o.y=0;if(left==Vector3.zero||o.sqrMagnitude<left.sqrMagnitude)left=o;}
+                    Debug.Log($"LUNGE_HELD_BY_OWN {definition.id} {travelled:0.00} m into its lunge, {left.magnitude:0.00} m from the nearest hero");
+                }
+                travelled+=step;
                 if(controller.enabled&&step>0)controller.Move(direction*step);
                 if(SlidOffItsLane(direction))break;
                 var hit=CombatActor.Strike(transform.position+Vector3.up*StrikeHeight+direction*bite,LungeRadius,packet);hit.hit=victims;hit.ThroughWalls=false;

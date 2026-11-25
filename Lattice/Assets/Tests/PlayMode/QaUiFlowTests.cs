@@ -359,6 +359,35 @@ namespace Lattice.Tests.PlayMode
             var label=Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None).FirstOrDefault(t=>t.name==name&&t.GetComponent<Renderer>().enabled&&Vector3.Distance(t.transform.position,npc.transform.position)<6);
             Assert.IsNotNull(label,"fixture: "+npc.speaker+" has a label on screen");return label;
         }
+        /// <summary>A name's marks as its mesh holds them (SignText tells a mark from a letter by its scale, a mark has none): each one's rect in the text's own space, and its colour.</summary>
+        static List<(Rect rect,Color32 color)> Marks(TextMeshPro label)
+        {
+            label.ForceMeshUpdate();var found=new List<(Rect rect,Color32 color)>();
+            foreach(var mesh in label.textInfo.meshInfo)
+            {
+                if(mesh.vertices==null||mesh.uvs0==null)continue;
+                for(int i=0;i+3<mesh.vertexCount;i+=4)
+                {
+                    if(mesh.uvs0[i].w!=0)continue;
+                    Vector3 a=mesh.vertices[i],c=mesh.vertices[i+2];
+                    found.Add((Rect.MinMaxRect(Mathf.Min(a.x,c.x),Mathf.Min(a.y,c.y),Mathf.Max(a.x,c.x),Mathf.Max(a.y,c.y)),mesh.colors32[i]));
+                }
+            }
+            return found;
+        }
+        /// <summary>The game camera's view at 1080p, kept under Builds/quality/look/d396 to be judged at play size (the party about 90 px tall).</summary>
+        static void KeepView(string file)
+        {
+            var camera=Camera.main;if(camera==null)return;
+            var target=new RenderTexture(1920,1080,24,RenderTextureFormat.ARGB32);var image=new Texture2D(1920,1080,TextureFormat.RGB24,false);var was=camera.targetTexture;var before=RenderTexture.active;
+            try
+            {
+                camera.targetTexture=target;camera.Render();RenderTexture.active=target;image.ReadPixels(new Rect(0,0,1920,1080),0,0);image.Apply();
+                var folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality/look/d396"));Directory.CreateDirectory(folder);
+                File.WriteAllBytes(Path.Combine(folder,file),image.EncodeToPNG());
+            }
+            finally{camera.targetTexture=was;RenderTexture.active=before;target.Release();Object.Destroy(target);Object.Destroy(image);}
+        }
         static IEnumerator Talk(Npc npc)
         {
             DialogueSystem.Current.AutoAdvance=true;npc.Interact();yield return null;
@@ -373,22 +402,44 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("Lanternwick");yield return Settle();
             var pell=Person("Pell");var label=ShownLabel(pell);var hero=Hero;
             string name=label.text;Color color=label.color;float size=label.fontSize;
+            StringAssert.Contains("<mark",name,"fixture: Pell's name hangs on its tag");string words=name.Substring(name.LastIndexOf("em>")+3);
+            var plain=Marks(label);Assert.AreEqual(1,plain.Count,"fixture: Pell's plain name has one tag and nothing else under it");var tag=plain[0].rect;
             Put(hero,pell.transform.position+new Vector3(0,.5f,-1.8f));yield return Settle();
+            KeepView("pell-plain.png");
             var prompt=Text("Interaction");StringAssert.Contains(DisplayNames.Speaker("Pell"),prompt.text,"fixture: the hero stands at Pell");
             StringAssert.DoesNotContain("something to say",prompt.text,"someone the party has never met is marked as having news: a first meeting isn't a beat");
             // Met: her offer is waiting, on a repeat talk nothing else points at.
             Flag("met.Pell");Assert.AreEqual("PellLampOffer",SideStories.NodeFor("Pell",State),"fixture: the offer waits");yield return Settle();
             Assert.AreNotEqual(name,label.text,"Pell has a quest to offer and her name label looks the same as anyone's");
-            StringAssert.Contains(name,label.text,"the mark took her name's place");
+            StringAssert.EndsWith(words,label.text,"the mark took her name's place");
             Assert.Greater(ColorGap(label.color,color),.2f,"the mark doesn't change the label's colour, so it can't be seen across a square");
-            Assert.Greater(label.fontSize,size,"the mark is no bigger than the plain name, and the name is small at this camera");
-            StringAssert.Contains("something to say",prompt.text,"up close the prompt still reads like any other talk");
+            // What tells at play size (D396), not size: D388 holds a marked name to its size, as PELL's 190 by 125 tag was larger than her head (s13 079). A solid pip in the
+            // HUD's gold, inside the same small tag, at full strength; the tag no taller, and no wider than the room the mark takes.
+            Assert.AreEqual(size,label.fontSize,.001f,"the name grew for its mark, and its tag with it (PELL, s13 079)");
+            var marks=Marks(label);var gold=PeopleMarks.PipColor;KeepView("pell-marked.png");
+            var pips=marks.Where(m=>m.color.r==gold.r&&m.color.g==gold.g&&m.color.b==gold.b).ToList();
+            // The mark as D388 left it, a gold '!' in the name's size, had none: a stroke three pixels wide at play size.
+            string now=label.text;label.text=SignStyle.Backing(label,"<b>!</b>  "+words)+"<b>!</b>  "+name;
+            bool oldHad=Marks(label).Any(m=>m.color.r==gold.r&&m.color.g==gold.g&&m.color.b==gold.b);label.text=now;label.ForceMeshUpdate();
+            Assert.IsFalse(oldHad,"fixture: the old mark has a pip of its own, so this check tells nothing");
+            Assert.AreEqual(1,pips.Count,"Pell's tag has no mark in the HUD's gold: "+string.Join(", ",marks.Select(m=>m.color.ToString())));
+            var pip=pips[0].rect;
+            Assert.GreaterOrEqual((int)pips[0].color.a,250,$"the mark is faint (alpha {pips[0].color.a}, the label's {label.alpha:0.00})");
+            var under=marks.Where(m=>!(m.color.r==gold.r&&m.color.g==gold.g&&m.color.b==gold.b)).Select(m=>m.rect).ToList();
+            Assert.AreEqual(1,under.Count,"a marked name has a second tag under it");var marked=under[0];
+            Assert.IsTrue(marked.Contains(pip.min)&&marked.Contains(pip.max),$"the mark stands outside its name's tag (mark {pip}, tag {marked})");
+            Assert.Greater(pip.width*pip.height,tag.height*tag.height*.025f,$"the mark is a speck (mark {pip}, tag {tag})");
+            Assert.LessOrEqual(pip.height,tag.height*.5f,$"the mark is a block, not a pip (mark {pip}, tag {tag})");
+            Assert.LessOrEqual(marked.height,tag.height*1.01f,$"a marked name's tag stands taller than a plain one's (marked {marked}, plain {tag})");
+            var first=label.textInfo.characterInfo[label.textInfo.characterCount-words.Length];
+            float room=first.bottomLeft.x-pip.xMin;
+            Assert.LessOrEqual(marked.width-tag.width,room*1.01f,$"a marked name's tag is wider than a plain one's by more than its mark (marked {marked}, plain {tag}, the mark's room {room:0.00})");            StringAssert.Contains("something to say",prompt.text,"up close the prompt still reads like any other talk");
             // Heard: back to plain.
             yield return Talk(pell);
             Assert.GreaterOrEqual(State.questSteps["PellsLamp"],0,"fixture: the offer was heard");
             Assert.AreEqual(name,label.text,"the mark stays after the conversation it pointed at");
             Assert.Less(ColorGap(label.color,color),.02f,"the label keeps its gold after the conversation");
-            Assert.AreEqual(size,label.fontSize,.001f,"the label stays big after the conversation");
+            Assert.AreEqual(size,label.fontSize,.001f,"the label's size changes after the conversation");
             StringAssert.DoesNotContain("something to say",prompt.text,"the prompt keeps offering what has just been said");
             // A beat that only repeats itself never clears, so it isn't news.
             Flag("pell.lampReturned");Assert.AreEqual("PellLampAfter",SideStories.NodeFor("Pell",State),"fixture: the line she repeats");yield return Settle();

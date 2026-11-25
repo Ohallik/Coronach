@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 namespace Lattice.UI
 {
-    /// <summary>Someone with a new conversation waiting shows it: their name label turns gold and grows, to be seen across a square, and
+    /// <summary>Someone with a new conversation waiting shows it: their name label turns gold behind a gold pip, to be seen across a square, and
     /// the prompt says so up close. Five quests are only ever offered on a second talk, and Corra's offer stands where a player expects her
     /// shop, with nothing to suggest either. World can't see TextMeshPro, so the mark lives here and World doesn't change.</summary>
     public sealed class PeopleMarks:MonoBehaviour
@@ -39,11 +39,33 @@ namespace Lattice.UI
             "HalHomeBenches","NeveHomeSocks","TamHomeFrame",
             // Ruva's motion nine, her line in the square every time: news until heard once (SideStories.HeardFlagFor).
             "RuvaPassageRules"};
-        /// <summary>How tall a name stands on a 1080p screen, and how tall when it's marked; and how far over the head it hangs, in metres.</summary>
-        const float NamePixels=26,MarkPixels=32,OverHead=.32f;
-        /// <summary>A heavy mark, not a tick: thin Cinzel's '!' read as a stray stroke before the name.</summary>
-        const string Mark="<size=150%><b>!</b></size>  ";
-        sealed class Label{public TextMeshPro text;public string name,shows;public Color color;public float size,markSize;public bool marked,placed;public Npc npc;}
+        /// <summary>How tall a name stands on a 1080p screen, marked or not (D388: grown to 32 for its mark, with the mark half as tall again, PELL's tag was 190 by 125 pixels, larger
+        /// than his head and against Taren's side, s13 079); and how far over the head it hangs, in metres.</summary>
+        const float NamePixels=26,OverHead=.32f;
+        /// <summary>The room the mark takes before the name, in the name's own size, so a marked name's tag is the height of any other's and only as much wider as its mark (D396).</summary>
+        const string Room=Cut+Gap,Cut="!",Gap="<space=0.5em>";
+        /// <summary>How far the pip stands past the capitals above and below, and past the '!' on each side, in em: wide enough that the gold shows round the '!' and its dark
+        /// halo (at .06 a side, with a bold '!', the pip was a gold rim round a dark stroke at play size).</summary>
+        const float PipOver=.15f,PipSide=.26f;
+        /// <summary>The mark (D396): a solid pip in the HUD's gold for what is waiting (the objective's arrow and its 'Here'), a dark '!' cut in it, before the name inside the
+        /// name's own tag, from a little under the baseline to a little over the capitals. Size told news until D388 (grown to 32 px with a '!' half as tall again, PELL's tag was
+        /// 190 by 125, s13 079); in the name's own size Cinzel's '!' was a stroke three pixels wide at play size. The pip is TextMeshPro's mark like the tag and comes after it
+        /// in the text, so SignText's marks pass lays it on the tag, and the letters on both. TextMeshPro writes a mark's colour as it is given, not into linear light as it
+        /// does a letter's, so the gold is given in linear light and shows as the HUD's.</summary>
+        public static string Pip(TextMeshPro text)
+        {
+            var face=text!=null&&text.font!=null?text.font.faceInfo:default;
+            float per=face.pointSize>0?face.scale/(float)face.pointSize:0,ascent=face.ascentLine*per,descent=face.descentLine*per,cap=face.capLine*per;
+            if(per<=0||cap<=0||ascent<=cap){ascent=1;descent=-.3f;cap=.7f;}
+            // TextMeshPro's mark runs from the line's descender to its ascender, past them by its padding (a hundredth of an em each): taken in to the capitals' band.
+            var invariant=System.Globalization.CultureInfo.InvariantCulture;
+            string side=(PipSide*100).ToString("0.#",invariant),top=((cap+PipOver-ascent)*100).ToString("0.#",invariant),bottom=((descent+PipOver)*100).ToString("0.#",invariant);
+            var gold=QualitySettings.activeColorSpace==ColorSpace.Linear?UiKit.GoldColor.linear:UiKit.GoldColor;
+            return $"<mark=#{ColorUtility.ToHtmlStringRGB(gold)}FF padding=\"{side},{side},{top},{bottom}\"><color=#05080E>{Cut}</color></mark>{Gap}";
+        }
+        /// <summary>The pip's colour as TextMeshPro writes it into the mesh: what a test finds there.</summary>
+        public static Color32 PipColor=>QualitySettings.activeColorSpace==ColorSpace.Linear?UiKit.GoldColor.linear:UiKit.GoldColor;
+        sealed class Label{public TextMeshPro text;public string name,shows;public Color color;public float size;public bool marked,placed;public Npc npc;}
         readonly Dictionary<Npc,Label> labels=new();
         readonly List<Label> shown=new();readonly List<TextMeshPro> upright=new();readonly HashSet<string> names=new();
         float next;bool everyone;
@@ -86,13 +108,14 @@ namespace Lattice.UI
                 if(prompt is not Npc npc)continue;
                 var label=LabelOf(npc);if(label==null)continue;
                 bool news=HasNews(npc);if(news==label.marked)continue;
-                // The mark stands before the name as it is drawn (backed or not), so the name reads the same with or without it (QaUiFlowTests: the mark doesn't take the name's
-                // place). A backed name's mark has a tag as tall as the mark under both, the name keeping its own on top: the mark's tag alone stood taller than the name's,
-                // and the ground showed over the name between the two tops.
-                label.marked=news;label.text.fontSize=news?label.markSize:label.size;
-                label.text.text=news?(label.shows!=label.name?SignStyle.Backing(label.text,Mark+label.name)+Mark:Mark)+label.shows:label.shows;label.text.color=news?UiKit.GoldColor:label.color;
+                // The mark stands before the name (backed or not), the name's words as they were (QaUiFlowTests: the mark doesn't take the name's place); a backed name's one tag
+                // runs under both.
+                label.marked=news;label.text.fontSize=label.size;
+                label.text.text=Marked(label.text,label.name,label.shows,news);label.text.color=news?UiKit.GoldColor:label.color;
             }
         }
+        /// <summary>A name's words with its mark or without: <paramref name="shows"/> is the name as drawn (backed by its tag, or as it stands), <paramref name="name"/> its bare words.</summary>
+        public static string Marked(TextMeshPro text,string name,string shows,bool news)=>!news?shows:shows!=name?SignStyle.Backing(text,Room+name)+Pip(text)+name:Pip(text)+shows;
         /// <summary>A name reads level whichever way its person faces: as a child it turned with them, so CORRA stood on end.</summary>
         void LateUpdate()
         {
@@ -134,7 +157,7 @@ namespace Lattice.UI
                 fade.keepsTurn=false;fade.nameTag=true;
                 bool placed=npc.gameObject.activeInHierarchy;
                 if(placed&&found.transform.IsChildOf(npc.transform))OverTheHead(found,npc);
-                label=new Label{text=found,name=words,shows=shows,color=found.color,size=size,markSize=Mathf.Max(size,UiKit.WorldFontSize(MarkPixels)/scale),npc=npc,placed=placed};shown.Add(label);
+                label=new Label{text=found,name=words,shows=shows,color=found.color,size=size,npc=npc,placed=placed};shown.Add(label);
             }
             labels[npc]=label;return label;
         }

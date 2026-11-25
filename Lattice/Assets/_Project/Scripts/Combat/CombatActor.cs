@@ -209,7 +209,7 @@ namespace Lattice.Combat
             if(GameTime.Now<refractUntil)
             {
                 refractUntil=0;EarnCrit();CombatAudio.Deflect(this);
-                var direction=BackAt(packet.source);var counter=Packet(rangedDamage*2*refractPower,DamageType.Beam,60);
+                var direction=BackAt(packet.source);var counter=Packet(rangedDamage*2*refractPower*ShipGuns,DamageType.Beam,60);
                 if(flight)
                 {
                     State=ActorState.Attack;BeginVisual("Shoot",.22f);actionUntil=GameTime.Now+.08f;
@@ -305,7 +305,7 @@ namespace Lattice.Combat
             }
             if(flight)
             {
-                GetComponent<FlightEmitter>().Queue(aim,Packet(rangedDamage*.38f,emitterType,12,null,HitWeight.Tick));
+                GetComponent<FlightEmitter>().Queue(aim,Packet(rangedDamage*.38f*ShipGuns,emitterType,12,null,HitWeight.Tick));
             }
             // The third cut is the finisher: it used to differ from the first two by a number.
             else if(character=="Taren")GetComponent<MeleeContact>().Begin(cut,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20,null,stage==2?HitWeight.Finisher:HitWeight.Light));
@@ -410,13 +410,13 @@ namespace Lattice.Combat
             }
             else if(kind==SkillKind.PulseBurst)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Pulse,direction,Packet(damage*1.1f*power,DamageType.Pulse,85));
             else if(kind==SkillKind.Overdrive)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Overdrive,direction,default);
-            else if(kind==SkillKind.ThreadLance)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
+            else if(kind==SkillKind.ThreadLance)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power*ShipGuns,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
             else if(kind==SkillKind.ScatterBloom)
             {
-                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=MultiHit(Packet(rangedDamage*.65f*power,DamageType.Plasma,18),true,FanCut);
+                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=MultiHit(Packet(rangedDamage*.65f*power*ShipGuns,DamageType.Plasma,18),true,FanCut);
                 GetComponent<FlightEmitter>().Queue(direction,pellets[0],FlightEmitter.Pattern.Fan,pellets);
             }
-            else if(kind==SkillKind.StaticNet)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,MultiHit(Packet(rangedDamage*.45f*power,DamageType.Pulse,30)));
+            else if(kind==SkillKind.StaticNet)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,MultiHit(Packet(rangedDamage*.45f*power*ShipGuns,DamageType.Pulse,30)));
             else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Refract,direction,default);
         }
         void Pierce(Vector3 direction,DamagePacket packet,float length)
@@ -437,6 +437,14 @@ namespace Lattice.Combat
         public const float HitCharge=4,KillCharge=6,MultiHitCut=.6f;
         /// <summary>A fan's five pellets all land point blank: at .6 a mastered Scatter Bloom (cost 12) paid 12.4 back at Sync 12. At .7 it pays 9.3, and keeps the promise until a Charge gain of 2.</summary>
         public const float FanCut=.7f;
+        /// <summary>What Sela's ship's guns deal of her Output (her needles, Lance, Scatter Bloom, Static Net and a refracted shot, in flight; on foot, and every other hero, 1). D400
+        /// (November 24): flat out at Sync 26 on the Debris Cutter from a ship's stand-off she dealt 2,965 a second to Taren's 1,835 and Idra's 1,020 (HomeBossTests' CUTTER_PARTS), so
+        /// a pair with her flew 1.5 times one without. Her needles and Lance stood level with his needles and Ember Step; the gap was her Scatter Bloom (all five pellets landing:
+        /// FlightEmitter.FanStep takes it to the middle three) and her Static Net, two skills landing from the stand-off where his Cleave and Pulse Burst never reach a boss that
+        /// keeps its distance. The spread took her to 2,771; this takes her the rest of the way to about .73 of what she dealt (2,160), the lead's .7, so the strongest pair is within
+        /// 1.25 of the weakest. A flat share, not a term: no single term of hers left was out of line.</summary>
+        public const float SelaShipShare=.78f;
+        float ShipGuns=>flight&&character=="Sela"?SelaShipShare:1;
         float ChargeGain=>(1+Mathf.Max(0,resonance-10)*.025f)*Mathf.Max(0,1+mods.chargeGain);
         internal static DamagePacket MultiHit(DamagePacket packet,bool multi=true,float cut=MultiHitCut){if(multi){packet.chargeCut=cut;packet.weight=HitWeight.Tick;}return packet;}
         /// <summary>What a landed hit pays whoever struck it, on anything that counts as a target: an enemy, or an organ the bar says to break. A weak spot or a break hits harder

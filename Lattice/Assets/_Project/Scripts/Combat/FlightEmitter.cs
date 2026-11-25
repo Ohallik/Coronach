@@ -6,6 +6,10 @@ namespace Lattice.Combat
     public sealed class FlightEmitter:MonoBehaviour
     {
         public enum Pattern{Needle,Fan,Beam,Counter}
+        /// <summary>The angle between a fan's pellets in flight. 12 until D400 (November 24): from a ship's stand-off (6 m off a boss's stern, where the shared length test flies the
+        /// pair) all five then landed on a broad hull, and Scatter Bloom was a second Lance there. At 20 the middle three land at that stand-off on the Debris Cutter (2.6 m) and all
+        /// five from about 4 m off its middle, a scatter weapon's close range.</summary>
+        public const float FanStep=20;
         CombatActor actor;FlightSockets sockets;EmitterBeam beam;Health target;
         DamagePacket packet;DamagePacket[] fan;Vector3 aim;Pattern pattern;int sequence;bool pending;
         void Awake(){actor=GetComponent<CombatActor>();}
@@ -53,7 +57,7 @@ namespace Lattice.Combat
                 for(int ray=-2;ray<=2;ray++)
                 {
                     var pellet=fan[ray+2];pellet.projectileOrigin=volley;
-                    Projectile.Fire(origin,Quaternion.AngleAxis(ray*12,Vector3.up)*direction,pellet);
+                    Projectile.Fire(origin,Quaternion.AngleAxis(ray*FanStep,Vector3.up)*direction,pellet);
                 }
             }
             else Projectile.Fire(origin,direction,packet);

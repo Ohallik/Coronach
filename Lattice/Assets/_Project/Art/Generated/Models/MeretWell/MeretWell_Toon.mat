@@ -61,7 +61,7 @@ Material:
     - _Gel: 0
     - _Glow: 0
     - _Ice: 0
-    - _LightFloor: 0.34
+    - _LightFloor: 0.4
     - _OccFade: 0
     - _OccFadeDepth: 0.82
     - _OccFadeSoft: 0

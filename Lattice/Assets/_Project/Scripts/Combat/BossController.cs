@@ -75,6 +75,21 @@ namespace Lattice.Combat
                 return !line&&(shiftPending||shifting)?Mathf.Max(1,floor):floor;
             }
         }
+        /// <summary>Parts that carry a phase of their boss's bar on a body with no BossController of its own (the Tollkeeper's gate motor, a stage each dock), and the floor one EXTRA may
+        /// take each to, as <see cref="ExtraFloor"/> is the boss's (D384). Without it an EXTRA on the motor had no floor: 17,636 of the third stage's 22,000 (nov23-recon-s-65).</summary>
+        public static readonly Dictionary<Health,System.Func<float>> PartExtraFloors=new();
+        /// <summary>How low one EXTRA may take this body: its boss's <see cref="ExtraFloor"/>, a part's own (<see cref="PartExtraFloors"/>), or no floor.</summary>
+        public static float ExtraFloorOf(Health body)
+        {
+            if(body==null)return 0;if(body.TryGetComponent<BossController>(out var boss))return boss.ExtraFloor;
+            return PartExtraFloors.TryGetValue(body,out var floor)&&floor!=null?floor():0;
+        }
+        /// <summary>Gives a part its EXTRA floor (and forgets parts whose bodies are gone).</summary>
+        public static void PartFloor(Health part,System.Func<float> floor)
+        {
+            var gone=new List<Health>();foreach(var key in PartExtraFloors.Keys)if(key==null)gone.Add(key);foreach(var key in gone)PartExtraFloors.Remove(key);
+            if(part!=null)PartExtraFloors[part]=floor;
+        }
 
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
         void OnDisable(){All.Remove(this);}
@@ -134,6 +149,8 @@ namespace Lattice.Combat
             {
                 StopAllCoroutines();Interrupt();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);
                 ClearTheField();DismissSummons();
+                // D407: a body that stays where it ends is not thrown clear of a hero inside it as a small one is: he is eased out of it.
+                WreckClearance.Begin(gameObject);
                 GameServices.Current.Flags.SetBool("bossdown."+health.id,true);
                 if(health.id=="BellowsBelow")PressureOrgan.SettleAll();
                 Own.down?.Invoke(this);

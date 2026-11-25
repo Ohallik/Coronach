@@ -72,8 +72,9 @@ namespace Lattice.EditorTools
                 e.lootTable=Loot("DraskVaal",Drop("BridleWire",4,1),Drop("ScoriaGlass",4,1),Drop("RepairSalve",1,1),ProgressionBuilder.AnyPart(4,GearSlot.Edge,1));});
 
             // ---- Drask Vaal, part two: his war-skiff over the war harbour, running for the carrier. The Lancer's hull in his colours, half again its size (2.4 m round in flight, 5 m tall).
-            // Brought down, it limps back to the muster field.
-            ArenaBuilder.Asset<EnemyDef>("DraskSkiff",e=>{e.id="DraskSkiff";e.displayName="THE WARMASTER'S SKIFF";e.prefab=Body("DraskSkiff","MusterSkiff");e.integrity=70000;e.breakThreshold=800;e.speed=0;e.attacks=new[]{skiffGuns};
+            // Brought down, it limps back to the muster field. 80,500 since D400 (November 24; 70,000 before): Idra's cutter at a ship's beat took Taren and Idra's flat out on it from
+            // 2,649 to 3,055 a second (nov24a; d400-b 2,977, d400-c 3,133), 1.153, so it lasts the player's 75 s as it did.
+            ArenaBuilder.Asset<EnemyDef>("DraskSkiff",e=>{e.id="DraskSkiff";e.displayName="THE WARMASTER'S SKIFF";e.prefab=Body("DraskSkiff","MusterSkiff");e.integrity=80500;e.breakThreshold=800;e.speed=0;e.attacks=new[]{skiffGuns};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Spitter;e.behaviour=EnemyBehaviourKind.None;e.xp=1000;e.scrip=260;e.scrap=14;e.boss=true;
                 e.bossMusicId="Alien Boss Battle";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;e.motion=EnemyMotion.Hover;
                 e.capsuleHeight=5;

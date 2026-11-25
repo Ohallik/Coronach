@@ -57,8 +57,10 @@ namespace Lattice.EditorTools
 
                 // ---- the Debris Cutter. A Compact interceptor, the Interceptor's hull at twice its size, with three weapon pods; it ends dead in space and whole. A Compact hull is shielded
                 // against a shock and its plate turns a kinetic round; a beam goes through it. Flown by its own file: a Mine to its brain. 2.6 m round in flight, 5.6 m tall.
+                // 240,000 since D400 (November 24; 210,000 before): the flight pairs narrowed (Sela's ship down, Idra's cutter at a ship's beat), so one integrity sits every pair in
+                // HomeBossTests' bar, Taren and Idra at about 160 s, in the middle of the room the pairs' readings leave (HomeBossTests.CutterShare's comment).
                 ArenaBuilder.Asset<EnemyDef>("DebrisCutter",e=>{e.id="DebrisCutter";e.displayName="THE DEBRIS CUTTER";e.prefab=Body("DebrisCutter","DraskSkiff");
-                    e.integrity=210000;e.breakThreshold=800;e.speed=0;e.attacks=new[]{cutterStill};
+                    e.integrity=240000;e.breakThreshold=800;e.speed=0;e.attacks=new[]{cutterStill};
                     e.weakness=DamageType.Beam;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1350;e.scrip=440;e.scrap=20;e.boss=true;
                     e.bossMusicId="Alien Boss Battle";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;e.motion=EnemyMotion.Hover;
                     e.capsuleRadius=0;e.capsuleHeight=5.6f;

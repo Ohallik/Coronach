@@ -431,6 +431,8 @@ namespace Lattice.Combat
             if(Phase<2&&colossusArms!=null&&colossusArms.Parts.Count>0)return $"Break the pour-arms ({colossusArms.Parts.Count-ArmsStanding}/{colossusArms.Parts.Count})";
             return label;
         }
+        /// <summary>What the lead says at a cooled opening: the shared line, never the dark plate's.</summary>
+        public const string OpeningLine="bossopening";
         /// <summary>Its stuck and venting beats: while it glows they open nothing (its body is too hot), and they are the time to get to a wheel; cooled they are an opening like any boss's.</summary>
         IEnumerator ColossusOpens(float seconds,string why,string said)
         {
@@ -441,7 +443,9 @@ namespace Lattice.Combat
                 for(float t=0;t<seconds;){if(!GameTime.Paused)t+=Time.deltaTime;if(Interrupted)yield break;yield return null;}
                 Pose(0);Finish(ColossusRest);yield break;
             }
-            BarkService.Play(PartyController.Current.Active.character,Situation("bossopening"),true);
+            // Cooled, its plates are gone: the opening is its body's, said as any boss's. Its own line is the dark plate's, said at the quench (D387: 'That plate's gone dark. Hit
+            // the dark.' came at every stuck and vent after the plates were shed, and nobody could find the plate it meant, nov23-whole s49/043).
+            BarkService.Play(PartyController.Current.Active.character,OpeningLine,true);
             yield return Opening(seconds,ColossusRest);Pose(0);
         }
 

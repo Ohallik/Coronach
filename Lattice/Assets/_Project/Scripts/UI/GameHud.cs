@@ -505,8 +505,8 @@ namespace Lattice.UI
                 if(behind){Look(low,now);Look(high,now);}
             }
             if(fight&&party.members.Length>1)Watch(camera,party.Partner,now);
-            // Where the objective sends the party counts as well: it hid half of the launch pad it named. A goal behind the camera is behind nothing.
-            if(objective!=null&&objective.Goal.HasValue){var goal=camera.WorldToScreenPoint(objective.Goal.Value);float round=GoalRound*canvas.scaleFactor;foreach(var panel in panels)panel?.Near(goal,round,now);}
+            // Where the objective sends the party no longer lowers a plate (D388): a place is not a body, and with the plate at a third the objective's own words lay on the launch
+            // pad's rings they named (Sorrel, s09 007). The arrow and the distance say where it is; a plate is solid over a place.
             // The prompt is a bar across the low middle of the screen, where the party and what it's reaching for stand, and only its plate goes, so on a calm walk too: it cut Sela's wing, and lay on a warp under the warp's own sign.
             var bar=panels[2];
             if(bar.Showing)
@@ -666,6 +666,8 @@ namespace Lattice.UI
         {
             HudKeepOut.Begin();
             foreach(var panel in panels)if(panel!=null&&panel.Showing)HudKeepOut.Add(panel.Box);
+            // The quest's card and the bark come up unbidden: where they last stood is kept for the partner while they are down (D394).
+            for(int i=5;i<=6;i++)if(panels[i]!=null&&!panels[i].Showing)HudKeepOut.Reserve(panels[i].Box);
             if(skillsPlate.Frame.enabled)HudKeepOut.Add(PanelFade.ScreenBox(skillsPlate.Frame.rectTransform));
             if(ZoneController.Current.Combat&&skillIcons[0].enabled)HudKeepOut.Add(PanelFade.ScreenBox(skillRow));
             if(feed!=null&&feed.Band!=null)HudKeepOut.Add(PanelFade.ScreenBox(feed.Band));
@@ -715,7 +717,7 @@ namespace Lattice.UI
         const float ReticleMiddle=34,ReticleRise=70;
         /// <summary>Whom a number is for when nobody swung: hazards, and a burning strip's bite (LingeringArea's packet: a tick that is a death's attack), share one between them.</summary>
         static readonly object Unswung=new();
-        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public object by;public HitKind kind;public FontStyles style;public float amount,age,quiet,popped;public Vector3 world;public Vector2 offset,room;public bool crit;}
+        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public object by;public HitKind kind;public FontStyles style;public float amount,age,quiet,popped;public Vector3 world;public Vector2 offset,room;public bool crit,killing,boss,partner;}
         readonly System.Collections.Generic.List<Floater> floaters=new(),together=new();
         /// <summary>Where to try a new number, in its own room from its body: beside it first, then over and under.</summary>
         static readonly Vector2[] Slots={new(0,0),new(1,0),new(-1,0),new(0,1),new(1,1),new(-1,1),new(2,0),new(-2,0),new(0,-1),new(1,-1),new(-1,-1),new(2,1),new(-2,1),new(0,2),new(1,2),new(-1,2),new(2,-1),new(-2,-1),new(2,2),new(-2,2)};
@@ -723,6 +725,8 @@ namespace Lattice.UI
         /// <summary>Every number comes from here: the hit, its packet (who swung, and whether it was a critical), what it did and what kind it was.</summary>
         void Struck(Health health,DamagePacket packet,float amount,HitKind kind,bool broke,bool killed)
         {
+            // What it took off the bar, never more (D388): a scripted end strikes for a hundred bars, and the Cutter's last read '56714930!' (s61 071).
+            if(health!=null)amount=Mathf.Min(amount,health.LastTaken);
             if(canvas==null||health==null||Camera.main==null||amount<LeastShown)return;
             float now=Time.unscaledTime;
             bool burn=packet.weight==HitWeight.Tick&&packet.deathAttack;
@@ -732,14 +736,16 @@ namespace Lattice.UI
             {
                 if(!ReferenceEquals(open.from,health)||!ReferenceEquals(open.by,by)||open.quiet>=NumberLife)continue;
                 // Added to and popped again, in the latest hit's colour and mark: a resisted blow after a clean one reads grey, so the number still says what this hit did.
-                open.amount+=amount;open.kind=kind;open.crit|=crit;open.quiet=0;open.popped=now;Dress(open);open.rect.SetAsLastSibling();
+                open.amount+=amount;open.kind=kind;open.crit|=crit;open.quiet=0;open.popped=now;open.killing|=killed;Dress(open);open.rect.SetAsLastSibling();
                 // Grown into a neighbour, it takes the next clear place round its body.
                 if(!Roomy(open,open.offset))Seat(open);
                 return;
             }
             var t=UiKit.Legible(UiKit.Text(canvas.transform,"Damage","",27,Color.white));t.textWrappingMode=TextWrappingModes.NoWrap;
             var rect=UiKit.Rect(t.gameObject,Middle,Middle,Vector2.zero,new(160,60));
-            var floater=new Floater{text=t,rect=rect,from=health,by=by,kind=kind,style=t.fontStyle,amount=amount,popped=now,crit=crit,world=Head(health)};
+            var leading=PartyController.Current!=null&&PartyController.Current.Active!=null?PartyController.Current.Active.Health:null;
+            bool byPartner=by is Health striker&&striker.friendly&&striker!=leading&&!health.friendly;
+            var floater=new Floater{text=t,rect=rect,from=health,by=by,kind=kind,style=t.fontStyle,amount=amount,popped=now,crit=crit,killing=killed,partner=byPartner,boss=health.TryGetComponent<EnemyBrain>(out var brain)&&brain.definition!=null&&brain.definition.boss,world=Head(health)};
             Dress(floater);Seat(floater);floaters.Add(floater);floater.rect.anchoredPosition=FanAnchor(floater.world)+floater.offset;
         }
         static Vector3 Head(Health body)=>body.transform.position+Vector3.up*1.9f;
@@ -750,7 +756,7 @@ namespace Lattice.UI
             var (mark,size,color)=Look(f.kind);
             f.text.text=f.amount.ToString("0")+mark;f.text.fontSize=size+(f.crit?CritLarger:0);
             f.text.fontStyle=f.crit?f.style|FontStyles.Bold|FontStyles.Italic:f.style;
-            f.text.color=f.crit&&f.kind==HitKind.Normal?CritColor:color;
+            f.text.color=f.partner?PartnerColor:f.crit&&f.kind==HitKind.Normal?CritColor:color;
             var ink=f.text.GetPreferredValues(f.text.text,400,80);
             f.rect.sizeDelta=ink+new Vector2(8,4);f.room=(ink+NumberGap)*(1+PopLarger);
         }
@@ -815,7 +821,10 @@ namespace Lattice.UI
             for(int i=floaters.Count-1;i>=0;i--)
             {
                 var f=floaters[i];f.quiet+=dt;
-                if(f.from==null)f.quiet=NumberLife;else if(!f.from.Alive)f.quiet=Mathf.Max(f.quiet,NumberLife-DownLinger);
+                // D385: once a body is down only its killing blow's number finishes its rise; every other number on it goes with the end, on that frame. The Bellows wore '616' and
+                // '438' over its rewards (nov23-whole s08/092), the Marshal '1514' and '828!' (s36/071), the Hulljack '1783' and '3395' (s29/034): the second of each was the
+                // other hero's, standing on as if the fight went on.
+                if(f.from==null||!f.from.Alive&&f.boss&&!f.killing)f.quiet=NumberLife;else if(!f.from.Alive)f.quiet=Mathf.Max(f.quiet,NumberLife-DownLinger);
                 if(f.quiet>=NumberLife){Destroy(f.text.gameObject);floaters.RemoveAt(i);continue;}
                 if(f.from!=null)f.world=Head(f.from);
                 f.age=-1;
@@ -841,6 +850,10 @@ namespace Lattice.UI
         /// <summary>How much larger a crit's number is, and what a plain one's colour becomes: a weak hit's keeps its own orange or yellow and its marks.</summary>
         const float CritLarger=7;
         static readonly Color CritColor=new(1,.97f,.7f);
+        /// <summary>The partner's numbers, whatever the hit (D388): a colour of their own, at full strength with the same dark edge. In the lead's colours, the partner's hits on armour
+        /// came out in the resisted grey beside the lead's bright crit and read as a number half faded ('3697' on Dessik, s30 034; '2693' on the Hulljack, s29 030). Its mark and size
+        /// still say a weakness, a weak spot or armour.</summary>
+        public static readonly Color PartnerColor=new(.42f,.8f,1);
         static readonly Color IntegrityColor=new(.23f,.88f,.72f);
         float hurtAt=-99;
         void OnLeadHurt(float share,bool down)=>hurtAt=Time.unscaledTime;

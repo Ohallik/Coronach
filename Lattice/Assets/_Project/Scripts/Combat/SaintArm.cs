@@ -235,8 +235,17 @@ namespace Lattice.Combat
         public void Settle(bool atOnce)
         {
             if(!released)Release(true);
-            if(atOnce){Apply(Tune.DownPitch);goal=pitch;yaw=yawGoal=0;turned=Tune.RingTurns;Apply(pitch);Rest();}
+            if(atOnce){Apply(Tune.DownPitch);goal=pitch;yaw=yawGoal=0;turned=Tune.RingTurns;Apply(pitch);Rest();PowerDown();}
         }
+        bool poweredDown;
+        /// <summary>Its press has settled (D385): the arm is powered down with it, its paint dark as the press's (BodyGoesDark, shut down: half, its lamps out). Once.</summary>
+        public void PowerDown()
+        {
+            if(poweredDown)return;poweredDown=true;
+            var dark=GetComponent<BodyGoesDark>();if(dark==null)dark=gameObject.AddComponent<BodyGoesDark>();
+            dark.Begin(transform,false);
+        }
+        public bool PoweredDown=>poweredDown;
         void Rest()
         {
             if(resting)return;resting=true;
@@ -282,8 +291,8 @@ namespace Lattice.Combat
             knot.enabled=!released;
             if(released)
             {
-                // A released arm's own lamps go warm: home's again.
-                if(armRenderers!=null)foreach(var renderer in armRenderers){if(renderer==null)continue;renderer.GetPropertyBlock(block);block.SetColor("_EmissionColor",WarmLamp*.35f);renderer.SetPropertyBlock(block);}
+                // A released arm's own lamps go warm: home's again. Once its press has settled the whole machine is powered down (PowerDown) and they are out.
+                if(!poweredDown&&armRenderers!=null)foreach(var renderer in armRenderers){if(renderer==null)continue;renderer.GetPropertyBlock(block);block.SetColor("_EmissionColor",WarmLamp*.35f);renderer.SetPropertyBlock(block);}
                 return;
             }
             bool open=Unlocked;knot.sharedMaterial=ActorFactory.Energy(open?Open:Held);

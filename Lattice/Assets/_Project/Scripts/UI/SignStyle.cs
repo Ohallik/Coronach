@@ -118,8 +118,11 @@ namespace Lattice.UI
             made.SetColor("_UnderlayColor",new Color(0,.01f,.03f,1));made.SetFloat("_UnderlayDilate",1);made.SetFloat("_UnderlaySoftness",.45f);
             made.SetFloat("_UnderlayOffsetX",0);made.SetFloat("_UnderlayOffsetY",-.25f);
             ShaderUtilities.UpdateShaderRatios(made);
-            made.SetFloat(ReachId,Reach);made.SetFloat(BandId,0);return nameFaces[font]=made;
+            made.SetFloat(ReachId,Reach);made.SetFloat(BandId,NameBand);return nameFaces[font]=made;
         }
+        /// <summary>A name nearer the camera than the camera's own distance stands no larger than it was made (D388). Drawn as perspective had it, a name at the foot of the screen
+        /// stood about 1.3 times a name in the middle, and its tag with it: MIRA's was a dark block of 180 by 110 pixels where the other names' tags were small (s69 038, 075).</summary>
+        public const float NameBand=1;
         static readonly Dictionary<TMP_FontAsset,Material> nameFaces=new();
         /// <summary>A person's name with a dark tag behind it, in its own text: the tag is TextMeshPro's mark over an unseen copy of the name, and the name itself is set back over it
         /// (a zero-width break, then a step back by the copy's width). TextMeshPro writes every mark after every letter, so `Lattice/SignText` draws marks in a pass of their own,
@@ -153,6 +156,7 @@ namespace Lattice.UI
             var people=new HashSet<string>();
             foreach(var npc in Object.FindObjectsByType<Npc>(FindObjectsInactive.Include,FindObjectsSortMode.None))people.Add(DisplayNames.Speaker(npc.speaker));
             var warps=Object.FindObjectsByType<WarpBeacon>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+            Strays(warps);
             var signs=new List<(TextMeshPro sign,Vector2 size,bool lying)>();
             foreach(var sign in Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None))
             {
@@ -203,6 +207,25 @@ namespace Lattice.UI
                 else AddPlate(sign,size,Shape.Full,Strong);
                 if(sign.TryGetComponent<SignFade>(out var fade))fade.FindPlate();
             }
+        }
+        /// <summary>A second label of a warp's words that no builder named as a sign (D388). Five builders hang each warp's name twice: <c>WorldBuilder.Warp</c>'s own sign over the
+        /// gate, dressed here, and a larger one 7 m short of it renamed "…warp sign", which nothing dressed: drawn in the builder's pale blue in the default face, with no plate and no
+        /// <see cref="SignFade"/>, it lay under the skill row with its letters mixed into Cleave and Ember (the Picket, s53 023) while the same name stood on its plate over the gate.
+        /// The Picket's and the Hull's seven are such twins. The one over the gate is the warp's sign; the twin draws nothing, whatever shows or hides its object later.</summary>
+        public static List<TextMeshPro> Strays(WarpBeacon[] warps)
+        {
+            var all=Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None);
+            var dressed=new HashSet<string>();
+            foreach(var sign in all)if(sign.name.StartsWith("Sign_")&&!string.IsNullOrEmpty(sign.text))dressed.Add(sign.text);
+            var strays=new List<TextMeshPro>();
+            foreach(var text in all)
+            {
+                if(text.name.StartsWith("Sign_")||string.IsNullOrEmpty(text.text)||!dressed.Contains(text.text)||!IsWarp(text.text,warps))continue;
+                if(text.GetComponentInParent<Canvas>(true)!=null||text.GetComponentInParent<Npc>(true)!=null)continue;
+                text.enabled=false;var view=text.GetComponent<Renderer>();if(view!=null)view.enabled=false;
+                strays.Add(text);
+            }
+            return strays;
         }
         static bool IsWarp(string text,WarpBeacon[] warps)
         {

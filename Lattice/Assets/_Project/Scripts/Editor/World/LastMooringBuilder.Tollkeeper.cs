@@ -33,10 +33,24 @@ namespace Lattice.EditorTools
                     e.bodySegment=ZoneKit.Prefab("Enemies","TollkeeperOutrigger");e.tailSegment=null;
                     // Sized from the shared length test's flat out against it in the flight yard (BOSS_RATE Tollkeeper 1,221 a second at Sync 28 in Choirwrought, November 14):
                     // 68,000 lasts 186 s at the assumed .3 and 223 s at a quarter, inside its sheet's 120 to 300.
-                    e.integrity=77000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{still};
+                    // 85,000 since D384 (November 24), from 77,000: its braces went from 24,000 to 30,000, about a tenth more of its room, and the yard lasts as long.
+                    e.integrity=85000;e.breakThreshold=1400;e.speed=0;e.attacks=new[]{still};
                     e.weakness=DamageType.Kinetic;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Mine;e.behaviour=EnemyBehaviourKind.None;e.xp=1600;e.scrip=0;e.scrap=0;e.boss=true;
                     e.bossMusicId="Glitch Boss";e.yieldsOnDefeat=false;e.heavyDeath=false;e.drawnScale=1;e.motion=EnemyMotion.None;
                     e.capsuleRadius=0;e.capsuleHeight=BossController.TollTune.Height;e.lootTable=null;});
+                foreach(var id in new[]{"Tollkeeper","TollkeeperOutrigger"})Plate(id);
+            }
+            /// <summary>The carrier's and the cage's white plate, and its shade (D390). The intake's toon drew them at full white and in the shader's default shade, lilac (.55, .55, .68):
+            /// under Last Mooring's sun (1.3) and bloom the lit plate clipped to one white, and every face turned from the sun, and every bar of the cage's shadow laid across the carrier,
+            /// was one flat lilac patch (nov23-whole s65/056). A white a little under the sun and a neutral slate shade in four steps: panels, teal and gold read on both sides of the light.
+            /// Only what the material says is changed (not its texture: <c>tools/tollkeeper_grade.py</c>, D382); a fresh intake keeps it, and this runs with every definition.</summary>
+            // A material's colour is sRGB: the white is .72 of the sun in linear light (its gamma .84 to .87); .67 drew the plate a dull grey (d390-after, first render).
+            internal static readonly Color PlateWhite=new(.84f,.85f,.87f,1),PlateShade=new(.52f,.53f,.55f,1);
+            static void Plate(string id)
+            {
+                var m=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Art/Generated/Models/"+id+"/"+id+"_Toon.mat");
+                if(m==null){Debug.LogWarning("TOLL_PLATE_MISSING "+id);return;}
+                m.SetColor("_BaseColor",PlateWhite);m.SetColor("_ShadowTint",PlateShade);m.SetFloat("_RampSteps",4);m.SetFloat("_LightFloor",.2f);EditorUtility.SetDirty(m);
             }
             /// <summary>The cage at the gate (docs/maps/LastMooring.md, "What the fight needs of the room"): the Last Mooring zone calls this once in its build, after the gate and the arm
             /// stand, when the boss is defined. It stands a <see cref="TollkeeperCage"/> under <paramref name="parent"/> with the gate's hinges, where the carrier lies, the lanes, the arm's

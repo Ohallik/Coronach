@@ -10,8 +10,10 @@ namespace Lattice.Combat
         float nextPulse;
         GroundRing ring;float dismissed=-1;
         const float DismissSeconds=.25f;
-        /// <summary>The fight it was laid in is over. It goes quickly, and through a conversation too: its clock stops for one, which left the ring on the floor for the whole talk.</summary>
-        public void Dismiss(){if(dismissed<0)dismissed=0;}
+        /// <summary>The fight it was laid in is over. It goes quickly, and through a conversation too: its clock stops for one, which left the ring on the floor for the whole talk.
+        /// D385: at once, on the frame the fight ends. Faded over a quarter second, it was round the dead Bellows at full strength in the still taken as the fight's step ended
+        /// (nov23-whole s08/092), and round the Hulljack (s29/034).</summary>
+        public void Dismiss(){if(dismissed>=0)return;dismissed=DismissSeconds;if(ring!=null)ring.Draw(radius,Color.clear);Destroy(gameObject);}
         internal void RememberFaction(bool known,bool ally)
         {factionCaptured=true;hasFaction=known;friendly=ally;}
         void Start()

@@ -1220,11 +1220,11 @@ def town_errands():
     r.stand_for("the oath hall's case", case3, T["Case3"], TOWN_RANGES["case"], tolerance=0.3)
     r.press_for("take the relay glass from the oath hall's case", "vask.glass3")
     names = (T["NamesAt"][0], T["NamesAt"][1] - 1.8)
-    r.go("along the portico to the wall of names", [(case3[0], 108.2), (0, 108.2), (names[0], 108.2)], tolerance=0.5)
+    r.go("along the portico to the wall of names", [(case3[0], 108.2), (0, 107.6), (names[0], 108.2)], tolerance=0.5)
     r.stand_for("the wall of names with Pip", names, T["NamesAt"], TOWN_RANGES["Pip"], tolerance=0.3)
     r.look("look at the wall of names", 4, "pip.hallSeen")  # PipOathHall
     case1 = (T["Case1"][0], T["Case1"][1] - 1.6)
-    r.go("down the steps and across to the trophy gallery", [(names[0], 108.2), (0, 108.2), (0, 107.8), (0, 98)] + ROUND_HIS_POST[::-1] + [(0, 85)] + FIELD_TO_GALLERY + [(case1[0], 104)], tolerance=0.5)
+    r.go("down the steps and across to the trophy gallery", [(names[0], 108.2), (0, 107.6), (0, 98)] + ROUND_HIS_POST[::-1] + [(0, 85)] + FIELD_TO_GALLERY + [(case1[0], 104)], tolerance=0.5)
     r.stand_for("the trophy gallery's case", case1, T["Case1"], TOWN_RANGES["case"], tolerance=0.3)
     r.press_for("take the relay glass from the gallery's case", "vask.glass1")
     r.wait("the glass is all back", 0.5, expectedFlag="quest.RelayGlass.complete")

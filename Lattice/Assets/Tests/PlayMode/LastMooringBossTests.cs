@@ -347,7 +347,11 @@ namespace Lattice.Tests.PlayMode
                     bool threat=boss.Telegraphing&&boss.TelegraphRemaining<.15f;
                     if(threat&&lead.State!=ActorState.Dodge){lead.Dodge(lead.transform.position-C);}
                     else if(lead.State!=ActorState.Dodge&&lead.CanAct&&seat.Holder==null&&seat.State==BridleClamp.Hold.Shut)
-                    {if(Flat(lead.transform.position,seat.transform.position)>.5f)Put(lead,seat.transform.position);if(seat.Available)seat.Interact();}
+                    {
+                        if(Flat(lead.transform.position,seat.transform.position)>.5f)Put(lead,seat.transform.position);
+                        // The seat isn't offered while a tender works it (D406: the button is the blow's then); a hand already on it when the tender set to work stays, and is that hand.
+                        if(seat.Available)seat.Interact();else if(seat.Tended.Tending)typeof(BridleClamp).GetProperty("Holder").SetValue(seat,lead);
+                    }
                     if(partnerCovers)
                     {
                         var tender=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).FirstOrDefault(e=>Tended.IsTender(e.Health)&&e.Health.Alive);
@@ -1088,6 +1092,46 @@ namespace Lattice.Tests.PlayMode
             if(Cage.ArmOut>0)failures.Add("the motor dead, the arm never drew in");
             if(MusicDirector.Current!=null&&MusicDirector.Current.Track=="Glitch Boss")failures.Add("its fight's music plays on after the gate opens");
             Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+
+        /// <summary>An EXTRA on the gate motor takes half a stage at most and stops none but the last (D375's rule with a stage as the phase, D384). The motor carries a third of the bar on a
+        /// body with no BossController, so D375's floor never reached it: one EXTRA took 17,636 of the third stage's 22,000 in the player (nov23-recon-s-65). Played wrong first: the motor's
+        /// floor taken away, as it was, the same EXTRA measured on a motor it cannot empty, and the stage then made that EXTRA and a fifth.</summary>
+        [UnityTest] public IEnumerator AnExtraOnTheGateMotorTakesAtMostHalfAStageAndStopsNoneButTheLast()
+        {
+            yield return TollYard();GameServices.Current.Flags.SetBool(ExtraGauge.Flag,true);
+            var boss=Toll();yield return Frames(3);Fresh(Lead);Fresh(Partner);
+            yield return DockOnTheArm(boss,0);Fresh(Lead);Fresh(Partner);
+            var motor=Cage.Motor;Assert.IsTrue(Cage.MotorOpen,"fixture: docked, the gate motor is open to blows");
+            Assert.IsTrue(BossController.PartExtraFloors.ContainsKey(motor),"the gate motor has no EXTRA floor of its own: an EXTRA on it takes as much of a stage as it deals");
+            // The partner held still and out of it: only the EXTRA strikes the motor.
+            var partner=Partner;partner.GetComponent<PartnerBrain>().enabled=false;Put(partner,Cage.seat.position+Cage.seat.forward*9);
+            var hero=Lead;var stand=Cage.seat.position+Cage.seat.forward*1.5f;
+            IEnumerator FireAt()
+            {
+                Put(hero,stand);hero.transform.rotation=Quaternion.LookRotation(Vector3.ProjectOnPlane(Cage.seat.position-hero.transform.position,Vector3.up));Fresh(hero);yield return Frames(2);
+                var move=hero.GetComponent<ExtraMove>();
+                for(float end=Time.unscaledTime+4;(move.Performing||hero.ChangingForm||hero.Recovering||!hero.CanAct||GameTime.Paused)&&Time.unscaledTime<end;)yield return null;
+                State.party.Find(m=>m.id==hero.character).extra=ExtraGauge.Full;
+                var zone=ZoneController.Current;
+                Assert.IsTrue(move.TryFire(),$"fixture: {hero.character}'s EXTRA wouldn't start with a full gauge (active {PartyController.Current.Active==hero}, combat zone {zone!=null&&zone.Combat}, "+
+                    $"unlocked {ExtraGauge.Unlocked}, ready {ExtraGauge.Ready(hero.character)}, move {move.Definition!=null}, changing form {hero.ChangingForm}, state {hero.State}, paused {GameTime.Paused})");
+                for(float end=Time.unscaledTime+6;move.Performing&&Time.unscaledTime<end;){hero.motor.Move(Vector2.zero,false,false);yield return null;}
+                Assert.IsFalse(move.Performing,"fixture: the EXTRA never ended");
+            }
+            // Wrong first: no floor, on a motor too big to empty: what one EXTRA deals it.
+            var floor=BossController.PartExtraFloors[motor];BossController.PartExtraFloors.Remove(motor);
+            motor.maximum=motor.integrity=1000000;yield return FireAt();
+            float dealt=motor.maximum-motor.integrity;BossController.PartFloor(motor,floor);
+            Assert.Greater(dealt,0,"fixture: the EXTRA never reached the motor from its seat");
+            // A stage that one EXTRA, unfloored, would take five sixths of.
+            float stage=dealt*1.2f;motor.maximum=motor.integrity=stage;yield return Frames(2);
+            Assert.AreEqual(stage-BossController.ExtraOfAPhase*stage,BossController.ExtraFloorOf(motor),.5f,"from a whole first stage, the motor's floor isn't half the stage down");
+            yield return FireAt();
+            Assert.IsTrue(motor.Alive&&boss.TollStagesStopped==0,$"one EXTRA stopped the first stage of the gate motor ({dealt:0} dealt unfloored, the stage {stage:0})");
+            Assert.GreaterOrEqual(motor.integrity,stage*(1-BossController.ExtraOfAPhase)-1.5f,$"one EXTRA took {stage-motor.integrity:0} of a {stage:0} stage, more than half (unfloored it dealt {dealt:0})");
+            // Little left of a stage that is not the last: the stage's line holds, and the party's own blows stop it.
+            motor.integrity=stage*.3f;Assert.AreEqual(1,BossController.ExtraFloorOf(motor),.001f,"with a little of the first stage left, an EXTRA may stop it");
         }
 
         // ------------------------------------------------------------------ its length, really docking

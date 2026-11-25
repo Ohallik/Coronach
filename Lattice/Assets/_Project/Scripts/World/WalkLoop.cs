@@ -52,10 +52,32 @@ namespace Lattice.World
                 var other=hits[i].collider.transform;
                 if(other!=transform&&!other.IsChildOf(transform))Blocked=true;
             }
+            if(!Blocked)Blocked=HeroBeside(direction,distance+.25f);
             if(Blocked)return;
             Face(faces!=null?faces.position-transform.position:direction,false);
             var at=transform.position+direction*distance;at.y=Mathf.MoveTowards(at.y,path[next].y,distance);transform.position=at;
         }
+        /// <summary>A hero its body would come against on this step: one ahead of it nearer its way than its own solid's width and his capsule's. The look ahead is a 0.38 m ball at
+        /// the chest, and since D391 a walker's solid is as wide as what it draws (the cook with his pot, 1 m and more): a hero standing or walking beside its way, outside the ball
+        /// and inside its solid, was walked through, its body sliding into hers (Idra in the cook, nov24-recon-h-52 s52/232, D408). Only the party: a wall beside its way is the
+        /// builder's to keep clear, and a person standing there would leave it stuck.</summary>
+        bool HeroBeside(Vector3 direction,float ahead)
+        {
+            var party=Lattice.Combat.PartyController.Current;if(lookedAsBefore||party==null||party.members==null)return false;
+            if(own<0){own=TryGetComponent<CapsuleCollider>(out var solid)&&solid.enabled&&!solid.isTrigger?solid.radius*Mathf.Max(Mathf.Abs(transform.lossyScale.x),Mathf.Abs(transform.lossyScale.z)):.38f;}
+            foreach(var hero in party.members)
+            {
+                if(hero==null||!hero.gameObject.activeInHierarchy||!hero.TryGetComponent<CharacterController>(out var his)||!his.enabled)continue;
+                var off=hero.transform.position-transform.position;if(Mathf.Abs(off.y)>2)continue;off.y=0;
+                float along=Vector3.Dot(off,direction);if(along<=0)continue;
+                float across=(off-direction*Mathf.Min(along,ahead)).magnitude;
+                if(across<own+his.radius)return true;
+            }
+            return false;
+        }
+        float own=-1;
+        /// <summary>For a test's broken state only (BodiesKeepApartTests): it looks ahead with the ball alone, as before D408.</summary>
+        static bool lookedAsBefore;
         void Face(Vector3 direction,bool snap)
         {
             direction.y=0;if(direction.sqrMagnitude<.0001f)return;var goal=Quaternion.LookRotation(direction);

@@ -45,6 +45,8 @@ namespace Lattice.World
         void OnDisable(){CancelPreview();MusicDirector.Fight(this,false);live.Remove(this);}
         // ---------- the partner comes through (D294)
         static readonly System.Collections.Generic.List<EncounterVolume> live=new();
+        /// <summary>A fight begun and not yet won in any loaded encounter (what a line said during it belongs to: BarkPanel).</summary>
+        public static bool AnyUnderway{get{foreach(var one in live)if(one!=null&&one.Started&&one.Remaining>0)return true;return false;}}
         /// <summary>How far past an open gate's line the partner is brought: past the line by her own width and the half metre the gate asks, and room to stop in.</summary>
         public const float UsherPast=2.6f;
         /// <summary>How long a gate goes on asking after the last body touched it: the trigger speaks every physics step while somebody stands in it.</summary>

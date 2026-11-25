@@ -34,9 +34,11 @@ namespace Lattice.Combat
         FlightFailurePresentation flightFailure;
         CantorRelease cantorRelease;
         BossDeparture departure;
-        /// <summary>Bosses whose own ending already takes their light and paint: the Burrower burns out to its wreck's tint (BurrowerShutdown, BossWreck), the Host Marshal is taken by
-        /// the frost, and the Last Warden stands down unbeaten.</summary>
-        static readonly HashSet<string> OwnColour=new(){"Burrower","HostMarshal","LastWarden"};
+        /// <summary>Bosses whose own ending already takes their light and paint: the Burrower burns out to its wreck's tint (BurrowerShutdown, BossWreck), and the Last Warden stands
+        /// down unbeaten. D385: the Host Marshal is not one. Its frost was a lerp from white over two and a half seconds that began after the kill's stop and lit it with the rig's
+        /// thaw-orange first: it stood whole in full rust with its eye lit after "Quest updated" (nov23-whole s36/076), and paler under the killing blow before that (071). It goes
+        /// dark as anything shut down does, toward its frost (MarshalDown).</summary>
+        static readonly HashSet<string> OwnColour=new(){"Burrower","LastWarden"};
         BodyGoesDark dark;bool knockedClear;
         void Awake()
         {
@@ -101,6 +103,9 @@ namespace Lattice.Combat
             {
                 var ending=BossController.EndingOf(enemy.definition.id);
                 if(ending==BossController.Ending.Destroyed||ending==BossController.Ending.ShutDown){dark=gameObject.AddComponent<BodyGoesDark>();dark.Begin(transform,ending==BossController.Ending.Destroyed);}
+                // D385: one that leaves by a road of its own and not BossDeparture's (Mother of Doors, her coil under her root) goes beaten all the same: she went up her road in full
+                // lilac with her seams lit (nov23-whole s63/150 to 158).
+                else if(ending==BossController.Ending.Leaves){dark=gameObject.AddComponent<BodyGoesDark>();dark.BeginBeaten(transform);}
             }
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
@@ -143,6 +148,7 @@ namespace Lattice.Combat
             }
             bool hound=enemy!=null&&(enemy.definition.id=="Ridgehound"||enemy.definition.id=="Gloomgrazer");
             bool groundCreature=enemy!=null&&(hound||enemy.definition.id=="Scrapmite"||enemy.definition.id=="Burrower");
+            lens=Camera.main;
             if(groundCreature)
             {
                 // Inspected against each generated body: hound on its flank,
@@ -158,10 +164,11 @@ namespace Lattice.Combat
                 (terminalRotation,terminal)=Supported(terminalRotation,lying);
                 // D355: a hound lies on whichever flank keeps it off the heroes. Killed with its head at Taren's side it rolled its back across him, and for the two seconds it lay
                 // there his torso stood in it (Lantern Gorge, nov22-whole s14/017 to 022: two Gloomgrazers, one each side of him).
-                if(hound&&InHeroes(supportVertices,terminal,terminalRotation,visualScale,out Vector3 _)>0)
+                // D386: and whichever keeps it off them as the camera sees them.
+                if(hound&&Overlap(supportVertices,terminal,terminalRotation)>0)
                 {
                     var (otherRotation,otherAt)=Supported(originRotation*Quaternion.Euler(0,0,-98),lying);
-                    if(InHeroes(supportVertices,otherAt,otherRotation,visualScale,out Vector3 _)<InHeroes(supportVertices,terminal,terminalRotation,visualScale,out Vector3 _)){terminalRotation=otherRotation;terminal=otherAt;}
+                    if(Overlap(supportVertices,otherAt,otherRotation)<Overlap(supportVertices,terminal,terminalRotation)){terminalRotation=otherRotation;terminal=otherAt;}
                 }
                 if(!enemy.definition.boss)FallClear(supportVertices);
                 // D374: the Burrower is the one boss that falls as a body and stays, as its wreck (BossWreck takes over where it lies). Rolled onto its side where it died, its
@@ -229,6 +236,74 @@ namespace Lattice.Combat
             away.y=0;away=away.sqrMagnitude>.0001f?away.normalized:-transform.forward;
             return deepest;
         }
+        /// <summary>D386: clear of a hero on the plan, a body was still drawn round him. The camera looks down on the party from behind, so a body lying at his back with its legs
+        /// in the air stood round his torso and his head on the screen (nov23-whole s03/007, a Ridgehound; s14/017, two Gloomgrazers that had lain clear of him by D355's rule).
+        /// What a fallen body draws stays off each hero's outline as the game's camera sees him: his capsule's width and a third of a metre each side (as on the plan), from his feet
+        /// to the top of his head, wherever it lies, in front of him, beside him or behind him. At a quarter metre its limbs still touched his arms in a test still.</summary>
+        const float SeenClear=.35f;
+        /// <summary>How far a body may be thrown to lie off a hero's outline, in steps of a tenth.</summary>
+        const float MostThrow=2f,ThrowStep=.1f;
+        /// <summary>The game's camera when it died.</summary>
+        Camera lens;
+        /// <summary>How far what it would draw, lying at this pose, comes inside the nearest hero's outline as the camera sees him (0: off every one), and the way from him
+        /// through its middle. Each point is carried along the camera's line to the upright plane through the hero's feet that faces the camera: a point behind him meets it higher
+        /// than it stands, one in front of him lower.</summary>
+        float InView(Vector3[] local,Vector3 position,Quaternion rotation,Vector3 scale,out Vector3 away)
+        {
+            away=Vector3.zero;float deepest=0;var party=PartyController.Current;
+            if(lens==null||party==null||local==null||local.Length==0||visual==null||visual.parent==null)return 0;
+            var eye=lens.transform.position;var pose=visual.parent.localToWorldMatrix*Matrix4x4.TRS(position,rotation,scale);int stride=Mathf.Max(1,local.Length/900);
+            foreach(var hero in party.members)
+            {
+                if(hero==null||hero.Health==null||!hero.Health.Alive||hero.flight||!hero.TryGetComponent<CharacterController>(out var capsule))continue;
+                var foot=hero.transform.position;var facing=foot-eye;facing.y=0;if(facing.sqrMagnitude<.01f)continue;facing.Normalize();
+                var across=new Vector3(facing.z,0,-facing.x);float wide=capsule.radius+SeenClear,top=capsule.height+.1f,plane=Vector3.Dot(foot-eye,facing);
+                for(int i=0;i<local.Length;i+=stride)
+                {
+                    var ray=pose.MultiplyPoint3x4(local[i])-eye;float along=Vector3.Dot(ray,facing);if(along<.1f)continue;
+                    var seen=eye+ray*(plane/along)-foot;if(seen.y<.05f||seen.y>top)continue;
+                    float lateral=Mathf.Abs(Vector3.Dot(seen,across));
+                    if(lateral<wide&&wide-lateral>deepest){deepest=wide-lateral;away=transform.position-foot;}
+                }
+            }
+            away.y=0;away=away.sqrMagnitude>.0001f?away.normalized:-transform.forward;
+            return deepest;
+        }
+        float Overlap(Vector3[] local,Vector3 position,Quaternion rotation)=>Mathf.Max(InHeroes(local,position,rotation,visualScale,out _),InView(local,position,rotation,visualScale,out _));
+        /// <summary>The floor's height under a place, from what stands there and is not a body (false: none within reach).</summary>
+        static bool FloorUnder(Vector3 at,out float height)
+        {
+            height=float.NegativeInfinity;float nearest=float.PositiveInfinity;
+            foreach(var hit in Physics.RaycastAll(at+Vector3.up*1.5f,Vector3.down,4,~0,QueryTriggerInteraction.Ignore))
+                if(CombatCover.Opaque(hit.collider)&&hit.normal.y>=.5f&&hit.distance<nearest){nearest=hit.distance;height=hit.point.y;}
+            return nearest<float.PositiveInfinity;
+        }
+        /// <summary>D386: a body drawn round a hero from the camera is thrown off his outline by the blow, the shortest of three ways that clears it: on from him through its
+        /// middle, or across the camera's view to either side. Only over open floor at its own level and short of any wall; where no way clears it within reach, the way that
+        /// leaves the least of it on him. Returns how far.</summary>
+        float ThrowClear(Vector3[] local,float most)
+        {
+            float seen=InView(local,terminal,terminalRotation,visualScale,out var away);
+            if(seen<=0||most<ThrowStep)return 0;
+            var across=lens.transform.right;across.y=0;across=across.sqrMagnitude>.0001f?across.normalized:new Vector3(away.z,0,-away.x);
+            var from=visual.parent.TransformPoint(terminal);
+            if(!FloorUnder(from,out float floor))return 0;
+            from.y=floor;
+            float best=0,left=seen;var way=Vector3.zero;bool clear=false;
+            foreach(var option in new[]{away,across,-across})
+                for(float s=ThrowStep;s<=most+.001f;s+=ThrowStep)
+                {
+                    var at=from+option*s;
+                    if(CombatCover.Sweep(from+Vector3.up*.4f,at+option*.3f+Vector3.up*.4f,.2f,out _)||!FloorUnder(at,out float under)||Mathf.Abs(under-floor)>.35f)break;
+                    float still=Overlap(local,terminal+visual.parent.InverseTransformVector(option*s),terminalRotation);
+                    if(still<=0){if(!clear||s<best){clear=true;best=s;way=option;left=0;}break;}
+                    if(!clear&&still<left-.005f){best=s;way=option;left=still;}
+                }
+            if(best<=0)return 0;
+            terminal+=visual.parent.InverseTransformVector(way*best);
+            Debug.Log($"BODY_THROWN {enemy.definition.id} seen={seen:0.00} left={left:0.00} way=({way.x:0.00},{way.z:0.00}) {best:0.00} m");
+            return best;
+        }
         /// <summary>Where it lies is moved off any hero it would lie in, along the way from him through its middle, as the killing blow knocks it back: it slides there as it falls.</summary>
         void FallClear(Vector3[] local,float most=MostSlide,bool wholeFall=false)
         {
@@ -259,7 +334,8 @@ namespace Lattice.Combat
                     float step=Mathf.Min(need,most-slid);slid+=step;
                     terminal+=visual.parent.InverseTransformVector(way*step);
                 }
-            if(slid>0){knockedClear=true;Debug.Log($"BODY_FALLS_CLEAR {enemy.definition.id} slid={slid:0.00}");}
+            float thrown=wholeFall?0:ThrowClear(local,MostThrow-slid);slid+=thrown;
+            if(slid>0){knockedClear=true;Debug.Log($"BODY_FALLS_CLEAR {enemy.definition.id} slid={slid:0.00} thrown={thrown:0.00}");}
         }
         bool CaptureSupport()
         {

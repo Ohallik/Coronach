@@ -56,6 +56,9 @@ namespace Lattice.Combat
         public event Action<Health,DamagePacket> Died;
         public event Action<Health> Revived;
         public static event Action<Health,float,HitKind> DamageNumber;
+        /// <summary>What the latest blow took off the bar: its damage, but never more than the body had left. A blow is reported whole (a scripted end is a hundred times a bar:
+        /// the Debris Cutter's last pod, BossController.DebrisCutter), and the number on the screen is this (D388: the Cutter's read '56714930!', s61 071).</summary>
+        public float LastTaken{get;private set;}
         /// <summary>A hit that did something, once per hit, with the packet that did it: (victim, packet, damage, kind, it broke the body, it killed it). Raised before
         /// <see cref="Died"/>, so what answers a killing blow sees the body as it stood. <see cref="Damaged"/> is no use for this: a collar link raises it twice.</summary>
         public static event Action<Health,DamagePacket,float,HitKind,bool,bool> Impacted;
@@ -93,6 +96,7 @@ namespace Lattice.Combat
             if(actor!=null)damage=GearEffects.Survive(actor,this,damage);
             // A bar held at a line (Holds): what lands is only what it gives up, so a blow on a held line is no kill and its number says what it took.
             if(!friendly&&Holds!=null)damage=Mathf.Min(damage,Mathf.Max(0,integrity-Mathf.Max(0,Holds())));
+            LastTaken=Mathf.Clamp(damage,0,integrity);
             integrity=Mathf.Max(0,integrity-damage);
             if(actor!=null&&integrity>0&&integrity<maximum*.3f)Lattice.Core.BarkService.Play(actor.character,"low");
             bool broke=false;

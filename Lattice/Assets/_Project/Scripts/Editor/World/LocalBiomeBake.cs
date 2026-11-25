@@ -163,6 +163,22 @@ namespace Lattice.EditorTools
                     Float(material,"_NormalStrength",.55f);Float(material,"_SunReflectionStrength",.2f);Float(material,"_SparkleIntensity",.04f);
                     Float(material,"_PointSpotLightReflectionStrength",2.4f);Float(material,"_PointSpotLightReflectionSize",.5f);Float(material,"_PointSpotLightReflectionExp",24);
                 }
+                if(palette=="MireRafts")
+                {
+                    // Driftreed's open mire (D393): one flat dark sheet from the fixed camera (nov23 s24 112 and 176), as the Hold was before D359. An absorption of 16 reached its
+                    // deep colour in a hand of water, so nothing changed with depth; ripples at .55 on a 2.4 m tiling and a scum at .3 were under what the camera can see at twenty
+                    // metres. Now (the Hold's way): tea-amber where it is shallow by the rafts and banks, going to a peat brown-green over a metre or so, ripples that catch the dusk and
+                    // the lanterns, a slow scum drifting on it, and broad lamp glints. Colours and strengths only: no keyword changes, so the player draws the variant it drew.
+                    material.SetColor("_BaseColor",new Color(.17f,.21f,.15f,.95f).linear);material.SetColor("_ShallowColor",new Color(.52f,.46f,.28f,1).linear);
+                    material.SetColor("_FoamColor",new Color(.72f,.68f,.52f,.42f).linear);
+                    Float(material,"_DepthVertical",4.5f);Float(material,"_DepthHorizontal",6);
+                    Float(material,"_NormalStrength",.9f);material.SetVector("_NormalTiling",new Vector4(.62f,.62f,0,0));Float(material,"_NormalTiling",.62f);Float(material,"_NormalSpeed",.4f);Float(material,"_Speed",.38f);
+                    Float(material,"_FoamBaseAmount",.3f);Float(material,"_FoamStrength",.45f);Float(material,"_FoamSpeed",.22f);material.SetVector("_FoamTiling",new Vector4(.24f,.24f,0,0));
+                    // Fresnel at 1.15, not lower: at .9 the dusk sky took the sheet over and it was a blue lake (look d393-after), as the chapter 3 engineer found (at .9 the mire went navy).
+                    Float(material,"_ReflectionStrength",.7f);Float(material,"_ReflectionFresnel",1.15f);Float(material,"_ReflectionDistortion",.3f);Float(material,"_ReflectionBlur",.06f);
+                    Float(material,"_SunReflectionStrength",.3f);Float(material,"_SparkleIntensity",.09f);
+                    Float(material,"_PointSpotLightReflectionStrength",3.6f);Float(material,"_PointSpotLightReflectionSize",.6f);Float(material,"_PointSpotLightReflectionDistortion",.8f);
+                }
                 if(palette=="Hold")
                 {
                     // Many Hands' raft bay and the garden's channel: a station's indoor water, still and deep, green-dark under the rafts, the lamps along the quays caught

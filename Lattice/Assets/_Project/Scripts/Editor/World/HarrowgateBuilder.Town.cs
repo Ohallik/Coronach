@@ -1196,20 +1196,85 @@ namespace Lattice.EditorTools
                 ("BrekkBody",new[]{new Vector2(14,4.4f),new Vector2(28,5)},.9f,2.6f,new(.96f,.92f,.88f),true,"A docker with a sack"),
                 ("OdrunBody",new[]{new Vector2(-48,13.6f),new Vector2(-36,12.6f)},.8f,3,new(.92f,.96f,1.02f),true,"A woman carrying a jar to the store"),
                 ("TovraBody",new[]{new Vector2(-50.2f,40.6f),new Vector2(-42,40.4f)},.8f,2.8f,new(1.02f,.96f,.92f),true,"A mother taking down the washing, with a basket"),
-                ("DraskBody",new[]{new Vector2(-21.2f,38.2f),new Vector2(-15.8f,38.4f)},.85f,2.4f,new(.88f,.86f,.9f),true,"A cook carrying a pot"),
+                // Not from Odrun's door: Pip waits there with her kettle after the verdict, and the cook set off from 0.7 m behind him as the lead talked to him (nov23-whole s52/233; D391).
+                ("DraskBody",new[]{new Vector2(-18.6f,38.2f),new Vector2(-15.8f,38.4f)},.85f,2.4f,new(.88f,.86f,.9f),true,"A cook carrying a pot"),
                 ("BrekkBody",new[]{new Vector2(19.6f,46),new Vector2(26.4f,46)},.9f,2.2f,new(.94f,.94f,1f),true,"A smith carrying pikes"),
                 ("MusterPikeguard",new[]{new Vector2(-32,62),new Vector2(-14,62.4f)},1,2,new(1,1,1),true,"A soldier on his round"),
                 ("OdrunBody",new[]{new Vector2(22.8f,106.8f),new Vector2(28.4f,106.8f)},.6f,4,new(1.04f,1f,.96f),true,"An old woman looking at the cases"),
             };
+            /// <summary>What a body draws on the plan between the floor and a hero's head, in its own frame, as it stands: a copy posed at its idle (as LookDev poses one), its skin
+            /// baked, the box round it (its centre, its size) and how far its furthest point is from its feet. A garrison frame stood in a 0.7 m box whatever it drew, and the
+            /// Warmaster in a civilian's 0.35 m capsule under his war-frame and mantle: the heroes stood in them (whole-game capture of November 23, s51/179, s52/014, s52/016; D391).</summary>
+            static (Vector3 centre,Vector3 size,float reach) Footprint(GameObject prefab)
+            {
+                if(prefab==null)return (Vector3.up*.95f,new Vector3(.7f,1.9f,.7f),.35f);
+                if(Drawn.TryGetValue(prefab,out var known))return known;
+                var copy=(GameObject)UnityEngine.Object.Instantiate(prefab);copy.transform.SetPositionAndRotation(Vector3.zero,Quaternion.identity);copy.transform.localScale=Vector3.one;
+                var points=new List<Vector3>();var mesh=new List<Vector3>();
+                try
+                {
+                    foreach(var animator in copy.GetComponentsInChildren<Animator>(true))
+                    {
+                        var clips=animator.runtimeAnimatorController!=null?animator.runtimeAnimatorController.animationClips:Array.Empty<AnimationClip>();
+                        var idle=clips.FirstOrDefault(c=>c!=null&&c.name.ToLowerInvariant().Contains("idle"));if(idle!=null)idle.SampleAnimation(animator.gameObject,.3f);
+                    }
+                    foreach(var r in copy.GetComponentsInChildren<Renderer>())
+                    {
+                        if(!r.enabled||r.shadowCastingMode==ShadowCastingMode.ShadowsOnly)continue;
+                        if(r is SkinnedMeshRenderer skin&&skin.sharedMesh!=null)
+                        {var baked=new Mesh();skin.BakeMesh(baked,true);var pose=Matrix4x4.TRS(skin.transform.position,skin.transform.rotation,Vector3.one);baked.GetVertices(mesh);foreach(var p in mesh)points.Add(pose.MultiplyPoint3x4(p));UnityEngine.Object.DestroyImmediate(baked);}
+                        else if(r is MeshRenderer&&r.TryGetComponent<MeshFilter>(out var filter)&&filter.sharedMesh!=null){filter.sharedMesh.GetVertices(mesh);foreach(var p in mesh)points.Add(r.transform.TransformPoint(p));}
+                    }
+                }
+                finally{UnityEngine.Object.DestroyImmediate(copy);}
+                points.RemoveAll(p=>p.y<.05f||p.y>SightlineAudit.HeroHeight);
+                (Vector3,Vector3,float) found;
+                if(points.Count==0)found=(Vector3.up*.95f,new Vector3(.7f,1.9f,.7f),.35f);
+                else
+                {
+                    float x0=points.Min(p=>p.x)-DrawnMargin,x1=points.Max(p=>p.x)+DrawnMargin,z0=points.Min(p=>p.z)-DrawnMargin,z1=points.Max(p=>p.z)+DrawnMargin;
+                    found=(new Vector3((x0+x1)*.5f,.95f,(z0+z1)*.5f),new Vector3(x1-x0,1.9f,z1-z0),points.Max(p=>new Vector2(p.x,p.z).magnitude)+DrawnMargin);
+                }
+                Debug.Log($"HARROWGATE_DRAWN {prefab.name} centre=({found.Item1.x:0.00}, {found.Item1.z:0.00}) size=({found.Item2.x:0.00}, {found.Item2.z:0.00}) reach={found.Item3:0.00} points={points.Count}");
+                Drawn[prefab]=found;return found;
+            }
+            static readonly Dictionary<GameObject,(Vector3 centre,Vector3 size,float reach)> Drawn=new();
+            /// <summary>Past the drawn body, for an idle that moves a little from the pose it was measured in.</summary>
+            const float DrawnMargin=.05f;
+            /// <summary>A townsperson's box grown to what they draw, about their feet so they stand where they did (the ways' check reads a person at their box's middle); never smaller.</summary>
+            static void AsWideAsDrawn(BoxCollider box,GameObject prefab)
+            {
+                if(box==null)return;var (centre,size,_)=Footprint(prefab);
+                float halfX=Mathf.Max(Mathf.Abs(centre.x-size.x*.5f),Mathf.Abs(centre.x+size.x*.5f)),halfZ=Mathf.Max(Mathf.Abs(centre.z-size.z*.5f),Mathf.Abs(centre.z+size.z*.5f));
+                box.center=new Vector3(0,box.center.y,0);box.size=new Vector3(Mathf.Max(box.size.x,halfX*2),box.size.y,Mathf.Max(box.size.z,halfZ*2));
+            }
+            /// <summary>A walker's capsule grown to the furthest it draws from its feet; never smaller.</summary>
+            static void AsWideAsDrawn(WalkLoop walker,GameObject prefab)
+            {
+                var capsule=walker!=null?walker.GetComponent<CapsuleCollider>():null;if(capsule==null)return;
+                capsule.radius=Mathf.Max(capsule.radius,Footprint(prefab).reach);
+            }
+            /// <summary>A named person stops a hero at what they draw (an Npc's own capsule is a civilian's 0.35 m): a round solid at their feet out to the furthest they draw, as the
+            /// Warmaster's post on the field has (D371), and, while they stand, a hole in the walkable floor, so the partner's way goes round them and never ends pressed into them
+            /// (D391). The Warmaster draws 1.05 to 1.12 m out from his feet (his mantle behind, his shield beside) and only about 0.4 m in front: boxed to what he draws the lead still
+            /// stood 0.8 m from his middle, his head in his chest from the play camera; round, the lead stops at talking distance on every side. It goes with them when they walk off.</summary>
+            static void StandsAsWideAsDrawn(Npc who)
+            {
+                var model=who.transform.Find("Generated civilian");var source=model!=null?PrefabUtility.GetCorrespondingObjectFromSource(model.gameObject):null;if(source==null)return;
+                float reach=Footprint(source).reach;
+                var solid=new GameObject(who.speaker+" as wide as drawn",typeof(CapsuleCollider),typeof(NavMeshObstacle));solid.transform.SetParent(who.transform,false);
+                var round=solid.GetComponent<CapsuleCollider>();round.radius=reach;round.height=Mathf.Max(2.5f,reach*2);round.center=Vector3.up*round.height*.5f;
+                var hole=solid.GetComponent<NavMeshObstacle>();hole.shape=NavMeshObstacleShape.Capsule;hole.radius=reach;hole.height=round.height;hole.center=round.center;hole.carving=true;hole.carveOnlyStationary=true;
+            }
             static GameObject Body(ZoneKit kit,string id,Vector3 at,float yaw,Color tint,bool solid=true)
             {
-                if(ZoneKit.Prefab("Characters",id)!=null){var one=kit.Townsperson(id,at,yaw,tint,"BrekkBody");if(!solid)foreach(var c in one.GetComponentsInChildren<Collider>())UnityEngine.Object.DestroyImmediate(c);return one;}
+                if(ZoneKit.Prefab("Characters",id)!=null){var one=kit.Townsperson(id,at,yaw,tint,"BrekkBody");if(!solid)foreach(var c in one.GetComponentsInChildren<Collider>())UnityEngine.Object.DestroyImmediate(c);else AsWideAsDrawn(one.GetComponent<BoxCollider>(),ZoneKit.Prefab("Characters",id));return one;}
                 // The garrison wear the Muster's frames: the same standing as a townsperson, from the enemies' bodies.
                 var person=new GameObject("Townsperson");person.transform.SetPositionAndRotation(kit.On(at),Quaternion.Euler(0,yaw,0));person.isStatic=solid;
                 var prefab=ZoneKit.Prefab("Enemies",id)??ZoneKit.Prefab("Characters","BrekkBody");var model=(GameObject)PrefabUtility.InstantiatePrefab(prefab);model.transform.SetParent(person.transform,false);model.name="Generated civilian";
                 foreach(var b in model.GetComponentsInChildren<GroundLifecycleSupport>())UnityEngine.Object.DestroyImmediate(b);
                 if(id=="MusterSergeant"||id=="MusterScav")foreach(var part in model.GetComponentsInChildren<Renderer>(true))part.sharedMaterials=part.sharedMaterials.Select(PlainRim).ToArray();
-                if(solid){var box=person.AddComponent<BoxCollider>();box.size=new Vector3(.7f,1.9f,.7f);box.center=Vector3.up*.95f;}
+                if(solid){var box=person.AddComponent<BoxCollider>();box.size=new Vector3(.7f,1.9f,.7f);box.center=Vector3.up*.95f;AsWideAsDrawn(box,prefab);}
                 person.AddComponent<PropTint>().tint=tint;
                 foreach(var rig in model.GetComponentsInChildren<Animator>()){rig.cullingMode=AnimatorCullingMode.CullCompletely;PrefabUtility.RecordPrefabInstancePropertyModifications(rig);}
                 return person;
@@ -1256,7 +1321,12 @@ namespace Lattice.EditorTools
                     var one=Body(kit,body,new Vector3(at.x,0,at.y),yaw,tint);one.name="Townsperson, "+(string.IsNullOrEmpty(doing)?"at their work":"with "+doing);
                     if(scale!=1)one.transform.localScale=Vector3.one*scale;Carry(kit,one,doing);
                 }
-                foreach(var (body,at,yaw,tint,scale) in Children){var child=Body(kit,body,new Vector3(at.x,0,at.y),yaw,tint);child.transform.localScale=Vector3.one*scale;child.name="A child playing parley";}
+                foreach(var (body,at,yaw,tint,scale) in Children)
+                {
+                    var child=Body(kit,body,new Vector3(at.x,0,at.y),yaw,tint);child.transform.localScale=Vector3.one*scale;child.name="A child playing parley";
+                    // A child's rig plays its idle wider than the pose it is measured in: 0.07 to 0.11 m past its box in play (d391-after). Half a metre of its own size more.
+                    if(child.TryGetComponent<BoxCollider>(out var box))box.size+=new Vector3(.5f,0,.5f);
+                }
                 // The pegs on the stair: the Shapers' share of them.
                 var pegs=new ZoneKit.Shape();var rng=new System.Random(13);
                 for(int k=0;k<14;k++){var p=At(kit,new Vector2(-38.6f+((float)rng.NextDouble()-.5f)*3.6f,53.6f+((float)rng.NextDouble()-.5f)*2.4f),.02f);pegs.Box(p,new Vector3(.08f,.03f,.02f),Quaternion.Euler(0,(float)rng.NextDouble()*180,0),new Color(.8f,.72f,.58f));}
@@ -1264,7 +1334,7 @@ namespace Lattice.EditorTools
                 foreach(var (body,loop,speed,pause,tint,back,name) in Errands)
                 {
                     WalkLoop walker;
-                    if(ZoneKit.Prefab("Characters",body)!=null)walker=kit.Walker(body,loop,speed,pause,tint,"BrekkBody");
+                    if(ZoneKit.Prefab("Characters",body)!=null){walker=kit.Walker(body,loop,speed,pause,tint,"BrekkBody");AsWideAsDrawn(walker,ZoneKit.Prefab("Characters",body));}
                     else
                     {
                         var person=new GameObject("Townsperson on an errand");person.transform.position=kit.On(loop[0].x,loop[0].y);
@@ -1273,6 +1343,7 @@ namespace Lattice.EditorTools
                         var solid=person.AddComponent<CapsuleCollider>();solid.height=1.9f;solid.radius=.35f;solid.center=Vector3.up*.95f;person.AddComponent<PropTint>().tint=tint;
                         foreach(var rig in model.GetComponentsInChildren<Animator>()){rig.cullingMode=AnimatorCullingMode.CullCompletely;PrefabUtility.RecordPrefabInstancePropertyModifications(rig);}
                         walker=person.AddComponent<WalkLoop>();walker.path=loop.Select(p=>kit.On(p.x,p.y)).ToArray();walker.speed=speed;walker.pause=pause;
+                        AsWideAsDrawn(walker,ZoneKit.Prefab("Enemies",body)??ZoneKit.Prefab("Characters","BrekkBody"));
                     }
                     walker.thereAndBack=back;walker.name=name;if(body=="PipBody")walker.transform.localScale=Vector3.one*.84f;
                     Carry(kit,walker.gameObject,name.Contains("sack")?"a sack":name.Contains("jar")?"a jar":name.Contains("basket")?"a basket":name.Contains("pot")?"a pot":name.Contains("pikes")?"pikes":name.Contains("soldier")?"a pike":"");
@@ -1403,7 +1474,12 @@ namespace Lattice.EditorTools
                         foreach(var hit in Physics.SphereCastAll(a,.4f,run.normalized,run.magnitude,~0,QueryTriggerInteraction.Ignore))
                             if(hit.collider.GetComponentInParent<WalkLoop>()==null&&hit.collider.GetComponentInParent<Npc>()==null)blocked.Add($"{name}: {hit.collider.name} at ({hit.point.x:0.0}, {hit.point.z:0.0})");
                     }
+                // Nor across where the party meets the Warmaster, a body's width round it.
+                var meeting=new Rect(MeetingGround.x-.5f,MeetingGround.y-.5f,MeetingGround.width+1,MeetingGround.height+1);
+                foreach(var (_,loop,_,_,_,_,name) in Errands)for(int k=1;k<loop.Length;k++)for(float t=0;t<=1;t+=.05f)
+                    if(meeting.Contains(Vector2.Lerp(loop[k-1],loop[k],t))){blocked.Add($"{name}: across where the party meets the Warmaster");break;}
                 if(blocked.Count>0)throw new InvalidOperationException("Harrowgate: an errand runs into something: "+string.Join("; ",blocked.Distinct()));
+                Debug.Log("HARROWGATE_MEETING_CLEAR");
             }
 
             // ---------------------------------------------------------------- the chapter's story, wired into the town (manifest sections 2 and 8)
@@ -1414,6 +1490,10 @@ namespace Lattice.EditorTools
                 who.SetActive(string.IsNullOrEmpty(from));
             }
             static void All(string name,string result,params string[] flags){var all=new GameObject(name,typeof(FlagAll)).GetComponent<FlagAll>();all.flags=flags;all.result=result;}
+            /// <summary>Where the party meets the Warmaster at his table: his place, and the four metres in front of it where they stand to talk, 2.2 m either side of his line. No
+            /// walker's loop crosses it (checked as built, HARROWGATE_MEETING_CLEAR) and Pip, following, never stands on it (D391).</summary>
+            internal static readonly Rect MeetingGround=new(DraskAt.x-2.2f,DraskAt.y-4,4.4f,5);
+            static Bounds MeetingPlace(ZoneKit kit)=>new(At(kit,MeetingGround.center),new Vector3(MeetingGround.width,6,MeetingGround.height));
             static Npc Person(ZoneKit kit,string id,Vector2 at,float yaw,string first,string repeat)
             {
                 var npc=kit.Person(id,new Vector3(at.x,0,at.y),yaw,"",false,null,null,first);npc.repeatNode=repeat??"";return npc;
@@ -1434,7 +1514,7 @@ namespace Lattice.EditorTools
                 kit.Crossing("Pip at the gate",new Vector3(PipFirstAt.x,0,PipFirstAt.y),new Vector3(9,5,2.4f),"vask.pipMet","PipFirst","Pip","vask.parley");
                 var pip=new GameObject("Pip");pip.transform.SetPositionAndRotation(At(kit,PipWaits),Quaternion.Euler(0,200,0));
                 var pipBody=(GameObject)PrefabUtility.InstantiatePrefab(ZoneKit.Prefab("Characters","PipBody")??ZoneKit.Prefab("Characters","BrekkBody"));pipBody.transform.SetParent(pip.transform,false);pipBody.name="Generated civilian";
-                var pace=pip.AddComponent<KeepsPace>();pace.goneFlag="vask.deposed";pace.gap=7;pace.calm=14;
+                var pace=pip.AddComponent<KeepsPace>();pace.goneFlag="vask.deposed";pace.gap=7;pace.calm=14;pace.keepOut=new[]{MeetingPlace(kit)};
                 pace.stages=new[]
                 {
                     new KeepsPace.Stage{when="",point=At(kit,PipWaits),faces=At(kit,GateHead)},
@@ -1494,6 +1574,9 @@ namespace Lattice.EditorTools
                 // ---- the Warmaster: at his table from the time the town is seen; he receives them, and goes out to the field.
                 All("The town has been seen","vask.townSeen","vask.odrunMet","vask.gallerySeen");
                 var drask=Person(kit,"Drask",DraskAt,180,"DraskReceives","DraskReceives");
+                // He stops a hero at what he draws, and the partner's way goes round him (D391): Taren walked to 1.2 m of his middle, his head in the Warmaster's chest, and Idra
+                // pressed into his back, drawn through him (nov23-whole s51/179, s52/016).
+                StandsAsWideAsDrawn(drask);
                 var draskHere=new GameObject("The Warmaster at his table");drask.transform.SetParent(draskHere.transform,true);
                 Where("The Warmaster comes to his table",draskHere,"vask.townSeen",null,null,null,true);
                 var goes=drask.gameObject.AddComponent<LeavesAfter>();goes.flag="vask.draskMet";goes.path=new[]{At(kit,new Vector2(0,106.4f)),At(kit,new Vector2(0,99)),At(kit,new Vector2(10,92)),At(kit,new Vector2(17,85)),At(kit,new Vector2(24,85))};
@@ -1569,8 +1652,14 @@ namespace Lattice.EditorTools
                 var before=new GameObject("The field at drill");
                 foreach(var (a,b,tint) in new[]{(new Vector2(-14,76.6f),new Vector2(-4.2f,76.6f),new Color(1,.98f,1.04f)),(new Vector2(-14,79),new Vector2(-4.2f,79),new Color(.96f,1,1)),(new Vector2(4.2f,76.6f),new Vector2(14,76.6f),new Color(1.04f,1,.96f)),(new Vector2(4.2f,79),new Vector2(14,79),new Color(1,1.02f,.98f))})
                 {var cadet=kit.Walker(ZoneKit.Prefab("Characters","PipBody")!=null?"PipBody":"BrekkBody",new[]{a,b},1.3f,1.2f,tint,"BrekkBody");cadet.thereAndBack=true;cadet.name="A cadet at drill";cadet.transform.localScale=Vector3.one*.84f;cadet.transform.SetParent(before.transform,true);}
-                // By the east files' head, turned to them (FaceSomething): he stood in the open between the two drills, facing neither.
-                var sergeant=Body(kit,"MusterSergeant",new Vector3(1.6f,0,81.2f),120,Color.white,false);sergeant.name="Townsperson, the drill sergeant";sergeant.transform.SetParent(before.transform,true);
+                // Before the east files' heads, turned to them (FaceSomething: they set off from there): he stood in the open between the two drills, facing neither, and then at
+                // (1.6, 81.2) with nothing solid, 1.6 m off the way up the field, where the partner walks beside the lead: Idra walked through him on the medallion (nov23-whole
+                // s52/014; D391). Now 3.2 m east of the way and 3.2 m off route 52's walks (at (-3.5, 77.8) he cut its walk from the checkpoint), and out of the camera's line to
+                // anywhere on the field the duel's contract samples. Solid as wide as his frame draws; not in the bake, since the duel is fought here once the drill has gone, so his
+                // hole in the walkable floor is carved while he stands.
+                var sergeant=Body(kit,"MusterSergeant",new Vector3(3.2f,0,81.6f),170,Color.white);sergeant.name="Townsperson, the drill sergeant";sergeant.transform.SetParent(before.transform,true);
+                foreach(var t in sergeant.GetComponentsInChildren<Transform>(true))t.gameObject.isStatic=false;
+                {var calls=sergeant.GetComponent<BoxCollider>();var hole=sergeant.AddComponent<NavMeshObstacle>();hole.shape=NavMeshObstacleShape.Box;hole.center=calls.center;hole.size=calls.size;hole.carving=true;hole.carveOnlyStationary=true;}
                 // Before the duel is called, a few already on the hall steps to watch the drill; once it is, they are the crowd.
                 foreach(var (x,z,body,yaw) in new[]{(-7.4f,101.2f,"OdrunBody",170f),(-5.8f,101.8f,"BrekkBody",200f),(8.2f,102.4f,"TovraBody",190f)})
                 {var one=Body(kit,body,new Vector3(x,0,z),yaw,new Color(.96f,.96f,1));one.name="Townsperson, watching the drill";foreach(var t in one.GetComponentsInChildren<Transform>(true))t.gameObject.isStatic=false;one.transform.SetParent(before.transform,true);}
@@ -1618,6 +1707,7 @@ namespace Lattice.EditorTools
                     var model=(GameObject)PrefabUtility.InstantiatePrefab(frame);model.transform.SetParent(person.transform,false);model.name="Generated civilian";
                     foreach(var b in model.GetComponentsInChildren<GroundLifecycleSupport>())UnityEngine.Object.DestroyImmediate(b);
                 }
+                StandsAsWideAsDrawn(person);
                 var walksOff=person.gameObject.AddComponent<LeavesAfter>();walksOff.flag="vask.duelWon";walksOff.path=new[]{At(kit,new Vector2(10,85)),At(kit,new Vector2(FieldHalfX+2,85)),At(kit,new Vector2(36,85)),At(kit,new Vector2(43.6f,82))};
                 var yieldedHere=new GameObject("Drask after the duel");person.transform.SetParent(yieldedHere.transform,true);Where("Drask has gone down to the harbour",yieldedHere,null,null,null,"vask.duelWon",false);
                 var yielded=new GameObject("Drask Vaal yields",typeof(YieldedCaptain)).GetComponent<YieldedCaptain>();yielded.npc=person;person.gameObject.SetActive(false);

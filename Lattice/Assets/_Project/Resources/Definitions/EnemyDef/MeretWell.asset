@@ -42,7 +42,7 @@ MonoBehaviour:
   capsuleRadius: 0
   capsuleHeight: 2
   motion: 0
-  drawnScale: 1
+  drawnScale: 1.2
   heavyDeath: 0
   behaviour: 0
   tune:

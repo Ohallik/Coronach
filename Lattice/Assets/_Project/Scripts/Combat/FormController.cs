@@ -62,6 +62,20 @@ namespace Lattice.Combat
             }
             stage=Stage.Closing;
         }
+        /// <summary>D407: a change begun under a black screen (a berth's, Berth.Shift) is made there. The body it leaves is put away at once and the one it takes opens from its
+        /// fold as the screen clears. Left to run, the ship closed for .23 s and its person opened .27 s after that, so the screen cleared on two ships lying through each other
+        /// on the deck, set down 2 m apart as two people are (nov24-recon-h-63 s63/111, -h-65 s65/028).</summary>
+        public void Cover()
+        {
+            if(!Shaping||departing||stage!=Stage.Closing&&stage!=Stage.Exchange||health!=null&&!health.Alive)return;
+            bool fromFlight=Visible==flight;
+            if(pose!=null)pose.Restore();
+            if(stage==Stage.Closing)CombatVfx.Burst(transform.position+Vector3.up*.9f,actor!=null&&actor.Warm?new Color(1,.65f,.2f):Color.cyan,"form");
+            Show(requested);
+            if(Visible==flight){flight.transform.localPosition=Vector3.up*.8f;flight.transform.localRotation=Quaternion.identity;}
+            pose=Prepare(Visible,fromFlight||Visible==flight,true);weight=1;if(pose!=null)pose.Apply(1);
+            stage=Stage.Opening;exchange=0;
+        }
         FormFold Prepare(GameObject visual,bool airborne,bool incoming=false)
         {
             if(visual==null)return null;

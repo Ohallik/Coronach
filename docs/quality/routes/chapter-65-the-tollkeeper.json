@@ -1162,23 +1162,6 @@
       "expectedScene": "LastMooring"
     },
     {
-      "name": "pulse brace 3 round 1",
-      "seconds": 0.18,
-      "buttons": [
-        "RightShoulder",
-        "West"
-      ],
-      "leftTrigger": 1,
-      "stopWhen": "flag:end.brace3",
-      "expectedScene": "LastMooring"
-    },
-    {
-      "name": "release pulse brace 3 round 1",
-      "seconds": 0.45,
-      "leftTrigger": 1,
-      "expectedScene": "LastMooring"
-    },
-    {
       "name": "break brace 3 round 2",
       "seconds": 25,
       "buttons": [
@@ -1197,23 +1180,6 @@
         "y": 1,
         "z": 0
       },
-      "expectedScene": "LastMooring"
-    },
-    {
-      "name": "pulse brace 3 round 2",
-      "seconds": 0.18,
-      "buttons": [
-        "RightShoulder",
-        "West"
-      ],
-      "leftTrigger": 1,
-      "stopWhen": "flag:end.brace3",
-      "expectedScene": "LastMooring"
-    },
-    {
-      "name": "release pulse brace 3 round 2",
-      "seconds": 0.45,
-      "leftTrigger": 1,
       "expectedScene": "LastMooring"
     },
     {
@@ -1238,23 +1204,6 @@
       "expectedScene": "LastMooring"
     },
     {
-      "name": "pulse brace 3 round 3",
-      "seconds": 0.18,
-      "buttons": [
-        "RightShoulder",
-        "West"
-      ],
-      "leftTrigger": 1,
-      "stopWhen": "flag:end.brace3",
-      "expectedScene": "LastMooring"
-    },
-    {
-      "name": "release pulse brace 3 round 3",
-      "seconds": 0.45,
-      "leftTrigger": 1,
-      "expectedScene": "LastMooring"
-    },
-    {
       "name": "break brace 3 round 4",
       "seconds": 25,
       "buttons": [
@@ -1273,23 +1222,6 @@
         "y": 1,
         "z": 0
       },
-      "expectedScene": "LastMooring"
-    },
-    {
-      "name": "pulse brace 3 round 4",
-      "seconds": 0.18,
-      "buttons": [
-        "RightShoulder",
-        "West"
-      ],
-      "leftTrigger": 1,
-      "stopWhen": "flag:end.brace3",
-      "expectedScene": "LastMooring"
-    },
-    {
-      "name": "release pulse brace 3 round 4",
-      "seconds": 0.45,
-      "leftTrigger": 1,
       "expectedScene": "LastMooring"
     },
     {

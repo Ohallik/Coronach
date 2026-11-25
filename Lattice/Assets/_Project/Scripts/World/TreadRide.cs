@@ -28,6 +28,8 @@ namespace Lattice.World
         public Vector3 way=Vector3.back;public float distance=110,top=9,gather=3;
         /// <summary>What wakes on the car: its lamps (emission), its stack's smoke, its engine's sound.</summary>
         public Renderer[] lamps=Array.Empty<Renderer>();public ParticleSystem[] smoke=Array.Empty<ParticleSystem>();public Light headlamp;
+        /// <summary>The pool each lamp lays on the deck under it (D393), off until the car wakes.</summary>
+        public Light[] lampLights=Array.Empty<Light>();
         [ColorUsage(false,true)] public Color lampsOn=new(1.8f,1.35f,.75f);
         public string engine="thrusterFire_000";
         public bool Riding{get;private set;}
@@ -62,6 +64,7 @@ namespace Lattice.World
             foreach(var r in lamps){if(r==null)continue;r.GetPropertyBlock(block);block.SetColor(EmissionId,lampsOn);r.SetPropertyBlock(block);}
             foreach(var s in smoke)if(s!=null)s.Play();
             if(headlamp!=null)headlamp.enabled=true;
+            foreach(var l in lampLights)if(l!=null)l.enabled=true;
             if(loud&&car!=null){AudioManager.PlayAt("explosionCrunch_000",null,car.position+Vector3.up*3,.3f,AudioBus.SFX,40,.05f,.5f);Debug.Log("RIDE_AWAKE");}
             if(car!=null&&hum==null&&!Flag(flag)){hum=AudioManager.StartLoop(engine,car,.12f,AudioBus.SFX,140);hum?.Set(.12f,.55f);}
         }

@@ -10,6 +10,21 @@ namespace Lattice.UI
         /// <summary>Whether the line was said with the lead on foot or flying, and in which zone: a line belongs to where it was said. Taren's 'That one's holding the hatch
         /// for us' stayed up after the launch, over the ship (s66 123).</summary>
         bool saidFlying;ZoneController saidIn;
+        /// <summary>D387: the line was one of a fight's, said while it was on (anything but a kill's word, which is its last). It goes when the fight ends: 'That plate's gone
+        /// dark. Hit the dark.' stood over the Slag Colossus's body for three seconds after it was dead (nov23-whole s49/052, s49/057).</summary>
+        bool saidInFight;
+        /// <summary>A fight on round the lead: a boss engaged, an encounter begun and not won, or an awake enemy within reach of a talk.</summary>
+        public static bool FightOn
+        {
+            get
+            {
+                if(BossController.AnyFightUnderway||World.EncounterVolume.AnyUnderway)return true;
+                var lead=PartyController.Current!=null?PartyController.Current.Active:null;
+                return lead!=null&&EnemyBrain.AwakeNear(lead.transform.position,EnemyBrain.InteractionCalm);
+            }
+        }
+        /// <summary>What the panel shows now: empty when nothing is said (for a check to read).</summary>
+        public string Showing=>text!=null?text.text:"";
         static readonly string NameColor=ColorUtility.ToHtmlStringRGB(UiKit.GoldColor);
         /// <summary>A line isn't worth hiding the party for, or what it's about: Orrin's box lay solid over the tender he was saying was free. So a lighter plate, which steps aside like the rest. At .66 it went a muddy tan on Sorrel's floor with its pale words losing out, and the slab showed through it in the Bellows' chamber.</summary>
         const float RestingPlate=.85f;
@@ -17,7 +32,7 @@ namespace Lattice.UI
         static readonly Vector2 Rest=new(292,-575);
         /// <summary>A hero under the column, or what a line's about, and the plate slides up or down it to clear them: a plate that only faded left 'Taren: Just a little late' lying across Sela. How clear, how quick, how far over the hint bar it stops, how tall a ship stands on the screen for its width, and how wide a thing known by one point is taken to be.</summary>
         const float Air=14,SlidePerSecond=1100,FootRoom=112,ShipTall=.75f,ThingHalf=70;
-        float slide,plateLow,plateHigh,plateLeft,plateRight;
+        float slide,plateLow,plateHigh,plateLeft,plateRight;float feedReach;
         /// <summary>The stretches of the column the plate can't stand in this frame, as from and to of its slide.</summary>
         readonly float[] shut=new float[160];int shutCount;
         public PanelFade Fade{get;private set;}
@@ -31,6 +46,7 @@ namespace Lattice.UI
         {
             text.text=$"<color=#{NameColor}>{DisplayNames.Speaker(speaker)}</color>\n{line}";until=Time.unscaledTime+3.5f;
             var lead=PartyController.Current!=null?PartyController.Current.Active:null;saidFlying=lead!=null&&lead.flight;saidIn=ZoneController.Current;
+            saidInFight=BarkService.Situation!="kill"&&FightOn;
             // Measured once a line, as its plate is. It lands clear: there's nothing to slide past when it has only just come up.
             var ink=UiKit.Ink(text);plateHigh=ink.yMax+16;plateLow=ink.yMin-16;plateLeft=ink.xMin-34;plateRight=ink.xMax+34;
             slide=Seat(0);text.rectTransform.anchoredPosition=Rest+new Vector2(0,slide);
@@ -43,11 +59,16 @@ namespace Lattice.UI
             if(text==null)return;
             if(cutIn==null)cutIn=GetComponent<ExtraCutIn>();
             bool blocked=GameInput.Current.Blocked||cutIn!=null&&cutIn.Showing;if(canvas.enabled==blocked)canvas.enabled=!blocked;
+            // A fight's line goes as the fight ends, held or not: a beaten boss's last talk or cut doesn't bring it back.
+            if(saidInFight&&text.text.Length>0&&!FightOn){text.text="";saidInFight=false;}
             if(blocked){until+=Time.unscaledDeltaTime;return;}
             if(text.text.Length>0&&(Time.unscaledTime>until||Elsewhere()))text.text="";
             if(text.text.Length==0)return;
-            float wanted=Seat(slide);if(wanted==slide)return;
-            slide=Mathf.MoveTowards(slide,wanted,Time.unscaledDeltaTime*SlidePerSecond);text.rectTransform.anchoredPosition=Rest+new Vector2(0,slide);
+            float wanted=Seat(slide);
+            // The feed's line that has just come in is not a hero walking by: the plate steps down at once rather than lying over its last line for the frames a glide takes (s23 174: '+36 XP' cut under Sela's line).
+            float reach=feed!=null?feed.Reach:0;bool feedGrew=reach>feedReach+.5f;feedReach=reach;
+            if(wanted==slide)return;
+            slide=feedGrew&&wanted<slide?wanted:Mathf.MoveTowards(slide,wanted,Time.unscaledDeltaTime*SlidePerSecond);text.rectTransform.anchoredPosition=Rest+new Vector2(0,slide);
         }
         /// <summary>The lead has launched or landed, or the party is in another zone, since the line was said.</summary>
         bool Elsewhere()

@@ -131,6 +131,14 @@ namespace Lattice.UI
         /// roll from a tell, an item would each let it go). The clamp pulls, and eases while the Warden's staff is down: a Draw closing on nobody, a Toll's ringing, a break.</summary>
         static bool AtAClamp(PartyController party) => !clampHandsOff && party != null && party.Active != null && BridleClamp.Held != null && BridleClamp.Held.Holder == party.Active &&
             TenderNear(party.Active.transform.position) == null;
+        /// <summary>How near a blade is taken to a Clamp Tender before it swings: half a person tall, a step aside of its seat. From the chase's 2.3 m the lead stood still and swung
+        /// in front of it (2.13 m off the Stillwater Tender at Mother of Doors' first seat: twenty seconds of swings, none landed; from 1.9 m about one in three), and in the player's run he
+        /// did so for five rounds (nov24-recon-g-63 s63, D406). A person sees the blade pass short and steps in. Her shots (Sela) keep the step's ranged reach.</summary>
+        public const float TenderBlade = 1.5f;
+        /// <summary>The chase as it was, swinging at a tender from the step's reach, for a test's broken state (MooringBossReplayTests sets it by reflection and puts it back): no route sets it.</summary>
+        static bool tenderReachAsItWas;
+        static float TenderReach(CombatActor actor, Health chased, float reach) =>
+            tenderReachAsItWas || chased == null || actor == null || actor.flight || ShootsOnFoot(actor) || !Tended.IsTender(chased) ? reach : Mathf.Min(reach, TenderBlade);
         /// <summary>A Clamp Tender is up and the lock is on something else (the Warden, whose held line takes nothing): a person flicks the lock across with the d-pad, once in a
         /// while until it is on a tender, and the chase goes after it. Tenders are fragile.</summary>
         bool TenderToStop(CombatActor lead)

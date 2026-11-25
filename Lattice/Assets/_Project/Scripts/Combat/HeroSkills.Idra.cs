@@ -25,8 +25,10 @@ namespace Lattice.Combat
         public static readonly float[] HammerHit={1.3f,1.5f,2.2f},HammerBreak={30,36,60},HammerSeconds={.5f,.56f,.72f};
         /// <summary>How far ahead the head lands and what it reaches, how far through the swing it lands, and how long the third leaves a light body slowed.</summary>
         public const float HammerReach=1.5f,HammerRadius=1.6f,HammerLastRadius=2.1f,HammerContact=.55f,HammerDown=1.2f;
-        /// <summary>The cutter, her plain attack in flight: its hit in Output, its Break, its beat, and the arc ahead it sweeps.</summary>
-        public const float CutterHit=.9f,CutterBreak=22,CutterSeconds=.4f,CutterReach=5.5f,CutterArc=45;
+        /// <summary>The cutter, her plain attack in flight: its hit in Output, its Break, its beat, and the arc ahead it sweeps. The beat is a ship's (CombatActor.Attack: .17 s, .08 of
+        /// it recovery, as Taren's and Sela's guns), .4 until D400 (November 24): her hammer's slow beat carried into flight, where she dealt the Debris Cutter about half what a ship
+        /// of hers should (870 a second flat out to Taren's 1,700 to 1,870). On foot the hammer keeps its own.</summary>
+        public const float CutterHit=.9f,CutterBreak=22,CutterSeconds=.17f,CutterRecovery=.08f,CutterReach=5.5f,CutterArc=45;
         public const float BreachLength=7,BreachFlightLength=9,BreachHit=2,BreachBreak=50,BreachRadius=1.4f;
         public const float TowHit=1.1f,TowBreak=40,TowLength=12,TowFlightLength=14;
         public const float SlagHit=2.8f,SlagBreak=110,SlagRadius=3,SlagWindUp=.45f,SlagFlightWindUp=.3f,SlagFlightReach=6;
@@ -41,7 +43,7 @@ namespace Lattice.Combat
         {
             if(actor.flight)
             {
-                actor.BeginAttack("Cleave",CutterSeconds,CutterSeconds*.5f);
+                actor.BeginAttack("Cleave",CutterSeconds,CutterRecovery);
                 var origin=transform.position+Vector3.up*.8f;var cut=Hit(actor.damage*CutterHit,actor.edgeType,CutterBreak,HitWeight.Medium);
                 foreach(var body in Swept(origin,aim,CutterReach,CutterArc))body.Receive(cut);
                 SkillArc.Flash(origin,aim,CutterReach,CutterArc,Ember,.2f);CombatAudio.Swing(actor,origin+aim*2);

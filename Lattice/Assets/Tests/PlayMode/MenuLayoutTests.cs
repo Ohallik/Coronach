@@ -442,6 +442,16 @@ namespace Lattice.Tests.PlayMode
             EventSystem.current.SetSelectedGameObject(Row("Row_0").gameObject);yield return null;
             foreach(var discipline in System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>())
                 if(!System.Text.RegularExpressions.Regex.IsMatch(Label("Note").GetParsedText(),$@"{discipline} \d+ \((\d+ of 30|top)\)"))failures.Add($"the bench's ladders don't give {discipline}'s progress as they give the others': \"{Label("Note").GetParsedText()}\"");
+            // D389: a bracketed count stays on one line ("Frames 1 (20" / "of 30)" in s07 013).
+            {
+                var ladderNote=Label("Note");ladderNote.ForceMeshUpdate();var ladderInfo=ladderNote.textInfo;
+                for(int l=0;l<ladderInfo.lineCount;l++)
+                {
+                    var row=ladderInfo.lineInfo[l];int open=0;
+                    for(int c=row.firstCharacterIndex;c<=row.lastCharacterIndex&&c<ladderInfo.characterCount;c++){char ch=ladderInfo.characterInfo[c].character;if(ch=='(')open++;else if(ch==')')open--;}
+                    if(open!=0)failures.Add($"the bench's ladder note breaks inside a bracket on line {l+1}: \"{ladderNote.GetParsedText()}\"");
+                }
+            }
             menu.Close();yield return null;
             // Gear's comparison says what wearing a part would change.
             var inventoryGear=RpgServices.Inventory;var scrap=Part("EdgesT1");if(!Taren.equipped.ContainsKey(GearSlot.Edge))inventoryGear.Equip(Taren,inventoryGear.GivePart(scrap),scrap);inventoryGear.GivePart(Part("EdgesT2"));

@@ -560,8 +560,12 @@ def tollkeeper():
         for i in range(4):
             r.add(f"break brace {n} round {i + 1}", 25, buttons=["South"], leftTrigger=1, navigate=True, approachTarget=True, tolerance=12, rangedTolerance=12, evadeProjectiles=True,
                   evadeTelegraphs=True, stopWhen=stop, point=dict(x=0, y=1, z=0))
-            r.add(f"pulse brace {n} round {i + 1}", 0.18, buttons=["RightShoulder", "West"], leftTrigger=1, stopWhen=stop)
-            r.add(f"release pulse brace {n} round {i + 1}", 0.45, leftTrigger=1)
+            # No skill between the third brace's rounds: since D384 a brace (30,000) outlasts a round, so a Pulse Burst pressed here fires every time, and at the third dock Taren
+            # reached the arm without the charge for the Arc Cleave that clears both Clamp Tenders inside its 18 s clock (D401: it ran out in two in-house runs of three). The first
+            # two arms' clocks (26 and 22 s) forgive it, and without any pulse the whole fight sat on its share floor (.3599 of .36, `toll-route`).
+            if n < 3:
+                r.add(f"pulse brace {n} round {i + 1}", 0.18, buttons=["RightShoulder", "West"], leftTrigger=1, stopWhen=stop)
+                r.add(f"release pulse brace {n} round {i + 1}", 0.45, leftTrigger=1)
         r.add(f"brace {n} is broken", 4, until=stop, expectedFlag=f"end.brace{n}")
         r.at = None
         # About three seconds later the arm runs out of the gate with the motor on it: the driver flies at its pad where it is (in, behind the gate, it comes out to it).

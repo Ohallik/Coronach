@@ -396,5 +396,45 @@ namespace Lattice.Tests.PlayMode
             deadline=Time.unscaledTime+8;while(TimePlate.Alpha(false)>0&&Time.unscaledTime<deadline)yield return null;
             Assert.AreEqual(0,TimePlate.Alpha(false),"the plate never goes");
         }
+
+        // ------------------------------------------------------------------ the look (D390)
+        /// <summary>nov23-whole s68/105: a flat unshaded pink band crossed the whole frame (a rib of the bore drawn in the unlit glow) and the road's markers were brown discs under flat
+        /// cream bars. A rib is the bore's lit tissue now, with a current of its own light carried round it by the convoy's flow; a marker is a float with height and a lantern whose glass
+        /// is amber under the bloom (glass times the glow's gain: a second channel at .75 or over is drawn near white). Each predicate is shown to hold of the capture's state first.</summary>
+        [UnityTest] public IEnumerator TheBoresRibsHaveFormAndTheRoadsLanternsAreThingsThatFloat()
+        {
+            yield return Zone();
+            bool Unlit(Material m)=>m!=null&&m.IsKeywordEnabled("_GLOW_ON");
+            const float GlowGain=1.15f;   // passage-glow's _GlowParams.x (LastMooringBuilder.Passage.GlowGain)
+            Assert.AreEqual(GlowGain,All<Renderer>().First(r=>r.name.StartsWith("The road's lantern glass")).sharedMaterial.GetVector("_GlowParams").x,.001f,"fixture: the glow's gain");
+            bool Pale(Color c){var v=new[]{c.r,c.g,c.b}.Select(x=>x*GlowGain).OrderByDescending(x=>x).ToArray();return v[1]>=.75f;}
+            bool Flat(Renderer r)=>r.bounds.size.y<.3f;
+            Renderer Named(string name)=>All<Renderer>().FirstOrDefault(r=>r.name==name);
+            // The ribs: lit, shaded.
+            var lanternGlass=All<Renderer>().Where(r=>r.name.StartsWith("The road's lantern glass")).ToList();Assert.IsNotEmpty(lanternGlass,"fixture: the road's lantern glass");
+            Assert.IsTrue(Unlit(lanternGlass[0].sharedMaterial),"fixture: the glow the capture's ribs were drawn in reads as unlit");
+            var ribs=Named("The bore's ribs");Assert.IsNotNull(ribs,"the bore has no ribs");
+            Assert.IsFalse(Unlit(ribs.sharedMaterial),"the bore's ribs are drawn in the unlit glow: one flat band across the frame");
+            // Their current: moved by the flow.
+            var flow=All<ConvoyFlow>().Single();var current=Named("The ribs' currents");
+            Assert.IsNotNull(current,"the ribs carry no current of light");Assert.IsTrue(flow.streams.Contains(current),"the ribs' current isn't carried by the convoy's flow");
+            var block=new MaterialPropertyBlock();float Offset(){current.GetPropertyBlock(block);return block.GetVector("_BaseMap_ST").z;}
+            float then=Offset();yield return Seconds(1.2f);float now=Offset();
+            TestContext.WriteLine($"PASSAGE_RIB_CURRENT offset then={then:0.000} now={now:0.000}");
+            Assert.Greater(Mathf.Abs(now-then),.02f,"the ribs' current stands still");
+            // The markers: floats with height, glass that isn't drawn white.
+            var disc=GameObject.CreatePrimitive(PrimitiveType.Quad);disc.transform.rotation=Quaternion.Euler(90,0,0);
+            Assert.IsTrue(Flat(disc.GetComponent<Renderer>()),"fixture: a disc laid flat reads as flat");Object.Destroy(disc);
+            Assert.IsTrue(Pale(new Color(1f,.7f,.32f)),"fixture: the capture's lantern glass reads as near white");
+            var floats=All<Renderer>().Where(r=>r.name.StartsWith("The road's lantern floats")).ToList();Assert.IsNotEmpty(floats,"the road has no lantern floats");
+            CollectionAssert.IsEmpty(floats.Where(Flat).Select(r=>r.name),"a stretch of the road's lantern floats is flat discs");
+            var pale=new List<string>();
+            foreach(var r in lanternGlass)
+            {
+                var mesh=r.GetComponent<MeshFilter>().sharedMesh;Assert.IsTrue(mesh.isReadable,"fixture: "+r.name+"'s mesh can be read");
+                pale.AddRange(mesh.colors.Where(Pale).Distinct().Select(c=>r.name+" "+c));
+            }
+            CollectionAssert.IsEmpty(pale.Take(6),"a lantern's glass is drawn near white under the bloom");
+        }
     }
 }

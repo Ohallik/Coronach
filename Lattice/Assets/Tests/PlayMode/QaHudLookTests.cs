@@ -622,12 +622,12 @@ namespace Lattice.Tests.PlayMode
                 if(gap<-12)failures.Add($"{label.text} sits {-gap:0} px down into the body");
             }
             Assert.IsEmpty(failures,string.Join("\n",failures));
-            // Someone with news: a heavy mark and not a tick before the name.
+            // Someone with news: a dark '!' cut in a solid gold pip before the name, in the name's own size (D396). Until then a bold '!' half as tall again told it, and grew the tag.
             var pell=labels.First(p=>p.npc.speaker=="Pell").label;Flag("met.Pell");yield return Settle();
             pell.ForceMeshUpdate();var info=pell.textInfo;var mark=info.characterInfo.Take(info.characterCount).First(c=>c.isVisible);
             Assert.AreEqual('!',mark.character,"Pell has news and no mark before her name: "+pell.text);
-            Assert.AreEqual(FontStyles.Bold,mark.style&FontStyles.Bold,"the mark is thin Cinzel, and reads as a stray tick");
-            Assert.GreaterOrEqual(mark.pointSize,pell.fontSize*1.4f,"the mark is no bigger than the letters beside it");
+            StringAssert.Contains("<mark=#"+ColorUtility.ToHtmlStringRGB(PeopleMarks.PipColor),pell.text,"the '!' has no gold pip behind it, and reads as a stray tick");
+            Assert.Less(Mathf.Max(mark.color.r,Mathf.Max(mark.color.g,mark.color.b)),60,"the '!' isn't dark on its gold pip");
         }
 
         // ------------------------------------------------------------------ item 11: Fabricate

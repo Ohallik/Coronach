@@ -133,7 +133,9 @@ namespace Lattice.Tests.PlayMode
             var usual=hero.GetComponentsInChildren<Renderer>(true).ToDictionary(r=>r,r=>r.sharedMaterials.Length);
             var toward=Flat(camera.transform.position-hero.transform.position).normalized;
             var boss=Enemy("Burrower",hero.transform.position+toward*2.3f);yield return new WaitForSecondsRealtime(.5f);
-            Assert.Greater(Fade(BodyMesh(boss.GetComponent<DefeatPresentation>().visual)),.9f,"fixture: the boss is opening for the hero");
+            // D395: behind a boss he is drawn through it (HeroThrough, on an object of its own), and it opens no door over him.
+            Assert.Greater(hero.GetComponent<HeroThrough>().Drawn,0,"fixture: the hero behind the boss is drawn through it");
+            Assert.Less(Fade(BodyMesh(boss.GetComponent<DefeatPresentation>().visual)),.01f,"the boss opens a door over a hero drawn through it: dots among his outline");
             foreach(var (body,count) in usual)Assert.AreEqual(count,body.sharedMaterials.Length,"the hero behind a boss wears an extra material: a flat cyan ghost on his upper body, breaking at the boss's edge");
             Assert.IsNull(Resources.Load<Shader>("Effects/HeroSilhouette"),"the ghost's shader is still there: its ZTest Greater passes where his own limbs overlap, so he tints himself");
         }
@@ -141,6 +143,8 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Arena_Ground");Arena();
             var hero=Hero;Put(hero,new Vector3(200,.1f,0));Put(Partner,new Vector3(215,.1f,0));
+            // D395: the door is for a lead nothing draws through; where it opens is what this reads.
+            hero.GetComponent<HeroThrough>().enabled=false;
             var boss=Enemy("Burrower",new Vector3(200,.1f,0));boss.transform.rotation=Quaternion.Euler(0,45,0);boss.GetComponent<CharacterController>().enabled=false;
             yield return new WaitForSecondsRealtime(1.5f);
             var camera=Camera.main;var back=-camera.transform.forward;var visual=boss.GetComponent<DefeatPresentation>().visual;var body=BodyMesh(visual);
@@ -154,6 +158,8 @@ namespace Lattice.Tests.PlayMode
             var behind=middle-back*((middle.y-(floor+.95f))/back.y);behind.y=floor;
             Put(hero,behind);yield return new WaitForSecondsRealtime(1.5f);
             Assert.Greater(Fade(body),.9f,$"a hero the drill really hides at {behind} gets nothing opened for him");
+            hero.GetComponent<HeroThrough>().enabled=true;yield return new WaitForSecondsRealtime(.3f);
+            Assert.Less(Fade(body),.01f,$"a hero the drill hides at {behind} and who is drawn through it gets a door as well: dots among his outline");
         }
         [UnityTest] public IEnumerator TheWreckLeavesAHeroBesideItAlone()
         {
@@ -189,10 +195,13 @@ namespace Lattice.Tests.PlayMode
             var camera=Camera.main;var toward=Flat(camera.transform.position-hero.transform.position).normalized;var aside=Flat(camera.transform.right).normalized;
             var boss=Enemy("HessaKorl",hero.transform.position+toward*1.5f);var body=BodyMesh(boss.GetComponent<DefeatPresentation>().visual);
             boss.GetComponent<CharacterController>().enabled=false;
+            // D395: the door is for a lead nothing draws through; where it opens is what this reads.
+            hero.GetComponent<HeroThrough>().enabled=false;
             yield return new WaitForSecondsRealtime(.5f);
             Assert.Greater(Fade(body),.9f,"a hero behind a captain half as tall again gets nothing opened");
             boss.transform.position=hero.transform.position+toward*1.5f+aside*2.6f;Physics.SyncTransforms();yield return new WaitForSecondsRealtime(.5f);
             Assert.Less(Fade(body),.01f,"a hero standing a body's width clear of her still gets a door in her");
+            hero.GetComponent<HeroThrough>().enabled=true;
         }
 
         // ------------------------------------------------------------------ 2. the camera: hero and target, then the boss; a rim moves it only if it must

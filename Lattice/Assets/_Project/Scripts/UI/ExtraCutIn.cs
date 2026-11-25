@@ -21,6 +21,8 @@ namespace Lattice.UI
         float age=99;
         /// <summary>Whether any of it is on the screen.</summary>
         public bool Showing=>band!=null&&band.gameObject.activeSelf;
+        /// <summary>Some cut-in is on the screen: the quest cards wait for it (D389), as the band is drawn over them and cut the last line of a MASTERY card.</summary>
+        public static bool Up{get;private set;}
         public string Title=>title!=null?title.text:"";
         public Sprite Portrait=>picture!=null?picture.sprite:null;
         void Start()
@@ -45,7 +47,7 @@ namespace Lattice.UI
             Image Fill(string name,Color color){var image=UiKit.Panel(band,name,color);image.raycastTarget=false;UiKit.Rect(image.gameObject,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero);image.rectTransform.sizeDelta=Vector2.zero;return image;}
             Image Edge(string name,float at){var image=UiKit.Panel(band,name,Color.white);image.raycastTarget=false;var r=image.rectTransform;r.anchorMin=new(0,at);r.anchorMax=new(1,at);r.pivot=new(.5f,at);r.sizeDelta=new(0,4);r.anchoredPosition=Vector2.zero;return image;}
         }
-        void OnDestroy(){ExtraMove.Began-=Play;}
+        void OnDestroy(){ExtraMove.Began-=Play;Up=false;}
         void Play(CombatActor hero,SkillDef move)
         {
             if(band==null||hero==null||move==null)return;
@@ -54,7 +56,7 @@ namespace Lattice.UI
             // The move's own name, as its definition has it: never an id (D200).
             title.text=move.displayName.ToUpperInvariant();
             wash.color=new Color(hue.r,hue.g,hue.b,.16f);top.color=foot.color=hue;kicker.color=Color.Lerp(hue,Color.white,.25f);
-            age=0;band.gameObject.SetActive(true);Step();
+            age=0;band.gameObject.SetActive(true);Up=true;Step();
         }
         void Update()
         {
@@ -62,7 +64,7 @@ namespace Lattice.UI
             // The clock the move's own cut-in runs on: a pause holds both, and so does a hit-stop.
             age+=GameTime.Delta;
             bool hidden=GameInput.Current!=null&&GameInput.Current.Blocked;if(canvas.enabled==hidden)canvas.enabled=!hidden;
-            if(age>=ExtraMove.CutIn+Out){band.gameObject.SetActive(false);return;}
+            if(age>=ExtraMove.CutIn+Out){band.gameObject.SetActive(false);Up=false;return;}
             Step();
         }
         void Step()

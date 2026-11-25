@@ -372,7 +372,8 @@ namespace Lattice.Tests.PlayMode
             var near=Dummy(true,new Vector3(200,1,4));var far=Dummy(true,new Vector3(200,1,9));var side=Dummy(true,new Vector3(204,1,-1));
             yield return Frames(3);idra.target=near.Health;var first=Watch(near,idra);var second=Watch(far,idra);var third=Watch(side,idra);
             int shots=Projectile.Live.Count;
-            Assert.IsTrue(idra.Attack(),"fixture: the cutter");yield return Drive(idra,.15f);
+            // Half a beat (D400: a ship's .17 s since November 24, where .15 s was most of the hammer's .4): the cut lands as it is swung.
+            Assert.IsTrue(idra.Attack(),"fixture: the cutter");yield return Drive(idra,HeroSkills.CutterSeconds*.5f);
             Assert.AreEqual(1,first.count,"the cutter missed a body 4 m off her prow");
             Assert.AreEqual(idra.damage*HeroSkills.CutterHit,first.each[0],idra.damage*.05f,"the cutter isn't its share of her Output");
             Assert.AreEqual(HitWeight.Medium,first.weights[0],"the cutter lands like an emitter's tick");

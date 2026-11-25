@@ -254,7 +254,7 @@ namespace Lattice.EditorTools
             internal static float HaulX(float z)=>2.2f*Mathf.Sin(z/37f)-1;
 
             // ---------------------------------------------------------------- the build
-            internal sealed class Stuff{public Material ground,rock,crag,works,worksDark,cable,lamp,young,glow,warm,shaft,spill;}
+            internal sealed class Stuff{public Material ground,rock,crag,works,worksDark,cable,lamp,young,glow,warm,shaft,spill,throat;}
             static Color L(float r,float g,float b)=>new Color(r,g,b).linear;
 
             /// <summary>Builds SorrelSecondSky.</summary>
@@ -395,6 +395,8 @@ namespace Lattice.EditorTools
                 s.young=Soft("Young glow",new Color(.35f,1.2f,1.25f,1));s.glow=Soft("Works glow",new Color(.5f,1.3f,1.5f,1));s.warm=Soft("Window glow",new Color(1.4f,1.05f,.65f,1));
                 // The young's light round a bore's mouth, a little of it (D382): the full glow laid over a mouth was a blown-out pool with no source.
                 s.spill=Soft("Young spill",new Color(.13f,.42f,.44f,1));
+                // A bore's throat (D392): its walls in their own colours whatever the sun does (least light one), black at the lip going to the young's teal down at the glow.
+                s.throat=ZoneKit.Tinted(ZoneKit.Toon("sorrel-second-throat",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetFloat("_RampSteps",2);m.SetFloat("_LightFloor",1);m.SetColor("_RimColor",Color.black);}));
                 return s;
             }
             /// <summary>The floor's tone: Sorrel's ochre, darker clay in broad patches, olive scrub where it is sheltered (as chapter 1 dressed its margins), and the crater's floor and walls
@@ -725,25 +727,28 @@ namespace Lattice.EditorTools
                     // Five on the crown, six in the moat.
                     bool crown=k<5;float a=k*(crown?72:60)+rng.Next(-14,14),r=crown?3+(float)rng.NextDouble()*5:33+(float)rng.NextDouble()*6;
                     var p=Centre+new Vector2(Mathf.Sin(a*Mathf.Deg2Rad),Mathf.Cos(a*Mathf.Deg2Rad))*r;
-                    var at=new Vector3(p.x,Height(p)+.15f,p.y);places.Add(at);float wide=crown?1.6f+(float)rng.NextDouble():2.4f+(float)rng.NextDouble()*1.6f;mouthsWide.Add(wide);voids.Disc(at,Vector3.up,wide,18,Color.white);
+                    var at=new Vector3(p.x,Height(p)+.15f,p.y);places.Add(at);float wide=crown?1.6f+(float)rng.NextDouble():2.4f+(float)rng.NextDouble()*1.6f;mouthsWide.Add(wide);voids.Disc(at,Vector3.up,wide*BoreFloor,18,Color.white);
                 }
                 var mouths=kit.Built("The drilled voids",voids,stuff.shaft);mouths.transform.SetParent(root.transform,true);mouths.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
-                // Round each mouth only a little of that light, on its rim and the floor a few metres out, dim enough that the mouth stays dark round its throat. It was a quad of
-                // the young's full glow 9 to 15 m across laid over the mouth and lit from 3 m over it by a 30 m lamp: from the east clamp's pad a flat, blown-out cyan pool with no
-                // source in it (nov22b-whole s63/164, D382). The lamps now stand just over the lip, low and short, so what they light is the rim and the floor round it.
-                var spill=stuff.spill;
+                // Each mouth is a bore's collar now, its throat going down inside it to the young's light (D392). The mouths were flat discs on the floor with a glow laid over them,
+                // and read from the shelves as bright filled cyan ellipses, not holes (nov23-whole s63/150, s63/164: D382 had made the glow smaller and kept it over the mouth). Now a
+                // collar of spoil stands round each, its lip a third of the mouth's width over the floor; inside it the throat's walls go down from black at the lip to the young's
+                // teal at the foot; at the foot the dark of the bore with the young's own glow small in its middle; and the lamp is down in the throat, so what it lights is the
+                // collar's inner lip and the throat's far wall. No glow lies over a mouth any more.
+                var collars=new ZoneKit.Shape();var throats=new ZoneKit.Shape();
                 for(int k=0;k<places.Count;k++)
                 {
-                    var at=places[k];
-                    var halo=GameObject.CreatePrimitive(PrimitiveType.Quad);UnityEngine.Object.DestroyImmediate(halo.GetComponent<Collider>());halo.name="Glow from the void";halo.transform.SetParent(root.transform,true);
-                    halo.transform.SetPositionAndRotation(at+Vector3.up*.3f,Quaternion.Euler(90,0,0));halo.transform.localScale=Vector3.one*mouthsWide[k]*4.4f;
-                    var view=halo.GetComponent<Renderer>();view.sharedMaterial=spill;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
-                    // The source: the young's own glow, small, down the throat inside the dark mouth.
+                    var at=places[k];float wide=mouthsWide[k],lip=BoreLip(wide);
+                    BoreCollar(collars,throats,at,wide,lip,k);
+                    // The source: the young's own glow, small, at the throat's foot inside the dark of the bore.
                     var throat=GameObject.CreatePrimitive(PrimitiveType.Quad);UnityEngine.Object.DestroyImmediate(throat.GetComponent<Collider>());throat.name="The young's light down the bore";throat.transform.SetParent(root.transform,true);
-                    throat.transform.SetPositionAndRotation(at+Vector3.up*.32f,Quaternion.Euler(90,0,0));throat.transform.localScale=Vector3.one*mouthsWide[k]*1.3f;
+                    throat.transform.SetPositionAndRotation(at+Vector3.up*.06f,Quaternion.Euler(90,0,0));throat.transform.localScale=Vector3.one*wide*BoreFloor*BoreGlow;
                     var core=throat.GetComponent<Renderer>();core.sharedMaterial=stuff.young;core.shadowCastingMode=ShadowCastingMode.Off;core.receiveShadows=false;
-                    if(k==0||k%3==1){var l=Lit(kit,at+Vector3.up*1.2f,k<5?10:14,k<5?1.4f:1.8f,new Color(.4f,.95f,1f));l.transform.SetParent(root.transform,true);}
+                    if(k==0||k%3==1){var l=Lit(kit,at+Vector3.up*lip*.5f,wide*2.4f,k<5?1.4f:1.8f,new Color(.4f,.95f,1f));l.transform.SetParent(root.transform,true);}
                 }
+                var rims=kit.Built("The bores' collars",collars,stuff.crag);rims.transform.SetParent(root.transform,true);rims.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                var walls=kit.Built("The bores' throats",throats,stuff.throat);walls.transform.SetParent(root.transform,true);walls.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                Debug.Log("SORREL_BORES "+string.Join(" ",places.Select((p,k)=>$"({p.x:0.0},{p.z:0.0}) r{mouthsWide[k]:0.0} lip{BoreLip(mouthsWide[k]):0.00}")));
                 // The young: a head and two segments each, curled, circling about her at their own pace; three on the crown under her, four in the moat.
                 for(int k=0;k<7;k++)
                 {
@@ -765,6 +770,42 @@ namespace Lattice.EditorTools
                     var p=Centre+new Vector2(Mathf.Sin(a*Mathf.Deg2Rad),Mathf.Cos(a*Mathf.Deg2Rad))*36;
                     var cradle=kit.Prop("HushwellCradleHatched",new Vector3(p.x,0,p.y),3.6f,a,false,true);cradle.transform.SetParent(root.transform,true);
                 }
+            }
+            /// <summary>A bore's foot (the dark of it, round the young's glow) as a share of its mouth's radius, and its collar's lip over the floor (a third of the mouth's width, at
+            /// most 1.25 m: the young circle two metres over the moat's floor).</summary>
+            internal const float BoreFloor=.62f;
+            /// <summary>The young's glow at a bore's foot, as a share of the foot's radius across: its falloff leaves a ring of the bore's dark round it (at 1.7 it filled the foot).</summary>
+            internal const float BoreGlow=1.15f;
+            internal static float BoreLip(float wide)=>Mathf.Min(1.25f,.42f*wide);
+            /// <summary>One bore's collar (D392): spoil heaped round the mouth to a lip, in the floor's own colour there (<paramref name="rock"/>), and inside it the throat
+            /// (<paramref name="throat"/>, its least light one) going down from the lip in three bands, black, the young's teal deepening, teal at the foot where the glow is.</summary>
+            static void BoreCollar(ZoneKit.Shape rock,ZoneKit.Shape throat,Vector3 at,float wide,float lip,int seed)
+            {
+                const int n=24;float floor=at.y-.15f;var tone=Tone(new Vector2(at.x,at.z));
+                (float r,float h)[] outer={(1.5f,-.1f),(1.18f,lip*.7f),(1.02f,lip),(.9f,lip*.93f)};
+                (float r,float h)[] inner={(.9f,lip*.93f),(.8f,lip*.6f),(.7f,lip*.28f),(BoreFloor,.17f)};
+                Color[] outerTone={ZoneKit.Shape.Dim(tone,.9f),tone,ZoneKit.Shape.Dim(tone,1.12f)};
+                Color[] innerTone={L(.03f,.035f,.045f),L(.05f,.18f,.2f),L(.12f,.5f,.55f)};
+                float Jitter(int i)=>1+.07f*Mathf.Sin(i*2.3f+seed)+.04f*Mathf.Sin(i*5.1f+seed*1.7f);
+                Vector3 Point(int i,float r,float h,bool foot)
+                {
+                    float a=(i%n)*Mathf.PI*2/n;var p=new Vector2(at.x+Mathf.Sin(a)*r*wide*Jitter(i%n),at.z+Mathf.Cos(a)*r*wide*Jitter(i%n));
+                    // The skirt's foot follows the floor, but no further than the lip's half up or a metre down: at the moat's edge the floor there is already the crater's wall,
+                    // and a skirt pinned to it ran up the wall (the first build: a collar's foot 24 m over its mouth).
+                    return new Vector3(p.x,foot?Mathf.Clamp(Height(p),floor-1,floor+lip*.5f)+h:floor+h,p.y);
+                }
+                void Ring(ZoneKit.Shape s,(float r,float h)[] profile,Color[] tones,bool outside)
+                {
+                    for(int j=0;j<profile.Length-1;j++)for(int i=0;i<n;i++)
+                    {
+                        bool foot=outside&&j==0;
+                        var a=Point(i,profile[j].r,profile[j].h,foot);var b=Point(i+1,profile[j].r,profile[j].h,foot);var c=Point(i+1,profile[j+1].r,profile[j+1].h,false);var d=Point(i,profile[j+1].r,profile[j+1].h,false);
+                        float mid=(i+.5f)*Mathf.PI*2/n;var radial=new Vector3(Mathf.Sin(mid),0,Mathf.Cos(mid));
+                        var outward=(radial*(profile[j+1].h-profile[j].h)-Vector3.up*(profile[j+1].r-profile[j].r)*wide).normalized;
+                        s.Quad(a,b,c,d,outward,tones[j],.5f);
+                    }
+                }
+                Ring(rock,outer,outerTone,true);Ring(throat,inner,innerTone,false);
             }
             /// <summary>An enemy's generated body stood as scenery (no brain, no collider), fitted to a height: the young in the bore.</summary>
             static GameObject Drawn(string id,Vector3 middle,float height,float yaw)

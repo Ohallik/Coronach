@@ -76,6 +76,8 @@ namespace Lattice.EditorTools
             internal static readonly Vector3 A=new(0,Well,83.5f),CollarSeat=new(0,Well,78.4f);
             internal const float CollarRadius=9.5f,PitRadius=3,KerbRadius=3.9f,ClampR=5.8f;
             internal static readonly float[] ClampBearings={225,135,315,45};
+            /// <summary>Tovra's colours at the first clamp: her dark body lifted to her smiths' (D392).</summary>
+            internal static readonly Color TovraInTheChamber=new(1.72f,1.68f,1.62f);
             internal static Vector3 Clamp(int i)=>A+new Vector3(Mathf.Sin(ClampBearings[i]*Mathf.Deg2Rad),0,Mathf.Cos(ClampBearings[i]*Mathf.Deg2Rad))*ClampR;
             internal static Vector3 SmithPost(int i)=>A+new Vector3(Mathf.Sin(ClampBearings[i]*Mathf.Deg2Rad),0,Mathf.Cos(ClampBearings[i]*Mathf.Deg2Rad))*(ClampR+2.9f);
             internal static readonly Vector3[] Braces={new(-7.6f,Well,83.5f),new(7.6f,Well,83.5f)};
@@ -272,6 +274,57 @@ namespace Lattice.EditorTools
                 var crown=Made(kit,name+" crown",lit,LampTeal);crown.transform.SetParent(bitt.transform,true);crown.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 ZoneKit.Block(bitt,foot+Vector3.up*tall*.5f,new Vector3(wide,tall,wide),0,name+" (solid)");
                 return bitt;
+            }
+            /// <summary>A cover anchor of the control well's (D392): the well's controls on a column, where the capstan stood (nov23-whole s67/112, s67/117: still "a simple banded
+            /// pillar" at play size). A bolted iron foot; a square body of the chamber's plate with iron corner posts, an access panel framed on each face and the Compact's hazard
+            /// band round its foot; a console head over it, wider than the body, with a screen lit teal leaning out of each face in an iron bezel; the iron cap with its gold ring and
+            /// lit crown, an amber lamp on it; two cable runs down its back into the floor. Solid as the capstan was (CombatCover reads its box), nothing drawn past the plinth below
+            /// a hero's knee.</summary>
+            static GameObject ControlColumn(ZoneKit kit,string name,Vector3 foot,float wide,float tall)
+            {
+                var s=new ZoneKit.Shape();var lit=new ZoneKit.Shape();float h=wide*.5f;var iron=new Color(.3f,.33f,.37f);var ironTop=new Color(.5f,.54f,.58f);var inset=new Color(.62f,.66f,.7f);
+                var face=new Vector3(W.x-foot.x,0,W.z-foot.z);var turn=Quaternion.LookRotation(face.sqrMagnitude>.01f?face.normalized:Vector3.forward);
+                Vector3 O(float x,float y,float z)=>foot+turn*new Vector3(x,y,z);
+                s.Slot(0).Box(O(0,.12f,0),new Vector3(wide+.5f,.24f,wide+.5f),turn,IronPale,Pale);
+                for(int k=0;k<4;k++){var c=O((k%2==0?-1:1)*(h+.12f),.25f,(k<2?-1:1)*(h+.12f));s.Slot(3).Box(c,new Vector3(.12f,.05f,.12f),turn,ironTop);}
+                float bodyTop=tall-.78f;
+                s.Slot(0).Box(O(0,.24f+(bodyTop-.24f)*.5f,0),new Vector3(wide*.84f,bodyTop-.24f,wide*.84f),turn,Pale,White);
+                foreach(var (x,z) in new[]{(-1,-1),(1,-1),(-1,1),(1,1)})s.Slot(3).Box(O(x*h*.84f,.24f+(bodyTop-.24f)*.5f,z*h*.84f),new Vector3(.12f,bodyTop-.24f,.12f),turn,iron,ironTop);
+                for(int f=0;f<4;f++)
+                {
+                    var side=Quaternion.Euler(0,f*90,0);var sideTurn=turn*side;Vector3 F(float x,float y,float d)=>foot+sideTurn*new Vector3(x,y,h*.84f+d);
+                    // An access panel in an iron frame, a hand from the hazard band to a hand under the head.
+                    float y0=.7f,y1=bodyTop-.12f;
+                    s.Slot(3).Box(F(0,(y0+y1)*.5f,.015f),new Vector3(wide*.56f,y1-y0,.03f),sideTurn,iron,ironTop);
+                    s.Slot(0).Box(F(0,(y0+y1)*.5f,.03f),new Vector3(wide*.46f,y1-y0-.1f,.02f),sideTurn,inset,Pale);
+                    s.Slot(3).Box(F(wide*.16f,(y0+y1)*.5f,.045f),new Vector3(.05f,.16f,.03f),sideTurn,iron);
+                    // The hazard band: teal bars leaning on the white, round its foot.
+                    s.Slot(0).Box(F(0,.47f,.012f),new Vector3(wide*.84f,.32f,.02f),sideTurn,White);
+                    for(float x=-h*.84f+.1f;x<h*.84f-.06f;x+=.2f)s.Slot(1).Box(F(x,.47f,.025f),new Vector3(.07f,.3f,.02f),sideTurn*Quaternion.Euler(0,0,32),Teal);
+                    // The console's face: a screen lit teal in an iron bezel, leaning out under the head.
+                    var tilt=sideTurn*Quaternion.Euler(-28,0,0);var at=F(0,bodyTop+.24f,.16f);
+                    s.Slot(3).Box(at,new Vector3(wide*.78f,.46f,.08f),tilt,iron,ironTop);
+                    lit.Slot(0).Box(at+tilt*new Vector3(0,.02f,.045f),new Vector3(wide*.62f,.32f,.02f),tilt,Color.white);
+                    s.Slot(2).Box(F(0,bodyTop-.02f,.2f),new Vector3(wide*.8f,.06f,.12f),sideTurn,Gold);
+                }
+                // The head over the screens, its cap, the gold ring and the lit crown, an amber lamp on the cap.
+                s.Slot(3).Box(O(0,bodyTop+.28f,0),new Vector3(wide*.9f,.56f,wide*.9f),turn,iron,ironTop);
+                s.Slot(0).Box(O(0,tall-.1f,0),new Vector3(wide*1.08f,.2f,wide*1.08f),turn,ZoneKit.Shape.Dim(Pale,.9f),White);
+                s.Slot(2).Post(O(0,tall,0),.06f,h*.78f,h*.78f,16,Gold,Gold);
+                s.Slot(3).Disc(O(0,tall+.065f,0),Vector3.up,h*.72f,16,new Color(.36f,.4f,.44f),h*.44f,ironTop);
+                lit.Slot(0).Disc(O(0,tall+.07f,0),Vector3.up,h*.44f,16,Color.white,h*.3f);
+                s.Slot(3).Disc(O(0,tall+.068f,0),Vector3.up,h*.3f,16,new Color(.14f,.17f,.2f));
+                lit.Slot(1).Box(O(h*.6f,tall+.12f,-h*.6f),new Vector3(.14f,.1f,.14f),turn,Color.white);
+                // Two cable runs down its back, out at the head and into the floor plate, clamped to the body.
+                foreach(float x in new[]{-.18f,.18f})
+                {
+                    s.Slot(3).Tube(new[]{O(x,bodyTop+.1f,-h*.84f-.02f),O(x,bodyTop,-h*.84f-.1f),O(x,.5f,-h*.84f-.1f),O(x,.26f,-h*.84f-.18f)},new[]{.05f,.05f,.05f,.05f},8,new Color(.2f,.24f,.27f),new Color(.2f,.24f,.27f),1,.5f);
+                    foreach(float y in new[]{.9f,1.3f})s.Slot(3).Box(O(x,y,-h*.84f-.06f),new Vector3(.14f,.05f,.1f),turn,ironTop);
+                }
+                var column=Made(kit,name,s,WhiteMat,TealMat,GoldMat,DarkMat);column.isStatic=true;
+                var screens=Made(kit,name+" screens",lit,LampTeal,LampWarm);screens.transform.SetParent(column.transform,true);screens.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                ZoneKit.Block(column,foot+Vector3.up*tall*.5f,new Vector3(wide,tall,wide),0,name+" (solid)");
+                return column;
             }
             /// <summary>Rails along a run of deck: posts every two metres, a gold handrail and a teal mid rail, solid to the bodies.</summary>
             static void Rail(ZoneKit kit,ZoneKit.Shape rails,GameObject owner,Vector3 a,Vector3 b)
@@ -630,7 +683,7 @@ namespace Lattice.EditorTools
                 Made(kit,"The well's paint",trim,TealMat,GoldMat).transform.SetParent(root.transform,true);
                 var screens=Made(kit,"The well's screens",glow,LampTeal);screens.transform.SetParent(root.transform,true);screens.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
                 foreach(var t in root.GetComponentsInChildren<Transform>())t.gameObject.isStatic=true;
-                for(int i=0;i<3;i++)Bitt(kit,"Well cover anchor "+(i+1),WellCover(i),1.2f,2.2f).transform.SetParent(root.transform,true);
+                for(int i=0;i<3;i++)ControlColumn(kit,"Well cover anchor "+(i+1),WellCover(i),1.2f,2.2f).transform.SetParent(root.transform,true);
                 // The seals: the door, and the neck to the collar (both the well fight's).
                 seal=Seal(kit,"Well seal",W3(0,Well,WellSealZ),WellSealWidth+.4f);
                 neck=Seal(kit,"Collar neck seal",W3(0,Well,NeckZ),NeckWidth);
@@ -789,7 +842,7 @@ namespace Lattice.EditorTools
             static void After(ZoneKit kit,AnchorRelease anchor)
             {
                 // Her yield, standing: her person in her emergency frame, hidden until the fighter's body hands over; Ilo walks her off once she has her.
-                var meret=Person("Meret, yielded","Enemies","MeretWell",MeretPost,20,Color.white,1,"MeretBody");
+                var meret=Person("Meret, yielded","Enemies","MeretWell",MeretPost,20,Color.white,MeretFrame.Drawn,"MeretBody");
                 if(meret!=null)
                 {
                     var stands=new GameObject("Meret yields standing",typeof(YieldsStanding)).GetComponent<YieldsStanding>();stands.body=meret;stands.post=MeretPost;stands.postYaw=20;
@@ -801,7 +854,9 @@ namespace Lattice.EditorTools
                 // landing) from her yield; they walk in once she has told her crews.
                 var crews=new List<GameObject>();
                 // Four smiths, four bodies of Harrowgate's (the look pass of November 21: the third wore Tovra's own body and apron, a clone of her across the collar in s67/203 and 238).
-                (string name,string id,Color tint,float scale)[] smiths={("Tovra, at the first clamp","TovraBody",Color.white,1),("Brekk, at the second clamp","BrekkBody",Color.white,1),("A smith, at the third clamp","OdrunBody",new Color(.86f,.84f,.9f),.97f),("A smith, at the fourth clamp","BrekkBody",new Color(.9f,.84f,.8f),1.02f)};
+                // Tovra's body is the darkest generated body in the game (its base map averages 54 of 255 where Brekk's is 94): under the chamber's cold low light she stood at the
+                // west clamp as a black shape with no form (nov23-whole s67/193, 203, 204). Her colours lifted to Brekk's (D392); the property block is PropTint's, set as she loads.
+                (string name,string id,Color tint,float scale)[] smiths={("Tovra, at the first clamp","TovraBody",TovraInTheChamber,1),("Brekk, at the second clamp","BrekkBody",Color.white,1),("A smith, at the third clamp","OdrunBody",new Color(.86f,.84f,.9f),.97f),("A smith, at the fourth clamp","BrekkBody",new Color(.9f,.84f,.8f),1.02f)};
                 for(int i=0;i<4;i++)
                 {
                     var hatch=Hatches[Clamp(i).x<0?0:1];var at=hatch+W3(0,0,i<2?-.9f:.9f);var postAt=SmithPost(i);

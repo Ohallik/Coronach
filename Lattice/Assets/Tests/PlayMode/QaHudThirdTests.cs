@@ -684,7 +684,9 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(Plate("InteractionPlate"),.42f,"the prompt's plate stays solid over the warp it lies on");
             Object.Destroy(warp.gameObject);Object.Destroy(prompt.gameObject);
         }
-        [UnityTest] public IEnumerator ThePanelStepsAsideForWhereItSendsTheParty()
+        /// <summary>D388 turns this over: a place behind the objective's plate no longer lowers it. At a third, the objective's own words lay on the launch pad's rings they named
+        /// (Sorrel, s09 007); this case held the plate under .42 with the dock behind it until then, which is the old state the check below fails on.</summary>
+        [UnityTest] public IEnumerator ThePanelStaysSolidOverWhereItSendsTheParty()
         {
             yield return Zone("TallowApproach");
             var hero=Hero;var camera=Camera.main;StringAssert.Contains("Dock",Line(),"fixture: the objective names the dock");
@@ -696,8 +698,9 @@ namespace Lattice.Tests.PlayMode
                 var shift=pad-spot;shift.y=0;Put(hero,hero.transform.position+shift);yield return new WaitForSecondsRealtime(1f);
             }
             var seen=camera.WorldToScreenPoint(pad);Assert.IsTrue(Box(frame).Contains((Vector2)seen),"fixture: the pad is behind the panel");
-            Assert.Less(Plate("ObjectiveFrame"),.42f,"the panel stays solid over the pad it's sending the party to");
-            Assert.AreEqual(1,Text("Objective").alpha,.01f,"its words go down with its plate");
+            float least=1;for(float end=Time.unscaledTime+1;Time.unscaledTime<end;){least=Mathf.Min(least,Plate("ObjectiveFrame"));yield return null;}
+            Assert.Greater(least,.98f,"the objective's plate goes see-through over the pad it's sending the party to, and its words lie on the pad's rings (s09 007)");
+            Assert.AreEqual(1,Text("Objective").alpha,.01f,"its words go");
         }
         [UnityTest] public IEnumerator AShipsWingUnderAPanelMovesItsPlate()
         {

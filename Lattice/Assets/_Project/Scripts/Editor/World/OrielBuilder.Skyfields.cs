@@ -157,12 +157,12 @@ namespace Lattice.EditorTools
             internal static readonly Color FrayBase=new(1,.6f,.26f),FrayHalo=new(1,.55f,.2f,.34f),ThrownBlue=new(.28f,.46f,1,.6f),ThrownAmber=new(1,.55f,.2f,.5f);
             static void Materials()
             {
-                // Flagstones: big irregular flags of pale gold limestone, each its own tone, with a dark joint and a fine grain; now and then a flag carved with the court's ring.
+                // Flagstones: big irregular flags of pale gold limestone, each its own tone, with a dark joint and a fine grain. D399: one flag in eleven was carved with the court's
+                // ring, a thin dark circle half a metre across that at play size read as a mark left on the floor (nov23-whole s39/242); the court's mark is on its collars only.
                 var flags=ZoneKit.Texture("Oriel/skyfields-stone",512,(u,v)=>
                 {
-                    var f=CourtFlag(u,v);int flag=f.flag,course=f.course;float up=f.up,along=f.along,own=f.own,grain=ZoneKit.Cloud(u,v,16,3),fleck=ZoneKit.Tile(u*70,v*70,70,21),crack=f.crack;
+                    var f=CourtFlag(u,v);float up=f.up,along=f.along,own=f.own,grain=ZoneKit.Cloud(u,v,16,3),fleck=ZoneKit.Tile(u*70,v*70,70,21),crack=f.crack;
                     bool joint=up<.035f||along<.028f;float tone=.7f+.12f*(own-.5f)+.1f*(grain-.5f)-(fleck>.93f?.06f:0)-(crack<.008f?.08f:0);
-                    if(Mathf.Repeat(flag*7+course*3,11)<1){var c=new Vector2(along-.5f,(up-.5f)*.8f);if(Mathf.Abs(c.magnitude-.2f)<.02f)tone-=.1f;}
                     if(joint)tone=.42f+.05f*own;
                     return new Color(tone*1.04f,tone,tone*.9f,1);
                 });

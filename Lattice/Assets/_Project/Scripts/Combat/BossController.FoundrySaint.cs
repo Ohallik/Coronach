@@ -306,7 +306,12 @@ namespace Lattice.Combat
             if(saintRig!=null&&PartyController.Current!=null)PartyController.Current.StartCoroutine(SaintRigFalls(saintRig.transform,transform.position.y));
             if(saintRigTarget!=null)saintRigTarget.SetActive(false);
             foreach(var arm in saintArms)if(arm!=null){arm.Release(true);arm.LetGo-=SaintArmLetGo;}
-            SaintLooks(1,true);
+            // D385: its cyan out and no warm lamps lit over the darkening (they lit it on the frame it settled): the override bar goes, and its body goes dark with its arms.
+            if(saintBar!=null)saintBar.enabled=false;
+            // D385: released is powered down, the whole machine: the press and all six arms dark at once, their lamps out, the arms down and still. Its arms are the room's and not under
+            // its root, so its own darkening never reached them: after the win they lay in full gold and cream through the loot lines and Orrin's call, the brightest thing in the hall
+            // (nov23-whole s59/038, 043). They stay dark for the rest of the visit, as the press does.
+            foreach(var arm in saintArms)if(arm!=null)arm.PowerDown();
             if(visual!=null){visual.localPosition=visualRest;visual.localRotation=visualRestRotation;}
             Debug.Log("SAINT_SETTLES");
         }

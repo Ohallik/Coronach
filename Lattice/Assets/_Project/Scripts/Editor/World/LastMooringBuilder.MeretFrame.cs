@@ -22,7 +22,13 @@ namespace Lattice.EditorTools
             const string Folder="Assets/_Project/Art/Generated/Continuance/";
             /// <summary>Her rim: lilac, the hue of her own face, which no light in the chamber is (its floods are warm at 30 to 40 degrees, its lamps cold at 190 to 215).</summary>
             internal static readonly Color Rim=new(.74f,.52f,1);
-            internal const float RimUnlit=.55f,LightFloor=.34f,RimPower=3.6f;
+            internal const float RimUnlit=.55f,LightFloor=.4f,RimPower=3.6f;
+            /// <summary>Drawn a little over a hero's height in her frame (D392): drawn at one she measured 0.9 of Taren (MERET_OUTLINE), and at play size was still a small pale figure
+            /// (nov23-whole s67/112, s67/117). Her capsule and what hits her are as they were; the woman who yields stands at the same size, so nobody shrinks as she hands over.</summary>
+            internal const float Drawn=1.2f;
+            /// <summary>The light her frame throws on her face and coat: its lit teal-white, from in front of her ring at her brow (D392).</summary>
+            internal static readonly Color FaceLight=new(.82f,.95f,1);
+            internal const float FaceLightRange=2.6f,FaceLightIntensity=1.8f;
 
             /// <summary>Her boss body in the well: her generated body, dressed. Made again every run from the body as it is now.</summary>
             internal static GameObject Director(GameObject body)
@@ -70,15 +76,20 @@ namespace Lattice.EditorTools
                     var frameMesh=Save(frame.Mesh("Meret frame"),o,"meret-frame");var litMesh=Save(lit.Mesh("Meret frame lights"),o,"meret-frame-lights");
                     Part(root,"Frame",frameMesh,new[]{FrameMat(),FrameMat()},ShadowCastingMode.On);
                     Part(root,"Frame lights",litMesh,new[]{LitMat()},ShadowCastingMode.Off);
-                    // The mantle: the Compact's deep teal from her shoulders down her back to her knees, flaring a little, a gold hem.
-                    float mantleTop=shoulder+.06f*k,mantleFoot=hip-.42f*k;
-                    var mantle=Sheet(14,12,(u,v)=>
+                    // The mantle: the Compact's deep teal from her shoulders down her back to her shins, flaring, a gold hem. Fuller than it was (D392): its shoulders stand out past
+                    // hers and come forward round them, so from in front a dark mass frames the pale coat and her head, and it flares to twice her hips' width at its foot.
+                    float mantleTop=shoulder+.1f*k,mantleFoot=hip-.62f*k;
+                    var mantle=Sheet(16,14,(u,v)=>
                     {
-                        float y=Mathf.Lerp(mantleTop,mantleFoot,v),wide=Mathf.Lerp(half+.06f*k,half+.2f*k,v),x=Mathf.Lerp(-wide,wide,u),edge=2*u-1;
-                        float bulge=(.1f*(1-edge*edge)+.06f*v)*k;float wrap=Mathf.SmoothStep(0,1,1-v*4)*Mathf.Abs(edge)*.18f*k;
+                        float y=Mathf.Lerp(mantleTop,mantleFoot,v),wide=Mathf.Lerp(half+.16f*k,half+.36f*k,Mathf.Sqrt(v)),x=Mathf.Lerp(-wide,wide,u),edge=2*u-1;
+                        float bulge=(.12f*(1-edge*edge)+.08f*v)*k;float wrap=Mathf.SmoothStep(0,1,1-v*3)*edge*edge*.3f*k;
                         return new Vector3(x,y,back-.03f*k-bulge+wrap);
                     });
                     Part(root,"Mantle",Save(mantle,o,"meret-mantle"),new[]{MantleMat()},ShadowCastingMode.TwoSided);
+                    // The frame's light on her (D392): from in front of her brow, so her face and the white coat are the brightest thing in the well wherever she stands.
+                    var face=new GameObject("Her frame's light on her");face.transform.SetParent(root.transform,false);face.transform.position=new Vector3(o.x,top-.22f*k,o.z+.72f*k);
+                    var lamp=face.AddComponent<Light>();lamp.type=LightType.Point;lamp.color=FaceLight;lamp.range=FaceLightRange*k;lamp.intensity=FaceLightIntensity;lamp.shadows=LightShadows.None;
+                    lamp.renderMode=LightRenderMode.ForcePixel;
                     if(facing<0)root.transform.rotation=Quaternion.Euler(0,180,0);
                     var follow=root.AddComponent<HessaRegalia>();follow.anchor=chest;follow.basis=made.transform;follow.offset=chest.InverseTransformPoint(root.transform.position);follow.turn=Quaternion.Inverse(made.transform.rotation)*root.transform.rotation;
                     root.transform.SetAsLastSibling();
@@ -110,9 +121,11 @@ namespace Lattice.EditorTools
                 var map=ZoneKit.Texture("Continuance/meret-mantle",256,(u,v)=>
                 {
                     float twill=.5f+.5f*Mathf.Sin((u+v)*220*Mathf.PI),n=ZoneKit.Cloud(u,v,6,19);
-                    var cloth=new Color(.08f,.26f,.3f)*(.85f+.22f*n+.06f*twill);
-                    // The sheet's foot is the texture's foot (v 0): the band a hand over it.
-                    float band=ZoneKit.Smooth(.085f,.1f,v)*(1-ZoneKit.Smooth(.145f,.16f,v));cloth=Color.Lerp(cloth,new Color(.86f,.68f,.34f)*(.9f+.2f*n),band);
+                    // Deeper and richer than the chamber's teals (D392: .08, .26, .3 read as one more of the room's blue-greys at play size).
+                    var cloth=new Color(.035f,.15f,.2f)*(.85f+.22f*n+.06f*twill);
+                    // The sheet's foot is the texture's foot (v 0): the band a hand over it, and a second along the yoke at her shoulders.
+                    float band=ZoneKit.Smooth(.07f,.085f,v)*(1-ZoneKit.Smooth(.16f,.175f,v))+ZoneKit.Smooth(.9f,.915f,v)*(1-ZoneKit.Smooth(.95f,.965f,v));
+                    cloth=Color.Lerp(cloth,new Color(.92f,.72f,.34f)*(.9f+.2f*n),Mathf.Clamp01(band));
                     return Color.Lerp(cloth,cloth*.6f,1-ZoneKit.Smooth(0,.05f,v));
                 },false);
                 return ZoneKit.TwoSided(ZoneKit.Toon("meret-mantle",map,Body));

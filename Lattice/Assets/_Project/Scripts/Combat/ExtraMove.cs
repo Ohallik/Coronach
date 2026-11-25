@@ -410,7 +410,7 @@ namespace Lattice.Combat
         /// <summary>One hit on one body, straight on its Health: no weak spot doubles it, so the move adds up to what it says. On a boss it stops at the move's floor.</summary>
         void Land(Health body,DamagePacket packet)
         {
-            if(!floors.TryGetValue(body,out float floor)){floor=body.TryGetComponent<BossController>(out var boss)?boss.ExtraFloor:0;floors[body]=floor;}
+            if(!floors.TryGetValue(body,out float floor)){floor=BossController.ExtraFloorOf(body);floors[body]=floor;}
             if(floor>0)
             {
                 float room=body.integrity-floor;if(room<=0)return;

@@ -1425,7 +1425,7 @@ namespace Lattice.EditorTools
                         s.Slot(0).Quad(W(x,HullTop,za),W(x1,HullTop,za),W(x1,HullTop,zb),W(x,HullTop,zb),Vector3.up,tone,1/8f);
                     }
                 }
-                var mach=new ZoneKit.Shape();var machTrim=new ZoneKit.Shape();var pools=new ZoneKit.Shape();
+                var mach=new ZoneKit.Shape();var machTrim=new ZoneKit.Shape();var pools=new ZoneKit.Shape();var skyLit=new ZoneKit.Shape();var skyDark=new ZoneKit.Shape();
                 for(float z=Z0;z<Z1-.01f;z+=8)
                 {
                     float z1=Mathf.Min(z+8,Z1);
@@ -1440,7 +1440,18 @@ namespace Lattice.EditorTools
                         lamps.Slot(0).Box(W(x,y,wz),new Vector3(.5f,.4f,1.3f),Quaternion.identity,Color.white);
                 }
                 // The teal bands across the back and a gold line either side of each, the edge's teal lip.
-                foreach(float z in new[]{140f,172f,214f,240f}){trim.Slot(0).Box(W((X0+X1)*.5f,HullTop+.02f,z),new Vector3(X1-X0,.04f,2.4f),Quaternion.identity,Teal);foreach(int side in new[]{-1,1})trim.Slot(1).Box(W((X0+X1)*.5f,HullTop+.02f,z+side*1.6f),new Vector3(X1-X0,.04f,.2f),Quaternion.identity,Gold);}
+                // The bands are paint on the plate (D392): laid in the hull's own plate, its panels, seams and fixings showing through the teal, one plate's length at a time with
+                // each plate's own wear, and a dark seam between plates. A flat teal strip across the finished plate was the blockout's (nov23-whole s66/149, s66/153).
+                foreach(float z in new[]{140f,172f,214f,240f})
+                {
+                    for(float x=X0;x<X1-.01f;x+=8)
+                    {
+                        float x1=Mathf.Min(x+8,X1);int ix=Mathf.FloorToInt((x+400)/8);var paint=ZoneKit.Shape.Dim(Teal,.84f+.22f*H(ix+31,Mathf.RoundToInt(z)));
+                        s.Slot(0).Quad(W(x,HullTop+.02f,z-1.2f),W(x1,HullTop+.02f,z-1.2f),W(x1,HullTop+.02f,z+1.2f),W(x,HullTop+.02f,z+1.2f),Vector3.up,paint,1/8f);
+                        trim.Slot(0).Box(W(x,HullTop+.028f,z),new Vector3(.12f,.02f,2.4f),Quaternion.identity,new Color(.05f,.07f,.08f));
+                    }
+                    foreach(int side in new[]{-1,1})trim.Slot(1).Box(W((X0+X1)*.5f,HullTop+.02f,z+side*1.6f),new Vector3(X1-X0,.04f,.2f),Quaternion.identity,Gold);
+                }
                 foreach(float x in new[]{X0+.4f,X1-.4f})trim.Slot(0).Box(W(x,HullTop+.1f,(Z0+Z1)*.5f),new Vector3(.8f,.2f,Z1-Z0),Quaternion.identity,Teal);
                 // The launch hatch, open: a pit with guide lamps down its walls, its doors laid back flat either side.
                 dark.Slot(0).Box(W(-8,HullTop-4,196),new Vector3(10,.2f,12),Quaternion.identity,Color.white);
@@ -1469,14 +1480,24 @@ namespace Lattice.EditorTools
                 {
                     if(x<-12&&x>-16&&z>HatchZ0-2&&z<HatchZ1+2)continue;if(Relays.Any(r=>Vector2.Distance(new Vector2(x,z),new Vector2(r.x,r.z))<4))continue;
                     dark.Slot(0).Box(W(x,HullTop+.03f,z),new Vector3(1.7f,.04f,2.1f),Quaternion.identity,Color.white);
-                    lamps.Slot(1).Box(W(x,HullTop+.05f,z),new Vector3(1.2f,.04f,1.6f),Quaternion.identity,Color.white);
+                    // Its glass (D392): a deck's room lit warm under it, the light fitting bright at one end and what stands in the room dark across the other, or dark glass with a
+                    // sheen; the panes were the lamps' flat teal, bright cyan squares on the finished plate (nov23-whole s66/149, s66/153).
+                    bool on=H(Mathf.RoundToInt(x*3),Mathf.RoundToInt(z*3))<.6f;
+                    if(on)
+                    {
+                        skyLit.Slot(0).Box(W(x,HullTop+.05f,z),new Vector3(1.2f,.04f,1.6f),Quaternion.identity,Color.white);
+                        skyLit.Slot(0).Box(W(x,HullTop+.052f,z-.5f),new Vector3(1.2f,.04f,.5f),Quaternion.identity,new Color(.42f,.34f,.27f));
+                        skyLit.Slot(0).Box(W(x-.32f,HullTop+.053f,z-.48f),new Vector3(.34f,.04f,.3f),Quaternion.identity,new Color(.24f,.2f,.17f));
+                        lamps.Slot(0).Box(W(x,HullTop+.054f,z+.68f),new Vector3(1.05f,.04f,.1f),Quaternion.identity,Color.white);
+                    }
+                    else skyDark.Slot(0).Box(W(x,HullTop+.05f,z),new Vector3(1.2f,.04f,1.6f),Quaternion.identity,new Color(.15f,.21f,.27f));
                     trim.Slot(0).Box(W(x,HullTop+.06f,z),new Vector3(.08f,.04f,1.6f),Quaternion.identity,new Color(.22f,.3f,.34f));
                     // Set in a raised coaming (the look pass of November 23, s66/153: flat cyan rectangles on the plate), crossed by a transom, a pool of its light on the plate round it.
                     trim.Slot(0).Box(W(x,HullTop+.065f,z),new Vector3(1.2f,.04f,.08f),Quaternion.identity,new Color(.22f,.3f,.34f));
                     foreach(int side in new[]{-1,1}){mach.Slot(0).Box(W(x+side*.93f,HullTop+.11f,z),new Vector3(.16f,.22f,2.42f),Quaternion.identity,new Color(.42f,.47f,.52f),new Color(.78f,.8f,.83f));
                         mach.Slot(0).Box(W(x,HullTop+.11f,z+side*1.13f),new Vector3(1.7f,.22f,.16f),Quaternion.identity,new Color(.42f,.47f,.52f),new Color(.78f,.8f,.83f));}
-                    var under=ToneAt(new Vector2(x,z));var cool=Color.Lerp(under,new Color(.62f,.9f,.94f),.22f);
-                    pools.Slot(0).Box(W(x,HullTop+.012f,z),new Vector3(2.9f,.01f,3.3f),Quaternion.identity,new Color(Mathf.Max(cool.r,under.r*1.06f),Mathf.Max(cool.g,under.g*1.1f),Mathf.Max(cool.b,under.b*1.1f)));
+                    var under=ToneAt(new Vector2(x,z));
+                    if(on)pools.Slot(0).Box(W(x,HullTop+.012f,z),new Vector3(2.9f,.01f,3.3f),Quaternion.identity,new Color(Mathf.Min(1,under.r*1.16f+.01f),Mathf.Min(1,under.g*1.1f+.006f),Mathf.Min(1,under.b*1.02f)));
                 }
                 // The working deck's plates read as plates: a seam round each (a dark line with a pale lip), a panel line across its middle, a row of fixings at each end, and here and there
                 // a service hatch let into it and the deck's number painted in a corner.
@@ -1593,6 +1614,8 @@ namespace Lattice.EditorTools
                 Made(kit,"The hull's back, its machinery",mach,IronMat).transform.SetParent(root.transform,true);
                 Made(kit,"The hull's back, its machinery banded",machTrim,TealMat).transform.SetParent(root.transform,true);
                 Made(kit,"The hull's back, lamplight",pools,PoolMat).transform.SetParent(root.transform,true);
+                Made(kit,"The decks' skylights, lit",skyLit,WindowMat).transform.SetParent(root.transform,true);
+                Made(kit,"The decks' skylights, dark",skyDark,GlassMat).transform.SetParent(root.transform,true);
                 var frame=Made(kit,"The frame gantry",gan,WhiteMat,GoldMat,TealMat);frame.transform.SetParent(root.transform,true);frame.isStatic=true;
                 foreach(float x in new[]{gx0,gx1})ZoneKit.Block(frame,W(x,HullTop+7,gz),new Vector3(1.4f,14,1.4f),0,"Gantry leg");
                 // The dock's plate on the walkway.

@@ -268,17 +268,27 @@ namespace Lattice.Combat
         /// <summary>Shots it has stopped.</summary>
         public int Stopped{get;private set;}
         public float Reach{get;private set;}
-        float age;bool flight;SkillRing edge;Transform shell;
+        float age,unit=.5f;bool flight;SkillRing edge;Transform shell;Material glass;
         static readonly List<Projectile> entering=new();
-        static readonly Color Glass=new(1.3f,.8f,.3f,.2f);
+        /// <summary>D387 (nov23-whole s46/127 to 140, the Scoria battery): the dome was an orange wash over two thirds of the frame. Its shell was the built-in sphere scaled by twice
+        /// its reach, as if that mesh were a unit across, and drew well past the ring on the floor that marks its foot; and its glass was the energy bubble at 1.8 times an HDR orange
+        /// (1.3, .8, .3), so its edge went to several times white and the bloom spread it over the battery, the party and the floor. Now the shell is sized from the mesh's own
+        /// bounds to stand on its ring, and its glass is its own: a clear middle and a thin pale-amber edge held under white.</summary>
+        static readonly Color Glass=new(1f,.84f,.55f,.55f);
+        public const float GlassCore=.03f,GlassSharpness=3.5f,GlassIntensity=.6f;
+        /// <summary>How wide the shell is drawn, from the middle: its reach, whatever mesh it wears.</summary>
+        public float DrawnRadius=>shell!=null&&shell.TryGetComponent<MeshRenderer>(out var view)?view.bounds.extents.x:0;
+        public Material GlassLook=>glass;
         public static ShelterDome Plant(CombatActor owner,Vector3 at,bool flight)
         {
             var go=new GameObject("Shelter",typeof(ShelterDome));go.transform.position=flight?at:CombatCover.Ground(at+Vector3.up*2);
             var dome=go.GetComponent<ShelterDome>();dome.flight=flight;dome.Reach=flight?FlightRadius:Radius;Latest=dome;
             // A shell with no collider: it has to be seen, and nothing but a shot may be stopped by it.
-            var shell=new GameObject("Shell",typeof(MeshFilter),typeof(MeshRenderer));shell.transform.SetParent(go.transform,false);shell.transform.localScale=Vector3.one*dome.Reach*2;
-            shell.GetComponent<MeshFilter>().sharedMesh=Resources.GetBuiltinResource<Mesh>("Sphere.fbx");
-            var view=shell.GetComponent<MeshRenderer>();view.sharedMaterial=ActorFactory.Energy(Glass);view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;
+            var mesh=Resources.GetBuiltinResource<Mesh>("Sphere.fbx");dome.unit=mesh!=null?Mathf.Max(.01f,mesh.bounds.extents.x):.5f;
+            var shell=new GameObject("Shell",typeof(MeshFilter),typeof(MeshRenderer));shell.transform.SetParent(go.transform,false);shell.transform.localScale=Vector3.one*dome.Reach/dome.unit;
+            shell.GetComponent<MeshFilter>().sharedMesh=mesh;
+            dome.glass=new Material(ActorFactory.Energy(Glass)){name="Shelter glass"};dome.glass.SetFloat("_Core",GlassCore);dome.glass.SetFloat("_Sharpness",GlassSharpness);dome.glass.SetFloat("_Intensity",GlassIntensity);
+            var view=shell.GetComponent<MeshRenderer>();view.sharedMaterial=dome.glass;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;
             dome.shell=shell.transform;
             dome.edge=SkillRing.Expand(go.transform.position,dome.Reach,GroundRing.Friendly,Seconds+.3f,flight,true,dome.Reach);
             HeroSkills.Sound(owner,go.transform.position+Vector3.up,"forceField_000",.24f,.7f);CombatVfx.Burst(go.transform.position+Vector3.up*.5f,new Color(1.5f,.9f,.35f),"shape");
@@ -305,9 +315,9 @@ namespace Lattice.Combat
             foreach(var shot in entering){shot.Spend();Stopped++;}
             entering.Clear();
             // It breathes while it stands and thins as it goes.
-            shell.localScale=Vector3.one*Reach*2*(1+.012f*Mathf.Sin(age*5));
+            shell.localScale=Vector3.one*Reach/unit*(1+.012f*Mathf.Sin(age*5));
         }
-        void OnDestroy(){if(edge!=null)edge.Dismiss();if(Latest==this)Latest=null;}
+        void OnDestroy(){if(edge!=null)edge.Dismiss();if(glass!=null)Destroy(glass);if(Latest==this)Latest=null;}
     }
 
     /// <summary>Rescue Flare: a light thrown to the other hero. Standing, it mends them a quarter of their Integrity; down, it raises them, from anywhere in thirty

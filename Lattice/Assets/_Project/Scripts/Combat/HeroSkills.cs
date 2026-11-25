@@ -230,8 +230,9 @@ namespace Lattice.Combat
     public sealed class SkillRing:MonoBehaviour
     {
         GroundRing ring;FlightEnergyArc arc;float radius,life,age,from;Color color;bool shrink,dismissed;
-        /// <summary>The fight is over: it runs out quickly, and through a conversation too.</summary>
-        public void Dismiss()=>dismissed=true;
+        /// <summary>The fight is over: it goes at once, and through a conversation too (D385: run out at four times its pace, it still stood round a beaten boss in the still taken as
+        /// the fight ended).</summary>
+        public void Dismiss(){if(dismissed)return;dismissed=true;if(ring!=null)ring.Draw(0,Color.clear);if(arc!=null)arc.Draw(0,180,Color.clear,true);Destroy(gameObject);}
         public static SkillRing Expand(Vector3 center,float radius,Color color,float life,bool flight,bool shrink=false,float from=0)
         {
             var go=new GameObject("Skill ring",typeof(SkillRing));go.transform.position=center;

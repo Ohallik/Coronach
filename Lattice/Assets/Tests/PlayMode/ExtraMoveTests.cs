@@ -275,6 +275,11 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(.25f,Time.timeScale,.01f,"the world isn't in the Flash's slow motion during the cut-in");
             Assert.IsTrue(cut.Showing,"no cut-in is on the screen");StringAssert.AreEqualIgnoringCase(named.displayName,cut.Title,"the cut-in doesn't name the move");
             Assert.IsNotNull(cut.Portrait,"the cut-in has no face");
+            // D389: a quest card waits for the band (the band drew over a MASTERY card and cut its last line, s47 080), and is up again once the band is gone.
+            Assert.IsTrue(ExtraCutIn.Up,"the cut-in doesn't say it is up, so the quest cards can't wait for it");
+            var toast=Object.FindFirstObjectByType<QuestToast>();Assert.IsNotNull(toast,"fixture: no quest toast");
+            Notices.Post("MASTERY 9","D389 card posted under the band.");yield return null;yield return null;
+            Assert.IsFalse(toast.Showing,"a card came up under the EXTRA's band");
             Assert.AreEqual(0,hits.count,"the move struck during its cut-in");
             Assert.AreEqual(0,taren.Health.Receive(new DamagePacket{source=body.Health,amount=50,type=DamageType.Kinetic}),.0001f,"he can be hurt during the cut-in");
             Assert.IsFalse(taren.Dodge(Vector3.right),"a roll cut the EXTRA short");
@@ -284,6 +289,8 @@ namespace Lattice.Tests.PlayMode
             yield return Drive(taren,.5f,new Vector2(1,0));
             Assert.IsFalse(GameTime.Flashing,"the slow motion outlasts the cut-in");
             Assert.IsFalse(cut.Showing,$"the cut-in is still over the fight {ExtraMove.CutIn+ExtraCutIn.Out:0.00} s after it began");
+            Assert.IsFalse(ExtraCutIn.Up,"the cut-in is gone but still holds the quest cards back");
+            yield return null;yield return null;Assert.IsTrue(toast.Showing,"the card posted under the band never came up once the band left");
             Assert.AreEqual(0,taren.Health.Receive(new DamagePacket{source=body.Health,amount=50,type=DamageType.Kinetic}),.0001f,"he can be hurt in the middle of the flurry");
             for(float end=Time.unscaledTime+5;move.Performing&&Time.unscaledTime<end;){taren.motor.Move(Vector2.zero,false,false);yield return null;}
             Assert.IsFalse(move.Performing,"the move never ended");

@@ -147,7 +147,7 @@ namespace Lattice.UI
                 frame.gameObject.SetActive(false);chapterCard.SetActive(false);titleCard.SetActive(false);chapterUp=false;titleOnly=false;CardUp=false;return;
             }
             if(Time.unscaledTime>=next)Scan(state);
-            bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked;
+            bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked||ExtraCutIn.Up;
             if(showing<=0&&pending.Count>0&&!blocked)
             {
                 // A quest's level-up queues the moment it pays and the quest itself only shows up in the scan: look first, so QUEST COMPLETE goes ahead of its own SYNC card.

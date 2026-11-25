@@ -587,25 +587,56 @@ namespace Lattice.EditorTools
             kit.Drift("Fireflies",new Vector3(-4,-2,39),new Vector3(100,4,100),motes,new Color(.8f,1,.5f,.6f),160,.06f,.1f,.5f,9);
         }
 
-        /// <summary>The island's floor: leaf litter drifted against the back walls, damp where the gallery and the basin hold water, gravel on the basin's bed; fungus and ferns at the
+        /// <summary>How far a point of the basin is up one of its rooted platforms (0 on the bowl, 1 on a platform's top): dry ground while the basin is full.</summary>
+        static float BasinMound(Vector2 p)
+        {
+            float r=Vector2.Distance(p,BasinCentre)/BasinRadius;
+            return ZoneKit.Smooth(.15f,.45f,BasinAt(p)-(BasinDeep+(BasinRim-BasinDeep)*r*r));
+        }
+        /// <summary>Where silt lies on the drained basin's bed (0 to 1; the ground kit cuts it at a half): a pool of it in the low middle whose edge wanders between six and thirteen
+        /// metres out with the room-sized noise, and a tongue of it run out east toward the drain the water leaves by; none up the platforms.</summary>
+        internal static float BasinSilt(Vector2 p,GroundKit ground)
+        {
+            float d=Vector2.Distance(p,BasinCentre),reach=9.5f+7*(ground.Noise(p,10,51)-.5f);
+            float pool=1-ZoneKit.Smooth(reach-1.2f,reach+1.2f,d);
+            float wide=1.6f+1.4f*ground.Noise(p,6,53),tongue=1-ZoneKit.Smooth(wide-.8f,wide+.8f,GroundKit.Segment(p,BasinCentre,BasinCentre+new Vector2(13,5.3f)));
+            return Mathf.Max(pool,tongue)*(1-BasinMound(p));
+        }
+        /// <summary>Water left standing in the lowest of the drained basin (x, z, radii, turn).</summary>
+        internal static readonly (float x,float z,float rx,float rz,float yaw)[] BasinPuddles={(22.6f,50.8f,1.8f,1.2f,20),(26.2f,53.6f,1.4f,1,-35),(24.4f,55.8f,1,.7f,10),(21,54.2f,.9f,.6f,60),(27.4f,49.4f,1.1f,.8f,-10)};
+        /// <summary>The island's floor: leaf litter drifted against the back walls, damp where the gallery holds water, silt on the basin's bed (D393); fungus and ferns at the
         /// walls' feet, a pool of light under every seed lantern.</summary>
         static void CanopyGround2(ZoneKit kit)
         {
+            // The basin's pads float on the full water as one drawn piece 30 m across: the kit took it for a thing standing on the floor and laid nothing anywhere under it, so the
+            // basin's bed had no stain, pebble, leaf or puddle at all (D393). Out of the survey only; drawn again as soon as the kit has looked.
+            var pads=UnityEngine.Object.FindObjectsByType<Renderer>(FindObjectsInactive.Exclude,FindObjectsSortMode.None).Where(r=>r.enabled&&r.name.StartsWith("Basin pads")).ToArray();
+            foreach(var r in pads)r.enabled=false;
             var ground=GroundKit.Open(kit.zone,GroundKit.FindFloor(),67,.4f);
+            foreach(var r in pads)r.enabled=true;
             float Smooth(float a,float b,float x)=>GroundKit.Smooth(a,b,x);
             bool InBasin(Vector2 p)=>Vector2.Distance(p,BasinCentre)<BasinRadius+1;bool InGallery(Vector2 p)=>p.x<-29;
             Vector2[] hallWay={new(2,2),new(2,12),new(20,20),new(22,34)},westWay={new(-19,10),new(-36,10),new(-38.5f,50),new(-36.4f,57.6f),new(-22,56)},upWay={new(-12,23),new(-12,40),new(-12,60),new(-10.6f,76.4f)};
             ground.ClearLane(hallWay,1.6f).ClearLane(westWay,1.6f).ClearLane(upWay,1.6f).Look("River",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Xylos/xylos-bark.png"));
-            ground.Layers(new Vector4(.05f,.34f,.4f,.32f),1.2f,new GroundKit.Layer("litter",new Color(.76f,.68f,.42f),3.4f),new GroundKit.Layer("damp",new Color(.8f,.98f,.86f),4.2f),new GroundKit.Layer("gravel",new Color(.72f,.76f,.74f),3.2f));
+            // The basin's bed is silt, not gravel (D393): the damp layer's own texture is interlocking light and dark blots, and painted at half weight over the basin's outer ring
+            // it covered the Floodcrown's floor in camouflage (nov23 s21 280, 290, 309). Silt lies where the water stood longest, in an outline that wanders at the room's
+            // scale and runs out toward the drain; bare woven root between it and the walls, leaf litter drifted against them and over the dry platforms, puddles in the lowest.
+            ground.Layers(new Vector4(.05f,.34f,.4f,.32f),1.2f,new GroundKit.Layer("litter",new Color(.76f,.68f,.42f),3.4f),new GroundKit.Layer("damp",new Color(.8f,.98f,.86f),4.2f),new GroundKit.Layer("sand",new Color(.66f,.66f,.54f),5.5f));
             // Litter in smaller, more frequent drifts: in broad ones the weave between them read as a floor of big square tiles.
             ground.PaintFoot(0,2.8f,.5f,1).PaintPatches(0,4.2f,.55f,p=>InBasin(p)?0:InGallery(p)?.5f:1,2);
-            ground.Paint(1,p=>InGallery(p)?Smooth(GalleryHigh+.6f,GalleryLow+.8f,GalleryFloor(p.y))*(.3f+.7f*Smooth(.36f,.56f,ground.Noise(p,5,23))):InBasin(p)?Smooth(6,12,Vector2.Distance(p,BasinCentre))*.5f:0).PaintPatches(1,3.6f,.34f,null,5);   // damp in small drifts everywhere, so no stretch of bare weave is wide enough to read as a grid
-            ground.Paint(2,p=>InBasin(p)?1-Smooth(7,13,Vector2.Distance(p,BasinCentre)):0);
-            ground.Decals(new[]{"Litter"},7,p=>InBasin(p)?0:.4f+.6f*(1-Smooth(1,4,ground.Edge(p))),1.1f,2.2f,new Color(.7f,.64f,.38f,.9f),false);
+            ground.PaintPatches(0,6.5f,.6f,p=>InBasin(p)?Smooth(8,12,Vector2.Distance(p,BasinCentre))+BasinMound(p):0,7);
+            // The bed darker than the hall, wettest in the middle: bare woven root there was the brightest thing in the basin and showed the weave's square repeat.
+            ground.Shade(p=>InBasin(p)?(.1f+.08f*(1-Smooth(4,14,Vector2.Distance(p,BasinCentre))))*(1-BasinMound(p)):0);
+            ground.Paint(1,p=>InGallery(p)?Smooth(GalleryHigh+.6f,GalleryLow+.8f,GalleryFloor(p.y))*(.3f+.7f*Smooth(.36f,.56f,ground.Noise(p,5,23))):0).PaintPatches(1,3.6f,.34f,p=>InBasin(p)?0:1,5);   // damp in small drifts everywhere but the basin, so no stretch of bare weave is wide enough to read as a grid
+            ground.Paint(2,p=>InBasin(p)?BasinSilt(p,ground):0);
+            ground.Decals(new[]{"Litter"},7,p=>InBasin(p)?.7f*Smooth(10,14,Vector2.Distance(p,BasinCentre)):.4f+.6f*(1-Smooth(1,4,ground.Edge(p))),1.1f,2.2f,new Color(.7f,.64f,.38f,.9f),false);
             ground.Decals(new[]{"SandDrift"},4,p=>InBasin(p)?0:Smooth(1.5f,3,ground.Edge(p)),2,3.4f,new Color(.8f,.74f,.52f,.6f),false);
             ground.Decals(new[]{"Lichen"},9,p=>Smooth(.44f,.6f,ground.Noise(p,11,3)),1.1f,2.6f,new Color(.44f,.68f,.42f,.85f),false);
-            ground.Decals(new[]{"Stain"},1.4f,p=>InGallery(p)||InBasin(p)?1:.2f,2.4f,4.2f,new Color(.3f,.4f,.36f,.7f),false);
-            ground.Decals(new[]{"PebblesA","PebblesB"},6,p=>InBasin(p)?1:InGallery(p)?.6f:.15f,1,1.9f,new Color(.7f,.7f,.62f));
+            // Wet ground at the silt's edge and in the lowest of it: where the water last stood.
+            ground.Decals(new[]{"Stain"},1.4f,p=>InGallery(p)?1:InBasin(p)?.4f+.6f*Smooth(.25f,.6f,BasinSilt(p,ground))*(1-Smooth(.85f,1,BasinSilt(p,ground)))+.6f*(1-Smooth(3,6,Vector2.Distance(p,BasinCentre))):.2f,2.4f,4.2f,new Color(.3f,.4f,.36f,.7f),false);
+            ground.Decals(new[]{"PebblesA","PebblesB"},6,p=>InBasin(p)?.25f+.6f*(1-BasinSilt(p,ground)):InGallery(p)?.6f:.15f,1,1.9f,new Color(.7f,.7f,.62f));
+            int puddles=0;foreach(var (x,z,rx,rz,yaw) in BasinPuddles)if(ground.Puddle(new Vector2(x,z),rx,rz,yaw))puddles++;
+            Debug.Log("CANOPY_BASIN_PUDDLES "+puddles+" of "+BasinPuddles.Length);
             ground.LampPools(2.8f,new Color(1,.78f,.44f,.5f));
             float Foot(Vector2 p)=>1-Smooth(.8f,3.2f,ground.Edge(p));
             ground.Cover(new[]{"FungusA","FungusB"},22,p=>Mathf.Max(Foot(p),.3f*Smooth(.56f,.66f,ground.Noise(p,5,17)))*(InBasin(p)?0:1),.12f,.3f,new Color(.95f,.84f,.64f),3);

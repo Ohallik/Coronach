@@ -374,6 +374,60 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(CoolantSluice.Hold.Settled,sluice.State,"after the Colossus is down a sluice loads ready to turn");
             CoolantSluice.Offer(true);yield return null;Assert.IsFalse(sluice.Available,"a drained sluice can be offered");
         }
+        // ------------------------------------------------------------------ D387: Idra's Shelter (the Scoria battery's orange dome), a fight's line after it, the cooled Colossus's word
+        [UnityTest] public IEnumerator IdrasShelterStandsOnItsRingAsClearGlassNotAnOrangeWash()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();
+            var idra=PartyController.Current.members.FirstOrDefault(m=>m.character=="Idra")??partner;
+            var dome=ShelterDome.Plant(idra,At(0,0,0),false);yield return Frames(2);
+            var shell=dome.GetComponentInChildren<MeshRenderer>();float drawn=dome.DrawnRadius;var look=dome.GlassLook;
+            // Built wrong on purpose: the shell as it was (nov23-whole s46/127 to 140), the built-in sphere scaled by twice the reach in the energy bubble's HDR orange.
+            if(Broken){shell.transform.localScale=Vector3.one*dome.Reach*2;look=ActorFactory.Energy(new Color(1.3f,.8f,.3f,.2f));shell.sharedMaterial=look;yield return null;drawn=shell.bounds.extents.x;}
+            TestContext.WriteLine($"SHELTER drawn={drawn:0.00} reach={dome.Reach} sphere-half={Resources.GetBuiltinResource<Mesh>("Sphere.fbx").bounds.extents.x:0.000}");
+            try
+            {
+                Assert.AreEqual(dome.Reach,drawn,dome.Reach*.05f,"the dome isn't drawn standing on the ring that marks its foot");
+                var edge=look.GetColor("_BaseColor")*look.GetFloat("_Intensity")*1.45f;
+                Assert.LessOrEqual(Mathf.Max(edge.r,Mathf.Max(edge.g,edge.b)),1f,$"its edge burns at {edge}: past white, the bloom spreads it over the frame as an orange wash");
+                Assert.LessOrEqual(look.GetFloat("_Core")*look.GetColor("_BaseColor").a,.03f,"its middle lays a tint over everything under it");
+            }
+            finally{Object.Destroy(dome.gameObject);}
+        }
+        [UnityTest] public IEnumerator AFightsLineGoesWhenTheFightEndsAndAKillsWordStaysItsTime()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(hero,At(0,.05f,0));Put(partner,At(-50,.05f,-50));
+            var panel=Object.FindFirstObjectByType<BarkPanel>();if(panel==null){panel=new GameObject("Barks (fixture)").AddComponent<BarkPanel>();yield return null;}
+            var enemy=Enemy("MusterMortar",At(0,.1f,6));enemy.Passive=false;yield return Frames(3);
+            Assert.IsTrue(BarkPanel.FightOn,"fixture: an awake enemy beside the lead is a fight");
+            string line=BarkService.Line(hero.character,"bossopening");BarkService.Play(hero.character,"bossopening",true);yield return null;
+            StringAssert.Contains(line,panel.Showing,"fixture: the line is up");
+            // Built wrong on purpose: the enemy is left standing, and the fight goes on.
+            if(!Broken)Hit(enemy.Health,hero,enemy.Health.maximum*10);
+            yield return Frames(3);
+            Assert.AreEqual("",panel.Showing,"a fight's line stays up after the fight is won (nov23-whole s49/052, s49/057)");
+            // The kill's word is the fight's last: it is said as the last body falls and stays its time.
+            var second=Enemy("MusterMortar",At(0,.1f,6));second.Passive=false;yield return Frames(3);Assert.IsTrue(BarkPanel.FightOn,"fixture: a second fight");
+            BarkService.Play(hero.character,"kill",true);string word=BarkService.Line(hero.character,"kill");yield return null;
+            Hit(second.Health,hero,second.Health.maximum*10);yield return Frames(3);Assert.IsFalse(BarkPanel.FightOn,"fixture: the fight is over");
+            StringAssert.Contains(word,panel.Showing,"a kill's word was taken down with the fight's lines");
+        }
+        [UnityTest] public IEnumerator CooledItsOpeningsSayTheSharedLineNotTheDarkPlates()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));
+            var heart=Heart(At(0,0,0));var enemy=Enemy("SlagColossus",At(0,.1f,0));yield return Frames(3);var boss=enemy.GetComponent<BossController>();var parts=Colossus(enemy);
+            // Built wrong on purpose: two plates shed, and it still glows.
+            for(int i=0;i<(Broken?2:3);i++){yield return Turn(heart[i],hero);var dark=parts.Dark;Assert.IsNotNull(dark,"fixture: a plate is dark");Hit(dark,hero,dark.maximum*10);yield return Frames(2);}
+            Assert.IsFalse(boss.Hot,"fixture: its plates are shed");
+            string plate=BarkService.Line(hero.character,"bossopening.SlagColossus"),shared=BarkService.Line(hero.character,BossController.OpeningLine);
+            Assert.IsNotNull(plate,"fixture: the dark plate's own line");Assert.AreNotEqual(plate,shared,"fixture: the two lines differ");
+            var spoken=new List<string>();System.Action<string,string> heard=(who,said)=>spoken.Add(said);BarkService.Spoken+=heard;
+            Put(hero,At(0,.05f,-4.5f),false);Face(hero,At(0,0,0));hero.Health.InvulnerableUntil=GameTime.Now+90;partner.Health.InvulnerableUntil=GameTime.Now+90;log.Clear();enemy.Passive=false;
+            try{yield return Until(()=>Said("EXPOSED"),45,hero);yield return Frames(2);}
+            finally{BarkService.Spoken-=heard;enemy.Passive=true;}
+            Assert.IsTrue(Said("EXPOSED"),"fixture: cooled, it opened");
+            Assert.IsFalse(spoken.Contains(plate),"at a cooled opening the lead says the dark plate's line with no plate on it: "+string.Join(" | ",spoken));
+            Assert.IsTrue(spoken.Contains(shared),"nothing is said at its opening: "+string.Join(" | ",spoken));
+        }
 
         // ------------------------------------------------------------------ Drask Vaal: the duel's rules
         [UnityTest] public IEnumerator TheWarmasterWaitsForTheFirstBlowThenOpensWithHisGuardWingAndTwoAnswer()

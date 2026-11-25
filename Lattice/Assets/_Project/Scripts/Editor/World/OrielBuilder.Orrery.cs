@@ -78,6 +78,8 @@ namespace Lattice.EditorTools
             /// nearer the opening. Whole, a ring 22 m across filled the frame of a ship waiting six metres short of it. The opening at the plane is the ring's own, the solid
             /// rims stand where they stood, and the row's truss is drawn out to the slimmer band.</summary>
             internal const float Slim=.4f;
+            /// <summary>How far apart the lamps on a wardens' track stand (D399).</summary>
+            internal const float TrackLampSpacing=3;
             /// <summary>Oriel: its centre and radius. The game's camera draws nothing past 1000 m, and the first Oriel (380 m across its radius, 800 m down) was wholly past it: nobody
             /// flying the lane ever saw the planet. Here every point of it the camera can see is inside 960 m from the moment its rim comes into the top of the frame (between
             /// rails 4 and 5) to the landing, the camera drawn back to 60 m included; it grows from there to half the frame at the far gate, east of the lane and up, so the ships
@@ -402,11 +404,20 @@ namespace Lattice.EditorTools
                     machine.named=point;machine.namedGate=1;machine.namedSpeaker="Ishen";machine.namedSituation="hail.survey";machine.chartFlag="ishen.moonsRead";machine.slowly=8;
                 }
                 // The wardens' own track, 8.5 m inside the rail and clear of its moon: a straight light-rail across the lane that the drones ride and fire down (a ForceLine, which is
-                // what the Rail Warden's behaviour keeps to: EnemyRider). Its lamps are a thin white line, so it reads as a second, lesser rail and never as a gate's signal.
+                // what the Rail Warden's behaviour keeps to: EnemyRider). Its lamps are small warm lenses in bronze housings every 3 m, so it reads as a second, lesser rail and never as
+                // a gate's signal. D399: they were one lit strip 84 m long, white over the 1.3 sun and bloomed, a white line across the whole frame at every rail (nov23-whole s38/081
+                // at the top, 090 to 108 through the ship as it crossed).
                 var trackFrom=At(-Half-6,r-8.5f);var trackTo=At(Half+6,r-8.5f);
                 var line=new GameObject(rail.name+" warden track",typeof(ForceLine)).GetComponent<ForceLine>();line.transform.SetParent(root.transform,true);line.transform.position=trackFrom;line.end=trackTo;line.width=3;line.clamp=0;
-                var track=new ZoneKit.Shape().Slot(0).Tube(new[]{trackFrom+Vector3.down*1.1f,trackTo+Vector3.down*1.1f},new[]{.16f,.16f},6,new Color(.7f,.52f,.32f),new Color(.7f,.52f,.32f),1,.4f)
-                    .Slot(1).Box((trackFrom+trackTo)*.5f+Vector3.down*.92f,new Vector3(.08f,.06f,Vector3.Distance(trackFrom,trackTo)),Quaternion.LookRotation(trackTo-trackFrom),Color.white);
+                var track=new ZoneKit.Shape().Slot(0).Tube(new[]{trackFrom+Vector3.down*1.1f,trackTo+Vector3.down*1.1f},new[]{.16f,.16f},6,new Color(.7f,.52f,.32f),new Color(.7f,.52f,.32f),1,.4f);
+                var trackWay=Quaternion.LookRotation(trackTo-trackFrom);float trackLength=Vector3.Distance(trackFrom,trackTo);var bronzeDark=new Color(.5f,.36f,.2f);
+                for(float s=1.5f;s<trackLength-1;s+=TrackLampSpacing)
+                {
+                    var at=Vector3.Lerp(trackFrom,trackTo,s/trackLength)+Vector3.down*1.1f;
+                    // The housing: a saddle over the rod's top with a lip round its lens; the lens stands just proud of it.
+                    track.Slot(0).Box(at+Vector3.up*.14f,new Vector3(.46f,.14f,.58f),trackWay,bronzeDark,new Color(.66f,.48f,.27f));
+                    track.Slot(1).Box(at+Vector3.up*.215f,new Vector3(.26f,.05f,.34f),trackWay,Color.white);
+                }
                 var drawnTrack=kit.Built(rail.name+" warden track",track,stuff.bronze,stuff.trackLight);drawnTrack.transform.SetParent(root.transform,true);Unshadowed(drawnTrack);
                 string warden=Foe("RailWarden","ChoristerDrifter");
                 var watch=kit.FlightFight("Rail_"+(index+1),Warden(index,-1),new Vector3(6,6,6),(warden,1));watch.transform.SetParent(root.transform,true);
@@ -869,7 +880,10 @@ namespace Lattice.EditorTools
                 s.canopy=ZoneKit.Toon("orrery-pod-canopy",null,m=>{ZoneKit.Tinted(m);m.SetColor("_EmissionColor",new Color(.12f,.2f,.26f));m.SetColor("_RimColor",new Color(.9f,1f,1f));});
                 s.podLamp=ZoneKit.Toon("orrery-pod-lamp",null,m=>{m.SetColor("_BaseColor",new Color(1,.86f,.6f));m.SetColor("_EmissionColor",new Color(2.4f,1.8f,1f));});
                 s.lampTemplate=ZoneKit.Toon("orrery-lamp",null,m=>{m.SetColor("_BaseColor",Color.white);m.SetColor("_EmissionColor",new Color(2.6f,2.6f,2.6f));m.SetFloat("_LightFloor",1);});
-                s.trackLight=ZoneKit.Toon("orrery-track-light",null,m=>{m.SetColor("_BaseColor",new Color(.92f,.94f,1f));m.SetColor("_EmissionColor",new Color(1.1f,1.15f,1.3f));m.SetFloat("_LightFloor",1);});
+                // A wardens' track's lenses: the Orrery's own warm light, a dark lens that shines rather than a pale one the sun lights, so at the most the 1.3 sun and the sky give it
+                // only its red is over the bloom's .85 and it blooms gold, not white (D399: white over a white emission, it bloomed into a line across the frame).
+                s.trackLight=ZoneKit.Toon("orrery-track-light",null,m=>{m.SetColor("_BaseColor",new Color(.2f,.14f,.07f));m.SetColor("_EmissionColor",new Color(.8f,.56f,.27f));
+                    m.SetColor("_RimColor",Color.black);m.SetFloat("_LightFloor",0);});
                 return s;
             }
             /// <summary>A rail's lamp material, with the lamps lit as the machine stands at a moment: one texel a lamp, point-sampled. Play swaps in its own texture.</summary>

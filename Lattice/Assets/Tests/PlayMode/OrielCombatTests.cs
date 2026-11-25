@@ -848,7 +848,13 @@ namespace Lattice.Tests.PlayMode
         // ------------------------------------------------------------------ what the fight is sized on
         /// <summary>The driver's share of this test's own flat out. .72 since D362 (November 22), where .3 was the placeholder: today's scout felled 116,000 in 95.0 s (Builds/quality/
         /// nov22-recon-e s41), the pair out Taren and Idra, whom this test read at 2,909 a second that morning (d355-chapters); with the clamps' 40 s beside it the bar went at .725.</summary>
-        const float DriverShare=.72f,FlatOutSeconds=15;
+        /// .60 since D384 (November 24): the round-three build fought 200,000 down in 130.0, 145.1 and 170.7 s (Builds/quality/nov23-recon-B s41, nov23-recon-f-41, nov23-whole s41,
+        /// November 23), median 145.1, the clamps' 40 s beside it, against Taren and Idra's 3,195 a second on this test's minute-long reading (d384-b): .596. Its bar alone ran about
+        /// 105 s, under the shared floor, so it is 245,000 (D384): the floor then wants 228,000 on any reading, and the slowest pair's 2,812 (d384-b) holds the ceiling at 281,000.
+        const float DriverShare=.60f;
+        /// <summary>How long each pair is read. Sixty seconds since D384, as the shared length test reads (QaPlanCombatTests.FlatOutSeconds): at fifteen the same pair, Taren and Idra, read
+        /// 2,708 to 3,709 a second from one run to the next (nov23a, d384-a), wider than the room between this test's floor and its ceiling.</summary>
+        const float FlatOutSeconds=60;
         /// <summary>The four clamps: getting to one across the hall once the road is held, taking its weight (1.2 s) and waiting for the slack (a Draw it can be baited into every few seconds
         /// with the clamp held, or the partner's break), and its ease (.8 s): about ten seconds each.</summary>
         const float ClampSeconds=10;
@@ -891,7 +897,7 @@ namespace Lattice.Tests.PlayMode
         /// <summary>The plan's length on today's build, with nothing assumed but the driver's share and the time the four clamps take: two to five minutes, for every pair a player can have out
         /// by then, at Sync 20 in the chapter's arrival parts (Tempered). Its whole bar is fought down (each quarter held at its line until a clamp takes it over), and each clamp is about
         /// ten seconds of work. Each pair is held to the shared test's own floor and ceiling too. And the integrity is pinned to the builder: a rebuild writes whatever its source says.</summary>
-        [UnityTest] public IEnumerator TheLastWardenLastsWhatThePlanAsksForEveryPairAPlayerCanPutOut()
+        [UnityTest,Timeout(600000)] public IEnumerator TheLastWardenLastsWhatThePlanAsksForEveryPairAPlayerCanPutOut()
         {
             string source=System.IO.File.ReadAllText(System.IO.Path.Combine(Application.dataPath,"_Project/Scripts/Editor/World/OrielBuilder.Enemies.cs"));
             float integrity=Def("LastWarden").integrity;

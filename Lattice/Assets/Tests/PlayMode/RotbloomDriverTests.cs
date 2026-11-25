@@ -132,6 +132,8 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(route.autoHeal&&route.useExtra,"fixture: the route mends and spends its EXTRA");
             return new QualityRoute{name=route.name,scene=Station,autoHeal=route.autoHeal,useExtra=route.useExtra,steps=route.steps.Skip(from).Take(to-from+1).ToArray()};
         }
+        /// <summary>Each skill the player's route had used by the Rotbloom, at the mastery it had there (nov23-whole s26 player.log, SKILL_KIND at the fight's first use).</summary>
+        static readonly (string skill,int mastery)[] AsThePlayerBringsThem={("Taren_1",4),("Taren_3",4),("Sela_1",5),("Sela_3",4)};
         /// <summary>The station as the route stands in it at the great hall's door: every pump it ran, the door's crossing heard, the party at Sync 14 (the boss sheet's) in the
         /// chapter's arrival parts (DevLoadout chapter4, what the shared length test measures), both heroes whole, at the door's spawn, nothing of an earlier fight in the save.</summary>
         static IEnumerator AtTheGreatHallsDoor()
@@ -144,7 +146,17 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(SceneFlow.Current.Loading,"fixture: "+Station+" never finished loading");
             deadline=Time.unscaledTime+10;while(!DialogueSystem.Current.Prepared&&Time.unscaledTime<deadline)yield return null;
             yield return new WaitForSecondsRealtime(.8f);
-            foreach(var member in State.party)member.level=14;PartyController.Current.RefreshStats();
+            // The party as the player's route brings it to this door (D398): its skills at the mastery that run had (Builds/quality/nov23-whole s26, SKILL_KIND in player.log:
+            // Taren_1 4, Taren_3 4, Sela_1 5, Sela_3 4, the rest unused) and Taren's EXTRA full (EXTRA_FULL Taren on the road, line 470, before the fight's first step at 650; it
+            // spent it on the first gaping mouth, 7,257). Left at the loadout's first mastery with no EXTRA, the fight ran all ten of the route's 35 s rounds and kept 3,200 to
+            // 9,700 of its bar where the player's felled 108,000 in 112.4 to 131.5 s (nov23-whole s26, nov23-recon-f-26, -g-26).
+            foreach(var member in State.party)
+            {
+                member.level=14;member.skillUses??=new Dictionary<string,int>();member.skillUses.Clear();
+                foreach(var (skill,mastery) in AsThePlayerBringsThem)if(skill.StartsWith(member.id+"_"))member.skillUses[skill]=SkillBook.MasteryUses[mastery-2];
+            }
+            Assert.IsTrue(ExtraGauge.Unlocked,"fixture: by chapter 4 the EXTRA is taught");State.party.Find(m=>m.id=="Taren").extra=ExtraGauge.Full;
+            PartyController.Current.RefreshStats();
             foreach(var hero in PartyController.Current.members)hero.Health.integrity=hero.Health.maximum;
             ItemUse.Reset();yield return null;
             Assert.AreEqual(4,LureStalk.All.Count(s=>s.Standing),"fixture: four lure-stalks stand in the hall");

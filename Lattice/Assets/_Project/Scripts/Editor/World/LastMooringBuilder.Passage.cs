@@ -157,9 +157,11 @@ namespace Lattice.EditorTools
             };
 
             // ---------------------------------------------------------------- what it is made of
-            internal sealed class Stuff{public Material tissue,glow,pulse,plank,rope,soft,warm,cold,young,lantern,stream,road;}
+            internal sealed class Stuff{public Material tissue,glow,pulse,plank,rope,soft,warm,cold,young,lantern,stream,road,current,pool;}
             static Color L(float r,float g,float b)=>new Color(r,g,b).linear;
             static readonly Color Gold=new(1f,.78f,.42f),Cyan=new(.5f,.95f,1f),Rose=new(1f,.55f,.55f);
+            /// <summary>The road's lanterns' glass, times the glow's 1.15: amber, one channel over one (the capture's (1, .7, .32) drew cream under the bloom, D390).</summary>
+            internal static readonly Color LanternGlass=new(1f,.5f,.14f);internal const float GlowGain=1.15f;
             static Stuff Materials(ZoneKit kit)
             {
                 var s=new Stuff();
@@ -176,7 +178,7 @@ namespace Lattice.EditorTools
                     m.SetColor("_ShadowTint",new Color(.36f,.3f,.52f));m.SetColor("_RimColor",new Color(.6f,.35f,.5f));m.SetTexture("_EmissionMap",veins);m.SetColor("_EmissionColor",new Color(.1f,.04f,.1f));
                     m.SetFloat("_ReceiveShadows",0);}));
                 // Lamps and beads: unlit, coloured in their vertices, a little over one so they bloom without going white, a little of the haze on them so the far ones sit back.
-                s.glow=ZoneKit.Toon("passage-glow",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(1.15f,.25f,0,0));});
+                s.glow=ZoneKit.Toon("passage-glow",null,m=>{ZoneKit.Tinted(m);ZoneKit.With(m,"_GLOW_ON","_Glow");m.SetVector("_GlowParams",new Vector4(GlowGain,.25f,0,0));});
                 // A lantern's glass, which keeps the count (RhythmLamp sets its emission in play; in a still it is drawn at this).
                 s.pulse=ZoneKit.Toon("passage-lantern-glass",null,m=>{m.SetColor("_BaseColor",new Color(1f,.86f,.6f));m.SetColor("_EmissionColor",new Color(2.4f,1.7f,.9f));m.SetFloat("_LightFloor",.6f);});
                 // The Wick-folk's floats: tarred planks.
@@ -205,6 +207,17 @@ namespace Lattice.EditorTools
                     return new Color(1,1,1,Mathf.Clamp01(chevron*(1-ZoneKit.Smooth(.75f,1,across))));
                 },true,true);
                 s.road=kit.Glow("Road",false,new Color(1.1f,.85f,.5f,1));s.road.SetTexture("_BaseMap",chevrons);
+                // A rib's current (D390): the rib's own light running round its hoop, bright down its middle and gone at its edges, broken into pulses along it (u along the hoop, a repeat
+                // to 40 m, scrolled by the convoy's flow as the streams are; v across).
+                var pulses=ZoneKit.Texture("Passage/rib-current",256,(u,v)=>
+                {
+                    float across=Mathf.Abs(v-.5f)*2,edge=Mathf.Pow(Mathf.Clamp01(1-across),2.4f);
+                    float pulse=ZoneKit.Smooth(.32f,.78f,ZoneKit.Cloud(u,v*.15f,4,95));
+                    return new Color(1,1,1,Mathf.Clamp01(edge*(.12f+.88f*pulse)));
+                },true,true);
+                s.current=kit.Glow("Rib current",false,new Color(1.05f,.5f,.62f,.72f));s.current.SetTexture("_BaseMap",pulses);
+                // A lantern's pool on its float, under half its colour so the float's planks show through it.
+                s.pool=Soft("Lantern pool",new Color(1f,.6f,.24f,.45f));
                 return s;
             }
 
@@ -330,15 +343,30 @@ namespace Lattice.EditorTools
                 // Dark plum, lighter only under the road's middle: the convoy is the subject, the bore is the night it runs through (the first pass's floor was bright magenta silk).
                 Color FloorTone(float s,float v){float mid=1-Mathf.Abs(v-.5f)*2;float n=Mathf.PerlinNoise(s*.012f,v*7);return Color.Lerp(L(.13f,.08f,.16f),L(.36f,.22f,.34f),.25f+.5f*mid*mid*n);}
                 var floor=Drawn("The bore's floor",Loft(kit,"The bore's floor",-260,MouthS+30,10,26,Floor,FloorTone,48,11),stuff.tissue,false,root.transform);
-                // The ribs: thin hoops of light under the road every 70 m, the bore's beat (drawn as broad tubes of tissue they read as stripes on a carpet).
+                // The ribs: hoops of the bore's own tissue under the road every 70 m, the bore's beat, each with its current of light running round it (D390). Drawn as unlit glow tubes
+                // they were one flat pink band across the whole frame (nov23-whole s68/105); as plain tissue (the first pass) stripes on a carpet. The rib is the tissue now, lit and
+                // shaded (a ridge with a sun side and a shade side, its veins lit), and over its crown a soft ribbon of its light, bright down its middle and gone at its edges, in
+                // pulses that the convoy's flow carries round the hoop.
                 var ribs=new ZoneKit.Shape();int hoops=0;
+                var cur=new List<Vector3>();var curUv=new List<Vector2>();var curTris=new List<int>();
                 for(float s=-200;s<MouthS;s+=70)
                 {
                     ConvoyFlow.At(Line,s,0,out var ahead);var side=Vector3.Cross(Vector3.up,ahead);var mid=On(s);mid.y=0;var path=new List<Vector3>();var radii=new List<float>();
-                    for(int k=0;k<=32;k++){float v=k/32f;var p=Floor(s,v);path.Add(mid+side*p.x+Vector3.up*(p.y+1.5f));radii.Add(.7f+.9f*Mathf.Sin(v*Mathf.PI));}
-                    ribs.Slot(0).Tube(path,radii,8,new Color(.85f,.42f,.5f),new Color(.6f,.28f,.48f),1,.12f);hoops++;
+                    for(int k=0;k<=48;k++){float v=k/48f;var p=Floor(s,v);path.Add(mid+side*p.x+Vector3.up*(p.y+2.2f));radii.Add(1.2f+1.8f*Mathf.Sin(v*Mathf.PI));}
+                    ribs.Slot(0).Tube(path,radii,10,L(.62f,.34f,.42f),L(.44f,.24f,.34f),1,.12f);hoops++;
+                    float run=0;int first=cur.Count;
+                    for(int k=0;k<path.Count;k++)
+                    {
+                        if(k>0)run+=Vector3.Distance(path[k],path[k-1]);float v=k/(float)(path.Count-1),wide=2.5f+4.5f*Mathf.Sin(v*Mathf.PI);
+                        var crown=path[k]+Vector3.up*(radii[k]+.25f);
+                        cur.Add(crown-ahead*wide);cur.Add(crown+ahead*wide);curUv.Add(new Vector2(run/40f,0));curUv.Add(new Vector2(run/40f,1));
+                        if(k>0){int a=first+(k-1)*2;curTris.AddRange(new[]{a,a+1,a+2,a+1,a+3,a+2});}
+                    }
                 }
-                var ribsDrawn=kit.Built("The bore's ribs",ribs,stuff.glow);ribsDrawn.transform.SetParent(root.transform,true);ribsDrawn.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;ribsDrawn.isStatic=true;
+                var ribsDrawn=kit.Built("The bore's ribs",ribs,stuff.tissue);ribsDrawn.transform.SetParent(root.transform,true);ribsDrawn.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;ribsDrawn.isStatic=true;
+                var currentMesh=new Mesh{name="The ribs' currents",indexFormat=cur.Count>65000?IndexFormat.UInt32:IndexFormat.UInt16};currentMesh.SetVertices(cur);currentMesh.SetUVs(0,curUv);
+                currentMesh.SetColors(Enumerable.Repeat(Color.white,cur.Count).ToList());currentMesh.SetTriangles(curTris,0);currentMesh.RecalculateNormals();currentMesh.RecalculateBounds();
+                var currents=Drawn("The ribs' currents",ZoneKit.SaveMesh(currentMesh,"Assets/_Project/Scenes/"+kit.zone+"-The-ribs-currents.asset"),stuff.current,false,root.transform);currents.isStatic=false;
                 // Each rib's light, a soft glow along its bottom, so the hoops show through the haze.
                 for(float s=-200;s<MouthS;s+=70){var at=On(s);at.y=Floor(s,.5f).y+.5f;Halo(stuff.soft,at,46,root.transform,Heading(s));}
                 // The far mouth's lip: a great fold of tissue round the opening, under the plane, its edge lit.
@@ -355,7 +383,7 @@ namespace Lattice.EditorTools
                 }
                 var lipDrawn=kit.Built("The far mouth's lip",lip,stuff.tissue);lipDrawn.transform.SetParent(root.transform,true);lipDrawn.isStatic=true;
                 // Three streams of light far down, flowing north: warm under the road, cold to starboard, rose to port.
-                var streams=new List<Renderer>();
+                var streams=new List<Renderer>{currents.GetComponent<MeshRenderer>()};
                 foreach(var (name,side,depth,half,tone) in new[]{("Stream under the road",-4f,-52f,12f,new Color(1f,.78f,.45f,.28f)),("Stream to starboard",36f,-82f,20f,new Color(.45f,.9f,1f,.3f)),("Stream to port",-48f,-108f,28f,new Color(.95f,.45f,.6f,.26f))})
                 {
                     var mesh=Loft(kit,name,-200,MouthS+10,6,1,(s,v)=>new Vector3(side+(v-.5f)*2*half,depth,0),(s,v)=>tone,60);
@@ -387,19 +415,28 @@ namespace Lattice.EditorTools
                         float yaw=Heading(s);var turn=Quaternion.Euler(0,yaw,0);
                         foreach(var (at,isLong) in new[]{(s,false),(s+3.2f,false),(s+7.4f,true)})
                         {
-                            var p=On(at,(k%2==0?-1:1)*.8f);
-                            floats.Slot(0).Disc(new Vector3(p.x,-1.9f,p.z),Vector3.up,isLong?1.3f:.9f,10,L(.42f,.32f,.2f),0,L(.3f,.22f,.14f));
-                            glass.Box(new Vector3(p.x,-1.45f,p.z),isLong?new Vector3(.5f,.5f,1.6f):new Vector3(.5f,.5f,.5f),turn,new Color(1f,.7f,.32f));
+                            // Each a thing that floats (D390: nov23-whole s68/105's markers were flat brown discs under flat cream bars): a drum of tarred planks with an iron hoop
+                            // at its head, and on it a lantern, a base plate, four corner bars round its glass and a cap, the glass amber under the bloom; its pool on the drum's head.
+                            var p=On(at,(k%2==0?-1:1)*.8f);float r=isLong?1.3f:.95f;
+                            floats.Slot(0).Tube(new[]{new Vector3(p.x,-2.6f,p.z),new Vector3(p.x,-1.9f,p.z)},new[]{r*.9f,r},14,L(.28f,.2f,.13f),L(.46f,.35f,.22f),3,.8f);
+                            floats.Slot(1).Tube(new[]{new Vector3(p.x,-2.04f,p.z),new Vector3(p.x,-1.88f,p.z)},new[]{r+.05f,r+.05f},14,L(.2f,.2f,.22f),L(.32f,.32f,.34f),1,.5f);
+                            var lamp=new Vector3(p.x,-1.5f,p.z);var size=isLong?new Vector3(.34f,.4f,1.3f):new Vector3(.34f,.4f,.34f);
+                            floats.Slot(1).Box(lamp+Vector3.down*.26f,new Vector3(size.x+.22f,.08f,size.z+.22f),turn,L(.2f,.2f,.22f),L(.32f,.32f,.34f));
+                            foreach(int cx in new[]{-1,1})foreach(int cz in new[]{-1,1})floats.Slot(1).Box(lamp+turn*new Vector3(cx*(size.x*.5f+.04f),0,cz*(size.z*.5f+.04f)),new Vector3(.07f,size.y+.06f,.07f),turn,L(.2f,.2f,.22f));
+                            floats.Slot(1).Box(lamp+Vector3.up*.25f,new Vector3(size.x+.24f,.1f,size.z+.24f),turn,L(.22f,.22f,.24f),L(.36f,.36f,.38f));
+                            glass.Box(lamp,size,turn,LanternGlass);
+                            Halo(stuff.pool,new Vector3(p.x,-1.86f,p.z),r*2.6f,root.transform,yaw);
                         }
-                        Halo(stuff.lantern,On(s+3.7f)+Vector3.up*(-2.4f-Plane),7,root.transform,yaw);
+                        Halo(stuff.lantern,On(s+3.7f)+Vector3.up*(-3.1f-Plane),7,root.transform,yaw);
                         if(k%3==0)
                         {
                             var light=kit.Lamp(On(s+3.7f)+Vector3.up*(-.4f-Plane),15,2.2f,new Color(1f,.76f,.42f));light.transform.SetParent(root.transform,true);
                             var count=light.gameObject.AddComponent<RhythmLamp>();count.count="SSL";count.glow=light;count.colour=new Color(1,.74f,.4f);count.intensity=light.intensity;count.dim=.45f;count.offset=-s/38f;
                         }
                     }
-                    var f=kit.Built("The road's lantern floats "+from.ToString("0"),floats,stuff.plank);f.transform.SetParent(root.transform,true);f.isStatic=true;
-                    var g=kit.Built("The road's lantern glass "+from.ToString("0"),glass,stuff.glow);g.transform.SetParent(root.transform,true);g.isStatic=true;g.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+                    var f=kit.Built("The road's lantern floats "+from.ToString("0"),floats,stuff.plank,stuff.rope);f.transform.SetParent(root.transform,true);f.isStatic=true;
+                    // Not statically batched: its own mesh stays readable in play, where ReturningPassageTests reads each lens's colour (a batched one is the scene's combined mesh).
+                    var g=kit.Built("The road's lantern glass "+from.ToString("0"),glass,stuff.glow);g.transform.SetParent(root.transform,true);g.isStatic=false;g.GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
                 }
             }
             /// <summary>A soft glow lying flat at a point: a lamp seen from above.</summary>

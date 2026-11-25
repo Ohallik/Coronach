@@ -1774,6 +1774,10 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 ZoneKit.Block(held,foot+Vector3.up*.7f,new Vector3(1.8f,1.4f,4.6f),yaw,"Sledge");
             }
 
+            /// <summary>How each of the cut ice's eleven year-bands is scored (D393): grooves along u times a plus v times b, so a pitch of seven metres over the length of (a, b);
+            /// (0, 0) is a band left bare. Steep and shallow, either diagonal, fine and coarse; none straight across a band (at right angles to its thin run it read as a ladder:
+            /// look d393-after).</summary>
+            internal static readonly (int a,int b)[] Scoring={(12,-20),(0,0),(9,-34),(10,8),(0,0),(13,13),(5,-22),(0,0),(4,-30),(19,-19),(0,0)};
             /// <summary>The floor: snow wind-crusted in ridges over most of the Reach, bluer in its hollows and scoured to bare blue ice in a few, moraine grit only in thin streaks and at
             /// the vents' hearts, Idra's steps and the herd's churned line pressed into it, the sledges' runs into the dig; in the dig, cut ice in slabs with dark joints, snow drifted in
             /// against the walls, ice chips and spoil at the walls' feet, meltwater stains where the amber is, scorch where the rigs work, frost cracking the bottom gallery.</summary>
@@ -1807,11 +1811,15 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                     float seam=Mathf.Min(within,1-within);
                     if(own>.55f&&seam<.06f)tone-=.17f*(1-seam/.06f);else if(own<.25f&&seam<.07f){tone-=.06f;blue+=.12f;}else if(seam<.02f)tone-=.07f;
                     // (Fractures are the ground kit's crack decals, branching and placed: a noise field's contours here read as wandering outlines, ch45-d378-a.)
-                    // Scores: three ways a run can lie (whole repeats across the texture, so it tiles), each where its own field is strongest, over about a third of the floor.
-                    float ra=ZoneKit.Cloud(u,v,3,97),rb=ZoneKit.Cloud(u,v,3,99),rc=ZoneKit.Cloud(u,v,3,101),best=Mathf.Max(ra,Mathf.Max(rb,rc));
-                    float groove=best==ra?Mathf.Repeat(u*27+v*6,1):best==rb?Mathf.Repeat(v*26-u*7,1):Mathf.Repeat((u-v)*19,1);
-                    float scored=ZoneKit.Smooth(.5f,.58f,best)*ZoneKit.Smooth(.3f,.45f,ZoneKit.Cloud(u,v,6,103));
-                    if(groove<.18f)tone-=.1f*scored;else if(groove<.27f)tone+=.04f*scored;
+                    // Scores by the year's band (D393): one diagonal at one spacing lay over every band and read as one scoring wall to wall (nov23 s35/420, s36/076). Each band is
+                    // cut its own way and pitch or not at all (four of eleven bare), the runs broken along the band by a field of the band's own and stopped short of its seams.
+                    // Whole repeats across the texture in u and v, so it tiles.
+                    var (ga,gb)=Scoring[(y11*7)%11];
+                    if(ga!=0||gb!=0)
+                    {
+                        float groove=Mathf.Repeat(u*ga+v*gb,1),scored=ZoneKit.Smooth(.42f,.52f,ZoneKit.Cloud(u,v,4,103+y11*2))*ZoneKit.Smooth(.05f,.14f,seam);
+                        if(groove<.16f)tone-=.09f*scored;else if(groove<.24f)tone+=.035f*scored;
+                    }
                     if(chip>.965f)tone+=.07f;
                     return new Color(tone*(1-blue*1.3f),tone*(1-blue*.45f),Mathf.Min(1,tone*(1+blue*.25f)),1);
                 });
@@ -1823,7 +1831,9 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 float Hollow(Vector2 p){float v=0;foreach(var (at,radius) in Vents)v=Mathf.Max(v,1-Smooth(radius,radius*1.4f,Vector2.Distance(p,at)));return v;}
                 // Snow drifted into the dig: against the walls' feet and in patches across the cut ice; less of it on the second level, which the thaw has been at, and on the third.
                 // The ice is a higher layer than the snow, so it is left off wherever the snow lies.
-                float DigSnow(Vector2 p){int f=FloorOf(p);return Mathf.Min(1,.9f*Smooth(2.6f,.6f,ground.Edge(p))*Smooth(.3f,.5f,ground.Noise(p,4,9))+.85f*Smooth(.5f,.62f,ground.Noise(p,8,15)))*(f==2?.6f:f==3?.8f:f==4?.8f:1);}
+                // (D393) The drift along a wall is whole, out to a reach that comes and goes between most of a metre and three and a half along the wall, not a noise field's
+                // patches at one size: a wall's foot read as cut ice with the scoring run right up to it.
+                float DigSnow(Vector2 p){int f=FloorOf(p);float reach=.8f+2.6f*ground.Noise(p,7,9);return Mathf.Min(1,Smooth(reach,reach*.35f,ground.Edge(p))+.85f*Smooth(.5f,.62f,ground.Noise(p,8,15)))*(f==2?.6f:f==3?.8f:f==4?.8f:1);}
                 // The Reach scoured to blue ice by the wind: down the herd's line (their hooves and the wind keep it bare), in windows over the host (the spear field's and the stalkers'
                 // field's), and in its lowest hollows and down the crevasses.
                 float Scoured(Vector2 p)
@@ -1877,6 +1887,25 @@ var campBody=kit.Built("Muster camp",camp,Iron,Timber,Tarp,Timber,IceWall);
                 Debug.Log("FROZEN_HOST_MELTWATER "+melt);
                 // The beds' kerfs: sawn lines a hand wide round every block, dark with the cold in them.
                 foreach(var bed in Beds)foreach(var (a,b) in bed.Kerfs())ground.Strip("SurveyLine",new[]{a,b},0,.12f,new Color(.3f,.4f,.58f,.9f));
+                // Tool marks where the dig is (D393): runs of blade scores, each its own way, pitch and length, round every bed and along the walls' feet where the faces were cut,
+                // and a few out on the floors; the cut ice's own scoring is by band and bare in four bands of eleven, so these say where the work was.
+                int runs=0;var toolRng=new System.Random(393);float T()=>(float)toolRng.NextDouble();
+                void Run(Vector2 at,float yaw)
+                {
+                    int lines=4+(int)(T()*4);float pitch=.18f+.14f*T(),length=1.3f+1.6f*T();var along=new Vector2(Mathf.Cos(yaw*Mathf.Deg2Rad),Mathf.Sin(yaw*Mathf.Deg2Rad));var across=new Vector2(-along.y,along.x);
+                    var tint=new Color(.34f,.42f,.6f,.55f+.3f*T());
+                    for(int k=0;k<lines;k++){var mid=at+across*((k-(lines-1)*.5f)*pitch)+along*((T()-.5f)*.4f);float half=length*(.4f+.12f*T());ground.Strip("SurveyLine",new[]{mid-along*half,mid+along*half},0,.07f,tint,0,float.PositiveInfinity,.3f);}
+                    runs++;
+                }
+                foreach(var bed in Beds)for(int k=0;k<5;k++){float a=T()*Mathf.PI*2,r=2.2f+3*T();var at=bed.at+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*r;float yaw=T()*180;if(Dig(at)&&!bed.Lifted(at))Run(at,yaw);}
+                for(int k=0;k<900&&runs<110;k++)
+                {
+                    var at=new Vector2(5+T()*230,160+T()*90);float yaw=T()*180,roll=T();
+                    if(!Dig(at)||!ground.Floor(at,out _))continue;
+                    float edge=ground.Edge(at),want=edge>.9f&&edge<3.6f?.5f:.06f;
+                    if(roll<want)Run(at,yaw);
+                }
+                Debug.Log("FROZEN_HOST_TOOL_MARKS runs="+runs);
                 // Drift shadows on the Reach (blue), snow patches on the dig's ice (white): what makes one stretch of either unlike the next.
                 ground.Decals(new[]{"Shadow"},4,p=>Dig(p)?0:Smooth(.45f,.6f,ground.Noise(p,8,23))*(1-Vent(p)),2.6f,5,new Color(.5f,.62f,.9f,.45f),false,.1f,25);
                 // Meltwater lying on the ice where the thaw has been at it.

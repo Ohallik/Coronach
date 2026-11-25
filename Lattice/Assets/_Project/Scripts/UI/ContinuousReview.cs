@@ -652,6 +652,8 @@ namespace Lattice.UI
                     Vector3 goal = chased != null ? chased.transform.position : hide != null ? hide.transform.position : lost != null ? lost.transform.position : beside != null ? beside.transform.position : BerthGoal(step);
                     Vector3 difference = goal - actor.transform.position; difference.y = 0;
                     float reach = chased != null && step.rangedTolerance > 0 && ShootsOnFoot(actor) ? step.rangedTolerance : step.tolerance;
+                    // A Clamp Tender is half a person tall: a blade reaches it from nearer than the step's reach (ContinuousReview.Oriel.cs).
+                    reach = TenderReach(actor, chased, reach);
                     bool drawing = hide != null && difference.magnitude > Mathf.Max(.4f, hide.radius - 1f);
                     // On foot, reach is to the body and not to its middle. The Floodcrown is wider than a blade is long: the lead stood against its flank for a whole round,
                     // never within 2.3 m of its centre and so never swinging (the Walking Canopy, November 13). A body no wider than chapters 1 and 2's is measured as it was.

@@ -256,7 +256,7 @@ namespace Lattice.UI
                 default:
                     // A zone with no lines written for it: the open story quest's step (the latest chapter's), or with none open, the last one's closing word,
                     // or the place's name. It used to say the yard's 'Practice attacks, dodges and swaps' anywhere nobody had written a case for.
-                    written=false;if(story==null)story=StoryQuests.Open(state,out storyStep);
+                    written=false;if(story==null)story=StoryQuests.Open(state,out storyStep);if(story!=null)storyStep=StoryQuests.PastTheFight(story,storyStep,state);
                     if(story!=null){label=QuestText.Step(story,storyStep,state);Aim(story,storyStep,state,hero,ref target,ref goal);}
                     else
                     {

@@ -1450,12 +1450,12 @@
     },
     {
       "name": "along the portico to the wall of names 2/3",
-      "seconds": 5.2,
+      "seconds": 5.21,
       "navigate": true,
       "point": {
         "x": 0,
         "y": 7.2,
-        "z": 108.2
+        "z": 107.6
       },
       "tolerance": 0.5,
       "until": "arrived",
@@ -1463,7 +1463,7 @@
     },
     {
       "name": "along the portico to the wall of names 3/3",
-      "seconds": 4.84,
+      "seconds": 4.85,
       "navigate": true,
       "point": {
         "x": -8.0,
@@ -1604,7 +1604,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 1/12",
+      "name": "down the steps and across to the trophy gallery 1/11",
       "seconds": 2.0,
       "navigate": true,
       "point": {
@@ -1617,34 +1617,21 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 2/12",
-      "seconds": 4.84,
+      "name": "down the steps and across to the trophy gallery 2/11",
+      "seconds": 4.85,
       "navigate": true,
       "point": {
         "x": 0,
         "y": 7.2,
-        "z": 108.2
+        "z": 107.6
       },
       "tolerance": 0.5,
       "until": "arrived",
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 3/12",
-      "seconds": 2.14,
-      "navigate": true,
-      "point": {
-        "x": 0,
-        "y": 7.2,
-        "z": 107.8
-      },
-      "tolerance": 0.5,
-      "until": "arrived",
-      "expectedScene": "Harrowgate"
-    },
-    {
-      "name": "down the steps and across to the trophy gallery 4/12",
-      "seconds": 5.48,
+      "name": "down the steps and across to the trophy gallery 3/11",
+      "seconds": 5.41,
       "navigate": true,
       "point": {
         "x": 0,
@@ -1656,7 +1643,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 5/12",
+      "name": "down the steps and across to the trophy gallery 4/11",
       "seconds": 4.84,
       "navigate": true,
       "point": {
@@ -1669,7 +1656,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 6/12",
+      "name": "down the steps and across to the trophy gallery 5/11",
       "seconds": 3.03,
       "navigate": true,
       "point": {
@@ -1682,7 +1669,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 7/12",
+      "name": "down the steps and across to the trophy gallery 6/11",
       "seconds": 2.85,
       "navigate": true,
       "point": {
@@ -1695,7 +1682,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 8/12",
+      "name": "down the steps and across to the trophy gallery 7/11",
       "seconds": 2.92,
       "navigate": true,
       "point": {
@@ -1708,7 +1695,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 9/12",
+      "name": "down the steps and across to the trophy gallery 8/11",
       "seconds": 8.22,
       "navigate": true,
       "point": {
@@ -1721,7 +1708,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 10/12",
+      "name": "down the steps and across to the trophy gallery 9/11",
       "seconds": 4.31,
       "navigate": true,
       "point": {
@@ -1734,7 +1721,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 11/12",
+      "name": "down the steps and across to the trophy gallery 10/11",
       "seconds": 8.76,
       "navigate": true,
       "point": {
@@ -1747,7 +1734,7 @@
       "expectedScene": "Harrowgate"
     },
     {
-      "name": "down the steps and across to the trophy gallery 12/12",
+      "name": "down the steps and across to the trophy gallery 11/11",
       "seconds": 8.76,
       "navigate": true,
       "point": {

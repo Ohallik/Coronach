@@ -755,6 +755,17 @@ namespace Lattice.EditorTools
                     s.Slot(5).Tube(new[]{Chart(stop.position),Chart(other.position)},new[]{.016f,.016f},4,Color.white,Color.white,1,1,false);
                 }
                 foreach(var stop in stops){s.Slot(5).Disc(Chart(stop.position)+facing*.008f,facing,.06f,12,Color.white);lit++;}
+                // The compass star in the chart's north-east corner, brass and teal, its north lit: the star the floor round the table once carried (D392).
+                {
+                    var hub=Top(1.1f,.5f,.014f);var east=slope*Vector3.right;var north=slope*Vector3.forward;
+                    for(int k=0;k<16;k++)
+                    {
+                        float a=k*Mathf.PI/8,len=k%4==0?.26f:k%2==0?.19f:.14f;var d=east*Mathf.Sin(a)+north*Mathf.Cos(a);var sideA=east*Mathf.Sin(a-.32f)+north*Mathf.Cos(a-.32f);var sideB=east*Mathf.Sin(a+.32f)+north*Mathf.Cos(a+.32f);
+                        int slot=k%2==0?6:4;var tone=k%2==0?Color.white:new Color(.3f,.5f,.54f);var shade=k%2==0?new Color(.8f,.74f,.6f):new Color(.22f,.4f,.44f);
+                        s.Slot(slot).Triangle(hub+sideA*.07f,hub+d*len,hub,facing,tone).Triangle(hub,hub+d*len,hub+sideB*.07f,facing,shade);
+                    }
+                    s.Slot(5).Disc(hub+north*.31f+facing*.002f,facing,.03f,10,Color.white);
+                }
                 // A chart without its stops (a project with none yet) still shows the Halo's roads: the old plan's three, lit.
                 if(lit==0)for(int i=0;i<3;i++)s.Slot(5).Tube(new[]{Top(-1.2f,-.5f+i*.5f,.012f),Top(0,-.3f+i*.4f,.012f),Top(1.2f,-.6f+i*.6f,.012f)},new[]{.016f,.016f,.016f},4,Color.white,Color.white,1,1,false);
                 // The rail round the top, on posts, a hand above it: what keeps a rolled chart from going off the low edge.
@@ -796,10 +807,10 @@ namespace Lattice.EditorTools
                     ZoneKit.Block(held,foot+Vector3.up*.9f,new Vector3(3.6f,1.8f,.6f),yaw,"Lamp rack");
                 }
                 Shade(kit.Built("Pell's lamp racks",lamps,Wood),true).transform.SetParent(held.transform,true);Shade(kit.Built("Lamps waiting to be trimmed",glass,Lamp),false);
-                // The compass rose painted round the chart table, Sela's own, and the gallery's rugs where people stand to read.
+                // The compass rose's ring painted round the chart table, Sela's own, and the gallery's rugs where people stand to read. Its star is in the chart on the table's top
+                // (the chart's corner, above): painted on the floor, its sixteen points ran out from under the table and drew across its apron and legs from the play camera
+                // (nov23-whole s55/035, D392).
                 var rose=new ZoneKit.Shape();var c=At(ChartTable,.016f);
-                for(int k=0;k<16;k++){float a=k*Mathf.PI/8,len=k%4==0?4.6f:k%2==0?3.4f:2.6f;var tip=c+new Vector3(Mathf.Sin(a)*len,0,Mathf.Cos(a)*len);var l=c+new Vector3(Mathf.Sin(a-.14f)*1.6f,0,Mathf.Cos(a-.14f)*1.6f);var r=c+new Vector3(Mathf.Sin(a+.14f)*1.6f,0,Mathf.Cos(a+.14f)*1.6f);
-                    rose.Triangle(l,tip,c,Vector3.up,k%2==0?new Color(.86f,.74f,.46f):new Color(.3f,.46f,.5f),.5f).Triangle(c,tip,r,Vector3.up,k%2==0?new Color(.7f,.58f,.34f):new Color(.24f,.38f,.42f),.5f);}
                 for(int k=0;k<48;k++){float a=k*Mathf.PI/24,b=(k+1)*Mathf.PI/24;rose.Quad(c+new Vector3(Mathf.Sin(a)*5,0,Mathf.Cos(a)*5),c+new Vector3(Mathf.Sin(b)*5,0,Mathf.Cos(b)*5),c+new Vector3(Mathf.Sin(b)*5.3f,0,Mathf.Cos(b)*5.3f),c+new Vector3(Mathf.Sin(a)*5.3f,0,Mathf.Cos(a)*5.3f),Vector3.up,k%2==0?Cream:new Color(.3f,.46f,.5f),.5f);}
                 foreach(var (x,z,w,d,k) in new[]{(-14f,44.6f,4.4f,2.6f,0),(-18f,52f,3f,4f,1),(10.6f,51.4f,3.4f,2.4f,2),(14f,42.4f,3f,2f,3)})
                 {var rc=At(x,z,.012f);rose.Quad(rc+new Vector3(-w/2,0,-d/2),rc+new Vector3(w/2,0,-d/2),rc+new Vector3(w/2,0,d/2),rc+new Vector3(-w/2,0,d/2),Vector3.up,Dyes[k],.6f);

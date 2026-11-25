@@ -103,17 +103,17 @@ namespace Lattice.Tests.PlayMode
             else if(actor.motor is GroundMotor ground){ground.Halt();ground.KeepFacing(facing);}
             actor.transform.SetPositionAndRotation(at,Quaternion.LookRotation(Planar(facing).normalized,Vector3.up));body.enabled=true;Physics.SyncTransforms();
         }
-        IEnumerator Zone(string loadout,string zone,string route,string step)
+        IEnumerator Zone(string loadout,string zone,string route,string step,string partner="Sela")
         {
             DevLoadout.Apply(loadout);FlagsAt(route,step);
-            ContinuousReview.ApplyPair(new QualityRoute{name="in view",scene=zone,deployed=new[]{"Taren","Sela"}});
+            ContinuousReview.ApplyPair(new QualityRoute{name="in view",scene=zone,deployed=new[]{"Taren",partner}});
             SceneFlow.Current.LoadZone(zone,"Arrival");float deadline=Time.unscaledTime+40;
             while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
             Assert.IsFalse(SceneFlow.Current.Loading,"fixture: "+zone+" never finished loading");
             deadline=Time.unscaledTime+10;while(!DialogueSystem.Current.Prepared&&Time.unscaledTime<deadline)yield return null;
             yield return new WaitForSecondsRealtime(1f);
             for(int i=0;i<4&&Lead.character!="Taren";i++){PartyController.Current.Swap();for(int f=0;f<30;f++)yield return null;}
-            Assert.AreEqual("Taren",Lead.character,"fixture: Taren leads");Assert.AreEqual("Sela",Partner.character,"fixture: Sela is out beside him");
+            Assert.AreEqual("Taren",Lead.character,"fixture: Taren leads");Assert.AreEqual(partner,Partner.character,$"fixture: {partner} is out beside him");
             foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))Object.Destroy(enemy.gameObject);
             foreach(var hero in PartyController.Current.members)
             {
@@ -204,9 +204,9 @@ namespace Lattice.Tests.PlayMode
         /// began). From rest she fell six to eight metres behind for a second while he gathered speed and was off the bottom edge for it: in eight readings each on November 22,
         /// 2 to 17% of route 17's leg and 9 to 18% of the Aurora Shear's, from one run to the next. <paramref name="share"/> is the leg's own bound where it has one (route 17).</summary>
         IEnumerator Leg(string loadout,string zone,string route,string from,string to,Vector3 lead,Vector3 facing,Vector3 her,string still,string quest=null,string readFrom=null,float share=Share,
-            System.Action begin=null,bool herHeld=false,System.Action loaded=null,float readAfter=0)
+            System.Action begin=null,bool herHeld=false,System.Action loaded=null,float readAfter=0,string partner="Sela",System.Action during=null)
         {
-            yield return Zone(loadout,zone,route,from);loaded?.Invoke();
+            yield return Zone(loadout,zone,route,from,partner);loaded?.Invoke();
             float level=Lead.transform.position.y;lead.y=her.y=Lead.flight?level:lead.y;
             Put(Lead,lead,facing);Put(Partner,her,facing);
             // The view is cut to him where he now stands, as a load does, and let come to rest: the rig would otherwise still be sliding over from the arrival.
@@ -224,7 +224,7 @@ namespace Lattice.Tests.PlayMode
             begin?.Invoke();
             var tally=new Tally();float began=Time.unscaledTime;var slice=Slice(route,zone,from,to);
             int read=readFrom==null?0:System.Array.FindIndex(slice.steps,s=>s.name==readFrom);Assert.GreaterOrEqual(read,0,$"fixture: the slice has no step '{readFrom}'");
-            yield return Play(slice,90,()=>tally.Look(Time.unscaledTime-began,false,Get<int>("stepIndex")>=read&&Time.unscaledTime-began>=readAfter));
+            yield return Play(slice,90,()=>{tally.Look(Time.unscaledTime-began,false,Get<int>("stepIndex")>=read&&Time.unscaledTime-began>=readAfter);during?.Invoke();});
             bool ground=!Lead.flight;
             if(ground)
             {
@@ -312,6 +312,99 @@ namespace Lattice.Tests.PlayMode
         [UnityTest,Timeout(300000)] public IEnumerator TallowDriftOutOfThePressureLiftAndStopping()=>
             Leg("chapter2","TallowDrift","chapter-16-lantern-home","through the pressure cabin","through the pressure cabin",new Vector3(0,.08f,-8),Vector3.forward,new Vector3(1.63f,.08f,-10.08f),"s16/144");
 
+        // ================================================================== where a panel comes up (D394)
+        /// <summary>Keeps a card's place as the HUD keeps a card that has been up and gone down (HudKeepOut.Reserve), after the HUD has filled its list for the frame (GameHud, order 905).</summary>
+        [DefaultExecutionOrder(30000)] sealed class CardKept:MonoBehaviour{public Rect card;void LateUpdate(){if(HudKeepOut.Fresh)HudKeepOut.Reserve(card);}}
+        static void AsBefore(bool before)=>typeof(PartnerBrain).GetField("asBefore",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,before);
+        /// <summary>Sela stood in Hushwell where the quest's card then came up over her, and was under it a second before she walked out (nov23-whole s08/095, a sliver at its edge at
+        /// s08/098). Here Taren stands where the capture had him after the Bellows and she comes to rest by him; the card's place (the capture's 555 by 160 of 1920 by 1080, as a
+        /// share of this screen) is put where she rests, kept as the HUD keeps a card that has been up and gone down (HudKeepOut.Reserve), for three seconds, and then the card comes
+        /// up there. She must not be under it as it does. Before (PartnerBrain.asBefore) she stays where she rested and is.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator HushwellSheRestsWhereNoCardComesUpOverHer()
+        {
+            yield return Zone("hushwell","Hushwell","chapter-08-hushwell-nursery","both heroes ready after the Bellows");
+            var lead=new Vector3(-6.96f,-7.92f,272.41f);var facing=new Vector3(-.04f,0,.998f);bool under=false;string where="";
+            try
+            {
+                foreach(bool before in new[]{true,false})
+                {
+                    AsBefore(before);Put(Lead,lead,facing);Put(Partner,lead+new Vector3(2,0,-3),facing);
+                    // Until she has come to rest: still for a second (she settles where the frame lets her, which can take a few seconds on this screen).
+                    float still=Time.unscaledTime;var was=Partner.transform.position;
+                    for(float end=Time.unscaledTime+10;Time.unscaledTime<end&&Time.unscaledTime-still<1;)
+                    {Put(Lead,lead,facing);yield return null;if(Planar(Partner.transform.position-was).magnitude>.02f){was=Partner.transform.position;still=Time.unscaledTime;}}
+                    var camera=Camera.main;var waist=camera.WorldToScreenPoint(Partner.transform.position+Vector3.up*.9f);
+                    var card=new Rect(waist.x-camera.pixelWidth*.145f,waist.y-camera.pixelHeight*.074f,camera.pixelWidth*.29f,camera.pixelHeight*.148f);
+                    var keeper=new GameObject("Card kept").AddComponent<CardKept>();keeper.card=card;
+                    for(float end=Time.unscaledTime+3;Time.unscaledTime<end;){Put(Lead,lead,facing);yield return null;}
+                    Object.Destroy(keeper.gameObject);
+                    Assert.IsTrue(HudKeepOut.Fresh,"fixture: the HUD keeps no plates here: the check proves nothing");
+                    under=false;where=$"card ({card.x:0},{card.y:0},{card.width:0}x{card.height:0}) of {camera.pixelWidth}x{camera.pixelHeight}";
+                    foreach(float lift in new[]{0f,.9f,1.7f}){var p=camera.WorldToScreenPoint(Partner.transform.position+Vector3.up*lift);if(p.z>0&&card.Contains(p)){under=true;where+=$", her at ({p.x:0},{p.y:0})";}}
+                    TestContext.WriteLine($"D394_CARD before={before} under={under} {where} she at {Partner.transform.position:F2}");
+                    if(before)Assert.IsTrue(under,"fixture: resting as before D394 she was clear of the card's place anyway: the check below proves nothing: "+where);
+                }
+                Assert.IsFalse(under,"Sela rested where the quest's card comes up, and was under it as it did: "+where);
+            }
+            finally{AsBefore(false);}
+        }
+
+        // ================================================================== a talk in flight (D397)
+        /// <summary>The talk's box as it is drawn (DialoguePanel's frame), in screen pixels; empty while it is down.</summary>
+        static Rect TalkBox()
+        {
+            var view=Object.FindFirstObjectByType<DialoguePanel>();if(view==null||!view.IsVisible)return Rect.zero;
+            var frame=(GameObject)typeof(DialoguePanel).GetField("panel",Private).GetValue(view);var canvas=frame.GetComponentInParent<Canvas>().rootCanvas;
+            var corners=new Vector3[4];((RectTransform)frame.transform).GetWorldCorners(corners);var eye=canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:canvas.worldCamera;
+            var a=RectTransformUtility.WorldToScreenPoint(eye,corners[0]);var b=RectTransformUtility.WorldToScreenPoint(eye,corners[2]);
+            return Rect.MinMaxRect(a.x,a.y,b.x,b.y);
+        }
+        /// <summary>How long after the talk's box comes up she is read: her one move to a clear place takes up to a second.</summary>
+        const float TalkSettles=1.15f;
+        /// <summary>Teo's radio line (nov23-whole s17/248) opened with Sela beside the lead on his right, which flying east-north-east is down the screen, and the talk froze her
+        /// there under its box. The pair are staged as the capture had them three seconds before it (both at 13.8 m/s, she 3.7 m off his right) and fly into the line; from
+        /// <see cref="TalkSettles"/> after its box comes up, through two of its lines, her hull must be clear of the box and of the frame's edges.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceTeosRadioLineLeavesHerClearOfItsBox()=>TeosRadioLine();
+        [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceTeosRadioLineAsBefore()=>Before(TeosRadioLine());
+        /// <summary>A D397 case flown as before it (PartnerBrain.asBefore), which must fail on her as the capture did, or the case proves nothing.</summary>
+        IEnumerator Before(IEnumerator check)
+        {
+            AsBefore(true);string why=null;
+            try
+            {
+                while(true)
+                {
+                    object next;
+                    try{if(!check.MoveNext())break;next=check.Current;}
+                    catch(AssertionException failed){why=failed.Message;break;}
+                    yield return next;
+                }
+            }
+            finally{AsBefore(false);}
+            TestContext.WriteLine("D397_BEFORE "+(why??"held"));
+            Assert.IsNotNull(why,"fixture: flown as before D397 the case held anyway: it proves nothing");
+            Assert.IsFalse(why.Contains("fixture:"),"fixture: flown as before D397 the case failed on its fixture, not on her: "+why);
+        }
+        IEnumerator TeosRadioLine()
+        {
+            var facing=new Vector3(.917f,0,.399f);float opened=-1;int read=0,under=0;string first="";
+            void During()
+            {
+                var camera=Camera.main;var her=Partner;if(camera==null||her==null||!GameServices.Current.Input.Blocked)return;
+                var box=TalkBox();if(box.width<=0)return;
+                if(opened<0)opened=Time.unscaledTime;if(Time.unscaledTime-opened<TalkSettles)return;
+                read++;var middle=camera.WorldToScreenPoint(her.transform.position);
+                float hull=Mathf.Abs(camera.WorldToScreenPoint(her.transform.position+camera.transform.right*HeroCollision.HullRadius(her.character)).x-middle.x)*.5f;
+                bool cut=middle.z<=0||middle.x<hull||middle.x>camera.pixelWidth-hull||middle.y<hull||middle.y>camera.pixelHeight-hull;
+                bool covered=middle.x>box.xMin-hull&&middle.x<box.xMax+hull&&middle.y>box.yMin-hull&&middle.y<box.yMax+hull;
+                if((cut||covered)&&under++==0)first=$"{(cut?"cut by the frame":"under the talk's box")} at ({middle.x:0},{middle.y:0}), the box ({box.xMin:0},{box.yMin:0})-({box.xMax:0},{box.yMax:0}) of {camera.pixelWidth}x{camera.pixelHeight}, she at {her.transform.position:F2}, the lead at {Lead.transform.position:F2}";
+            }
+            yield return Leg("chapter3","XylosNearspace","chapter-17-xylos-nearspace","fly on until Teo's sight of the claim drones","read Teo's sight of the claim drones line 2",
+                new Vector3(678.12f,1,1081.47f),facing,new Vector3(678.97f,1,1077.73f),"s17/248",begin:()=>{Going(Lead,facing*13.8f,facing);Going(Partner,facing*13.8f,facing);},herHeld:true,during:During);
+            TestContext.WriteLine($"D397_TALK read {read} frames from {TalkSettles:0.00} s after the box came up, {under} with her cut or under it{(first!=""?": "+first:"")}");
+            Assert.Greater(read,20,"fixture: the radio line never held its box up long enough to read");
+            Assert.AreEqual(0,under,"Sela was held where the talk's box covers her, or cut by the frame: "+first);
+        }
         // ================================================================== a dungeon walked end to end on foot
         /// <summary>The whole suite of November 22 (nov22b) left Sela 57 m behind on QaPlanWorldTests' walk of the Frozen Host, at (50.45, -3.35, 50.41), where she had come through
         /// every earlier day's: the same walk here (the longest way the floor holds from the arrival to a prompt, inside 140 m, walked by the lead's own motor at full stick, every fight

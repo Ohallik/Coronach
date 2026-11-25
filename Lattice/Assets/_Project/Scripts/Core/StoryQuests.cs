@@ -41,6 +41,20 @@ namespace Lattice.Core
             }
             return null;
         }
+        /// <summary>The step the objective panel should show: a flag step that names a boss's fight (its target's encounter is an EnemyDef boss) is over the moment that boss is down, though its flag
+        /// comes later (a talk after the fall, a release): the panel said 'Release the Foundry Saint's arms' over the loot (D389). Quest state is untouched; only the line moves on.</summary>
+        public static int PastTheFight(QuestDef quest,int step,GameState state)
+        {
+            if(quest==null||quest.steps==null||quest.stepTargets==null)return step;
+            while(step>=0&&step<quest.steps.Length-1&&step<quest.stepTargets.Length&&quest.steps[step].kind==ObjectiveKind.Flag)
+            {
+                string fight=quest.stepTargets[step].encounter;if(string.IsNullOrEmpty(fight))break;
+                var enemy=GameCatalog.Find<EnemyDef>(fight);if(enemy==null||!enemy.boss)break;
+                if(!state.flags.TryGetValue("bossdown."+fight,out bool down)||!down)break;
+                step++;
+            }
+            return step;
+        }
         /// <summary>The story has gone past the first two chapters: a main quest from chapter 3 on has been started, open or done. From then on the
         /// objective panel's hand-written lines have had their say and the quests' own data speaks everywhere.</summary>
         public static bool BegunPastTheFirst(GameState state)

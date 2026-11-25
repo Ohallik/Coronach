@@ -177,6 +177,78 @@ namespace Lattice.Tests.PlayMode
             }
             Assert.AreEqual(1,All<OrreryRail>().Select(r=>OrreryRail.Period).Distinct().Count());
         }
+        /// <summary>D399 (nov23-whole s38/081 at the top of the frame, 090 to 108 through the ship): each rail's wardens' track carried one lit strip its whole 84 m, white lit by the
+        /// 1.3 sun over a white emission, and the bloom drew it as a white line across the frame. Its light is lamps now: no lit piece of it longer than a metre, a row of them,
+        /// and at the most the Orrery's sun and sky give a lens only one channel over the zone's bloom threshold (.85, OrielBuilder.Looks), warm, so it blooms gold and not white.
+        /// The capture's track (its 84 m strip and its colours, laid on the Steward's rail's line) is read first and must fail both ways.</summary>
+        [UnityTest] public IEnumerator EachWardensTrackIsARowOfWarmLampsNotAWhiteLineAcrossTheFrame()
+        {
+            ToTheOrrery();yield return Zone("Orrery");
+            var sun=All<Light>().Where(l=>l.type==LightType.Directional&&l.isActiveAndEnabled).Select(l=>l.intensity).DefaultIfEmpty(1).Max();
+            var sky=RenderSettings.ambientSkyColor;float most=sun+Mathf.Max(sky.r,sky.g,sky.b);
+            var rails=All<OrreryRail>();int tracks=0;
+            {
+                // The old state: the rod and one strip the track's length, .08 by .06, base (.92, .94, 1) and emission (1.1, 1.15, 1.3).
+                var rail=rails.Single(r=>r.railName=="The Steward");var (from,to)=TrackEnds(rail);
+                var way=(to-from).normalized;var side=Vector3.Cross(Vector3.up,way)*.04f;var up=Vector3.up*.03f;var mid=(from+to)*.5f+Vector3.down*.92f;var half=(to-from)*.5f;
+                var strip=new List<Vector3>();foreach(int a in new[]{-1,1})foreach(int b in new[]{-1,1})foreach(int c in new[]{-1,1})strip.Add(mid+half*a+side*b+up*c);
+                var mesh=new Mesh{name="old warden track"};mesh.SetVertices(new List<Vector3>{from,to,from+Vector3.down}.Concat(strip).ToList());mesh.subMeshCount=2;
+                mesh.SetTriangles(new[]{0,1,2},0);mesh.SetTriangles(new[]{3,4,5,4,6,5,7,9,8,8,9,10,3,7,4,4,7,8,5,6,9,6,10,9},1);
+                var bronze=rail.GetComponentsInChildren<MeshRenderer>(true).First(r=>r.name==rail.railName+" warden track").sharedMaterials[0];
+                var white=new Material(bronze);white.SetColor("_BaseColor",new Color(.92f,.94f,1));white.SetColor("_EmissionColor",new Color(1.1f,1.15f,1.3f));
+                var old=TrackProblems("the capture's "+rail.railName,mesh,Matrix4x4.identity,new[]{bronze,white},way,most);
+                Object.Destroy(mesh);Object.Destroy(white);
+                Assert.IsTrue(old.Any(p=>p.Contains("a line"))&&old.Any(p=>p.Contains("bloom")),"fixture: the capture's track isn't read as a white line: "+string.Join("; ",old));
+            }
+            var problems=new List<string>();
+            foreach(var rail in rails)
+            {
+                var drawn=rail.GetComponentsInChildren<MeshRenderer>(true).Where(r=>r.name==rail.railName+" warden track").ToArray();
+                Assert.AreEqual(1,drawn.Length,rail.railName+" hasn't one drawn wardens' track");
+                var view=drawn[0];var (from,to)=TrackEnds(rail);
+                problems.AddRange(TrackProblems(rail.railName,view.GetComponent<MeshFilter>().sharedMesh,view.transform.localToWorldMatrix,view.sharedMaterials,(to-from).normalized,most));
+                tracks++;
+            }
+            Assert.AreEqual(Moons.Length,tracks,"not every rail has a wardens' track");
+            Assert.IsEmpty(problems,string.Join("\n",problems));
+        }
+        /// <summary>A wardens' track's ends on the plane, as the builder lays it: 8.5 m inside the rail, from 6 m past one lane wall to 6 m past the other.</summary>
+        static (Vector3 from,Vector3 to) TrackEnds(OrreryRail rail)
+        {
+            Vector3 At(float along){var p=rail.On(along,rail.radius-8.5f);return new Vector3(p.x,rail.plane,p.y);}
+            return (At(-rail.laneHalf-6),At(rail.laneHalf+6));
+        }
+        /// <summary>What is wrong with a wardens' track's light: each material that shines (emission over .3; the bronze's own faint light is not a lamp) must at the most the sun and
+        /// sky give it have only one channel over the bloom's .85, be warm, and be drawn in pieces under a metre long, twenty or more of them.</summary>
+        static List<string> TrackProblems(string name,Mesh mesh,Matrix4x4 world,Material[] materials,Vector3 along,float most)
+        {
+            const float Bloom=.85f;var problems=new List<string>();var vertices=mesh.vertices;int lit=0;
+            for(int sub=0;sub<mesh.subMeshCount&&sub<materials.Length;sub++)
+            {
+                var material=materials[sub];if(material==null||!material.HasProperty("_EmissionColor"))continue;
+                var glow=material.GetColor("_EmissionColor");if(Mathf.Max(glow.r,glow.g,glow.b)<.3f)continue;
+                lit++;
+                // How bright a lens can be: its albedo under the sun and the sky at their fullest, and its own light.
+                var albedo=material.HasProperty("_BaseColor")?material.GetColor("_BaseColor"):Color.white;
+                var brightest=new Color(albedo.r*most+glow.r,albedo.g*most+glow.g,albedo.b*most+glow.b);
+                var channels=new[]{brightest.r,brightest.g,brightest.b}.OrderByDescending(c=>c).ToArray();
+                if(channels[1]>=Bloom)problems.Add($"{name}'s track lamps are {brightest} at the most the sun and sky give them: two channels over the bloom's {Bloom}, so they bloom toward white");
+                if(!(brightest.r>=brightest.g&&brightest.g>=brightest.b))problems.Add($"{name}'s track lamps are {brightest}: not the Orrery's warm light");
+                // Its lit pieces along the track: each lit triangle covers a stretch of it, and stretches that overlap or come within half a metre of each other are one piece.
+                var triangles=mesh.GetTriangles(sub);float Along(int i)=>Vector3.Dot(world.MultiplyPoint3x4(vertices[i]),along);
+                var spans=new List<(float from,float to)>();
+                for(int t=0;t+2<triangles.Length;t+=3){float a=Along(triangles[t]),b=Along(triangles[t+1]),c=Along(triangles[t+2]);spans.Add((Mathf.Min(a,Mathf.Min(b,c)),Mathf.Max(a,Mathf.Max(b,c))));}
+                if(spans.Count==0){problems.Add(name+"'s track has a lit material and nothing drawn with it");continue;}
+                spans.Sort((x,y)=>x.from.CompareTo(y.from));
+                var pieces=new List<float>();float start=spans[0].from,end=spans[0].to;
+                foreach(var (from,to) in spans.Skip(1)){if(from-end>.5f){pieces.Add(end-start);start=from;}end=Mathf.Max(end,to);}
+                pieces.Add(end-start);
+                if(pieces.Max()>=1)problems.Add($"{name}'s track has a lit piece {pieces.Max():0.0} m long: a line, not lamps");
+                if(pieces.Count<20)problems.Add($"{name}'s track has {pieces.Count} lamps across the lane: too few to read as a lit rail");
+            }
+            if(lit!=1)problems.Add($"{name}'s track has {lit} lit materials: its lamps are one");
+            return problems;
+        }
 
         [UnityTest] public IEnumerator AGateTheMoonIsComingToIsShutAndAGateItHasPassedIsOpenSoTheRowGoesAmberInTurnAndGreenInTheSameOrder()
         {

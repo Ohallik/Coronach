@@ -78,7 +78,7 @@ namespace Lattice.EditorTools
                     // through the pad (.33 and .42 of 4,328 and 3,887 a second): 140,000 stays under the ceiling down to 3,733 a second flat out.
                     e.integrity=190000;e.breakThreshold=2200;e.speed=3.8f;e.attacks=new[]{wellCut};
                     e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1400;e.scrip=0;e.scrap=0;e.boss=true;
-                    e.bossMusicId="Final Stand";e.yieldsOnDefeat=true;e.heavyDeath=false;e.drawnScale=1;
+                    e.bossMusicId="Final Stand";e.yieldsOnDefeat=true;e.heavyDeath=false;e.drawnScale=MeretFrame.Drawn;
                     e.capsuleRadius=0;e.capsuleHeight=2;
                     e.lootTable=null;});
             }

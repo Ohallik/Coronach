@@ -55,7 +55,8 @@ namespace Lattice.UI
             new MenuList.Column("Name",MenuList.FirstColumn,344,"ITEM",TextAlignmentOptions.MidlineLeft,26),
             new MenuList.Column("Does",440,344,buying?"DOES":"WHAT IT IS",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
             new MenuList.Column("Price",790,150,buying?"PRICE":"PAYS",TextAlignmentOptions.MidlineRight,24),
-            new MenuList.Column("Have",962,wide-962-26,buying?"YOU HAVE":"ON",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
+            // The column holds a part's comparison with what is worn ("+17 for Taren", "same", "slot free") and a draught's or material's count held: "YOU HAVE" over the first read as wrong (s13 118, D389).
+            new MenuList.Column("Have",962,wide-962-26,buying?"WORN/HELD":"ON",TextAlignmentOptions.MidlineLeft,24,UiKit.FrostColor),
         };
         void Rebuild(string want=null)
         {

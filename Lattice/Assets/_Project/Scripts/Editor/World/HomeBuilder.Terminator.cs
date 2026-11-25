@@ -336,6 +336,18 @@ namespace Lattice.EditorTools
             {
                 var go=kit.Built(name,shape,materials);go.transform.SetPositionAndRotation(at,turn);if(parent!=null)go.transform.SetParent(parent,true);return go;
             }
+            /// <summary>A lamp's iron housing round a glass of these half-sizes standing at <paramref name="glass"/> (D393): a ring under the glass, four bars, a broad hood and a cap
+            /// over it, and the rod it hangs by. Its own renderer, so the colour a lamp is lit with by property block lights the glass and never the iron.</summary>
+            static GameObject LampHousing(ZoneKit kit,string name,Vector3 glass,float wide,float tall,Transform parent,bool brassCap)
+            {
+                var s=new ZoneKit.Shape();Color iron=new(.2f,.2f,.23f),ironPale=new(.34f,.34f,.38f),cap=brassCap?new Color(.7f,.54f,.32f):iron;float h=wide+.035f;
+                s.Slot(0).Box(new Vector3(0,-tall-.03f,0),new Vector3(h*2+.04f,.05f,h*2+.04f),Quaternion.identity,iron,ironPale)
+                    .Box(new Vector3(0,tall+.045f,0),new Vector3(h*2+.1f,.05f,h*2+.1f),Quaternion.identity,cap,ironPale)
+                    .Box(new Vector3(0,tall+.11f,0),new Vector3(h*1.1f,.08f,h*1.1f),Quaternion.identity,cap,ironPale)
+                    .Beam(new Vector3(0,tall+.15f,0),new Vector3(0,tall+.34f,0),.025f,.025f,iron);
+                foreach(var (x,z) in new[]{(-1,-1),(1,-1),(-1,1),(1,1)})s.Slot(0).Beam(new Vector3(x*h,-tall-.03f,z*h),new Vector3(x*h,tall+.045f,z*h),.024f,.024f,iron);
+                return Make(kit,name,s,glass,Quaternion.identity,parent,Crawl.Iron);
+            }
             /// <summary>A shadow the low sun throws along the line's way: shade the burrowers flee (combat reads it through <see cref="DawnLine.Shade"/>).</summary>
             static void Casts(Bounds box)=>casters.Add(new DawnLine.Caster{min=new Vector2(box.min.x,box.min.z),max=new Vector2(box.max.x,box.max.z),height=box.size.y});
             /// <summary>Something the light warms as it reaches it: from its north edge, over its depth.</summary>
@@ -453,8 +465,12 @@ namespace Lattice.EditorTools
                     var go=kit.Built(holder.name+" "+what,l,Crawl.Rope);go.transform.SetParent(holder.transform,true);return go;
                 }
                 var slack=Lash("lashings slack",.7f);var taut=Lash("lashings taut",.04f);taut.SetActive(false);
-                var lamp=new ZoneKit.Shape();lamp.Slot(0).Lump(Vector3.zero,new Vector3(.2f,.26f,.2f),i,.03f,Color.white,Color.white,8,5).Slot(1).Box(new Vector3(0,.3f,0),new Vector3(.36f,.06f,.36f),Quaternion.identity,brass);
-                var lampBody=Make(kit,holder.name+" lamp",lamp,new Vector3(socket.x+2.2f,y+3.95f,socket.y),Quaternion.identity,body.transform,Crawl.Lamp,Crawl.Brass);
+                // The glass alone in its renderer, in an iron housing of its own (D393): the brass cap shared the glass's renderer, so the lamp's colour lit it too and the whole lamp
+                // was one pale block (nov23 s56/059).
+                var lamp=new ZoneKit.Shape();lamp.Slot(0).Lump(Vector3.zero,new Vector3(.15f,.2f,.15f),i,.03f,Color.white,Color.white,8,5);
+                var lampAt=new Vector3(socket.x+2.2f,y+3.95f,socket.y);
+                var lampBody=Make(kit,holder.name+" lamp",lamp,lampAt,Quaternion.identity,body.transform,Crawl.Lamp);
+                LampHousing(kit,holder.name+" lamp housing",lampAt,.15f,.2f,body.transform,true);
                 var glow=new GameObject("Coupling lamp light",typeof(Light)).GetComponent<Light>();glow.type=LightType.Point;glow.range=7;glow.intensity=1.4f;glow.color=new Color(1,.7f,.35f);glow.shadows=LightShadows.None;
                 glow.transform.position=new Vector3(socket.x+2.2f,y+3.6f,socket.y-.4f);glow.transform.SetParent(holder.transform,true);
                 // The seat: the floor a hero stands on at the jack, which is where the prompt is.
@@ -503,15 +519,19 @@ namespace Lattice.EditorTools
                 ride.setDown=kit.On(Tail.x,Tail.y,.05f);ride.setDownBeside=kit.On(TailBeside.x,TailBeside.y,.05f);
                 ride.way=Vector3.back;ride.distance=RideDistance;ride.top=9;ride.gather=3;
                 // What wakes: the lamps along the gallery's rail, the stack's smoke, a headlamp down the way.
-                var lamps=new List<Renderer>();
+                var lamps=new List<Renderer>();var pools=new List<Light>();
                 for(int k=0;k<4;k++)
                 {
-                    var l=new ZoneKit.Shape();l.Slot(0).Lump(Vector3.zero,new Vector3(.16f,.2f,.16f),k,.03f,Color.white,Color.white,8,5);
+                    var l=new ZoneKit.Shape();l.Slot(0).Lump(Vector3.zero,new Vector3(.12f,.16f,.12f),k,.03f,Color.white,Color.white,8,5);
                     // On the gallery's rail, under the fittings that hold them up (measured alone, a lamp floats).
-                    var fittings=engine.transform.Find("The engine car fittings");
-                    lamps.Add(Make(kit,"Engine car lamp "+(k+1),l,new Vector3(Gallery.xMin+1+k*2.9f,GalleryTop+1.25f,Gallery.yMin+.1f),Quaternion.identity,fittings!=null?fittings:engine.transform,EngineLamp).GetComponent<Renderer>());
+                    var fittings=engine.transform.Find("The engine car fittings");var lampAt=new Vector3(Gallery.xMin+1+k*2.9f,GalleryTop+1.25f,Gallery.yMin+.1f);
+                    var lit=Make(kit,"Engine car lamp "+(k+1),l,lampAt,Quaternion.identity,fittings!=null?fittings:engine.transform,EngineLamp);lamps.Add(lit.GetComponent<Renderer>());
+                    // A lantern and not a disc (D393): the glass in an iron cage under a hood, and a pool of its light on the gallery's deck once the car wakes (nov23 s56/059).
+                    LampHousing(kit,"Engine car lamp "+(k+1)+" housing",lampAt,.12f,.16f,lit.transform,false);
+                    var pool=new GameObject("Engine car lamp light",typeof(Light)).GetComponent<Light>();pool.type=LightType.Point;pool.range=3.6f;pool.intensity=1.5f;pool.color=new Color(1,.7f,.38f);pool.shadows=LightShadows.None;
+                    pool.transform.position=lampAt+new Vector3(0,-.3f,-.35f);pool.transform.SetParent(lit.transform,true);pool.enabled=false;pools.Add(pool);
                 }
-                ride.lamps=lamps.ToArray();ride.lampsOn=new Color(1.0f,.64f,.26f);
+                ride.lamps=lamps.ToArray();ride.lampsOn=new Color(1.0f,.64f,.26f);ride.lampLights=pools.ToArray();
                 var stack=new GameObject("Engine car smoke",typeof(ParticleSystem));stack.transform.position=new Vector3(Cars[2].at.x+3.5f,ZoneKit.Drawn(engine).max.y+.2f,Cars[2].at.y+2);stack.transform.SetParent(engine.transform,true);
                 var ps=stack.GetComponent<ParticleSystem>();ps.Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);var main=ps.main;main.loop=true;main.startLifetime=5;main.startSpeed=1.6f;main.startSize=new ParticleSystem.MinMaxCurve(1.2f,2.6f);
                 main.startColor=new Color(.32f,.3f,.3f,.55f);main.simulationSpace=ParticleSystemSimulationSpace.World;main.playOnAwake=false;main.maxParticles=120;var em=ps.emission;em.rateOverTime=12;
@@ -825,17 +845,23 @@ namespace Lattice.EditorTools
             }
             /// <summary>Frost in the shade: rime lying for a few metres south of every rock, wreck and car, where the low sun beyond the line has never reached (the Dawn shader's frost kind,
             /// so it flashes to steam and goes as the light comes, as the hollows' does).</summary>
+            /// <summary>The tallest thing rime is laid behind: a rock or a wreck, not a car or a crawler.</summary>
+            internal const float FrostCasterTallest=2;
             static void ShadeFrost(ZoneKit kit)
             {
                 var points=new List<Vector3>();var tone=new List<Color>();var tris=new List<int>();var index=new Dictionary<(int,int),int>();
+                // Only behind what stands low (rocks, wrecks, a coupling's socket), and soft at its sides (D393): behind a car or a crawler it lay as a pale see-through sheet ten metres
+                // long and as wide as the car, cut straight down both sides (nov23 s55/152, the run's start, and s56/059): the night side's slate stands there now.
                 float Shade(Vector2 q)
                 {
-                    float best=0;
+                    float best=0,ragged=1.1f*(Mathf.PerlinNoise(q.x*.7f+11,q.y*.7f+5)-.5f);
                     foreach(var c in casters)
                     {
-                        if(q.x<c.min.x-1||q.x>c.max.x+1||q.y>c.max.y||q.y<c.min.y-Mathf.Max(2,c.height*2.4f))continue;
-                        float into=(c.min.y-q.y)/Mathf.Max(2,c.height*2.4f),side=Mathf.Max(c.min.x-q.x,q.x-c.max.x);
-                        best=Mathf.Max(best,(1-ZoneKit.Smooth(.4f,1,into))*(1-ZoneKit.Smooth(-.2f,.8f,side)));
+                        if(c.height>FrostCasterTallest)continue;
+                        float reach=Mathf.Min(3.2f,Mathf.Max(1.6f,c.height*2.4f));
+                        if(q.x<c.min.x-1.6f||q.x>c.max.x+1.6f||q.y>c.max.y||q.y<c.min.y-reach-.6f)continue;
+                        float into=(c.min.y-q.y+ragged*.5f)/reach,side=Mathf.Max(c.min.x-q.x,q.x-c.max.x)+ragged;
+                        best=Mathf.Max(best,(1-ZoneKit.Smooth(.2f,1,into))*(1-ZoneKit.Smooth(-.8f,1,side)));
                     }
                     float grain=Mathf.PerlinNoise(q.x*.5f+3,q.y*.5f+7);
                     // (Rime laid along the ruts as well read as rain streaking the frame, and before that as shafts of light: it lies in the shade only.)
@@ -853,6 +879,36 @@ namespace Lattice.EditorTools
                 var frost=new GameObject("Floor detail frost in the shade",typeof(MeshFilter),typeof(MeshRenderer));frost.GetComponent<MeshFilter>().sharedMesh=mesh;var fr=frost.GetComponent<MeshRenderer>();fr.sharedMaterial=RutRime;fr.shadowCastingMode=ShadowCastingMode.Off;fr.receiveShadows=false;
             }
             /// <summary>Where a generation's tread rut runs at a z: its line, wandering a little where each hall found its own.</summary>
+            /// <summary>Kit rocks lying out on the plain within sight of the way (D393): one in about fifty square metres, a boulder cluster, a strata outcrop or a ridge rock a knee
+            /// to a hip high, in the band's slate, never in a lane, on the drag lane, by a car, a coupling or a person, nor on a bank; low in a fight. Drawn only (no collider): no
+            /// walkable surface or route changes. Logged as TERMINATOR_PLAIN_ROCKS.</summary>
+            static void PlainRocks(ZoneKit kit,GroundKit ground)
+            {
+                var kinds=new[]{("DressBoulders",.42f,.72f),("DressStrataOutcrop",.36f,.62f),("RidgeRock1",.5f,.8f)};
+                var rng=new System.Random(393);float R()=>(float)rng.NextDouble();var holder=new GameObject("Plain rocks");int placed=0,tried=0;
+                for(float z=44;z<764;z+=3.2f)
+                {
+                    float wayX=Way.OrderBy(w=>Mathf.Abs(w.y-z)).First().x;
+                    for(int side=-1;side<=1;side+=2)
+                    {
+                        // Draws in step whatever is refused, so one refusal never moves the rest.
+                        float across=2.5f+R()*11.5f,dz=(R()-.5f)*2.6f,pick=R(),grow=R(),turn=R()*360,keep=R();tried++;
+                        if(keep>.5f)continue;
+                        var p=new Vector2(wayX+side*across,z+dz);
+                        if(p.x<-27||p.x>23||ground.Lane(p)<1.2f||Mathf.Abs(p.x-Cars[0].at.x)<4.2f||Height(p)>CliffTop-.6f)continue;
+                        if(Mathf.Abs(Height(p+Vector2.right*.8f)-Height(p))>.18f||Mathf.Abs(Height(p+Vector2.up*.8f)-Height(p))>.18f)continue;
+                        if(casters.Any(c=>p.x>c.min.x-1.5f&&p.x<c.max.x+1.5f&&p.y>c.min.y-1.5f&&p.y<c.max.y+1.5f))continue;
+                        if(ground.People.Any(b=>Vector2.Distance(new Vector2(b.x,b.z),p)<2.4f))continue;
+                        var (key,small,large)=kinds[Mathf.Min(kinds.Length-1,(int)(pick*kinds.Length))];float size=Mathf.Lerp(small,large,grow);
+                        if(ground.InAFight(p,2))size=Mathf.Min(size,.3f);
+                        var rock=kit.Prop(key,new Vector3(p.x,-.08f,p.y),size,turn,false);
+                        rock.transform.SetParent(holder.transform,true);Warms(rock,new Color(.44f,.45f,.54f));
+                        foreach(var t in rock.GetComponentsInChildren<Transform>())GameObjectUtility.SetStaticEditorFlags(t.gameObject,StaticEditorFlags.BatchingStatic);
+                        placed++;
+                    }
+                }
+                Debug.Log($"TERMINATOR_PLAIN_ROCKS placed={placed} tried={tried}");
+            }
             static float RutX(float x,float phase,float z)=>x+1.4f*Mathf.Sin(z*.011f+phase)+.6f*Mathf.Sin(z*.037f+phase*2);
             /// <summary>The generations of tread ruts down the band: each pair's middle line, its wander and how fresh it is.</summary>
             static readonly (float x,float phase,float fresh)[] Ruts=new[]{(-23f,.3f),(-10f,.5f),(-4.5f,.22f),(9f,.42f),(16.5f,.28f),(21f,.36f)}.Select((r,i)=>(r.Item1,(float)new System.Random(77+i*13).NextDouble()*6,r.Item2)).ToArray();
@@ -917,7 +973,10 @@ namespace Lattice.EditorTools
                 Debug.Log("TERMINATOR_TREAD_PRINTS strips="+strips);
                 // Rocks in the band's own strata, not flat-shaded lumps in one dye (the November 20 capture, s56 009), and half as many.
                 ground.Look("Canyon",StrataMap);
-                ground.Rocks(16,p=>(1-Lane(p))*(.4f+.6f*GroundKit.Smooth(.4f,.6f,ground.Noise(p,7,15))),.1f,.48f,new Color(.58f,.58f,.62f),3,.12f,17);
+                // The ground kit's rocks are pebbles now; the rocks are the kit's own boulders and outcrops (D393), shaded and warmed by the light as the band's edge rocks are:
+                // as lumps of the kit's making they read as flat dark shapes cut out of the plain, on the dawn's lit ground most of all (nov23 s56/059).
+                ground.Rocks(6,p=>(1-Lane(p))*(.4f+.6f*GroundKit.Smooth(.4f,.6f,ground.Noise(p,7,15))),.06f,.2f,new Color(.58f,.58f,.62f),3,.12f,17);
+                PlainRocks(kit,ground);
                 ground.Cover(new[]{"Shards"},5,p=>(1-Lane(p))*GroundKit.Smooth(.55f,.7f,ground.Noise(p,10,19)),.1f,.22f,new Color(.44f,.46f,.56f),2);
                 ground.Finish();
             }

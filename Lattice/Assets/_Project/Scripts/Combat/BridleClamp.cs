@@ -77,7 +77,12 @@ namespace Lattice.Combat
         /// <summary>A hero has his hands on one of them.</summary>
         public static BridleClamp Held{get{foreach(var clamp in All)if(clamp.Holder!=null)return clamp;return null;}}
         public override bool InFight=>true;
-        public override bool Available=>isActiveAndEnabled&&Offered&&State==Hold.Shut&&Holder==null&&!GameTime.Paused;
+        /// <summary>Not while a tender is at work on it (D406). On foot the interact button is the attack button, and a hero who has stopped the tender's work from the seat stands within
+        /// the seat's reach of it: offered, every other press took a weight the tender's work drains as fast as it is taken (nothing eases while one is there), and the press after it
+        /// swung and let go. Stopping the tender is the only thing to do there, so the button is the blow's, as it is the blow's on a deck with a foe on it (Berth.FoeOnDeck, D404).</summary>
+        public override bool Available=>isActiveAndEnabled&&Offered&&State==Hold.Shut&&Holder==null&&!GameTime.Paused&&(offeredWhileTended||Tended==null||!Tended.Tending);
+        /// <summary>The clamp offered with a tender at work on it, as it was, for a test's broken state (MooringBossReplayTests sets it by reflection and puts it back): nothing else sets it.</summary>
+        static bool offeredWhileTended;
         public Tended Tended{get;private set;}
         float weight,ease;bool easedSaid,notched;int eased;Telegraph seatRing,fill;int fillPhase;
         void Awake()

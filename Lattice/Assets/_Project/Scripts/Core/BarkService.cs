@@ -40,8 +40,10 @@ namespace Lattice.Core
             string key=character+"/"+situation;turn.TryGetValue(key,out int index);turn[key]=index+1;
             var line=pool[index%pool.Length];lastSpoken[key]=line;
             if(situation=="flash")nextFlash[character]=Time.unscaledTime+12;
-            next=Time.unscaledTime+4;Spoken?.Invoke(character,line);
+            next=Time.unscaledTime+4;Situation=situation;Spoken?.Invoke(character,line);
         }
+        /// <summary>The situation of the line being spoken, for a listener that needs to know what kind of line it is: a kill's word is a fight's last, not one of its lines (BarkPanel).</summary>
+        public static string Situation{get;private set;}
         /// <summary>A pool's line by its place in the pool, whatever was said before it this session: a count said in a fixed order (the Picket's route lock, four pieces) stays in step
         /// after a reload in the middle of it.</summary>
         public static void PlayAt(string character,string situation,int index,bool priority=false)

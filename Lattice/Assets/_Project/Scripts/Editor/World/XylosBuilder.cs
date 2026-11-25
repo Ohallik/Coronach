@@ -397,6 +397,9 @@ namespace Lattice.EditorTools
             SnagGlow=ZoneKit.Toon("xylos-snag-glow",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.42f,.26f,.8f));m.SetColor("_EmissionColor",new Color(.2f,.06f,.6f));m.SetFloat("_ReceiveShadows",0);});
             // Seed lanterns and a caught sun: lit from inside, so they read in shade and bloom a little.
             Lantern=ZoneKit.Toon("xylos-lantern",null,m=>{m.SetColor("_BaseColor",new Color(1,.78f,.42f));m.SetColor("_EmissionColor",new Color(2.2f,1.3f,.45f));});
+            // Rootmarket's press fades in these three (SceneryOcclusion). The fade's variant is theirs from the paint: given by a repair alone, any Xylos zone's rebuild took it off them again
+            // (D405: D393's rebuild of the Walking Canopy did, and the press drew solid; SceneFadeMaterialTests, suite nov24b).
+            foreach(var fadeMat in new[]{Plank,Cloth,Lantern}){ZoneKit.With(fadeMat,"_OCCFADE_ON","_OccFadeToggle");fadeMat.SetFloat("_OccFade",0);}
             // The glass lit mostly by what it reflects: a high light floor and its stars in the emission, so a pane in the ship's shadow is still sky.
             Pane=ZoneKit.Toon("xylos-pane",pane,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.82f,.86f,.98f));m.SetTexture("_EmissionMap",stars);m.SetColor("_EmissionColor",new Color(.9f,.92f,1.05f));
                 m.SetFloat("_LightFloor",.62f);m.SetFloat("_ReceiveShadows",0);m.SetColor("_RimColor",new Color(.5f,.56f,.7f));});

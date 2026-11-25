@@ -13,6 +13,7 @@ namespace Lattice.Combat
         /// <summary>A rigged body's pose changes under any shape taken once, so the capsule it's struck on stands for it. Rigid bodies have their real shape.</summary>
         CapsuleCollider hurtbox;
         MaterialPropertyBlock block;
+        Health health;
         float amount;
         static readonly int Fade = Shader.PropertyToID("_OccFade");
         static readonly int Ellipse = Shader.PropertyToID("_OccFadeEllipse");
@@ -63,15 +64,20 @@ namespace Lattice.Combat
             return (a + d1 * s - (p + d2 * t)).sqrMagnitude <= radius * radius;
         }
 
+        /// <summary>D395: a hero drawn through what hides him (HeroThrough) gets that clean outline and nothing else. The outline draws only where the boss's pixels stand in front of
+        /// him, and the door took about two in three of them away: Taren behind the Slag Colossus was scattered gold glints among dots (nov23-whole s49/033, 043) while Sela, with no
+        /// door, read as a clean pale outline. So the door opens only for a lead nothing draws through (his drawing switched off, or its shader missing), and the lead is always found.</summary>
+        public static bool Outlined(CombatActor hero) => hero.TryGetComponent<HeroThrough>(out var through) && through.isActiveAndEnabled && through.Drawn > 0;
+
         // Also used by the editor's actual-pixel visibility probe. This only
         // changes renderer properties; it never changes a camera or actor.
         public void RefreshView(Camera camera, CombatActor hero, float delta)
         {
             block ??= new MaterialPropertyBlock();
             if (bodies == null) Measure();
-            bool blocked = false;
+            bool blocked = false, outlined = hero != null && Outlined(hero);
             Vector4 ellipse = Vector4.zero;
-            if (camera != null && hero != null && !hero.flight)
+            if (camera != null && hero != null && !hero.flight && !outlined)
             {
                 var capsule = hero.GetComponent<CharacterController>();
                 var center = hero.transform.position + Vector3.up * (capsule != null ? capsule.center.y : .95f);
@@ -83,13 +89,29 @@ namespace Lattice.Combat
                     ellipse = new Vector4(view.x, view.y, Mathf.Abs(horizontal.x - view.x), Mathf.Abs(vertical.y - view.y));
                     var eye = camera.transform.position;
                     blocked = Hides(eye, center + (eye - center).normalized * .15f);
+                    // D386: his chest clear and his feet behind it, a hero at the far side of a low broad body stood on its crown from this camera: Taren fighting the Bellows from
+                    // behind its dome, on the floor 1.2 m off its edge, was drawn whole above it with his feet on its top (nov23-whole s08/070, 081). The door opens over his feet
+                    // then, centred on his knees, so the floor he stands on shows through round them.
+                    if (!blocked)
+                    {
+                        var feet = hero.transform.position + Vector3.up * .1f;
+                        if (Hides(eye, feet + (eye - feet).normalized * .15f))
+                        {
+                            var knees = camera.WorldToViewportPoint(hero.transform.position + Vector3.up * .45f);
+                            blocked = true; ellipse.x = knees.x; ellipse.y = knees.y;
+                        }
+                    }
                 }
             }
-            amount = Mathf.MoveTowards(amount, blocked ? 1 : 0, Mathf.Max(0, delta) * 8);
+            amount = outlined ? 0 : Mathf.MoveTowards(amount, blocked ? 1 : 0, Mathf.Max(0, delta) * 8);
+            // D385: over a hero in a beaten body the door is open whole from the end's own frame. BodyGoesDark opened it after this, but only from its first LateUpdate, and the
+            // still taken as the fight ended drew Taren speckled inside the Floodcrown (nov23-whole s21/280).
+            health ??= GetComponent<Health>();
+            float depth = health != null && !health.Alive && GetComponent<BodyGoesDark>() != null ? 1 : OpenShare;
             foreach (var body in bodies)
             {
                 if (body == null || body is not MeshRenderer && body is not SkinnedMeshRenderer) continue;
-                body.GetPropertyBlock(block); block.SetFloat(Fade, amount); block.SetFloat(Depth, OpenShare); block.SetFloat(Soft, 1);
+                body.GetPropertyBlock(block); block.SetFloat(Fade, amount); block.SetFloat(Depth, depth); block.SetFloat(Soft, 1);
                 block.SetVector(Ellipse, ellipse); body.SetPropertyBlock(block);
             }
         }

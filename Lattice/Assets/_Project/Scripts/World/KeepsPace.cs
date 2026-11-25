@@ -38,13 +38,31 @@ namespace Lattice.World
         /// <summary>Further than this from its place (by path, or with no path at all) and out of view, it is put there.</summary>
         public float tooFar=40;
         public string goneFlag;
+        /// <summary>Ground a follower never stands on, on the plan (heights ignored): where the party meets someone. Left standing in one (the lead walked past it), it walks out by
+        /// the nearest side before it stands again. Pip stood at the Warmaster's feet as the lead talked to him, the lead having walked back past him along the portico
+        /// (whole-game capture of November 23, s51/179; D391).</summary>
+        public Bounds[] keepOut=Array.Empty<Bounds>();
         public Renderer[] lamps=Array.Empty<Renderer>();
         public Light lampLight;
         public Color lampColour=new(1,.86f,.6f);
         public int Current{get;private set;}=-1;
         public bool Holding{get;private set;}
         public float PathToLead{get;private set;}=float.PositiveInfinity;
-        NavMeshPath path;Vector3[] corners=Array.Empty<Vector3>();int corner;float nextPath,lampFull=-1;bool placed;MaterialPropertyBlock block;
+        NavMeshPath path;Vector3[] corners=Array.Empty<Vector3>();int corner;float nextPath,lampFull=-1;bool placed,leaving;Vector3 leaveTo;MaterialPropertyBlock block;
+        /// <summary>Whether a point stands on kept-out ground, and if so the nearest point half a metre past that ground's nearest side.</summary>
+        bool KeptOut(Vector3 at,out Vector3 outside)
+        {
+            outside=at;
+            foreach(var ground in keepOut)
+            {
+                if(at.x<=ground.min.x||at.x>=ground.max.x||at.z<=ground.min.z||at.z>=ground.max.z)continue;
+                float west=at.x-ground.min.x,east=ground.max.x-at.x,south=at.z-ground.min.z,north=ground.max.z-at.z,least=Mathf.Min(Mathf.Min(west,east),Mathf.Min(south,north));
+                const float Past=.5f;
+                outside=least==west?new Vector3(ground.min.x-Past,at.y,at.z):least==east?new Vector3(ground.max.x+Past,at.y,at.z):least==south?new Vector3(at.x,at.y,ground.min.z-Past):new Vector3(at.x,at.y,ground.max.z+Past);
+                return true;
+            }
+            return false;
+        }
         static bool Has(string when)
         {
             if(string.IsNullOrEmpty(when))return true;var flags=GameServices.Current.Flags;
@@ -70,6 +88,12 @@ namespace Lattice.World
             }
             if(GameTime.Paused||services.Input.Blocked)return;
             Vector3 goal=stage.follows?(lead!=null?lead.position:transform.position):stage.point;
+            // Following and standing on kept-out ground, its way is off it first; the way is found again as that begins and as it ends.
+            var outside=goal;bool kept=stage.follows&&KeptOut(transform.position,out outside);
+            // Once off it, on to the point past its side, rather than stopping on its edge.
+            if(kept)leaveTo=outside;else if(stage.follows&&leaving&&Flat(leaveTo-transform.position).magnitude>.3f){kept=true;outside=leaveTo;}
+            if(kept)goal=outside;
+            if(kept!=leaving){leaving=kept;nextPath=0;}
             if(Time.time>=nextPath)
             {
                 nextPath=Time.time+.35f;
@@ -86,6 +110,7 @@ namespace Lattice.World
             {
                 // Never in a fight: anything awake near it or the lead and it stands where it is.
                 if(EnemyBrain.AwakeNear(transform.position,calm)||lead!=null&&EnemyBrain.AwakeNear(lead.position,calm)){Holding=true;Face(goal-transform.position,false);return;}
+                if(kept){Walk(remaining,walk);return;}
                 if(remaining<=gap){Face(goal-transform.position,false);return;}
                 Walk(remaining-gap,remaining>gap+8?hurry:walk);
                 return;

@@ -42,8 +42,15 @@ namespace Lattice.Tests.PlayMode
             var toward = camera.transform.position - hero.transform.position; toward.y = 0; toward.Normalize();
             var boss = ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id), hero.transform.position + toward * 2.3f); boss.Passive = true;
             yield return new WaitForSecondsRealtime(.4f);
-            var body = Body(boss); var props = Properties(body);
-            Assert.Greater(props.GetFloat("_OccFade"), .9f, id + " hides the hero with its opaque body");
+            var body = Body(boss);
+            // D395: the hero it hides is drawn through it (HeroThrough), a clean outline on its whole body; a door as well left him as dots among the outline's last pixels
+            // (nov23-whole s49/033). The door is what's left for a lead nothing draws through.
+            var through = hero.GetComponent<HeroThrough>(); Assert.IsNotNull(through, "fixture: the lead is drawn through what hides him");
+            Assert.Greater(through.Drawn, 0, "the hero behind " + id + " isn't drawn through it");
+            Assert.Less(Properties(body).GetFloat("_OccFade"), .01f, id + " opens a door over a hero who is drawn through it: dots among his outline");
+            through.enabled = false; yield return new WaitForSecondsRealtime(.4f);
+            var props = Properties(body);
+            Assert.Greater(props.GetFloat("_OccFade"), .9f, id + " hides the hero with its opaque body and nothing draws him through it");
             Assert.IsTrue(body.sharedMaterials.All(m => m.IsKeywordEnabled("_OCCFADE_ON")), "player builds must retain the enabled fade shader variant");
             var ellipse = props.GetVector("_OccFadeEllipse");
             var chest = camera.WorldToViewportPoint(hero.transform.position + Vector3.up * .95f);
@@ -65,6 +72,7 @@ namespace Lattice.Tests.PlayMode
                 " boss=" + boss.transform.position + " camera=" + camera.transform.position + " bounds=" + body.bounds);
             Assert.Less(Vector3.Distance(before, camera.transform.position), .01f, "ground visibility must not move the fixed camera");
             Assert.Less(Quaternion.Angle(rotation, camera.transform.rotation), .01f);
+            through.enabled = true;
         }
         [UnityTest] public IEnumerator BurrowerRevealsTheHeroAndRestoresItsBody() => Visibility("Burrower");
         [UnityTest] public IEnumerator BellowsRevealsTheHeroAndRestoresItsBody() => Visibility("BellowsBelow");

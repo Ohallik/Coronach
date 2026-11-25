@@ -135,7 +135,21 @@ namespace Lattice.World
         /// (MooringBossReplayTests, November 15). A person who means to launch stops striking and presses at the console.</summary>
         public const float FightLaunchCalm=.8f;
         float fightingAt=-99;
-        bool Fighting=>inFight&&!Flight&&Current==this&&Time.time-fightingAt<FightLaunchCalm;
+        bool Fighting=>inFight&&!Flight&&Current==this&&(Time.time-fightingAt<FightLaunchCalm||FoeOnDeck());
+        /// <summary>An awake foe stands on this deck, so the button is the attack's and the launch waits (D404). The calm above was not enough: with one Clamp Tender down the lead
+        /// walked more than its .8 s toward the second, pressed to strike within the console's reach, and launched off the Tollkeeper's arm with the third stage running; no step
+        /// could bring the party back (<c>d404</c>, MooringBossReplayTests). A boss's own body is no foe here (the motor and the clamps are worked from the deck).</summary>
+        bool FoeOnDeck()
+        {
+            foreach(var body in Health.All)
+            {
+                if(body==null||body.friendly||!body.Alive||!Contains(body.transform.position))continue;
+                if(!body.TryGetComponent<EnemyBrain>(out var brain)||!brain.enabled||brain.Passive||brain.Flier)continue;
+                if(body.GetComponent<BossController>()!=null)continue;
+                return true;
+            }
+            return false;
+        }
         void NoteFighting()
         {
             if(!inFight||Flight||Current!=this)return;
@@ -230,6 +244,8 @@ namespace Lattice.World
             if(onto){Current=this;docked=0;edges.SetActive(true);zone.Berth(this,kind,view,flight.position.y);}
             else{edges.SetActive(false);Current=null;zone.Berth(null);}
             Place(party,(onto?Inside:Outside).position,zone.Flight);
+            // D407: the forms change here, under the black. Begun now and left to run, each ship folded after the screen cleared, two hulls set down a person's 2 m apart.
+            foreach(var member in party.members)if(member!=null&&member.TryGetComponent<FormController>(out var form))form.Cover();
             // The lead's lock on a body of the other form lets go now, not on his next frame of play: the frame between showed a reticle on a flier over the shelf.
             foreach(var member in party.members)if(member!=null&&member.target!=null&&EnemyBrain.OtherForm(member,member.target)){member.TargetLocked=false;member.target=null;}
             for(float t=0;t<half;t+=Time.unscaledDeltaTime){if(flow!=null)flow.Fade(1-t/half);yield return null;}

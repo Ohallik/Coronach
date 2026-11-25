@@ -142,16 +142,68 @@ namespace Lattice.UI
         /// chapter-61's first play (nov14-recon31) the lead crept about the south-west quadrant at 2.1 m/s for sixteen rounds, fired in 7% of them, and left the Cutter at 60% of its bar
         /// after 471 s. A person flies after it with the brake off, brakes once near enough to keep the nose on it, and holds Fire whenever it is in reach. Null for any other
         /// target, so every other flight fight keeps the hands it was timed with; the stick to push otherwise, and whether the brake comes off.</summary>
-        static Vector2? CutterHeading(CombatActor lead, Health chased, Vector3 difference, out bool unbraked, out bool firing)
+        Vector2? CutterHeading(CombatActor lead, Health chased, Vector3 difference, out bool unbraked, out bool firing)
         {
             unbraked = firing = false;
-            if (homeHandsOff || !lead.flight || chased == null || !chased.Alive) return null;
-            var boss = chased.GetComponentInParent<BossController>(); if (boss == null || boss.Health == null || boss.Health.id != "DebrisCutter") return null;
+            if (homeHandsOff || !lead.flight || chased == null || !chased.Alive) { cutterVia = null; return null; }
+            var boss = chased.GetComponentInParent<BossController>(); if (boss == null || boss.Health == null || boss.Health.id != "DebrisCutter") { cutterVia = null; return null; }
             difference.y = 0; float away = difference.magnitude; firing = away <= CutterFire;
             var local = Quaternion.Euler(0, -ZoneController.Current.CameraProfile.yaw, 0) * (difference.sqrMagnitude > .01f ? difference.normalized : lead.motor.Facing);
-            if (away > CutterNear) { unbraked = true; return new Vector2(local.x, local.z); }
+            if (away > CutterNear)
+            {
+                unbraked = true;
+                // A district's cover between: round it (CutterAround), firing only once the nose is back on it (a shot leaves along the nose unless the lock is within 30 degrees of it).
+                if (!(CutterAround(lead, chased.transform.position) is Vector3 way)) return new Vector2(local.x, local.z);
+                firing &= Vector3.Angle(way, difference) < 30;
+                var round = Quaternion.Euler(0, -ZoneController.Current.CameraProfile.yaw, 0) * way.normalized; return new Vector2(round.x, round.z);
+            }
+            cutterVia = null;
             // Near: braked, the nose kept on it with a touch of the stick (the flight chase's own .25, clear of the dead zone).
             return Vector3.Angle(lead.motor.Facing, difference) > 5 ? new Vector2(local.x, local.z) * .25f : Vector2.zero;
+        }
+
+        /// <summary>The Cutter flown round a district, not into it, for a test's broken state (HomeReplayHandsTests sets it by reflection and puts it back): no route sets it.</summary>
+        static bool cutterRoundOff;
+        Vector3? cutterVia; double cutterViaAt = -1, cutterLookedAt = -1;
+        /// <summary>The Cutter keeps its distance among the districts, and after a run it banks wide round the nearest one, so the straight line after it often lies through a district's
+        /// side or the fight's bound behind it. Flown straight at it, the lead ground into the market's cover from the pocket between it and the west bound for five rounds, 36 scrapes, and
+        /// felled it in 247 s where the same fight took 178 to 194 s without (HomeReplayHandsTests, November 24); the player's slower run lost three rounds the same way at the repair
+        /// quarter (nov23-recon-C s61 rounds 7 to 9, 15 scrapes). A pilot flies round: with the way to where he would brake shut for the hull, by the nearest point (on rings round the
+        /// ship, as WalkRound looks) from which both legs are open, held until he is there, the straight way opens, or the Cutter has moved on (it picks its lane every 1.5 s). The
+        /// way to fly, or null for the straight one; the general walk round (ContinuousReview.Cover.cs) stands aside in every boss's fight and is not changed.</summary>
+        Vector3? CutterAround(CombatActor lead, Vector3 cutter)
+        {
+            if (cutterRoundOff) { cutterVia = null; return null; }
+            double now = clock.Elapsed.TotalSeconds; var at = lead.transform.position; cutter.y = at.y;
+            float whole = Room(lead) / .85f + .2f, room = Room(lead);
+            bool open = OpenFlight(at, Short(at, cutter, CutterNear), whole);
+            if (cutterVia is Vector3 via)
+            {
+                var leg = via - at; leg.y = 0;
+                if (!open && leg.magnitude > 1.5f && now - cutterViaAt < 1.5) return leg;
+                cutterVia = null;
+            }
+            if (open || now - cutterLookedAt < .25) return null;
+            cutterLookedAt = now;
+            Vector3? best = null;
+            // A wide way first: at full speed the ship carries past its point as it turns (round the market's end it touched the crescent beyond, November 24).
+            foreach (float off in new[] { whole + 1.5f, whole, room })
+            {
+                float least = float.PositiveInfinity;
+                foreach (float ring in RoundRings)
+                    for (int k = 0; k < RoundPoints; k++)
+                    {
+                        var spot = at + Quaternion.Euler(0, k * 360f / RoundPoints, 0) * Vector3.forward * ring;
+                        float way = ring + Flat(spot, cutter);
+                        if (way >= least || !OpenFlight(at, spot, off) || !OpenFlight(spot, Short(spot, cutter, CutterNear), Mathf.Max(off, whole))) continue;
+                        least = way; best = spot;
+                    }
+                if (best.HasValue) break;
+            }
+            if (!best.HasValue) return null;
+            cutterVia = best; cutterViaAt = now;
+            Debug.Log("QUALITY_CUTTER_ROUND by (" + best.Value.x.ToString("0.0") + ", " + best.Value.z.ToString("0.0") + ")");
+            var first = best.Value - at; first.y = 0; return first;
         }
     }
 }
