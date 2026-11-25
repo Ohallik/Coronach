@@ -326,6 +326,8 @@ namespace Lattice.Tests.PlayMode
         {
             Flag("hands.iloAboard");Flag("hands.claimRead");Flag("bossdown.Hulljack");State.questSteps["ManyHands"]=6;
             yield return Load("FreightHall");
+            // D414: scenery opens its hole only for a lead nothing draws through (HeroThrough draws the rest as a clean line); whether it can is what this reads.
+            Lead.GetComponent<HeroThrough>().enabled=false;
             // What is drawn on the camera's line to the lead's chest and as tall as the fade's rule (ZoneKit.TallEnoughToBlock, 2.5 m): scenery, never a body.
             List<MeshRenderer> InTheWay()
             {

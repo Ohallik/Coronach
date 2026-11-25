@@ -43,16 +43,20 @@ namespace Lattice.World
             var camera=Camera.main;var hero=PartyController.Current!=null?PartyController.Current.Active:null;
             if(camera==null||hero==null)return;
             bool active=!hero.flight;
+            // D414: no hole for a lead drawn through what hides him (HeroThrough's clean outline, as D395 has it for a boss). The hole was a window into whatever lies under the
+            // roof, darker than the roof round it: Taren walking the passage under Harrowgate's gatehouse stood in a dark square hole on the gate roof beside Idra's outline
+            // (nov24-whole s50/071). It is left only for a lead nothing draws through. What passes right under the lens still fades whole.
+            bool outlined=BossOcclusion.Outlined(hero);
             var center=hero.transform.position+Vector3.up*.95f;var eye=camera.transform.position;
             var view=camera.WorldToViewportPoint(center);
             var ellipse=new Vector4(view.x,view.y,Mathf.Abs(camera.WorldToViewportPoint(center+camera.transform.right*.95f).x-view.x),Mathf.Abs(camera.WorldToViewportPoint(center+camera.transform.up*1.45f).y-view.y));
             var ray=new Ray(eye,center-eye);float distance=Vector3.Distance(eye,center);float step=Time.unscaledDeltaTime*FadeSpeed;
-            foreach(var scenery in all)scenery.Refresh(active,eye,ray,distance,ellipse,step);
+            foreach(var scenery in all)scenery.Refresh(active,outlined,eye,ray,distance,ellipse,step);
         }
-        void Refresh(bool active,Vector3 eye,Ray ray,float distance,Vector4 ellipse,float step)
+        void Refresh(bool active,bool outlined,Vector3 eye,Ray ray,float distance,Vector4 ellipse,float step)
         {
             bool under=active&&bounds.max.y>eye.y-LensClearance&&bounds.SqrDistance(eye)<UnderLens*UnderLens;
-            bool between=active&&!under&&bounds.IntersectRay(ray,out float entry)&&entry<distance-.15f&&!SeenThroughOpening(eye,ray.GetPoint(distance))&&Crossed(eye,ray.GetPoint(distance-.15f));
+            bool between=active&&!outlined&&!under&&bounds.IntersectRay(ray,out float entry)&&entry<distance-.15f&&!SeenThroughOpening(eye,ray.GetPoint(distance))&&Crossed(eye,ray.GetPoint(distance-.15f));
             float target=under||between?1:0;
             if(amount==0&&target==0)return;
             // The mask eases too: swapping from the whole body to the hero's hole mid-fade popped the rest solid in one frame.

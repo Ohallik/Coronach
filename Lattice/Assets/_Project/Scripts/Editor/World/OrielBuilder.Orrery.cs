@@ -142,6 +142,15 @@ namespace Lattice.EditorTools
                 WorldBuilder.Warp("Warp — The Hull of Many Hands",new Vector3(-14,1,-4),"ManyHandsHull","","Oriel").lockedPrompt="";
                 WorldBuilder.Label("Warp — The Hull of Many Hands",new Vector3(-14,.3f,-11),2.2f);
                 var land=WorldBuilder.Warp("Land — The Skyfields",new Vector3(0,1,LandZ),SkyfieldsZone,"","Arrival");land.lockedPrompt="";land.range=WorldBuilder.FlightDockRange;
+                // D417 (nov24-whole s38/110): the beacon stood on the prompt's own place, and a ship at the prompt (5 m short, LandZ-5) had its nose over the beacon's base, drawn into
+                // it from the play camera. The prompt's place stays; the beacon (and its solid) stands on north until its nearest edge is 2 m past LandZ, clear of the nose and of the
+                // ground the nose hides from the camera.
+                {
+                    var drawn=ZoneKit.Drawn(land.gameObject);float shift=Mathf.Max(0,LandZ+2-drawn.min.z);
+                    foreach(Transform child in land.transform)child.position+=Vector3.forward*shift;
+                    var solid=land.GetComponent<BoxCollider>();if(solid!=null)solid.center+=land.transform.InverseTransformVector(Vector3.forward*shift);
+                    Debug.Log($"ORRERY_LANDING beacon moved {shift:0.00} m north: drawn z {drawn.min.z+shift:0.0}..{drawn.max.z+shift:0.0}, prompt at {LandZ}");
+                }
                 WorldBuilder.Label("Land — The Skyfields",new Vector3(0,.3f,LandZ-8),2.6f);
 
                 // ---- the story along it
@@ -230,7 +239,13 @@ namespace Lattice.EditorTools
                     float highest=drop+Mathf.Max(0,back)*Mathf.Tan(Tilt*Mathf.Deg2Rad);
                     float atPlane=highest<inner?Mathf.Atan2(Mathf.Sqrt(inner*inner-highest*highest),highest)*Mathf.Rad2Deg:0;
                     float open=Mathf.Min(OpenAbove,atPlane-4);if(open<20)throw new InvalidOperationException($"Orrery: the rail-gate's band meets the plane {atPlane:0} degrees from its top: too little to open");
-                    float sin=Sin(open),cos=Cos(open);int kept=0,cut=0;
+                    float sin=Sin(open),cos=Cos(open);int kept=0,cut=0,bar=0;
+                    // D417 (nov24-whole s38/081, 101, 104, 107): the model's bar through the ring's middle (the pivot its lean is measured about) crossed the opening and stood out past
+                    // the rim each side, textured in the generated map's pale sky patches: a white bar in three pieces across every gate. It is left out across the opening and past
+                    // the rim, in a slab BarHalf either side of the middle; the band between keeps its own bronze.
+                    // In the ring's space as drawn (slimmed): the bar is long triangles from its tips to its middle, and a cut placed by where a point was lands, along a slimmed
+                    // edge, well inside the opening (d417-after: stubs 2.5 m into it).
+                    float barInside=Mathf.Sqrt(Mathf.Max(0,inner*inner-BarHalf*BarHalf))-.3f,barOutside=Slimmed(outer)+.3f;
                     // Slimmed: a point past the opening drawn nearer it, by its distance from the ring's middle.
                     float Slimmed(float r)=>r<=inner?r:inner+(r-inner)*Slim;
                     for(int f=0;f<filters.Length;f++)
@@ -241,7 +256,7 @@ namespace Lattice.EditorTools
                             var p=ringOf(local);float r=new Vector2(p.x,p.y).magnitude;if(r<=inner)return local;
                             float k=Slimmed(r)/r;return t.InverseTransformPoint(foot+new Vector3(p.x*k,p.y*k+ring.middle,p.z+ring.face));
                         }
-                        opened.meshes[f]=ZoneKit.SaveMesh(Cut(source,ringOf,Warp,sin,cos,ref kept,ref cut),"Assets/_Project/Scenes/"+kit.zone+"-RailGate-open-"+f+".asset");
+                        opened.meshes[f]=ZoneKit.SaveMesh(Cut(source,ringOf,Warp,sin,cos,barInside,barOutside,ref kept,ref cut,ref bar),"Assets/_Project/Scenes/"+kit.zone+"-RailGate-open-"+f+".asset");
                     }
                     outer=Slimmed(outer);opened.rimHalf=Mathf.Sqrt(Mathf.Max(0,outer*outer-drop*drop));opened.footBelow=Slimmed(ring.middle);
                     // The arch, laid in the ring's own frame and turned into the wrapper's space.
@@ -268,15 +283,26 @@ namespace Lattice.EditorTools
                         shape.Tube(new[]{Round(a,outer-.35f,mid),Round(b,inner+.35f,mid)},new[]{.09f,.09f},6,ZoneKit.Shape.Dim(tone,.85f),ZoneKit.Shape.Dim(tone,.85f),1,.4f,false);
                     }
                     opened.arch=ZoneKit.SaveMesh(shape.Mesh("RailGate arch"),"Assets/_Project/Scenes/"+kit.zone+"-RailGate-arch.asset");
-                    Debug.Log($"ORRERY_RING_OPEN above={open:0.0} (asked {OpenAbove}, band meets the plane at {atPlane:0.0}) inner={inner:0.00} outer={outer:0.00} (slim {Slim}) rim-half={opened.rimHalf:0.00} foot={opened.footBelow:0.00} band={front:0.00}..{back:0.00} triangles kept={kept} cut={cut}");
+                    Debug.Log($"ORRERY_RING_OPEN above={open:0.0} (asked {OpenAbove}, band meets the plane at {atPlane:0.0}) inner={inner:0.00} outer={outer:0.00} (slim {Slim}) rim-half={opened.rimHalf:0.00} foot={opened.footBelow:0.00} band={front:0.00}..{back:0.00} triangles kept={kept} cut={cut} bar-cut={bar} (across |x|<{barInside:0.00} and past {barOutside:0.00}, |y|<{BarHalf})");
                     return opened;
                 }
                 finally{UnityEngine.Object.DestroyImmediate(probe);}
             }
             /// <summary>One vertex of a mesh being cut: everything a vertex carries, and how far it is past each of the two cutting lines (negative is kept).</summary>
-            struct Corner{public Vector3 p,n;public Vector4 t;public Vector2 uv,uv2;public Color c;public float right,left;public int from;}
+            struct Corner{public Vector3 p,n;public Vector4 t;public Vector2 uv,uv2;public Color c;public float right,left,x,y;public int from;}
             static Corner Between(Corner a,Corner b,float s)=>new(){p=Vector3.Lerp(a.p,b.p,s),n=Vector3.Lerp(a.n,b.n,s).normalized,t=Vector4.Lerp(a.t,b.t,s),uv=Vector2.Lerp(a.uv,b.uv,s),uv2=Vector2.Lerp(a.uv2,b.uv2,s),
-                c=Color.Lerp(a.c,b.c,s),right=Mathf.Lerp(a.right,b.right,s),left=Mathf.Lerp(a.left,b.left,s),from=-1};
+                c=Color.Lerp(a.c,b.c,s),right=Mathf.Lerp(a.right,b.right,s),left=Mathf.Lerp(a.left,b.left,s),x=Mathf.Lerp(a.x,b.x,s),y=Mathf.Lerp(a.y,b.y,s),from=-1};
+            /// <summary>Half the height of the slab round the ring's middle that the bar is left out of (D417): the bar and the chevron at its middle, with room.</summary>
+            const float BarHalf=2.2f;
+            /// <summary>What of a polygon is not the ring's bar (D417): the slab |y| &lt; BarHalf (across and up from the ring's middle, where it was) is left out across the opening
+            /// (|x| &lt; <paramref name="inside"/>) and past the rim (|x| &gt; <paramref name="outside"/>); above and below it, and the band between, are kept. Four convex parts.</summary>
+            static List<List<Corner>> WithoutBar(List<Corner> polygon,float inside,float outside,ref int barCut)
+            {
+                if(polygon.Count<3||polygon.TrueForAll(c=>c.y>=BarHalf)||polygon.TrueForAll(c=>c.y<=-BarHalf)||polygon.TrueForAll(c=>c.x>=inside&&c.x<=outside)||polygon.TrueForAll(c=>c.x<=-inside&&c.x>=-outside))
+                    return new List<List<Corner>>{polygon};
+                barCut++;var slab=Keep(Keep(polygon,c=>c.y-BarHalf),c=>-BarHalf-c.y);
+                return new List<List<Corner>>{Keep(polygon,c=>BarHalf-c.y),Keep(polygon,c=>c.y+BarHalf),Keep(Keep(slab,c=>c.x+inside),c=>-outside-c.x),Keep(Keep(slab,c=>inside-c.x),c=>c.x-outside)};
+            }
             /// <summary>What of a polygon lies where <paramref name="past"/> is not above nought (Sutherland and Hodgman, one line).</summary>
             static List<Corner> Keep(List<Corner> polygon,Func<Corner,float> past)
             {
@@ -292,16 +318,16 @@ namespace Lattice.EditorTools
             /// <summary>A copy of a mesh with what lies between two lines out from the ring's middle, <paramref name="sin"/>/<paramref name="cos"/> of the angle either side of
             /// straight up, left out: a triangle across a line is cut along it, so the edge is clean. Every point is drawn where <paramref name="warp"/> puts it (slimmed); which side of
             /// a line it is on is read where it was.</summary>
-            static Mesh Cut(Mesh source,Func<Vector3,Vector3> ring,Func<Vector3,Vector3> warp,float sin,float cos,ref int keptCount,ref int cutCount)
+            static Mesh Cut(Mesh source,Func<Vector3,Vector3> ring,Func<Vector3,Vector3> warp,float sin,float cos,float barInside,float barOutside,ref int keptCount,ref int cutCount,ref int barCount)
             {
                 var v=source.vertices;var n=source.normals;var tg=source.tangents;var uv=source.uv;var uv2=source.uv2;var col=source.colors;int count=v.Length;
                 bool hasN=n.Length==count,hasT=tg.Length==count,hasUv=uv.Length==count,hasUv2=uv2.Length==count,hasC=col.Length==count;
                 var corners=new Corner[count];
                 for(int i=0;i<count;i++)
                 {
-                    var p=ring(v[i]);
-                    corners[i]=new Corner{p=warp(v[i]),n=hasN?n[i]:Vector3.up,t=hasT?tg[i]:Vector4.zero,uv=hasUv?uv[i]:Vector2.zero,uv2=hasUv2?uv2[i]:Vector2.zero,c=hasC?col[i]:Color.white,
-                        right=p.y*cos-p.x*sin,left=p.y*cos+p.x*sin,from=i};
+                    var p=ring(v[i]);var drawn=warp(v[i]);var q=ring(drawn);
+                    corners[i]=new Corner{p=drawn,n=hasN?n[i]:Vector3.up,t=hasT?tg[i]:Vector4.zero,uv=hasUv?uv[i]:Vector2.zero,uv2=hasUv2?uv2[i]:Vector2.zero,c=hasC?col[i]:Color.white,
+                        right=p.y*cos-p.x*sin,left=p.y*cos+p.x*sin,x=q.x,y=q.y,from=i};
                 }
                 var points=new List<Vector3>();var normals=new List<Vector3>();var tangents=new List<Vector4>();var uvs=new List<Vector2>();var uvs2=new List<Vector2>();var colours=new List<Color>();
                 var reuse=new Dictionary<int,int>();
@@ -322,7 +348,7 @@ namespace Lattice.EditorTools
                         var one=Keep(polygon,c=>c.right);var two=Keep(Keep(polygon,c=>c.left),c=>-c.right);
                         bool whole=one.Count==3&&one.TrueForAll(c=>c.from>=0)||two.Count==3&&two.TrueForAll(c=>c.from>=0);
                         if(whole)keptCount++;else if(one.Count>=3||two.Count>=3)cutCount++;
-                        foreach(var part in new[]{one,two})if(part.Count>=3)
+                        foreach(var opening in new[]{one,two})foreach(var part in WithoutBar(opening,barInside,barOutside,ref barCount))if(part.Count>=3)
                         {
                             int first=Add(part[0]);
                             for(int k=1;k+1<part.Count;k++){output.Add(first);output.Add(Add(part[k]));output.Add(Add(part[k+1]));}

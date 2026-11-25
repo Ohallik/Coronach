@@ -44,6 +44,9 @@ namespace Lattice.Combat
             if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.Recovering||actor.motor==null)return;
             // A talk holds everybody where they are, she first taking the place beside him its box leaves clear (ClearOfTheTalk).
             if(held){if(!asBefore)ClearOfTheTalk(party.Active);return;}
+            // D413: the moment the boss she fights is beaten she stops: the swing or skill she is in is cut where it is (nov24-whole s41/058, Idra still slashing the stood-down Warden).
+            var fought=actor.target!=null&&actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target;
+            if(fought!=null&&!fought.Alive&&(actor.State==Lattice.Data.ActorState.Attack||actor.State==Lattice.Data.ActorState.Skill)&&fought.GetComponent<BossController>()!=null)actor.BeginFormChange();
             var active=party.Active;actor.target=active.target;
             // The lead's lock waits out a dive, but a buried rig is nothing to fight: take what stands open, or follow. Burrowed rather
             // than !Targetable: a collared Cantor can't be hurt either, and it is still what the partner flies at.
@@ -345,11 +348,12 @@ namespace Lattice.Combat
         {
             if(standOffAsBefore||target==null||target.reactionOwner!=null||!target.TryGetComponent<EnemyBrain>(out var body))return MeleeStandOff;
             float own=TryGetComponent<CharacterController>(out var mine)?mine.radius:.35f;
-            return Mathf.Max(MeleeStandOff,Mathf.Min(body.ReachToward(way)+own+StandClear,SwingsFrom));
+            // D415: the most it has drawn toward her while she fights it, not where it hung as it woke (EnemyBrain.HeldReachToward).
+            return Mathf.Max(MeleeStandOff,Mathf.Min(body.HeldReachToward(way)+own+StandClear,SwingsFrom));
         }
         /// <summary>A hand between what a body draws and her capsule; the furthest from its middle she fights it from (under the 3 m her swing starts within); and how much nearer it than that she
-        /// stands before she steps back out.</summary>
-        const float StandClear=.1f,SwingsFrom=2.8f,StepOutBy=.15f;
+        /// stands before she steps back out. D415: the hand is no less than the step-out, so her swings' creep in (0.13 m at the Warmaster) never takes her inside what it draws before she steps back.</summary>
+        const float StandClear=.2f,SwingsFrom=2.8f,StepOutBy=.15f;
         bool steppingOut;
         /// <summary>For a test's broken state only (BodiesKeepApartTests): on foot she closes to 1.35 m of a body's middle and stays where a charge leaves her, as before D408.</summary>
         static bool standOffAsBefore;

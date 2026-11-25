@@ -727,6 +727,64 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(from*later,body.integrity,from*.02f,"three seconds on, a blow doesn't take what its heat has lost");
             StringAssert.Contains("Outlast",boss.FightGoal(""));marshal.Passive=true;
         }
+        /// <summary>D410: cold in its room its heat fails on its own, as its goal says, whoever is left to strike it. In nov24-whole s36 its partner stood out at 17% and the lead ground
+        /// its cold half alone for 190 s. Its bar stands at or under what is left of its heat over <see cref="BossController.MarshalTune.ColdMost"/>, never under 1, and the next blow ends it.</summary>
+        [UnityTest] public IEnumerator ColdInItsRoomItsHeatFailsOnItsOwnWithNobodyToStrikeIt()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,-6));
+            var couplings=Couplings(At(0,0,0));yield return Frames(2);
+            var marshal=Enemy("HostMarshal",At(0,.1f,0));yield return Frames(3);var boss=marshal.GetComponent<BossController>();var body=marshal.Health;
+            marshal.Passive=false;foreach(var coupling in couplings)Kill(coupling.Health,hero);yield return Frames(2);
+            // As ColdInItsRoomItsBarComesDownNoFasterThanItsHeatFails: the wall asleep, then past the shift's brace, and the lead out of its reach.
+            yield return Until(()=>Said("MARSHAL_COLD heat"),9,hero);Assert.IsTrue(Said("MARSHAL_COLD heat"),"fixture: three couplings broken and the wall never slept");
+            yield return Until(()=>Said("BOSS_SHIFT HostMarshal 2")&&GameTime.Now>body.InvulnerableUntil+.05f,4,hero);Put(hero,At(0,.05f,-40));
+            const System.Reflection.BindingFlags Own=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            var coldAt=typeof(BossController).GetField("marshalColdAt",Own);float from=(float)typeof(BossController).GetField("marshalHeatFrom",Own).GetValue(boss);
+            var asBefore=typeof(BossController).GetField("heatWithoutCeiling",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+            // A hundred seconds cold with nothing landing on it: the clock put back rather than waited out.
+            float stood=body.integrity;Assert.Greater(stood,from*.9f,"fixture: something struck it after the wall slept");
+            coldAt.SetValue(boss,GameTime.Now-100);
+            try{asBefore.SetValue(null,true);yield return Wait(.3f,hero);Assert.AreEqual(stood,body.integrity,from*.01f,"fixture: as before, its bar came down with nobody striking it, so the check can't see the fault");}
+            finally{asBefore.SetValue(null,false);}
+            yield return Wait(.3f,hero);
+            float most=from*(1-(GameTime.Now-(float)coldAt.GetValue(boss))/BossController.MarshalTune.ColdMost);
+            Assert.LessOrEqual(body.integrity,most+from*.01f,$"a hundred seconds cold with nobody striking it, its bar stands at {body.integrity:0} over the {most:0} its heat still holds");
+            Assert.Greater(body.integrity,1,"its heat failed before its time");
+            // Its time out: its last point, and the next blow ends it.
+            coldAt.SetValue(boss,GameTime.Now-BossController.MarshalTune.ColdMost-1);yield return Wait(.3f,hero);
+            Assert.AreEqual(1,body.integrity,.01f,"its heat spent, its bar isn't at its last point");Assert.IsTrue(Said("MARSHAL_HEAT_SPENT"),"its heat spent, the log doesn't say so");
+            Hit(body,hero,10);Assert.IsFalse(body.Alive,"its heat spent, a blow didn't end it");
+        }
+        /// <summary>D410: the replay's chase strikes what the bar names (ContinuousReview.Named: the target card's name in the status line or the objective). "BREAK A COUPLING" never
+        /// named a "Thaw coupling", so in every capture of route 36 it ground the warm shell with a rank out and broke one coupling of three by accident (nov24-whole s36: 160 s warm).</summary>
+        [UnityTest] public IEnumerator WithARankOutTheReplayGoesForARunningThawCouplingNotTheMarshalsShell()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,-6));
+            var couplings=Couplings(At(0,0,0));yield return Frames(2);
+            var marshal=Enemy("HostMarshal",At(0,.1f,0));yield return Frames(3);var boss=marshal.GetComponent<BossController>();
+            Assert.IsTrue(boss.Perform("Rally"),"fixture: its call");yield return Until(()=>!boss.Busy,4,hero);
+            Assert.AreEqual(3,Guards().Length,"fixture: its call brought no rank out");Assert.IsTrue(boss.Warm,"fixture: with its couplings running a blow on it lands at a share");
+            string card=DisplayNames.Target(couplings[0].Health.id).ToUpperInvariant(),said=(boss.StatusText+"  "+boss.FightGoal("")).ToUpperInvariant();
+            Assert.IsFalse("THE RANKS ARE WAKING  ·  BREAK A COUPLING  BREAK A COUPLING TO PUT THE WALL BACK TO SLEEP (0/3)".Contains(card),"fixture: the words as they were name the coupling's card, so the check can't see the fault");
+            StringAssert.Contains(card,said,"the bar and the objective don't name a thaw coupling by the name on its card");
+            StringAssert.Contains("BREAK A COUPLING",boss.StatusText,"its bar's line changed");
+            const System.Reflection.BindingFlags Own=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            var fixture=new GameObject("Marshal chase fixture");fixture.SetActive(false);var replay=fixture.AddComponent<ContinuousReview>();
+            try
+            {
+                marshal.Passive=false;
+                var wanted=(Health)typeof(ContinuousReview).GetMethod("WantedTarget",Own).Invoke(replay,new object[]{hero});
+                Assert.IsNotNull(wanted,"with a rank out and its couplings running in reach, the chase leaves the lock where it is: on the Marshal's shell");
+                Assert.IsTrue(wanted.TryGetComponent<ThawCoupling>(out var locked)&&locked.Running,"the chase locks "+wanted.name+", not a running thaw coupling");
+                Assert.AreEqual(couplings.OrderBy(c=>Flat(c.transform.position,hero.transform.position)).First(),locked,"the chase locks a coupling further off than the nearest");
+                // From beyond the lock's thirty metres, still at the fight: walked toward.
+                Put(hero,At(0,.05f,-33));typeof(ContinuousReview).GetField("wantAt",Own).SetValue(replay,-1.0);
+                var toward=(Vector2?)typeof(ContinuousReview).GetMethod("TowardNamed",Own).Invoke(replay,new object[]{hero});
+                var far=(Health)typeof(ContinuousReview).GetField("namedFar",Own).GetValue(replay);
+                Assert.IsTrue(toward.HasValue&&far!=null&&far.GetComponent<ThawCoupling>()!=null,"with every coupling beyond the lock's reach the chase doesn't walk toward one");
+            }
+            finally{marshal.Passive=true;Object.Destroy(fixture);}
+        }
 
         // ------------------------------------------------------------------ what the fight is sized on
         /// <summary>The driver's share of this test's own flat out. .51 since D362 (November 22): at .3 the two terms gave 199 s for 125,000 at the 1,791 to 1,811 a second read
@@ -782,7 +840,9 @@ namespace Lattice.Tests.PlayMode
             foreach(var pair in new[]{new[]{"Taren","Idra"},new[]{"Taren","Sela"},new[]{"Sela","Idra"}})
             {
                 float rate=0;yield return Rate(pair,r=>rate=r);
-                float couplings=3*integrity*BossController.MarshalTune.CouplingIntegrity/(rate*DriverShare*CouplingUptime),bar=integrity*.5f/(rate*DriverShare),seconds=couplings+bar;
+                // The cold half is its heat's, not the bar's alone (D364, D410): no shorter than its heat takes to fail and no longer than the most it holds out.
+                float couplings=3*integrity*BossController.MarshalTune.CouplingIntegrity/(rate*DriverShare*CouplingUptime),
+                    bar=Mathf.Clamp(integrity*.5f/(rate*DriverShare),BossController.MarshalTune.HeatSeconds,BossController.MarshalTune.ColdMost),seconds=couplings+bar;
                 string line=$"HOARFELL_RATE {pair[0]}+{pair[1]} sync=17 prime rate={rate:0}/s couplings={couplings:0}s bar={bar:0}s total={seconds:0}s shared={integrity/(rate*DriverShare):0}s quarter={integrity/(rate*.25f):0}s";
                 TestContext.WriteLine(line);Debug.Log(line);
                 if(seconds<120||seconds>300)failures.Add($"{line}: the plan asks 120 to 300");

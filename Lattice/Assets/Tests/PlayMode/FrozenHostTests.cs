@@ -380,6 +380,37 @@ namespace Lattice.Tests.PlayMode
             Assert.IsNotEmpty(kneeling,"nothing of the Marshal is left in a won gallery");Assert.IsTrue(kneeling.All(t=>t.activeInHierarchy),"the Marshal isn't kneeling in its gallery on a later visit");
             Assert.IsTrue(All<WarpBeacon>().Single(w=>w.prompt=="Ride the winch up — Lastlight").Available,"the winch won't carry the party up once the Marshal sleeps");
         }
+        /// <summary>D410: a soldier put back to sleep in the gallery stands in the wall's own ice, as the host in the wall does: tinted alone, five frozen in their ranks read as
+        /// dark soldiers standing idle in a queue (nov24-whole s36/075 to 084). The ice is the refrozen wall's own material, which the player draws as it draws the wall. A still
+        /// for the eye goes to Builds/quality/focused/hoarfell (frozen-ranks.png).</summary>
+        [UnityTest] public IEnumerator ASoldierPutBackToSleepInTheGalleryStandsInTheWallsOwnIce()
+        {
+            Set("hoar.rig1","hoar.rig2","hoar.rig3","hoar.slateRead","hoar.idraJoined","hoar.marshalSeen");
+            yield return Zone("Door");
+            var wall=All<ThawCoupling>().Select(c=>c.refrozen!=null?c.refrozen.GetComponent<MeshRenderer>():null).FirstOrDefault(r=>r!=null);Assert.IsNotNull(wall,"fixture: no coupling has a refrozen stretch of wall drawn");
+            var lead=PartyController.Current.Active;var at=Bearing(200,7);Put(lead,new Vector3(at.x,Bottom+.1f,at.y));
+            foreach(var hero in PartyController.Current.members)if(hero!=lead)Put(hero,lead.transform.position+Vector3.left*2.5f);
+            yield return new WaitForSecondsRealtime(.8f);
+            var definition=GameCatalog.Find<Lattice.Data.EnemyDef>("ThawedGuard");var statues=new List<GameObject>();
+            foreach(var (x,z) in new[]{(1.5f,4f),(3.6f,5.4f),(5.7f,6.8f)})
+            {
+                var guard=ActorFactory.Enemy(definition,lead.transform.position+new Vector3(x,0,z));guard.Passive=true;guard.transform.rotation=Quaternion.Euler(0,225,0);
+                yield return new WaitForSecondsRealtime(.4f);statues.Add(BossController.Refreeze(guard));
+            }
+            yield return new WaitForSecondsRealtime(.6f);
+            foreach(var statue in statues)
+            {
+                var ice=statue.transform.Find("Frozen rank ice");Assert.IsNotNull(ice,"a soldier put back to sleep stands in no ice");
+                Assert.AreEqual(wall.sharedMaterial,ice.GetComponent<MeshRenderer>().sharedMaterial,"its ice isn't the wall's");Assert.IsNull(ice.GetComponent<Collider>(),"its ice is a wall of its own");
+                Assert.IsTrue(ice.GetComponent<Renderer>().bounds.Contains(statue.transform.position+Vector3.up*1.2f),"its ice doesn't hold its chest");
+                Assert.IsFalse(ice.GetComponent<Renderer>().bounds.Intersects(lead.GetComponent<CharacterController>().bounds),"the lead stands inside its ice");
+            }
+            var camera=Camera.main;if(camera==null)yield break;
+            const int W=1920,H=1080;string folder=System.IO.Path.GetFullPath(System.IO.Path.Combine(Application.dataPath,"../../Builds/quality/focused/hoarfell"));System.IO.Directory.CreateDirectory(folder);
+            var image=new Texture2D(W,H,TextureFormat.RGB24,false);var rt=new RenderTexture(W,H,24,RenderTextureFormat.ARGB32);var active=RenderTexture.active;var target=camera.targetTexture;
+            try{rt.Create();camera.targetTexture=rt;camera.Render();RenderTexture.active=rt;image.ReadPixels(new Rect(0,0,W,H),0,0);image.Apply();System.IO.File.WriteAllBytes(System.IO.Path.Combine(folder,"frozen-ranks.png"),image.EncodeToPNG());}
+            finally{camera.targetTexture=target;RenderTexture.active=active;rt.Release();Object.Destroy(rt);Object.Destroy(image);}
+        }
 
         // ------------------------------------------------------------------ the camera
         [UnityTest] public IEnumerator NoWallOrTallPieceStandsBetweenTheCameraAndAFight()

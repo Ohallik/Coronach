@@ -221,8 +221,10 @@ namespace Lattice.Tests.PlayMode
             yield return Play(steps,150,watchBefore,()=>before.behind||before.firstBurn>0&&Time.time-before.firstBurn>60||before.secondBurn>0||before.won>0);
             string was=Told(before);
             TestContext.WriteLine("BEFORE behind="+before.behind+" at "+before.behindAt+" firstTop="+(before.firstTop-before.roundOne).ToString("0.0")+" firstBurn="+(before.firstBurn-before.roundOne).ToString("0.0")+" secondBurn="+(before.secondBurn>0?(before.secondBurn-before.firstBurn).ToString("0.0"):"none")+was);
-            Assert.IsTrue(before.behind||before.firstBurn>0&&(before.secondBurn<0||before.secondBurn-before.firstBurn>60),
-                "fixture: the driver as it was neither went behind a plinth nor left the second stalk standing a minute after the first: the check below proves nothing"+was);
+            // D418: or it burned none at all in its 150 s, which the check below fails as plainly ("no stalk burned"). Its first burn came late (107 s in suite nov24b); in nov25a it
+            // stood its last 40 s on the south-east ramp striking a stalk it never burned, and fell. Asked to fail one way of two, the fixture failed where the old driver failed a third.
+            Assert.IsTrue(before.behind||before.firstBurn<0||before.secondBurn<0||before.secondBurn-before.firstBurn>60,
+                "fixture: the driver as it was went round no plinth, burned a stalk and the second inside a minute: the check below proves nothing"+was);
             HandsOff(false);Drop();
 
             // ---- the driver with its chase hands. Its length is measured and printed for the sheet (ROTBLOOM_DRIVER_SHARE: the shared length test holds the two to five

@@ -12,7 +12,7 @@ namespace Lattice.Combat
     public sealed class HitFlash:MonoBehaviour
     {
         static readonly int Flash=Shader.PropertyToID("_HitFlash");
-        Health health;Transform visual;bool poses,shared;
+        Health health;Transform visual;bool poses,shared,yields;
         readonly List<Renderer> found=new(),bodies=new();readonly List<bool> bare=new();
         MaterialPropertyBlock block;
         Color tint;float strength,flashAge=1,flashShare=1,level;bool flashing;
@@ -33,6 +33,8 @@ namespace Lattice.Combat
             shared=GetComponent<BossOcclusion>()!=null||GetComponent<BurrowerShutdown>()!=null;
             // A boss fills a third of the screen and is struck by two heroes all fight long: its flash is the lighter one.
             flashShare=enemy!=null&&enemy.definition!=null&&enemy.definition.boss?Impact.Tune.BossFlash:1;
+            // Who gives up as a boss (Ending.Yields), not the Last Warden standing down (its own end: StandsDown).
+            yields=enemy!=null&&enemy.definition!=null&&enemy.definition.boss&&enemy.definition.yieldsOnDefeat&&BossController.EndingOf(enemy.definition.id)==BossController.Ending.Yields;
         }
         /// <param name="pose">The body may be pressed and set back: not a killing blow, whose body is the defeat's from this frame, and not one a real shove is already carrying.</param>
         /// <param name="scale">How much of the squash and recoil this body takes: a boss, a fraction.</param>
@@ -112,6 +114,9 @@ namespace Lattice.Combat
                     // D385: a body going dark is lit by its killing blow no more than its darkening allows, from the kill's own frame (BodyGoesDark's first LateUpdate can come a frame
                     // later, and this wrote the full flash over a body it had already darkened: the pale chrome Colossus of nov23-whole s49/052).
                     if(TryGetComponent<BodyGoesDark>(out var dark))level=Mathf.Min(level,dark.MostFlash);
+                    // D412: and on one who yields, none: Drask Vaal gave up washed near white with the blow's cyan along his edges (nov24-whole s52/098), Dessik Varn's suit steel
+                    // blue (s30/045). Who gives up is beaten, not lit; the person who takes over from her has her own colours.
+                    else if(yields)level=0;
                     if(level<=0&&fading<=0)Clear();else{Shown=level*ImpactSettings.FlashScale;Write(Shown);}
                 }
                 else

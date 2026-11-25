@@ -527,6 +527,8 @@ namespace Lattice.Tests.PlayMode
             var arch=All<SceneryOcclusion>().FirstOrDefault(s=>s.name=="Market arch");
             Assert.IsNotNull(arch,"the arch fills the screen and hides the hero around Corra's stall");
             var lead=PartyController.Current.Active;
+            // D414: the hole is for a lead nothing draws through (HeroThrough draws the rest as a clean line); where it opens is what this reads.
+            lead.GetComponent<HeroThrough>().enabled=false;
             // Behind a leg of the arch, where it really does stand between the camera and the hero.
             Put(lead,new Vector3(arch.transform.position.x+3.4f,.2f,arch.transform.position.z+3));
             yield return new WaitForSecondsRealtime(.8f);

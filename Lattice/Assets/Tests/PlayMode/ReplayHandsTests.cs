@@ -200,6 +200,23 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(1,State.consumables["RepairSalve"],"at 45% of the bar the Salve, which fits, wasn't the item used");
             Assert.AreEqual(3,State.consumables["RepairGel"],"a gel went where the Salve fit");
         }
+        /// <summary>D410: a partner under the line she closes at (PartnerBrain, 30%) stands off a fight until she is mended, and the driver mended only the lead: at 17% Idra stood out
+        /// the Host Marshal's last 190 s (nov24-whole s36). A player mends her from the lead's pouch with what the game lets the lead give her without a swap, a Sync Tonic.</summary>
+        [UnityTest] public IEnumerator APartnerTooHurtToCloseIsMendedWithAPartyItemWithoutASwap()
+        {
+            yield return Arena();var lead=Lead;var partner=Partner;float most=partner.Health.maximum;
+            State.consumables["RepairGel"]=3;State.consumables["SyncTonic"]=1;State.quickItem="RepairGel";
+            yield return AFight();
+            yield return Hands(Yard(heal:true));Step(new QualityStep{name="a round of the fight",seconds=120});
+            // Over the line she still closes on what she fights: nothing goes.
+            partner.Health.integrity=most*.4f;yield return Drive(2.5f);
+            Assert.AreEqual(1,State.consumables["SyncTonic"],"a Sync Tonic went on a partner who still closes on what she fights");
+            partner.Health.integrity=most*.17f;yield return Drive(5,()=>State.consumables["SyncTonic"]<1);
+            Assert.AreEqual(0,State.consumables["SyncTonic"],"at 17% the partner stands out of the fight and the lead's Sync Tonic stayed in the pouch");
+            Assert.AreEqual(3,State.consumables["RepairGel"],"a gel went on a lead who was whole");
+            Assert.AreSame(lead,PartyController.Current.Active,"the lead swapped to mend her");
+            Assert.Greater(partner.Health.integrity,most*ReplayHands.PartnerBelow,"the tonic didn't bring her back over the line she closes at");
+        }
         [UnityTest] public IEnumerator AFallenPartnerIsRaisedWithARelinkSpikeWhenThePouchHasOne()
         {
             yield return Arena();var lead=Lead;var partner=Partner;State.consumables["RelinkSpike"]=1;State.quickItem="RepairGel";

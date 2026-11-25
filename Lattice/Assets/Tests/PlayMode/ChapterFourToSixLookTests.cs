@@ -94,6 +94,8 @@ namespace Lattice.Tests.PlayMode
         {
             DevLoadout.Apply("chapter5");Flag("hands.iloAboard");Flag("hands.claimRead");Flag("bossdown.Hulljack");
             yield return Zone("ManyHands");
+            // D414: scenery opens its hole only for a lead nothing draws through (HeroThrough draws the rest as a clean line); whether it can is what this reads.
+            Lead.GetComponent<HeroThrough>().enabled=false;
             static float Faded(Renderer r){var block=new MaterialPropertyBlock();r.GetPropertyBlock(block);return block.GetFloat("_OccFade");}
             // Whether the line meets the piece's own triangles: a box round a room (the galley) or a frame (the drying racks) crosses lines that pass through its open middle.
             // A mesh that can't be read counts as its box.

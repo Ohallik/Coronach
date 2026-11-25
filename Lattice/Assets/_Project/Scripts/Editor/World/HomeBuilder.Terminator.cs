@@ -469,7 +469,9 @@ namespace Lattice.EditorTools
                 // was one pale block (nov23 s56/059).
                 var lamp=new ZoneKit.Shape();lamp.Slot(0).Lump(Vector3.zero,new Vector3(.15f,.2f,.15f),i,.03f,Color.white,Color.white,8,5);
                 var lampAt=new Vector3(socket.x+2.2f,y+3.95f,socket.y);
-                var lampBody=Make(kit,holder.name+" lamp",lamp,lampAt,Quaternion.identity,body.transform,Crawl.Lamp);
+                // D417 (nov24-whole s56/059): on the crawl's pale lamp glass (.72, .56, .34) under the dawn sun, the mated light lit a bare white globe under the hood. Its glass is
+                // the engine car's dark lens now, lit only by its colour.
+                var lampBody=Make(kit,holder.name+" lamp",lamp,lampAt,Quaternion.identity,body.transform,EngineLamp);
                 LampHousing(kit,holder.name+" lamp housing",lampAt,.15f,.2f,body.transform,true);
                 var glow=new GameObject("Coupling lamp light",typeof(Light)).GetComponent<Light>();glow.type=LightType.Point;glow.range=7;glow.intensity=1.4f;glow.color=new Color(1,.7f,.35f);glow.shadows=LightShadows.None;
                 glow.transform.position=new Vector3(socket.x+2.2f,y+3.6f,socket.y-.4f);glow.transform.SetParent(holder.transform,true);
@@ -480,7 +482,8 @@ namespace Lattice.EditorTools
                 c3.lamp=new[]{lampBody.GetComponent<Renderer>()};c3.lampLight=glow;
                 // Amber waiting, pale once mated, each a little over the bloom's threshold: TreadCoupling's own 1.5 to 1.7 white over the lamp's pale glass was a white blob with no body
                 // on the engine car's gantry (the November 20 capture, s56 060).
-                c3.waiting=new Color(.95f,.6f,.2f);c3.mated=new Color(.82f,.86f,.8f);
+                // Mated is signal green (D417): pale (.82, .86, .8) was white under the bloom, and a pale gold would be the waiting amber again.
+                c3.waiting=new Color(.95f,.6f,.2f);c3.mated=new Color(.18f,.85f,.32f);
                 casters.Add(new DawnLine.Caster{min=new Vector2(socket.x-1.5f,socket.y-1.7f),max=new Vector2(socket.x+2.3f,socket.y+1.7f),height=1.4f});
                 return c3;
             }

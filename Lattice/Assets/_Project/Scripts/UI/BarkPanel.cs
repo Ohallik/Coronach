@@ -13,6 +13,14 @@ namespace Lattice.UI
         /// <summary>D387: the line was one of a fight's, said while it was on (anything but a kill's word, which is its last). It goes when the fight ends: 'That plate's gone
         /// dark. Hit the dark.' stood over the Slag Colossus's body for three seconds after it was dead (nov23-whole s49/052, s49/057).</summary>
         bool saidInFight;
+        /// <summary>D416: the bosses fighting when a fight's line was said. Its line goes when one of them is down, though another fight follows at once: the Warmaster yields and his
+        /// skiff's chase begins in the same breath, so 'He's overreached. In, now.' stood on through the skiff's objective with a fight on all along (nov24-whole s52 098).</summary>
+        readonly System.Collections.Generic.List<BossController> saidAgainst=new();
+        bool BossDown()
+        {
+            foreach(var boss in saidAgainst)if(boss==null||!boss.isActiveAndEnabled||boss.Health==null||!boss.Health.Alive)return true;
+            return false;
+        }
         /// <summary>A fight on round the lead: a boss engaged, an encounter begun and not won, or an awake enemy within reach of a talk.</summary>
         public static bool FightOn
         {
@@ -47,6 +55,7 @@ namespace Lattice.UI
             text.text=$"<color=#{NameColor}>{DisplayNames.Speaker(speaker)}</color>\n{line}";until=Time.unscaledTime+3.5f;
             var lead=PartyController.Current!=null?PartyController.Current.Active:null;saidFlying=lead!=null&&lead.flight;saidIn=ZoneController.Current;
             saidInFight=BarkService.Situation!="kill"&&FightOn;
+            saidAgainst.Clear();if(saidInFight)foreach(var boss in BossController.All)if(boss!=null&&boss.Fighting&&boss.Engaged)saidAgainst.Add(boss);
             // Measured once a line, as its plate is. It lands clear: there's nothing to slide past when it has only just come up.
             var ink=UiKit.Ink(text);plateHigh=ink.yMax+16;plateLow=ink.yMin-16;plateLeft=ink.xMin-34;plateRight=ink.xMax+34;
             slide=Seat(0);text.rectTransform.anchoredPosition=Rest+new Vector2(0,slide);
@@ -60,7 +69,7 @@ namespace Lattice.UI
             if(cutIn==null)cutIn=GetComponent<ExtraCutIn>();
             bool blocked=GameInput.Current.Blocked||cutIn!=null&&cutIn.Showing;if(canvas.enabled==blocked)canvas.enabled=!blocked;
             // A fight's line goes as the fight ends, held or not: a beaten boss's last talk or cut doesn't bring it back.
-            if(saidInFight&&text.text.Length>0&&!FightOn){text.text="";saidInFight=false;}
+            if(saidInFight&&text.text.Length>0&&(!FightOn||BossDown())){text.text="";saidInFight=false;}
             if(blocked){until+=Time.unscaledDeltaTime;return;}
             if(text.text.Length>0&&(Time.unscaledTime>until||Elsewhere()))text.text="";
             if(text.text.Length==0)return;

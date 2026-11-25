@@ -73,6 +73,18 @@ if (-not $Main -and (Test-Path $mirrorBase)) {
     $suiteMark = Join-Path $mirrorBase '.suite-running'
     $suiteOn = (Test-Path $suiteMark) -and ((Get-Item $suiteMark).LastWriteTime -gt (Get-Date).AddHours(-5))
     $pool = if ($Mirror) { @($pool | Where-Object { $_ -eq $Mirror }) } else { @($pool | Where-Object { $_ -ne 'S' -or -not $suiteOn }) }
+    # A suite spread over every mirror (the lead's four-mirror launcher leaves .suite-all and removes it at the end) owns
+    # them all. A focused run that copied the tree into one of them between the suite's parts made those parts a verdict
+    # on work in progress (suite nov24a, parts 4, 6 and 8). So a run that would copy waits; a marker older than five
+    # hours is a suite that died.
+    $allMark = Join-Path $mirrorBase '.suite-all'
+    if (-not $NoSync) {
+        $told = $false
+        while ((Test-Path $allMark) -and ((Get-Item $allMark).LastWriteTime -gt (Get-Date).AddHours(-5))) {
+            if (-not $told) { "FOCUSED waiting: a whole suite holds every mirror ($(Get-Content $allMark -TotalCount 1))"; $told = $true }
+            Start-Sleep -Seconds 60
+        }
+    }
 }
 if ($pool.Count -gt 0) {
     $deadline = (Get-Date).AddMinutes($WaitMinutes)

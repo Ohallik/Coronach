@@ -192,8 +192,10 @@ namespace Lattice.Tests.PlayMode
                 for(int i=0;i<him.Length;i++){if(Change(him[i],empty[i])<=.04f)continue;silhouette++;if(Change(bossAlone[i],empty[i])>.04f)over.Add(i);}
                 under=over.Count;
                 Door(fade,ellipse);var frame=Shot(camera);Show(copies,false);var bare=Shot(camera);Show(own,false);var doorAsIs=Shot(camera);Door(0,ellipse);var shut=Shot(camera);Door(fade,ellipse);Show(own,true);Show(copies,true);
-                int drawn=0,gone=0;foreach(int i in over){if(Change(frame[i],bare[i])>.03f)drawn++;if(Change(doorAsIs[i],shut[i])>.08f)gone++;}
-                return (drawn/(float)Mathf.Max(1,over.Count),gone/(float)Mathf.Max(1,over.Count));
+                // D414: his drawing is a line round the part of him the boss stands over, with a faint tint inside, so what reads is the share of that part's edge the line closes
+                // round (OutlineMeasure), no longer the share of it the drawing covers.
+                int gone=0;var mask=new bool[him.Length];foreach(int i in over){mask[i]=true;if(Change(doorAsIs[i],shut[i])>.08f)gone++;}
+                return (OutlineMeasure.Covered(mask,ShotWidth,ShotHeight,i=>Change(frame[i],bare[i])>.1f,4,out _),gone/(float)Mathf.Max(1,over.Count));
             }
             bool Clean((float outline,float opened) r)=>r.outline>=.85f&&r.opened<=.02f;
             // The old door over him, as it was written: centred on his chest, hero-sized, open two pixels in three with a soft edge.
@@ -225,9 +227,10 @@ namespace Lattice.Tests.PlayMode
                 foreach(var r in own)r.shadowCastingMode=ShadowCastingMode.Off;
                 Show(bodies,false);Show(copies,false);var him=Shot(camera);Show(own,false);var empty=Shot(camera);Show(bodies,true);var alone=Shot(camera);Show(own,true);
                 var bare=Shot(camera);Show(copies,true);var frame=Shot(camera);
-                under=0;silhouette=0;int drawn=0;
-                for(int i=0;i<him.Length;i++){if(Change(him[i],empty[i])<=.04f)continue;silhouette++;if(Change(alone[i],empty[i])<=.04f)continue;under++;if(Change(frame[i],bare[i])>.03f)drawn++;}
-                return drawn/(float)Mathf.Max(1,under);
+                // D414: the share of the edge of what the body stands over that his line closes round (OutlineMeasure); the drawing no longer fills him.
+                under=0;silhouette=0;var mask=new bool[him.Length];
+                for(int i=0;i<him.Length;i++){if(Change(him[i],empty[i])<=.04f)continue;silhouette++;if(Change(alone[i],empty[i])<=.04f)continue;under++;mask[i]=true;}
+                return under==0?0:OutlineMeasure.Covered(mask,ShotWidth,ShotHeight,i=>Change(frame[i],bare[i])>.1f,4,out _);
             }
             finally{Show(bodies,true);Show(copies,true);Show(own,true);for(int i=0;i<own.Length;i++)if(own[i]!=null)own[i].shadowCastingMode=casting[i];}
         }

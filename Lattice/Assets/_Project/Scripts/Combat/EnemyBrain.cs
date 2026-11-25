@@ -159,8 +159,28 @@ namespace Lattice.Combat
             var local=Quaternion.Inverse(transform.rotation)*way;
             if(outline==null&&Time.time>=startedAt+OutlineAfter)outline=ReadOutline();
             if(outline==null||outline.Length==0)return Mathf.Max(bodyRadius,local.z>0?Mathf.Lerp(bodyRadius,front,local.z*local.z/local.sqrMagnitude):bodyRadius);
+            return Mathf.Max(controller!=null?controller.radius:.5f,OnBearing(outline,local));
+        }
+        static float OnBearing(float[] reach,Vector3 local)
+        {
             float at=Mathf.Repeat(Mathf.Atan2(local.x,local.z)*Mathf.Rad2Deg,360)/(360f/OutlineBearings);int a=Mathf.FloorToInt(at)%OutlineBearings,b=(a+1)%OutlineBearings;
-            return Mathf.Max(controller!=null?controller.radius:.5f,Mathf.Max(outline[a],outline[b]));
+            return Mathf.Max(reach[a],reach[b]);
+        }
+        /// <summary>How often what it draws is read again for a hero fighting it at arm's length, and the most it has drawn on each bearing since it was first read.</summary>
+        const float HeldEvery=.3f;float[] held;float heldAt;
+        /// <summary>D415: the same, but the most it has drawn toward that way over every read since, read again each <see cref="HeldEvery"/> while it is asked: what a hero fighting it
+        /// at arm's length keeps off (PartnerBrain). Read once, the Warmaster's outline held his mantle where it hung as he woke; struck, striking and turning, his war-frame and
+        /// mantle swing a quarter metre and more past that (nov24-whole s52/083 to 098). A pack's spacing keeps the one read (<see cref="ReachToward"/>).</summary>
+        public float HeldReachToward(Vector3 way)
+        {
+            float once=ReachToward(way);way.y=0;if(outline==null||outline.Length!=OutlineBearings||way.sqrMagnitude<.0001f)return once;
+            if(held==null){held=(float[])outline.Clone();heldAt=Time.time;}
+            else if(Time.time>=heldAt+HeldEvery)
+            {
+                heldAt=Time.time;var now=ReadOutline();
+                if(now.Length==OutlineBearings)for(int i=0;i<OutlineBearings;i++)held[i]=Mathf.Max(held[i],now[i]);
+            }
+            return Mathf.Max(once,OnBearing(held,Quaternion.Inverse(transform.rotation)*way));
         }
         float[] ReadOutline()
         {

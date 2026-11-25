@@ -20,7 +20,8 @@ namespace Lattice.Combat
     /// longer) and heavier (the phase's +18%). Cracking Sweep, a wide marked fan whose blow splits the floor down three marked lines a beat later, after which its heat fails it and it
     /// sinks to a knee, open; the lunge and the bash still, slower. <b>It is outlasted, as its goal says</b> (D364): its bar comes down no faster than its heat fails, from where it stood
     /// at the shift to nothing over <see cref="MarshalTune.HeatSeconds"/>, so a party that beats it to that line waits on the frost. It is open after every move, so its length was the
-    /// moves it made before the bar went, and its cold half lasted 30 to 48 s in the player (75 to 138 s in all, against a bar from 120).</item>
+    /// moves it made before the bar went, and its cold half lasted 30 to 48 s in the player (75 to 138 s in all, against a bar from 120). And its heat fails on its own (D410): its bar
+    /// is held at or under the line that comes down to nothing over <see cref="MarshalTune.ColdMost"/>, whoever is left to strike it (a lead alone ground it for 190 s, nov24-whole s36).</item>
     /// </list>
     /// It fights without couplings too (the proving yard): its call brings a rank out beside it twice, its bar holds nowhere, and its phase turns on integrity alone.
     /// </summary>
@@ -61,8 +62,13 @@ namespace Lattice.Combat
             /// <summary>The cold: its pace, the frost ring's rim and where it stops, how long it takes, and a hero's pace on it.</summary>
             public const float ColdPace=.6f,RingOuter=17,RingInner=9,RingSeconds=70,RingPace=.6f;
             /// <summary>How long its heat takes to fail in its room once the wall sleeps, the frost's own time in: its bar comes down no faster than that, from where it stood at the shift
-            /// to nothing (in a yard, with no wall, its bar holds nowhere).</summary>
-            public const float HeatSeconds=RingSeconds;
+            /// to nothing (in a yard, with no wall, its bar holds nowhere). Its own since D410 (the frost's 70 s until then): with all three couplings broken the warm half runs 45 to 60 s,
+            /// and the whole fight came to under two minutes. And the most it takes: its bar is held at or under the line that comes down to nothing over that, so its heat fails it on
+            /// its own (a lead alone, his partner too hurt to close, ground it for 190 s cold, nov24-whole s36), never under 1, and the next blow ends it.</summary>
+            public const float HeatSeconds=85,ColdMost=110;
+            /// <summary>How far a running or iced thaw rig is drawn round its middle on the floor (its furnace, at its prop's 2.8 m; its skid's box is 1.8), and how fast it shoulders
+            /// itself clear of one (D410: its capsule stopped at the rig's box, and its shield arm stood in the furnace, nov24-whole s36/075 to 086).</summary>
+            public const float RigDrawn=1.4f,RigClear=2.4f;
             /// <summary>Its rest between specials, warm and cold, and how long it takes to kneel when it is put to sleep.</summary>
             public const float RestWarm=2.6f,RestCold=3.1f,KneelSeconds=2.4f;
             /// <summary>How far it sinks into the frost and bows as it is put to sleep, and the same for the body a later visit finds (HoarfellBuilder.FrozenHost.Kneeling): its head has to
@@ -84,13 +90,17 @@ namespace Lattice.Combat
         }
         /// <summary>The share of its heat still to fail (1 as the wall sleeps, 0 once it has), or -1 while it isn't failing.</summary>
         public float MarshalHeatLeft=>marshalColdAt<0?-1:1-Mathf.Clamp01((GameTime.Now-marshalColdAt)/MarshalTune.HeatSeconds);
+        /// <summary>The most its bar may stand at while cold in its room (D410): what is left of its heat over <see cref="MarshalTune.ColdMost"/>, never under 1; none while it isn't failing.</summary>
+        public float MarshalHeatMost=>marshalColdAt<0?float.PositiveInfinity:Mathf.Max(1,marshalHeatFrom*(1-Mathf.Clamp01((GameTime.Now-marshalColdAt)/MarshalTune.ColdMost)));
+        /// <summary>For a test's broken state only (HoarfellCombatTests): cold, its bar held under nothing, as before D410.</summary>
+        static bool heatWithoutCeiling;bool heatSpent;
         bool Cold=>Phase>=2;
         float MarshalRest=>Cold?MarshalTune.RestCold:MarshalTune.RestWarm;
         /// <summary>Soldiers it has called out of the wall who are still up.</summary>
         public int RalliedStanding{get{rallied.RemoveAll(r=>r.guard==null||!r.guard.Health.Alive);return rallied.Count;}}
         void MarshalStart()
         {
-            marshalRadius=GetComponent<CharacterController>().radius;breaksAt=health.breakThreshold;marshalColdAt=-1;health.Holds=null;
+            marshalRadius=GetComponent<CharacterController>().radius;breaksAt=health.breakThreshold;marshalColdAt=-1;heatSpent=false;health.Holds=null;
             // The couplings are a sixth of its bar each, so their integrity is the fight's to say: a share of its own, broken by a blow and shrugging off heat as a heater would.
             float each=health.maximum*MarshalTune.CouplingIntegrity;
             foreach(var coupling in ThawCoupling.All)
@@ -135,9 +145,30 @@ namespace Lattice.Combat
             // back to sleep; its moves still open it (a shield swung wide, a spear caught). Cold, it breaks as anything does.
             if(Warm){if(health.breakThreshold<MarshalTune.HeldTogether)breaksAt=health.breakThreshold;health.breakThreshold=MarshalTune.HeldTogether;health.ClearBreak();}
             else if(health.breakThreshold>=MarshalTune.HeldTogether)health.breakThreshold=breaksAt;
+            // D410: cold in its room its heat fails on its own, whoever is left to strike it: its bar stands at or under what is left of it, and at the end the next blow ends it.
+            if(marshalColdAt>=0&&!heatWithoutCeiling&&health.Alive&&!brain.Passive)
+            {
+                float most=MarshalHeatMost;if(health.integrity>most)health.integrity=most;
+                if(most<=1&&!heatSpent){heatSpent=true;Debug.Log("MARSHAL_HEAT_SPENT");}
+            }
             if(busy||health.Broken||brain.Passive||brain.Telegraphing)return;
+            ClearOfTheRigs();
             Pose(Cold?3+1.5f*Mathf.Sin(Time.time*1.3f):1.2f*Mathf.Sin(Time.time*.9f),Cold?-.12f:0);
             WorkRoundTheCamera();
+        }
+        /// <summary>D410: walking, it keeps what it draws out of a thaw rig's furnace, shouldering itself clear at <see cref="MarshalTune.RigClear"/> (more than its own pace). Its capsule
+        /// stopped at the rig's box, 2.4 m from the rig's middle, and its shield arm and shoulder stood in the furnace while it pressed the lead there (nov24-whole s36/075 to 086).
+        /// A lunge still ends where its spear meets the rig (IceAhead), and is open there; it steps clear after.</summary>
+        void ClearOfTheRigs()
+        {
+            var shape=brain.Controller;if(shape==null||!shape.enabled||ThawCoupling.All.Count==0)return;
+            var push=Vector3.zero;var at=transform.position;
+            foreach(var coupling in ThawCoupling.All)
+            {
+                var away=Flat(at-coupling.transform.position);float gap=away.magnitude;if(gap<.01f)continue;away/=gap;
+                float room=brain.ReachToward(-away)+MarshalTune.RigDrawn;if(gap<room)push+=away*(room-gap);
+            }
+            if(push.sqrMagnitude>.0001f)shape.Move(Vector3.ClampMagnitude(push,MarshalTune.RigClear*Time.deltaTime));
         }
         string MarshalStatus()
         {
@@ -147,7 +178,9 @@ namespace Lattice.Combat
         }
         string MarshalGoal(string label)
         {
-            if(!Cold&&ThawCoupling.All.Count>0)return $"Break a coupling to put the wall back to sleep ({ThawCoupling.BrokenCount}/{ThawCoupling.All.Count})";
+            // "Thaw coupling", the name its target card shows (D410): a player reads what to break off the card and the line together, and so does the replay (ContinuousReview.Named),
+            // which never found "BREAK A COUPLING" on a card and ground the warm shell for 160 s with two couplings running (nov24-whole s36).
+            if(!Cold&&ThawCoupling.All.Count>0)return $"Break a thaw coupling to put the wall back to sleep ({ThawCoupling.BrokenCount}/{ThawCoupling.All.Count})";
             return Cold?"Outlast the Host Marshal as its heat fails":label;
         }
         /// <summary>The last coupling is gone (or, with none, its own heat has run down): the wall is asleep, every soldier still out with it, and the frost comes in from the rim.</summary>
@@ -232,6 +265,16 @@ namespace Lattice.Combat
                 var block=new MaterialPropertyBlock();
                 foreach(var view in drawn.GetComponentsInChildren<Renderer>()){view.GetPropertyBlock(block);block.SetColor("_BaseColor",IceTone);block.SetColor("_EmissionColor",Color.black);view.SetPropertyBlock(block);}
             }
+            // D410: and it stands in the wall's own ice, as the host in the wall does. Tinted alone, five frozen in their ranks read as dark soldiers standing idle in a queue
+            // (nov24-whole s36/075 to 084). The ice is the scene's own material (a coupling's refrozen stretch of wall), so the player draws it as it draws the wall; none in a yard.
+            var ice=WallIce();
+            if(ice!=null)
+            {
+                // No wider than a hero can stand off it, so a rank frozen at arm's length (BesideAHero, no box) has nobody standing inside its ice.
+                var shell=new GameObject("Frozen rank ice",typeof(MeshFilter),typeof(MeshRenderer));shell.transform.SetParent(statue.transform,false);
+                shell.transform.localPosition=Vector3.up*(height*.5f+.12f);shell.transform.localScale=new Vector3(radius*1.7f,height+.3f,radius*1.7f);
+                shell.GetComponent<MeshFilter>().sharedMesh=IceShell();var view=shell.GetComponent<MeshRenderer>();view.sharedMaterial=ice;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
             // Cover, unless it froze within a hero's reach: then it is ice to look at and nothing to walk into. Ranks fight at arm's length, so the three still out when the wall
             // went back to sleep froze round the lead where he stood by a thaw rig, and their boxes and the rig's made a cell: he spent the last sixty-five seconds of the fight
             // rolling against its walls and never left it afterwards (first player run, November 14).
@@ -241,6 +284,22 @@ namespace Lattice.Combat
             Telegraph.ClearAll(guard);Debug.Log("RANK_REFROZEN "+guard.definition.id);
             Destroy(guard.gameObject);
             return statue;
+        }
+        /// <summary>The ice the wall's sleepers stand in: a coupling's refrozen stretch's material, or none (a yard, a test's bare coupling).</summary>
+        static Material WallIce()
+        {
+            foreach(var coupling in ThawCoupling.All)
+                if(coupling!=null&&coupling.refrozen!=null&&coupling.refrozen.TryGetComponent<MeshRenderer>(out var wall)&&wall.sharedMaterial!=null)return wall.sharedMaterial;
+            return null;
+        }
+        static Mesh iceShell;
+        /// <summary>A unit block, white in every vertex as the wall's blocks are.</summary>
+        static Mesh IceShell()
+        {
+            if(iceShell!=null)return iceShell;
+            iceShell=Instantiate(Resources.GetBuiltinResource<Mesh>("Cube.fbx"));iceShell.name="Frozen rank ice";
+            var white=new Color32[iceShell.vertexCount];for(int i=0;i<white.Length;i++)white[i]=new Color32(255,255,255,255);iceShell.colors32=white;
+            return iceShell;
         }
 
         (string,IEnumerator) ChooseMarshal(CombatActor hero)

@@ -147,6 +147,22 @@ namespace Lattice.Tests.PlayMode
             foreach(int index in arms)Assert.IsTrue(ArmNo(boss,index).Resting,$"fixture: arm {index} has come down");
         }
         static Vector3 OnRoad(SaintArm arm,float t)=>arm.RoadPoint(t)+Vector3.up*.08f;
+        /// <summary>The opening under way over: every collar locked, the press shut, and a frame or two for the press to see nothing open.</summary>
+        static IEnumerator Shut(BossController boss)
+        {
+            // Locked once the press has shut: while it is open (broken, or under the head's lift) it unlocks every standing collar each frame, for a moment past its end.
+            yield return Until(()=>!boss.Health.Broken,5);
+            foreach(var arm in boss.SaintArms)arm.Lock();yield return Frames(2);
+        }
+        /// <summary>A collar struck through as a player strikes it in a fight, an opening at a time (D411: an opening takes a third of an arm at most): unlocked, struck with
+        /// everything, shut. How many openings it took to let the arm go; then it comes down.</summary>
+        static IEnumerator StrikeThrough(BossController boss,CombatActor hero,int index,System.Action<int> took)
+        {
+            var arm=ArmNo(boss,index);int openings=0;
+            for(;!arm.IsReleased&&openings<12;openings++){arm.Unlock(3);Hit(arm.Collar,hero,arm.Collar.maximum*20,0,DamageType.Pulse);yield return Frames(2);yield return Shut(boss);}
+            took(openings);
+            yield return Until(()=>arm.Resting,3);Assert.IsTrue(arm.Resting,$"fixture: arm {index} has come down");
+        }
 
         // ------------------------------------------------------------------ the chapter's loadout
         [UnityTest] public IEnumerator TheChapterNineLoadoutArrivesAsThreeAtSyncTwentyFiveInTemperedPartsWithTarenAndIdraOut()
@@ -339,19 +355,31 @@ namespace Lattice.Tests.PlayMode
             // Under the head's lift the press is open.
             body.Expose(.5f);float open=Hit(body,hero,fifth*.02f);Assert.Greater(open,0,"the head's lift doesn't open the press");
             yield return Wait(.7f);Assert.IsFalse(body.Broken,"fixture: the lift is over");
-            // Two collars struck while unlocked: each blow comes off the bar, and no arm goes before the bar passes its line.
-            var three=ArmNo(boss,3);var four=ArmNo(boss,4);three.Unlock(6);four.Unlock(6);
-            float before=body.integrity,onFour=Hit(four.Collar,hero,fifth*.55f),onThree=Hit(three.Collar,hero,fifth*.3f);
-            Assert.AreEqual(before-onFour-onThree,body.integrity,2,"a blow on an unlocked collar didn't come off the bar");
-            yield return Frames(3);Assert.AreEqual(0,boss.SaintReleased,"an arm went before the bar passed its line");
-            // Over the line, from arm 3's collar: arm 4's was struck most, and it is the one that goes. Built wrong on purpose: arm 3's is struck past it first.
-            before=body.integrity;float over=Hit(three.Collar,hero,Broken?fifth*.4f:fifth*.2f);
+            // Two collars struck while unlocked: each blow comes off the bar, and no arm goes before the bar passes its line. An opening takes a third of an arm at most (D411), so the
+            // blows are struck over three openings, as a player's are: arm 4's collar 55% of its fifth in all, arm 3's 30%.
+            var three=ArmNo(boss,3);var four=ArmNo(boss,4);
+            foreach(var (first,second) in new[]{(.3f,0f),(.25f,.05f),(0f,.25f)})
+            {
+                // Built wrong on purpose: arm 3's collar is the one struck most. (Struck past arm 4's once the bar is over the line, as it was, the line held the blow: it never failed.)
+                var (onFour,onThree)=Broken?(second,first):(first,second);
+                three.Unlock(6);four.Unlock(6);float before=body.integrity;
+                float took=(onFour>0?Hit(four.Collar,hero,fifth*onFour):0)+(onThree>0?Hit(three.Collar,hero,fifth*onThree):0);
+                Assert.AreEqual(fifth*(onFour+onThree),took,2,"blows on unlocked collars inside an opening's third of an arm didn't land whole");
+                Assert.AreEqual(before-took,body.integrity,2,"a blow on an unlocked collar didn't come off the bar");
+                yield return Shut(boss);
+            }
+            Assert.AreEqual(0,boss.SaintReleased,"an arm went before the bar passed its line");
+            // Over the line, from arm 3's collar: arm 4's was struck most, and it is the one that goes.
+            three.Unlock(6);four.Unlock(6);
+            float was=body.integrity,over=Hit(three.Collar,hero,fifth*.2f);
             yield return Frames(3);
             Assert.IsTrue(four.IsReleased,"the bar passed its first line and the arm whose collar was struck most still holds");Assert.IsFalse(three.IsReleased,"the bar's first line let two arms go");
-            Assert.AreEqual(before-over,body.integrity,2,"the arm let go took more off the bar than the blows did");
+            Assert.AreEqual(was-over,body.integrity,2,"the arm let go took more off the bar than the blows did");
             Assert.IsTrue(Said("SAINT_ARM_RELEASED 4 released=1"));Assert.AreEqual("Release an arm at its shoulder collar (1/3)",boss.FightGoal(""));
-            // Two collars struck through: each carries the fifth its arm holds, so each goes at its line; three down, the rig is bare.
-            yield return Release(boss,hero,2,5);
+            yield return Shut(boss);
+            // The other two struck through as a player strikes them: a collar carries the fifth its arm holds and an opening takes a third of one, so each goes in its third opening
+            // (nine openings in all for the arms, where a pair that filled them needed six); three down, the rig is bare.
+            foreach(int index in new[]{2,5}){int openings=0;yield return StrikeThrough(boss,hero,index,n=>openings=n);Assert.AreEqual(3,openings,$"arm {index} didn't go in its third opening");}
             Assert.IsTrue(boss.SaintBare,"three arms released and the rig isn't bare");Assert.IsTrue(Said("SAINT_RIG_BARE"));
             Assert.Less(body.integrity,body.maximum*BossController.SaintTune.Bare,"three arms down and its bar isn't past its shift");
             Assert.AreEqual("Climb the fallen arms to the rig on its back",boss.FightGoal(""));
@@ -366,8 +394,8 @@ namespace Lattice.Tests.PlayMode
             body.integrity=body.maximum*.3f;yield return Frames(3);
             Assert.AreEqual(3,boss.SaintReleased,"its bar under its shift and three arms aren't down");Assert.IsTrue(boss.SaintBare);
         }
-        /// <summary>An opening lets one arm go at most, and the bar no further than that arm's line (D364). An EXTRA under the head's lift took 32 and 41% of its bar in the player, two arms
-        /// and most of the rig's share (Builds/quality/nov22b-whole s59, nov22-recon-k-59: 76 and 61 s, where one that met a held press ran 145).</summary>
+        /// <summary>An opening lets one arm go at most, and the bar no further than that arm's line (D364), and takes a third of an arm at most (D411). An EXTRA under the head's lift took
+        /// 32 and 41% of its bar in the player, two arms and most of the rig's share (Builds/quality/nov22b-whole s59, nov22-recon-k-59: 76 and 61 s, where one that met a held press ran 145).</summary>
         [UnityTest] public IEnumerator AnOpeningLetsOneArmGoAndTheBarNoFurtherThanItsLine()
         {
             yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));
@@ -375,24 +403,94 @@ namespace Lattice.Tests.PlayMode
             Put(hero,At(0,.05f,-40));enemy.Passive=false;yield return Frames(2);
             // Built wrong on purpose: its bar held nowhere, as it was.
             if(Broken)body.Holds=null;
-            float share=BossController.SaintTune.ArmShare;
-            // The head's lift: the press open and every collar unlocked, and a blow of 45% of its bar on it, as the EXTRA was.
-            body.Expose(3);foreach(var arm in boss.SaintArms)arm.Unlock(3);
-            Hit(body,hero,body.maximum*.45f);yield return Frames(3);
-            Assert.AreEqual(1,boss.SaintReleased,"one opening let more than one arm go");
-            Assert.GreaterOrEqual(body.integrity,body.maximum*(1-share)-2,"one opening took its bar past the arm's line");
-            Assert.IsTrue(Said("SAINT_HOLDS"),"the arm went and nothing holds its bar");
-            // The rest of that lift takes nothing more, on the press or on a collar.
-            float held=body.integrity;var other=boss.SaintArms.First(a=>!a.IsReleased);
-            Hit(body,hero,body.maximum*.1f);Hit(other.Collar,hero,other.Collar.maximum);yield return Frames(2);
-            Assert.AreEqual(held,body.integrity,1,"the lift an arm went in took more off its bar");Assert.AreEqual(1,boss.SaintReleased,"the lift an arm went in let another go");
-            // The next opening lets the next arm go, at its line.
-            yield return Until(()=>!body.Broken,4);Assert.IsFalse(body.Broken,"fixture: the lift is over");yield return Frames(2);
-            body.Expose(3);foreach(var arm in boss.SaintArms)arm.Unlock(3);
-            Hit(body,hero,body.maximum*.45f);yield return Frames(3);
-            Assert.AreEqual(2,boss.SaintReleased,"the next opening didn't let the next arm go");
-            Assert.GreaterOrEqual(body.integrity,body.maximum*(1-2*share)-2,"the next opening took its bar past the next arm's line");
+            float share=BossController.SaintTune.ArmShare,third=body.maximum*BossController.SaintTune.OpeningShare;
+            // D411: an opening takes a third of an arm at most, so the third lets the arm go, at its line. With one arm an opening the short runs still freed an arm in every opening
+            // or two, an EXTRA paying off a whole one (nov24-whole s59, 109.6 s; nov24-recon-C, 94 s).
+            for(int arm=1;arm<=2;arm++)for(int lift=1;lift<=3;lift++)
+            {
+                // The head's lift: the press open and every collar unlocked, and a blow of 45% of its bar on it, as the EXTRA was.
+                float from=body.integrity;body.Expose(3);foreach(var each in boss.SaintArms)each.Unlock(3);
+                Hit(body,hero,body.maximum*.45f);yield return Frames(3);
+                if(lift<3)
+                {
+                    Assert.AreEqual(from-third-1,body.integrity,2,$"lift {lift} toward arm {arm} took other than a third of an arm ({(from-body.integrity)/body.maximum:0.000} of the bar)");
+                    Assert.AreEqual(arm-1,boss.SaintReleased,$"lift {lift} toward arm {arm} let an arm go");
+                }
+                else
+                {
+                    Assert.AreEqual(arm,boss.SaintReleased,$"the third lift toward arm {arm} didn't let one arm go");
+                    Assert.GreaterOrEqual(body.integrity,body.maximum*(1-arm*share)-2,$"the third lift took its bar past arm {arm}'s line");
+                    Assert.IsTrue(Said("SAINT_HOLDS"),"the arm went and nothing holds its bar");
+                }
+                // The rest of that lift takes nothing more, on the press or on a collar.
+                float held=body.integrity;var other=boss.SaintArms.First(a=>!a.IsReleased);
+                Hit(body,hero,body.maximum*.1f);Hit(other.Collar,hero,other.Collar.maximum);yield return Frames(2);
+                Assert.AreEqual(held,body.integrity,1,$"the rest of lift {lift} toward arm {arm} took more off its bar");Assert.AreEqual(lift<3?arm-1:arm,boss.SaintReleased,"the rest of a lift let another arm go");
+                yield return Shut(boss);Assert.IsFalse(body.Broken,"fixture: the lift is over");
+            }
+            Assert.IsTrue(Said("SAINT_OPENING "),"the log doesn't say what each opening took");
             enemy.Passive=true;
+        }
+        /// <summary>With the rig bare the head's lift takes a third of an arm at most too (D411): a lift and an EXTRA in it took the rig's last 19,961 (nov24-whole s59, a 26 s rig). A blow
+        /// from up on the arms with the head down is held nowhere: the climb is the rig half's own pace.</summary>
+        [UnityTest] public IEnumerator WithTheRigBareTheHeadsLiftTakesAThirdOfAnArmAtMostAndTheClimbIsNotHeld()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));
+            EnemyBrain enemy=null;BossController boss=null;yield return Saint((e,b)=>{enemy=e;boss=b;});var body=enemy.Health;
+            Put(hero,At(-30,.05f,-30));yield return Release(boss,hero,1,3,6);Assert.IsTrue(boss.SaintBare,"fixture: the rig is bare");
+            body.integrity=body.maximum*.35f;
+            // Built wrong on purpose: its bar held nowhere.
+            if(Broken)body.Holds=null;
+            var road=ArmNo(boss,3);Put(hero,OnRoad(road,.92f),false);yield return Frames(3);
+            Assert.GreaterOrEqual(hero.transform.position.y-road.Floor,BossController.SaintTune.ClimbHeight,"fixture: the hero stands up on a fallen arm");
+            // Fighting only while a blow lands, so it never sweeps the hero off the road meanwhile.
+            float Struck(float amount){enemy.Passive=false;float dealt=Hit(body,hero,amount);enemy.Passive=true;return dealt;}
+            float third=body.maximum*BossController.SaintTune.OpeningShare;
+            Assert.Greater(Struck(third*1.5f),third*1.2f,"a blow from up on the arms with its head down was held");
+            float from=body.integrity;body.Expose(3);yield return null;
+            Struck(body.maximum*.2f);Struck(body.maximum*.1f);
+            Assert.AreEqual(from-third-1,body.integrity,2,$"the head's lift took other than a third of an arm off the rig ({(from-body.integrity)/body.maximum:0.000} of the bar)");
+            yield return Until(()=>!body.Broken,4);Assert.IsFalse(body.Broken,"fixture: the lift is over");
+            Assert.Greater(Struck(third*1.5f),third*1.2f,"after the head's lift, a blow from up on the arms was still held");
+        }
+        /// <summary>The replay's way to a collar across a fallen road goes round the road's foot (D411): pushed straight at the spot, the lead ran in place against arm 1's road from the
+        /// fifth head lift to the eleventh, a 217 s fight where the others took 94 to 128 (Builds/quality/nov24-recon-h-59 s59). Walked the driver's way (ContinuousReview.SaintRound),
+        /// a lead against the far side of a fallen road comes to the collar's spot beyond it.</summary>
+        [UnityTest] public IEnumerator TheDriversWayToACollarAcrossAFallenRoadGoesRoundItsFoot()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));
+            EnemyBrain enemy=null;BossController boss=null;yield return Saint((e,b)=>{enemy=e;boss=b;});
+            Put(hero,At(-30,.05f,-30));yield return Release(boss,hero,2);
+            var road=ArmNo(boss,2);var three=ArmNo(boss,3);var spot=three.CollarFloor+three.Outward*ContinuousReview.CollarStand;
+            var side=Vector3.Cross(Vector3.up,road.Outward);float away=-Mathf.Sign(Vector3.Dot(spot-road.CollarFloor,side));
+            // Against the road's far side half way down it, where its side stands about a metre over the floor.
+            Put(hero,road.CollarFloor+road.Outward*4+side*away*(SaintArm.Tune.RoadWidth*.5f+.6f)+Vector3.up*.05f,false);yield return Frames(2);
+            Assert.IsTrue(ContinuousReview.SaintRound(hero.transform.position,spot,three,out _,out var across)&&across==road,"the driver doesn't see the fallen road between the lead and the collar");
+            float near=float.PositiveInfinity;
+            for(float end=Time.time+10;Time.time<end;)
+            {
+                var at=hero.transform.position;near=Mathf.Min(near,Flat(at,spot));if(near<ContinuousReview.CollarNear)break;
+                // Built wrong on purpose: straight at the spot, as the driver went.
+                var goal=!Broken&&ContinuousReview.SaintRound(at,spot,three,out var way,out _)?way:spot;var push=goal-at;push.y=0;
+                hero.motor.Move(new Vector2(push.x,push.z).normalized,false,false);yield return null;
+            }
+            TestContext.WriteLine($"SAINT_ROUND near={near:0.00} at={hero.transform.position:F2}");
+            Assert.Less(near,ContinuousReview.CollarNear,$"the lead never came to the collar's spot across the fallen road ({near:0.0} m off it)");
+        }
+        /// <summary>Settled, its override's cables go with the rig they ran from (D411): six slack pale cyan lines stood straight up out of the collars for the rest of the visit and
+        /// read as glass rods (nov24-whole s59/038, 084).</summary>
+        [UnityTest] public IEnumerator SettledItsOverrideCablesGoWithTheRig()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));
+            EnemyBrain enemy=null;BossController boss=null;yield return Saint((e,b)=>{enemy=e;boss=b;});var body=enemy.Health;
+            Put(hero,At(-30,.05f,-30));yield return Release(boss,hero,3,4,5);
+            LineRenderer[] Drawn()=>boss.SaintArms.SelectMany(a=>a.GetComponentsInChildren<LineRenderer>()).Where(l=>l.enabled).ToArray();
+            Assert.AreEqual(6,Drawn().Length,"fixture: every arm's cable runs to the bar while it fights");
+            Put(hero,OnRoad(ArmNo(boss,4),.9f),false);
+            body.integrity=10;Assert.Greater(Hit(body,hero,1000),0,"fixture: the last blow from the arms");
+            yield return Wait(2.5f);
+            Assert.IsTrue(Said("SAINT_SETTLES"),"fixture: it settles");
+            Assert.IsEmpty(Drawn().Select(l=>l.transform.parent.name).ToArray(),"settled, its arms' cables still stand out of their collars with no rig to run to");
         }
         /// <summary>The rig bare: a blow from the floor is resisted (the first says so on screen); a blow from up on a fallen arm lands; and from the top of every fallen road a blade reaches the rig,
         /// which takes a blow twice over, while from the floor nothing does.</summary>

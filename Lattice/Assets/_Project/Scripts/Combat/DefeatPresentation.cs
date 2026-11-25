@@ -107,6 +107,11 @@ namespace Lattice.Combat
                 // lilac with her seams lit (nov23-whole s63/150 to 158).
                 else if(ending==BossController.Ending.Leaves){dark=gameObject.AddComponent<BodyGoesDark>();dark.BeginBeaten(transform);}
             }
+            // D412: one that gives up and is no person on her own feet (Dessik Varn's suit, a frame he climbs out of) goes beaten as a machine does, until the person takes over from it:
+            // it stood in its full stripes under the killing blow's blue wash and then in full yellow and black (nov24-whole s30/045, 047). A person who yields keeps her colours, for
+            // the person who takes over has them, and only the killing blow's light goes out on her (HitFlash).
+            else if(enemy!=null&&enemy.definition.boss&&yields&&visual!=null&&BossController.EndingOf(enemy.definition.id)==BossController.Ending.Yields&&(animator==null||!animator.isHuman))
+            {dark=gameObject.AddComponent<BodyGoesDark>();dark.BeginBeaten(transform);}
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
             if(visualScale==Vector3.zero)visualScale=visual.localScale;

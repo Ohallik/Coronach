@@ -268,31 +268,89 @@ namespace Lattice.Combat
         /// <summary>Shots it has stopped.</summary>
         public int Stopped{get;private set;}
         public float Reach{get;private set;}
-        float age,unit=.5f;bool flight;SkillRing edge;Transform shell;Material glass;
+        float age;bool flight;GroundRing ring;FlightEnergyArc arc;MeshRenderer rim;Mesh band;Material glow;
         static readonly List<Projectile> entering=new();
-        /// <summary>D387 (nov23-whole s46/127 to 140, the Scoria battery): the dome was an orange wash over two thirds of the frame. Its shell was the built-in sphere scaled by twice
-        /// its reach, as if that mesh were a unit across, and drew well past the ring on the floor that marks its foot; and its glass was the energy bubble at 1.8 times an HDR orange
-        /// (1.3, .8, .3), so its edge went to several times white and the bloom spread it over the battery, the party and the floor. Now the shell is sized from the mesh's own
-        /// bounds to stand on its ring, and its glass is its own: a clear middle and a thin pale-amber edge held under white.</summary>
-        static readonly Color Glass=new(1f,.84f,.55f,.55f);
-        public const float GlassCore=.03f,GlassSharpness=3.5f,GlassIntensity=.6f;
-        /// <summary>How wide the shell is drawn, from the middle: its reach, whatever mesh it wears.</summary>
-        public float DrawnRadius=>shell!=null&&shell.TryGetComponent<MeshRenderer>(out var view)?view.bounds.extents.x:0;
-        public Material GlassLook=>glass;
+        /// <summary>D415 (nov24-whole s46/128 and 132, s48/229): drawn as D387 left it, a clear sphere of its reach with a pale rim, it was still a circle 880 to 1200 px across, its
+        /// limb standing over the party and the skill row and its glass laying amber over a third of the frame, with Idra herself off the screen. What a player needs from it is where
+        /// its edge is and that it is up: so it is its ring on the floor at its reach and a low wall of light standing on that ring (<see cref="RimHeight"/>, a fifth of a hero), lit at
+        /// its foot and gone by its top, that rises as it goes up and sinks as it ends. Nothing is drawn over what it covers. Its reach (5 m, 7 m in flight) and its five seconds are as
+        /// they were; it stops shots that reach it from outside, as it did.</summary>
+        public const float RimHeight=.38f,RiseSeconds=.25f,FallSeconds=.4f;
+        /// <summary>The rim's colour at its foot: a pale amber held under white, so the bloom has nothing to spread; its alpha is how strongly it is laid over what is behind it.</summary>
+        public static readonly Color RimColour=new(1f,.86f,.6f,.7f);
+        /// <summary>How many spokes the rim is drawn on, and the ring's own strength while it stands (the party's cream, GroundRing.Friendly).</summary>
+        const int Spokes=64;const float RingAlpha=.9f;
+        /// <summary>How high the rim stands now (0 before it rises and after it has sunk), and how far from the middle it is drawn at the most: what a check reads.</summary>
+        public float RimStands{get;private set;}
+        public float DrawnRadius=>rim!=null?Mathf.Max(rim.bounds.extents.x,rim.bounds.extents.z):0;
         public static ShelterDome Plant(CombatActor owner,Vector3 at,bool flight)
         {
-            var go=new GameObject("Shelter",typeof(ShelterDome));go.transform.position=flight?at:CombatCover.Ground(at+Vector3.up*2);
-            var dome=go.GetComponent<ShelterDome>();dome.flight=flight;dome.Reach=flight?FlightRadius:Radius;Latest=dome;
-            // A shell with no collider: it has to be seen, and nothing but a shot may be stopped by it.
-            var mesh=Resources.GetBuiltinResource<Mesh>("Sphere.fbx");dome.unit=mesh!=null?Mathf.Max(.01f,mesh.bounds.extents.x):.5f;
-            var shell=new GameObject("Shell",typeof(MeshFilter),typeof(MeshRenderer));shell.transform.SetParent(go.transform,false);shell.transform.localScale=Vector3.one*dome.Reach/dome.unit;
-            shell.GetComponent<MeshFilter>().sharedMesh=mesh;
-            dome.glass=new Material(ActorFactory.Energy(Glass)){name="Shelter glass"};dome.glass.SetFloat("_Core",GlassCore);dome.glass.SetFloat("_Sharpness",GlassSharpness);dome.glass.SetFloat("_Intensity",GlassIntensity);
-            var view=shell.GetComponent<MeshRenderer>();view.sharedMaterial=dome.glass;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;
-            dome.shell=shell.transform;
-            dome.edge=SkillRing.Expand(go.transform.position,dome.Reach,GroundRing.Friendly,Seconds+.3f,flight,true,dome.Reach);
-            HeroSkills.Sound(owner,go.transform.position+Vector3.up,"forceField_000",.24f,.7f);CombatVfx.Burst(go.transform.position+Vector3.up*.5f,new Color(1.5f,.9f,.35f),"shape");
+            var dome=Stand(flight?at:CombatCover.Ground(at+Vector3.up*2),flight);Latest=dome;
+            HeroSkills.Sound(owner,dome.transform.position+Vector3.up,"forceField_000",.24f,.7f);CombatVfx.Burst(dome.transform.position+Vector3.up*.5f,new Color(1.5f,.9f,.35f),"shape");
             return dome;
+        }
+        /// <summary>Only what it draws, standing at a place (an editor still draws it with this and <see cref="Pose"/>): no sound, no burst, not the one a companion reads.</summary>
+        public static ShelterDome Stand(Vector3 at,bool flight)
+        {
+            var go=new GameObject("Shelter",typeof(ShelterDome));go.transform.position=at;
+            var dome=go.GetComponent<ShelterDome>();dome.flight=flight;dome.Reach=flight?FlightRadius:Radius;
+            // Its edge on the floor (or the flight plane), stopping at a wall as a skill's ring does.
+            var edge=new GameObject("Shelter edge");edge.transform.SetParent(go.transform,false);
+            if(flight){dome.arc=FlightEnergyArc.Create("Shelter edge arc");dome.arc.transform.SetParent(edge.transform,false);}
+            else{dome.ring=edge.AddComponent<GroundRing>();dome.ring.Initialize(dome.Reach+.5f);}
+            // The rim: a band with no collider on the same edge, its foot on the ground under each spoke.
+            var rimGo=new GameObject("Shelter rim",typeof(MeshFilter),typeof(MeshRenderer));rimGo.transform.SetParent(go.transform,false);
+            dome.band=new Mesh{name="Shelter rim"};dome.band.MarkDynamic();rimGo.GetComponent<MeshFilter>().sharedMesh=dome.band;
+            dome.glow=new Material(Resources.Load<Material>("Effects/flare_01")){name="Shelter rim"};dome.glow.SetTexture("_BaseMap",Texture2D.whiteTexture);
+            dome.rim=rimGo.GetComponent<MeshRenderer>();dome.rim.sharedMaterial=dome.glow;dome.rim.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;dome.rim.receiveShadows=false;
+            dome.Lay();dome.Pose(0);
+            return dome;
+        }
+        Vector3[] foot;Color[] tone;Vector3[] shape;static readonly RaycastHit[] Floors=new RaycastHit[8];
+        /// <summary>Where the rim's foot is on each spoke: at its reach, or at a wall before it; on the ground there, not on one plane at the middle's height.</summary>
+        void Lay()
+        {
+            foot=new Vector3[Spokes];var centre=transform.position;var cover=centre+Vector3.up*(flight?0:.75f);
+            for(int i=0;i<Spokes;i++)
+            {
+                float angle=i*Mathf.PI*2/Spokes;var way=new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle));
+                float reach=CombatCover.Sweep(cover,cover+way*Reach,.01f,out var wall)?Mathf.Max(0,wall.distance-.03f):Reach;
+                var at=centre+way*reach;float y=centre.y;
+                // The floor under it nearest the middle's height, within a step: a body standing on the edge isn't the floor.
+                if(!flight)
+                {
+                    int count=Physics.RaycastNonAlloc(at+Vector3.up*1.2f,Vector3.down,Floors,2.4f,~0,QueryTriggerInteraction.Ignore);float off=float.PositiveInfinity;
+                    for(int h=0;h<count;h++)
+                    {
+                        var hit=Floors[h];if(hit.collider is CharacterController||hit.collider.GetComponentInParent<Health>()!=null)continue;
+                        if(Mathf.Abs(hit.point.y-centre.y)<off){off=Mathf.Abs(hit.point.y-centre.y);y=hit.point.y;}
+                    }
+                }
+                foot[i]=new Vector3(way.x*reach,y-centre.y+(flight?-.1f:.02f),way.z*reach);
+            }
+            // Four rows on each spoke (foot, a third up, two thirds, top), each face drawn on both sides: the near side is seen from outside, the far side from within.
+            shape=new Vector3[Spokes*4];tone=new Color[Spokes*4];var triangles=new int[Spokes*3*12];int k=0;
+            for(int i=0;i<Spokes;i++)for(int row=0;row<3;row++)
+            {
+                int a=row*Spokes+i,b=row*Spokes+(i+1)%Spokes,c=a+Spokes,d=b+Spokes;
+                triangles[k++]=a;triangles[k++]=c;triangles[k++]=b;triangles[k++]=b;triangles[k++]=c;triangles[k++]=d;
+                triangles[k++]=a;triangles[k++]=b;triangles[k++]=c;triangles[k++]=b;triangles[k++]=d;triangles[k++]=c;
+            }
+            band.vertices=shape;band.colors=tone;band.triangles=triangles;
+        }
+        /// <summary>Draws it as it stands this long after it was planted: rising over its first quarter second, standing, sinking over its last <see cref="FallSeconds"/>.</summary>
+        public void Pose(float since)
+        {
+            float rise=Mathf.Clamp01(since/RiseSeconds),fall=Mathf.Clamp01((Seconds-since)/FallSeconds),up=Mathf.Min(1-(1-rise)*(1-rise),fall);
+            RimStands=RimHeight*up;
+            for(int row=0;row<4;row++)
+            {
+                float t=row/3f;var c=RimColour;c.a*=(1-t)*(1-t)*Mathf.Lerp(.35f,1,up);
+                for(int i=0;i<Spokes;i++){int v=row*Spokes+i;shape[v]=foot[i]+Vector3.up*(RimStands*t);tone[v]=c;}
+            }
+            band.vertices=shape;band.colors=tone;band.RecalculateBounds();
+            var ringColour=GroundRing.Friendly;ringColour.a=RingAlpha*Mathf.Min(rise,fall);
+            if(ring!=null)ring.Draw(Reach,ringColour);if(arc!=null)arc.Draw(Reach,180,ringColour,true);
         }
         /// <summary>Whether a point is under it.</summary>
         public bool Covers(Vector3 point)=>(point-transform.position).sqrMagnitude<=Reach*Reach;
@@ -314,10 +372,15 @@ namespace Lattice.Combat
             }
             foreach(var shot in entering){shot.Spend();Stopped++;}
             entering.Clear();
-            // It breathes while it stands and thins as it goes.
-            shell.localScale=Vector3.one*Reach/unit*(1+.012f*Mathf.Sin(age*5));
+            Pose(age);
         }
-        void OnDestroy(){if(edge!=null)edge.Dismiss();if(glass!=null)Destroy(glass);if(Latest==this)Latest=null;}
+        // Its ring and rim are its own children and go with it, the fight's end (a conversation, a pause) included.
+        void OnDestroy()
+        {
+            if(Application.isPlaying){if(glow!=null)Destroy(glow);if(band!=null)Destroy(band);}
+            else{if(glow!=null)DestroyImmediate(glow);if(band!=null)DestroyImmediate(band);}
+            if(Latest==this)Latest=null;
+        }
     }
 
     /// <summary>Rescue Flare: a light thrown to the other hero. Standing, it mends them a quarter of their Integrity; down, it raises them, from anywhere in thirty

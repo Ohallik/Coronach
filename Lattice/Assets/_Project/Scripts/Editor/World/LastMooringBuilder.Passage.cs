@@ -253,7 +253,8 @@ namespace Lattice.EditorTools
                 body.GetComponent<BoxCollider>().size=TugBody;
                 var drawn=ZoneKit.Drawn(tug);Debug.Log("PASSAGE_TUG drawn="+drawn);
                 var rope=new GameObject("Her tow line",typeof(LineRenderer)).GetComponent<LineRenderer>();rope.transform.SetParent(tug.transform,false);
-                rope.sharedMaterial=stuff.rope;rope.widthMultiplier=.14f;rope.startColor=rope.endColor=new Color(.92f,.84f,.6f);rope.useWorldSpace=true;rope.positionCount=2;rope.numCapVertices=2;
+                // D417 (nov24-whole s68/105): pale (.92, .84, .6) and .14 wide, the line from the lead's tail back to the tug read as a flat tan rod; tarred hemp, and thinner.
+                rope.sharedMaterial=stuff.rope;rope.widthMultiplier=.1f;rope.startColor=rope.endColor=new Color(.42f,.33f,.22f);rope.useWorldSpace=true;rope.positionCount=2;rope.numCapVertices=2;
                 rope.shadowCastingMode=ShadowCastingMode.Off;rope.enabled=false;
                 string drone=Foe(Enemies.TowDrone,"TowDrone");
                 var fight=WorldBuilder.Encounter(TugFight,On(TugFightS),TugFightSize,drone,1);fight.transform.rotation=Quaternion.Euler(0,Heading(TugFightS),0);
@@ -427,7 +428,8 @@ namespace Lattice.EditorTools
                             glass.Box(lamp,size,turn,LanternGlass);
                             Halo(stuff.pool,new Vector3(p.x,-1.86f,p.z),r*2.6f,root.transform,yaw);
                         }
-                        Halo(stuff.lantern,On(s+3.7f)+Vector3.up*(-3.1f-Plane),7,root.transform,yaw);
+                        // D417 (nov24-whole s68/105): a 7 m lantern glow lay under each three, and through the bloom it drew a great orange disc behind the middle drum. Each lantern's
+                        // light is its own pool on its drum's head, the size of the drum; no glow under the three.
                         if(k%3==0)
                         {
                             var light=kit.Lamp(On(s+3.7f)+Vector3.up*(-.4f-Plane),15,2.2f,new Color(1f,.76f,.42f));light.transform.SetParent(root.transform,true);

@@ -258,9 +258,17 @@ namespace Lattice.Tests.PlayMode
             // Distance over time, summed, not a mean of each frame's speed: a frame's sample has the body moved this frame and the bones posed the last, and the test runner's
             // frame times swing, so per-frame ratios weighed the pose's motion by the wrong frame's length (on the deck it read -.137 and .055 against the editor's .034 and .171).
             float ownDistance=0,ownTime=0,noneDistance=0,noneTime=0;int ownFrames=0,noneFrames=0;Vector3[] last=null;float changeAt=Time.time+6.5f;int walkState=Animator.StringToHash("Walk");
+            // D418: frames her walk stood held by what its look-ahead met (ScriptedWalk.Blocked), on her stride and without it, and what that was the first time.
+            int ownHeld=0,noneHeld=0;string heldBy="";
             while(walk.Phase==ScriptedWalk.Stage.Exiting)
             {
                 yield return null;
+                if(walk.Blocked)
+                {
+                    if(driver.strideProfile!=null)ownHeld++;else noneHeld++;
+                    if(heldBy=="")heldBy=$"at {Time.time-changeAt+6.5f:0.0} s by "+string.Join(", ",Physics.OverlapSphere(mira.transform.position+Vector3.up*.95f+mira.transform.forward*.3f,.6f,~0,QueryTriggerInteraction.Ignore)
+                        .Where(c=>!c.transform.IsChildOf(mira.transform)).Select(c=>$"{c.name} ({c.transform.position.x:0.00},{c.transform.position.z:0.00})"))+$"; Mira at ({mira.transform.position.x:0.00},{mira.transform.position.z:0.00})";
+                }
                 if(Time.time>=changeAt&&driver.strideProfile!=null){driver.strideProfile=null;last=null;continue;}
                 var info=rig.GetCurrentAnimatorStateInfo(0);var now=new[]{leftToe.TransformPoint(profile.leftToe),rightToe.TransformPoint(profile.rightToe)};
                 bool walking=info.shortNameHash==walkState&&!rig.IsInTransition(0)&&Time.deltaTime>0;var travel=mira.transform.forward;travel.y=0;travel.Normalize();
@@ -274,7 +282,7 @@ namespace Lattice.Tests.PlayMode
             }
             driver.strideProfile=profile;
             Assert.Greater(ownFrames,40,"fixture: stance frames of her walk on her own stride");Assert.Greater(noneFrames,40,"fixture: stance frames of her walk without it");
-            float onOwn=ownDistance/ownTime,onNone=noneDistance/noneTime;TestContext.WriteLine($"Mira's planted toe slides {onOwn:0.000} m/s forward on her stride and {onNone:0.000} m/s without it");
+            float onOwn=ownDistance/ownTime,onNone=noneDistance/noneTime;TestContext.WriteLine($"Mira's planted toe slides {onOwn:0.000} m/s forward on her stride and {onNone:0.000} m/s without it; stance frames {ownFrames} and {noneFrames}; held {ownHeld} and {noneHeld} frames {heldBy}");
             // The editor's reading of the same walk (CivilianStride.Slip): about .04 on her stride, .18 at the floor rate.
             Assert.Greater(onNone,.12f,"control: without her stride the planted sole doesn't slide, so this can't tell");
             Assert.Less(Mathf.Abs(onOwn),.07f,$"on her own stride Mira's planted sole still slides {onOwn:0.000} m/s");

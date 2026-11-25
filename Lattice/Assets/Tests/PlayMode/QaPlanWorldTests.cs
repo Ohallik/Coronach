@@ -1076,21 +1076,27 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(.6f);
             var party=PartyController.Current;var lead=party.Active;var partner=party.members.First(m=>m!=lead);partner.GetComponent<PartnerBrain>().enabled=true;
             var route=LongestWalk(140);Assert.Greater(route.Length,1,"fixture: "+zone+" has a walk to take");
-            int corner=1;float deadline=Time.unscaledTime+45,widest=0;
+            int corner=1;float deadline=Time.unscaledTime+45,widest=0,began=Time.unscaledTime,nextTrail=0;
+            // D418: where the gap was widest and a line a second, so a failure says what she was doing.
+            string widestAt="";var trail=new List<string>();
+            string Where()=>$"{Time.unscaledTime-began:0.0}s corner {corner}/{route.Length} lead ({lead.transform.position.x:0.0},{lead.transform.position.y:0.0},{lead.transform.position.z:0.0}) partner ({partner.transform.position.x:0.0},{partner.transform.position.y:0.0},{partner.transform.position.z:0.0}) {partner.State} apart {FlatDistance(lead.transform.position,partner.transform.position):0.0} held={GameServices.Current.Input.Blocked} dt={Time.deltaTime:0.000}";
             while(corner<route.Length&&Time.unscaledTime<deadline)
             {
                 var gap=Flat(route[corner]-lead.transform.position);
                 if(gap.magnitude<.7f){corner++;continue;}
                 var way=gap.normalized;lead.motor.Move(new Vector2(way.x,way.z),false,false);
-                widest=Mathf.Max(widest,FlatDistance(lead.transform.position,partner.transform.position));
+                float apart=FlatDistance(lead.transform.position,partner.transform.position);
+                if(apart>widest){widest=apart;widestAt=Where();}
+                if(Time.unscaledTime>=nextTrail){nextTrail=Time.unscaledTime+1;trail.Add(Where());}
                 yield return null;
             }
+            TestContext.WriteLine($"{zone}: widest {widest:0.0} m at {widestAt}\n"+string.Join("\n",trail));
             Assert.AreEqual(route.Length,corner,$"{zone}: the lead never finished a walk the floor says is open, and stopped at {lead.transform.position}");
             lead.motor.Move(Vector2.zero,false,false);
             deadline=Time.unscaledTime+6;while(FlatDistance(lead.transform.position,partner.transform.position)>8&&Time.unscaledTime<deadline)yield return null;
             float left=FlatDistance(lead.transform.position,partner.transform.position);
             Assert.LessOrEqual(left,8,$"{zone}: after a walk of the zone the companion is left {left:0} m behind, at {partner.transform.position}");
-            Assert.Less(widest,18,$"{zone}: on the way the companion falls {widest:0} m behind: far enough to drop out of a fight");
+            Assert.Less(widest,18,$"{zone}: on the way the companion falls {widest:0} m behind: far enough to drop out of a fight (at {widestAt})");
         }
 
         // ================================================================ 4.5 Lanternwick

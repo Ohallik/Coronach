@@ -5,11 +5,16 @@ using UnityEngine.Rendering;
 namespace Lattice.Combat
 {
     /// <summary>
-    /// The fixed camera's first rule: a hero out in the field is never lost behind anything. Each body is drawn a second time with <c>Lattice/HeroThrough</c>, which shows
-    /// only where something stands in front of it by more than the body is thick: a bright rim round a tinted fill, the lead brighter than the partner. It needs nothing
-    /// of what is in the way, so it holds for a boss, its arms and its wreck, a wall, a lying arm or a crate alike. In the first whole-game capture (nov20) neither hero
-    /// could be seen behind the Foundry Saint's lying arms (s59 022, 024, 041), which belong to the room and opened no door for anyone, and Taren inside the Slag
-    /// Colossus's wreck was a patch of dots that read as a fault (s49 067).
+    /// The fixed camera's first rule: a hero out in the field is never lost behind anything. Each body is drawn twice more with <c>Lattice/HeroThrough</c>, shown only where
+    /// something stands in front of it by more than the body is thick: one clean line round the hidden part, of even width on the screen, gold for the lead and pale blue
+    /// for the partner, with a faint flat tint inside so the surface in front stays readable through the figure. It needs nothing of what is in the way, so it holds for a
+    /// boss, its arms and its wreck, a wall, a roof, a lying arm or a crate alike. In the first whole-game capture (nov20) neither hero could be seen behind the Foundry
+    /// Saint's lying arms (s59 022, 024, 041), and Taren inside the Slag Colossus's wreck was a patch of dots that read as a fault (s49 067). D414: the drawing was a Fresnel
+    /// rim over a fill, and seen from above almost all of a body is at a grazing angle, so it was a bright, nearly solid glass figure that read as standing ON what hid it
+    /// (nov24-whole s13/007 on the Arch Market's arch, s11/007 sitting on Tallow's lift door, s50/071 on Harrowgate's gate roof).
+    /// The two copies of a body: the body itself (it marks the body's pixels, tints where it is hidden and draws the line where the scenery's edge crosses it) and a hull
+    /// pushed out by the line's width (it draws the silhouette's line, off every body's pixels). The body's material draws before any hull's (the queue), so a line never
+    /// crosses a hero, his own parts or the other hero's.
     /// The copies are kept on an object of their own, outside the hero, so nothing that walks a hero's renderers (a hit's flash, the framing's bounds, a defeat's pose)
     /// ever meets them. A skinned copy shares the body's bones, so it moves as the body does at no cost but its own skinning.
     /// </summary>
@@ -19,38 +24,43 @@ namespace Lattice.Combat
         /// <summary>How far in front of a point of the body something must stand before it counts as hiding it: more than an arm across a chest, or a foot in the floor.
         /// A ship's own wing over its hull is a hull's width.</summary>
         public const float Thickness=.55f,HullThickness=2.4f;
-        /// <summary>The lead warm gold, so he reads apart from white plates and the partner; the partner pale blue. The first render's warm white was lost on the Saint's white panels.</summary>
-        static readonly Color LeadFill=new(1,.8f,.42f,1),PartnerFill=new(.6f,.88f,1,1);
+        /// <summary>The line's width in pixels of 1080 (the party is about 90 px tall), and the flat tint inside it: faint enough that the scenery's own surface reads through.</summary>
+        public const float LineWidth=3,Tint=.09f;
+        /// <summary>The lead warm gold, so he reads apart from white plates and the partner; the partner pale blue. No more than 1, so nothing blooms into a glow.</summary>
+        static readonly Color LeadLine=new(1,.8f,.36f,1),PartnerLine=new(.62f,.9f,1,1);
         static Material[] looks;
         CombatActor actor;GameObject holder;
-        readonly List<(Renderer from,Renderer drawn)> pairs=new();
+        readonly List<(Renderer from,Renderer body,Renderer hull)> pairs=new();
         int measured=-1;float nextMeasure;
-        /// <summary>Whether a copy stands for this renderer and draws this frame: what the shared camera tests read.</summary>
-        public int Drawn{get{int n=0;foreach(var (from,drawn) in pairs)if(drawn!=null&&drawn.enabled)n++;return n;}}
-        public IEnumerable<Renderer> Copies{get{foreach(var pair in pairs)if(pair.drawn!=null)yield return pair.drawn;}}
+        /// <summary>How many of the hero's bodies are drawn through this frame: what the shared camera tests read.</summary>
+        public int Drawn{get{int n=0;foreach(var (from,body,hull) in pairs)if(body!=null&&body.enabled)n++;return n;}}
+        /// <summary>Every copy, the bodies' and the hulls'.</summary>
+        public IEnumerable<Renderer> Copies{get{foreach(var (from,body,hull) in pairs){if(body!=null)yield return body;if(hull!=null)yield return hull;}}}
         /// <summary>The hero's child the copies hang under.</summary>
         public Transform Holder=>holder!=null?holder.transform:null;
         void Awake()=>actor=GetComponent<CombatActor>();
         void OnEnable(){if(holder!=null)holder.SetActive(true);}
         void OnDisable(){if(holder!=null)holder.SetActive(false);}
         void OnDestroy(){if(holder!=null)Destroy(holder);}
-        static Material Look(bool lead,bool flight)
+        /// <summary>The drawing's materials, made once at run time from the shader in Resources. They differ by properties alone (colour, push, cull, queue): no keyword,
+        /// so no variant a player build could strip.</summary>
+        static Material Look(bool lead,bool flight,bool hull)
         {
             if(looks==null||looks[0]==null)
             {
                 var shader=Resources.Load<Shader>("Effects/HeroThrough");if(shader==null)return null;
-                looks=new Material[4];
-                for(int i=0;i<4;i++)
+                looks=new Material[8];
+                for(int i=0;i<8;i++)
                 {
-                    bool isLead=(i&1)==0,isFlight=(i&2)!=0;
-                    var material=new Material(shader){name=(isLead?"Hero through (lead":"Hero through (partner")+(isFlight?", flight)":")")};
-                    material.SetColor("_BaseColor",isLead?LeadFill:PartnerFill);material.SetColor("_RimColor",isLead?Color.white:new Color(.8f,.95f,1,1));
-                    // An outline first and a light fill: a fill that covered him flat lost his pose (E2-sorrel-03, the old ZTest-greater ghost), a rim keeps it.
-                    material.SetFloat("_Fill",isLead?.4f:.3f);material.SetFloat("_Intensity",isLead?1.6f:1.15f);material.SetFloat("_Sharpness",1.5f);material.SetFloat("_Thickness",isFlight?HullThickness:Thickness);
+                    bool isLead=(i&1)==0,isFlight=(i&2)!=0,isHull=(i&4)!=0;
+                    var material=new Material(shader){name=$"Hero through ({(isLead?"lead":"partner")}{(isFlight?", flight":"")}, {(isHull?"line":"body")})"};
+                    material.SetColor("_BaseColor",isLead?LeadLine:PartnerLine);material.SetFloat("_Fill",Tint);material.SetFloat("_Line",.95f);material.SetFloat("_Width",LineWidth);
+                    material.SetFloat("_Thickness",isFlight?HullThickness:Thickness);material.SetFloat("_Push",isHull?1:0);material.SetFloat("_Cull",(float)(isHull?CullMode.Off:CullMode.Back));
+                    material.renderQueue=(int)RenderQueue.Transparent+(isHull?41:40);
                     looks[i]=material;
                 }
             }
-            return looks[(lead?0:1)+(flight?2:0)];
+            return looks[(lead?0:1)+(flight?2:0)+(hull?4:0)];
         }
         /// <summary>What of the body is drawn solid: its meshes, not a trail, a marking or a glow.</summary>
         static bool Solid(Renderer body)
@@ -72,26 +82,26 @@ namespace Lattice.Combat
             // and the copies at the root were counted as floating props in every zone (QaPlanWorldTests.NothingFloatsOrSinksIn, November 21). Beside his forms, never inside one, so
             // whatever walks a form's renderers (the flight framing, a form's fold) never meets them.
             holder=new GameObject("Hero through");holder.transform.SetParent(transform,false);
-            foreach(var body in bodies)
+            foreach(var body in bodies)if(body!=null&&Solid(body))pairs.Add((body,Copy(body," (through)"),Copy(body," (through line)")));
+        }
+        Renderer Copy(Renderer body,string suffix)
+        {
+            var copy=new GameObject(body.name+suffix);copy.transform.SetParent(holder.transform,false);
+            Renderer drawn;int parts;
+            if(body is SkinnedMeshRenderer skinned)
             {
-                if(body==null||!Solid(body))continue;
-                var copy=new GameObject(body.name+" (through)");copy.transform.SetParent(holder.transform,false);
-                Renderer drawn;int parts;
-                if(body is SkinnedMeshRenderer skinned)
-                {
-                    var made=copy.AddComponent<SkinnedMeshRenderer>();made.sharedMesh=skinned.sharedMesh;made.bones=skinned.bones;made.rootBone=skinned.rootBone!=null?skinned.rootBone:skinned.transform;
-                    made.localBounds=skinned.localBounds;made.updateWhenOffscreen=skinned.updateWhenOffscreen;made.quality=skinned.quality;made.skinnedMotionVectors=false;
-                    drawn=made;parts=skinned.sharedMesh.subMeshCount;
-                }
-                else
-                {
-                    var mesh=body.GetComponent<MeshFilter>().sharedMesh;copy.AddComponent<MeshFilter>().sharedMesh=mesh;drawn=copy.AddComponent<MeshRenderer>();parts=mesh.subMeshCount;
-                }
-                drawn.shadowCastingMode=ShadowCastingMode.Off;drawn.receiveShadows=false;drawn.lightProbeUsage=LightProbeUsage.Off;drawn.reflectionProbeUsage=ReflectionProbeUsage.Off;
-                drawn.motionVectorGenerationMode=MotionVectorGenerationMode.ForceNoMotion;drawn.allowOcclusionWhenDynamic=false;
-                drawn.sharedMaterials=new Material[Mathf.Max(1,parts)];drawn.enabled=false;
-                pairs.Add((body,drawn));
+                var made=copy.AddComponent<SkinnedMeshRenderer>();made.sharedMesh=skinned.sharedMesh;made.bones=skinned.bones;made.rootBone=skinned.rootBone!=null?skinned.rootBone:skinned.transform;
+                made.localBounds=skinned.localBounds;made.updateWhenOffscreen=skinned.updateWhenOffscreen;made.quality=skinned.quality;made.skinnedMotionVectors=false;
+                drawn=made;parts=skinned.sharedMesh.subMeshCount;
             }
+            else
+            {
+                var mesh=body.GetComponent<MeshFilter>().sharedMesh;copy.AddComponent<MeshFilter>().sharedMesh=mesh;drawn=copy.AddComponent<MeshRenderer>();parts=mesh.subMeshCount;
+            }
+            drawn.shadowCastingMode=ShadowCastingMode.Off;drawn.receiveShadows=false;drawn.lightProbeUsage=LightProbeUsage.Off;drawn.reflectionProbeUsage=ReflectionProbeUsage.Off;
+            drawn.motionVectorGenerationMode=MotionVectorGenerationMode.ForceNoMotion;drawn.allowOcclusionWhenDynamic=false;
+            drawn.sharedMaterials=new Material[Mathf.Max(1,parts)];drawn.enabled=false;
+            return drawn;
         }
         static Renderer[] Gather(FormController forms)
         {
@@ -104,19 +114,23 @@ namespace Lattice.Combat
             if(actor==null)return;
             if(holder==null||Time.unscaledTime>=nextMeasure){nextMeasure=Time.unscaledTime+1;Measure();}
             var party=PartyController.Current;bool lead=party!=null&&party.members!=null&&party.members.Length>0&&party.Active==actor;
-            var look=Look(lead,actor.flight);
-            foreach(var (from,drawn) in pairs)
+            Material body=Look(lead,actor.flight,false),line=Look(lead,actor.flight,true);
+            foreach(var (from,fill,hull) in pairs)
             {
-                if(drawn==null)continue;
-                bool on=look!=null&&from!=null&&from.enabled&&from.gameObject.activeInHierarchy&&from.forceRenderingOff==false;
-                if(drawn.enabled!=on)drawn.enabled=on;
-                if(!on)continue;
-                if(drawn.sharedMaterial!=look){var materials=drawn.sharedMaterials;for(int i=0;i<materials.Length;i++)materials[i]=look;drawn.sharedMaterials=materials;}
-                if(drawn is MeshRenderer)
-                {
-                    var at=from.transform;var copy=drawn.transform;copy.SetPositionAndRotation(at.position,at.rotation);
-                    var under=holder.transform.lossyScale;var scale=at.lossyScale;copy.localScale=new Vector3(scale.x/Mathf.Max(1e-4f,under.x),scale.y/Mathf.Max(1e-4f,under.y),scale.z/Mathf.Max(1e-4f,under.z));
-                }
+                bool on=body!=null&&line!=null&&from!=null&&from.enabled&&from.gameObject.activeInHierarchy&&from.forceRenderingOff==false;
+                Show(from,fill,on,body);Show(from,hull,on,line);
+            }
+        }
+        void Show(Renderer from,Renderer drawn,bool on,Material look)
+        {
+            if(drawn==null)return;
+            if(drawn.enabled!=on)drawn.enabled=on;
+            if(!on)return;
+            if(drawn.sharedMaterial!=look){var materials=drawn.sharedMaterials;for(int i=0;i<materials.Length;i++)materials[i]=look;drawn.sharedMaterials=materials;}
+            if(drawn is MeshRenderer)
+            {
+                var at=from.transform;var copy=drawn.transform;copy.SetPositionAndRotation(at.position,at.rotation);
+                var under=holder.transform.lossyScale;var scale=at.lossyScale;copy.localScale=new Vector3(scale.x/Mathf.Max(1e-4f,under.x),scale.y/Mathf.Max(1e-4f,under.y),scale.z/Mathf.Max(1e-4f,under.z));
             }
         }
     }

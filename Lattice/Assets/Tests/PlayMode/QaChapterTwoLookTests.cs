@@ -692,6 +692,8 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Lanternwick");
             var arch=All<SceneryOcclusion>().Single(s=>s.name=="Market arch");
+            // D414: the hole is for a lead nothing draws through (HeroThrough draws the rest as a clean line); how it opens is what this reads.
+            Lead.GetComponent<HeroThrough>().enabled=false;
             // Behind a leg, where it really does stand between the camera and the hero.
             Put(Lead,new Vector3(arch.transform.position.x+3.4f,.2f,arch.transform.position.z+3));
             yield return new WaitForSecondsRealtime(.8f);

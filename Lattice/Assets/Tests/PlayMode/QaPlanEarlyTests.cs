@@ -822,6 +822,8 @@ namespace Lattice.Tests.PlayMode
             foreach(var seal in All<Membrane>())seal.SetOpen(true);
             yield return new WaitForSecondsRealtime(.5f);
             var hero=PartyController.Current.Active;
+            // D414: scenery opens its hole only for a lead nothing draws through (HeroThrough draws the rest as a clean line); where it opens is what this reads.
+            hero.GetComponent<HeroThrough>().enabled=false;
             var view=ZoneController.Current.definition.cameraProfile;var back=-(Quaternion.Euler(view.pitch,view.yaw,0)*Vector3.forward);
             Assert.IsTrue(NavMesh.SamplePosition(hero.transform.position,out var from,6,NavMesh.AllAreas),"fixture: the arrival is on the navigation");
             var corners=new List<(Vector3 at,float gap)>();

@@ -17,7 +17,9 @@ namespace Lattice.Combat
     /// collar comes off the bar as a blow on the open press does. <b>The bar is paid in blows, and an arm decides which and when, never how much</b> (D272: a boss whose limbs take bar with them
     /// gave the replay party half again of flat out): each fifth the bar passes releases the arm whose collar was struck most, and a collar carries a fifth of the bar, so one struck through by
     /// itself goes at its line and no sooner. <b>An opening lets one arm go at most</b> (D364): the bar passes one arm's line in it and holds at the next, and once an arm has gone the
-    /// others' collars shut until the press next opens; the third holds the rig's two fifths whole. A lift used to hand over the fight in whole lifts: an EXTRA under the head's lift took
+    /// others' collars shut until the press next opens; the third holds the rig's two fifths whole. <b>An opening takes a third of an arm at most</b> (D411,
+    /// <see cref="SaintTune.OpeningShare"/>), in both halves (bare, the head's lift): three openings an arm, and an EXTRA in one is worth a third of an arm, not the whole arm it paid off in the
+    /// short runs. A lift used to hand over the fight in whole lifts: an EXTRA under the head's lift took
     /// 32 and 41% of the bar, two arms and most of the rig's share (61 and 76 s in the player, 145 where the EXTRA met a held press). Three released, the rig is bare: the shift.</item>
     /// <item><b>The rig is bare</b>. A blow from the floor is resisted, except in the head's opening; a blow from up on a fallen arm lands, and twice over on the rig. Its last three arms sweep
     /// the roads instead of slamming: the top half of each road a sweep will cross is marked on the road itself, and a climber caught there is thrown off its side to the floor.</item>
@@ -52,6 +54,11 @@ namespace Lattice.Combat
         {
             /// <summary>Its capsule's radius (its definition makes it 12 m tall, the press's own height), and the share of its bar its arms hold: the shift is at two fifths, each arm a fifth.</summary>
             public const float Radius=2.6f,Bare=.4f,ArmShare=(1-Bare)/3;
+            /// <summary>The most of its bar one opening may take (D411), in either half: a third of an arm, 9,333 of 140,000. With an arm an opening (D364) the short runs still freed an arm in
+            /// every opening or two, an EXTRA paying off a whole one (94 and 109.6 s in the player, nov24-recon-C and nov24-whole s59). At half an arm a pair that fills every opening needs six
+            /// for the arms, about 61 s at the code's opening every 10 s: the same 94 to 111 s. At a third it needs nine, and its fight is 124 s or more. A plain player's lift (about 3,800)
+            /// and the length test's (.59 of flat out, about 6,200) never reach it.</summary>
+            public const float OpeningShare=ArmShare/3;
             public const int Arms=6,ArmsToBare=3;
             /// <summary>Where its arms' collars stand when the room has none of its own: across its back (x), behind its middle, and their bearings from its front.</summary>
             public static readonly float[] ArmX={-4.3f,-2.6f,-.9f,.9f,2.6f,4.3f},ArmBearing={225,205,188,172,155,135};
@@ -84,6 +91,8 @@ namespace Lattice.Combat
         static readonly Color SaintCyan=new(.45f,1.45f,1.6f,.95f),SaintWarm=new(1.3f,.82f,.5f,1),SaintSpark=new(1.5f,.9f,.45f,.9f),SaintDust=new(.55f,.52f,.48f);
         readonly List<SaintArm> saintArms=new();
         GameObject saintRigTarget,saintRig;LineRenderer saintBar;Renderer[] saintBody;MaterialPropertyBlock saintBlock;Color saintGlow=new(.5f,1.2f,1.3f);BoxCollider saintFrame;CharacterController saintOwn;
+        /// <summary>The bar where the opening now under way began (D411), or less than nought with nothing open.</summary>
+        float saintOpenedAt=-1;
         float saintFloor,saintRadius=SaintTune.Radius,saintStruckAt=-1,saintHold;bool saintHears,saintBared,saintCollarSaid,saintHeldSaid,saintFloorSaid;string saintOpenWhy="";
         readonly Dictionary<SaintArm,float> saintCollarLeft=new();
         /// <summary>Its arms let go so far (of six), and whether three are: the rig bare.</summary>
@@ -103,16 +112,38 @@ namespace Lattice.Combat
         /// <summary>The bar at an arm's line: the k-th arm goes as the bar passes it.</summary>
         float SaintLine(int k)=>health.maximum*(1-k*SaintTune.ArmShare);
         /// <summary>The least its bar may come to now (D364: an opening lets one arm go at most, and the bar no further than that arm's line). With an arm gone in this opening, where the
-        /// bar stood as it went; else just past the next arm's line (the third's is the rig's two fifths, kept whole). Nought, none: held passive (its door, the shared flat-out
-        /// measure), or bare with nothing held.</summary>
+        /// bar stood as it went; else just past the next arm's line (the third's is the rig's two fifths, kept whole), and no further than a third of an arm under where the opening
+        /// began (D411). Bare, only the head's lift is held, at that third. Nought, none: held passive (its door, the shared flat-out measure), or bare with nothing held.</summary>
         float SaintHoldLine()
         {
             if(health==null||brain==null||brain.Passive)return 0;
+            float opening=SaintOpeningLine();
             // A collar unlocked since is a new opening (the others were shut as the arm went, and nothing unlocks them until the press opens again).
             if(saintHold>0){foreach(var arm in saintArms)if(arm!=null&&!arm.IsReleased&&arm.Unlocked){saintHold=0;break;}}
             if(saintHold>0)return saintHold;
-            if(SaintBare)return 0;
-            return SaintLine(Mathf.Min(SaintReleased+1,SaintTune.ArmsToBare))-1;
+            if(SaintBare)return health.Broken?Mathf.Max(0,opening):0;
+            return Mathf.Max(SaintLine(Mathf.Min(SaintReleased+1,SaintTune.ArmsToBare))-1,opening);
+        }
+        /// <summary>Something open to a blow: the press (the head's lift, a break), or a standing collar unlocked (a slam, the head's lift).</summary>
+        bool SaintAnythingOpen()
+        {
+            if(health!=null&&health.Broken)return true;
+            foreach(var arm in saintArms)if(arm!=null&&!arm.IsReleased&&arm.Unlocked)return true;
+            return false;
+        }
+        /// <summary>The least the bar may come to in the opening under way (D411): a third of an arm under where it began, and a point more, so three full openings take the bar just past
+        /// an arm's line, as the line itself stands (SaintLine less one). Nought with nothing open. Where an opening began is taken the first time it is asked or seen open (a blow is
+        /// asked before it lands), and forgotten once nothing is: the log says what each took.</summary>
+        float SaintOpeningLine()
+        {
+            if(health==null)return 0;
+            if(!SaintAnythingOpen())
+            {
+                if(saintOpenedAt>=0){Debug.Log($"SAINT_OPENING {saintOpenedAt/health.maximum:0.000} to {health.integrity/health.maximum:0.000}");saintOpenedAt=-1;}
+                return 0;
+            }
+            if(saintOpenedAt<0)saintOpenedAt=health.integrity;
+            return saintOpenedAt-SaintTune.OpeningShare*health.maximum-1;
         }
 
         void SaintStart()
@@ -263,6 +294,8 @@ namespace Lattice.Combat
             }
             // The opening an arm went in is over (nothing unlocked, the press not open): the hold lifts, and the next opening may let the next arm go.
             if(saintHold>0&&!health.Broken){saintHold=0;Debug.Log("SAINT_HOLD_LIFTS");}
+            // Where the opening under way began, kept or forgotten each frame (D411); held passive, none is.
+            if(!brain.Passive)SaintOpeningLine();else saintOpenedAt=-1;
             if(SaintBare)SaintBareNow();
             // Broken (its meter filled by blows on the press), it reels and its arms' weight comes off their collars as the head's lift takes it off: struck enough, the press opens them too.
             // Not in the opening an arm has just gone in: their collars stay shut under its weight (D364).

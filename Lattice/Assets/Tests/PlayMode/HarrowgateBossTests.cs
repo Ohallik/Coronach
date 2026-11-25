@@ -375,23 +375,45 @@ namespace Lattice.Tests.PlayMode
             CoolantSluice.Offer(true);yield return null;Assert.IsFalse(sluice.Available,"a drained sluice can be offered");
         }
         // ------------------------------------------------------------------ D387: Idra's Shelter (the Scoria battery's orange dome), a fight's line after it, the cooled Colossus's word
-        [UnityTest] public IEnumerator IdrasShelterStandsOnItsRingAsClearGlassNotAnOrangeWash()
+        /// <summary>D415 (nov24-whole s46/128, 132, s48/229): D387's clear sphere was still a circle 880 to 1200 px across over the party and the skill row. The Shelter is its ring at its reach
+        /// and a low rim of light on it that rises and sinks: nothing of it stands higher than a fifth of a hero, nothing is drawn inside its edge, and its edge is at its reach. First the
+        /// check is shown the dome as D387 left it (the built-in sphere at its reach, a child of the same Shelter) and must see it.</summary>
+        [UnityTest] public IEnumerator IdrasShelterIsARingAndALowRimAtItsReachNotADome()
         {
             yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();
             var idra=PartyController.Current.members.FirstOrDefault(m=>m.character=="Idra")??partner;
-            var dome=ShelterDome.Plant(idra,At(0,0,0),false);yield return Frames(2);
-            var shell=dome.GetComponentInChildren<MeshRenderer>();float drawn=dome.DrawnRadius;var look=dome.GlassLook;
-            // Built wrong on purpose: the shell as it was (nov23-whole s46/127 to 140), the built-in sphere scaled by twice the reach in the energy bubble's HDR orange.
-            if(Broken){shell.transform.localScale=Vector3.one*dome.Reach*2;look=ActorFactory.Energy(new Color(1.3f,.8f,.3f,.2f));shell.sharedMaterial=look;yield return null;drawn=shell.bounds.extents.x;}
-            TestContext.WriteLine($"SHELTER drawn={drawn:0.00} reach={dome.Reach} sphere-half={Resources.GetBuiltinResource<Mesh>("Sphere.fbx").bounds.extents.x:0.000}");
+            var dome=ShelterDome.Plant(idra,At(0,0,0),false);
             try
             {
-                Assert.AreEqual(dome.Reach,drawn,dome.Reach*.05f,"the dome isn't drawn standing on the ring that marks its foot");
-                var edge=look.GetColor("_BaseColor")*look.GetFloat("_Intensity")*1.45f;
-                Assert.LessOrEqual(Mathf.Max(edge.r,Mathf.Max(edge.g,edge.b)),1f,$"its edge burns at {edge}: past white, the bloom spreads it over the frame as an orange wash");
-                Assert.LessOrEqual(look.GetFloat("_Core")*look.GetColor("_BaseColor").a,.03f,"its middle lays a tint over everything under it");
+                float atFirst=dome.RimStands;yield return new WaitForSeconds(ShelterDome.RiseSeconds+.15f);float standing=dome.RimStands;
+                // Built wrong on purpose, inside the check: the shell as D387 left it, the built-in sphere sized from its bounds to the reach.
+                var sphere=Resources.GetBuiltinResource<Mesh>("Sphere.fbx");var shell=new GameObject("Shell (as D387)",typeof(MeshFilter),typeof(MeshRenderer));shell.transform.SetParent(dome.transform,false);
+                shell.transform.localScale=Vector3.one*dome.Reach/sphere.bounds.extents.x;shell.GetComponent<MeshFilter>().sharedMesh=sphere;
+                var old=ShelterDrawn(dome);Object.DestroyImmediate(shell);var now=ShelterDrawn(dome);
+                string line=$"SHELTER reach={dome.Reach} as D387: high={old.high:0.00} nearest={old.nearest:0.00} widest={old.widest:0.00} | now: high={now.high:0.00} nearest={now.nearest:0.00} widest={now.widest:0.00} rim at first={atFirst:0.00} standing={standing:0.00}";
+                TestContext.WriteLine(line);Debug.Log(line);
+                Assert.IsTrue(old.high>1.8f&&old.nearest<dome.Reach-.6f,"the check doesn't see the dome as D387 left it: "+line);
+                Assert.LessOrEqual(now.high,.5f,"something of the Shelter stands over a fifth of a hero: what stands inside it is drawn through it: "+line);
+                Assert.GreaterOrEqual(now.nearest,dome.Reach-.6f,"the Shelter draws inside its edge, over what it covers: "+line);
+                Assert.AreEqual(dome.Reach+.15f,now.widest,.2f,"its edge isn't drawn at its reach: "+line);
+                Assert.LessOrEqual(Mathf.Max(ShelterDome.RimColour.r,Mathf.Max(ShelterDome.RimColour.g,ShelterDome.RimColour.b)),1f,"its rim burns past white, and the bloom spreads it");
+                Assert.AreEqual(0,atFirst,.01f,"the rim doesn't rise as it goes up: "+line);Assert.AreEqual(ShelterDome.RimHeight,standing,.01f,"the rim isn't standing once it is up: "+line);
+                yield return new WaitForSeconds(ShelterDome.Seconds-ShelterDome.RiseSeconds-.15f-.12f);
+                Assert.Less(dome.RimStands,ShelterDome.RimHeight*.6f,"the rim doesn't sink as it ends: "+line);
             }
-            finally{Object.Destroy(dome.gameObject);}
+            finally{if(dome!=null)Object.Destroy(dome.gameObject);}
+        }
+        /// <summary>What the Shelter draws: how high the highest of it stands over its middle, and how near and how far from its middle on the plan.</summary>
+        static (float high,float nearest,float widest) ShelterDrawn(ShelterDome dome)
+        {
+            var centre=dome.transform.position;float high=0,nearest=float.PositiveInfinity,widest=0;var mesh=new List<Vector3>();
+            foreach(var drawn in dome.GetComponentsInChildren<MeshRenderer>())
+            {
+                if(!drawn.enabled||!drawn.TryGetComponent<MeshFilter>(out var filter)||filter.sharedMesh==null)continue;
+                filter.sharedMesh.GetVertices(mesh);
+                foreach(var p in mesh){var w=drawn.transform.TransformPoint(p);high=Mathf.Max(high,w.y-centre.y);w-=centre;w.y=0;nearest=Mathf.Min(nearest,w.magnitude);widest=Mathf.Max(widest,w.magnitude);}
+            }
+            return (high,nearest,widest);
         }
         [UnityTest] public IEnumerator AFightsLineGoesWhenTheFightEndsAndAKillsWordStaysItsTime()
         {

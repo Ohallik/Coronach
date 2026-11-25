@@ -4,6 +4,7 @@ using System.Linq;
 using Lattice.Combat;
 using Lattice.Core;
 using Lattice.Data;
+using Lattice.Rpg;
 using Lattice.UI;
 using Lattice.World;
 using NUnit.Framework;
@@ -11,6 +12,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 
 namespace Lattice.Tests.PlayMode
 {
@@ -229,6 +231,117 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(oldMarked,made*1.15f,line+": fixture: the old mark doesn't make the tag larger, as PELL's was");
             Assert.LessOrEqual(foot,made*1.04f,line+": a name at the foot of the screen stands larger than its made size, and its tag with it (MIRA, s69 038)");
             Assert.LessOrEqual(marked,made*1.04f,line+": a marked name's tag stands taller than any other's (PELL, s13 079)");
+        }
+
+        // ================================================================ D416, from the November 24 night capture (nov24-whole)
+        static Image Picture(string name)=>All<Image>().FirstOrDefault(i=>i.name==name&&i.isActiveAndEnabled);
+        static Rect Screen(RectTransform rect)=>PanelFade.ScreenBox(rect);
+        /// <summary>sRGB levels a white letter behind a plate of the HUD's colour lifts its red, when this share of the world's light comes through (the canvas blends in linear light).</summary>
+        static float Lift(float through)
+        {
+            float plate=Mathf.GammaToLinearSpace(UiKit.PlateColor.r/255f);
+            return (Mathf.LinearToGammaSpace(plate*(1-through)+through)-Mathf.LinearToGammaSpace(plate))*255;
+        }
+        /// <summary>s57/155, 156: with nothing behind the vitals, the Decks notice board's chalk ('TOWN MEETS FIRST', 'MARKET FIRST OUT', 'CRESCENT, TUG DOCK') read through them
+        /// as ghost letters, the plate's red lifted from 6 to 22 over each letter: the frame sheet's opening is 254 of 255 solid. Each of the HUD's plates of words has a solid
+        /// backing under its opening, and when the plate steps aside for a body the backing goes with it.</summary>
+        [UnityTest] public IEnumerator AHudPlateLetsNothingThroughAtRestAndItsBackingStepsAsideWithIt()
+        {
+            yield return Zone("Hub_Decks");
+            Notices.Post("QUEST UPDATED","Harrowgate\nStand on the field while Harrowgate answers");
+            float deadline=Time.unscaledTime+3;while(Picture("QuestToastFrame")==null&&Time.unscaledTime<deadline)yield return null;
+            // At rest: a plate that stepped aside for something at the load comes back over half a second.
+            bool Resting(string name){var p=Picture(name);return p==null||p.canvasRenderer.GetAlpha()>.999f;}
+            deadline=Time.unscaledTime+2;while(!(Resting("VitalsFrame")&&Resting("ObjectiveFrame")&&Resting("QuestToastFrame"))&&Time.unscaledTime<deadline)yield return null;
+            float sheet=1-254f/255f;
+            Assert.Greater(Lift(sheet),8,"fixture: the sheet's opening alone doesn't lift a white letter behind it as the still's did (6 to 22)");
+            var faults=new List<string>();
+            foreach(string name in new[]{"VitalsFrame","ObjectiveFrame","QuestToastFrame"})
+            {
+                var frame=Picture(name);if(frame==null){faults.Add($"fixture: {name} isn't up");continue;}
+                var under=frame.GetComponentsInChildren<Image>().FirstOrDefault(i=>i!=frame&&i.name.EndsWith("SolidUnder")&&i.isActiveAndEnabled);
+                float through=sheet*(under!=null?1-under.color.a*under.canvasRenderer.GetAlpha():1);
+                if(Lift(through)>1){faults.Add($"{name}: a white word behind it lifts its plate {Lift(through):0} levels at rest (no solid backing under its opening)");continue;}
+                Rect outer=frame.rectTransform.rect,inner=under.rectTransform.rect;
+                if(inner.width<outer.width-80||inner.height<outer.height-80)faults.Add($"{name}: its backing is {inner.width:0} by {inner.height:0} under a plate of {outer.width:0} by {outer.height:0}");
+                if(inner.width>outer.width||inner.height>outer.height)faults.Add($"{name}: its backing runs past its frame");
+            }
+            // Something behind the objective for half a second: the plate steps aside and its backing with it.
+            var objective=Object.FindFirstObjectByType<ObjectiveHud>();var plate=Picture("ObjectiveFrame");
+            for(float end=Time.unscaledTime+.6f;Time.unscaledTime<end;){objective.Fade.Measure();var middle=Screen(objective.Frame).center;objective.Fade.Look(new Vector3(middle.x,middle.y,1),Time.unscaledTime);yield return null;}
+            var backing=objective.Fade.Under;
+            if(backing==null)faults.Add("the objective has no backing to step aside");
+            else if(Mathf.Abs(backing.canvasRenderer.GetAlpha()-plate.canvasRenderer.GetAlpha())>.02f||plate.canvasRenderer.GetAlpha()>.6f)
+                faults.Add($"stepping aside: plate {plate.canvasRenderer.GetAlpha():0.00}, its backing {backing.canvasRenderer.GetAlpha():0.00}: the backing stays solid over the body the plate steps aside for");
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+        /// <summary>s29/043: the roof's lit TEA ROOM read through '+3 Lattice Filament' and '+22 Scrap Alloy' under the feed's band at .8 (a fifth of the world's light). Each line has a
+        /// band of its own over the feed's, so at most a twentieth of the world lies behind its words, as behind a panel's.</summary>
+        [UnityTest] public IEnumerator APickupLineHasNoMoreThanATwentiethOfTheWorldBehindIt()
+        {
+            yield return Zone("Hub_Decks");
+            foreach(string id in new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal"})RpgServices.Inventory.Grant(id,22);
+            yield return null;yield return null;
+            var band=Picture("PickupBand");Assert.IsNotNull(band,"fixture: the feed's up");
+            float feed=band.color.a*band.canvasRenderer.GetAlpha();
+            Assert.Greater(1-feed,PanelFade.MostThrough,"fixture: the feed's band alone keeps the world from behind its words, as it didn't at s29 043");
+            var lines=All<TMP_Text>().Where(t=>t.name=="PickupLine"&&t.isActiveAndEnabled).ToArray();Assert.GreaterOrEqual(lines.Length,3,"fixture: three lines");
+            var bands=All<Image>().Where(i=>i.name=="PickupLineBand"&&i.isActiveAndEnabled).ToArray();
+            var faults=new List<string>();
+            foreach(var line in lines)
+            {
+                line.ForceMeshUpdate();var ink=UiKit.Ink(line);var middle=Screen(line.rectTransform).center;float s=line.canvas.scaleFactor;
+                var words=new Rect(middle.x+ink.xMin*s,middle.y+ink.yMin*s,ink.width*s,ink.height*s);
+                var own=bands.FirstOrDefault(b=>{var at=Screen(b.rectTransform);return at.Contains(words.min)&&at.Contains(words.max);});
+                float through=(1-feed)*(own!=null?1-own.color.a*own.canvasRenderer.GetAlpha():1);
+                if(through>PanelFade.MostThrough+.001f)faults.Add($"'{line.text}': {through:0.00} of the world lies behind its words");
+                else if(own.transform.GetSiblingIndex()>line.transform.GetSiblingIndex())faults.Add($"'{line.text}': its band is drawn over its words");
+            }
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+        /// <summary>Reads, after every HUD script's LateUpdate this frame, what a check asks: where things stand as the frame is drawn.</summary>
+        [DefaultExecutionOrder(5000)]
+        sealed class AsDrawn:MonoBehaviour{public System.Func<float> read;public float? seen;void LateUpdate(){if(read!=null&&!seen.HasValue)seen=read();}}
+        /// <summary>s52/171: the frame the objective grew from one line to three, the quest card still stood under the one line and cut '172 m' in half. The card is seated after the
+        /// objective has written its words (it was seated in Update, a frame behind them), so as the frame is drawn it hangs under the objective's new foot.</summary>
+        [UnityTest] public IEnumerator TheQuestCardStandsUnderTheObjectiveTheFrameItGrows()
+        {
+            yield return Zone("Hub_Decks");
+            var objective=Object.FindFirstObjectByType<ObjectiveHud>();
+            Notices.Post("QUEST UPDATED","Harrowgate\nStand on the field while Harrowgate answers");
+            float deadline=Time.unscaledTime+3;while(Picture("QuestToastFrame")==null&&Time.unscaledTime<deadline)yield return null;
+            var card=Picture("QuestToastFrame");Assert.IsNotNull(card,"fixture: the card's up");
+            var probe=new GameObject("AsDrawn").AddComponent<AsDrawn>();yield return null;yield return null;
+            Assert.GreaterOrEqual(Screen(objective.Frame).yMin-Screen(card.rectTransform).yMax,0f,"fixture: the card isn't under the objective to begin with");
+            // Grown after every Update and before the LateUpdates, as the objective's words are written.
+            var grown=objective.Frame;float was=grown.sizeDelta.y;
+            probe.read=()=>Screen(grown).yMin-Screen(card.rectTransform).yMax;
+            grown.sizeDelta=new Vector2(grown.sizeDelta.x,was+56);
+            yield return null;
+            grown.sizeDelta=new Vector2(grown.sizeDelta.x,was);float gap=probe.seen??float.NaN;Object.Destroy(probe.gameObject);
+            Assert.IsFalse(float.IsNaN(gap),"fixture: the probe read nothing");
+            Assert.GreaterOrEqual(gap,0f,$"the frame the objective grew, the card stood {-gap:0} px up into it as the frame was drawn (s52 171)");
+        }
+        /// <summary>s38/110: 'LAND — THE SKYFIELDS' on its plate at the top and 'A  Land — The Skyfields' in the prompt in one frame. While the prompt says a sign's words the sign
+        /// is away, and back when it doesn't.</summary>
+        [UnityTest] public IEnumerator ASignIsAwayWhileThePromptSaysItsWords()
+        {
+            yield return Zone("Orrery");
+            var signs=All<TextMeshPro>().Where(t=>t.name.StartsWith("Sign_")&&t.TryGetComponent<SignFade>(out _)).ToArray();
+            WarpBeacon warp=null;TextMeshPro sign=null;
+            foreach(var beacon in All<WarpBeacon>()){sign=signs.FirstOrDefault(s=>s.text.Length>=4&&beacon.prompt.StartsWith(s.text,System.StringComparison.OrdinalIgnoreCase));if(sign!=null){warp=beacon;break;}}
+            Assert.IsNotNull(warp,"fixture: a warp with its sign in the Orrery");
+            Put(Lead,warp.transform.position);
+            float deadline=Time.unscaledTime+4;while(PromptService.Interaction!=warp&&Time.unscaledTime<deadline){Put(Lead,warp.transform.position);yield return null;}
+            Assert.AreEqual(warp,PromptService.Interaction,"fixture: the warp's prompt isn't offered at the warp");
+            yield return null;yield return null;
+            var fade=sign.GetComponent<SignFade>();
+            Assert.AreEqual("said",fade.GoneFor,$"'{sign.text}' is drawn while the prompt says '{warp.prompt}' (s38 110)");
+            Assert.Less(sign.alpha,.01f,"the sign is said and still drawn");
+            Put(Lead,warp.transform.position+new Vector3(0,0,-60));
+            deadline=Time.unscaledTime+3;while(PromptService.Interaction==warp&&Time.unscaledTime<deadline){Put(Lead,warp.transform.position+new Vector3(0,0,-60));yield return null;}
+            yield return null;yield return null;
+            Assert.AreNotEqual("said",fade.GoneFor,"the sign stays away with the prompt gone");
         }
     }
 }

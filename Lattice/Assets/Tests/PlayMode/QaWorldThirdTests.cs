@@ -514,6 +514,8 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(Faded(tree),.05f,"a cloud of dark dots is eaten out of a fruit tree that isn't hiding anyone");
             // And a real one still opens. Behind a home, with the hero's chest well within its walls from the camera.
             var home=All<SceneryOcclusion>().Where(s=>s.name=="CanyonHouse").OrderBy(s=>Flat(s.transform.position,new Vector3(-12,0,40))).First();var walls=BoundsOf(home);
+            // D414: the hole is for a lead nothing draws through (HeroThrough draws the rest as a clean line); where it opens is what this reads.
+            Lead.GetComponent<HeroThrough>().enabled=false;
             Put(Lead,new Vector3(walls.center.x,.2f,walls.max.z+1));yield return new WaitForSecondsRealtime(1.2f);
             Assert.Greater(Faded(home),.5f,"a hero behind a home is hidden, with no hole opened for him");
         }

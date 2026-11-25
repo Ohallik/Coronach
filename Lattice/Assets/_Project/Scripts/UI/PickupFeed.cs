@@ -12,7 +12,12 @@ namespace Lattice.UI
         const float Life=2.6f,Fade=.5f;const int MaxLines=5;
         /// <summary>The band's darkness, and how far it runs past the end of the longest line (its soft edge is in that).</summary>
         public const float BandStrength=.8f,BandPastTheLines=64;
-        sealed class Line{public string id,name;public int amount;public float age;public TMP_Text text;}
+        /// <summary>D416: each line's own soft band, hugging its letters over the feed's band. At .8 alone a fifth of the world's light lay behind the words, and the roof's big lit
+        /// TEA ROOM read through '+3 Lattice Filament' and '+22 Scrap Alloy' (nov24-whole s29 043; the letters are the roof's, ManyHandsBuilder's SignBoard, not a label anything
+        /// can take away). With this under each line, (1 - .8) x (1 - .75) is a twentieth, PanelFade's most for a panel's words. The feed's band keeps its .8.</summary>
+        public const float LineBand=.75f;
+        static readonly Vector2 LineAir=new(14,6);
+        sealed class Line{public string id,name;public int amount;public float age;public TMP_Text text;public Image band;}
         readonly List<Line> lines=new();
         Canvas canvas;Image band;GameHud hud;float laidFrom=-1;
         /// <summary>The feed's plate while it's up: a sign keeps out from under it.</summary>
@@ -37,7 +42,7 @@ namespace Lattice.UI
         {
             if(canvas==null||!heading.Contains("SAVED"))return;
             var line=lines.Find(l=>l.id=="saved");if(line==null)return;
-            Destroy(line.text.gameObject);lines.Remove(line);Layout();
+            Drop(line);lines.Remove(line);Layout();
         }
         void OnGained(string id,int amount)
         {
@@ -52,8 +57,10 @@ namespace Lattice.UI
             var line=lines.Find(l=>l.id==id&&l.age<Life);
             if(line==null)
             {
-                if(lines.Count>=MaxLines){Destroy(lines[0].text.gameObject);lines.RemoveAt(0);}
+                if(lines.Count>=MaxLines){Drop(lines[0]);lines.RemoveAt(0);}
                 line=new Line{id=id,name=name};
+                line.band=UiKit.SoftBand(canvas.transform,"PickupLineBand",new Color(.01f,.02f,.04f,LineBand));line.band.pixelsPerUnitMultiplier=2;
+                UiKit.Rect(line.band.gameObject,new(0,1),new(0,1),Vector2.zero,new(10,10));
                 // XP comes with every kill: it stays quiet beside what the player actually picked up.
                 // "Saved" and a refused item's reason are read once, over whatever's there: only the XP stays quiet.
                 line.text=UiKit.Legible(UiKit.Text(canvas.transform,"PickupLine","",24,amount>0&&id!="xp"?UiKit.GoldColor:id=="xp"?UiKit.DimTextColor:id=="refused"?new Color(1,.68f,.55f):UiKit.LooseTextColor,TextAlignmentOptions.MidlineLeft));
@@ -67,12 +74,18 @@ namespace Lattice.UI
         void Layout()
         {
             float wide=0,from=laidFrom=From;
-            for(int i=0;i<lines.Count;i++){lines[i].text.rectTransform.anchoredPosition=new(250,-(from+19)-(lines.Count-1-i)*32);wide=Mathf.Max(wide,lines[i].text.preferredWidth);}
+            for(int i=0;i<lines.Count;i++)
+            {
+                var line=lines[i];var at=new Vector2(250,-(from+19)-(lines.Count-1-i)*32);line.text.rectTransform.anchoredPosition=at;float own=line.text.preferredWidth;wide=Mathf.Max(wide,own);
+                // Its band under its letters: the line's box is 420 wide about 250, its words from its left edge.
+                if(line.band!=null){var box=line.band.rectTransform;box.anchoredPosition=new(at.x-210+own*.5f,at.y);box.sizeDelta=new(own+LineAir.x*2,32+LineAir.y*2);}
+            }
             if(band.enabled!=lines.Count>0)band.enabled=lines.Count>0;
             if(lines.Count==0)return;
             float width=wide+26+BandPastTheLines,height=lines.Count*32+16;
             UiKit.Rect(band.gameObject,new(0,1),new(0,1),new(14+width*.5f,-(from-5)-height*.5f),new(width,height));
         }
+        static void Drop(Line line){Destroy(line.text.gameObject);if(line.band!=null)Destroy(line.band.gameObject);}
         void Update()
         {
             if(canvas==null)return;
@@ -82,8 +95,9 @@ namespace Lattice.UI
             {
                 var line=lines[i];line.age+=Time.unscaledDeltaTime;
                 line.text.alpha=Mathf.Clamp01((Life+Fade-line.age)/Fade);strongest=Mathf.Max(strongest,line.text.alpha);
+                if(line.band!=null)line.band.canvasRenderer.SetAlpha(line.text.alpha);
                 if(line.age<Life+Fade)continue;
-                Destroy(line.text.gameObject);lines.RemoveAt(i);changed=true;
+                Drop(line);lines.RemoveAt(i);changed=true;
             }
             if(band.enabled)band.canvasRenderer.SetAlpha(strongest);
             // A gauge come up or gone under the vitals moves the column's foot, and the lines with it.

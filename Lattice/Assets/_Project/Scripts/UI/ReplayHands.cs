@@ -49,7 +49,31 @@ namespace Lattice.UI
                 string mend=Mend(party,lead,state,fight||has<most*FightBelow);
                 if(mend!=null)return mend;
             }
+            // D410: a partner too hurt to close on what she fights (PartnerBrain closes only over PartnerBelow) is mended from the lead's pouch with what the game lets him give
+            // her without a swap, an item that mends the party. At 17% Idra stood out the last 190 s of the Host Marshal (nov24-whole s36) while the driver mended only the lead.
+            if(fight&&Hurt(party)!=null){string both=PartyMend(state);if(both!=null)return both;}
             return Fallen(party)!=null?HeldRevive(state):null;
+        }
+        /// <summary>Under this share of her Integrity a partner no longer closes on a target (PartnerBrain): she stands off until she is mended.</summary>
+        public const float PartnerBelow=.3f;
+        /// <summary>The partner who is up but too hurt to close, if one is.</summary>
+        public static CombatActor Hurt(PartyController party)
+        {
+            if(party==null||party.members==null)return null;
+            foreach(var member in party.members)if(member!=null&&member!=party.Active&&member.gameObject.activeInHierarchy&&member.Health.Alive&&member.Health.integrity<=member.Health.maximum*PartnerBelow)return member;
+            return null;
+        }
+        /// <summary>The cheapest held item that mends the whole party (a Sync Tonic), or null: the one way a lead mends his partner without a swap.</summary>
+        public static string PartyMend(GameState state)
+        {
+            ConsumableDef best=null;
+            foreach(var held in state.consumables)
+            {
+                if(held.Value<=0)continue;var def=GameCatalog.Find<ConsumableDef>(held.Key);
+                if(def==null||!def.party||def.revive||def.seconds>0||def.heal<=0&&def.healPercent<=0)continue;
+                if(best==null||def.value<best.value)best=def;
+            }
+            return best!=null?best.id:null;
         }
         /// <summary>The mend that fits what's missing best: the least Integrity left unmended and the least wasted, counted together, so a Salve goes at half and a Core
         /// only near the floor. One that restores both heroes is credited with what it gives the partner. Of two that fit as well, the cheaper.</summary>

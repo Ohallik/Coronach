@@ -669,7 +669,7 @@ namespace Lattice.EditorTools
                 foreach(var (x,z,yaw) in new[]{(38f,6f,24f),(47f,32f,4f),(42f,58f,-18f)})H(ConvoyRing(x),x,z,-6,yaw,2);
                 H("Skiff",26,40,-5,200,1.4f);H("Skiff",-24,-4,-6,10,1.4f);
                 // ---- arena one: the Crawl's treads coupled in a line along the west, a ring segment towed deep under the fight, haulers; Xylos's seed barges moored under chain B
-                foreach(var z in new[]{80f,108f,136f})H("CrawlTread",-38,z,-6,0,1.5f);
+                var treads=new[]{80f,108f,136f}.Select(z=>H("CrawlTread",-38,z,-6,0,1.5f)).ToList();
                 H("RingSegmentA",4,92,-18,60,2.4f);H("Skiff",14,76,-12,30,1.4f);
                 H("Hauler",20,104,-9,75,1.6f);H("Hauler",38,84,-7,-20,1.6f);H("Hauler",-8,138,-10,-60,1.6f);
                 foreach(var x in new[]{36f,46f,56f})H("SeedBarge",x,146,-5,0,1.5f);
@@ -680,11 +680,13 @@ namespace Lattice.EditorTools
                 // ---- chain C: a seed barge either side of the guns' gap
                 H("SeedBarge",-46,262,-6,90,1.5f);H("SeedBarge",4,262,-6,90,1.5f);
                 // ---- arena three: Driftreed's raft bay lashed together on the west, Lastlight's longhouses under their rib arches on the east, haulers deep under the fight, the Crawl
-                for(int i=0;i<4;i++)for(int j=0;j<2;j++)H("ReedRaft",-50+i*12.6f,288+j*9,-4.5f-((i+j)%2)*.6f,90,1.6f);
-                for(int i=0;i<3;i++)H("ReedRaft",-46+i*12.6f,310,-4.5f-(i%2)*.6f,90,1.6f);
+                var bay=new List<GameObject>();
+                for(int i=0;i<4;i++)for(int j=0;j<2;j++)bay.Add(H("ReedRaft",-50+i*12.6f,288+j*9,-4.5f-((i+j)%2)*.6f,90,1.6f));
+                for(int i=0;i<3;i++)bay.Add(H("ReedRaft",-46+i*12.6f,310,-4.5f-(i%2)*.6f,90,1.6f));
                 // Lastlight's longhouses, each with one rib arch at its end (over the roof, from above, an arch read as a hump of ice).
-                foreach(var (x,z) in new[]{(28f,292f),(44f,316f),(30f,340f)}){H("KeptLonghouse",x,z,-6,90,1.8f);H("RibArch",x+10,z,-6.5f,90,1.2f);}
-                H("Hauler",-6,300,-16,30,1.8f);H("CrawlTread",-40,340,-6,0,1.5f);H("SeedBarge",-24,358,-6,0,1.5f);
+                var longhouses=new List<GameObject[]>();
+                foreach(var (x,z) in new[]{(28f,292f),(44f,316f),(30f,340f)})longhouses.Add(new[]{H("KeptLonghouse",x,z,-6,90,1.8f),H("RibArch",x+10,z,-6.5f,90,1.2f)});
+                H("Hauler",-6,300,-16,30,1.8f);treads.Add(H("CrawlTread",-40,340,-6,0,1.5f));H("SeedBarge",-24,358,-6,0,1.5f);
                 // Lanternwick's float under the second pair's fight: three of its towers on one raft of planks, lit.
                 var wick=new Vector3(2,0,334);foreach(var (dx,dz) in new[]{(-5f,-3f),(5f,-3f),(0f,5f)})H("LanternTower",wick.x+dx,wick.z+dz,-3.5f,dx*9,1.1f);
                 var deckRoot=new GameObject("Lanternwick's float");deckRoot.transform.SetParent(root.transform,true);var deck=new ZoneKit.Shape();
@@ -696,9 +698,29 @@ namespace Lattice.EditorTools
                 // Each at the height it was moored at (its own pivot's), over the carrier and the Continuance (both deeper than any of them reaches), and on out of the far plane.
                 Vector3[] Through(GameObject h){var p=h.transform.position;return new[]{new Vector3(p.x*.5f,p.y,420),new Vector3(p.x*.15f,p.y,470),new Vector3(p.x*.15f,p.y,530),new Vector3(p.x*.3f,p.y-2,660),new Vector3(p.x*.3f,p.y-10,840)};}
                 if(districts.TryGetValue("District: the market",out var market))queue.Add((market,1.5f,34,Through(market)));
-                if(barge!=null)queue.Add((barge,5,36,Through(barge)));if(raft1!=null)queue.Add((raft1,8,38,Through(raft1)));if(raft2!=null)queue.Add((raft2,10,38,Through(raft2)));
+                // Driftreed's two rafts go through lashed on one lighter (D417): the second rides the first's (they followed one path two seconds apart, and two lighters 12 m
+                // apart would have run into each other).
+                if(raft1!=null&&raft2!=null){raft2.transform.SetParent(raft1.transform,true);moored.Remove(raft2);}
+                else if(raft2!=null)queue.Add((raft2,10,38,Through(raft2)));
+                if(barge!=null)queue.Add((barge,5,36,Through(barge)));if(raft1!=null)queue.Add((raft1,8,38,Through(raft1)));
                 // What goes through is cast off already (no line to the chain) and carries no light of the convoy's static ones: they would stay behind it.
                 foreach(var q in queue)moored.Remove(q.Item1);
+                // ---- what is no ship rides a lighter (D417, nov24-whole s64/070 to 083): the raft bay, the Crawl's tread-halls and Lastlight's longhouses each on one moored in the
+                // gulf, and what goes through on its own, carried with it.
+                {
+                    var carried=new ZoneKit.Shape();var carriedPools=new List<(Vector3 at,float size,bool warm)>();int lighters=0;
+                    if(Lighter(carried,carriedPools,bay.Where(b=>b!=null).OrderBy(b=>ZoneKit.Drawn(b).min.y)))lighters++;
+                    foreach(var t in treads)if(Lighter(carried,carriedPools,new[]{t}))lighters++;
+                    foreach(var pair in longhouses)if(Lighter(carried,carriedPools,pair))lighters++;
+                    var drawnLighters=kit.Built("The convoy's lighters",carried,stuff.iron,stuff.teal,stuff.glow);drawnLighters.transform.SetParent(root.transform,true);
+                    Pools(kit,"The convoy's lighters' pools",carriedPools,stuff,root.transform);
+                    foreach(var (name,goes,load) in new[]{("The market's lighter",market,new[]{market}),("Driftreed's lighter",raft1,new[]{raft1,raft2})})
+                    {
+                        if(goes==null)continue;var own=new ZoneKit.Shape();if(!Lighter(own,null,load))continue;lighters++;
+                        var drawn=kit.Built(name,own,stuff.iron,stuff.teal,stuff.glow);drawn.transform.SetParent(goes.transform,true);
+                    }
+                    Debug.Log("MOORING_LIGHTERS "+lighters);
+                }
                 // ---- the deep convoy: the heavy hulls ride lower, 30 to 45 m under the plane between the arenas' hulls and the works, so the gulf has hulls in it at every depth.
                 // Nothing deeper than the carrier's top within the Tollkeeper's arena: they stop south of chain D.
                 H("Hauler",-30,46,-34,35,3f);H("RingSegmentB",30,124,-40,-25,2.6f);H("SeedBarge",-36,206,-36,100,2.4f);H("Hauler",34,232,-44,-120,3f);
@@ -727,6 +749,34 @@ namespace Lattice.EditorTools
                 Pools(kit,"The convoy's running lights' pools",pools,stuff,root.transform);
                 Debug.Log("MOORING_CONVOY hulls="+moored.Count+" districts="+districts.Count+" queue="+queue.Count+" running-lights="+lamps);
                 return queue;
+            }
+            /// <summary>D417 (nov24-whole s64/070 to 083, 080 most): the convoy's places that are no ship (Driftreed's reed rafts, the Crawl's tread-halls, Lastlight's longhouses
+            /// under their arches, the Halo's market) hung in the gulf with nothing under them, and the lanes read as a kitbash. Each rides a lighter: a Compact deck barge a little
+            /// bigger than its load, dark iron with a teal band, a rail along each side, bollards, a running lamp at bow and stern (warm and cold, each in its iron foot and hood),
+            /// and an iron cradle under any of its load that stands higher than the deck. The deck is at the first of the load's foot; what reaches lower goes down through it (an
+            /// arch's legs). Into <paramref name="s"/> (slots: iron, teal, lenses) and <paramref name="pools"/> (none if null). False if there is nothing to carry.</summary>
+            static bool Lighter(ZoneKit.Shape s,List<(Vector3 at,float size,bool warm)> pools,IEnumerable<GameObject> load)
+            {
+                var items=load.Where(c=>c!=null).ToList();if(items.Count==0)return false;
+                var boxes=items.Select(c=>ZoneKit.Drawn(c)).ToList();var all=boxes[0];foreach(var b in boxes)all.Encapsulate(b);
+                bool alongX=all.size.x>=all.size.z;float length=(alongX?all.size.x:all.size.z)+2.4f,wide=(alongX?all.size.z:all.size.x)+1.6f;
+                var way=alongX?Vector3.right:Vector3.forward;var across=alongX?Vector3.forward:Vector3.right;
+                Vector3 Size(float l,float h,float w)=>way*l+across*w+Vector3.up*h;
+                float deck=boxes[0].min.y;var mid=new Vector3(all.center.x,deck,all.center.z);
+                // Its deck a little lighter than its iron and darker than the works' grey (at Grey, d417-after, the deck round the raft bay read as a pale floor under the lane).
+                s.Slot(0).Box(mid+Vector3.down*.2f,Size(length,.4f,wide),Quaternion.identity,Iron,L(.33f,.34f,.38f),.5f);
+                s.Slot(0).Box(mid+Vector3.down*1.3f,Size(length-.6f,1.8f,wide-.6f),Quaternion.identity,Iron,Iron,.5f);
+                s.Slot(0).Box(mid+Vector3.down*2.55f,Size(length-2.6f,.7f,wide-1.8f),Quaternion.identity,Iron,Iron,.5f);
+                s.Slot(1).Box(mid+Vector3.down*.8f,Size(length-.5f,.24f,wide-.5f),Quaternion.identity,Teal);
+                foreach(int side in new[]{-1,1})
+                {
+                    s.Slot(0).Box(mid+across*(side*(wide*.5f-.12f))+Vector3.up*.14f,Size(length-.4f,.28f,.16f),Quaternion.identity,Iron,Grey,.5f);
+                    foreach(int end in new[]{-1,1})s.Slot(0).Post(mid+way*(end*(length*.5f-.7f))+across*(side*(wide*.5f-.6f)),.5f,.16f,.13f,8,Iron,Grey);
+                }
+                Fitting(s,pools,mid+way*(length*.5f-1.1f)+across*(wide*.5f-1.1f),true,1.2f,4);
+                Fitting(s,pools,mid-way*(length*.5f-1.1f)-across*(wide*.5f-1.1f),false,1.2f,4);
+                foreach(var b in boxes)if(b.min.y>deck+.05f)s.Slot(0).Box(new Vector3(b.center.x,(deck+b.min.y)*.5f,b.center.z),new Vector3(b.size.x*.8f,b.min.y-deck,b.size.z*.8f),Quaternion.identity,Iron,Grey,.5f);
+                return true;
             }
             /// <summary>The ring's two segment kinds in turn along an arc.</summary>
             static string ConvoyRing(float x)=>((int)x)%2==0?"RingSegmentA":"RingSegmentB";

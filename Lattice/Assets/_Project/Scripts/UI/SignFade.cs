@@ -82,10 +82,14 @@ namespace Lattice.UI
             if(keepsTurn&&transform.rotation!=reading)transform.rotation=reading;
             if(holdsSize&&view!=null)HoldSize(view,lead.y);
             bool away=input!=null&&input.Blocked||QuestToast.CardUp||BossController.Focus(lead)!=null;
+            // D416: the prompt is saying its words. 'LAND — THE SKYFIELDS' stood on its plate at the top while 'A  Land — The Skyfields' stood in the prompt in the same frame
+            // (nov24-whole s38 110): the place's name once, where the button is.
+            bool said=!away&&!nameTag&&SaidByThePrompt(text.text);
             // Read or gone. Away (a conversation, a menu, the card, a boss's bar) it's gone for that frame and back the frame it ends; set aside by where it stands, or by a body
             // over its letters, it stays gone a moment after, so a word riding the edge of a plate or a body doesn't flicker.
             float now=Time.unscaledTime;
             if(away){tracked=false;GoneFor="away";}
+            else if(said){tracked=false;GoneFor="said";}
             else
             {
                 string took=Cut(view)?"cut":Speck(view)?"speck":!bossOnly&&Fighting(lead)?"fight":null;
@@ -93,7 +97,7 @@ namespace Lattice.UI
                 if(took!=null){goneUntil=now+BackAfter;GoneFor=took;}
                 else if(now>=goneUntil)GoneFor="";
             }
-            float shown=away||now<goneUntil?0:1;
+            float shown=away||said||now<goneUntil?0:1;
             float alpha=full*shown;
             if(Mathf.Abs(text.alpha-alpha)<=.01f&&alpha>0)return;
             if(text.alpha==alpha)return;
@@ -235,6 +239,14 @@ namespace Lattice.UI
             if(ahead.sqrMagnitude<1)return false;
             float most=height*MostAhead;if(ahead.sqrMagnitude>most*most)ahead=ahead.normalized*most;
             box.position+=ahead;return PanelFade.Cuts(box,width,height);
+        }
+        /// <summary>Whether the interaction the prompt offers begins with these words, as a warp's prompt begins with its sign's ('Land — The Skyfields'): a sign and its button.
+        /// What the prompt shows is GameHud's to say; while it shows nothing the sign is already away (a conversation, a menu, the card, a boss's bar).</summary>
+        public static bool SaidByThePrompt(string words)
+        {
+            if(string.IsNullOrEmpty(words)||words.Length<4)return false;
+            var offered=PromptService.Interaction;
+            return offered!=null&&offered.isActiveAndEnabled&&!string.IsNullOrEmpty(offered.prompt)&&offered.prompt.StartsWith(words.Trim(),System.StringComparison.OrdinalIgnoreCase);
         }
         /// <summary>Whether it's on the screen at an em too small to read.</summary>
         bool Speck(Camera view)

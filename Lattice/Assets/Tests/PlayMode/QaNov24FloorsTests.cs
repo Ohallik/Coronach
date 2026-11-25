@@ -146,5 +146,26 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsTrue(renderers.Any(r=>r.name==lamp.name+" housing"),lamp.name+" has no housing: a lit disc and not a lamp");
             }
         }
+
+        /// <summary>D417 (nov24-whole s56/059): beside the engine car's amber lenses a bare white globe hung under one hood: the third coupling's lamp, mated, its pale light
+        /// (.82, .86, .8) over the crawl's pale lamp glass (.72, .56, .34) under the dawn sun. At the most the sun near the line and the sky give a coupling's glass, lit as it waits
+        /// and as it is mated, it is a colour (its brightest channel at least four tenths over its least), never near white. The capture's lamp is read first and must fail.</summary>
+        [UnityTest] public IEnumerator EveryCouplingsLampIsAColourNeverAWhiteGlobe()
+        {
+            yield return Zone("Terminator");
+            var dawn=Object.FindFirstObjectByType<DawnLine>();Assert.IsNotNull(dawn,"fixture: the dawn line");
+            var sky=RenderSettings.ambientSkyColor;float most=Mathf.Max(dawn.intensityNear,dawn.sun!=null?dawn.sun.intensity:0)+Mathf.Max(sky.r,sky.g,sky.b);
+            Color Brightest(Color glass,Color lit)=>new Color(glass.r*most+lit.r,glass.g*most+lit.g,glass.b*most+lit.b);
+            bool Coloured(Color c){float hi=Mathf.Max(c.r,c.g,c.b),lo=Mathf.Min(c.r,c.g,c.b);return hi>0&&(hi-lo)/hi>=.4f;}
+            Assert.IsFalse(Coloured(Brightest(new Color(.72f,.56f,.34f),new Color(.82f,.86f,.8f))),"fixture: the capture's mated lamp reads as a colour");
+            var couplings=TreadCoupling.All.Where(c=>c!=null).ToList();Assert.GreaterOrEqual(couplings.Count,3,"fixture: the three couplings");
+            var faults=new List<string>();
+            foreach(var c in couplings)foreach(var lamp in c.lamp)
+            {
+                var glass=lamp.sharedMaterial.GetColor("_BaseColor");
+                foreach(var (state,lit) in new[]{("waiting",c.waiting),("mated",c.mated)}){var b=Brightest(glass,lit);if(!Coloured(b))faults.Add($"coupling {c.index}'s lamp {state} is {b} at the most the light gives: near white");}
+            }
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
     }
 }

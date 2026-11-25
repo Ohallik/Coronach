@@ -242,6 +242,9 @@ namespace Lattice.Combat
         public void PowerDown()
         {
             if(poweredDown)return;poweredDown=true;
+            // Its override cable goes with the rig it ran from (D411): left slack on a released arm it stood straight up out of the collar to where the bar had been, a thin pale cyan
+            // rod over each of the six for the rest of the visit (nov24-whole s59/038, 084), and the darkening never reached it (an energy line, not paint).
+            cabled=false;if(cable!=null)cable.enabled=false;
             var dark=GetComponent<BodyGoesDark>();if(dark==null)dark=gameObject.AddComponent<BodyGoesDark>();
             dark.Begin(transform,false);
         }

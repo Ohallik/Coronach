@@ -15,6 +15,7 @@ namespace Lattice.UI
     /// own across the foot of the screen, by the same rules: chapter 2's ending from the constants here, every later chapter's
     /// two cards from its main quest's definition (ChapterCards).
     /// </summary>
+    [DefaultExecutionOrder(906)]
     public sealed class QuestToast:MonoBehaviour
     {
         Canvas canvas;Image frame;RectTransform box;ObjectiveHud objective;TMP_Text heading,body,readHint;bool readable;
@@ -53,7 +54,7 @@ namespace Lattice.UI
             UiKit.Rect(heading.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
             body=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastBody","",24,UiKit.LooseTextColor,TextAlignmentOptions.TopLeft));
             var words=UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-58),new(TextWidth,30));words.pivot=new(.5f,1);words.anchoredPosition=new(0,-58);
-            Fade=new PanelFade(frame.rectTransform,frame);
+            Fade=new PanelFade(frame.rectTransform,frame).Solid();
             frame.gameObject.SetActive(false);
             readHint=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastHint","",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineRight));
             UiKit.Rect(readHint.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
@@ -130,8 +131,6 @@ namespace Lattice.UI
         {
             var service=GameServices.Current;if(service==null||canvas==null)return;
             var state=service.State;
-            // It hangs under the objective, whose frame is as tall as what it says.
-            if(objective!=null&&objective.Frame!=null){float under=-ObjectiveHud.FrameTop-objective.Frame.rect.height-14.5f;if(box.anchoredPosition.y!=under)box.anchoredPosition=new(box.anchoredPosition.x,under);}
             if(!ReferenceEquals(state,watched))
             {
                 watched=state;seen.Clear();seenCounts.Clear();pending.Clear();showing=0;chapterEnded=state.flags.TryGetValue(ChapterEnd,out bool ended)&&ended;
@@ -173,6 +172,18 @@ namespace Lattice.UI
             CardUp=middle;
             if(middle){cardAge+=Time.unscaledDeltaTime;(titleOnly?titleGroup:chapterGroup).alpha=Mathf.Min(Mathf.Clamp01(cardAge/.8f),Mathf.Clamp01(showing/1.2f));}
         }
+
+        // ---------- where the corner card stands (D416) ----------
+        /// <summary>It hangs under the objective, whose frame is as tall as what it says, and is seated after the objective has written this frame's words (ObjectiveHud's own
+        /// LateUpdate, at the same order): seated in Update, the frame the objective grew from one line to three the card stood under the old one and cut '172 m' in half
+        /// (nov24-whole s52 171, the skiff's end).</summary>
+        void LateUpdate()
+        {
+            if(canvas==null||objective==null||objective.Frame==null)return;
+            float home=-ObjectiveHud.FrameTop-objective.Frame.rect.height-UnderObjective;
+            if(box.anchoredPosition.y!=home)box.anchoredPosition=new(box.anchoredPosition.x,home);
+        }
+        const float UnderObjective=14.5f;
         void Scan(GameState state)
         {
             next=Time.unscaledTime+.2f;

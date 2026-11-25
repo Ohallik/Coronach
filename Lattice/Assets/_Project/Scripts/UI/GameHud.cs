@@ -127,7 +127,9 @@ namespace Lattice.UI
             // The zone's name had nothing behind it, and a strut or a neon strip ran straight through its letters.
             var zonePlate=TextPlate.Attach(zone,"ZonePlate",24);zoneFrame=zonePlate.Frame.rectTransform;
             // With a plate stepped aside its words keep a backing of their own, so they never read as painted on the floor.
-            panels[0]=new PanelFade(vitals,frame).Backs(status,hpLabel,chargeLabel,thrustLabel,partner,resting);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame).Backs(target);
+            // Solid at rest (D416): the frame sheet's opening alone let a bright word in the world through as ghost letters. Not the one-line plates: TextPlate hides them
+            // by their image alone, which would leave a backing standing.
+            panels[0]=new PanelFade(vitals,frame).Solid().Backs(status,hpLabel,chargeLabel,thrustLabel,partner,resting);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame).Backs(target);
             panels[2]=new PanelFade(promptPlate.Frame.rectTransform,promptPlate.Frame).Backs(prompt);
             panels[7]=new PanelFade(zonePlate.Frame.rectTransform,zonePlate.Frame).Backs(zone);
             // First in the canvas, so under every plate: drawn over them, its brackets cut through their words ('LO..KED').
@@ -753,7 +755,9 @@ namespace Lattice.UI
         /// its room is the ink with the air round it, at the size a pop takes it to.</summary>
         void Dress(Floater f)
         {
-            var (mark,size,color)=Look(f.kind);
+            // D412: the blow that ends a body is never the grey of a resisted one. The Host Marshal's last ('1621') and Dessik Varn's ('765') stood grey on the beaten bodies in the
+            // frame the fight ended (nov24-whole s36/103, s30/045), a number that reads as the fight going on.
+            var (mark,size,color)=Look(f.killing&&f.kind==HitKind.Resisted?HitKind.Normal:f.kind);
             f.text.text=f.amount.ToString("0")+mark;f.text.fontSize=size+(f.crit?CritLarger:0);
             f.text.fontStyle=f.crit?f.style|FontStyles.Bold|FontStyles.Italic:f.style;
             f.text.color=f.partner?PartnerColor:f.crit&&f.kind==HitKind.Normal?CritColor:color;

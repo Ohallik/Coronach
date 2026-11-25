@@ -107,6 +107,34 @@ namespace Lattice.UI
             return best;
         }
         static Vector3 CollarSpot(SaintArm arm) => arm.CollarFloor + arm.Outward * CollarStand;
+        /// <summary>How a fallen road is walked round (D411): the straight line to a spot is shut by a road when it crosses the road's line short of this far past its foot; the lead
+        /// heads for a point this far past the foot, this far beside the road's edge, on his own side until he is past the foot and then on the spot's.</summary>
+        public const float RoundPast = .9f, RoundOut = 1.4f, RoundBeside = .9f;
+        SaintArm saintRounding;
+        /// <summary>A fallen road at rest lies between a lead on the floor and a spot on it (the line between crosses the road's line short of its foot): the way round its foot, the
+        /// road nearest him first. Its side stands over the floor all the way up from its foot (0.6 m at mid-length, 2.3 at the collar), and pushed straight at the spot the replay's
+        /// lead ran in place against arm 1's road from the fifth head lift to the eleventh (Builds/quality/nov24-recon-h-59 s59, about (-8.5, 190): a 217 s fight where the others
+        /// took 94 to 128). Its high end meets the press, so the foot is the only way round. False, the way straight (a road he is up on he walks over).</summary>
+        public static bool SaintRound(Vector3 at, Vector3 spot, SaintArm working, out Vector3 way, out SaintArm road)
+        {
+            way = spot; road = null; if (homeHandsOff) return false;
+            float soonest = float.PositiveInfinity;
+            foreach (var arm in SaintArm.All)
+            {
+                if (arm == null || arm == working || !arm.isActiveAndEnabled || !arm.IsReleased || !arm.Resting || arm.settledBy != "FoundrySaint") continue;
+                // Up on this road, he walks over it.
+                if (at.y - arm.Floor > .5f && arm.OnRoad(at)) continue;
+                var side = Vector3.Cross(Vector3.up, arm.Outward); Vector3 from = at - arm.CollarFloor, to = spot - arm.CollarFloor; from.y = to.y = 0;
+                float a1 = Vector3.Dot(from, arm.Outward), c1 = Vector3.Dot(from, side), a2 = Vector3.Dot(to, arm.Outward), c2 = Vector3.Dot(to, side);
+                if (c1 * c2 >= 0) continue;
+                float t = c1 / (c1 - c2), crossing = a1 + t * (a2 - a1);
+                if (crossing > SaintArm.Tune.RoadFootOut + RoundPast || t >= soonest) continue;
+                soonest = t; road = arm;
+                float beside = a1 >= SaintArm.Tune.RoadFootOut + RoundPast ? Mathf.Sign(c2) : Mathf.Sign(c1);
+                way = arm.CollarFloor + arm.Outward * (SaintArm.Tune.RoadFootOut + RoundOut) + side * beside * (SaintArm.Tune.RoadWidth * .5f + RoundBeside);
+            }
+            return road != null;
+        }
         /// <summary>To the collar by the floor's own way, then still before it, the attack pressed as a thumb does (the lock on the Saint turns each swing to the press, and the collar
         /// stands between); or, bare, to the fallen arm's foot by the floor's way, up its road (which isn't in the bake) straight, and still near its top, striking. Nothing of the
         /// step's own buttons is pressed meanwhile.</summary>
@@ -119,6 +147,13 @@ namespace Lattice.UI
             if (!arm.IsReleased)
             {
                 var spot = CollarSpot(arm); var gap = spot - at; gap.y = 0;
+                // A fallen road between him and the spot: round its foot first (D411).
+                if (SaintRound(at, spot, arm, out var way, out var road))
+                {
+                    if (road != saintRounding) { saintRounding = road; Debug.Log($"QUALITY_SAINT_ROUNDS road {road.index} to collar {arm.index}"); }
+                    var round = way - at; round.y = 0; return Push(ReviveHeading(lead, way, round, false));
+                }
+                saintRounding = null;
                 if (gap.magnitude > CollarNear) return Push(ReviveHeading(lead, spot, gap, false), Mathf.Clamp(gap.magnitude, .35f, 1));
                 saintAtWork = true; saintPress = Strike(); return Vector2.zero;
             }

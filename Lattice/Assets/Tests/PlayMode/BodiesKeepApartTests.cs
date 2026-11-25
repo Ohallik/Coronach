@@ -791,8 +791,10 @@ namespace Lattice.Tests.PlayMode
         /// <summary>Idra fighting the Warmaster on foot with Taren far off, as in his duel (nov24-recon-h-52 s52/083: she stood half inside him, drawn through him, striking him).
         /// His solid is a 0.9 m capsule and he draws his mantle and his shield a metre and more round his middle: she closed to 1.35 m of his middle, and a Breach carried her
         /// to his capsule and left her there. She comes in on the side where he draws widest; then she is carried in to his capsule by a dash as her Breach carries her. Walking
-        /// in, and from 1.2 s after the dash, none of what he draws is in her capsule, and she lands her blows as she did.</summary>
-        [UnityTest,Timeout(150000),Ignore("D408: not fixed. With her stand-off 1.54 m she still settles 1.41 m from his middle (something solid holds her there) and 0.3 m of what he draws is in her, though his read outline reaches 1.09 m on her bearing. Find what is solid and drawn at 1.4 m behind him.")]
+        /// in, and from 1.2 s after the dash, none of what he draws is in her capsule, and she lands her blows as she did. D415: his war-frame's mesh wasn't readable, so his outline
+        /// held only his mantle where it hung as he woke (the war-frame's box corners all stand under his feet or over a hero's head); it is read now, and what she keeps off is the most he
+        /// has drawn toward her since (EnemyBrain.HeldReachToward).</summary>
+        [UnityTest,Timeout(150000)]
         public IEnumerator AtTheWarmasterThePartnerFightsFromBesideWhatHeDraws()
         {
             LogAssert.ignoreFailingMessages=true;
@@ -816,6 +818,30 @@ namespace Lattice.Tests.PlayMode
             Assert.LessOrEqual(after,.05f,"carried to the Warmaster's solid the partner stayed inside what he draws: "+line);
             Assert.GreaterOrEqual(swings,4,"beside the Warmaster the partner stopped landing her blows: "+line);
         }
+        /// <summary>D415: which of a body's renderers draws deepest in a hero's capsule now, how far from the body's middle and how high, and what its rig is playing: what its outline missed.</summary>
+        static string DeepestIn(Component body,CombatActor hero)
+        {
+            var foot=hero.transform.position;var capsule=hero.GetComponent<CharacterController>();float r=capsule.radius,top=foot.y+capsule.height,deepest=0;string what="nothing";var mesh=new List<Vector3>();
+            foreach(var drawn in body.GetComponentsInChildren<Renderer>())
+            {
+                if(!drawn.enabled||!drawn.gameObject.activeInHierarchy||drawn.name=="Telegraph"||drawn.shadowCastingMode==UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly)continue;
+                var points=new List<Vector3>();
+                if(drawn is SkinnedMeshRenderer skin&&skin.sharedMesh!=null)
+                {
+                    try{points.AddRange(GeneratedGeometry.WorldSkinPoints(skin));}
+                    catch(System.InvalidOperationException){var baked=new Mesh();skin.BakeMesh(baked,true);var pose=Matrix4x4.TRS(skin.transform.position,skin.transform.rotation,Vector3.one);baked.GetVertices(mesh);foreach(var p in mesh)points.Add(pose.MultiplyPoint3x4(p));Object.Destroy(baked);}
+                }
+                else if(drawn is MeshRenderer&&drawn.TryGetComponent<MeshFilter>(out var filter)&&filter.sharedMesh!=null){filter.sharedMesh.GetVertices(mesh);foreach(var p in mesh)points.Add(drawn.transform.TransformPoint(p));}
+                foreach(var p in points)
+                {
+                    if(p.y<foot.y+.05f||p.y>top)continue;float d=Flat(p,foot);if(d>=r||r-d<=deepest)continue;
+                    deepest=r-d;var off=p-body.transform.position;off.y=0;
+                    what=$"{drawn.name} [{drawn.GetType().Name}, readable {(drawn is SkinnedMeshRenderer s?s.sharedMesh.isReadable:drawn.GetComponent<MeshFilter>().sharedMesh.isReadable)}, under {(drawn.transform.parent!=null?drawn.transform.parent.name:"-")}] {off.magnitude:0.00} m out at {Vector3.SignedAngle(body.transform.forward,off,Vector3.up):0} degrees, {p.y-body.transform.position.y:0.00} m up";
+                }
+            }
+            var rig=body.GetComponentInChildren<GeneratedAnimator>();
+            return $"deepest {deepest:0.00}: {what}; playing {(rig!=null?rig.CurrentAnimation:"-")}";
+        }
         /// <summary>Idra closing on a body from six metres out on one side, her brain running, for eight seconds; then carried in to its solid by a dash as her Breach on foot carries
         /// her (seven metres in .16 s through her controller) and watched four seconds. How deep what it draws stands in her capsule walking in and from 1.2 s after the dash, and what she landed.</summary>
         IEnumerator AtABody(EnemyBrain body,Vector3 side,System.Action<float,float,string> result,System.Action<int> swung=null)
@@ -829,7 +855,7 @@ namespace Lattice.Tests.PlayMode
             {
                 partner.charge=0;lead.target=body.Health;lead.motor.Move(Vector2.zero,false,false);
                 yield return null;nearest=Mathf.Min(nearest,Flat(partner.transform.position,at));
-                float d=Inside(DrawnPoints(body,12000),partner);if(d>walking){walking=d;when=$"{Time.unscaledTime-began:0.0} s, {Flat(partner.transform.position,at):0.00} m from his middle";}
+                float d=Inside(DrawnPoints(body,12000),partner);if(d>walking){walking=d;when=$"{Time.unscaledTime-began:0.0} s, {Flat(partner.transform.position,at):0.00} m from his middle, {DeepestIn(body,partner)}";}
             }
             int walkedSwings=swings;float walkedLanded=landed,settled=Flat(partner.transform.position,at);
             brain.enabled=false;Place(partner,at+side*6,-side);yield return null;
@@ -840,13 +866,15 @@ namespace Lattice.Tests.PlayMode
                 partner.charge=0;lead.target=body.Health;lead.motor.Move(Vector2.zero,false,false);
                 yield return null;float since=Time.unscaledTime-dashed,d=Inside(DrawnPoints(body,12000),partner);closest=Mathf.Min(closest,Flat(partner.transform.position,at));
                 if(since<1.2f){charged=Mathf.Max(charged,d);continue;}
-                if(d>after){after=d;afterAt=$"{since:0.0} s, {Flat(partner.transform.position,at):0.00} m from his middle";}
+                if(d>after){after=d;afterAt=$"{since:0.0} s, {Flat(partner.transform.position,at):0.00} m from his middle, {DeepestIn(body,partner)}";}
             }
             body.Health.Damaged-=Took;brain.enabled=false;
             swung?.Invoke(walkedSwings);
             var her=partner.transform.position-at;her.y=0;var outline=typeof(EnemyBrain).GetField("outline",BindingFlags.Instance|BindingFlags.NonPublic)?.GetValue(body) as float[];
             var stands=typeof(PartnerBrain).GetMethod("GroundStandOff",BindingFlags.Instance|BindingFlags.NonPublic,null,new[]{typeof(Health)},null);
-            result(walking,after,$"her stand-off={(stands!=null?(float)stands.Invoke(brain,new object[]{body.Health}):-1):0.00} his reach toward her={body.ReachToward(her):0.00} outline read={(outline==null?"no":outline.Length.ToString())} she is {Vector3.Angle(body.transform.forward,her):0} degrees off his front; walking in her={walking:0.00} ({when}) nearest={nearest:0.00} settled={settled:0.00} swings={walkedSwings} landed={walkedLanded:0} in 8 s; charged to {closest:0.00} m in her={charged:0.00} then {after:0.00} ({afterAt}) swings={swings-walkedSwings} landed={landed-walkedLanded:0} in 4 s, ends {Flat(partner.transform.position,at):0.00} m off");
+            var fresh=typeof(EnemyBrain).GetMethod("ReadOutline",BindingFlags.Instance|BindingFlags.NonPublic)?.Invoke(body,null) as float[];
+            string Bearings(float[] o)=>o==null||o.Length==0?"none":string.Join(",",o.Select(v=>v.ToString("0.00")));
+            result(walking,after,$"her stand-off={(stands!=null?(float)stands.Invoke(brain,new object[]{body.Health}):-1):0.00} his reach toward her={body.ReachToward(her):0.00} outline read={(outline==null?"no":outline.Length.ToString())} [{Bearings(outline)}] read again now [{Bearings(fresh)}] she is {Vector3.Angle(body.transform.forward,her):0} degrees off his front; walking in her={walking:0.00} ({when}) nearest={nearest:0.00} settled={settled:0.00} swings={walkedSwings} landed={walkedLanded:0} in 8 s; charged to {closest:0.00} m in her={charged:0.00} then {after:0.00} ({afterAt}) swings={swings-walkedSwings} landed={landed-walkedLanded:0} in 4 s, ends {Flat(partner.transform.position,at):0.00} m off");
         }
 
         /// <summary>The cook on his errand in Harrowgate (a there-and-back past Odrun's door) and Idra standing beside his way, as she followed the lead down past it

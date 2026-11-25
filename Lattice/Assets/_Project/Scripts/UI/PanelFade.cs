@@ -36,8 +36,34 @@ namespace Lattice.UI
         {
             if(plate==null)return;
             float goal=now-coveredAt<Linger?floor:1;
-            if(shown!=goal){shown=Mathf.MoveTowards(shown,goal,dt*(goal<shown?Down:Up));plate.canvasRenderer.SetAlpha(shown);}
+            if(shown!=goal){shown=Mathf.MoveTowards(shown,goal,dt*(goal<shown?Down:Up));plate.canvasRenderer.SetAlpha(shown);if(under!=null)under.canvasRenderer.SetAlpha(shown);}
             if(bands!=null)StepBands();
+        }
+
+        // ---------- what the plate lets through at rest ----------
+        /// <summary>D416: the frame sheet's opening is 254 of 255 solid, and the canvas blends in linear light, so at rest a bright word in the world read through a plate as ghost letters:
+        /// the notice board's chalk 'TOWN MEETS FIRST', 'MARKET FIRST OUT', 'CRESCENT, TUG DOCK' between the vitals' lines with nothing behind the vitals (nov24-whole s57 155, 156;
+        /// the plate measured at its rest colour, lifted from 6 to 22 over each chalk letter). UiKit.SolidFrame cured the menus so; a plate that steps aside takes its solid
+        /// opening with it. The backing is the frame's own colour, inside its border, drawn first among the frame's children, and fades with it.</summary>
+        Graphic under;
+        public Graphic Under=>under;
+        public PanelFade Solid()
+        {
+            if(plate is not Image frame||under!=null)return this;
+            var inset=Inset(frame);
+            var backing=UiKit.Panel(frame.transform,frame.name+"SolidUnder",UiKit.PlateColor);backing.raycastTarget=false;
+            var at=backing.rectTransform;at.anchorMin=Vector2.zero;at.anchorMax=Vector2.one;at.pivot=new Vector2(.5f,.5f);
+            at.offsetMin=new Vector2(inset.x,inset.y);at.offsetMax=new Vector2(-inset.z,-inset.w);
+            backing.transform.SetAsFirstSibling();backing.canvasRenderer.SetAlpha(shown);under=backing;
+            return this;
+        }
+        /// <summary>The frame's border as drawn (left, bottom, right, top), in its own units: the sheet's border over the pixels per unit it is drawn at. With no sheet, the menus' 24.</summary>
+        static Vector4 Inset(Image frame)
+        {
+            if(frame.sprite==null||frame.type!=Image.Type.Sliced)return Vector4.one*24;
+            float perUnit=frame.sprite.pixelsPerUnit*frame.pixelsPerUnitMultiplier/Mathf.Max(1,frame.canvas!=null?frame.canvas.referencePixelsPerUnit:100);
+            var border=frame.sprite.border/Mathf.Max(.0001f,perUnit);
+            return new Vector4(Mathf.Max(border.x,4),Mathf.Max(border.y,4),Mathf.Max(border.z,4),Mathf.Max(border.w,4));
         }
 
         // ---------- what the words keep when the plate has gone ----------

@@ -177,6 +177,63 @@ namespace Lattice.Tests.PlayMode
             }
             Assert.AreEqual(1,All<OrreryRail>().Select(r=>OrreryRail.Period).Distinct().Count());
         }
+        /// <summary>D417 (nov24-whole s38/081, 101, 104, 107): a pale bar crossed every gate at its ring's middle, nearly full width, in three pieces (the generated ring's own bar,
+        /// in its map's pale sky patches). Nothing of a lane gate is drawn across its opening now, from 2 m under its ring's middle to 2 m over it. A bar as the capture drew it,
+        /// out past the rim each side, laid at the Steward's middle gate, is read first and must be found.</summary>
+        [UnityTest] public IEnumerator NothingCrossesAGatesOpeningAtItsMiddle()
+        {
+            ToTheOrrery();yield return Zone("Orrery");
+            const float RingDrop=2.6f;   // OrielBuilder.Orrery.RingDrop: a ring's middle under the plane
+            var rails=All<OrreryRail>();Assert.AreEqual(Moons.Length,rails.Length,"fixture: the rails");
+            // Triangles whose middles lie across gate g's opening: within its half width less .8 m of its middle, 2 m of its ring's middle in height and 8 m of its row.
+            int Across(OrreryRail rail,int g,Mesh mesh,Matrix4x4 world)
+            {
+                float row=rail.radius+rail.gateOut,a=rail.gateAt[g]/row,middle=rail.plane-RingDrop;var at=rail.On(rail.gateAt[g],row);
+                var along=new Vector2(Mathf.Cos(a),Mathf.Sin(a));var outward=new Vector2(Mathf.Sin(a),-Mathf.Cos(a));var v=mesh.vertices;var t=mesh.triangles;int n=0;
+                for(int i=0;i+2<t.Length;i+=3)
+                {
+                    var c=world.MultiplyPoint3x4((v[t[i]]+v[t[i+1]]+v[t[i+2]])/3);var d=new Vector2(c.x-at.x,c.z-at.y);
+                    if(Mathf.Abs(Vector2.Dot(d,along))<rail.gateHalf-.8f&&Mathf.Abs(c.y-middle)<2&&Mathf.Abs(Vector2.Dot(d,outward))<8)n++;
+                }
+                return n;
+            }
+            {
+                var steward=rails.Single(r=>r.railName=="The Steward");float row=steward.radius+steward.gateOut,a=steward.gateAt[1]/row;var at=steward.On(steward.gateAt[1],row);
+                var bar=new Mesh{name="the capture's bar"};bar.SetVertices(new List<Vector3>{new(-.5f,-.5f,0),new(.5f,-.5f,0),new(.5f,.5f,0),new(-.5f,.5f,0)});bar.SetTriangles(new[]{0,1,2,0,2,3},0);
+                var world=Matrix4x4.TRS(new Vector3(at.x,steward.plane-RingDrop,at.y),Quaternion.LookRotation(new Vector3(Mathf.Sin(a),0,-Mathf.Cos(a))),new Vector3(steward.gateHalf*2+6,1,1));
+                int found=Across(steward,1,bar,world);Object.Destroy(bar);
+                Assert.Greater(found,0,"fixture: a bar across the Steward's middle gate isn't found");
+            }
+            var faults=new List<string>();int gates=0;
+            foreach(var rail in rails)for(int g=0;g<3;g++)
+            {
+                var piece=rail.transform.Find(rail.railName+" gate "+(g+1));Assert.IsNotNull(piece,$"fixture: {rail.railName}'s gate {g+1}");gates++;
+                foreach(var f in piece.GetComponentsInChildren<MeshFilter>(true))
+                {
+                    if(f.sharedMesh==null||f.name=="Arch")continue;Assert.IsTrue(f.sharedMesh.isReadable,"fixture: "+f.name+"'s mesh can be read");
+                    int n=Across(rail,g,f.sharedMesh,f.transform.localToWorldMatrix);if(n>0)faults.Add($"{rail.railName}'s gate {g+1}: {n} triangles of {f.sharedMesh.name} across its opening at its middle");
+                }
+            }
+            Assert.AreEqual(Moons.Length*3,gates,"fixture: three lane gates on every rail");
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+        /// <summary>D417 (nov24-whole s38/110): as the landing's prompt came up, the lead's nose was drawn into the beacon's base. A ship where the route asks to land (5 m short of
+        /// the beacon's place, frames.csv z 875) has its nose 3 m ahead; from the play camera there (17.6 m back, 19.45 m over the plane, frames.csv) the nose hides what lies under
+        /// it out to where its sight line meets the beacon's foot. The beacon's nearest edge stands a metre past that, and the prompt's place is where it was. The capture's beacon
+        /// (centred on the prompt's place) is read first and must fail.</summary>
+        [UnityTest] public IEnumerator TheLandingBeaconStandsClearOfAShipAtItsPrompt()
+        {
+            ToTheOrrery();yield return Zone("Orrery");
+            var land=All<WarpBeacon>().Single(w=>w.prompt=="Land — The Skyfields");var at=land.transform.position;
+            Assert.AreEqual(880,at.z,.01f,"the prompt's place moved");Assert.AreEqual(0,at.x,.01f,"the prompt's place moved");
+            var drawn=land.GetComponentsInChildren<Renderer>().Select(r=>r.bounds).Aggregate((x,y)=>{x.Encapsulate(y);return x;});
+            var nose=new Vector3(at.x,at.y+.4f,at.z-5+3);var eye=new Vector3(at.x,at.y+19.45f,at.z-5-17.6f);
+            float Hidden(float foot)=>nose.z+(nose.y-foot)*(nose.z-eye.z)/(eye.y-nose.y);
+            bool Clear(Bounds b)=>b.min.z>=Hidden(b.min.y)+1;
+            var old=drawn;old.center=new Vector3(at.x,drawn.center.y,at.z);
+            Assert.IsFalse(Clear(old),$"fixture: the capture's beacon ({old.min.z:0.0} to {old.max.z:0.0}) reads clear of a nose that hides the ground to {Hidden(old.min.y):0.0}");
+            Assert.IsTrue(Clear(drawn),$"the beacon's nearest edge is at z {drawn.min.z:0.0}: a ship at its prompt hides the ground to {Hidden(drawn.min.y):0.0}, so its nose is drawn into the beacon");
+        }
         /// <summary>D399 (nov23-whole s38/081 at the top of the frame, 090 to 108 through the ship): each rail's wardens' track carried one lit strip its whole 84 m, white lit by the
         /// 1.3 sun over a white emission, and the bloom drew it as a white line across the frame. Its light is lamps now: no lit piece of it longer than a metre, a row of them,
         /// and at the most the Orrery's sun and sky give a lens only one channel over the zone's bloom threshold (.85, OrielBuilder.Looks), warm, so it blooms gold and not white.

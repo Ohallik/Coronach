@@ -7,7 +7,7 @@ namespace Lattice.UI
     /// With no fight on, a smaller one in the objective's cream does the same for where the objective sends the party. In a flight zone, whose screen can hold nothing but specks for half a crossing, and on foot for a hero who's down and out of shot.</summary>
     public sealed class BossEdgeMark:MonoBehaviour
     {
-        const float Inset=.05f,Margin=.02f,BossBox=56,GoalBox=40,AlongEdge=.03f;
+        const float Inset=.05f,Margin=.02f,BossBox=56,GoalBox=40,AlongEdge=.03f;const int OutwardSteps=8;
         /// <summary>The goal's mark stands in from the edges by these shares of the screen: over the hint bar and the skill row, along the foot.</summary>
         const float GoalSide=.04f,GoalTop=.06f,GoalFoot=.16f;
         static readonly Color GoalCream=new(1,.93f,.8f,.95f),GoalEdge=new(.02f,.03f,.05f,.85f);
@@ -95,13 +95,26 @@ namespace Lattice.UI
         }
         /// <summary>Along its edge toward the middle until no panel stands over it: in a corner it lay under the objective, which draws on top. It still points the way it did.
         /// With nowhere clear on that edge it stays where the way leads: along the foot the hint bar and the skill row fill the whole width, and sliding on carried a mark for a boss down and to the left to the bottom middle.</summary>
+        /// <para>D416: and outward along the edge too, nearest first. Toward the middle of the top edge is where the lock's card stands, so a mark that began on the card slid
+        /// further onto it and stayed, the cream arrow cutting into 'LOCKED' (nov24-whole s62 121).</para>
         Vector2 OffThePlates(Vector2 at,float box,Camera camera,bool onSide)
         {
-            float width=camera.pixelWidth,height=camera.pixelHeight,half=box*.5f*surface.scaleFactor;var tried=at;
-            for(int step=0;step<16;step++)
+            float width=camera.pixelWidth,height=camera.pixelHeight,half=box*.5f*(surface!=null?surface.scaleFactor:1);
+            bool Clear(Vector2 tried)=>!PanelFade.Cuts(new Rect(tried.x*width-half,tried.y*height-half,half*2,half*2),width,height);
+            if(Clear(at))return at;
+            float along=onSide?at.y:at.x,toward=along<.5f?1:-1;
+            for(int step=1;step<=16;step++)
             {
-                if(!PanelFade.Cuts(new Rect(tried.x*width-half,tried.y*height-half,half*2,half*2),width,height))return tried;
-                if(onSide)tried.y=Mathf.MoveTowards(tried.y,.5f,AlongEdge);else tried.x=Mathf.MoveTowards(tried.x,.5f,AlongEdge);
+                foreach(float way in new[]{toward,-toward})
+                {
+                    float next=along+way*AlongEdge*step;if(next<Inset*.5f||next>1-Inset*.5f)continue;
+                    // Toward the middle it may not pass it, as before.
+                    if(way==toward&&(toward>0?next>.5f:next<.5f))continue;
+                    // Outward no further than a card's width or so: a mark carried to a far corner points nowhere it means.
+                    if(way!=toward&&step>OutwardSteps)continue;
+                    var tried=onSide?new Vector2(at.x,next):new Vector2(next,at.y);
+                    if(Clear(tried))return tried;
+                }
             }
             return at;
         }

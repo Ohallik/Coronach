@@ -135,13 +135,12 @@ namespace Lattice.Tests.PlayMode
                 foreach(var r in bodies)r.gameObject.layer=probe;
                 var alone=Shot(camera,1<<probe);
                 for(int i=0;i<bodies.Length;i++)bodies[i].gameObject.layer=layers[i];
-                int covered=0,changed=0;
-                for(int i=0;i<alone.Length;i++)
-                {
-                    if(Change(alone[i],empty[i])<.03f)continue;
-                    covered++;if(Change(shown[i],gone[i])>.05f)changed++;
-                }
-                return covered>20?changed/(float)covered:0;
+                // D414: where he is hidden he is drawn as a line round him with a faint tint inside, not a fill over his body, so what is read is the share of his silhouette's
+                // edge the screen marks: his own body there, or his line within a line's reach (OutlineMeasure). In plain view all of it; behind a wall nothing; drawn through it,
+                // the line.
+                var body=new bool[alone.Length];int covered=0;
+                for(int i=0;i<alone.Length;i++)if(Change(alone[i],empty[i])>=.03f){body[i]=true;covered++;}
+                return covered>20?OutlineMeasure.Covered(body,ShotWidth,ShotHeight,i=>Change(shown[i],gone[i])>.05f,2,out _):0;
             }
             finally{for(int i=0;i<bodies.Length;i++)if(bodies[i]!=null){bodies[i].shadowCastingMode=casting[i];bodies[i].gameObject.layer=layers[i];}}
         }
