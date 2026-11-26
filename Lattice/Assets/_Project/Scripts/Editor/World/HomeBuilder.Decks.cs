@@ -1105,7 +1105,9 @@ namespace Lattice.EditorTools
                 var mother=Folk("Oda's mother","CorraBody",new Vector2(-32.2f,2.3f),0,new Color(.78f,.62f,.7f),meeting,.84f);Pose(mother,.45f,"base","stand");
                 var standing=new (string body,float x,float z,Color tint,float build)[]
                 {
-                    ("SennBody",-25.4f,-.4f,new(.84f,.72f,.5f),1.1f),("IruBody",-23.6f,-.2f,new(.6f,.7f,.66f),1.03f),("DabbBody",-21.8f,-.5f,new(.74f,.62f,.78f),.9f),
+                    // D423: Iru's body is painted dark (rust coat, black trousers and hair: its map averages 52, 27, 15); darkened by .6 again it stood near black with no form
+                    // (nov25-r5 s57/154, 157). Lifted instead, as Hoarfell's Iru are, and warmer than the story's Iru aboard the Coronach, who is untinted.
+                    ("SennBody",-25.4f,-.4f,new(.84f,.72f,.5f),1.1f),("IruBody",-23.6f,-.2f,new(1.22f,1.1f,1.02f),1.03f),("DabbBody",-21.8f,-.5f,new(.74f,.62f,.78f),.9f),
                     ("AumiBody",-37.0f,6.2f,new(.7f,.66f,.6f),1),
                 };
                 int k0=0;foreach(var s in standing){var p=Folk("Standing at the back of the meeting",s.body,new Vector2(s.x,s.z),Facing(new Vector2(s.x,s.z),k0++),s.tint,crowd,s.build,null,s.x<-36.2f?.5f:0);Pose(p,0,"base","hand");if(s.x>-24&&s.x<-23)forBerth.Add(p.transform);}

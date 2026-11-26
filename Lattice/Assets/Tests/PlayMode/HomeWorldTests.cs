@@ -164,6 +164,21 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ================================================================== Nacre Grave
+        /// <summary>nov25-r6-chain s56/065, 080 (D426): back aboard the Crawl with the tread-hall ridden in, the panel went back to the story's step ("Re-mate three couplings and
+        /// bring the tread-hall in ahead of the dawn", which only Dorrow's talk completes) for the walk to her: a line just done, read again.</summary>
+        [UnityTest] public IEnumerator AboardTheCrawlWithTheTreadHallInThePanelSaysToTellDorrow()
+        {
+            Flag(CrawlLine.RideFlag,false);Flag(CrawlLine.ToldFlag,false);
+            yield return Zone(CrawlLine.Zone);yield return null;yield return null;
+            // Before the Terminator the step is the story's own, and right.
+            Assert.IsFalse(ZoneLine.Read(out var said,out _),$"before the ride the Crawl says a line of its own ('{said}')");
+            Flag(CrawlLine.RideFlag);yield return null;yield return null;
+            Assert.IsTrue(ZoneLine.Read(out said,out var arrow),"with the tread-hall ridden in the Crawl says nothing of its own, and the panel reads the couplings' step again");
+            Assert.AreEqual(CrawlLine.Words,said);Assert.IsFalse(arrow.HasValue,"the arrow isn't left to the story's (on Dorrow)");
+            Flag(CrawlLine.ToldFlag);yield return null;yield return null;
+            Assert.IsFalse(ZoneLine.Read(out said,out _),$"Dorrow told, the Crawl still says '{said}'");
+            Flag(CrawlLine.RideFlag,false);Flag(CrawlLine.ToldFlag,false);
+        }
         [UnityTest] public IEnumerator NacreGraveHasItsWaysItsLampsAndItsThreeTracks()
         {
             ToNacre();yield return Zone("NacreGrave");

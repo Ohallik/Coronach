@@ -122,7 +122,8 @@ namespace Lattice.Combat
         void Start()
         {
             // Its boss already beaten: down and still, road solid, nothing to strike. No fall is played.
-            if(GameServices.Current!=null&&GameServices.Current.Flags.GetBool("bossdown."+settledBy))Settle(true);
+            // D419: and the room's own press it hung from is dark with it (once for the six arms).
+            if(GameServices.Current!=null&&GameServices.Current.Flags.GetBool("bossdown."+settledBy)){Settle(true);if(settledBy=="FoundrySaint")BodyGoesDark.StandIn(BossController.SaintTune.SettledName,false);}
         }
         /// <summary>The generated arm lies along its own longest side with its foot at the origin. Laid along the swing's forward with its collar end (the broad gold ring) at the swing's origin and its
         /// middle on the axis. Which end is the ring is read from the mesh where it can be: the broader end.</summary>

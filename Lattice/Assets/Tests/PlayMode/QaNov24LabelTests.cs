@@ -145,7 +145,8 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine(line);Debug.Log(line);
             Assert.AreNotSame(leads,armour,"fixture: the partner's hit has a number of its own beside the lead's");
             Assert.IsTrue(Faded(new Color(.62f,.66f,.7f)),"fixture: the check doesn't see the resisted grey the partner's numbers were drawn in as faded");
-            Assert.IsTrue(Faded(leadsArmour.color),"fixture: the lead's hit on armour keeps the resisted grey");
+            // D424: the lead's hit on armour is the lead's warm grey now, still a grey by the measure the resisted hits are held to (QaCombatTests).
+            var la=leadsArmour.color;Assert.IsTrue(Mathf.Abs(la.r-la.g)<.1f&&Mathf.Abs(la.g-la.b)<.1f&&la.r<.8f,"fixture: the lead's hit on armour keeps a grey");
             Assert.IsFalse(Faded(armourColour),line+": the partner's hit on armour is drawn grey, a number half faded beside the lead's");
             Assert.IsFalse(Faded(clean.color),line+": the partner's clean hit is drawn faded");
             Assert.AreEqual(armourColour,clean.color,line+": the partner's numbers change colour with the hit, so they aren't the partner's own");
@@ -342,6 +343,86 @@ namespace Lattice.Tests.PlayMode
             deadline=Time.unscaledTime+3;while(PromptService.Interaction==warp&&Time.unscaledTime<deadline){Put(Lead,warp.transform.position+new Vector3(0,0,-60));yield return null;}
             yield return null;yield return null;
             Assert.AreNotEqual("said",fade.GoneFor,"the sign stays away with the prompt gone");
+        }
+
+        // ================================================================ D424, from the November 25 capture (nov25-r5-chain)
+        /// <summary>A number in the lead's warm colours: amber, a warm grey, a weakness's orange or yellow, a crit's cream. Not white, not the cold resisted grey.</summary>
+        static bool Warm(Color c)=>c.a>.99f&&c.r-c.b>.12f;
+        /// <summary>s15/156, s26/473, s08/092, s15/158, s36/060: white and grey numbers on bosses ('2580' on Hessa beside the partner's blue '2591', the killing '3164' on the
+        /// Rotbloom and '1298' on the Bellows, a grey '638' on the Host Marshal) were the lead's plain hits, killing blows and hits on armour, in a hero's own hurt's white and the
+        /// cold resisted grey: nobody's colour. Every number the lead puts on a body is warm; a hit on armour still reads as one; a hero's own hurt stays white.</summary>
+        [UnityTest] public IEnumerator TheLeadsNumbersAreWarmWhateverTheHitAndAHerosHurtIsNot()
+        {
+            yield return Zone("Arena_Ground");
+            Assert.IsFalse(Warm(Color.white),"fixture: the check takes the old white for the lead's");
+            Assert.IsFalse(Warm(new Color(.62f,.66f,.7f)),"fixture: the check takes the old resisted grey for the lead's");
+            var at=Lead.transform.position+Vector3.forward*6;
+            var plainBody=Body(at,1e6f);var armourBody=Body(at+Vector3.right*5,1e6f);var weakBody=Body(at-Vector3.right*5,1e6f);var lastBody=Body(at+Vector3.forward*6,500);
+            yield return null;yield return null;
+            var types=System.Enum.GetValues(typeof(DamageType)).Cast<DamageType>().ToArray();
+            var plain=types.First(t=>t!=plainBody.weakness&&t!=plainBody.resistance);
+            plainBody.Receive(new DamagePacket{source=Lead.Health,amount=100,type=plain});var clean=Newest();
+            armourBody.Receive(new DamagePacket{source=Lead.Health,amount=100,type=armourBody.resistance});var armour=Newest();
+            weakBody.Receive(new DamagePacket{source=Lead.Health,amount=100,type=weakBody.weakness});var weak=Newest();
+            lastBody.Receive(new DamagePacket{source=Lead.Health,amount=1e6f,type=lastBody.resistance,weight=HitWeight.Heavy});var killing=Newest();
+            var hero=Lead.Health;var bare=types.First(t=>t!=hero.weakness&&t!=hero.resistance);hero.InvulnerableUntil=0;
+            hero.Receive(new DamagePacket{source=plainBody,amount=40,type=bare,weight=HitWeight.Light});var hurt=Newest();
+            string line=$"LEAD_NUMBER clean {clean.color} \"{clean.text}\" armour {armour.color} \"{armour.text}\" weak {weak.color} \"{weak.text}\" killing {killing.color} \"{killing.text}\" hurt {hurt.color} \"{hurt.text}\"";
+            TestContext.WriteLine(line);Debug.Log(line);
+            Assert.IsFalse(lastBody.Alive,"fixture: the last blow beats its body");
+            Assert.AreNotSame(killing,hurt,"fixture: the hero's hurt has a number of its own");
+            var faults=new List<string>();
+            if(!Warm(clean.color))faults.Add("the lead's plain hit isn't warm: it reads as a hero's own hurt (s15 156 '2580')");
+            if(!Warm(armour.color))faults.Add("the lead's hit on armour isn't warm: it reads as nobody's (s36 060 '638')");
+            if(!Warm(weak.color)||!weak.text.Contains("!"))faults.Add("the lead's hit on a weakness lost its warmth or its mark");
+            if(!Warm(killing.color))faults.Add("the lead's killing blow isn't warm (s26 473 '3164', s08 092 '1298')");
+            var a=armour.color;if(!(Mathf.Abs(a.r-a.g)<.1f&&Mathf.Abs(a.g-a.b)<.1f&&a.r<.8f)||a==clean.color||armour.fontSize>clean.fontSize)faults.Add("the lead's hit on armour doesn't read as one any more");
+            if(Warm(hurt.color))faults.Add("a hero's own hurt is drawn in the lead's warm colour");
+            Assert.IsEmpty(faults,line+"\n"+string.Join("\n",faults));
+        }
+        /// <summary>Reads the objective's arrows against its words after every LateUpdate, each frame: an arrow up with no line of its own under it is a fault.</summary>
+        [DefaultExecutionOrder(5000)]
+        sealed class ArrowWatch:MonoBehaviour
+        {
+            public TMP_Text words;public Image arrow,also;public readonly List<string> faults=new();
+            void LateUpdate()
+            {
+                if(words==null)return;
+                if(arrow.enabled&&!words.text.Contains("<space=44>"))faults.Add($"the gold arrow is up over '{words.text}', which has no distance line for it");
+                if(also.enabled&&!words.text.Contains("Also:"))faults.Add($"the small arrow is up over '{words.text}', which has no Also line for it");
+            }
+        }
+        /// <summary>s30/028: the frame Dessik Varn's fight began, the objective's gold arrow stood over the 'r' of 'Break the suit, then strike the cockpit' and its small one
+        /// after 'cockpit'. Both were shown for the goals of the last look and seated for the new words, which had no distance and no Also line. Here the goal goes as the
+        /// partner is up again (as it goes when a fight begins): the frame the words lose their distance, the arrows go with it.</summary>
+        [UnityTest] public IEnumerator TheObjectivesArrowsGoTheFrameTheirLinesDo()
+        {
+            yield return Zone("Arena_Ground");
+            var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.name="Arrow fixture floor";floor.transform.position=new Vector3(230,-.5f,0);floor.transform.localScale=new Vector3(160,1,160);Physics.SyncTransforms();
+            var lead=Lead;var partner=Partner;Put(lead,new Vector3(232,0,-8));Put(partner,new Vector3(232,0,-20));yield return null;
+            var hud=Object.FindFirstObjectByType<ObjectiveHud>();Assert.IsNotNull(hud,"fixture: the objective's up");
+            var words=hud.GetComponentsInChildren<TMP_Text>(true).First(t=>t.name=="Objective");
+            var arrow=All<Image>().First(i=>i.name=="ObjectiveArrow");var also=All<Image>().First(i=>i.name=="ObjectiveAlsoArrow");
+            partner.Health.integrity=0;
+            float deadline=Time.unscaledTime+4;while(!(arrow.enabled&&words.text.Contains("back up"))&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsTrue(arrow.enabled&&words.text.Contains("back up"),$"fixture: the objective points to the downed partner: '{words.text}', arrow up {arrow.enabled}");
+            var watch=new GameObject("ArrowWatch").AddComponent<ArrowWatch>();watch.words=words;watch.arrow=arrow;watch.also=also;
+            yield return null;yield return null;
+            Assert.IsEmpty(watch.faults,"fixture: the arrow already stands wrong over the downed partner's line");
+            // The check on the state the capture caught: the gold arrow up over a line with no distance.
+            hud.enabled=false;string was=words.text;words.text="Break the suit, then strike the cockpit";arrow.enabled=true;
+            yield return null;
+            int caught=watch.faults.Count;watch.faults.Clear();words.text=was;hud.enabled=true;
+            Assert.Greater(caught,0,"fixture: the check doesn't see the arrow up over a line with no distance (s30 028)");
+            yield return null;yield return null;watch.faults.Clear();
+            // Up again: the next look finds no goal, and the words lose their distance line.
+            partner.Health.integrity=partner.Health.maximum;
+            deadline=Time.unscaledTime+2;while(words.text.Contains("back up")&&Time.unscaledTime<deadline)yield return null;
+            yield return null;yield return null;
+            string after=words.text;Object.Destroy(watch.gameObject);
+            Assert.IsFalse(after.Contains("back up"),"fixture: the words never moved on from the downed partner");
+            Assert.IsFalse(after.Contains("<space=44>"),$"fixture: with the partner up the objective still has a distance line ('{after}'), so the case shows nothing");
+            Assert.IsEmpty(watch.faults,string.Join("\n",watch.faults.Distinct()));
         }
     }
 }

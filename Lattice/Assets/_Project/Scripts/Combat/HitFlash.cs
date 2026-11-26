@@ -116,7 +116,8 @@ namespace Lattice.Combat
                     if(TryGetComponent<BodyGoesDark>(out var dark))level=Mathf.Min(level,dark.MostFlash);
                     // D412: and on one who yields, none: Drask Vaal gave up washed near white with the blow's cyan along his edges (nov24-whole s52/098), Dessik Varn's suit steel
                     // blue (s30/045). Who gives up is beaten, not lit; the person who takes over from her has her own colours.
-                    else if(yields)level=0;
+                    // D419: nor on a person who walks out on her own feet in her colours (Vessa Korl): beaten the same way as her sister, and lit the same.
+                    else if(yields||TryGetComponent<BossDeparture>(out var leaving)&&leaving.keepsColours)level=0;
                     if(level<=0&&fading<=0)Clear();else{Shown=level*ImpactSettings.FlashScale;Write(Shown);}
                 }
                 else

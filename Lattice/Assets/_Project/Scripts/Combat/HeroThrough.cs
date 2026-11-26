@@ -28,6 +28,13 @@ namespace Lattice.Combat
         public const float LineWidth=3,Tint=.09f;
         /// <summary>The lead warm gold, so he reads apart from white plates and the partner; the partner pale blue. No more than 1, so nothing blooms into a glow.</summary>
         static readonly Color LeadLine=new(1,.8f,.36f,1),PartnerLine=new(.62f,.9f,1,1);
+        /// <summary>D421: of the hero's body, the share hidden below which nothing is drawn and from which all of the drawing is. A hero in plain view but for his feet behind a
+        /// rail or a collar needs no finding, and the line round that sliver read as a loose scrap under him (nov25-r5-chain s55/139, s59/053). The shader reads the share
+        /// from the scene's depth at points over the body (the capsule's height by twice <see cref="HalfWidth"/>). A hero wholly behind one broad piece of scenery is shown
+        /// in a window the piece opens round them instead (SceneryOcclusion).</summary>
+        public const float ShareLow=.3f,ShareHigh=.5f,HalfWidth=.3f;
+        static readonly int HeroId=Shader.PropertyToID("_Hero");
+        static MaterialPropertyBlock block;
         static Material[] looks;
         CombatActor actor;GameObject holder;
         readonly List<(Renderer from,Renderer body,Renderer hull)> pairs=new();
@@ -55,8 +62,11 @@ namespace Lattice.Combat
                     bool isLead=(i&1)==0,isFlight=(i&2)!=0,isHull=(i&4)!=0;
                     var material=new Material(shader){name=$"Hero through ({(isLead?"lead":"partner")}{(isFlight?", flight":"")}, {(isHull?"line":"body")})"};
                     material.SetColor("_BaseColor",isLead?LeadLine:PartnerLine);material.SetFloat("_Fill",Tint);material.SetFloat("_Line",.95f);material.SetFloat("_Width",LineWidth);
-                    material.SetFloat("_Thickness",isFlight?HullThickness:Thickness);material.SetFloat("_Push",isHull?1:0);material.SetFloat("_Cull",(float)(isHull?CullMode.Off:CullMode.Back));
-                    material.renderQueue=(int)RenderQueue.Transparent+(isHull?41:40);
+                    material.SetFloat("_Thickness",isFlight?HullThickness:Thickness);material.SetFloat("_Push",isHull?1:0);
+                    // D421: the body culls nothing either. Culled, a hair card turned away left its pixels unmarked, and the hull drew its line there, short strokes inside the
+                    // figure (Sela's hair under Harrowgate's gate roof); a hero in plain view, whose own parts might read as hiding one another, draws nothing at all (the share).
+                    material.SetFloat("_Cull",(float)CullMode.Off);
+                    material.SetFloat("_HeroWidth",HalfWidth);material.SetFloat("_ShareLow",ShareLow);material.SetFloat("_ShareHigh",ShareHigh);                    material.renderQueue=(int)RenderQueue.Transparent+(isHull?41:40);
                     looks[i]=material;
                 }
             }
@@ -115,11 +125,24 @@ namespace Lattice.Combat
             if(holder==null||Time.unscaledTime>=nextMeasure){nextMeasure=Time.unscaledTime+1;Measure();}
             var party=PartyController.Current;bool lead=party!=null&&party.members!=null&&party.members.Length>0&&party.Active==actor;
             Material body=Look(lead,actor.flight,false),line=Look(lead,actor.flight,true);
+            block??=new MaterialPropertyBlock();block.SetVector(HeroId,Body());
             foreach(var (from,fill,hull) in pairs)
             {
                 bool on=body!=null&&line!=null&&from!=null&&from.enabled&&from.gameObject.activeInHierarchy&&from.forceRenderingOff==false;
                 Show(from,fill,on,body);Show(from,hull,on,line);
             }
+        }
+        /// <summary>What the shader reads the share hidden over: the hero's feet and his capsule's height. None for a ship, which is drawn wherever it is hidden, as before.</summary>
+        Vector4 Body()
+        {
+            if(actor.flight)return Vector4.zero;
+            var feet=transform.position;float tall=1.8f;
+            if(TryGetComponent<CharacterController>(out var capsule))
+            {
+                float scale=Mathf.Abs(transform.lossyScale.y);tall=Mathf.Clamp(capsule.height*scale,1.4f,2.4f);
+                feet=transform.TransformPoint(capsule.center)-Vector3.up*(capsule.height*scale*.5f);
+            }
+            return new Vector4(feet.x,feet.y,feet.z,tall);
         }
         void Show(Renderer from,Renderer drawn,bool on,Material look)
         {
@@ -127,6 +150,7 @@ namespace Lattice.Combat
             if(drawn.enabled!=on)drawn.enabled=on;
             if(!on)return;
             if(drawn.sharedMaterial!=look){var materials=drawn.sharedMaterials;for(int i=0;i<materials.Length;i++)materials[i]=look;drawn.sharedMaterials=materials;}
+            drawn.SetPropertyBlock(block);
             if(drawn is MeshRenderer)
             {
                 var at=from.transform;var copy=drawn.transform;copy.SetPositionAndRotation(at.position,at.rotation);

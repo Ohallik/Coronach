@@ -292,6 +292,10 @@ namespace Lattice.UI
             }
             label=Styled(label);
             string words=label+direction+Also(state,hero);
+            // D424: the arrows go with the goals just found, in the frame their words are written. Shown above for the goals of a quarter second ago, the frame a fight
+            // began kept both on: the gold one at the head of a distance line that was gone, over the 'r' of 'Break the suit' (nov25-r5-chain s30/028), the small one
+            // after 'cockpit' with no Also line to point for.
+            Point(arrow,goalAt,hero,hereAt);Point(alsoArrow,alsoAt,hero,Here);
             if(text.text==words)return;
             text.text=words;Balance(label.Length);SeatArrows(label.Length+1+ArrowRoom.Length);
             // By its lines, not its letters: a tail on a new word mustn't make the frame breathe, and only a change of words can move it.

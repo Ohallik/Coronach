@@ -602,7 +602,10 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(drawnThrough,"his feet hidden by the Bellows' dome, nothing draws him through it and he is drawn standing on its crown: "+line);
             Assert.Greater(under,40,"fixture: from the capture's lens the dome stands over his feet on the screen: "+line);
             Assert.Less(bare,.85f,"fixture: with his drawing off, the crown over his feet is the crown, nothing of him: "+line);
-            Assert.GreaterOrEqual(overFeet,.85f,"his feet and shins hidden by the Bellows' dome aren't drawn as his outline over it: "+line);
+            // D421: his feet and shins are a fifth of him (the dome stands over 580 to 650 of his 3,300 px), and a hero hidden in so small a part is no longer drawn through:
+            // the line round feet behind a rail, a collar or a petal read as a loose scrap below a hero in plain view (nov25-r5-chain s55/139, s59/053, s26/462). It was .85 drawn
+            // here (D386); the dome now simply stands over his feet. What the test still holds: he is drawn through it where more of him is hidden, and no door opens over him.
+            Assert.Less(overFeet,.15f,"a fifth of him hidden by the Bellows' dome is still drawn through, a scrap of line under a hero in plain view: "+line);
             Assert.Less(outlined,.01f,"drawn through the dome, he gets its door as well: dots among his outline: "+line);
             Assert.Greater(open,.9f,"his feet hidden by the Bellows' dome and nothing drawing him through, the door stayed shut and he is drawn standing on its crown: "+line);
             Assert.That(ellipse.y,Is.InRange(feet.y,chest.y),"the door is opened over his chest, not his feet: "+line);

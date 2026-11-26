@@ -338,6 +338,8 @@ namespace Lattice.Tests.PlayMode
             System.Action<Health,float,HitKind> number=(victim,amount,_)=>{if(victim==boss.Health||parts.Contains(victim))numbered.Add($"{victim.id} {amount:0}");};
             var ending=BossController.EndingOf(id);
             var rig=boss.GetComponentInChildren<Animator>();bool person=rig!=null&&rig.isHuman;
+            // D419: a person who walks out on her own feet in her colours (Vessa Korl), as her sister yields in hers.
+            bool walksOut=boss.TryGetComponent<BossDeparture>(out var leaving)&&leaving.keepsColours;
             Beat(boss,lead);Assert.IsFalse(boss.Health.Alive,"fixture: "+id+" is at nought");
             float died=Time.unscaledTime,diedOnClock=Time.time,handed=-1;string landed="";
             // D395: a body that stands down (the Last Warden: StandsDown, LowerTheStaff) plays its end on the game's clock, and a boss's end holds that clock for the kill's stop
@@ -402,7 +404,7 @@ namespace Lattice.Tests.PlayMode
             if(darkening!=null&&lightAfter>lightBefore*Darker)faults.Add($"{line}: going dark, a second after its bar emptied it looks {lightAfter/Mathf.Max(.001f,lightBefore):P0} as light as it did alive");
             // D385: killed, shut down or driven off, it goes dark (the Host Marshal and Mother of Doors had none: s36/076 in full rust, s63/150 in full lilac), and the frame its
             // end comes on is already darker than it lived (s49/052, s36/071, s29/034: pale).
-            if(!OwnFirstFrame(id,person))
+            if(!OwnFirstFrame(id,person)&&!walksOut)
             {
                 if(!wentDark)faults.Add($"{line}: beaten ({ending}), its body doesn't go dark");
                 if(onEnd!=null&&lightFirst>=lightBefore)faults.Add($"{line}: the frame its end came on it looks {lightFirst/Mathf.Max(.001f,lightBefore):P0} as light as it did alive (its killing blow's flash {flashFirst:0.00})");
@@ -416,8 +418,14 @@ namespace Lattice.Tests.PlayMode
                     if(onEnd!=null&&colourFirst>Mathf.Max(colourBefore*FirstDrained,Grey))faults.Add($"{line}: the frame its end came on it is {colourFirst/Mathf.Max(.001f,colourBefore):P0} as colourful as it was alive");
                 }
             }
-            // D412: a person who yields is not lit by the blow that beat her: Drask Vaal washed near white on his end's frame (s52/098).
-            else if(ending==BossController.Ending.Yields&&onEnd!=null&&lightFirst>lightBefore*1.05f)faults.Add($"{line}: yielding, the frame her end came on she looks {lightFirst/Mathf.Max(.001f,lightBefore):P0} as light as she did fighting (its killing blow's flash {flashFirst:0.00})");
+            // D412: a person who yields is not lit by the blow that beat her: Drask Vaal washed near white on his end's frame (s52/098). D419: nor one who walks out on her own
+            // feet (Vessa Korl), and neither goes dark: beaten, not powered down, each keeps her colours from the frame her end comes. Vessa walked out a black figure (nov25-r5-chain
+            // s48/227 to 244) where her sister yielded in hers (s15/158).
+            else if((ending==BossController.Ending.Yields||walksOut)&&onEnd!=null)
+            {
+                if(lightFirst>lightBefore*1.05f)faults.Add($"{line}: beaten and not killed, the frame her end came on she looks {lightFirst/Mathf.Max(.001f,lightBefore):P0} as light as she did fighting (its killing blow's flash {flashFirst:0.00})");
+                if(wentDark||Mathf.Min(lightFirst,lightAfter)<lightBefore*Darker)faults.Add($"{line}: beaten and not killed, a person keeps her colours, and she went dark (on her end's frame {lightFirst/Mathf.Max(.001f,lightBefore):P0} and a second on {lightAfter/Mathf.Max(.001f,lightBefore):P0} as light as she was)");
+            }
             if(landed!="")faults.Add(line+": blows still landed on it after its bar emptied:"+landed);
             if(numbered.Count>0)faults.Add(line+": damage numbers spawned on it after its bar emptied: "+string.Join(", ",numbered.Take(4)));
             if(locked)faults.Add(line+": the lead's lock still held it a second after its bar emptied");
@@ -539,6 +547,107 @@ namespace Lattice.Tests.PlayMode
             Assert.GreaterOrEqual(apart,clear-.05f,line+": he is still inside its body");
             Assert.IsTrue(floored&&Mathf.Abs(at.y-1)<.3f,line+": he was put off the deck");
             Assert.Less(at.x,wallX,line+": he was put through the wall");
+        }
+        /// <summary>D420: Vessa Korl yields and walks out. Taren stood just beyond her from the camera, clear of her on the plan (2.07 to 2.17 m from her middle), and from 40 degrees up
+        /// her body was drawn over his legs, which his outline drew gold through her darkened body (nov25-r5 s48/227 to 234); then she walked out into him and the ease pushed him ahead
+        /// of her 3.4 m to the wall over two seconds (234 to 244). Here she yields with the lead on the camera's side of her and the partner two metres beyond her, where she walks:
+        /// from a second after her end the camera draws none of her over the partner's legs, and he is not carried along her way. Shown failing first in the same run, the clearance as
+        /// before D420 (the plan alone, her body where it was read).</summary>
+        [UnityTest,Timeout(150000)] public IEnumerator ABeatenPersonWalkingOffLeavesNobodyDrawnBehindHerOrPushedAlongHerWay()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            yield return Arena("VessaKorl");
+            var eye=Camera.main;Assert.IsNotNull(eye,"fixture: the game has its camera");
+            var lead=PartyController.Current.Active;var partner=PartyController.Current.members.First(m=>m!=lead);
+            foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+            var asBefore=typeof(WreckClearance).GetField("asBefore",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);
+            Assert.IsNotNull(asBefore,"fixture: the clearance's state as before");
+            var lines=new List<string>();float oldHidden=0,oldPushed=0,hidden=0,pushed=0;
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    var away=eye.transform.forward;away.y=0;away.Normalize();var at=BossAt("VessaKorl");
+                    Place(lead,at-away*3);Place(partner,at+away*2);
+                    var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("VessaKorl"),at);boss.Passive=true;boss.transform.rotation=Quaternion.LookRotation(-away);
+                    // Her way out four metres past him, as the gallery's door was a few metres past Taren (she went about 4 m in two seconds there).
+                    var exit=new GameObject("D420 Vessa's way out").AddComponent<BossExit>();exit.boss="VessaKorl";exit.transform.position=at+away*6;
+                    yield return new WaitForSecondsRealtime(1.2f);
+                    Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: Vessa stands");
+                    var from=partner.transform.position;var her=boss.transform.position;int before=DrawnOver(eye,BodiesKeepApartTests.DrawnPoints(boss,6000),partner,1);
+                    Beat(boss,lead);float end=Time.unscaledTime,seen=0;var gone=her;
+                    while(Time.unscaledTime-end<4.5f)
+                    {
+                        yield return null;if(boss==null||!boss.gameObject.activeInHierarchy)break;gone=boss.transform.position;
+                        if(Time.unscaledTime-end>=1&&DrawnOver(eye,BodiesKeepApartTests.DrawnPoints(boss,6000),partner,1)>0)seen+=Time.unscaledDeltaTime;
+                    }
+                    // Where she was last seen: at the end of her walk she is gone from the floor.
+                    var way=gone-her;way.y=0;float went=way.magnitude;
+                    float along=went>.1f?Vector3.Dot(partner.transform.position-from,way/went):0;
+                    string line=$"D420 {(pass==0?"as before":"now")}: the partner stood {Apart(from,her):0.00} m beyond Vessa's middle, {before} of her points drawn over his legs; from a second after "+
+                        $"her end they were drawn over him {seen:0.0} s; she went {went:0.0} m and carried him {along:0.00} m along her way, and he ended {Apart(partner.transform.position,gone):0.00} m from her";
+                    TestContext.WriteLine(line);lines.Add(line);
+                    if(pass==0){oldHidden=seen;oldPushed=along;}else{hidden=seen;pushed=along;}
+                    if(boss!=null)Object.Destroy(boss.gameObject);Object.Destroy(exit.gameObject);
+                    yield return new WaitForSecondsRealtime(.5f);
+                }
+            }
+            finally{asBefore.SetValue(null,false);}
+            LogAssert.ignoreFailingMessages=false;
+            string all=string.Join("\n",lines);
+            Assert.IsTrue(oldHidden>.5f||oldPushed>1,"the check doesn't see the partner left behind Vessa as before:\n"+all);
+            Assert.LessOrEqual(hidden,.2f,"from a second after her end, Vessa is still drawn over the partner's legs:\n"+all);
+            Assert.Less(pushed,1,"Vessa walking off carried the partner along her way:\n"+all);
+        }
+        /// <summary>D420: the party's shots still in the air when a boss is beaten go out. Sela's bolts, fired a moment before the Cantor was freed, flew on at it through the rewards and
+        /// the next objective (nov25-r5 s10/148, 150): a beaten body takes no blow, so they flew their three seconds through it. Here a bolt of hers is in the air, away from the Cantor,
+        /// as it is freed; a tenth of a second on it is gone. Shown failing first in the same run, as before D420.</summary>
+        [UnityTest,Timeout(90000)] public IEnumerator APartnersShotInTheAirWhenTheBossIsBeatenGoesOut()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            yield return Arena("Cantor");
+            var lead=PartyController.Current.Active;var partner=PartyController.Current.members.First(m=>m!=lead);Place(lead,LeadAt("Cantor"));Place(partner,LeadAt("Cantor")+Vector3.right*4);
+            var asBefore=typeof(WreckClearance).GetField("asBefore",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);
+            Assert.IsNotNull(asBefore,"fixture: the clearance's state as before");
+            var flying=new bool[2];
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Cantor"),BossAt("Cantor"));boss.Passive=true;
+                    yield return new WaitForSecondsRealtime(1.2f);
+                    Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Cantor is collared");
+                    var shot=Projectile.Fire(partner.transform.position+Vector3.up,Vector3.back,new DamagePacket{source=partner.Health,amount=10,type=DamageType.Kinetic});
+                    Beat(boss,lead);
+                    yield return new WaitForSecondsRealtime(.1f);
+                    flying[pass]=shot!=null&&shot.gameObject.activeSelf&&Projectile.Live.Contains(shot);
+                    TestContext.WriteLine($"D420 {(pass==0?"as before":"now")}: a tenth of a second after the Cantor was freed, her bolt is {(flying[pass]?"still flying":"gone")}");
+                    if(boss!=null)Object.Destroy(boss.gameObject);
+                    yield return new WaitForSecondsRealtime(.5f);
+                }
+            }
+            finally{asBefore.SetValue(null,false);}
+            LogAssert.ignoreFailingMessages=false;
+            Assert.IsTrue(flying[0],"the check doesn't see her bolt flying on as before");
+            Assert.IsFalse(flying[1],"her bolt flew on after the Cantor was freed");
+        }
+        /// <summary>D420: how many of a body's drawn points the game's camera draws over a hero's figure from his feet up to <paramref name="upTo"/>: nearer the camera than he is, and
+        /// on the screen within his capsule's width of his axis there.</summary>
+        static int DrawnOver(Camera eye,List<Vector3> points,CombatActor hero,float upTo)
+        {
+            var his=hero.GetComponent<CharacterController>();var feet=hero.transform.position;
+            var a=eye.WorldToViewportPoint(feet+Vector3.up*his.radius*.5f);var b=eye.WorldToViewportPoint(feet+Vector3.up*upTo);if(a.z<=0||b.z<=0)return 0;
+            float aspect=eye.aspect,wide=his.radius/(2*a.z*Mathf.Tan(eye.fieldOfView*.5f*Mathf.Deg2Rad));
+            var a2=new Vector2(a.x*aspect,a.y);var ab=new Vector2(b.x*aspect,b.y)-a2;float length=ab.sqrMagnitude;int n=0;
+            foreach(var p in points)
+            {
+                var s=eye.WorldToViewportPoint(p);if(s.z<=0||s.z>=a.z-his.radius)continue;
+                var q=new Vector2(s.x*aspect,s.y);float t=length>1e-8f?Mathf.Clamp01(Vector2.Dot(q-a2,ab)/length):0;
+                if((q-(a2+ab*t)).magnitude<wide)n++;
+            }
+            return n;
         }
 
         /// <summary>The game's own camera as it stands, drawn to a 1920 by 1080 still for the lead to open beside the capture's (Builds/quality/focused/boss-death in the test's mirror).</summary>
@@ -731,6 +840,113 @@ namespace Lattice.Tests.PlayMode
             TestContext.WriteLine(line);
             Assert.LessOrEqual(lightDark,lightBefore*Darker,line+": fixture: darkened at half it is dark");
             Assert.Greater(colourDark,Mathf.Max(colourBefore*Drained,Grey),line+": the colour measure passes a body darkened over its stripes as drained");
+        }
+
+        // ------------------------------------------------------------------ D419: a person beaten keeps her colours; a room's own drawing of a beaten body goes dark with it
+        /// <summary>D419: the measure sees a person who went dark: Vessa Korl taken dark as D412 left her end (BossDeparture took her as a machine driven off) is under
+        /// <see cref="Darker"/> of her living light on the next frame, which <see cref="ABeatenBossShowsItWithinASecondAndTakesNothingMore"/> now faults in a person who walks
+        /// out (nov25-r5-chain s48/227 to 244: a black figure).</summary>
+        [UnityTest,Timeout(120000)] public IEnumerator TheMeasureSeesAPersonWhoWentDark()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            const string id="VessaKorl";
+            yield return Arena(id);
+            var lead=PartyController.Current.Active;Place(lead,LeadAt(id));
+            foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),BossAt(id));boss.Passive=true;
+            boss.transform.rotation=Quaternion.LookRotation(LeadAt(id)-BossAt(id));
+            yield return new WaitForSecondsRealtime(1.2f);
+            var drawn=Drawn(boss);foreach(var r in drawn)r.gameObject.layer=Layer;
+            var camera=Eye(Box(drawn));var before=Shot(camera);
+            boss.gameObject.AddComponent<BodyGoesDark>().BeginBeaten(boss.transform);
+            yield return null;
+            foreach(var r in Drawn(boss))r.gameObject.layer=Layer;
+            var dark=Shot(camera);Save(dark,id+"-went-dark");Object.Destroy(camera.gameObject);
+            float lightBefore=Lightness(before,before[0]),lightDark=Lightness(dark,before[0]);
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"BOSS_DEATH_PERSON_WENT_DARK {id} light {lightBefore:0.00}->{lightDark:0.00}";
+            TestContext.WriteLine(line);
+            Assert.Less(lightDark,lightBefore*Darker,line+": the measure passes a person gone dark as one in her colours");
+        }
+
+        /// <summary>D419: the rooms that draw a beaten boss's body themselves once their flag is set (FlagGate), from its fall and on every visit after: the boss, its room, and the
+        /// drawing's name.</summary>
+        static readonly (string boss,string zone,string drawing)[] RoomBodies={("Tollkeeper","LastMooring","The Tollkeeper, as it stays (drawn after its fall)"),("FoundrySaint","SeparationWorks",BossController.SaintTune.SettledName)};
+        static IEnumerable<string> RoomBodyBosses()=>RoomBodies.Select(r=>r.boss);
+        static IEnumerator Room(string zone,params string[] flags)
+        {
+            foreach(var flag in flags)GameServices.Current.Flags.SetBool(flag,true);
+            SceneFlow.Current.LoadZone(zone);float deadline=Time.unscaledTime+40;
+            while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading,"fixture: "+zone+" never finished loading");
+            foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))Object.Destroy(enemy.gameObject);
+            foreach(var actor in PartyController.Current.members){actor.GetComponent<PlayerBrain>().AutoPilot=true;actor.GetComponent<PartnerBrain>().enabled=false;actor.Health.InvulnerableUntil=float.PositiveInfinity;}
+            yield return new WaitForSecondsRealtime(.7f);
+        }
+        static GameObject Named(string name)=>Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t!=null&&t.name==name).Select(t=>t.gameObject).FirstOrDefault();
+        /// <summary>How light a body is drawn now, and drawn as it was built (every block taken off it for the shot, then given back), from the game's framing on the fixture's layer.</summary>
+        static (float now,float built) DrawnAgainstBuilt(GameObject body,string still)
+        {
+            var drawn=body.GetComponentsInChildren<Renderer>().Where(r=>r.enabled&&(r is MeshRenderer||r is SkinnedMeshRenderer)).ToList();
+            foreach(var r in drawn)r.gameObject.layer=Layer;
+            var camera=Eye(Box(drawn));var now=Shot(camera);
+            var kept=drawn.Select(r=>{var b=new MaterialPropertyBlock();r.GetPropertyBlock(b);return (view:r,block:b,had:r.HasPropertyBlock());}).ToList();
+            Color[] built;
+            try{foreach(var r in drawn)r.SetPropertyBlock(null);built=Shot(camera);}
+            finally{foreach(var (view,block,had) in kept)view.SetPropertyBlock(had?block:null);}
+            Save(now,still+"-0-drawn");Save(built,still+"-1-built");Object.Destroy(camera.gameObject);
+            return (Lightness(now,now[0]),Lightness(built,built[0]));
+        }
+        /// <summary>D419: a room's own drawing of a beaten body is that body beaten, and dark as it went. On a visit after the Tollkeeper's fall its carrier lay white with its windows
+        /// lit (nov25-r5-chain s65/126; the fight's body, dark, gives way to it within a frame of its end), and the Foundry Saint's settled press stood in its cream and white.</summary>
+        [UnityTest,Timeout(180000)] public IEnumerator ARoomsOwnDrawingOfABeatenBodyIsDark([ValueSource(nameof(RoomBodyBosses))] string id)
+        {
+            LogAssert.ignoreFailingMessages=true;
+            var (_,zone,name)=RoomBodies.First(r=>r.boss==id);
+            yield return Room(zone,"bossdown."+id);
+            yield return new WaitForSecondsRealtime(1.5f);
+            var drawing=Named(name);
+            Assert.IsTrue(drawing!=null&&drawing.activeInHierarchy,$"fixture: {zone} shows '{name}' once {id} is down");
+            var dark=drawing.GetComponent<BodyGoesDark>();
+            var (now,built)=DrawnAgainstBuilt(drawing,id+"-room-drawing");
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"BOSS_DEATH_ROOM_DRAWING {id} '{name}': dark={(dark!=null?$"{dark.Painted} renderers at {dark.Share:0.00}":"none")} light {built:0.00} as built -> {now:0.00} drawn";
+            TestContext.WriteLine(line);
+            Assert.IsNotNull(dark,line+": the room draws the beaten body in its colours");
+            Assert.LessOrEqual(now,built*Darker,line+": the room draws the beaten body as light as it was built");
+        }
+        /// <summary>D419: beaten in its hall, the Foundry Saint's own body stands where the room's settled press does, which the flag its end sets shows at once: the press's cream
+        /// panels and a white shoulder block showed through the dark body through Orrin's call (nov25-r5-chain s59/053, 076). While the fight's body stands the room's is not drawn;
+        /// once it is gone the room's is drawn, dark.</summary>
+        [UnityTest,Timeout(180000)] public IEnumerator TheSaintsSettledPressIsNotDrawnThroughItsBeatenBody()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            const string id="FoundrySaint";
+            yield return Room("SeparationWorks");
+            var drawing=Named(BossController.SaintTune.SettledName);
+            Assert.IsTrue(drawing!=null&&!drawing.activeInHierarchy,"fixture: the room's settled press waits, hidden, for the Saint's fall");
+            var at=(drawing.transform.Find("The press")??drawing.transform).position;
+            var lead=PartyController.Current.Active;
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),at);boss.Passive=true;
+            yield return new WaitForSecondsRealtime(1.5f);
+            Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Saint stands in its hall");
+            Beat(boss,lead);
+            yield return null;yield return null;
+            bool shown=drawing.activeInHierarchy;int drawnAtOnce=drawing.GetComponentsInChildren<Renderer>().Count(r=>r.enabled);
+            yield return new WaitForSecondsRealtime(1f);
+            int drawnASecondOn=drawing.GetComponentsInChildren<Renderer>().Count(r=>r.enabled);
+            var dark=drawing.GetComponent<BodyGoesDark>();
+            Object.Destroy(boss.gameObject);
+            yield return null;yield return null;yield return new WaitForSecondsRealtime(.3f);
+            int drawnOnceGone=drawing.GetComponentsInChildren<Renderer>().Count(r=>r.enabled);
+            var (now,built)=drawnOnceGone>0?DrawnAgainstBuilt(drawing,id+"-settled-press"):(0f,0f);
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"BOSS_DEATH_SETTLED_PRESS shown={shown} renderers drawn at once {drawnAtOnce}, a second on {drawnASecondOn}, its body gone {drawnOnceGone}; dark={(dark!=null?$"{dark.Painted} renderers at {dark.Share:0.00}":"none")} light {built:0.00} as built -> {now:0.00} drawn";
+            TestContext.WriteLine(line);
+            Assert.IsTrue(shown,line+": fixture: the Saint's fall shows the room's settled press");
+            Assert.AreEqual(0,drawnAtOnce+drawnASecondOn,line+": the room's press is drawn where the Saint's beaten body stands");
+            Assert.Greater(drawnOnceGone,0,line+": the room's press is not drawn once the Saint's body is gone");
+            Assert.LessOrEqual(now,built*Darker,line+": once the Saint's body is gone the room's press is drawn as light as it was built");
         }
     }
 }

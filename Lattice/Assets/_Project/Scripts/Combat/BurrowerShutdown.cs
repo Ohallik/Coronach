@@ -30,7 +30,12 @@ namespace Lattice.Combat
             surfaces=list.ToArray();
         }
         void OnEnable(){if(health!=null&&health.Alive&&surfaces!=null)RestorePower(health);}
-        void Begin(Health _,DamagePacket __){if(shuttingDown)return;shuttingDown=true;started=GameTime.Now;}
+        void Begin(Health _,DamagePacket __){if(shuttingDown)return;shuttingDown=true;started=GameTime.Now;age=0;}
+        /// <summary>D419: its glow on the frame it is beaten (a share of its own) and how long until it is out, in real time through the kill's stop (only a pause holds it). Over
+        /// 1.15 s of the game's clock, which the kill's stop holds, its head still glowed cyan half a second on (nov25-r5-chain s06/045): every other beaten boss's lights are
+        /// out on its end's frame (BodyGoesDark).</summary>
+        public const float FirstLight=.4f,OutIn=.45f;
+        float age;
         void RestorePower(Health _)
         {
             shuttingDown=false;started=0;
@@ -44,11 +49,10 @@ namespace Lattice.Combat
         void LateUpdate()
         {
             if(!shuttingDown)return;
-            float elapsed=GameTime.Now-started;
-            // A short power sag precedes the final fade. No new flash, blast or
+            if(!GameTime.Paused)age+=Time.unscaledDeltaTime;
+            // Its power drops at once and the rest goes out within half a second. No new flash, blast or
             // geometry obscures the supported boss finish or nearby heroes.
-            float power=1-Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/1.15f));
-            power*=1-.3f*Mathf.Sin(Mathf.Clamp01(elapsed/.28f)*Mathf.PI);
+            float power=FirstLight*(1-Mathf.SmoothStep(0,1,Mathf.Clamp01(age/OutIn)));
             foreach(var surface in surfaces)
             {
                 if(surface.renderer==null)continue;

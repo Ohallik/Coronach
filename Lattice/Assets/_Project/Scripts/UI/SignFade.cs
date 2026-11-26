@@ -89,7 +89,9 @@ namespace Lattice.UI
             // over its letters, it stays gone a moment after, so a word riding the edge of a plate or a body doesn't flicker.
             float now=Time.unscaledTime;
             if(away){tracked=false;GoneFor="away";}
-            else if(said){tracked=false;GoneFor="said";}
+            // D424: and a body's or a plate's hold from before goes with it, so the frame the prompt stops saying it the sign is read again or taken by what takes it now;
+            // a hold that outlived the prompt left it gone, still marked "said" (QaNov24LabelTests, d424a).
+            else if(said){tracked=false;GoneFor="said";goneUntil=-1;}
             else
             {
                 string took=Cut(view)?"cut":Speck(view)?"speck":!bossOnly&&Fighting(lead)?"fight":null;

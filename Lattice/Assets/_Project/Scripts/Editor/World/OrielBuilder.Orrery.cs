@@ -111,6 +111,8 @@ namespace Lattice.EditorTools
                     views.Add(new("inner-wide",new Vector3(0,1,760),true,6));views.Add(new("overview",new Vector3(0,1,480),true,16));
                     // Where November 20's stills stood (nov20-whole s38 and s42), to set beside them; and the middle of two stretches between rows, where the dials lie.
                     views.Add(new("s38-086",new Vector3(0,1,221.7f),true));views.Add(new("s38-088",new Vector3(0,1,258.9f),true));views.Add(new("s42-232",new Vector3(0,1,411.3f),true));
+                    // Where nov25-r5's loose rods showed (D423): s38/082 over the Steward's gates (the camera drawn back to 2.4) and s38/084 past them.
+                    views.Add(new("s38-082",new Vector3(0,1,131.4f),true,2.36f));views.Add(new("s38-084",new Vector3(0,1,168.7f),true));
                     views.Add(new("between-1-2",new Vector3(0,1,205),true));views.Add(new("between-3-4",new Vector3(0,1,385),true));
                     // Ishen's talk as its view holds it (D359): about 80 m back over the ship and the Steward's gates (nov22-whole s38 080 stood 337 m back).
                     views.Add(new("talk-held",new Vector3(0,1,TalkZ+10),true,3.1f));
@@ -681,7 +683,7 @@ namespace Lattice.EditorTools
                     var spin=wheel.AddComponent<Turning>();spin.axis=Vector3.up;spin.degrees=-turning.degrees*R/r;
                 }
             }
-            /// <summary>What the moons have shed: cratered fragments, a split half-moon now and then, bronze collar pieces and lengths of old rail, 3 to 26 m down, thickest in the broken
+            /// <summary>What the moons have shed: cratered fragments, a split half-moon now and then and bronze collar pieces (no lengths of rail since D423), 3 to 26 m down, thickest in the broken
             /// moon's wake. One mesh to each 120 m stretch; every draw taken whether or not its piece is kept, so a change to what is kept off moves nothing else.</summary>
             static void Debris(ZoneKit kit,Stuff stuff,List<(Vector2 at,float clear)> keep)
             {
@@ -694,6 +696,9 @@ namespace Lattice.EditorTools
                         float x=((float)rng.NextDouble()*2-1)*(Half+30),deep=3+(float)rng.NextDouble()*23,size=.4f+(float)rng.NextDouble()*(float)rng.NextDouble()*3.2f;int kind=rng.Next(10),seed=rng.Next(999);
                         float tilt=(float)rng.NextDouble()*360,turn=(float)rng.NextDouble()*360;var tone=Rails[rng.Next(Rails.Length)].tone;int sparse=rng.Next(5);
                         bool wake=z>Rails[2].z&&z<Rails[3].z;if(!wake&&sparse<2)continue;
+                        // D423: no lengths of old rail. A rod up to 11 m long was kept clear on screen only at its one end, so it reached into a gate's foot (nov25-r5 s38/082), and in
+                        // open space it read as a loose stick hanging there, not as something shed (s38/084 over the ship, s38/110 beside Idra's at the landing). Its draws are taken.
+                        if(kind==8)continue;
                         // Shallow pieces small, so nothing near the plane is big enough to read as something in the way.
                         if(deep<8)size=Mathf.Min(size,.9f);
                         var at=new Vector3(x,Plane-deep,z);if(!ZoneKit.ClearOnScreen(at,size*1.4f,keep))continue;made++;

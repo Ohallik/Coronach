@@ -233,6 +233,8 @@ namespace Lattice.Combat
             }
             return null;
         }
+        /// <summary>For a test's before: a waiting boss's show takes the view from a fight, as it did until D426.</summary>
+        public static bool ShowOverAFight;
         void FrameFlightEncounter()
         {
             if(cameraRig==null)return;
@@ -248,7 +250,11 @@ namespace Lattice.Combat
             {target=framedTarget;departure=true;}
             // A local viewing pocket can frame the real dormant animal without
             // targeting it or extending ordinary combat's 30 m interest range.
-            if((target==null||!target.Alive)&&!departure)
+            // D426: but never over a fight. The Tollkeeper is shown from its checkpoint to a pocket 100 m wide, and the Last Mooring's second lane and the guns' gap are fought
+            // inside it: whenever the lead had no target within 30 m (between kills, before a lock) the view went back 350 to 450 m to show the whole carrier, and the lane was
+            // fought with the ships 20 px long (nov25-r6-chain s64/072 to 089; the same in the captures of November 23 and 24). A boss waiting on show has the view only
+            // while nothing awake is within the distance a lock is framed from.
+            if((target==null||!target.Alive)&&!departure&&(ShowOverAFight||!EnemyBrain.AwakeNear(hero.transform.position,FlightLockFramed)))
             {target=DormantEnemy.Interest(hero.transform.position);preview=target!=null;}
             // What he has locked, and a boss he is fighting, count from further than an ordinary target's 30 m: the director's craft fought round the Continuance was 64 m off,
             // and the fight's frame was flat grey hull with no craft and no relay in it (nov20 s66 154).

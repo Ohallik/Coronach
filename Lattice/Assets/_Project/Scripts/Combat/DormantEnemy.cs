@@ -40,6 +40,10 @@ namespace Lattice.Combat
             brain.enabled=brainEnabled;if(boss!=null)boss.enabled=bossEnabled;
             Destroy(this);
         }
+        /// <summary>How much farther from the animal than its viewpoint is a viewer may be and still be shown it.</summary>
+        public const float ShownBehind=8;
+        /// <summary>For a test's before: a show holds through the whole of its pocket, behind its viewpoint too, as it did until D428.</summary>
+        public static bool ShownFromBehind;
         public static Health Interest(Vector3 viewer)
         {
             Health chosen=null;float nearest=float.PositiveInfinity;
@@ -47,7 +51,17 @@ namespace Lattice.Combat
             {
                 if(actor==null||!actor.Held||!actor.isActiveAndEnabled)continue;
                 float distance=(viewer-actor.viewpoint).sqrMagnitude;
-                if(distance<=actor.range*actor.range&&distance<nearest){nearest=distance;chosen=actor.health;}
+                if(distance>actor.range*actor.range||distance>=nearest)continue;
+                // D428: a show is seen from its viewpoint on, not from behind it. A big animal's pocket reaches from its viewpoint to the animal (the Tollkeeper's is 126 m
+                // round its checkpoint), and that sphere reaches as far back the other way: over the Last Mooring's guns' gap and its second lane, where the view went back
+                // 270 m to the whole carrier on the way into each fight and again once it was won, the ships 12 px long (nov24-recon-r6b-64 s64/072 to 075, 089). Small
+                // pockets (the Cantor's 3.5 m) lie wholly inside the margin and are as they were.
+                if(!ShownFromBehind)
+                {
+                    var at=actor.transform.position;float most=(actor.viewpoint-at).magnitude+ShownBehind;
+                    if((viewer-at).sqrMagnitude>most*most)continue;
+                }
+                nearest=distance;chosen=actor.health;
             }
             return chosen;
         }

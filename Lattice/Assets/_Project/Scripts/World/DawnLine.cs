@@ -258,20 +258,22 @@ namespace Lattice.World
             if(!saidNear&&Live&&!riding&&!Over&&gap<nearWithin){saidNear=true;Say(lead.character,1);}
             if(dorrowAt>0&&Time.unscaledTime>=dorrowAt&&!GameTime.CombatHeld){dorrowAt=-1;BarkService.PlayAt("Dorrow","hail.dawn",dorrowLine,true);}
         }
-        /// <summary>The objective panel's line and arrow, while the run is on.</summary>
+        /// <summary>The objective panel's line and arrow, while the run is on. It only ever moves forward: the story's own step ("Re-mate three couplings and bring the tread-hall in
+        /// ahead of the dawn") is done only by Dorrow's talk in the Crawl, so from the ride on this zone keeps its own words rather than let that step show again (D423).</summary>
+        public const string RideLine="Ride the tread-hall out",HomeLine="Climb aboard the Meridian Crawl";
         void Line(CombatActor lead,bool riding)
         {
-            if(riding){ZoneLine.Clear(this);return;}
+            var services=GameServices.Current;bool homeward=home!=null&&(services==null||!services.Flags.GetBool(homeFlag));
+            if(riding){ZoneLine.Say(this,RideLine,homeward?home.position:(Vector3?)null);return;}
             if(Over)
             {
-                var services=GameServices.Current;
-                if(home!=null&&(services==null||!services.Flags.GetBool(homeFlag)))ZoneLine.Say(this,null,home.position);else ZoneLine.Clear(this);
+                if(homeward)ZoneLine.Say(this,HomeLine,home.position);else ZoneLine.Clear(this);
                 return;
             }
             var next=TreadCoupling.Next;
             if(next==null)
             {
-                if(ride!=null&&ride.Woken)ZoneLine.Say(this,"Ride the tread-hall out",ride.transform.position);else ZoneLine.Clear(this);
+                if(ride!=null&&ride.Woken)ZoneLine.Say(this,RideLine,ride.transform.position);else ZoneLine.Clear(this);
                 return;
             }
             var offset=next.transform.position-lead.transform.position;offset.y=0;

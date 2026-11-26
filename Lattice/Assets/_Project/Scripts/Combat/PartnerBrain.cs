@@ -90,7 +90,7 @@ namespace Lattice.Combat
             // In flight, with him travelling and not toward her, beside him on her own side (Beside).
             var leadTravel=LeadTravel(active);Carried(active);bool adrift=Adrift(out var drift);bool travelling=leadTravel.magnitude>(actor.flight?FlightTravel:MovingLead)&&!LeadComing(active);
             bool fighting=ZoneController.Current!=null&&ZoneController.Current.Combat&&actor.target!=null&&actor.target.Alive;
-            if(actor.flight&&travelling)goal=Beside(active,leadTravel);else besideSide=0;
+            if(actor.flight&&travelling)goal=Beside(active,leadTravel);else{besideSide=0;if(actor.flight)goal=RestOffHulls(active,goal);}
             // A gate is waiting for her: she comes through it and stops past the line, wherever the frame or the formation would rather have her.
             bool ushered=false;
             if(!fighting&&ComeThrough!=null){var through=ComeThrough(active,actor);if(through.HasValue){goal=through.Value;ushered=true;}}
@@ -205,8 +205,9 @@ namespace Lattice.Combat
             var stick=distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero;bool hurry=KeepUp(onTheMove,Planar(aim-transform.position).magnitude,stop)&&!avoiding;
             // On foot at a body, nearer it than her stand-off (a charge carried her to its solid, or it came to her): she steps back out to where she strikes it from, as a player
             // does after a Breach. Its solid is narrower than what it draws, and stopped there she stood inside the Warmaster, drawn through him (nov24-recon-h-52 s52/083, D408).
-            // Once begun, she steps on out until she stands at it.
-            bool mayStepOut=!standOffAsBefore&&closing&&!standing&&!flanking&&!framedNow&&!escaping&&!avoiding&&!wallAdjusted&&!actor.flight&&actor.character!="Sela"&&distance>.01f&&Planar(goal-actor.target.transform.position).sqrMagnitude<.01f;
+            // Once begun, she steps on out until she stands at it. D422: in flight too (any hull, at ShipStandOff): a body that came to her where she rested (the Warmaster's skiff
+            // at Idra's, nov25-r5-chain s52/162) was let lie with its hull against hers.
+            bool mayStepOut=!standOffAsBefore&&closing&&!standing&&!flanking&&!framedNow&&!escaping&&!avoiding&&!wallAdjusted&&(actor.flight?!flightStepOutAsBefore:actor.character!="Sela")&&distance>.01f&&Planar(goal-actor.target.transform.position).sqrMagnitude<.01f;
             steppingOut=mayStepOut&&(distance<stop-StepOutBy||steppingOut&&distance<stop);
             if(steppingOut)stick=-new Vector2(d.x,d.z).normalized;
             // At her place with him on the move she goes his way at his pace: stopped there (and, in flight, braked to a crawl within two metres of it) she dropped behind
@@ -233,6 +234,8 @@ namespace Lattice.Combat
             {
                 var want=new Vector3(stick.x,0,stick.y).normalized*own.maxSpeed*1.9f-drift;stick=new Vector2(want.x,want.z).normalized;
             }
+            // D422: out of a fight she goes with his lunge and gives way to his roll (Match); the dash it begins is carried by the Move below.
+            if(actor.flight&&!fighting&&!escaping&&!ushered)Match(active,flightSeparation==null);else matchedDash=-1;
             actor.motor.Move(stick,(separation>10||hurry||pacing||adrift&&stick.sqrMagnitude>.01f||flightSeparation!=null&&flightSeparation.EscapingDeparture)&&!avoidanceBrake&&!arriving,actor.flight&&(distance<stop+2&&!onTheMove&&!adrift||avoidanceBrake||arriving));
             if((flanking||wallAdjusted&&fighting)&&!avoiding&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
                 GetComponent<FlightMotor>().FaceTarget(actor.target.transform.position-transform.position);
@@ -301,6 +304,10 @@ namespace Lattice.Combat
         /// <summary>How far apart two heroes' middles stand at the least (both capsules and what their drawn bodies carry past them: a shoulder plate, a hammer's head); how close she
         /// comes to her place at the body; and how far from a body's middle a blade or a hammer stands at the least (the old stand-off).</summary>
         public const float HeroesApart=1.1f,StandStop=.25f,MeleeStandOff=1.35f;
+        /// <summary>D420: how far round from the camera's way (degrees) a place at a body is still in front of it on the screen, and from straight away from the camera, behind it.</summary>
+        const float InFrontOfIt=70,BehindIt=35;
+        /// <summary>For a test's broken state only (HarrowgateBossTests): her place at a body chosen with no regard to the camera, as before D420.</summary>
+        static bool sideAsBefore;
         int meleeSide;
         /// <summary>Where she fights a body on foot from, with a blade or a hammer. Her place was the body itself, from wherever she stood: with the lead at its near side and her behind him,
         /// the way to it was through him, and she stood in him and swung from inside him (the Host Marshal, nov20-whole s36/062; BodiesKeepApartTests). While the lead is at it too, she takes a
@@ -321,13 +328,17 @@ namespace Lattice.Combat
             if(meleeSide==0)meleeSide=Vector3.Cross(leadOff,from).y<0?-1:1;
             float least=2*Mathf.Asin(Mathf.Min(1,HeroesApart/(2*ring)))*Mathf.Rad2Deg,first=Mathf.Max(least+10,75);
             standing=true;var up=Vector3.up*transform.position.y;
-            for(int pass=0;pass<2;pass++)
+            // D420: first off the camera's line through it. Between it and the camera she is drawn over it (Idra over the Warmaster's cape at 1.5 m, plan-clear: nov25-r5 s52/092),
+            // beyond it she is hidden by it; to its side on the screen she is beside it. Only with no such place, on its line as before.
+            var eye=Camera.main;var view=eye!=null&&!sideAsBefore?Planar(eye.transform.position-centre).normalized:Vector3.zero;
+            for(int pass=0;pass<4;pass++)
             {
-                int side=pass==0?meleeSide:-meleeSide;
+                int side=pass%2==0?meleeSide:-meleeSide;bool offView=pass<2&&view.sqrMagnitude>.5f;if(pass>=2&&view.sqrMagnitude<=.5f)break;
                 for(float turn=first;turn<=180.01f;turn+=15)
                 {
                     // On each bearing as far out as the body draws there (D408).
                     var way=Quaternion.Euler(0,side*turn,0)*leadOff.normalized;var place=Planar(centre)+way*Mathf.Max(ring,GroundStandOff(target,way))+up;
+                    if(offView&&(Vector3.Angle(way,view)<InFrontOfIt||Vector3.Angle(way,-view)<BehindIt))continue;
                     if(Planar(place-lead.transform.position).magnitude<HeroesApart||!Standable(centre,place))continue;
                     meleeSide=side;standCentre=centre;standRing=ring;return place;
                 }
@@ -357,6 +368,8 @@ namespace Lattice.Combat
         bool steppingOut;
         /// <summary>For a test's broken state only (BodiesKeepApartTests): on foot she closes to 1.35 m of a body's middle and stays where a charge leaves her, as before D408.</summary>
         static bool standOffAsBefore;
+        /// <summary>For a test's broken state only (PartnerFlightPlaceTests): in flight she doesn't step back out to her stand-off, as before D422.</summary>
+        static bool flightStepOutAsBefore;
         /// <summary>The way to her place at the body, whoever chose it (her side, or the frame): straight unless that passes the lead closer than <see cref="HeroesApart"/> and a
         /// turn's width; else a step round the body on her side, outside him, toward it.</summary>
         Vector3 RoundTheLead(CombatActor lead,Vector3 place)
@@ -497,10 +510,29 @@ namespace Lattice.Combat
             Vector3 At(int side){var p=lead.transform.position-way*BesideBack+right*(side*Apart(lead));p.y=transform.position.y;return p;}
             bool Out(Vector3 p)=>!CombatCover.Sweep(from,p+lift,hull,out _);
             bool Lane(Vector3 p)=>!CombatCover.Sweep(p+lift,p+way*ahead+lift,hull,out _);
-            var mine=At(besideSide);
-            if(Out(mine)&&Lane(mine))return mine;
-            var other=At(-besideSide);
-            if(Time.time>=besideHeld&&Out(other)&&Lane(other)){besideSide=-besideSide;besideHeld=Time.time+BesideHold;return other;}
+            // D425: a place over a hull that is drawn only (DrawnHulls: the passage's running convoy, the Last Mooring's moored one) is no place either: her tug was drawn lying in a
+            // cargo canoe and on a ring hull beside him (nov25-r5-chain s68/023, s68/028, s64/017). Her side while it is off them; else the first place off them now and a moment on
+            // (what his travel brings under it): her side half ahead, then his own line ahead of his nose; else the first of them off them now. Each where it shows whole and
+            // clear of the HUD's plates (Fits), kept for BesideHold while it stays off them; with none, her side as before.
+            var camera=Camera.main;var soon=travel*DrawnSoon;float room=hull*DrawnRoom;
+            bool Open(Vector3 p,bool on)=>drawnAsBefore||!DrawnHulls.Under(p,room,camera)&&(!on||!DrawnHulls.Under(p+soon,room,camera));
+            Vector3 Off(Vector2 o){var p=lead.transform.position+(way*o.x+right*o.y)*Apart(lead);p.y=transform.position.y;return p;}
+            bool Takes(Vector2 o,Vector3 p,bool on)=>Out(p)&&(o.x<0||Lane(p))&&Open(p,on)&&(camera==null||Fits(camera,p));
+            if(!drawnAsBefore&&offHullsUntil>Time.time){var kept=Off(offHulls);if(Takes(offHulls,kept,false))return kept;}
+            offHullsUntil=0;
+            var mine=At(besideSide);bool mineFlies=Out(mine)&&Lane(mine);
+            if(mineFlies&&Open(mine,false))return mine;
+            var other=At(-besideSide);bool otherFlies=Time.time>=besideHeld&&Out(other)&&Lane(other);
+            if(!mineFlies&&otherFlies&&Open(other,true)){besideSide=-besideSide;besideHeld=Time.time+BesideHold;return other;}
+            if(!drawnAsBefore&&(mineFlies||otherFlies))
+                for(int pass=0;pass<2;pass++)
+                {
+                    // Never across his line for it, nor behind him: crossing behind him to his other side at a boost she swung on past it, out over the lanes, 10 m from him
+                    // and under the control strip (d425f); behind him she trailed her place under it (d425g).
+                    foreach(var o in new[]{new Vector2(Half,besideSide*Half),new Vector2(1,0)}){var p=Off(o);if(Takes(o,p,pass==0)){offHulls=o;offHullsUntil=Time.time+BesideHold;return p;}}
+                }
+            if(mineFlies)return mine;
+            if(otherFlies){besideSide=-besideSide;besideHeld=Time.time+BesideHold;return other;}
             if(Out(mine))return mine;
             var behind=lead.transform.position-lead.motor.Facing*3+Vector3.Cross(Vector3.up,lead.motor.Facing).normalized*2;behind.y=transform.position.y;
             return behind;
@@ -508,6 +540,57 @@ namespace Lattice.Combat
         float besideHeld;
         /// <summary>The least time between two changes of her side beside a travelling lead.</summary>
         const float BesideHold=1.5f;
+        /// <summary>D425: her place off the drawn hulls when neither side beside him is (along his travel, to his right, in both hulls' reach) and until when it is kept; how far on
+        /// (in seconds of his travel) a place must also be off them, and the share of her hull's reach it keeps from one.</summary>
+        Vector2 offHulls;float offHullsUntil;const float DrawnSoon=.25f,DrawnRoom=.5f,Half=.7f;
+        /// <summary>For a test's broken state only (PartnerFlightPlaceTests): drawn hulls are nothing to her place, as before D425.</summary>
+        static bool drawnAsBefore;
+        /// <summary>D425: her place at rest in flight (behind him on his right) over a drawn hull: the same behind him on his left, straight behind him, then beside him either side,
+        /// the first that is off the drawn hulls and open to her hull from his; with none, as it was.</summary>
+        Vector3 RestOffHulls(CombatActor lead,Vector3 rest)
+        {
+            var camera=Camera.main;float hull=HeroCollision.HullRadius(actor.character),room=hull*DrawnRoom;
+            if(drawnAsBefore||!DrawnHulls.Under(rest,room,camera))return rest;
+            var nose=Planar(lead.motor.Facing).normalized;if(nose.sqrMagnitude<.01f)return rest;var right=Vector3.Cross(Vector3.up,nose);
+            var him=lead.transform.position;var lift=Vector3.up*.8f;float apart=Apart(lead);
+            foreach(var off in new[]{-nose*3-right*2,-nose*Mathf.Max(3.6f,apart),right*apart,-right*apart})
+            {
+                var p=him+off;p.y=rest.y;
+                if(!DrawnHulls.Under(p,room,camera)&&!CombatCover.Sweep(him+lift,p+lift,hull,out _))return p;
+            }
+            return rest;
+        }
+        // ---------- with him in flight: his lunge, his roll (D422) ----------
+        /// <summary>The lead's dash she has answered (-1: none read yet).</summary>
+        int matchedDash=-1;
+        /// <summary>For a test's broken state only (PartnerFlightPlaceTests): she answers none of his dashes, as before D422.</summary>
+        static bool matchAsBefore;
+        /// <summary>How far a lunge goes (CombatActor.Lunge), and the room she leaves his roll.</summary>
+        const float LungeLength=8,RollRoom=.3f;
+        /// <summary>A lunge is eight metres in a sixth of a second, past any hull's boost: down the Gullet's canal ten in a row left her ten metres behind, under the skill row and off the
+        /// bottom edge, closing a little in each recovery and losing it in the next (nov25-r5-chain s10/012, s10/075). Out of a fight, his dash along his way she goes with, by as far,
+        /// where that way is open to her hull and she is not ahead of him (<paramref name="along"/>: not while an animal's departure guides her). His roll across where she is she gives
+        /// way to, a step aside with her nose kept: as the Cantor's coil let go he rolled back through where she rested, the two hulls one shape (s10/171). Nothing of hers stops him (D354).</summary>
+        void Match(CombatActor lead,bool along)
+        {
+            if(lead.motor is not FlightMotor his||actor.motor is not FlightMotor own)return;
+            int sequence=his.DashSequence;bool fresh=matchedDash>=0&&sequence!=matchedDash;matchedDash=sequence;
+            // A dash sets his nose along it; a roll goes his style's roll, a lunge eight metres. A skill's dash is a fight's, and left to him.
+            bool roll=lead.State==Lattice.Data.ActorState.Dodge,lunge=lead.State==Lattice.Data.ActorState.Attack;
+            if(!fresh||matchAsBefore||!roll&&!lunge||actor.State!=Lattice.Data.ActorState.Idle&&actor.State!=Lattice.Data.ActorState.Move||Planar(own.Velocity).magnitude>own.maxSpeed*1.9f+1)return;
+            var way=Planar(his.Facing).normalized;float length=roll?lead.Style.roll:LungeLength;if(way.sqrMagnitude<.01f||length<=0)return;
+            var lift=Vector3.up*.8f;float hull=HeroCollision.HullRadius(actor.character);var from=transform.position;var him=lead.transform.position;
+            if(roll)
+            {
+                float apart=Apart(lead),clear=Clearance(him-way*length,him+way*length,from);if(clear>=apart-.2f)return;
+                var aside=Vector3.Cross(Vector3.up,way);if(Vector3.Dot(Planar(from-him),aside)<0)aside=-aside;
+                float step=Mathf.Clamp(apart+RollRoom-clear,.5f,4);
+                if(CombatCover.Sweep(from+lift,from+aside*step+lift,hull,out _))return;
+                var nose=own.Facing;own.Dash(aside,step);own.KeepFacing(nose);return;
+            }
+            if(!along||Vector3.Dot(Planar(from-him),way)>0||CombatCover.Sweep(from+lift,from+way*length+lift,hull,out _))return;
+            own.Dash(way,length);
+        }
         // ---------- a talk in flight (D397) ----------
         /// <summary>When the talk that holds everybody began (-1: none), where she was then, the place she takes, and how long she takes over it.</summary>
         float talkSince=-1,talkFor;Vector3 talkFrom;Vector3? talkTo;

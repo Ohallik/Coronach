@@ -288,7 +288,7 @@ namespace Lattice.Combat
             if(any)body.position+=at-drawn.center;
             return any;
         }
-        float layUntil=-1;bool laid;GameObject standIn;Renderer[] bodyDrawn;
+        float layUntil=-1;bool laid,standInDark;GameObject standIn;Renderer[] bodyDrawn;
         void LayOnShow()
         {
             if(laid||Time.time>layUntil)return;
@@ -306,6 +306,9 @@ namespace Lattice.Combat
             LayOnShow();
             // After its fall the zone's own carrier stands where it lies: the fight's body gives way to it, or the two draw through each other.
             if(standIn!=null&&standIn.activeInHierarchy&&bodyDrawn!=null){foreach(var r in bodyDrawn)if(r!=null)r.enabled=false;bodyDrawn=null;}
+            // D419: and it lies as the fight's body was left, shut down: dark, its windows out. Drawn as built it lay white and lit beside the party for the rest of the
+            // chapter, a ship parked rather than one beaten (nov25-r5-chain s65/126).
+            if(!standInDark&&standIn!=null&&standIn.activeInHierarchy){standInDark=true;BodyGoesDark.StandIn(standIn,false);}
             if(releasedAt<0||GameTime.Paused)return;
             float age=Time.time-releasedAt;
             if(!hanging){HangOpen(Mathf.SmoothStep(0,1,Mathf.Clamp01(age/BossController.TollTune.HangSeconds)));if(hanging)Debug.Log("TOLL_CAGE_HANGS");}

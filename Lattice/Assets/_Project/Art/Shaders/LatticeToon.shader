@@ -186,6 +186,8 @@ Shader "Lattice/Toon"
         // xy = avatar centre in viewport space; zw = compact ellipse half extents.
         // OccluderFade drives this per renderer so only pixels over the avatar ghost.
         _OccFadeEllipse("Occluder Avatar Ellipse", Vector) = (0.5, 0.5, 0.08, 0.14)
+        // D427: a second hero-sized window in the same piece, the partner's beside the lead's (SceneryOcclusion). Zero size is none.
+        _OccFadeEllipse2("Occluder Second Avatar Ellipse", Vector) = (0, 0, 0, 0)
         // How far the screen-door opens at full fade. A boss keeps more of its body than scenery does (BossOcclusion).
         _OccFadeDepth("Occluder Fade Depth", Range(0, 1)) = 0.82
         // 1 for a boss, which keeps its look through the door: the edge dissolves over most of the ellipse, through a fine grain instead of a lattice, and what stays keeps its own colour.
@@ -261,6 +263,7 @@ Shader "Lattice/Toon"
             half4 _DissolveEdgeColor;
             half _OccFade;
             float4 _OccFadeEllipse;
+            float4 _OccFadeEllipse2;
             half _OccFadeDepth;
             half _OccFadeSoft;
             half4 _HitFlash;
@@ -391,7 +394,16 @@ Shader "Lattice/Toon"
             float2 radius = max(_OccFadeEllipse.zw, float2(0.0001, 0.0001));
             float2 ellipse = (screenUv - _OccFadeEllipse.xy) / radius;
             half distanceSq = dot(ellipse, ellipse);
-            return 1.0h - smoothstep(lerp(0.64h, 0.3h, _OccFadeSoft), 1.0h, distanceSq);
+            half mask = 1.0h - smoothstep(lerp(0.64h, 0.3h, _OccFadeSoft), 1.0h, distanceSq);
+            // D427: the partner's own window in a piece that already holds the lead's (one wide enough for both opened most of Harrowgate's gatehouse). No keyword:
+            // a uniform branch, so the variants the player already has draw it.
+            if (_OccFadeEllipse2.z > 0.0)
+            {
+                float2 second = (screenUv - _OccFadeEllipse2.xy) / max(_OccFadeEllipse2.zw, float2(0.0001, 0.0001));
+                half secondSq = dot(second, second);
+                mask = max(mask, 1.0h - smoothstep(lerp(0.64h, 0.3h, _OccFadeSoft), 1.0h, secondSq));
+            }
+            return mask;
         }
 
         // Distance (world units) from this fragment to the mesh's soft edge.

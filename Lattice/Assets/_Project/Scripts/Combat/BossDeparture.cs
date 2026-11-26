@@ -17,12 +17,15 @@ namespace Lattice.Combat
         public float speed=8;
         /// <summary>What it sounds like as it goes (water down a drain, a body through brush); empty for none.</summary>
         public string sound="water_rush";
+        /// <summary>D419: a person who walks out on her own feet (Vessa Korl) keeps her colours, as one who yields does (D412): beaten, not powered down. Gone dark she walked out a
+        /// black figure (nov25-r5-chain s48/227 to 244) where her sister, yielding, stood in her own colours (s15/158). Set by her own fight.</summary>
+        public bool keepsColours;
         Transform visual;Vector3 from,heading,rest,scale;Quaternion facing,restTurn;float distance,depth;bool sinks,began,settled,upright;
         public bool Leaving=>began;
         public void Begin(Transform visual,DamagePacket packet)
         {
             this.visual=visual;began=true;from=transform.position;facing=transform.rotation;rest=visual.localPosition;restTurn=visual.localRotation;scale=transform.localScale;
-            (GetComponent<BodyGoesDark>()??gameObject.AddComponent<BodyGoesDark>()).BeginBeaten(transform);
+            if(!keepsColours)(GetComponent<BodyGoesDark>()??gameObject.AddComponent<BodyGoesDark>()).BeginBeaten(transform);
             var exit=BossExit.For(GetComponent<Health>().id);float run=speed*(Duration-reel);
             if(exit!=null){heading=exit.transform.position-from;heading.y=0;distance=Mathf.Min(heading.magnitude,run);sinks=exit.sinks;}
             else

@@ -28,6 +28,9 @@ namespace Lattice.World
         /// <summary>How closed the convoy is now, nought to one.</summary>
         public float Closed{get;private set;}
         float scroll;MaterialPropertyBlock block;bool said;
+        /// <summary>D425: every group's hulls are drawn hulls while it runs, which the companion's place in flight keeps off (nov25-r5-chain s68/023, s68/028: Idra's tug in a canoe).</summary>
+        void OnEnable(){foreach(var group in groups)MooredHulls.Take(group,this);}
+        void OnDisable()=>DrawnHulls.Remove(this);
 
         void Start()
         {

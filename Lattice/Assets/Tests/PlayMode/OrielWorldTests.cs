@@ -234,6 +234,42 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(Clear(old),$"fixture: the capture's beacon ({old.min.z:0.0} to {old.max.z:0.0}) reads clear of a nose that hides the ground to {Hidden(old.min.y):0.0}");
             Assert.IsTrue(Clear(drawn),$"the beacon's nearest edge is at z {drawn.min.z:0.0}: a ship at its prompt hides the ground to {Hidden(drawn.min.y):0.0}, so its nose is drawn into the beacon");
         }
+        /// <summary>D423 (nov25-r5 s38/082 from a gate's foot, 084 over the ship, 110 beside Idra's at the landing): what the moons shed held lengths of old rail, rods up to 11 m long
+        /// kept clear on screen only at one end, which hung in open space like loose sticks. Every separate piece of the shed is now a lump, a half-moon, its split face or a collar
+        /// disc: none more than five times as long as it is wide. A rod of the old size, laid beside them, is read first and must fail.</summary>
+        [UnityTest] public IEnumerator NothingTheMoonsShedIsALooseRod()
+        {
+            ToTheOrrery();yield return Zone("Orrery");
+            // Each piece apart (pieces share no vertex): its length (the farthest two points, found from its middle) over its width (the farthest point from that line).
+            static IEnumerable<float> Pieces(Vector3[] v,int[] t)
+            {
+                var parent=Enumerable.Range(0,v.Length).ToArray();int Root(int i){while(parent[i]!=i)i=parent[i]=parent[parent[i]];return i;}
+                for(int i=0;i+2<t.Length;i+=3){parent[Root(t[i+1])]=Root(t[i]);parent[Root(t[i+2])]=Root(t[i]);}
+                foreach(var piece in t.Distinct().GroupBy(Root))
+                {
+                    var p=piece.Select(i=>v[i]).ToArray();var middle=p.Aggregate(Vector3.zero,(a,b)=>a+b)/p.Length;
+                    var a0=p.OrderByDescending(q=>(q-middle).sqrMagnitude).First();var b0=p.OrderByDescending(q=>(q-a0).sqrMagnitude).First();var axis=b0-a0;
+                    if(axis.sqrMagnitude<1e-6f)continue;
+                    float wide=p.Max(q=>Vector3.Cross(q-a0,axis.normalized).magnitude);yield return axis.magnitude/Mathf.Max(wide,1e-4f);
+                }
+            }
+            {
+                // The capture's rod: size 2, 3 times that long and .18 of it round, eight sides.
+                var v=new List<Vector3>();var t=new List<int>();
+                for(int k=0;k<8;k++){float a=k*Mathf.PI/4;var round=new Vector3(Mathf.Cos(a),Mathf.Sin(a),0)*.36f;v.Add(round);v.Add(round+Vector3.forward*6);}
+                for(int k=0;k<8;k++){int a=k*2,b=(k+1)%8*2;t.AddRange(new[]{a,b,a+1,b,b+1,a+1});}
+                Assert.Greater(Pieces(v.ToArray(),t.ToArray()).Max(),5,"fixture: the capture's rod doesn't read as a rod");
+            }
+            var shed=GameObject.Find("What the moons have shed");Assert.IsNotNull(shed,"fixture: what the moons have shed");
+            var faults=new List<string>();int pieces=0;
+            foreach(var filter in shed.GetComponentsInChildren<MeshFilter>())
+            {
+                var mesh=filter.sharedMesh;if(mesh==null)continue;
+                foreach(var ratio in Pieces(mesh.vertices,mesh.triangles)){pieces++;if(ratio>5)faults.Add($"{filter.name}: a piece {ratio:0.0} times as long as it is wide");}
+            }
+            Assert.Greater(pieces,100,"fixture: the shed has hardly any pieces");
+            Assert.IsEmpty(faults,"loose rods hang in what the moons shed:\n"+string.Join("\n",faults.Take(12)));
+        }
         /// <summary>D399 (nov23-whole s38/081 at the top of the frame, 090 to 108 through the ship): each rail's wardens' track carried one lit strip its whole 84 m, white lit by the
         /// 1.3 sun over a white emission, and the bloom drew it as a white line across the frame. Its light is lamps now: no lit piece of it longer than a metre, a row of them,
         /// and at the most the Orrery's sun and sky give a lens only one channel over the zone's bloom threshold (.85, OrielBuilder.Looks), warm, so it blooms gold and not white.

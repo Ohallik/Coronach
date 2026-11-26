@@ -8,8 +8,9 @@ namespace Lattice.World
         public TrafficLane lane;
         public float phase;
         float length;
-        void OnEnable()=>Ships.Add(this);
-        void OnDisable()=>Ships.Remove(this);
+        // D425: drawn under the plane, a drawn hull the companion's place in flight keeps off (Lattice.Core.DrawnHulls).
+        void OnEnable(){Ships.Add(this);Lattice.Core.DrawnHulls.Add(transform,this);}
+        void OnDisable(){Ships.Remove(this);Lattice.Core.DrawnHulls.Remove(this);}
         void Start(){length=lane.Length;}
         void Update()
         {

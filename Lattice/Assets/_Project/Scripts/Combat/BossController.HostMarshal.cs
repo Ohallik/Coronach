@@ -254,6 +254,10 @@ namespace Lattice.Combat
         public static GameObject Refreeze(EnemyBrain guard)
         {
             if(guard==null||!guard.Health.Alive)return null;
+            // D426: the wall has it from this line on. Its object goes at the frame's end, and until then it was still a live body with its drawing already moved into the statue: the
+            // hammer that broke a coupling went on to kill a guard that coupling had just refrozen, and its death, finding no animator, fell through to the fall of a rigid body, which
+            // reads a mesh the player cannot read (nov24-recon-r6-36: InvalidOperationException out of the blow, the kill's later hearers never told).
+            guard.Health.Damageable=false;
             var shape=guard.Controller;float radius=shape!=null?shape.radius:.55f,height=shape!=null?shape.height:2;
             var statue=new GameObject("Frozen rank");statue.transform.SetPositionAndRotation(guard.transform.position,guard.transform.rotation);
             var presentation=guard.GetComponent<DefeatPresentation>();var drawn=presentation!=null?presentation.visual:null;

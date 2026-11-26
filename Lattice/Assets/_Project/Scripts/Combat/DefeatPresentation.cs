@@ -208,7 +208,7 @@ namespace Lattice.Combat
         {
             var points=new List<Vector3>();var mesh=new List<Vector3>();
             foreach(var skin in visual.GetComponentsInChildren<SkinnedMeshRenderer>())
-                if(skin.sharedMesh!=null)foreach(var p in GeneratedGeometry.WorldSkinPoints(skin))points.Add(visual.InverseTransformPoint(p));
+                foreach(var p in SkinPoints(skin))points.Add(visual.InverseTransformPoint(p));
             foreach(var filter in visual.GetComponentsInChildren<MeshFilter>())
             {
                 if(filter.sharedMesh==null)continue;filter.sharedMesh.GetVertices(mesh);
@@ -355,7 +355,7 @@ namespace Lattice.Combat
             // Cache that geometry once; intermediate tilt needs support too.
             var vertices=new List<Vector3>();
             foreach(var skin in visual.GetComponentsInChildren<SkinnedMeshRenderer>())
-                foreach(var p in GeneratedGeometry.WorldSkinPoints(skin))vertices.Add(visual.InverseTransformPoint(p));
+                foreach(var p in SkinPoints(skin))vertices.Add(visual.InverseTransformPoint(p));
             foreach(var filter in visual.GetComponentsInChildren<MeshFilter>())
                 if(filter.sharedMesh!=null)foreach(var p in filter.sharedMesh.vertices)
                     vertices.Add(visual.InverseTransformPoint(filter.transform.TransformPoint(p)));
@@ -372,12 +372,22 @@ namespace Lattice.Combat
             minimum+=Vector3.Dot(visual.position-supportPoint,supportNormal);
             visual.position+=supportNormal*(.025f-minimum);
         }
+        /// <summary>A skin's points in the world. The editor reads any mesh; the player reads only one imported readable, and a body whose mesh is not (a person's: 'char1') gave no
+        /// vertices and threw out of the blow that killed it (D426). Its drawn box stands in for it then: enough to find the floor under it and what it falls onto.</summary>
+        public static IEnumerable<Vector3> SkinPoints(SkinnedMeshRenderer skin)
+        {
+            var mesh=skin.sharedMesh;if(mesh==null)return System.Array.Empty<Vector3>();
+            if(mesh.isReadable)return GeneratedGeometry.WorldSkinPoints(skin);
+            var box=skin.bounds;var corners=new Vector3[8];
+            for(int i=0;i<8;i++)corners[i]=box.center+Vector3.Scale(box.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
+            return corners;
+        }
         static float MinimumY(Transform root)
         {
             float result=float.PositiveInfinity;var points=new List<Vector3>();
             foreach(var skin in root.GetComponentsInChildren<SkinnedMeshRenderer>())
             {
-                foreach(var p in GeneratedGeometry.WorldSkinPoints(skin))result=Mathf.Min(result,p.y);
+                foreach(var p in SkinPoints(skin))result=Mathf.Min(result,p.y);
             }
             foreach(var filter in root.GetComponentsInChildren<MeshFilter>())
             {

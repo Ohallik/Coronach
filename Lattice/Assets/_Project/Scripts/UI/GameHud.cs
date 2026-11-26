@@ -719,7 +719,7 @@ namespace Lattice.UI
         const float ReticleMiddle=34,ReticleRise=70;
         /// <summary>Whom a number is for when nobody swung: hazards, and a burning strip's bite (LingeringArea's packet: a tick that is a death's attack), share one between them.</summary>
         static readonly object Unswung=new();
-        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public object by;public HitKind kind;public FontStyles style;public float amount,age,quiet,popped;public Vector3 world;public Vector2 offset,room;public bool crit,killing,boss,partner;}
+        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public object by;public HitKind kind;public FontStyles style;public float amount,age,quiet,popped;public Vector3 world;public Vector2 offset,room;public bool crit,killing,boss,partner,lead;}
         readonly System.Collections.Generic.List<Floater> floaters=new(),together=new();
         /// <summary>Where to try a new number, in its own room from its body: beside it first, then over and under.</summary>
         static readonly Vector2[] Slots={new(0,0),new(1,0),new(-1,0),new(0,1),new(1,1),new(-1,1),new(2,0),new(-2,0),new(0,-1),new(1,-1),new(-1,-1),new(2,1),new(-2,1),new(0,2),new(1,2),new(-1,2),new(2,-1),new(-2,-1),new(2,2),new(-2,2)};
@@ -747,7 +747,8 @@ namespace Lattice.UI
             var rect=UiKit.Rect(t.gameObject,Middle,Middle,Vector2.zero,new(160,60));
             var leading=PartyController.Current!=null&&PartyController.Current.Active!=null?PartyController.Current.Active.Health:null;
             bool byPartner=by is Health striker&&striker.friendly&&striker!=leading&&!health.friendly;
-            var floater=new Floater{text=t,rect=rect,from=health,by=by,kind=kind,style=t.fontStyle,amount=amount,popped=now,crit=crit,killing=killed,partner=byPartner,boss=health.TryGetComponent<EnemyBrain>(out var brain)&&brain.definition!=null&&brain.definition.boss,world=Head(health)};
+            bool byLead=!byPartner&&by is Health hero&&hero.friendly&&!health.friendly;
+            var floater=new Floater{text=t,rect=rect,from=health,by=by,kind=kind,style=t.fontStyle,amount=amount,popped=now,crit=crit,killing=killed,partner=byPartner,lead=byLead,boss=health.TryGetComponent<EnemyBrain>(out var brain)&&brain.definition!=null&&brain.definition.boss,world=Head(health)};
             Dress(floater);Seat(floater);floaters.Add(floater);floater.rect.anchoredPosition=FanAnchor(floater.world)+floater.offset;
         }
         static Vector3 Head(Health body)=>body.transform.position+Vector3.up*1.9f;
@@ -757,10 +758,11 @@ namespace Lattice.UI
         {
             // D412: the blow that ends a body is never the grey of a resisted one. The Host Marshal's last ('1621') and Dessik Varn's ('765') stood grey on the beaten bodies in the
             // frame the fight ended (nov24-whole s36/103, s30/045), a number that reads as the fight going on.
-            var (mark,size,color)=Look(f.killing&&f.kind==HitKind.Resisted?HitKind.Normal:f.kind);
+            var shown=f.killing&&f.kind==HitKind.Resisted?HitKind.Normal:f.kind;
+            var (mark,size,color)=Look(shown);
             f.text.text=f.amount.ToString("0")+mark;f.text.fontSize=size+(f.crit?CritLarger:0);
             f.text.fontStyle=f.crit?f.style|FontStyles.Bold|FontStyles.Italic:f.style;
-            f.text.color=f.partner?PartnerColor:f.crit&&f.kind==HitKind.Normal?CritColor:color;
+            f.text.color=f.partner?PartnerColor:f.crit&&f.kind==HitKind.Normal?CritColor:f.lead?LeadLook(shown,color):color;
             var ink=f.text.GetPreferredValues(f.text.text,400,80);
             f.rect.sizeDelta=ink+new Vector2(8,4);f.room=(ink+NumberGap)*(1+PopLarger);
         }
@@ -858,6 +860,12 @@ namespace Lattice.UI
         /// came out in the resisted grey beside the lead's bright crit and read as a number half faded ('3697' on Dessik, s30 034; '2693' on the Hulljack, s29 030). Its mark and size
         /// still say a weakness, a weak spot or armour.</summary>
         public static readonly Color PartnerColor=new(.42f,.8f,1);
+        /// <summary>D424: the lead's numbers on a body are warm whatever the hit, as the partner's are sky blue: a plain hit amber, a hit on armour a warm grey (still duller and
+        /// smaller, so armour reads as armour), a weakness keeps its orange or yellow and its marks. The lead's plain hits were white, a hero's own hurt's colour: a white '2580'
+        /// on Hessa beside the partner's blue (nov25-r5-chain s15/156), '3164' on the Rotbloom and '1298' on the Bellows as their killing blows (s26/473, s08/092), and a grey
+        /// '638' under the partner's '2081' on the Host Marshal (s36/060) read as nobody's.</summary>
+        public static readonly Color LeadColor=new(1,.8f,.55f),LeadArmourColor=new(.78f,.7f,.62f);
+        static Color LeadLook(HitKind shown,Color kinds)=>shown switch{HitKind.Normal=>LeadColor,HitKind.Resisted=>LeadArmourColor,_=>kinds};
         static readonly Color IntegrityColor=new(.23f,.88f,.72f);
         float hurtAt=-99;
         void OnLeadHurt(float share,bool down)=>hurtAt=Time.unscaledTime;

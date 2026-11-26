@@ -91,8 +91,36 @@ namespace Lattice.Combat
         }
         /// <summary>Its colours given back, as it stood (a body revived), and this gone.</summary>
         public void Restore(){restoring=true;Paint(0);Destroy(this);}
+        /// <summary>D419: a room's own drawing of a beaten body, which the room's flag shows from the moment it is beaten and on every visit after (the Tollkeeper's carrier as it
+        /// stays, the Foundry Saint's press as scenery), is that body beaten: it goes dark as the fight's body did. Undarkened, the carrier lay white with its windows lit beside
+        /// the party, a ship parked (nov25-r5-chain s65/126), and the press's cream panels and a white shoulder block showed through the fight's dark body where the two stood
+        /// together through Orrin's call (s59/053, 076). Shown or not yet; once. While <paramref name="fightBody"/> stands where it does, the room's drawing is not drawn.</summary>
+        public static void StandIn(string name,bool destroyed,Object fightBody=null)
+        {
+            foreach(var t in FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(t!=null&&t.name==name)StandIn(t.gameObject,destroyed,fightBody);
+        }
+        public static BodyGoesDark StandIn(GameObject standIn,bool destroyed,Object fightBody=null)
+        {
+            if(standIn==null)return null;
+            var dark=standIn.GetComponent<BodyGoesDark>();
+            if(dark==null){dark=standIn.AddComponent<BodyGoesDark>();dark.Begin(standIn.transform,destroyed);}
+            if(fightBody!=null){dark.coveredBy=fightBody;dark.covering=true;dark.Cover();}
+            return dark;
+        }
+        /// <summary>The fight's own body, standing where this one is drawn (<see cref="StandIn(GameObject,bool,Object)"/>): this one is not drawn until it is gone.</summary>
+        Object coveredBy;bool covering,hidden;Renderer[] hiding;bool[] hidingWas;
+        /// <summary>Not drawn now, for a check to read: the fight's own body stands where it is.</summary>
+        public bool Covered=>hidden;
+        void Cover()
+        {
+            bool hide=coveredBy!=null;if(hide==hidden)return;
+            if(hide){hiding=GetComponentsInChildren<Renderer>(true);hidingWas=new bool[hiding.Length];for(int i=0;i<hiding.Length;i++)if(hiding[i]!=null){hidingWas[i]=hiding[i].enabled;hiding[i].enabled=false;}}
+            else{for(int i=0;i<hiding.Length;i++)if(hiding[i]!=null)hiding[i].enabled=hidingWas[i];covering=false;}
+            hidden=hide;
+        }
         void LateUpdate()
         {
+            if(covering)Cover();
             if(painted==null)return;
             if(!done)
             {

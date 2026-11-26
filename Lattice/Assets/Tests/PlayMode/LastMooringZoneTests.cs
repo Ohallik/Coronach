@@ -249,6 +249,48 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(2,Fight("Mooring_Island").spawners.Sum(s=>s.count),"island 2 isn't held by a pair");
         }
 
+        /// <summary>nov25-r6-chain s64/072 to 089 (D426): lane two is fought inside the pocket the Tollkeeper is shown from, and whenever the lead had no target the view went back
+        /// 350 m and more to show the whole carrier: the lane was fought with the ships 20 px long. A waiting boss's show doesn't take the view from a fight.</summary>
+        [UnityTest] public IEnumerator TheTollkeeperOnShowDoesNotTakeTheViewFromALaneBeingFought()
+        {
+            yield return Zone();
+            var lead=PartyController.Current.Active;var view=Camera.main.transform;Assert.IsTrue(lead.flight,"fixture: the lead flies here");
+            float Back()=>Vector3.Distance(view.position,lead.transform.position);
+            IEnumerator Hold(float seconds){float until=Time.time+seconds;while(Time.time<until){lead.transform.position=Lane2;lead.target=null;yield return null;}}
+            // The lane's pair wakes round him.
+            float deadline=Time.time+10;
+            while(Time.time<deadline&&!EnemyBrain.AwakeNear(Lane2,PartyController.FlightLockFramed)){lead.transform.position=Lane2;lead.target=null;yield return null;}
+            Assert.IsTrue(EnemyBrain.AwakeNear(Lane2,PartyController.FlightLockFramed),"fixture: lane two's pair is awake round him");
+            // As before (D426 and D428 both off): lane two lies in the pocket the Tollkeeper is shown from, and with no target the show takes the view.
+            PartyController.ShowOverAFight=true;DormantEnemy.ShownFromBehind=true;float before;
+            try
+            {
+                Assert.IsNotNull(DormantEnemy.Interest(Lane2),"fixture: lane two lies inside the pocket the Tollkeeper is shown from");
+                yield return Hold(5);before=Back();
+            }
+            finally{PartyController.ShowOverAFight=false;DormantEnemy.ShownFromBehind=false;}
+            Assert.Greater(before,CameraRig.FlightFarthest,$"the check doesn't see the view drawn back over a fight, as s64/080 showed it ({before:0} m)");
+            yield return Hold(4);float now=Back();
+            string line=$"SHOW_OVER_FIGHT lane two: before {before:0} m, now {now:0} m";TestContext.WriteLine(line);Debug.Log(line);
+            Assert.Less(now,60,line+": the Tollkeeper's show still has the view while lane two is fought");
+            // D428: with the lane won the view stays with the ships (the show is seen from its checkpoint on, and the lane lies 46 m behind it)...
+            foreach(var health in Health.All.ToArray())if(health!=null&&!health.friendly&&health.Alive&&Flat(health.transform.position,Lane2)<PartyController.FlightLockFramed&&health.TryGetComponent<EnemyBrain>(out var brain)&&brain.enabled)Object.Destroy(health.gameObject);
+            yield return Hold(5);float won=Back();
+            DormantEnemy.ShownFromBehind=true;float wonBefore;
+            try{yield return Hold(5);wonBefore=Back();}
+            finally{DormantEnemy.ShownFromBehind=false;}
+            Assert.Greater(wonBefore,CameraRig.FlightFarthest,$"the check doesn't see the view drawn back over the won lane, as s64/089 showed it ({wonBefore:0} m)");
+            yield return Hold(5);won=Back();
+            line=$"SHOW_FROM_BEHIND lane two, won: before {wonBefore:0} m, now {won:0} m";TestContext.WriteLine(line);Debug.Log(line);
+            Assert.Less(won,60,line+": the Tollkeeper's show has the view in a lane behind its checkpoint");
+            Assert.IsNull(DormantEnemy.Interest(Lane2),"lane two is still shown the Tollkeeper");
+            // ...and at its checkpoint, and from there on towards it, the carrier is introduced as it always was.
+            Assert.IsNotNull(DormantEnemy.Interest(Checkpoint),"the Tollkeeper is no longer shown from its checkpoint");
+            Assert.IsNotNull(DormantEnemy.Interest(Vector3.Lerp(Checkpoint,new Vector3(0,1,492),.5f)),"the Tollkeeper is no longer shown between its checkpoint and itself");
+            float until=Time.time+5;while(Time.time<until){lead.transform.position=Checkpoint;lead.target=null;yield return null;}
+            Assert.Greater(Back(),CameraRig.FlightFarthest,"at its checkpoint the Tollkeeper is no longer shown");
+        }
+
         // ------------------------------------------------------------------ the convoy
         [UnityTest] public IEnumerator TheConvoyIsEveryPlaceThePlayerKnowsMooredOnTheChains()
         {

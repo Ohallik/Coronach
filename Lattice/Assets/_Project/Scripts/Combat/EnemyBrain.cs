@@ -182,6 +182,21 @@ namespace Lattice.Combat
             }
             return Mathf.Max(once,OnBearing(held,Quaternion.Inverse(transform.rotation)*way));
         }
+        /// <summary>How near a hero on foot has to be for a boss's held outline to be kept up.</summary>
+        const float HeldNear=6;
+        /// <summary>D420: a boss's held outline is kept up from when a hero on foot first comes near it, not from when the partner first asks for it. Asked first as she walked in, it
+        /// held the Warmaster's mantle where it hung as he woke (1.07 m at 158 degrees) while it swung to 1.38, and walking in she stood 0.10 m in it at 1.62 m from his middle (suite
+        /// nov25b, BodiesKeepApartTests; 0.03 in nov25a: at the edge).</summary>
+        void KeepHeld()
+        {
+            if(outline==null&&Time.time>=startedAt+OutlineAfter)outline=ReadOutline();
+            if(outline==null||outline.Length!=OutlineBearings||held!=null&&Time.time<heldAt+HeldEvery)return;
+            var party=PartyController.Current;if(party==null||party.members==null)return;bool near=false;
+            foreach(var hero in party.members)if(hero!=null&&!hero.flight&&(hero.transform.position-transform.position).sqrMagnitude<HeldNear*HeldNear){near=true;break;}
+            if(!near)return;
+            heldAt=Time.time;if(held==null){held=(float[])outline.Clone();return;}
+            var now=ReadOutline();if(now.Length==OutlineBearings)for(int i=0;i<OutlineBearings;i++)held[i]=Mathf.Max(held[i],now[i]);
+        }
         float[] ReadOutline()
         {
             var reach=new float[OutlineBearings];var middle=transform.position;var turn=Quaternion.Inverse(transform.rotation);bool any=false;var mesh=new List<Vector3>();
@@ -572,6 +587,7 @@ namespace Lattice.Combat
             // cannot depend on the AI choosing to chase again afterward.
             if(!GameTime.Paused&&Health.Alive&&controller.enabled&&ZoneController.Current!=null&&!Flying&&!GameServices.Current.Input.Blocked)
             {controller.Move(Vector3.down*6*Time.deltaTime);KeepToTheFloor();}
+            if(boss!=null&&Health.Alive&&!Flying&&!GameTime.Paused)KeepHeld();
             // A conversation or load stops the clock on what it interrupted: no strike the instant it ends.
             if(GameServices.Current.Input.Blocked&&!GameTime.Paused){strikeAt+=Time.deltaTime;nextAttack+=Time.deltaTime;}
             // A stun takes the enemy out of its attack: it used to hold its tell and strike the moment it recovered.

@@ -106,7 +106,8 @@ namespace Lattice.Tests.PlayMode
             try
             {
                 Assert.IsTrue(rt.Create());camera.targetTexture=rt;
-                if(only>=0){camera.cullingMask=only;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Color.black;}
+                // Not only>=0: the probe layer may be 31, and 1<<31 is negative (D414's note; D421).
+                if(only!=-1){camera.cullingMask=only;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=Color.black;}
                 camera.Render();RenderTexture.active=rt;image.ReadPixels(new Rect(0,0,ShotWidth,ShotHeight),0,0);image.Apply();return image.GetPixels32();
             }
             finally{camera.cullingMask=mask;camera.clearFlags=clear;camera.backgroundColor=back;camera.targetTexture=target;RenderTexture.active=active;rt.Release();Object.DestroyImmediate(rt);Object.DestroyImmediate(image);}

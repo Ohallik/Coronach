@@ -236,13 +236,17 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(ZoneLine.Read(out var said,out _)&&said=="Ride the tread-hall out","the panel doesn't say to ride the tread-hall out");
             var home=Object.FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.scene=="MeridianCrawl");Assert.IsFalse(home.Available&&Flag(home.requiredFlag),"the way home is open before the ride");
             ride.Interact();yield return Until(()=>ride.Riding,2);Assert.IsTrue(ride.Riding,"the ride didn't begin");Assert.IsTrue(GameServices.Current.Input.Blocked,"the party has its hands during the ride");
+            // D423: the panel only moves forward. The capture (s56/061, 063) had the story's step back ("Re-mate three couplings...") once the ride began and after it.
+            yield return Wait(.5f);
+            Assert.IsTrue(ZoneLine.Read(out said,out _)&&said==DawnLine.RideLine,$"during the ride the panel says '{said}' (the story's step shows again), not '{DawnLine.RideLine}'");
             yield return Until(()=>Said("RIDE_DONE"),30);Assert.IsTrue(Said("RIDE_DONE"),"the ride never ended");yield return null;yield return null;
             Assert.IsTrue(Flag("home.rideDone"),"the ride didn't set its flag");Assert.AreEqual("Tail",GameServices.Current.State.spawn,"the ride's end isn't the checkpoint");
             Assert.Less(Vector2.Distance(new Vector2(lead.transform.position.x,lead.transform.position.z),Tail),1.5f,"the party wasn't set down at the ride's end");
             Assert.IsTrue(dawn.Over,"the line still runs after the ride");Assert.Greater(dawn.Gap,30,"the line didn't fall behind the ride");Assert.IsFalse(GameServices.Current.Input.Blocked,"the party never got its hands back");
             Put(lead,CrawlerHand);yield return Wait(.3f);PromptService.FindInteraction(lead.transform.position);
             Assert.AreSame(home,PromptService.Interaction,"from the crawler's side the way home isn't offered");Assert.AreEqual("Gap",home.spawn,"the way home doesn't arrive at the Crawl's gap");
-            Assert.IsTrue(ZoneLine.Read(out _,out var arrow)&&arrow.HasValue&&Vector3.Distance(arrow.Value,home.transform.position)<1,"after the ride the panel's arrow isn't on the way home");
+            Assert.IsTrue(ZoneLine.Read(out said,out var arrow)&&arrow.HasValue&&Vector3.Distance(arrow.Value,home.transform.position)<1,"after the ride the panel's arrow isn't on the way home");
+            Assert.AreEqual(DawnLine.HomeLine,said,"after the ride the panel goes back to the story's step instead of on to the way home");
         }
 
         [UnityTest] public IEnumerator ThePursuitTrackComesInAsTheLineClosesAndThePanelSaysKeepAheadOfTheDawn()

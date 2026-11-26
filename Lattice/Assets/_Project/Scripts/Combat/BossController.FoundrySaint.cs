@@ -52,6 +52,8 @@ namespace Lattice.Combat
         /// arrives in: HomeBuilder.Bosses' sizing), and the Sweep, which it has only with the rig bare, at 137 (162 with the +18%).</summary>
         public static class SaintTune
         {
+            /// <summary>The room's own press once it has settled (HomeBuilder.Works: scenery shown by its flag from its fall), which goes dark with it (D419).</summary>
+            public const string SettledName="The Foundry Saint, settled";
             /// <summary>Its capsule's radius (its definition makes it 12 m tall, the press's own height), and the share of its bar its arms hold: the shift is at two fifths, each arm a fifth.</summary>
             public const float Radius=2.6f,Bare=.4f,ArmShare=(1-Bare)/3;
             /// <summary>The most of its bar one opening may take (D411), in either half: a third of an arm, 9,333 of 140,000. With an arm an opening (D364) the short runs still freed an arm in
@@ -345,6 +347,9 @@ namespace Lattice.Combat
             // its root, so its own darkening never reached them: after the win they lay in full gold and cream through the loot lines and Orrin's call, the brightest thing in the hall
             // (nov23-whole s59/038, 043). They stay dark for the rest of the visit, as the press does.
             foreach(var arm in saintArms)if(arm!=null)arm.PowerDown();
+            // D419: the room's own press (scenery from its fall, shown by the flag this end has just set) stands where this body stands, in its colours: its cream panels and a
+            // white shoulder block showed through the dark body through Orrin's call (nov25-r5-chain s59/053, 076). Not drawn while this body stands; dark on the visits after.
+            BodyGoesDark.StandIn(SaintTune.SettledName,false,gameObject);
             if(visual!=null){visual.localPosition=visualRest;visual.localRotation=visualRestRotation;}
             Debug.Log("SAINT_SETTLES");
         }

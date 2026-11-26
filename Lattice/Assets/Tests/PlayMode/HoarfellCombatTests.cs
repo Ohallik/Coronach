@@ -517,6 +517,28 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(boss.Warm,"fixture: shifted, it is still warm");
             Hit(body,hero,1,1e6f);Assert.IsTrue(body.Broken,"cold, a blow that fills its meter doesn't break it");
         }
+        /// <summary>nov24-recon-r6-36 (D426): the hammer that broke a coupling went on, in the same frame, to kill a guard that coupling had just refrozen (its object goes only at the
+        /// frame's end). Its death, its drawing already in the statue, fell as a rigid body's and read a mesh the player cannot read: an exception out of the blow.</summary>
+        [UnityTest] public IEnumerator AGuardTheWallHasTakenBackIsNotStruckInTheFrameItGoes()
+        {
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,12));
+            // As before: the wall's guard was a live body until the frame's end, and a blow landed on it.
+            var old=Enemy("ThawedGuard",At(3,.05f,7.5f));yield return Frames(3);var oldBody=old.Health;
+            // The net under the fix: a person's mesh isn't readable in the player, and its drawn box stands in for its points.
+            var unread=old.GetComponentsInChildren<SkinnedMeshRenderer>().FirstOrDefault(s=>s.sharedMesh!=null&&!s.sharedMesh.isReadable);
+            Assert.IsNotNull(unread,"fixture: a guard's body is a mesh the player can't read");
+            var points=DefeatPresentation.SkinPoints(unread).ToArray();Assert.AreEqual(8,points.Length,"a mesh the player can't read isn't stood in for by its drawn box");
+            Assert.That(points.Min(p=>p.y),Is.EqualTo(unread.bounds.min.y).Within(.001f),"the box's foot isn't the body's");
+            Assert.IsNotNull(BossController.Refreeze(old),"fixture: the wall takes it back");oldBody.Damageable=true;
+            Assert.Greater(Kill(oldBody,hero),0,"the check doesn't see a blow land on a guard the wall has just taken, as the Marshal's fight showed one");
+            yield return Frames(2);
+            var guard=Enemy("ThawedGuard",At(0,.05f,7.5f));yield return Frames(3);var body=guard.Health;
+            Assert.Greater(Hit(body,hero,1),0,"fixture: a thawed guard can be struck");
+            Assert.IsNotNull(BossController.Refreeze(guard),"fixture: the wall takes it back");
+            Assert.AreEqual(0,Kill(body,hero),"a blow landed on a guard in the frame the wall took it back");
+            Assert.IsTrue(body.Alive,"and it died of it");Assert.IsFalse(body.Targetable,"and it can still be locked");
+            yield return Frames(2);Assert.IsTrue(guard==null,"its object outlived the frame");
+        }
         [UnityTest] public IEnumerator ItsLungeEndsAtTheFirstIceInItsLaneAndItsSpearStaysCaughtThereLongerThanInTheFloor()
         {
             yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,12));

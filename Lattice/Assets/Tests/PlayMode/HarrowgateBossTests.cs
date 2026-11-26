@@ -594,6 +594,66 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(spoken,"something is said over his yield, before DraskLeavesField: "+string.Join(" | ",spoken));
             Assert.AreEqual(0,body.Receive(new DamagePacket{source=hero.Health,amount=100,type=DamageType.Kinetic}),.01f,"he can be struck after he yields");
         }
+        /// <summary>D420: with Taren at the Warmaster's flank, Idra fought him from between him and the camera, clear of his cape on the plan (about 1.5 m from his middle) and from 40
+        /// degrees up drawn over its lower half (nov25-r5 s52/092; at 095 her head at its hem). With the lead at his side she takes her place at his other side on the screen: over the
+        /// last three seconds of eight, next to none of what he draws is behind her from the game's camera, where with her place chosen as before (no regard to the camera, shown in the
+        /// same run) a share of him was.</summary>
+        [UnityTest] public IEnumerator WithTheLeadAtTheWarmastersFlankThePartnerFightsBesideHimOnTheScreenNotOverHim()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();
+            Assert.AreEqual("Idra",partner.character,"fixture: Idra is out beside Taren");
+            var eye=Camera.main;Assert.IsNotNull(eye,"fixture: the game has its camera");
+            var asBefore=typeof(PartnerBrain).GetField("sideAsBefore",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);
+            Assert.IsNotNull(asBefore,"fixture: her place as before");
+            var lines=new List<string>();float old=0,now=0;
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    var right=eye.transform.right;right.y=0;right.Normalize();var toward=-eye.transform.forward;toward.y=0;toward.Normalize();
+                    // He faces the lead at his flank, the right of the screen, as in the duel's capture; she comes in from the camera's side.
+                    var at=At(0,.1f,0);var enemy=Enemy("DraskVaal",at,true,Mathf.Atan2(right.x,right.z)*Mathf.Rad2Deg);yield return Frames(3);
+                    Put(hero,new Vector3(at.x,.05f,at.z)+right*2);Face(hero,at);Put(partner,new Vector3(at.x,.05f,at.z)+toward*5);
+                    var brain=partner.GetComponent<PartnerBrain>();brain.enabled=true;float sum=0;int frames=0;
+                    for(float begin=Time.unscaledTime;Time.unscaledTime-begin<8;)
+                    {
+                        partner.charge=0;hero.target=enemy.Health;hero.TargetLocked=true;hero.motor.Move(Vector2.zero,false,false);
+                        yield return null;
+                        if(Time.unscaledTime-begin>=5){sum+=Covered(eye,BodiesKeepApartTests.DrawnPoints(enemy,6000),partner);frames++;}
+                    }
+                    brain.enabled=false;float share=frames>0?sum/frames:0;var off=partner.transform.position-at;off.y=0;
+                    string line=$"D420 {(pass==0?"as before":"now")}: Idra {off.magnitude:0.00} m from the Warmaster's middle, {Vector3.Angle(off,toward):0} degrees round from the camera's way, "+
+                        $"Taren {Flat(hero.transform.position,at):0.00} m off; {share:P1} of what he draws is behind her from the camera";
+                    TestContext.WriteLine(line);lines.Add(line);
+                    if(pass==0)old=share;else now=share;
+                    Object.Destroy(enemy.gameObject);yield return Frames(3);
+                }
+            }
+            finally{asBefore.SetValue(null,false);}
+            LogAssert.ignoreFailingMessages=false;
+            string all=string.Join("\n",lines);
+            // d420a: as before 3.2 % of him behind her (1.60 m off, 20 degrees round from the camera's way); now 0.0 % (1.78 m, 74 degrees).
+            Assert.Greater(old,.015f,"the check doesn't see Idra drawn over the Warmaster as she stood before:\n"+all);
+            Assert.LessOrEqual(now,.005f,"beside the lead at his flank, Idra is drawn over the Warmaster:\n"+all);
+        }
+        /// <summary>D420: the share of a body's drawn points the game's camera draws behind a hero: further from the camera than he is, and on the screen within his capsule's width of
+        /// his axis, feet to head.</summary>
+        static float Covered(Camera eye,List<Vector3> points,CombatActor hero)
+        {
+            if(points.Count==0)return 0;var his=hero.GetComponent<CharacterController>();var feet=hero.transform.position;
+            var a=eye.WorldToViewportPoint(feet+Vector3.up*his.radius);var b=eye.WorldToViewportPoint(feet+Vector3.up*(his.height-his.radius));if(a.z<=0)return 0;
+            float aspect=eye.aspect,wide=his.radius/(2*a.z*Mathf.Tan(eye.fieldOfView*.5f*Mathf.Deg2Rad));
+            var a2=new Vector2(a.x*aspect,a.y);var ab=new Vector2(b.x*aspect,b.y)-a2;float length=ab.sqrMagnitude;int n=0;
+            foreach(var p in points)
+            {
+                var s=eye.WorldToViewportPoint(p);if(s.z<=a.z+his.radius)continue;
+                var q=new Vector2(s.x*aspect,s.y);float t=length>1e-8f?Mathf.Clamp01(Vector2.Dot(q-a2,ab)/length):0;
+                if((q-(a2+ab*t)).magnitude<wide)n++;
+            }
+            return n/(float)points.Count;
+        }
 
         // ------------------------------------------------------------------ the skiff
         [UnityTest] public IEnumerator TheSkiffRunsALanceThroughTheShipItFightsAndTurnsWideOpen()

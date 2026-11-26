@@ -81,7 +81,8 @@ namespace Lattice.Combat
         static readonly Color LanceCold=new(1.35f,.95f,.6f,.95f),LanceHot=new(1.9f,1.6f,1.2f,1);
         void VessaStart()
         {
-            var leaving=gameObject.AddComponent<BossDeparture>();leaving.sound="";leaving.speed=6;
+            // D419: a person beaten, not a machine: she walks out in her own colours, as her sister yields in hers (Hessa, s15/158).
+            var leaving=gameObject.AddComponent<BossDeparture>();leaving.sound="";leaving.speed=6;leaving.keepsColours=true;
             DrawLance();
         }
         /// <summary>At nought: the floor she laid goes with her (nothing of hers burns on behind her into the fight with her squad); and the gallery is taken now, not at her fall

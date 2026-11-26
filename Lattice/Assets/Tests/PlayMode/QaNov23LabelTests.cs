@@ -212,7 +212,8 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsTrue(letters.Contains(r.min)&&letters.Contains(r.max),$"fixture: the block {r} lies behind the word's letters {letters}, in the plate's solid middle");
                 sign.GetComponent<Renderer>().enabled=plate.enabled=false;bare=Through(camera,block);sign.GetComponent<Renderer>().enabled=plate.enabled=true;
                 Assert.Greater(bare,.5f,$"fixture: the block is drawn where it stands ({bare:P0} of it with the sign and plate off; \"{Words(sign)}\", block {r} of {block.transform.lossyScale.x:0.000} m, letters {letters}, {Vector3.Distance(camera.transform.position,block.transform.position):0.0} m off, camera at {camera.transform.position})");
-                plate.GetPropertyBlock(paint);float fade=paint.HasFloat("_Fade")?paint.GetFloat("_Fade"):1;
+                // The fader is off and the case measures the plate, so the plate is put at full: the sign taken is whichever comes first, and one already faded out (a floor word under a body) left its plate drawing nothing.
+                plate.GetPropertyBlock(paint);const float fade=1;paint.SetFloat("_Fade",fade);
                 // The plate as it was (.95), then as it is.
                 paint.SetColor("_BaseColor",new Color(.03f,.05f,.09f,.95f));plate.SetPropertyBlock(paint);old=Through(camera,block);
                 paint.Clear();paint.SetFloat("_Fade",fade);plate.SetPropertyBlock(paint);now=Through(camera,block);

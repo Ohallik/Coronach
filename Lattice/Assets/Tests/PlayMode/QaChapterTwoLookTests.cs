@@ -488,8 +488,11 @@ namespace Lattice.Tests.PlayMode
             foreach(var member in PartyController.Current.members)
                 foreach(var (height,part) in new[]{(.4f,"legs"),(.95f,"body"),(1.5f,"chest")})
                     Assert.IsFalse(MeshHides(arch,member.transform.position+Vector3.up*height),$"{member.character}'s {part} are behind a leg of the arch on the first look at the town");
+            // D421: a partner left behind at the arrival, hidden whole by the arch from the shop, gets her own window in it (SceneryOcclusion); what this reads is the lead at the shop.
+            foreach(var member in PartyController.Current.members)if(member!=Lead&&member.TryGetComponent<HeroThrough>(out var drawn))drawn.enabled=false;
             Put(Lead,new Vector3(-4,.2f,17));yield return new WaitForSecondsRealtime(.8f);
             Assert.Less(Faded(arch),.05f,"the arch fades out at Corra's stall: the hero makes a building vanish at the shop");
+            foreach(var member in PartyController.Current.members)if(member.TryGetComponent<HeroThrough>(out var drawn))drawn.enabled=true;
             var corra=All<Npc>().Single(n=>n.speaker=="Corra");
             foreach(var post in All<Transform>().Where(t=>t.name=="LampPost"))
                 Assert.IsFalse(Hides(BoundsOf(post),corra.transform.position+Vector3.up*.4f),"a lamp post stands in front of Corra's legs");
