@@ -33,7 +33,7 @@ namespace Lattice.Tests.PlayMode
 #if UNITY_EDITOR
         InputSettings.EditorInputBehaviorInPlayMode priorEditor;
 #endif
-        static readonly string[] Heeded={"ROTBLOOM_","STALK_BURNED","BOSS_","QUALITY_BOSS","QUALITY_LOCK_FOR","QUALITY_CHASE","QUALITY_CHECKPOINT_BEGIN","EXTRA_OK","REVIVE_OK"};
+        static readonly string[] Heeded={"ROTBLOOM_","STALK_BURNED","BOSS_","QUALITY_BOSS","QUALITY_LOCK_FOR","QUALITY_CHASE","QUALITY_CHECKPOINT_BEGIN","QUALITY_LEAD_TAKEN_BACK","SWAP_OK","EXTRA_OK","REVIVE_OK"};
         readonly List<float> gapes=new();
         void Logged(string text,string stack,LogType type)
         {
@@ -52,7 +52,7 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {
-            Application.logMessageReceived-=Logged;HandsOff(false);PlanGoalsOnTheirLevel(false);Drop();
+            Application.logMessageReceived-=Logged;HandsOff(false);TakeBackOff(false);PlanGoalsOnTheirLevel(false);Drop();
             InputSystem.settings.backgroundBehavior=priorBackground;
 #if UNITY_EDITOR
             InputSystem.settings.editorInputBehaviorInPlayMode=priorEditor;
@@ -173,6 +173,8 @@ namespace Lattice.Tests.PlayMode
             public readonly Queue<string> recent=new();public string howBehind="";
             // Read once the fight is over: its length off the log, retries, what the route's steps failed, what the log said.
             public float duration=-1;public int retries;public List<string> failed=new(),said=new();public string told="";
+            // D429: the longest the partner led in the fight with Taren on his feet beside her.
+            public float partnerLed,partnerLedFrom=-1;
         }
         System.Action Watching(Watch w)
         {
@@ -202,6 +204,9 @@ namespace Lattice.Tests.PlayMode
                 if(w.roundOne>=0&&w.firstTop<0&&OnATop(at))w.firstTop=Time.time;
                 if(w.roundOne>=0&&w.firstTop<0&&OnARamp(at)&&at.y>-1.45f)w.upByRamp=true;
                 if(w.won<0&&GameServices.Current.Flags.GetBool("bossdown.Rotbloom"))w.won=Time.time;
+                var mine=PartyController.Current.members.FirstOrDefault(m=>m!=null&&m.character=="Taren");
+                if(w.roundOne>=0&&w.won<0&&mine!=null&&lead!=mine&&mine.Health.Alive&&!mine.Recovering){if(w.partnerLedFrom<0)w.partnerLedFrom=Time.time;w.partnerLed=Mathf.Max(w.partnerLed,Time.time-w.partnerLedFrom);}
+                else w.partnerLedFrom=-1;
                 if(Time.time>=w.nextTrail){w.nextTrail=Time.time+1;w.trail.Add($"{Time.time:0} {step} {lead.character} {lead.State} ({at.x:0.0},{at.y:0.00},{at.z:0.0}) hp={lead.Health.integrity:0} on={(lead.target!=null?lead.target.name:"-")} bloom={(w.body!=null?w.body.integrity:0):0}");}
             };
         }
@@ -239,12 +244,58 @@ namespace Lattice.Tests.PlayMode
             Debug.Log($"ROTBLOOM_DRIVER_FIGHT integrity={integrity:0} duration={w.duration:0.0} retries={w.retries}");
             foreach(var line in w.trail)TestContext.WriteLine("TRAIL "+line);foreach(var line in w.said)TestContext.WriteLine("LOG "+line);
             Judge(w);
+            // D429: whether Taren falls in this fight is luck (he did in three suites of four), but a raised Taren leads again: Sela never led for long with him on his feet.
+            TestContext.WriteLine($"ROTBLOOM_DRIVER_PARTNER_LED longest={w.partnerLed:0.0}s");
+            Assert.Less(w.partnerLed,10,$"Sela led for {w.partnerLed:0.0} s of the fight with Taren on his feet beside her: the lead the route named was not taken back"+w.told);
             // What the sheet's share is measured from: the fight's length against the party's flat-out rate, measured as the shared length test measures it, in the same run on
             // the same machine's load (a loaded machine has read 788 a second where a quieter one read 1,177).
             float rate=0;yield return FlatOut(r=>rate=r);
             TestContext.WriteLine($"ROTBLOOM_DRIVER_SHARE share={integrity/(rate*w.duration):0.000} rate={rate:0}/s duration={w.duration:0.0}s integrity={integrity:0} sheet={sheet.driverShare:0.00} bar={sheet.minSeconds:0}-{sheet.maxSeconds:0}s");
             Assert.That(w.duration,Is.InRange(NoBargain,sheet.maxSeconds),$"the Rotbloom's {integrity:0} lasted {w.duration:0} s for the driver: under {NoBargain:0} s its stalks are a bargain again, over {sheet.maxSeconds:0} s it is past its sheet's ceiling"+w.told);
         }
+        /// <summary>D429. Taren, whom the route makes lead at the door, falls in the fight (by a blow of the test's: the fight's own are luck), the game gives the lead to Sela and
+        /// she raises him. The driver as it was fights on as Sela, on a bloom that drinks her beam, with Taren the partner for the rest of it: the Rotbloom's last fifth then
+        /// took two minutes (suites nov23b, nov24b and nov25c: 283, 240 and 310 s against a ceiling of 300, where the fight nobody fell in was 218). With its hands, Taren takes
+        /// the lead back as soon as he is on his feet, as a person takes their own hero back.</summary>
+        [UnityTest,Timeout(600000)] public IEnumerator ALeadWhoFellAndWasRaisedTakesTheLeadBack()
+        {
+            var steps=FightSteps();
+            for(int pass=0;pass<2;pass++)
+            {
+                bool was=pass==0;
+                yield return AtTheGreatHallsDoor();Fresh();TakeBackOff(was);log.Clear();gapes.Clear();
+                var w=new Watch();var watch=Watching(w);float fellAt=-1,raisedAt=-1,backAt=-1;CombatActor taren=null;
+                yield return Play(steps,150,()=>
+                {
+                    watch();var party=PartyController.Current;if(party==null||party.members==null)return;
+                    if(taren==null)taren=party.members.FirstOrDefault(m=>m!=null&&m.character=="Taren");
+                    if(taren==null)return;
+                    if(fellAt<0)
+                    {
+                        if(w.roundOne>0&&Time.time-w.roundOne>6&&party.Active==taren)
+                        {taren.Health.InvulnerableUntil=0;taren.Health.Receive(new DamagePacket{amount=taren.Health.maximum*100,type=DamageType.Pulse});fellAt=Time.time;}
+                        return;
+                    }
+                    if(raisedAt<0){if(taren.Health.Alive)raisedAt=Time.time;return;}
+                    if(backAt<0&&party.Active==taren)backAt=Time.time;
+                },()=>backAt>0||raisedAt>0&&Time.time-raisedAt>(was?15:30)||w.won>0);
+                string told=$" (he fell at {fellAt:0.0}, was raised at {raisedAt:0.0}, led again at {backAt:0.0})"+Told(w);
+                TestContext.WriteLine($"LEAD_TAKEN_BACK was={was} fell={fellAt:0.0} raised={raisedAt:0.0} back={backAt:0.0}");
+                Assert.Greater(fellAt,0,"fixture: Taren led six seconds into the first round, and fell there"+told);
+                Assert.Greater(raisedAt,0,"fixture: Sela raised him inside the fight"+told);
+                if(was)
+                {
+                    Assert.Less(backAt,0,"fixture: the driver as it was fought on as Sela for fifteen seconds after she raised him, or the check below proves nothing"+told);
+                    TakeBackOff(false);Drop();continue;
+                }
+                Assert.Greater(backAt,0,"Taren, raised, never took the lead back in thirty seconds"+told);
+                Assert.Less(backAt-raisedAt,6,"Taren took the lead back, but long after he was on his feet"+told);
+                Assert.IsTrue(log.Any(l=>l.Contains("QUALITY_LEAD_TAKEN_BACK Taren")),"the lead came back to Taren, and not by the driver's press"+told);
+                Assert.IsFalse(Failures.Any(f=>f.Contains("character")),"taking the lead back failed a step: "+string.Join(" | ",Failures)+told);
+            }
+        }
+        /// <summary>The driver as it was before D429 (ContinuousReview.Party.cs), for the broken state: put back by the case and by the tear-down.</summary>
+        static void TakeBackOff(bool off)=>typeof(ContinuousReview).GetField("takeBackOff",BindingFlags.Static|BindingFlags.NonPublic).SetValue(null,off);
         /// <summary>One fight from the door, the driver with its hands, read into the watch.</summary>
         IEnumerator Fight(QualityRoute steps,Watch w)
         {

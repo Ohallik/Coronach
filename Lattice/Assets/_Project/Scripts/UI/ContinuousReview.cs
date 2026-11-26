@@ -397,6 +397,7 @@ namespace Lattice.UI
                 Debug.Log("QUALITY_STEP_TARGET " + step.name + ": " + (stepTarget != null ? stepTarget.name : "nothing") + " (lock on " + (lead.TargetLocked && lead.target != null ? lead.target.name : "nothing") + ")");
             }
             itemForced = false; wantItem = null; raise = null; extraDue = false; nextThought = -1;
+            NameTheLead();
             BeginStock();
             // A route that names its pair ("deployed") is held to it at the first step that has a party.
             CheckPair();
@@ -789,6 +790,9 @@ namespace Lattice.UI
                 // Swap, half a second apart, until the hero named leads: as ever, but it gives up with its reason behind a hero who can't lead, and brings a
                 // resting one out through the Party page where the game allows it (Ensure, in ContinuousReview.Party.cs).
                 held = Ensure(held, party);
+                // And the lead the route named, taken back once he has fallen and been raised (D429, ContinuousReview.Party.cs).
+                // Asked every frame, since it is also where his fall is seen: asked only between a raise's frames and a dodge's, it never saw him down.
+                held = TakeBack(held, party, free && !evading && !raising);
                 if (evading) held = held.WithButton(GamepadButton.East);
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
                 // Once there it stays there: the press can take the row away, by moving a part or leaving the screen, and a d-pad held after that would cycle the quick item in the world.

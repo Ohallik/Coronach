@@ -29,7 +29,9 @@ for path in results:
 classes = {}
 for path in glob.glob(os.path.join(ROOT, 'Lattice', 'Assets', 'Tests', 'PlayMode', '*.cs')):
     text = open(path, encoding='utf-8-sig').read()
-    tests = len(re.findall(r'\[(UnityTest|Test)\]', text)) + len(re.findall(r'\[(TestCase|ValueSource)\b', text))
+    # A test may carry more in its brackets ([UnityTest,Timeout(900000)]): counted by the closing bracket alone, a class whose every test did was left out of the suite, and
+    # nine classes (the boss replays, the partner's flight) ran in no whole suite until November 25.
+    tests = len(re.findall(r'\[(UnityTest|Test)[\],]', text)) + len(re.findall(r'\[(TestCase|ValueSource)\b', text))
     for match in re.finditer(r'public sealed class (\w+)|public class (\w+)', text):
         cls = match.group(1) or match.group(2)
         if tests and (cls.endswith('Tests') or cls in known):

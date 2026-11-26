@@ -129,6 +129,48 @@ namespace Lattice.UI
             return state.WithButton(ensureButton);
         }
 
+        // ---------- the lead the route named, taken back after a fall ----------
+        /// <summary>The driver as it was before D429 (a lead who fell and was raised stayed the partner for the rest of the fight), for a test's broken state: put back by
+        /// the case and its tear-down.</summary>
+        static bool takeBackOff;
+        /// <summary>How many presses of Swap one fall is given to bring the named lead back: one does it, and the game refuses nothing a second would mend.</summary>
+        const int TakeBackSwaps = 4;
+        string namedLead; QualityStep namedFor; bool namedFell; int takeBackSwaps;
+        /// <summary>Who the route last asked to lead: an ensureCharacter step, or a step that says who leads at its end. A step that presses Swap and says neither leaves
+        /// nobody named, and nothing is taken back until a step names one again.</summary>
+        void NameTheLead()
+        {
+            if (step == null || ReferenceEquals(namedFor, step)) return;
+            namedFor = step;
+            if (stepIndex == 0 && !retrying) { namedLead = null; namedFell = false; takeBackSwaps = 0; }
+            string says = !string.IsNullOrEmpty(step.ensureCharacter) ? step.ensureCharacter : step.expectedCharacter;
+            bool swaps = false;
+            if (step.buttons != null) foreach (var button in step.buttons) if (string.Equals(button, "North", System.StringComparison.OrdinalIgnoreCase)) swaps = true;
+            if (!string.IsNullOrEmpty(says)) { if (says != namedLead) { namedLead = says; namedFell = false; takeBackSwaps = 0; } }
+            else if (swaps && !StepHoldsSkillMod()) { namedLead = null; namedFell = false; }
+        }
+        /// <summary>What taking the lead back adds to the pad this frame (D429). The hero the route named fell, the game gave the lead to the partner, and the partner raised
+        /// him: he takes the lead back with a press of Swap once he is on his feet, as a person takes their own hero back, and is mended from there like any lead. Left
+        /// with the partner, the Rotbloom's last fifth took Sela two minutes on a bloom that drinks her beam (suites nov23b, nov24b and nov25c: 283, 240 and 310 s, where
+        /// the fight nobody fell in was 218). Only where the driver has its own hands, on foot, on a step that isn't swapping for itself or holding the skill button
+        /// (Swap with it held is a skill). It is asked every frame, free or not: this is also where his fall is seen.</summary>
+        GamepadState TakeBack(GamepadState state, PartyController party, bool free)
+        {
+            if (namedLead == null || step == null || party == null || party.members == null || party.Active == null) return state;
+            CombatActor named = null;
+            foreach (var member in party.members) if (member != null && member.character == namedLead) named = member;
+            if (named == null || !named.gameObject.activeInHierarchy) return state;
+            if (!named.Health.Alive) { if (!namedFell) { namedFell = true; takeBackSwaps = 0; } return state; }
+            if (party.Active == named) { namedFell = false; return state; }
+            if (takeBackOff || !namedFell || !free || named.Recovering || party.Active.flight || takeBackSwaps >= TakeBackSwaps) return state;
+            if (!string.IsNullOrEmpty(step.ensureCharacter) || StepHoldsSkillMod()) return state;
+            double now = clock.Elapsed.TotalSeconds;
+            if (now - lastSwapPress <= .5) return state;
+            takeBackSwaps++; lastSwapPress = now;
+            Debug.Log("QUALITY_LEAD_TAKEN_BACK " + namedLead);
+            return state.WithButton(GamepadButton.North);
+        }
+
         // ---------- the pair a route names ----------
         /// <summary>A route may name the two heroes it is played with ("deployed"). Starting from a loadout they are put out with it, as
         /// its Sync and its gear are: a fixture's doing, before the zone loads, not an input.</summary>
