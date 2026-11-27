@@ -535,9 +535,10 @@ namespace Lattice.UI
             party != null && party.members != null && party.Active != null && party.Active.Health.Alive && !party.Active.Recovering &&
             ZoneController.Current != null && ZoneController.Current.Combat && !GameInput.Current.Blocked && !GameTime.Paused && !SceneFlow.Current.Loading &&
             string.IsNullOrEmpty(step.pickRow) && string.IsNullOrEmpty(step.pauseUi);
-        bool StepHoldsSkillMod()
+        bool StepHoldsSkillMod() => HoldsSkillMod(step);
+        static bool HoldsSkillMod(QualityStep asked)
         {
-            if (step.buttons != null) foreach (var button in step.buttons) if (string.Equals(button, "RightShoulder", StringComparison.OrdinalIgnoreCase)) return true;
+            if (asked != null && asked.buttons != null) foreach (var button in asked.buttons) if (string.Equals(button, "RightShoulder", StringComparison.OrdinalIgnoreCase)) return true;
             return false;
         }
         /// <summary>What the driver wants of the pad right now (ReplayHands decides; this only asks where the route lets it). The pouch answers on foot only: in flight
@@ -775,6 +776,9 @@ namespace Lattice.UI
                 if (step.evadeTelegraphs && !evading && lead != null && OutOfAnUnstruckBoss(lead) is Vector2 unstruck) { direction = unstruck; evading = true; }
                 // Meret's markings that come from no move of hers (her shield's answer, a clamp closing under a hero who stood still) are read off the floor too (ContinuousReview.Meret.cs).
                 if (step.evadeTelegraphs && !evading && lead != null && OutOfMeretsMarking(lead) is Vector2 meretWay) { direction = meretWay; evading = true; }
+                // On a skill step and its release, which read no tells, her clamp for standing still marked under the lead is rolled out of first, and the skill pressed after (ContinuousReview.Meret.cs).
+                bool rollHeld = false;
+                if (!step.evadeTelegraphs && !evading && lead != null && OutOfHerStillClamp(lead, out bool stillHeld) is Vector2 stillWay) { direction = stillWay; evading = true; rollHeld = stillHeld; }
                 if(step.evadeProjectiles&&lead!=null&&lead.flight&&lead.Health.Alive&&!lead.Recovering&&
                     !GameTime.Paused&&!GameInput.Current.Blocked)
                 {
@@ -793,7 +797,7 @@ namespace Lattice.UI
                 // And the lead the route named, taken back once he has fallen and been raised (D429, ContinuousReview.Party.cs).
                 // Asked every frame, since it is also where his fall is seen: asked only between a raise's frames and a dodge's, it never saw him down.
                 held = TakeBack(held, party, free && !evading && !raising);
-                if (evading) held = held.WithButton(GamepadButton.East);
+                if (evading && !rollHeld) held = held.WithButton(GamepadButton.East);
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
                 // Once there it stays there: the press can take the row away, by moving a part or leaving the screen, and a d-pad held after that would cycle the quick item in the world.
                 if (!string.IsNullOrEmpty(step.pickRow) && !rowReached)

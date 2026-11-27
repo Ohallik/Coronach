@@ -25,8 +25,31 @@ namespace Lattice.Combat
         // How far it opens over him: nearly two pixels in three, against four in five for scenery. It has to read as seeing through,
         // so more of the body and its weak spot stay. The hero shows in his own colours: a tinted copy over him read as a cyan glitch.
         const float OpenShare = .64f;
+        static readonly System.Collections.Generic.List<BossOcclusion> all = new();
+        /// <summary>D432: points of a standing hero (across the screen, in his widths; up, in metres) a boss must stand in front of to count as between him and the lens.</summary>
+        static readonly Vector2[] Along = { new(0, .1f), new(0, .5f), new(0, .95f), new(0, 1.4f), new(0, 1.75f), new(-1, .95f), new(1, .95f) };
 
+        void OnEnable() { if (!all.Contains(this)) all.Add(this); }
         void LateUpdate() => RefreshView(Camera.main, PartyController.Current != null ? PartyController.Current.Active : null, Time.unscaledDeltaTime);
+
+        /// <summary>D432: does a boss, its arms or its wreck (any body this knows) stand between the lens and the hero, at his feet, up his middle to his head, or at either side of
+        /// his chest. HeroThrough draws the lead through a boss as it always has, and through scenery only when nearly the whole of him is hidden.</summary>
+        public static bool Between(Camera camera, CombatActor hero)
+        {
+            if (camera == null || hero == null || all.Count == 0) return false;
+            var eye = camera.transform.position; var feet = hero.transform.position; var side = camera.transform.right * HeroThrough.HalfWidth;
+            foreach (var boss in all)
+            {
+                if (boss == null || !boss.isActiveAndEnabled) continue;
+                if (boss.bodies == null) boss.Measure();
+                foreach (var at in Along)
+                {
+                    var point = feet + Vector3.up * at.y + side * at.x;
+                    if (boss.Hides(eye, point + (eye - point).normalized * .15f)) return true;
+                }
+            }
+            return false;
+        }
 
         void Measure()
         {
@@ -67,7 +90,8 @@ namespace Lattice.Combat
         /// <summary>D395: a hero drawn through what hides him (HeroThrough) gets that clean outline and nothing else. The outline draws only where the boss's pixels stand in front of
         /// him, and the door took about two in three of them away: Taren behind the Slag Colossus was scattered gold glints among dots (nov23-whole s49/033, 043) while Sela, with no
         /// door, read as a clean pale outline. So the door opens only for a lead nothing draws through (his drawing switched off, or its shader missing), and the lead is always found.</summary>
-        public static bool Outlined(CombatActor hero) => hero.TryGetComponent<HeroThrough>(out var through) && through.isActiveAndEnabled && through.Drawn > 0;
+        // D438: or marked (HeroThrough.Marking): off a boss the lead's copies are off now and the mark finds him, and the frame he steps behind a boss draws his line, not a door.
+        public static bool Outlined(CombatActor hero) => hero.TryGetComponent<HeroThrough>(out var through) && through.isActiveAndEnabled && (through.Drawn > 0 || through.Marking);
 
         // Also used by the editor's actual-pixel visibility probe. This only
         // changes renderer properties; it never changes a camera or actor.
@@ -117,6 +141,7 @@ namespace Lattice.Combat
         }
         void OnDisable()
         {
+            all.Remove(this);
             amount = 0;
             if (bodies == null || block == null) return;
             foreach (var body in bodies)

@@ -366,6 +366,37 @@ namespace Lattice.Tests.PlayMode
         /// <see cref="TalkSettles"/> after its box comes up, through two of its lines, her hull must be clear of the box and of the frame's edges.</summary>
         [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceTeosRadioLineLeavesHerClearOfItsBox()=>TeosRadioLine();
         [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceTeosRadioLineAsBefore()=>Before(TeosRadioLine());
+        /// <summary>D442. The same line with a plate over every place beside him that is clear of its box (the frame's whole upper part, as the quest's card and the objective between
+        /// them covered all seven in the whole suite of November 26, where she stayed under the box). The HUD's plates are down while a talk's box is up: as it was
+        /// (<c>PartnerBrain.talkPlatesKept</c>) she is found no place; now she is found one clear of the box. Her rule is asked directly, on the hold's first frame, so the plate is
+        /// there whatever the HUD had up.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator XylosNearspaceTeosRadioLineWithAPlateOverEveryPlaceClearOfItsBox()
+        {
+            var facing=new Vector3(.917f,0,.399f);bool probed=false,nowClear=false;string before="unread",now="unread";
+            var kept=typeof(PartnerBrain).GetField("talkPlatesKept",BindingFlags.Static|BindingFlags.NonPublic);
+            var place=typeof(PartnerBrain).GetMethod("TalkPlace",BindingFlags.Instance|BindingFlags.NonPublic);
+            var clear=typeof(PartnerBrain).GetMethod("ClearOfTheBox",BindingFlags.Instance|BindingFlags.NonPublic);
+            Assert.IsNotNull(kept,"fixture: PartnerBrain.talkPlatesKept");Assert.IsNotNull(place,"fixture: PartnerBrain.TalkPlace");Assert.IsNotNull(clear,"fixture: PartnerBrain.ClearOfTheBox");
+            void During()
+            {
+                var camera=Camera.main;var her=Partner;if(probed||camera==null||her==null||!GameServices.Current.Input.Blocked)return;
+                probed=true;var brain=her.GetComponent<PartnerBrain>();var were=HudKeepOut.Rects.ToList();
+                HudKeepOut.Begin();HudKeepOut.Add(Rect.MinMaxRect(0,camera.pixelHeight*.42f,camera.pixelWidth,camera.pixelHeight));
+                try
+                {
+                    kept.SetValue(null,true);var was=(Vector3?)place.Invoke(brain,new object[]{camera,Lead});before=was.HasValue?was.Value.ToString("F2"):"none";
+                    kept.SetValue(null,false);var found=(Vector3?)place.Invoke(brain,new object[]{camera,Lead});now=found.HasValue?found.Value.ToString("F2"):"none";
+                    nowClear=found.HasValue&&(bool)clear.Invoke(brain,new object[]{camera,found.Value,false});
+                }
+                finally{kept.SetValue(null,false);HudKeepOut.Begin();foreach(var r in were)HudKeepOut.Add(r);}
+            }
+            yield return Leg("chapter3","XylosNearspace","chapter-17-xylos-nearspace","fly on until Teo's sight of the claim drones","read Teo's sight of the claim drones line 2",
+                new Vector3(678.12f,1,1081.47f),facing,new Vector3(678.97f,1,1077.73f),"s17/248",begin:()=>{Going(Lead,facing*13.8f,facing);Going(Partner,facing*13.8f,facing);},herHeld:true,during:During);
+            TestContext.WriteLine($"D442_TALK_PLACE with a plate over every place clear of the box: as it was {before}, now {now}");
+            Assert.IsTrue(probed,"fixture: the radio line never held the party");
+            Assert.AreEqual("none",before,"fixture: as it was she was found a place all the same, so the plate doesn't cover them");
+            Assert.IsTrue(nowClear,"with the plates down she was still found no place clear of the talk's box: "+now);
+        }
         /// <summary>A D397 case flown as before it (PartnerBrain.asBefore), which must fail on her as the capture did, or the case proves nothing.</summary>
         IEnumerator Before(IEnumerator check)
         {
@@ -392,7 +423,15 @@ namespace Lattice.Tests.PlayMode
             {
                 var camera=Camera.main;var her=Partner;if(camera==null||her==null||!GameServices.Current.Input.Blocked)return;
                 var box=TalkBox();if(box.width<=0)return;
-                if(opened<0)opened=Time.unscaledTime;if(Time.unscaledTime-opened<TalkSettles)return;
+                if(opened<0)
+                {
+                    // What her rule had to go on as the box came up: the plates it keeps out from under and the place it chose (none: she stays).
+                    opened=Time.unscaledTime;var brain=her.GetComponent<PartnerBrain>();
+                    var chose=brain!=null?typeof(PartnerBrain).GetField("talkTo",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)?.GetValue(brain):null;
+                    var plates=string.Join(" ",HudKeepOut.Rects.Select(r=>$"({r.xMin:0},{r.yMin:0})-({r.xMax:0},{r.yMax:0})"));
+                    TestContext.WriteLine($"D397_TALK_OPENS she at {her.transform.position:F2} screen {(Vector2)camera.WorldToScreenPoint(her.transform.position)}, the lead at {Lead.transform.position:F2} screen {(Vector2)camera.WorldToScreenPoint(Lead.transform.position)} facing {Lead.motor.Facing:F2}, her place {(chose==null?"none":chose.ToString())}, plates {plates}");
+                }
+                if(Time.unscaledTime-opened<TalkSettles)return;
                 read++;var middle=camera.WorldToScreenPoint(her.transform.position);
                 float hull=Mathf.Abs(camera.WorldToScreenPoint(her.transform.position+camera.transform.right*HeroCollision.HullRadius(her.character)).x-middle.x)*.5f;
                 bool cut=middle.z<=0||middle.x<hull||middle.x>camera.pixelWidth-hull||middle.y<hull||middle.y>camera.pixelHeight-hull;

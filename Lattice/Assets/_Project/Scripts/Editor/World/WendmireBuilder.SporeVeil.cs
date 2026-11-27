@@ -63,7 +63,7 @@ namespace Lattice.EditorTools
         }
 
         // ---------------------------------------------------------------- what the Veil is made of
-        internal static Material Pod,Spot,Lace,Strand,MireWater,ReedClump,MoonPale,MoonViolet,MoonGreen,BeaconGlow;
+        internal static Material Pod,Spot,Lace,Strand,MireWater,MireEdge,ReedClump,MoonPale,MoonViolet,MoonGreen,BeaconGlow;
         static void VeilMaterials()
         {
             // A spore pod's skin: soft ribs from stem to tip (the lump's u runs round it), a fine wandering vein between each pair, and a faint sheen down the middle of each rib.
@@ -171,6 +171,9 @@ namespace Lattice.EditorTools
                 m.SetVector("_DetailParams",new Vector4(.05f,.9f,.2f,.35f));});
             MoonPale=MoonOf("wend-moon-pale",moonA,new Color(.86f,.84f,.92f));MoonViolet=MoonOf("wend-moon-violet",moonB,new Color(.74f,.62f,.9f));MoonGreen=MoonOf("wend-moon-green",moonC,new Color(.66f,.84f,.72f));
             MireWater=ZoneKit.Toon("wend-mire-water",water,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.36f,.5f,.48f));m.SetColor("_EmissionColor",new Color(.03f,.06f,.06f));m.SetFloat("_RampSteps",4);});
+            // The same water where the mire thins out of the Veil: its vertices' alpha takes it from whole to nothing, drawn over the starfield after everything solid.
+            MireEdge=ZoneKit.Toon("wend-mire-edge",water,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.36f,.5f,.48f));m.SetColor("_EmissionColor",new Color(.03f,.06f,.06f));m.SetFloat("_RampSteps",4);
+                m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);m.SetFloat("_ZWrite",0);m.SetOverrideTag("RenderType","Transparent");m.renderQueue=(int)RenderQueue.Transparent-30;});
             ReedClump=ZoneKit.Toon("wend-reed-clump",null,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetFloat("_LightFloor",.3f);});
             BeaconGlow=ZoneKit.Toon("wend-beacon-glow",null,m=>{m.SetColor("_BaseColor",new Color(1,.8f,.46f));m.SetColor("_EmissionColor",new Color(2.4f,1.6f,.6f));});
         }
@@ -443,31 +446,37 @@ namespace Lattice.EditorTools
         static void Mire(ZoneKit kit,List<(Vector2 at,float clear)> keep)
         {
             const float Depth=35;var rng=new System.Random(97);var centre=ShowingAt(VeilBeside(GateS-60,0),Depth);
-            var water=new ZoneKit.Shape();
-            for(int x=-9;x<9;x++)for(int z=-7;z<9;z++)
-            {
-                var a=centre+new Vector3(x*22,0,z*22);float tone=.86f+.14f*(float)rng.NextDouble();
-                water.Quad(a,a+new Vector3(0,0,22),a+new Vector3(22,0,22),a+new Vector3(22,0,0),Vector3.up,new Color(tone*.8f,tone,tone*.94f),1/30f);
-            }
-            kit.Built("The mire below",water,MireWater).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+            // Whole to Solid metres from its middle, then thinning to nothing over Fade more. A square sheet's near edge crossed the screen as a ruled line, the starfield
+            // below it and the water above reading as teal fog (nov24 and nov25-whole s23 193 to 211). The sheet's draws are still taken, so every island and raft lies where it did.
+            const float Solid=150,Fade=72;
+            for(int k=0;k<18*16;k++)rng.NextDouble();
+            var water=new ZoneKit.Shape();var still=new Color(.74f,.93f,.87f);
+            Color Thinned(float t){var c=still;c.a=1-ZoneKit.Smooth(0,1,t);return c;}
+            water.Slot(0).Disc(centre,Vector3.up,Solid,96,still,0,null,1/30f);
+            for(int k=0;k<6;k++)water.Slot(1).Disc(centre,Vector3.up,Solid+Fade*(k+1)/6f,96,Thinned(k/6f),Solid+Fade*k/6f,Thinned((k+1)/6f),1/30f);
+            kit.Built("The mire below",water,MireWater,MireEdge).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;
+            // What lies on the water lies on the whole of it: on the thinning edge an island hung in the starfield.
+            bool Whole(Vector3 p,float reach)=>Vector2.Distance(Flat(p),Flat(centre))+reach<Solid;
             var islands=new ZoneKit.Shape();var reeds=new ZoneKit.Shape();
             for(int k=0;k<70;k++)
             {
                 var at=centre+new Vector3((float)rng.NextDouble()*380-190,0,(float)rng.NextDouble()*340-150);float size=3+(float)rng.NextDouble()*9;int seed=rng.Next(999);
                 if(!ZoneKit.ClearOnScreen(at,size+4,keep))continue;
+                // Off the whole water its draws are still taken, into shapes nobody keeps, so the next island lies where it did.
+                bool whole=Whole(at,size+2);var onIslands=whole?islands:new ZoneKit.Shape();var onReeds=whole?reeds:new ZoneKit.Shape();
                 // Peat with moss on its back, a ragged edge, and reeds thick round it.
-                islands.Slot(0).Lump(at,new Vector3(size,.9f,size*.8f),seed,.18f,new Color(.44f,.56f,.32f),new Color(.3f,.24f,.2f),20,6,.4f,Quaternion.Euler(0,seed,0));
+                onIslands.Slot(0).Lump(at,new Vector3(size,.9f,size*.8f),seed,.18f,new Color(.44f,.56f,.32f),new Color(.3f,.24f,.2f),20,6,.4f,Quaternion.Euler(0,seed,0));
                 for(int r=0;r<(int)(size*3f);r++)
                 {
                     float a=r*2.4f+seed,reach=size*.8f*(float)rng.NextDouble();var foot=at+new Vector3(Mathf.Cos(a)*reach,.6f,Mathf.Sin(a)*reach);
-                    reeds.Frond(foot,new Vector3(Mathf.Cos(a+1),0,Mathf.Sin(a+1)),1.4f+(float)rng.NextDouble(),.3f,2.2f+(float)rng.NextDouble()*1.5f,.6f,new Color(.3f,.42f,.26f),new Color(.66f,.8f,.44f),3);
+                    onReeds.Frond(foot,new Vector3(Mathf.Cos(a+1),0,Mathf.Sin(a+1)),1.4f+(float)rng.NextDouble(),.3f,2.2f+(float)rng.NextDouble()*1.5f,.6f,new Color(.3f,.42f,.26f),new Color(.66f,.8f,.44f),3);
                 }
                 // Mangroves on the bigger islands: roots arching into the water, a crown over them.
                 if(size>8)
                 {
                     for(int r=0;r<6;r++){float a=r*1.05f+seed;var top=at+Vector3.up*3.2f;var foot=at+new Vector3(Mathf.Cos(a)*size*.6f,-.2f,Mathf.Sin(a)*size*.6f);
-                        islands.Slot(1).Tube(new[]{foot,Vector3.Lerp(foot,top,.5f)+Vector3.up*1.4f,top},new[]{.22f,.3f,.4f},6,new Color(.5f,.44f,.4f),new Color(.66f,.6f,.54f),1,.3f);}
-                    islands.Slot(2).Lump(at+Vector3.up*5.6f,new Vector3(size*.7f,2.4f,size*.6f),seed,.3f,new Color(.44f,.6f,.36f),new Color(.2f,.3f,.22f),14,6,.3f);
+                        onIslands.Slot(1).Tube(new[]{foot,Vector3.Lerp(foot,top,.5f)+Vector3.up*1.4f,top},new[]{.22f,.3f,.4f},6,new Color(.5f,.44f,.4f),new Color(.66f,.6f,.54f),1,.3f);}
+                    onIslands.Slot(2).Lump(at+Vector3.up*5.6f,new Vector3(size*.7f,2.4f,size*.6f),seed,.3f,new Color(.44f,.6f,.36f),new Color(.2f,.3f,.22f),14,6,.3f);
                 }
             }
             // Wendmire's lilies on the open water, rafts of pads with a glowing bud in one of three, thickest round the tide-gate: the ring of lamps lies among them.
@@ -477,11 +486,12 @@ namespace Lattice.EditorTools
                 bool near=k<240;float reach=near?14+(float)rng.NextDouble()*46:(float)rng.NextDouble()*190,a=(float)rng.NextDouble()*6.283f;
                 var at=(near?gateAt:centre)+new Vector3(Mathf.Cos(a)*reach,.05f,Mathf.Sin(a)*reach*.9f);float size=.8f+(float)rng.NextDouble()*1.6f;int seed=rng.Next(999);
                 if(!ZoneKit.ClearOnScreen(at,size,keep))continue;
+                var onPads=Whole(at,size*1.6f)?pads:new ZoneKit.Shape();
                 for(int r=0;r<1+seed%3;r++)
                 {
                     var c=at+new Vector3(Mathf.Cos(seed+r*2.1f)*size*.9f,.01f*r,Mathf.Sin(seed+r*2.1f)*size*.9f);float green=.26f+.16f*(float)rng.NextDouble();
-                    pads.Slot(0).Disc(c,Vector3.up,size*(.5f+.2f*r),12,new Color(.2f,green,.24f),0,new Color(.14f,green*.7f,.2f));
-                    if(seed%3==0&&r==0)pads.Slot(1).Lump(c+Vector3.up*.2f,new Vector3(.35f,.3f,.35f),seed,.15f,new Color(.7f,1,.8f),new Color(.5f,.8f,.7f),8,5);
+                    onPads.Slot(0).Disc(c,Vector3.up,size*(.5f+.2f*r),12,new Color(.2f,green,.24f),0,new Color(.14f,green*.7f,.2f));
+                    if(seed%3==0&&r==0)onPads.Slot(1).Lump(c+Vector3.up*.2f,new Vector3(.35f,.3f,.35f),seed,.15f,new Color(.7f,1,.8f),new Color(.5f,.8f,.7f),8,5);
                 }
             }
             kit.Built("Lilies below",pads,ReedClump,Spot).GetComponent<MeshRenderer>().shadowCastingMode=ShadowCastingMode.Off;

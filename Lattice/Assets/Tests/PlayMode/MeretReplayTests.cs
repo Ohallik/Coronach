@@ -127,10 +127,52 @@ namespace Lattice.Tests.PlayMode
             if(actor.motor is FlightMotor ship)ship.Halt();else if(actor.motor is GroundMotor ground)ground.Halt();
             actor.transform.position=at;body.enabled=was;Physics.SyncTransforms();
         }
-        /// <summary>The pair out (Taren leading, Idra beside him) at a Sync, whole, every skill's uses as a party that has used them.</summary>
-        static IEnumerator Pair(int sync)
+        /// <summary>A hero as the save a route resumes from holds them: Sync, EXTRA, each skill's uses (its mastery), each part by its definition and what it rolled, the second module.</summary>
+        sealed class Arriving{public string hero;public int level;public float extra;public (string skill,int uses)[] used;public (string part,string[] rolled)[] worn;public (string part,string[] rolled) second;}
+        /// <summary>Taren and Idra at the well's door as the player's chain brings them: the save route 67 resumed from on November 25 (Builds/quality/nov25-whole s66 final-state.json)
+        /// with what the gantry left on the way (s67 player.log: Idra up a Sync, 28 to 29, and into a Choirwrought Emitter). Taren's Arc Cleave and Pulse Burst and Idra's Breach and Slag
+        /// Hammer at mastery 5, Idra's EXTRA full and Taren's as the save holds it (he spends and fills it again in the gantry), a second module each, the chapter's tier with what it
+        /// rolled, and the save's stock. nov23-whole and nov24-whole s66 bring the same mastery and EXTRA and the same tier but for a part or an affix. The loadout (DevLoadout
+        /// chapter10) brings every skill at its first mastery, no EXTRA and no second module, and the well ran 133 and 147 s of her 150 (d429c, d429f) where the player's ran 118 to 131.</summary>
+        static readonly Arriving[] AtTheWell=
+        {
+            new Arriving{hero="Taren",level=29,extra=12,used=new[]{("Taren_1",98),("Taren_3",131)},
+                worn=new[]{("EdgesT5",new string[0]),("EmittersT4",new[]{"Attuned","Executioner"}),("FramesT5",new string[0]),("ModulesT4",new[]{"Lucky"}),("DrivesT5Scout",new[]{"Flashbound"})},
+                second=("ModulesT5",new string[0])},
+            new Arriving{hero="Idra",level=29,extra=100,used=new[]{("Idra_1",111),("Idra_4",67),("Idra_3",3)},
+                worn=new[]{("EdgesT5",new string[0]),("FramesT5",new string[0]),("DrivesT5Scout",new string[0]),("EmittersT5",new string[0]),("ModulesT4",new[]{"Lucky"})},
+                second=("ModulesT5",new string[0])},
+        };
+        static readonly (string item,int count)[] WellStock={("RepairGel",8),("ChargeCell",5),("RepairSalve",5)};
+        const string WellQuick="RepairGel";
+        /// <summary>The party put as the save holds it, over the loadout: each hero's Sync, EXTRA, skill uses and parts, and the stock.</summary>
+        static void Arrive(Arriving[] party,(string item,int count)[] stock,string quick)
+        {
+            var inv=new Inventory(State);
+            foreach(var a in party)
+            {
+                var member=State.party.Find(m=>m.id==a.hero);Assert.IsNotNull(member,"fixture: "+a.hero+" is in the party");
+                member.level=a.level;member.integrity=Levels.MaxIntegrity(a.level);member.extra=a.extra;
+                member.skillUses??=new Dictionary<string,int>();member.skillUses.Clear();foreach(var (skill,uses) in a.used)member.skillUses[skill]=uses;
+                member.equipped.Clear();member.module2=null;
+                foreach(var (part,rolled) in a.worn)
+                {
+                    var def=GameCatalog.Find<TechPartDef>(part);Assert.IsNotNull(def,"fixture: there is a "+part);
+                    var item=inv.GivePart(def);item.affixes.AddRange(rolled);Assert.IsTrue(inv.Equip(member,item,def),"fixture: "+a.hero+" wears "+part);
+                }
+                var second=GameCatalog.Find<TechPartDef>(a.second.part);Assert.IsNotNull(second,"fixture: there is a "+a.second.part);
+                var held=inv.GivePart(second);held.affixes.AddRange(a.second.rolled);Assert.IsTrue(inv.Equip(member,held,second,true),"fixture: "+a.hero+"'s second module");
+            }
+            State.consumables.Clear();foreach(var (item,count) in stock)State.consumables[item]=count;State.quickItem=quick;
+        }
+        static string Arrived()=>string.Join("; ",State.party.Select(m=>$"{m.id} sync={m.level} extra={m.extra:0} uses={(m.skillUses==null?"":string.Join(",",m.skillUses.Select(p=>p.Key+":"+p.Value+"=m"+SkillBook.Mastery(m.id,p.Key))))} wears "+
+            string.Join(",",m.equipped.Select(e=>State.parts.Find(p=>p.instanceId==e.Value)?.definitionId))+(string.IsNullOrEmpty(m.module2)?"":",+"+State.parts.Find(p=>p.instanceId==m.module2)?.definitionId)))+
+            $" stock={string.Join(",",State.consumables.Select(p=>p.Key+":"+p.Value))} quick={State.quickItem}";
+        /// <summary>The pair out (Taren leading, Idra beside him) at a Sync, whole, every skill's uses as a party that has used them; given an arrival, as the player's chain brings them.</summary>
+        static IEnumerator Pair(int sync,Arriving[] arrival=null)
         {
             foreach(var member in State.party){member.level=sync;member.integrity=Levels.MaxIntegrity(sync);member.charge=100;}
+            if(arrival!=null)Arrive(arrival,WellStock,WellQuick);
             Assert.IsTrue(Deployment.Set(State,new[]{"Taren","Idra"}),"fixture: Taren and Idra can be put out");
             PartyField.Reform(PartyController.Current);yield return Frames(3);PartyController.Current.RefreshStats();yield return null;
             if(Lead.character!="Taren")PartyController.Current.Swap();yield return Frames(3);
@@ -140,14 +182,14 @@ namespace Lattice.Tests.PlayMode
         static HashSet<string> Up()=>new(State.flags.Where(f=>f.Value).Select(f=>f.Key));
         static void Back(HashSet<string> up){foreach(var key in State.flags.Keys.ToList())if(State.flags[key]&&!up.Contains(key))GameServices.Current.Flags.SetBool(key,false);}
         /// <summary>A zone as the route's save has it: every flag the routes set before the step, loaded at the spawn the save names.</summary>
-        IEnumerator Zone(string zone,string spawn,string[] flags,int sync)
+        IEnumerator Zone(string zone,string spawn,string[] flags,int sync,Arriving[] arrival=null)
         {
             foreach(string flag in flags)GameServices.Current.Flags.SetBool(flag,true);
             SceneFlow.Current.LoadZone(zone,spawn);float deadline=Time.unscaledTime+40;
             while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
             Assert.IsFalse(SceneFlow.Current.Loading,"fixture: "+zone+" never finished loading");
             deadline=Time.unscaledTime+10;while(!DialogueSystem.Current.Prepared&&Time.unscaledTime<deadline)yield return null;
-            yield return new WaitForSecondsRealtime(1f);yield return Pair(sync);yield return new WaitForSecondsRealtime(.5f);
+            yield return new WaitForSecondsRealtime(1f);yield return Pair(sync,arrival);yield return new WaitForSecondsRealtime(.5f);
         }
 
         // ------------------------------------------------------------------ flat out (QaPlanCombatTests.FlatOut's measure, the pair the route plays with)
@@ -340,7 +382,9 @@ namespace Lattice.Tests.PlayMode
             const string id="MeretGantry";float flat=0;yield return FlatOut(id,r=>flat=r);
             const string door="north through the gantry's seal";
             var route=Slice(ChamberRoute,door,"ride down to the control well");
-            yield return Zone("StillwaterChamber","Gantry",FlagsBefore(ChamberRoute,door),ContentRegistry.Boss(id).sync);
+            // The pair as the player's chain brings it (AtTheWell: the gantry is the same segment's first fight), since November 26. With every skill at its first mastery and no
+            // EXTRA the replay read .29 to .33 of flat out (119 and 125 s, d429f and gantry1) against a share measured off the chain's party.
+            yield return Zone("StillwaterChamber","Gantry",FlagsBefore(ChamberRoute,door),ContentRegistry.Boss(id).sync,AtTheWell);
             var a=new Account{boss=id};var unhook=Moves(a);float held=0,heldSince=-1,longestHeld=0;
             yield return Play(route,900,()=>{Watch(a);bool now=a.her!=null&&a.fell<0&&a.her.StatusText.StartsWith("HER ARMS HOLD");
                 if(now&&heldSince<0)heldSince=Time.unscaledTime;if(!now&&heldSince>=0){longestHeld=Mathf.Max(longestHeld,Time.unscaledTime-heldSince);heldSince=-1;}if(now)held+=Time.unscaledDeltaTime;},()=>Ui()=="defeat");
@@ -370,7 +414,9 @@ namespace Lattice.Tests.PlayMode
             const string id="MeretWell";float flat=0;yield return FlatOut(id,r=>flat=r);
             const string door="into the well's door until Meret speaks";var flags=FlagsBefore(ChamberRoute,door);var sheet=ContentRegistry.Boss(id);
             const string lead="Taren";
-            yield return Zone("StillwaterChamber","Well",flags,sheet.sync);
+            // The pair as the player's chain brings it to the well (AtTheWell); flat out above is the shared length test's yardstick, every skill at its first mastery.
+            yield return Zone("StillwaterChamber","Well",flags,sheet.sync,AtTheWell);
+            TestContext.WriteLine("MERET_ARRIVAL "+id+" as the player's chain brings it: "+Arrived());
             var a=new Account{boss=id};var unhook=Moves(a);float bedAtRelease=-1,bedLow=-1;
             yield return Play(Slice(ChamberRoute,door),900,()=>{Watch(a);if(AnchorRelease.Current!=null&&AnchorRelease.Current.Now!=AnchorRelease.Stage.Holding){if(bedAtRelease<0)bedAtRelease=AudioManager.BedVolume;bedLow=AudioManager.BedVolume;}},()=>Ui()=="defeat");
             unhook();a.defeats=Ui()=="defeat"?1:0;
@@ -406,6 +452,92 @@ namespace Lattice.Tests.PlayMode
             yield return Once(false);
             Assert.Greater(rolls,0,"the driver never rolled as her clamp's tell ran out");
             Assert.IsFalse(inside,"the driver rolled and was still in her clamp as it closed");
+        }
+
+        /// <summary>The route's skill presses between rounds read no tells: a clamp she marked under the lead for standing still as a fight step ended closed on him through the two presses
+        /// and their releases (red1 twice, and the chain's own captures: nov25-whole s67 "release skill MeretWell 2a" and "3b", nov24-whole s67 "2b" and "4a", November 26). Her clamp laid
+        /// under him as route 67's four steps between rounds one and two begin, its tell a second: as the driver was (<c>stillRollOff</c>) he presses both skills and is in it as it closes; now
+        /// he rolls out first and both skills still go off.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator ASkillStepRollsOutOfHerClampForStandingStillAndStillPressesItsSkill()
+        {
+            bool inside=false;int rolls=0,skills=0;var field=typeof(ContinuousReview).GetField("stillRollOff",BindingFlags.Static|BindingFlags.NonPublic);
+            var steps=Slice(ChamberRoute,"skill MeretWell 2a","release skill MeretWell 2b").steps;
+            IEnumerator Once(bool broken)
+            {
+                field.SetValue(null,broken);rolls=skills=0;inside=false;
+                try
+                {
+                    yield return Yard(false);
+                    var at=new Vector3(200,.1f,0);var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("MeretWell"),at);enemy.Passive=true;yield return Frames(3);
+                    var boss=enemy.GetComponent<BossController>();var lead=Lead;lead.GetComponent<PlayerBrain>().AutoPilot=false;lead.charge=100;
+                    // At her blade's reach, where the fight steps leave him.
+                    Place(lead,at+Vector3.forward*BossReach.Edge(enemy));Place(PartyController.Current.members.First(m=>m!=lead),at+Vector3.right*30);yield return Frames(3);
+                    lead.target=enemy.Health;
+                    // Her own clamp for standing still, laid as she lays it (BossController.WellStillTrap), under him where he stands.
+                    var trap=(IEnumerator)typeof(BossController).GetMethod("WellStillTrap",Private).Invoke(boss,new object[]{lead,lead.transform.position});boss.StartCoroutine(trap);
+                    var mark=Telegraph.Live.LastOrDefault(t=>t!=null&&t.owner==boss);Assert.IsNotNull(mark,"fixture: her clamp was never marked");Assert.IsTrue(boss.WellStillMark(mark),"fixture: the clamp isn't one she reads as laid for standing still");
+                    bool landed=false;Application.LogCallback said=(text,_,__)=>{if(text.StartsWith("SKILL_OK "+lead.character))skills++;};Application.logMessageReceived+=said;
+                    try
+                    {
+                        yield return Play(new QualityRoute{name="her clamp on a skill step",scene="Arena_Ground",steps=steps},4,()=>{if(Lead.State==ActorState.Dodge)rolls++;if(!landed&&mark!=null&&mark.Charged){landed=true;inside=mark.Contains(Lead.transform.position);}});
+                        for(float end=Time.unscaledTime+1.5f;Time.unscaledTime<end;)yield return Still(0);
+                    }
+                    finally{Application.logMessageReceived-=said;}
+                    TestContext.WriteLine($"MERET_STILL_SKILL_STEP {(broken?"as it was":"now")}: rolls={rolls} frames, inside as it closed={inside}, skills={skills}");
+                    Assert.IsTrue(landed,"fixture: her clamp never closed");
+                    if(mark!=null)Object.Destroy(mark.gameObject);enemy.Passive=true;Object.Destroy(enemy.gameObject);yield return Frames(2);
+                }
+                finally{field.SetValue(null,false);}
+            }
+            yield return Once(true);
+            int skillsAsItWas=skills;
+            Assert.IsTrue(inside,"fixture: as it was the lead wasn't in her clamp as it closed: the check below proves nothing");
+            Assert.AreEqual(2,skillsAsItWas,"fixture: as it was the two skill steps didn't put out two skills");
+            yield return Once(false);
+            Assert.Greater(rolls,0,"the driver never rolled out of her clamp on the skill steps");
+            Assert.IsFalse(inside,"the driver was in her clamp as it closed on the skill steps");
+            Assert.AreEqual(skillsAsItWas,skills,"the roll cost a skill the steps press");
+        }
+
+        /// <summary>His own EXTRA roots him where it goes off, and nothing can be pressed through it: as it was its seconds counted toward her clamp for standing still, and played through the
+        /// pad one was laid under Taren inside his EXTRA and closed on him as it ended, the driver's roll pressed and refused (red1, November 26: EXTRA_BEGIN, MERET_TRAP_STILL, QUALITY_MERET_ROLL,
+        /// MERET_CLAMPED, EXTRA_OK). Her third phase (1.3 s still) with no move of hers due, the lead stood a moment and then into his EXTRA: as it was (<c>WellExtraCountsStill</c>) a clamp is
+        /// laid under him inside it; now none is.</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator HisOwnExtraIsNotStandingStillToHerClamps()
+        {
+            int laid=0;bool fired=false;
+            IEnumerator Once(bool broken)
+            {
+                BossController.WellExtraCountsStill=broken;laid=0;fired=false;
+                try
+                {
+                    yield return Yard(false);
+                    var at=new Vector3(200,.1f,0);var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("MeretWell"),at);enemy.Passive=true;yield return Frames(3);
+                    var boss=enemy.GetComponent<BossController>();var lead=Lead;
+                    enemy.Health.integrity=enemy.Health.maximum*.2f;typeof(BossController).GetField("nextSpecial",Private).SetValue(boss,float.MaxValue);
+                    Place(lead,at+Vector3.forward*BossReach.Edge(enemy));Place(PartyController.Current.members.First(m=>m!=lead),at+Vector3.right*30);lead.target=enemy.Health;yield return Frames(3);
+                    Assert.AreEqual(3,boss.Phase,"fixture: she isn't in her third phase");
+                    var move=lead.GetComponent<ExtraMove>();State.party.Find(m=>m.id==lead.character).extra=ExtraGauge.Full;
+                    // Her count of who stands still runs only while she fights.
+                    enemy.Passive=false;yield return Still(.4f);
+                    Application.LogCallback said=(text,_,__)=>{if(text.StartsWith("MERET_TRAP_STILL "+lead.character)&&move.Performing)laid++;};Application.logMessageReceived+=said;
+                    try
+                    {
+                        fired=move.TryFire();
+                        for(float end=Time.unscaledTime+6;fired&&move.Performing&&Time.unscaledTime<end;)yield return Still(0);
+                    }
+                    finally{Application.logMessageReceived-=said;}
+                    TestContext.WriteLine($"MERET_EXTRA_STILL {(broken?"as it was":"now")}: fired={fired}, clamps laid under him inside it={laid}");
+                    enemy.Passive=true;Object.Destroy(enemy.gameObject);yield return Frames(2);
+                }
+                finally{BossController.WellExtraCountsStill=false;}
+            }
+            yield return Once(true);
+            Assert.IsTrue(fired,"fixture: his EXTRA never went off");
+            Assert.Greater(laid,0,"fixture: as it was no clamp was laid under him inside his EXTRA: the check below proves nothing");
+            yield return Once(false);
+            Assert.IsTrue(fired,"fixture: his EXTRA never went off");
+            Assert.AreEqual(0,laid,"a clamp was laid under him for standing still inside his own EXTRA, where nothing can be pressed");
         }
 
         /// <summary>Her frame turns half of a blow while her arms brace it, and a first-time player has to be told so in words, as the Slag Colossus's glowing armour tells him: the first turned

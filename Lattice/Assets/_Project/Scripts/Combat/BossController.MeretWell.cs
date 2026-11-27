@@ -76,6 +76,11 @@ namespace Lattice.Combat
         readonly Dictionary<CombatActor,(Vector3 at,float since)> wellStill=new();
         readonly Dictionary<CombatActor,float> wellTrapUntil=new();
         readonly List<Coroutine> wellStillTraps=new();
+        readonly HashSet<Telegraph> wellStillMarks=new();
+        /// <summary>A clamp she has marked under a hero for standing still: a marking no move of hers counts down (the replay driver reads it off the floor, ContinuousReview.Meret.cs).</summary>
+        public bool WellStillMark(Telegraph marking)=>marking!=null&&wellStillMarks.Contains(marking);
+        /// <summary>As it was, for a test's broken state (MeretReplayTests sets it and puts it back; nothing in the game does): the seconds of a hero's own EXTRA counted as standing still.</summary>
+        public static bool WellExtraCountsStill;
         public bool WellGuarding=>wellGuarding;
         public bool WellListening=>wellListening;
         int WellStage=>Mathf.Clamp(Phase,1,3)-1;
@@ -114,6 +119,9 @@ namespace Lattice.Combat
             {
                 if(member==null||!member.Health.Alive||member.flight||member!=PartyController.Current.Active){wellStill.Remove(member);continue;}
                 var at=member.transform.position;
+                // His own EXTRA roots him where it goes off and nothing can be pressed through it, a roll least of all: its seconds aren't standing still, and his count starts again as it
+                // ends. Played through the pad a clamp was laid under Taren inside his EXTRA and closed on him as it ended, the driver's roll pressed and refused (November 26).
+                if(!WellExtraCountsStill&&member.TryGetComponent<ExtraMove>(out var extra)&&extra.Performing){wellStill[member]=(at,Time.time);continue;}
                 if(!wellStill.TryGetValue(member,out var was)||Flat(at-was.at).magnitude>WellTune.StillWithin){wellStill[member]=(at,Time.time);continue;}
                 if(Time.time-was.since<still||wellTrapUntil.TryGetValue(member,out float until)&&Time.time<until)continue;
                 if(Flat(at-transform.position).magnitude>16)continue;
@@ -123,12 +131,12 @@ namespace Lattice.Combat
         }
         IEnumerator WellStillTrap(CombatActor hero,Vector3 at)
         {
-            var mark=Mark(Telegraph.Circle(at,WellTune.TrapRadius,WellTune.StillTell,Telegraph.Heavy));
+            var mark=Mark(Telegraph.Circle(at,WellTune.TrapRadius,WellTune.StillTell,Telegraph.Heavy));wellStillMarks.Add(mark);
             Debug.Log("MERET_TRAP_STILL "+hero.character);WellSaysTraps();
             AudioManager.PlayAt("impactMetal_000",transform,at,.2f,AudioBus.SFX,40,.05f,1.3f);
             yield return null;// from the marking's own first frame
-            for(float t=0;t<WellTune.StillTell;){t+=WellDt;if(!health.Alive){mark.Cancel();yield break;}yield return null;}
-            WellClamps(mark,null);
+            for(float t=0;t<WellTune.StillTell;){t+=WellDt;if(!health.Alive){mark.Cancel();wellStillMarks.Remove(mark);yield break;}yield return null;}
+            WellClamps(mark,null);wellStillMarks.Remove(mark);
         }
         /// <summary>A clamp closes: whoever is inside is struck and held a moment.</summary>
         void WellClamps(Telegraph mark,HashSet<Health> once)
@@ -304,7 +312,7 @@ namespace Lattice.Combat
             var controller=GetComponent<CharacterController>();var party=PartyController.Current;
             var away=party!=null?-Toward(party.Active.transform.position):-transform.forward;wellListening=true;strikeAt=0;
             // Nothing of hers is left to land in the quiet: a clamp still closing under someone is called off.
-            foreach(var trap in wellStillTraps)if(trap!=null)StopCoroutine(trap);wellStillTraps.Clear();Telegraph.CancelAll(this);
+            foreach(var trap in wellStillTraps)if(trap!=null)StopCoroutine(trap);wellStillTraps.Clear();wellStillMarks.Clear();Telegraph.CancelAll(this);
             Debug.Log("MERET_LISTENS");
             for(float t=0;t<.4f;){float dt=WellDt;t+=dt;if(controller.enabled)controller.Move(away*(WellTune.ListenBack/.4f)*dt);Pose(-2*Mathf.Clamp01(t/.4f));yield return null;}
             if(!brain.Passive)BarkService.PlayAt("Meret","duel",2,true);

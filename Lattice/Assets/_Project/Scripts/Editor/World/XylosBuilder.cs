@@ -227,7 +227,7 @@ namespace Lattice.EditorTools
         /// <summary>Measured, since nobody can listen to it: every earlier bed plays at its file's RMS times its volume of about -33 dB (Lanternwick's city .1024 at .219, the gorge's wind
         /// .2117 at .106, Sorrel's .1471 at .151, the relay's hollow .0776 at .288). This file's RMS is .0634, so .353 puts it level with them; at .16 it was 7 dB under.</summary>
         const float RiverTownLevel=.353f;
-        internal static Material Loam,Bark,RootWall,Plank,Thatch,Leaf,CanopyLeaf,Weave,Water,Lantern,Rope,Husk,Vine,Snag,SnagGlow,Pane,PaneLit,Land,LandBank,Sea,Clouds,CloudShade,Cloth,Strut;
+        internal static Material Loam,Bark,RootWall,Plank,Thatch,Leaf,CanopyLeaf,Weave,Water,Lantern,Rope,Husk,Vine,Snag,SnagGlow,Pane,PaneLit,PaneEdge,Mirror,Land,LandBank,Sea,Clouds,CloudShade,Cloth,Strut;
         static Color Grey(float v,float warm=0)=>new(v+warm,v,v-warm,1);
         /// <summary>Everything built in code here is painted near neutral and tinted in its vertices, so one bark covers every root and trunk on Xylos and one plank every deck.</summary>
         static void Materials()
@@ -290,13 +290,17 @@ namespace Lattice.EditorTools
             // A mirror pane is a mirror: what it shows is the sky it faces, the nebula's bands drawn across it in soft swathes, a sheen where the far star lies along it, and the
             // seams of its cells only faintly. Its grid of cells at a fifth of its tone, and its flat blue, read from the flight camera as blockout under the ships (s17 200 and
             // 214, November 20). One repeat is about one pane.
+            // Silvered, not the sky's own navy: a pane as dark as deep space read as a hole cut in the nebula, a loose shard as "a tear in the sky" (nov25-whole s17 123 and
+            // 298). So its ground is a pale blue-silver, the nebula's colours lie in it at half strength, and a broad swell of light crosses each pane (whole periods of a sine
+            // over the repeat, so no repeat shows an edge).
+            static float Swell(float u,float v)=>.5f+.5f*Mathf.Sin((u+v)*Mathf.PI*2);
             var pane=ZoneKit.Texture("Xylos/xylos-pane",512,(u,v)=>
             {
                 float gx=Mathf.Abs(Mathf.Repeat(u*8,1)-.5f),gy=Mathf.Abs(Mathf.Repeat(v*8,1)-.5f),seam=Mathf.Max(gx,gy)>.492f?-.022f:0;
                 float band=ZoneKit.Cloud(u,v,2,61),wisp=ZoneKit.Cloud(u,v,6,17),sheen=Mathf.Pow(Mathf.Clamp01(1-Mathf.Abs(Mathf.Repeat(u*.7f+v*.4f,1)-.5f)*2.4f),4);
                 float glow=ZoneKit.Smooth(.45f,.8f,band*.7f+wisp*.3f);
-                var deep=new Color(.16f,.19f,.33f);var nebula=Color.Lerp(new Color(.36f,.56f,.46f),new Color(.62f,.52f,.3f),ZoneKit.Smooth(.4f,.7f,wisp));
-                var tone=Color.Lerp(deep,nebula,glow*.75f)+new Color(.3f,.3f,.28f)*sheen*.8f;tone+=new Color(seam,seam,seam);tone.a=1;return tone;
+                var silver=new Color(.25f,.3f,.44f);var nebula=Color.Lerp(new Color(.36f,.56f,.46f),new Color(.62f,.52f,.3f),ZoneKit.Smooth(.4f,.7f,wisp));
+                var tone=Color.Lerp(silver,nebula,glow*.5f)+new Color(.3f,.3f,.28f)*sheen*.8f+new Color(.06f,.07f,.08f)*(Swell(u,v)*2-1);tone+=new Color(seam,seam,seam);tone.a=1;return tone;
             });
             // Its stars, as the glass catches them: points of light a hand or two across at the pane's scale (a texel at this scale is invisible from the plane), and the sheen's
             // brightest line. The emission map, so they read in the panes' shade.
@@ -312,8 +316,36 @@ namespace Lattice.EditorTools
                     star=Mathf.Max(star,Mathf.Clamp01(1-d/size)*(layer==0?.7f:1));
                 }
                 float sheen=Mathf.Pow(Mathf.Clamp01(1-Mathf.Abs(Mathf.Repeat(u*.7f+v*.4f,1)-.5f)*2.4f),12)*.35f;
-                float t=Mathf.Clamp01(star+sheen);return new Color(t,t,t,1);
+                // And a little light of its own under them, swelling with the face's, so a pane in shade is still glass that holds the light and not a gap to the dark.
+                float t=Mathf.Clamp01(star+sheen+.1f+.08f*Swell(u,v));return new Color(t,t,t,1);
             });
+            // The weather mirror's glass is one mirror, broken: one reflection laid across the whole disc in its own plane (XylosBuilder.Nearspace.cs, MirrorUv: MirrorSpan metres
+            // from its middle to this map's edge), each pane reading it a little turned and shifted from its neighbour, as a cracked mirror's pieces do. Mapped per pane at the
+            // pane's own angle, in royal blue with the farmland between, it was "a jumble of huge flat triangles" (nov26-r7-chain s17 211). What it shows is the sky it faces,
+            // silvered: the zone's teal and green nebula in a few big soft shapes, darker between, sparse dim stars, and two broad bands of light across the whole disc.
+            var mirrorSky=ZoneKit.Exact(ZoneKit.Texture("Xylos/xylos-mirror",1024,(u,v)=>
+            {
+                float x=(u*2-1)*MirrorSpan,z=(v*2-1)*MirrorSpan;
+                float shape=ZoneKit.Cloud(u,v,3,41)*.75f+ZoneKit.Cloud(u,v,7,29)*.25f,hue=ZoneKit.Cloud(u,v,2,57);
+                var cloud=Color.Lerp(new Color(.24f,.36f,.39f),new Color(.2f,.31f,.37f),ZoneKit.Smooth(.45f,.65f,hue));cloud=Color.Lerp(cloud,new Color(.34f,.34f,.3f),ZoneKit.Smooth(.62f,.76f,hue)*.5f);
+                var tone=Color.Lerp(new Color(.17f,.27f,.31f),cloud,ZoneKit.Smooth(.38f,.68f,shape));
+                // Each band full across its middle and soft over its last metres, in a faint wide halo, the first with a brighter streak down its middle: a gaussian alone faded
+                // into the face and read as no sheen at all. They cross the flight camera's screen corner to corner where the second barge lies over the disc (s17 203 to 226).
+                float Off(float angle,float offset)=>Mathf.Abs(x*Mathf.Cos(angle)+z*Mathf.Sin(angle)-offset);
+                float wide=Off(-.3f,8),narrow=Off(-.18f,45);
+                float sheen=ZoneKit.Smooth(12,5,wide)+.25f*ZoneKit.Smooth(2.5f,1,wide)+.15f*Mathf.Exp(-wide*wide/484)+.7f*ZoneKit.Smooth(6.5f,2.5f,narrow);
+                // Silver on the teal, its blue a little over its green: the zone's grade warms highlights, and a band of even parts came out yellow-green. At a third more than this
+                // the streak was pale sky blue at the ships' own brightness (s17 203).
+                tone+=new Color(.24f,.28f,.3f)*sheen;
+                // Stars: one in about three cells of seven metres, a third of a metre across.
+                int cx=Mathf.FloorToInt(x/7),cz=Mathf.FloorToInt(z/7);float keep=ZoneKit.Tile(cx,cz,97,71);
+                if(keep>.66f)
+                {
+                    var star=new Vector2((cx+.2f+.6f*ZoneKit.Tile(cx,cz,97,73))*7,(cz+.2f+.6f*ZoneKit.Tile(cx,cz,97,79))*7);
+                    tone+=new Color(.26f,.28f,.28f)*Mathf.Clamp01(1-Vector2.Distance(star,new Vector2(x,z))/.36f)*(.5f+.5f*keep);
+                }
+                tone.a=1;return tone;
+            },false));
             // The frame's struts: plates riveted along their length, weathered, a seam every metre or so.
             var strut=ZoneKit.Texture("Xylos/xylos-strut",256,(u,v)=>
             {
@@ -404,7 +436,17 @@ namespace Lattice.EditorTools
             Pane=ZoneKit.Toon("xylos-pane",pane,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.82f,.86f,.98f));m.SetTexture("_EmissionMap",stars);m.SetColor("_EmissionColor",new Color(.9f,.92f,1.05f));
                 m.SetFloat("_LightFloor",.62f);m.SetFloat("_ReceiveShadows",0);m.SetColor("_RimColor",new Color(.5f,.56f,.7f));});
             // The pane that still catches the sun: warm and bright, but under white, so its cells and the streak across it still show (at full white it was a blank cut out of the frame).
-            PaneLit=ZoneKit.Toon("xylos-pane-lit",pane,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(1,.86f,.6f));m.SetTexture("_EmissionMap",stars);m.SetColor("_EmissionColor",new Color(1.4f,1.1f,.6f));m.SetFloat("_ReceiveShadows",0);});
+            // Its base is half what it was when the glass's ground was navy (the silvered ground is about that much brighter), so it stays as warm and as far under white.
+            // It reads the mirror's one reflection, as its neighbours do (its emission the same map, at about the light the stars gave it).
+            PaneLit=ZoneKit.Toon("xylos-pane-lit",mirrorSky,m=>{ZoneKit.TwoSided(m);m.SetColor("_BaseColor",new Color(.5f,.43f,.3f));m.SetTexture("_EmissionMap",mirrorSky);m.SetColor("_EmissionColor",new Color(.8f,.62f,.34f));m.SetFloat("_ReceiveShadows",0);});
+            // A pane's cut edge: the cool pale line cut glass shows along its edges, so a pane or a shard is a piece of glass and not a hole in the picture. A little light of its own
+            // keeps it pale in shade; under the bloom's threshold, so it is a line and not neon.
+            PaneEdge=ZoneKit.Toon("xylos-pane-edge",null,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.7f,.77f,.88f));m.SetColor("_EmissionColor",new Color(.06f,.07f,.1f));
+                m.SetFloat("_LightFloor",.55f);m.SetFloat("_ReceiveShadows",0);m.SetColor("_RimColor",new Color(.6f,.66f,.78f));});
+            // The weather mirror's own glass and its loose panes: the one reflection above, white in the material so the map and the vertices say everything, a little light of its own
+            // so the bands hold in any light, no keyword but the vertex colour every world material here has. The stream's shards keep Pane (they passed, nov26-r7-chain s17 123, 298).
+            Mirror=ZoneKit.Toon("xylos-mirror",mirrorSky,m=>{ZoneKit.Tinted(m);ZoneKit.TwoSided(m);m.SetColor("_BaseColor",Color.white);m.SetTexture("_EmissionMap",mirrorSky);m.SetColor("_EmissionColor",new Color(.16f,.16f,.16f));
+                m.SetFloat("_LightFloor",.62f);m.SetFloat("_ReceiveShadows",0);m.SetColor("_RimColor",new Color(.24f,.3f,.3f));});
             Strut=ZoneKit.Toon("xylos-strut",strut,m=>{ZoneKit.Tinted(m);m.SetColor("_BaseColor",new Color(.62f,.66f,.74f));m.SetColor("_ShadowTint",new Color(.42f,.46f,.6f));m.SetColor("_RimColor",new Color(.56f,.6f,.72f));m.SetFloat("_LightFloor",.3f);});
             // The planet's layers. Every point of them faces straight up, so the sun lights the whole of each evenly (a globe under the toon ramp went to two flat bands with a hard
             // line between them) and the limb darkens in the vertices. Fields are painted above; forest and shore are the ground kit's cobble and sand at a scale where a cobble

@@ -43,7 +43,8 @@ namespace Lattice.EditorTools
         /// This opens the zone with the live pipeline, stands the line where each named view has it, runs its sparks and steam six seconds there (their count is logged) and draws the
         /// view at the play zoom with Taren in it; with <c>-dawn-before</c> each view again with the light and steam as they were before November 21. Unverified: on November 21 the
         /// simulated particles did not show in these draws, and the lit ground stayed far under the player's white, so the player still differs in something these draws lack. Run:
-        /// exec-when-green.ps1 -Method Lattice.EditorTools.HomeBuilder.TerminatorDawnStills -Marker TERMINATOR_DAWN_STILLS_OK -Graphics -ExtraArgs @('-look-run','name').</summary>
+        /// exec-when-green.ps1 -Method Lattice.EditorTools.HomeBuilder.TerminatorDawnStills -Marker TERMINATOR_DAWN_STILLS_OK -Graphics -ExtraArgs @('-look-run','name') (and
+        /// '-dawn-views','s56-015' for named views of <see cref="Terminator.Stills"/> only).</summary>
         public static void TerminatorDawnStills()=>BatchTools.Run(()=>
         {
             string run=DevArgs.Value("-look-run")??throw new ArgumentException("-look-run <name> is required");
@@ -84,7 +85,7 @@ namespace Lattice.EditorTools
                     foreach(bool old in passes)
                     {
                         if(old)Old();
-                        foreach(var name in new[]{"s56-009","s56-040","arrival","coupling-1","spines-2"})
+                        foreach(var name in DevArgs.Value("-dawn-views")?.Split(',',StringSplitOptions.RemoveEmptyEntries)??new[]{"s56-009","s56-040","arrival","coupling-1","spines-2"})
                         {
                             var still=Terminator.Stills.First(s=>s.name==name);var at=new Vector3(still.at.x,Terminator.Height(still.at),still.at.y);
                             taren.transform.SetPositionAndRotation(at,Quaternion.Euler(0,180,0));if(idle!=null)idle.SampleAnimation(rig.gameObject,.3f);
@@ -207,6 +208,8 @@ namespace Lattice.EditorTools
                 ("overview-start",new(0,700),11,3.6f),("overview-middle",new(0,420),11,3.6f),("overview-end",new(-2,160),11,3f),
                 // Where the November 20 capture's stills stood (s56 009 and 040), the line about as far behind as it was.
                 ("s56-009",new(2.7f,687),6,1),("s56-040",new(3.1f,351),6,1),
+                // And the November 25 capture's s56 015 (its camera, frames.csv), by the schoolroom car's nose.
+                ("s56-015",new(2.1f,600),9,1),
             };
             internal static LookDev.View[] Views=>Stills.Select(s=>new LookDev.View(s.name,new Vector3(s.at.x,Height(s.at),s.at.y),false,s.zoom)).ToArray();
 
@@ -388,7 +391,12 @@ namespace Lattice.EditorTools
                     // The schoolroom car: a bell frame on its nose and its number painted four times the height of a child.
                     var f=new Vector3(0,roof-3.4f,-CarLength*.5f+.8f);s.Slot(0).Post(f+new Vector3(-.9f,0,0),2.6f,.08f,.07f,6,iron,iron).Post(f+new Vector3(.9f,0,0),2.6f,.08f,.07f,6,iron,iron).Beam(f+new Vector3(-1,2.6f,0),f+new Vector3(1,2.6f,0),.1f,.1f,iron);
                     s.Slot(1).Tube(new[]{f+new Vector3(0,2.45f,0),f+new Vector3(0,1.75f,0)},new[]{.2f,.42f},14,brass,new Color(1,.8f,.5f));
-                    s.Slot(2).Box(new Vector3(4.6f,3.2f,-CarLength*.5f-.05f),new Vector3(1.6f,2.2f,.04f),Quaternion.identity,new Color(.92f,.9f,.82f));
+                    // The number is the hall's: a 4 in three strokes of the town's yellow, the paint of the couplings' hazard bands under it. It was a blank cream board 1.6 by 2.2 m,
+                    // facing away from the dawn, and from the way it read as a flat pale square with nothing on it (nov25-whole s56 015).
+                    var numeral=new Vector3(4.6f,3.2f,-CarLength*.5f-.05f);var paint=new Color(.86f,.7f,.32f);
+                    s.Slot(2).Box(numeral+new Vector3(.38f,0,0),new Vector3(.26f,2.2f,.04f),Quaternion.identity,paint)
+                        .Box(numeral+new Vector3(0,-.4f,0),new Vector3(1.6f,.24f,.04f),Quaternion.identity,paint)
+                        .Box(numeral+new Vector3(-.2f,.33f,0),new Vector3(.24f,1.86f,.04f),Quaternion.Euler(0,0,-35),paint);
                 }
                 else if(i==1)
                 {

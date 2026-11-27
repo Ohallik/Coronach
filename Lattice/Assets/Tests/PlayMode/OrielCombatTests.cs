@@ -851,6 +851,8 @@ namespace Lattice.Tests.PlayMode
         /// .60 since D384 (November 24): the round-three build fought 200,000 down in 130.0, 145.1 and 170.7 s (Builds/quality/nov23-recon-B s41, nov23-recon-f-41, nov23-whole s41,
         /// November 23), median 145.1, the clamps' 40 s beside it, against Taren and Idra's 3,195 a second on this test's minute-long reading (d384-b): .596. Its bar alone ran about
         /// 105 s, under the shared floor, so it is 245,000 (D384): the floor then wants 228,000 on any reading, and the slowest pair's 2,812 (d384-b) holds the ceiling at 281,000.
+        /// 260,000 since D442 (November 26): Taren and Idra have read 3,104 to 3,442 a second since (suites nov24b to nov26a), which at 3,442 put the bar at 119 s, under the floor; the
+        /// floor wants 248,000 on the fastest reading and the slowest pair's slowest (2,838) holds the ceiling at 284,000, so 260,000 stands clear of both.
         const float DriverShare=.60f;
         /// <summary>How long each pair is read. Sixty seconds since D384, as the shared length test reads (QaPlanCombatTests.FlatOutSeconds): at fifteen the same pair, Taren and Idra, read
         /// 2,708 to 3,709 a second from one run to the next (nov23a, d384-a), wider than the room between this test's floor and its ceiling.</summary>

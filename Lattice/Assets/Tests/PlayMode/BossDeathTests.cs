@@ -307,6 +307,180 @@ namespace Lattice.Tests.PlayMode
             Assert.LessOrEqual(lightAfter,lightBefore*Darker,line+": released, its arms look as light as they did in the fight");
         }
 
+        static System.Reflection.FieldInfo Switch(System.Type type,string name)
+        {
+            var field=type.GetField(name,System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);Assert.IsNotNull(field,$"fixture: {type.Name}.{name}, its state as before");
+            return field;
+        }
+        /// <summary>November 26: the most light the Foundry Saint's override rig keeps of how it stood, on its end's own frame and a fifth of a second on (while the kill's stop
+        /// holds it on the press's back). At the press's shut-down half it kept .6 on the end's frame: white paint on near-black iron, it stood out on the dark hull under the
+        /// killing blow's number, its panels 88 of 255 against the press's 59 at its lightest (nov26-r7-chain s59/041; 183 alive, s59/039).</summary>
+        const float RigAtMost=.42f;
+        [UnityTest,Timeout(150000)] public IEnumerator TheSaintsRigGoesDarkWithThePress()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            var asBefore=Switch(typeof(BossController),"saintAsBefore");var kept=new float[2];
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    yield return Arena("FoundrySaint");
+                    var lead=PartyController.Current.Active;Place(lead,LeadAt("FoundrySaint"));
+                    foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+                    var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("FoundrySaint"),BossAt("FoundrySaint"));boss.Passive=true;
+                    boss.transform.rotation=Quaternion.LookRotation(LeadAt("FoundrySaint")-BossAt("FoundrySaint"));
+                    yield return new WaitForSecondsRealtime(1.5f);
+                    Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Saint stands");
+                    var rig=boss.transform.Find("Override rig (drawn)");Assert.IsNotNull(rig,"fixture: the override rig on its back");
+                    var drawn=rig.GetComponentsInChildren<Renderer>(true).Where(r=>r is MeshRenderer||r is SkinnedMeshRenderer).ToList();Assert.IsNotEmpty(drawn,"fixture: the rig is drawn");
+                    foreach(var r in drawn)r.gameObject.layer=Layer;
+                    var box=Box(drawn);box.Expand(1);var camera=Eye(box);
+                    var before=Shot(camera);float living=Lightness(before,before[0]);
+                    Assert.Greater(Covered(before),300,"fixture: the rig fills too little of the fixture's frame");
+                    Beat(boss,lead);yield return null;
+                    var end=Shot(camera);float atEnd=Lightness(end,before[0]);
+                    yield return new WaitForSecondsRealtime(.2f);
+                    var on=Shot(camera);float later=Lightness(on,before[0]);
+                    Save(before,$"saint-rig-{pass}-0-alive");Save(end,$"saint-rig-{pass}-1-end");Object.Destroy(camera.gameObject);
+                    kept[pass]=Mathf.Max(atEnd,later)/Mathf.Max(.001f,living);
+                    string line=$"BOSS_DEATH_SAINT_RIG {(pass==0?"as before":"now")} light {living:0.000} alive -> {atEnd:0.000} on its end's frame, {later:0.000} .2 s on ({kept[pass]:0.00} kept)";
+                    TestContext.WriteLine(line);Debug.Log(line);
+                }
+            }
+            finally{asBefore.SetValue(null,false);LogAssert.ignoreFailingMessages=false;}
+            Assert.Greater(kept[0],RigAtMost,"fixture: as before (the press's half) the rig must read too light, or this measure can't see the fault");
+            Assert.LessOrEqual(kept[1],RigAtMost,$"the beaten Saint's override rig keeps {kept[1]:0.00} of its light on its end's frame: white on the dark press");
+        }
+
+        /// <summary>November 26: the override's bar joins the rig to the collars it still holds, so it reaches the outermost held collar's cable on each side (or the rig's own width)
+        /// and no further. Across the whole back whatever it held, its ends stood in the air past the last cable, and it lay along the arms let go, a neon tube (s59/020 to 039).
+        /// Here the first arm (the westmost) is let go as the bar passes its line.</summary>
+        [UnityTest,Timeout(150000)] public IEnumerator TheOverrideBarReachesOnlyTheCollarsItHolds()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            var asBefore=Switch(typeof(BossController),"saintAsBefore");var off=new float[2];
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    yield return Arena("FoundrySaint");
+                    var lead=PartyController.Current.Active;Place(lead,LeadAt("FoundrySaint"));
+                    foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+                    var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("FoundrySaint"),BossAt("FoundrySaint"));boss.Passive=true;
+                    boss.transform.rotation=Quaternion.LookRotation(LeadAt("FoundrySaint")-BossAt("FoundrySaint"));
+                    yield return new WaitForSecondsRealtime(1.5f);
+                    var saint=boss.GetComponent<BossController>();Assert.AreEqual(BossController.SaintTune.Arms,saint.SaintArms.Count,"fixture: the Saint has its six arms");
+                    boss.Health.integrity=boss.Health.maximum*(1-BossController.SaintTune.ArmShare)-10;
+                    for(float until=Time.unscaledTime+2;saint.SaintReleased<1&&Time.unscaledTime<until;)yield return null;
+                    Assert.AreEqual(1,saint.SaintReleased,"fixture: one arm let go as the bar passed its line");
+                    float west=-BossController.SaintTune.BarRig,east=BossController.SaintTune.BarRig;
+                    foreach(var arm in saint.SaintArms)
+                    {
+                        if(arm==null||arm.IsReleased)continue;
+                        float x=Mathf.Clamp(boss.transform.InverseTransformPoint(arm.transform.position).x,-BossController.SaintTune.BarReach,BossController.SaintTune.BarReach);west=Mathf.Min(west,x);east=Mathf.Max(east,x);
+                    }
+                    var ends=saint.SaintBarEnds;off[pass]=Mathf.Max(Mathf.Abs(ends.x-west),Mathf.Abs(ends.y-east));
+                    string line=$"BOSS_DEATH_SAINT_BAR {(pass==0?"as before":"now")} ends {ends.x:0.00} to {ends.y:0.00}, held collars' cables {west:0.00} to {east:0.00} (off by {off[pass]:0.00} m)";
+                    TestContext.WriteLine(line);Debug.Log(line);
+                }
+            }
+            finally{asBefore.SetValue(null,false);LogAssert.ignoreFailingMessages=false;}
+            Assert.Greater(off[0],.3f,"fixture: as before the bar ran past the last collar it held");
+            Assert.Less(off[1],.05f,$"the override bar's ends stand {off[1]:0.00} m from the outermost collars it still holds: in the air");
+        }
+
+        /// <summary>November 26: a lance's beam drawn as a fight ends goes the frame after, as the party's shots do (D420). The killing lance, held by the kill's stop, was drawn into
+        /// Hessa at her yield over the rewards and the next objective (nov25-whole s15/158). As before (WreckClearance's), it lies its .15 s and the stop out.</summary>
+        [UnityTest,Timeout(90000)] public IEnumerator ALanceDrawnAsTheFightEndsGoesTheFrameAfter()
+        {
+            var asBefore=Switch(typeof(WreckClearance),"asBefore");var shown=new bool[2];
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    yield return Arena("BellowsBelow");
+                    var lead=PartyController.Current.Active;var partner=PartyController.Current.members.First(m=>m!=lead);
+                    Place(lead,LeadAt("BellowsBelow"));Place(partner,LeadAt("BellowsBelow")+new Vector3(3,0,0));
+                    foreach(var member in PartyController.Current.members)member.Health.InvulnerableUntil=float.PositiveInfinity;
+                    var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("BellowsBelow"),BossAt("BellowsBelow"));boss.Passive=true;
+                    yield return new WaitForSecondsRealtime(1.2f);
+                    Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: the Bellows stands");
+                    if(!partner.TryGetComponent<EmitterBeam>(out var beam))beam=partner.gameObject.AddComponent<EmitterBeam>();
+                    beam.Fire(partner.transform.position+Vector3.up*1.2f,Vector3.right,new DamagePacket{source=partner.Health,amount=1,type=DamageType.Beam},13);
+                    Assert.IsTrue(beam.Shown,"fixture: the lance is drawn");
+                    Beat(boss,lead);
+                    yield return null;yield return null;
+                    shown[pass]=beam.Shown;beam.Out();
+                }
+            }
+            finally{asBefore.SetValue(null,false);}
+            Assert.IsTrue(shown[0],"fixture: as before the lance was still drawn two frames after the end");
+            Assert.IsFalse(shown[1],"two frames after the Bellows' bar emptied, the partner's lance was still drawn");
+        }
+
+        /// <summary>How colourful what shows its body looks: each of its pixels counted alike (a dark one as much as a lit one, as a dark mass reads), its brightest channel less its
+        /// darkest over its brightest (0 grey, 1 pure colour), on average.</summary>
+        static float Colour(Color[] pixels,Color ground)
+        {
+            double sum=0;int n=0;
+            foreach(var c in pixels){if(!Body(c,ground))continue;float hi=Mathf.Max(c.r,Mathf.Max(c.g,c.b));if(hi<.03f)continue;sum+=(hi-Mathf.Min(c.r,Mathf.Min(c.g,c.b)))/hi;n++;}
+            return n>0?(float)(sum/n):0;
+        }
+        /// <summary>November 26: Hessa Korl at her yield is the woman in her own colours, as the fight showed her, not a dark lump (nov26-r7-chain s15/160, nov25-whole s15/158 to 163).
+        /// Nothing of the fight was left on her: her red read as in the fight (luma .25 to .26 of her red pixels at 158 to 163 against .26 to .27 at 150 to 156), her pink edge is her
+        /// own rim (D360, the person's too), and the lock had let go. The camera closes in as the fight ends and she turns to Taren beyond her, her back to the lens, and from there what
+        /// showed was her gear's back: the wool mantle, two iron shoulder plates and the standard's pole, held on her until the hand-over 1.1 s later. Drawn here as the fight's camera
+        /// saw her, facing the party, and at her yield .6 s after nought with her back to the lens. Here, in the arena's warm light, the figure as before was no greyer or darker
+        /// than in the fight (colour .64 against .66, light .28 against .29: what is dark is the relay's light on her wool and iron, which this doesn't re-light), but her gear was
+        /// two thirds of it (2849 pixels against her own 925): what is on her at her yield must be the woman (<see cref="OwnAtHerYield"/>), as colourful as in the fight.</summary>
+        /// <summary>The least share of Hessa's figure at her yield, from behind, that is the woman herself and not her gear.</summary>
+        const float OwnAtHerYield=.85f;
+        [UnityTest,Timeout(150000)] public IEnumerator HessaYieldsInHerOwnColours()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            var asBefore=Switch(typeof(HessaRegalia),"asBefore");var colour=new float[2];var light=new float[2];var fightColour=new float[2];var fightLight=new float[2];var own=new float[2];
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    asBefore.SetValue(null,pass==0);
+                    yield return Arena("HessaKorl");
+                    var lead=PartyController.Current.Active;Place(lead,LeadAt("HessaKorl"));
+                    foreach(var member in PartyController.Current.members){member.Health.InvulnerableUntil=float.PositiveInfinity;if(member!=lead)Place(member,LeadAt("HessaKorl")+new Vector3(-30,0,-10));}
+                    var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),BossAt("HessaKorl"));boss.Passive=true;
+                    boss.transform.rotation=Quaternion.LookRotation(LeadAt("HessaKorl")-BossAt("HessaKorl"));
+                    yield return new WaitForSecondsRealtime(1.2f);
+                    Assert.IsTrue(boss!=null&&boss.Health.Alive,"fixture: Hessa stands");
+                    var drawn=Drawn(boss);foreach(var r in drawn)r.gameObject.layer=Layer;
+                    var box=Box(drawn);var camera=Eye(box);
+                    var fight=Shot(camera);var ground=fight[0];fightColour[pass]=Colour(fight,ground);fightLight[pass]=Lightness(fight,ground);
+                    // At her yield she has turned to the hero beyond her, her back to the lens.
+                    boss.transform.rotation=Quaternion.LookRotation(BossAt("HessaKorl")-LeadAt("HessaKorl"));yield return null;yield return null;
+                    Beat(boss,lead);
+                    yield return new WaitForSecondsRealtime(.6f);
+                    Assert.IsTrue(boss!=null,"fixture: the fighter's body still stands .6 s after nought, before the hand-over");
+                    // What is on her: her body, and her gear while it is; gear thrown down lies on the floor apart from her (as from s15/168 on).
+                    foreach(var r in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None))if(r.gameObject.layer==Layer)r.gameObject.layer=0;
+                    foreach(var r in Drawn(boss))r.gameObject.layer=Layer;
+                    var yielding=Shot(camera);colour[pass]=Colour(yielding,ground);light[pass]=Lightness(yielding,ground);
+                    // What of that is the woman herself: the same frame with her gear (whatever of it is still on her) not drawn; a pixel that stays is hers.
+                    foreach(var gear in boss.GetComponentsInChildren<HessaRegalia>(true))foreach(var r in gear.GetComponentsInChildren<Renderer>(true))r.gameObject.layer=0;
+                    var herself=Shot(camera);own[pass]=1-Changed(yielding,herself,out int covered);
+                    Save(fight,$"hessa-yield-{pass}-0-fight");Save(yielding,$"hessa-yield-{pass}-1-yields");Object.Destroy(camera.gameObject);
+                    string line=$"BOSS_DEATH_HESSA_YIELD {(pass==0?"as before":"now")} in the fight colour {fightColour[pass]:0.00} light {fightLight[pass]:0.00}; at her yield colour {colour[pass]:0.00} light {light[pass]:0.00}, {own[pass]:0.00} of {covered} px herself";
+                    TestContext.WriteLine(line);Debug.Log(line);
+                }
+            }
+            finally{asBefore.SetValue(null,false);LogAssert.ignoreFailingMessages=false;}
+            Assert.Less(own[0],OwnAtHerYield,"fixture: as before (her gear on her back to the lens) most of her figure must be her gear, or this measure can't see the fault");
+            Assert.GreaterOrEqual(own[1],OwnAtHerYield,$"at her yield only {own[1]:0.00} of her figure is the woman: the rest is her gear's back, a dark lump in the relay's light");
+            Assert.GreaterOrEqual(colour[1],fightColour[1]*.9f,$"at her yield Hessa is {colour[1]:0.00} colourful against {fightColour[1]:0.00} in the fight");
+            Assert.GreaterOrEqual(light[1],fightLight[1]*.6f,$"at her yield Hessa is {light[1]:0.00} light against {fightLight[1]:0.00} in the fight");
+        }
+
         /// <summary>A boss beaten shows it within a second, and from that moment nothing lands on it or its parts, no number spawns on it, and the lead's lock lets go. Shows it: one
         /// that is killed, shut down, driven off or freed has changed at least <see cref="Shows"/> of the pixels its body covered (and a tenth more than it changes alive in a second,
         /// for a body that hovers); one that yields is handed over to the person she is within <see cref="YieldsWithin"/> s (DefeatPresentation.Yielded).</summary>

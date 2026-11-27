@@ -7,6 +7,11 @@ Shader "Lattice/HeroThrough"
     // D421: drawn only when about half the body or more is hidden. Feet behind a rail or a collar left a loose scrap of line below a hero in plain view (nov25-r5-chain
     // s55/139, s59/053): the share hidden is read from the scene's depth at points over the hero's body (_Hero, set per copy by HeroThrough.cs), and the drawing fades
     // in between _ShareLow and _ShareHigh. A hero wholly behind one broad piece of scenery is shown in its window instead (SceneryOcclusion), which clears the depth there.
+    // D432: the share's bounds and _Head come per hero by the property block (HeroThrough.cs): behind scenery the lead is drawn only when nearly whole and the middle of his
+    // head are hidden, the partner not at all; behind a boss the lead keeps .3 to .5.
+    // D438: behind scenery no body is drawn at all now. A lead hidden almost whole there is marked instead (_Mark 1, a material of its own on a small quad over his head,
+    // queue Transparent+42): a small gold arrowhead pointing down at him, a glyph, not a body, so it can't be read as someone standing on the roof. It comes and goes by this
+    // same share and head rule, read at where he stood over the last third of a second (_Trail): it comes about a fifth of a second after he is lost and eases in and out.
     // Two materials of this one shader, by property only (no keyword, no variant), each on a copy of the body of its own:
     //  - the body (_Push 0, queue Transparent+40): marks every pixel of the body in stencil bit 16, once; where it is hidden draws the tint, and along the edge where
     //    the scenery stops hiding it (the hiding edge, found in the scene's depth a line's width away) draws the line, so a half-hidden body's outline closes;
@@ -25,10 +30,13 @@ Shader "Lattice/HeroThrough"
         _HeroWidth ("Half the hero's width (m)", Float) = 0.3
         _ShareLow ("Share hidden below which nothing is drawn", Range(0,1)) = 0.3
         _ShareHigh ("Share hidden from which all is drawn", Range(0,1)) = 0.5
+        _Head ("Nothing drawn while the middle of the head is in sight (1)", Float) = 0
+        _Mark ("The mark over a hidden hero (1), not a body", Float) = 0
     }
     SubShader
     {
-        Tags { "RenderPipeline"="UniversalPipeline" "Queue"="Transparent+40" "RenderType"="Transparent" "IgnoreProjector"="True" }
+        // No batching: the mark's quad carries its glyph's pixels in its vertices, which a batch would move into the world.
+        Tags { "RenderPipeline"="UniversalPipeline" "Queue"="Transparent+40" "RenderType"="Transparent" "IgnoreProjector"="True" "DisableBatching"="True" }
         Pass
         {
             Name "HeroThrough"
@@ -57,14 +65,47 @@ Shader "Lattice/HeroThrough"
                 float _HeroWidth;
                 float _ShareLow;
                 float _ShareHigh;
+                float _Head;
+                float _Mark;
             CBUFFER_END
+            // D438: where the hero's feet stood, newest first, .045 s apart (HeroThrough.cs, by the property block); w is 0 where nothing is known yet.
+            float4 _Trail[8];
             struct Attributes { float4 positionOS:POSITION; float3 normalOS:NORMAL; };
-            struct Varyings { float4 positionCS:SV_POSITION; float4 clipPos:TEXCOORD0; };
+            struct Varyings { float4 positionCS:SV_POSITION; float4 clipPos:TEXCOORD0; float2 glyph:TEXCOORD1; };
             // The line's width in this target's pixels: the same share of the screen's height at any resolution.
             float Pixels() { return _Width * _ScaledScreenParams.y / 1080.0; }
+            // D438: the mark, in pixels of 1080 about its point: an arrowhead this wide either side across its top and this tall, its dark edge this thick, its point
+            // this far (m) over the top of the head.
+            // 42 by 27 px since the tenth look (it was 24 by 16): in the player the gold inside its edge came to 15 px on a 1080 frame, a fleck on the gate roof's paving and
+            // lost among the Works' amber lamp strips (nov26-r7b-chain s51/218, s50/058, s58/151). It stands in for a hero 90 px tall, so it is about as wide as he is; it
+            // rides up and down two pixels, which no fleck of paving does.
+            static const float MarkHalf = 21.0, MarkTall = 27.0, MarkEdge = 3.0, MarkLift = 0.16, MarkBob = 2.0;
             Varyings Vert(Attributes input)
             {
                 Varyings output;
+                output.glyph = input.positionOS.xy;
+                if (_Mark > 0.5)
+                {
+                    // The quad's corners are pixels of 1080 about the glyph's point, which stands over the head (_Hero) whatever the distance. The screen's right and up are
+                    // taken through this projection from the camera's own, so the glyph points down at him whichever way the target's rows run (a render texture's or the
+                    // back buffer's).
+                    float3 tip = _Hero.xyz + float3(0, _Hero.w + MarkLift, 0);
+                    float4 at = TransformWorldToHClip(tip);
+                    float4 upward = TransformWorldToHClip(tip + UNITY_MATRIX_V[1].xyz * 0.25);
+                    float4 sideways = TransformWorldToHClip(tip + UNITY_MATRIX_V[0].xyz * 0.25);
+                    float2 here = at.xy / at.w;
+                    float2 up = (upward.xy / upward.w - here) * _ScaledScreenParams.xy;
+                    float2 right = (sideways.xy / sideways.w - here) * _ScaledScreenParams.xy;
+                    up *= rsqrt(max(dot(up, up), 1e-10));
+                    right *= rsqrt(max(dot(right, right), 1e-10));
+                    float2 pixels = (right * input.positionOS.x + up * (input.positionOS.y + MarkBob * sin(_Time.y * 5.0))) * (_ScaledScreenParams.y / 1080.0);
+                    at.xy += pixels * 2.0 / _ScaledScreenParams.xy * at.w;
+                    // Nothing to point at behind the lens, or for a ship.
+                    if (at.w <= 0.0 || _Hero.w <= 0.0) at = float4(2, 2, 2, 1);
+                    output.positionCS = at;
+                    output.clipPos = at;
+                    return output;
+                }
                 float3 world = TransformObjectToWorld(input.positionOS.xyz);
                 float4 position = TransformWorldToHClip(world);
                 // Pushed out across the screen, by pixels, not metres: an even line near or far. The normal's direction is taken in pixels so the screen's aspect doesn't
@@ -94,8 +135,11 @@ Shader "Lattice/HeroThrough"
             // Of points over the hero's body (nine heights, the middle and either side, each at its own depth), the share something stands in front of. Each point is placed
             // on the screen by its offset from this fragment's own projection, so the target's flip (a render texture in the editor, the back buffer in the player) can't
             // mislead it: flip is -1 where the screen's rows run against the projection's.
-            float ShareHidden(float2 uv, float4 own, float flip)
+            // D432: head is whether the top row's middle point (the middle of the head) is hidden; a point off the screen counts as hidden.
+            // D438: feet is where the body stands (_Hero's own, or for the mark one of the places he stood: _Trail).
+            float ShareHidden(float3 feet, float2 uv, float4 own, float flip, out float head)
             {
+                head = 1.0;
                 if (_Hero.w <= 0.0) return 1.0;
                 float2 mine = Projected(own);
                 float3 side = UNITY_MATRIX_V[0].xyz * _HeroWidth;
@@ -104,32 +148,70 @@ Shader "Lattice/HeroThrough"
                 {
                     [unroll] for (int j = -1; j <= 1; j++)
                     {
-                        float4 there = TransformWorldToHClip(_Hero.xyz + float3(0, (i + 0.5) / 9.0 * _Hero.w, 0) + side * j);
+                        float4 there = TransformWorldToHClip(feet + float3(0, (i + 0.5) / 9.0 * _Hero.w, 0) + side * j);
                         float2 offset = Projected(there) - mine;
                         float2 at = uv + float2(offset.x, offset.y * flip);
                         float inside = (there.w > 0 && at.x > 0 && at.y > 0 && at.x < 1 && at.y < 1) ? 1.0 : 0.0;
+                        float behind = there.w - SceneDepthAt(at) > _Thickness ? 1.0 : 0.0;
                         counted += inside;
-                        hidden += inside * (there.w - SceneDepthAt(at) > _Thickness ? 1.0 : 0.0);
+                        hidden += inside * behind;
+                        if (i == 8 && j == 0) head = inside > 0.5 ? behind : 1.0;
                     }
                 }
                 return counted > 0 ? hidden / counted : 1.0;
+            }
+            // How much of the drawing shows: none below _ShareLow of the body hidden, all from _ShareHigh; with _Head (D432: scenery, and the partner behind a boss), none
+            // while the middle of the head is in sight, however much of the rest is hidden (nov25-whole s22/061: a head in colour over the kiln, the body a line on its crown).
+            half Shown(float2 uv, float4 own, float flip)
+            {
+                float head;
+                float share = ShareHidden(_Hero.xyz, uv, own, flip, head);
+                return smoothstep(_ShareLow, _ShareHigh, share) * lerp(1.0, head, saturate(_Head));
+            }
+            // D438: how much of the mark shows. Each of the eight places he stood over the last third of a second (_Trail, newest first, .045 s apart) is read by the same
+            // share and head rule as the line, against the scene as it is now; he counts as lost at a moment when he is lost there and at the moments .09 and .18 s before,
+            // and the mark is the mean of that over the newest four moments. So it comes about a fifth of a second after he is lost, eases in over .135 s, and eases out as fast
+            // once he shows. A place not known yet (w 0: just arrived, or set down from afar) is not lost, so the wait is a real one.
+            half Marked(float2 uv, float4 own, float flip)
+            {
+                float lost[8];
+                [loop] for (int k = 0; k < 8; k++)
+                {
+                    float head;
+                    float share = ShareHidden(_Trail[k].xyz, uv, own, flip, head);
+                    lost[k] = _Trail[k].w > 0.5 ? smoothstep(_ShareLow, _ShareHigh, share) * lerp(1.0, head, saturate(_Head)) : 0.0;
+                }
+                return 0.25 * (lost[0] * lost[2] * lost[4] + lost[1] * lost[3] * lost[5] + lost[2] * lost[4] * lost[6] + lost[3] * lost[5] * lost[7]);
             }
             half4 Frag(Varyings input):SV_Target
             {
                 float2 uv = GetNormalizedScreenSpaceUV(input.positionCS);
                 // Taken here, before any branch: whether the screen's rows run with the projection's or against it.
                 float flip = ddy(uv.y) * ddy(Projected(input.clipPos).y) < 0 ? -1.0 : 1.0;
+                if (_Mark > 0.5)
+                {
+                    // D438: the mark, a downward arrowhead whose point is the glyph's origin, gold inside a thin dark edge (it holds on pale thatch and on dark slate),
+                    // its edge smoothed over one pixel of this target. Measured in pixels of 1080 (the quad's own corners).
+                    float2 p = input.glyph;
+                    float d = max(p.y - MarkTall, (MarkTall * abs(p.x) - MarkHalf * p.y) * rsqrt(MarkTall * MarkTall + MarkHalf * MarkHalf));
+                    float aa = 1080.0 / _ScaledScreenParams.y;
+                    half cover = saturate(0.5 - d / aa);
+                    if (cover <= 0.0) return half4(0, 0, 0, 0);
+                    half gold = saturate(0.5 - (d + MarkEdge) / aa);
+                    half3 colour = lerp(half3(0.07, 0.05, 0.03), _BaseColor.rgb, gold);
+                    return half4(colour, cover * _Line * Marked(uv, input.clipPos, flip));
+                }
                 float self = input.positionCS.w;
                 float hidden = Hidden(uv, self);
                 if (_Push > 0.5)
                 {
                     // The hull: only off the bodies (the stencil) and only where something stands in front of it.
                     clip(hidden - 0.5);
-                    return half4(_BaseColor.rgb, _Line * smoothstep(_ShareLow, _ShareHigh, ShareHidden(uv, input.clipPos, flip)));
+                    return half4(_BaseColor.rgb, _Line * Shown(uv, input.clipPos, flip));
                 }
                 // The body where nothing hides it draws nothing, but still marks its pixels, so no hull draws a line across a hero in plain view.
                 if (hidden < 0.5) return half4(0, 0, 0, 0);
-                half shown = smoothstep(_ShareLow, _ShareHigh, ShareHidden(uv, input.clipPos, flip));
+                half shown = Shown(uv, input.clipPos, flip);
                 // Within a line's width of a point where the scenery stops hiding this body: the hiding edge, where the line closes.
                 float2 reach = Pixels() / _ScaledScreenParams.xy;
                 float open = 0;

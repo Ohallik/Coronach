@@ -31,10 +31,27 @@ Material:
         m_Texture: {fileID: 2800000, guid: 565f0c3e3a11d524fbbb84ddf8c2bfc3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _PanelMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SplatMap3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
     - _AlphaTest: 0
     - _BaseMapStrength: 1
+    - _BodyStencil: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _Detail: 0
@@ -44,16 +61,25 @@ Material:
     - _Gel: 0
     - _Glow: 0
     - _Ice: 0
+    - _LightFloor: 0
     - _OccFade: 0
+    - _OccFadeDepth: 0.82
+    - _OccFadeSoft: 0
     - _OccFadeToggle: 0
+    - _Panels: 0
     - _RampSteps: 3
+    - _ReceiveShadows: 1
     - _RimPower: 4
+    - _RimUnlit: 0
     - _ScatterPebbleRerole: 0
+    - _Splat: 0
     - _SrcBlend: 1
     - _Strata: 0
     - _Surf: 0
     - _SurfMode: 1
     - _SurfZUp: 0
+    - _Triplanar: 0
+    - _TriplanarScale: 0.125
     - _VColor: 0
     - _Water: 0
     - _Wind: 0
@@ -74,13 +100,22 @@ Material:
     - _GelDeepColor: {r: 0.54999995, g: 0.7, b: 0.9, a: 0.55}
     - _GelParams: {r: 2.2, g: 0.62, b: 0.94, a: 1.6}
     - _GlowParams: {r: 1.3, g: 0.3, b: 0, a: 0}
+    - _HitFlash: {r: 1, g: 1, b: 1, a: 0}
     - _IceDeepColor: {r: 0.15999997, g: 0.33999997, b: 0.52, a: 1}
     - _IceParams: {r: 2.6, g: 0.4, b: 0.5, a: 0.35}
     - _IceRimColor: {r: 0.7, g: 0.92, b: 1.05, a: 1}
     - _OccFadeEllipse: {r: 0.5, g: 0.5, b: 0.08, a: 0.14}
+    - _OccFadeEllipse2: {r: 0, g: 0, b: 0, a: 0}
+    - _PanelParams: {r: 0.25, g: 0.5, b: 0, a: 0}
     - _RimColor: {r: 0.24999997, g: 0.24999997, b: 0.29999998, a: 1}
     - _ShadowTint: {r: 0.54999995, g: 0.54999995, b: 0.68, a: 1}
+    - _SplatEdge: {r: 0.04, g: 0.3, b: 0.35, a: 0.3}
+    - _SplatScale: {r: 0.25, g: 0.25, b: 0.25, a: 0.9}
+    - _SplatTint1: {r: 1, g: 1, b: 1, a: 1}
+    - _SplatTint2: {r: 1, g: 1, b: 1, a: 1}
+    - _SplatTint3: {r: 1, g: 1, b: 1, a: 1}
     - _StrataParams: {r: 0.55, g: 0.5, b: 0.35, a: 0.6}
+    - _StrataSlope: {r: 0.12, g: 0.35, b: 0, a: 0}
     - _StrataTintA: {r: 0.8, g: 0.75, b: 0.7, a: 1}
     - _StrataTintB: {r: 1.12, g: 1.08, b: 1.02, a: 1}
     - _SurfBounds: {r: 0, g: 1, b: 0, a: 1}

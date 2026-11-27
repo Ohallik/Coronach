@@ -82,6 +82,9 @@ namespace Lattice.Combat
         bool GantryBraced=>!brain.Passive&&GantryCouplingsOpen<2&&!health.Broken;
         /// <summary>A test's switch for the old fault (a coupling offered at any overreach, and opened it took her bar down to its line from wherever it stood): never set in a scene.</summary>
         [System.NonSerialized] public bool gantryCouplingTakes;
+        /// <summary>A test's switch for the arm as it was drawn in (its stretch run out, it was pulled back from under a hero holding its coupling, the weight dropped a breath before it
+        /// opened): never set in a scene.</summary>
+        public static bool GantryDrawsInHeld;
         /// <summary>Her couplings open so far (of two), and whether each arm still answers.</summary>
         public int GantryCouplingsOpen=>(gantryPress!=null&&gantryPress.IsOpen?1:0)+(gantryWelder!=null&&gantryWelder.IsOpen?1:0);
         public bool GantryPressOn=>gantryPress!=null&&!gantryPress.IsOpen;
@@ -215,11 +218,16 @@ namespace Lattice.Combat
             Debug.Log("MERET_OVERREACHED "+coupling.arm);
             var party=PartyController.Current;
             if(party!=null&&gantryOpeningSaid<Phase&&!brain.Passive){gantryOpeningSaid=Phase;BarkService.Play(party.Active.character,Situation("bossopening"),true);}
-            for(float t=0;t<seconds&&!gantryCut;)
+            // A hero holding its coupling's weight pins the arm: she can't draw it in from under him. The weld's stretch is 3.4 s and the weight and the ease take 2, so a hero at the seat
+            // 1.5 s after the arm came down held it to a breath of open and had it pulled away: twice a fight in the player's own captures (nov24-whole and nov25-whole s67), seven
+            // times in one fight through the pad (meretpad1, November 26: 200 s of her 150). The hold ends by itself: it opens in two seconds, or he lets go and the arm goes in.
+            for(float t=0;(t<seconds||!GantryDrawsInHeld&&coupling.Holder!=null&&!coupling.IsOpen)&&!gantryCut;)
             {
                 if(!health.Alive)yield break;
                 // Held by a conversation, the stretch is held with it.
                 if(GameTime.CombatHeld)health.Expose(Mathf.Max(.05f,seconds-t));else t+=Time.deltaTime;
+                // Pinned past its stretch she is as open as the arm is out.
+                if(t>=seconds&&!GameTime.CombatHeld)OpenFor(.1f);
                 yield return null;
             }
             coupling.Offer(false);gantryFrame.Set(right,coupling.IsOpen?MeretFrame.Arm.Hanging:MeretFrame.Arm.Raised);

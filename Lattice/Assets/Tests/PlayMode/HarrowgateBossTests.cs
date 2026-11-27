@@ -60,7 +60,13 @@ namespace Lattice.Tests.PlayMode
             // .63 since D362 (November 22): today's scouts felled 165,000 in 60.6 s (nov22-recon-g s52, the 12:35 build) and 72.6 s (nov22-recon-h-52, the 14:52 build) against 3,565
             // and 3,580 a second (d355-dome3, d355-lengths): .762 and .636, the lower; the floor party through the pad read .51 to .54 (d355-chapters, d362-ch3to7). 225,000 since
             // D362 (continued): the slow pair's 267 s at a quarter (his 200 at four thirds) on the slowest reading (3,516) holds him there, about 83 s on the fastest scout.
-            book.Boss(new ContentRegistry.BossSheet{id="DraskVaal",zone="Harrowgate",door="DraskVaal",doorFlags=new[]{"vask.parley","vask.draskMet","vask.fieldTaken"},sync=24,driverShare=.63f,
+            // .50 since November 26: .63 was his share at 165,000, and he has been 225,000 since that evening, where the player's share of the same yardstick is less (his length is not
+            // smooth in integrity). At 225,000 the chain's fights took 108.7 s (nov23-whole s52), 103.7 s (nov24-whole s52), 98.7 s (nov24-recon-r6-52, November 25) and 133.8 s
+            // (nov25-whole s52) against the shared length test's 3,671 a second (BOSS_RATE in the whole suites nov23a to nov25c, 3,533 to 3,834; it read 3,565 and 3,580 when .63 was
+            // set, so the yardstick has not moved): .564, .591, .621 and .458, and over the four fights together .551. Set a tenth under that, inside the four, for room on both sides:
+            // the in-house replay with the player's party read .554 and .563 quiet and .566 and .488 beside other work (red1, red2, red4, red5), 8% over its nine tenths (.45) at the
+            // least, and the duel's slowest pair reading (Sela and Idra, 2,423 a second) puts him at 186 s of its 200. The shared test puts him at 117 to 127 s, the player's 99 to 134.
+            book.Boss(new ContentRegistry.BossSheet{id="DraskVaal",zone="Harrowgate",door="DraskVaal",doorFlags=new[]{"vask.parley","vask.draskMet","vask.fieldTaken"},sync=24,driverShare=.50f,
                 minSeconds=80,maxSeconds=200,
                 specials=new[]{("Thrust",new Vector3(0,0,4)),("HaftSweep",new Vector3(0,0,2.5f)),("ShieldRush",new Vector3(0,0,8)),("Lunge",new Vector3(0,0,10))},
                 // His shout strikes nobody: what it marks is where his guard steps in (FewerAnswerEachShoutAndTheThirdIsAnsweredByNobody).
@@ -843,7 +849,8 @@ namespace Lattice.Tests.PlayMode
             foreach(var pair in Pairs)
             {
                 float duel=0,bare=0;yield return Rate("DraskVaal",pair,true,r=>duel=r);yield return Rate("DraskVaal",pair,false,r=>bare=r,judged:false);
-                // His own sheet's share (.42, measured off two chains on November 14; .63 off today's scouts since D362), not the class's DriverShare, which is the Colossus's.
+                // His own sheet's share (.42, measured off two chains on November 14; .63 off the scouts of D362; .50 off the chain's four fights at 225,000 since November 26), not the
+                // class's DriverShare, which is the Colossus's.
                 var sheet=ContentRegistry.Boss("DraskVaal");
                 float seconds=integrity/(duel*sheet.driverShare);
                 string line=$"DRASK_RATE {pair[0]}+{pair[1]} sync=24 tempered duel={duel:0}/s bare={bare:0}/s total={seconds:0}s shared={integrity/(bare*sheet.driverShare):0}s quarter={integrity/(bare*.25f):0}s";

@@ -112,5 +112,44 @@ namespace Lattice.UI
             }
             return null;
         }
+
+        /// <summary>The driver as it was before it rolled out of her clamp on a skill step, for a test's broken state (MeretReplayTests sets it by reflection and puts it back): no route sets it.</summary>
+        static bool stillRollOff;
+        /// <summary>When B went down for the roll out of her still clamp, by the replay's clock; below nought while it is up.</summary>
+        double stillRollPressed = -1;
+        /// <summary>A step that presses a skill (RB held), or the bare step after one that lets it go: the route's skill presses between rounds, which read no tells.</summary>
+        bool SkillStepOrItsRelease() => HoldsSkillMod(step) || route != null && stepIndex > 0 && stepIndex < route.steps.Length && route.steps[stepIndex] == step && HoldsSkillMod(route.steps[stepIndex - 1])
+            && !step.navigate && (step.buttons == null || step.buttons.Length == 0);
+        /// <summary>On a skill step or its release, the clamp she has marked under the lead for standing still (<see cref="BossController.WellStillMark"/>: that marking of hers and no other)
+        /// is rolled out of before anything is pressed. Those steps read no tells, so a clamp marked as a fight step ended closed on him through the press and its release: played through the
+        /// pad, twice a fight (red1, and the chain's own captures nov24-whole and nov25-whole s67, November 26). A person rolls out of it whatever he was about to press: the step's buttons are
+        /// held off until the roll is under way and pressed again after it while the step has time (the game keeps a skill pressed mid-roll until he can act). Null while no such marking is
+        /// under him, or once he is rolling; <paramref name="waits"/> says B stays up this frame, because his own skill holds him and a roll would be refused: pressed once it can go, it is a press.</summary>
+        Vector2? OutOfHerStillClamp(CombatActor lead, out bool waits)
+        {
+            waits = false;
+            if (stillRollOff || meretHandsOff || lead == null || lead.flight || !lead.Health.Alive || lead.Recovering || lead.State == Lattice.Data.ActorState.Dodge || GameTime.Paused || GameInput.Current == null || GameInput.Current.Blocked) return null;
+            if (!SkillStepOrItsRelease()) return null;
+            var here = lead.transform.position;
+            foreach (var marking in Telegraph.Live)
+            {
+                if (marking == null || marking.Released || !(marking.owner is BossController boss) || !boss.WellStillMark(marking) || !marking.Contains(here)) continue;
+                var way = Aside(marking, here); way.y = 0; if (way.sqrMagnitude < .0001f) continue;
+                way = RollWay(lead, way.normalized);
+                // B stays up while a roll would be refused, whatever refuses it: his own skill or a stagger, the gap after a roll he has just made, a mash with the bar empty. A press
+                // refused is a press spent (the button down, no second press coming): in the whole suite of November 26 the mark came a moment after a roll of his, the one press was
+                // refused, the skill waiting behind it went into her guard and the clamp closed on him where he stood. And B is let go for a frame when a press hasn't become a roll
+                // within a tenth of a second (it may have been down already as the step began), so the next is a press.
+                double asked = clock.Elapsed.TotalSeconds;
+                waits = !lead.RollReady;
+                if (waits) stillRollPressed = -1;
+                else if (stillRollPressed < 0) stillRollPressed = asked;
+                else if (asked - stillRollPressed > .1) { waits = true; stillRollPressed = -1; }
+                if (meretSaid != marking) { meretSaid = marking; Debug.Log("QUALITY_MERET_STILL_ROLL " + boss.Health.id + " at " + here.ToString("F1") + " on '" + step.name + "'" + (waits ? " (a roll can't go yet)" : "")); }
+                var local = Quaternion.Euler(0, -ZoneController.Current.CameraProfile.yaw, 0) * way.normalized;
+                return new Vector2(local.x, local.z);
+            }
+            return null;
+        }
     }
 }

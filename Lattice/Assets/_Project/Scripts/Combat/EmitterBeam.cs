@@ -62,7 +62,12 @@ namespace Lattice.Combat
             line.startColor=line.endColor=new Color(.1f,.8f,1.1f,.55f*alpha);
             core.startColor=core.endColor=new Color(.7f,1.7f,2.2f,alpha);
         }
-        void OnDisable(){if(line!=null)line.enabled=false;if(core!=null)core.enabled=false;}
+        void OnDisable()=>Out();
+        /// <summary>Gone now, whatever is left of its .15 s: a fight that has just ended (WreckClearance). The killing lance held by the kill's stop was drawn into Hessa at her yield,
+        /// over the rewards and the next objective (nov25-whole s15/158).</summary>
+        public void Out(){if(line!=null)line.enabled=false;if(core!=null)core.enabled=false;}
+        /// <summary>Drawn now, for a check to read.</summary>
+        public bool Shown=>line!=null&&line.enabled;
         void OnDestroy(){if(material!=null)Destroy(material);}
     }
 }

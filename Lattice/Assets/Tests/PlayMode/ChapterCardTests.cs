@@ -182,6 +182,54 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(toast.Showing,"fixture: the card leaves");
             Assert.That(stood,Is.InRange(3.5f,5.5f),"a number and a name hold the foot of the screen, and the prompt under it, about as long as an ordinary card: not the nine seconds three lines need");
         }
+        /// <summary>A chapter's card a conversation cuts into. Its seconds only stopped while the screen was taken, so it went away and came back for what was left of it when the talk
+        /// closed: CHAPTER 3 stood four seconds on the walk to Pell, vanished as her talk began and stood again for its last half second afterwards, a card shown twice (nov25-whole s17
+        /// 047 and 072). The short plate, three times: as it was (three seconds up, a talk, and it comes back); now (three seconds up, a talk, and it is over: the next card is not a
+        /// chapter's); and one the talk caught half a second after it came up, which starts again whole when the talk closes, since nobody had read it.</summary>
+        [UnityTest] public IEnumerator AChaptersCardATalkCutsIntoIsNotPickedUpWhereItLeftOff()
+        {
+            var asItWas=typeof(QuestToast).GetField("resumesAsItWas",BindingFlags.NonPublic|BindingFlags.Static);
+            Assert.IsNotNull(asItWas,"fixture: the card's before has moved");
+            bool back=false;float stood=0;int pass=0;
+            IEnumerator Cut(bool before,float readFor)
+            {
+                asItWas.SetValue(null,before);back=false;stood=0;pass++;
+                ArriveAtChapterThree();
+                var quest=Chapter(8,"TestCutCard"+pass,"A Card Cut Into");
+                State.questSteps[quest.id]=1;
+                yield return Zone("Arena_Ground");var toast=Toast;
+                State.questSteps[quest.id]=quest.steps.Length;
+                yield return Until(()=>QuestToast.CardUp,3);
+                Assert.IsTrue(QuestToast.CardUp&&toast.Heading=="CHAPTER 8 COMPLETE","fixture: the chapter's short plate came up");
+                yield return new WaitForSecondsRealtime(readFor);
+                Assert.IsTrue(QuestToast.CardUp,"fixture: the card is still up when the talk begins");
+                GameServices.Current.Input.Blocked=true;
+                yield return new WaitForSecondsRealtime(.6f);
+                Assert.IsFalse(QuestToast.CardUp,"the chapter's card stays up over a conversation");
+                GameServices.Current.Input.Blocked=false;
+                float from=Time.unscaledTime,first=-1;
+                while(Time.unscaledTime<from+6.5f)
+                {
+                    yield return null;
+                    if(QuestToast.CardUp){if(first<0)first=Time.unscaledTime;stood=Time.unscaledTime-first;back=true;}
+                    else if(back)break;
+                    else if(Time.unscaledTime>from+2)break;
+                }
+                TestContext.WriteLine($"CHAPTER_CARD_CUT before={before} read={readFor:0.0}s back={back} stood={stood:0.00}s");
+            }
+            try
+            {
+                yield return Cut(true,3);
+                Assert.IsTrue(back,"fixture: as it was, a card three seconds up when a talk began came back when it closed: the check below proves nothing");
+                Assert.Less(stood,2.5f,"fixture: as it was, it came back only for what was left of it");
+                yield return Cut(false,3);
+                Assert.IsFalse(back,$"a chapter's card that had stood three seconds when a talk began came up a second time when it closed, for {stood:0.0} s");
+                yield return Cut(false,.5f);
+                Assert.IsTrue(back,"a chapter's card a talk caught half a second after it came up was never shown again: nobody read it");
+                Assert.That(stood,Is.InRange(3.5f,5.5f),"a card that starts again after a talk stands as long as a card does");
+            }
+            finally{asItWas.SetValue(null,false);}
+        }
         [UnityTest] public IEnumerator SeveralChaptersInOneSaveEachSayItOnceAndInStoryOrder()
         {
             ArriveAtChapterThree();

@@ -550,7 +550,9 @@ namespace Lattice.EditorTools
                 var coolantB=CoolantIn(kit,"Coolant B",b,Charge-TroughDepth,Charge-TroughDepth-.3f,"vask.sluice2",Charge-TroughDepth+.16f,null,0);
 
                 // ---- the casting gallery's south room: ladle line L2 right across it (two ladles on one clock), the drones' rails, a fight; the loft off its east side across L3
-                kit.Sign("CASTING GALLERY",-7.4f,137.6f,1.8f);
+                // On the floor at the stair's foot, a stride east of the stair's line. At (-7.4, 137.6) the masonry east of the stair took 'ERY' off it from the stair's head (nov25-whole
+                // s48 155, s49 152); from there the wall cuts a word laid east of x -9.4, and the HUD's panel one laid west of x -12.1 (QaNov26PlaceLabelTests).
+                kit.Sign("CASTING GALLERY",-10.8f,137.6f,1.8f);
                 var l2=Trough("L2");
                 // Two ladles on one clock, each resting over the floor by its wall and pouring at a third of the room's width.
                 // Each ladle waits by its side wall, its rail running into the wall behind it; the two rails meet over the middle of the room.

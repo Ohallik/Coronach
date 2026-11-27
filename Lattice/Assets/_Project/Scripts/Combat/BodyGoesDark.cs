@@ -62,7 +62,7 @@ namespace Lattice.Combat
         public void Toward(Color colour){tone=new Color(Mathf.Clamp01(colour.r),Mathf.Clamp01(colour.g),Mathf.Clamp01(colour.b),1);Paint(share);}
         void Gather(Transform body)
         {
-            share=0;age=0;done=false;block??=new MaterialPropertyBlock();
+            share=0;age=0;done=false;block??=new MaterialPropertyBlock();partKeep=null;
             var list=new List<Renderer>();var ids=new List<int>();
             foreach(var r in body.GetComponentsInChildren<Renderer>(true))
             {
@@ -88,6 +88,18 @@ namespace Lattice.Combat
             }
             // Written now, in the Died that began it: this component's own LateUpdate may not run until the next frame, and the still taken as the fight's step ends is this one.
             share=FirstShare;age=Seconds*(1-Mathf.Sqrt(1-FirstShare));Paint(share);
+        }
+        /// <summary>What a part keeps of its paint fully dark where its body's share would leave it the lightest thing on a dark machine (-1: its body's).</summary>
+        float[] partKeep;
+        /// <summary>Some of its parts darker than the rest: each keeps <paramref name="keep"/> of its paint fully dark (and as much more of the way on the frames before), written now.
+        /// The Foundry Saint's override rig is white paint on a press of near-black iron: at the shut-down half its panels stood at 88 of 255 on the end's frame against the press's
+        /// 59 at its lightest, the one bright thing on the dark hull (nov26-r7-chain s59/041).</summary>
+        public int Deeper(IEnumerable<Renderer> parts,float keep)
+        {
+            if(painted==null)return 0;int found=0;
+            if(partKeep==null||partKeep.Length!=painted.Length){partKeep=new float[painted.Length];for(int i=0;i<partKeep.Length;i++)partKeep[i]=-1;}
+            foreach(var part in parts){int i=System.Array.IndexOf(painted,part);if(i>=0){partKeep[i]=Mathf.Clamp01(keep);found++;}}
+            Paint(share);return found;
         }
         /// <summary>Its colours given back, as it stood (a body revived), and this gone.</summary>
         public void Restore(){restoring=true;Paint(0);Destroy(this);}
@@ -170,7 +182,7 @@ namespace Lattice.Combat
             var rest=paintRest[i];if(k<=0)return rest;
             bool linear=LinearSpace;var paint=linear?rest.linear:rest;float lightness=Light(paint);if(lightness<1e-4f)return rest;
             float grain=grainLight[i],from=Mathf.Max(0,strengthRest[i]),now=Mathf.Lerp(from,Mathf.Max(0,strengthDark[i]),k);
-            float shown=1-now+now*grain,living=lightness*(1-from+from*grain),keep=Mathf.Lerp(1,ashes?.4f:paintKeep,k);
+            float shown=1-now+now*grain,living=lightness*(1-from+from*grain),keep=Mathf.Lerp(1,partKeep!=null&&partKeep[i]>=0?partKeep[i]:ashes?.4f:paintKeep,k);
             float target=living*(linear?Mathf.Pow(keep,2.2f):keep)/Mathf.Max(.02f,shown);
             var toned=linear?tone.linear:tone;var grey=Color.Lerp(new Color(lightness,lightness,lightness),paint,HueKept);
             var hue=Color.Lerp(paint,new Color(grey.r*toned.r,grey.g*toned.g,grey.b*toned.b),k);float hueLight=Mathf.Max(1e-4f,Light(hue));

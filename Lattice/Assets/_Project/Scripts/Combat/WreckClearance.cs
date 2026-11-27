@@ -63,6 +63,8 @@ namespace Lattice.Combat
         {
             yield return null;var party=PartyController.Current;if(party==null||party.members==null)yield break;
             foreach(var member in party.members)if(member!=null&&member.Health!=null)Projectile.Fizzle(member.Health);
+            // And a lance's beam: the killing one, held by the kill's stop, stood drawn into Hessa at her yield (nov25-whole s15/158).
+            foreach(var member in party.members)if(member!=null)foreach(var beam in member.GetComponentsInChildren<EmitterBeam>())beam.Out();
         }
         /// <summary>D420: whoever is up on the arms it lies on as it ends (the Foundry Saint's fallen roads, where the rig's last blow is struck from) is stepped down onto the floor in
         /// front of them, as the settling press steps out whoever is in its frame (SaintDown), and not where its last arms are about to lie. Left up there, Taren stood on a road's top

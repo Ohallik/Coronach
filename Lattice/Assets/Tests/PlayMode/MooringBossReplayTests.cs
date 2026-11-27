@@ -627,13 +627,24 @@ namespace Lattice.Tests.PlayMode
         /// let go (nov24-recon-g-63 s63: 166 takes in five rounds, the tender never felled by him). And the driver swung from the step's 2.3 m, which a blade doesn't reach across to a
         /// body half a person tall (both as they were, from where that run's roll set him down: 22 takes and no blow in 20 s, d406b). The first shelf docked through its pad as she
         /// fights, Idra stood down (her brain off), the lead set where the run's roll left him, and the route's own step played through the pad. Each broken state first on its own: the
-        /// clamp as it was must take his presses, the chase as it was must leave the tender standing.</summary>
+        /// clamp as it was must take his presses, the chase as it was must leave the tender standing.
+        /// <para>The chase as it was is played with her moves held (her fight begun and not still, so her clamp is offered and her tender works it; her next move never due). Free, she
+        /// draws her moves at random, and on a shelf every other sweep lands on the seat: a second sweep inside the 20 s rolled the lead out (QUALITY_UNSTRUCK_ROLL), and the chase as it
+        /// was came back in until inside its own 2.3 m, moving, to 1.85 m, from where a blade does land (felled in 16 s, d429f; a wave and one sweep in d429c, no roll and no blow in
+        /// 20 s); one blow also landed from the 2.13 m as she opened in her slack. Still (her brain passive) her clamp isn't offered and the tender never sets to work (red2). What it
+        /// is the before of, a blade swung from the step's reach, is then the same in every run. The clamp as it was and the chase as it is are played with her moves free, as the
+        /// player's run was.</para></summary>
         [UnityTest,Timeout(300000)] public IEnumerator AtHerSeatTheLeadStrikesTheTenderBesideTheClamp()
         {
             float felled=-1;int takes=0,blows=0;
             IEnumerator Work(bool clampAsItWas,bool reachAsItWas)
             {
                 yield return FirstShelfRoom(false);
+                if(reachAsItWas)
+                {
+                    var her=Object.FindObjectsByType<BossController>(FindObjectsSortMode.None).First(b=>b.MotherRoom);
+                    typeof(BossController).GetField("nextSpecial",Private).SetValue(her,float.MaxValue);
+                }
                 var lead=Lead;var partner=PartyController.Current.members.First(m=>m!=lead);
                 yield return DockFirstShelf(null);
                 partner.GetComponent<PartnerBrain>().enabled=false;
@@ -647,8 +658,10 @@ namespace Lattice.Tests.PlayMode
                 var rolled=new Vector3(-21.4f,lead.transform.position.y,318.1f);Place(lead,rolled);
                 TestContext.WriteLine($"MOORING_SEAT_PLACES seat={clamp.transform.position:F2} tender={tender.transform.position:F2} lead={lead.transform.position:F2} seatRadius={clamp.seatRadius} toSeat={Flat(clamp.transform.position,rolled):0.00} toTender={Flat(tender.transform.position,rolled):0.00}");
                 AsItWas(false,clampAsItWas,reachAsItWas);blows=0;felled=-1;int logged=log.Count;
-                tender.Damaged+=(h,packet,amount)=>{if(amount>0&&packet.source==lead.Health)blows++;};
                 float from=Time.unscaledTime,sample=0;
+                // Each blow, where it was struck from: what the chase's reach comes to.
+                tender.Damaged+=(h,packet,amount)=>{if(amount<=0||packet.source!=lead.Health)return;blows++;
+                    TestContext.WriteLine($"MOORING_BLOW reach={(reachAsItWas?"as it was":"now")} t={Time.unscaledTime-from:0.00} {amount:0} from {Flat(h.transform.position,lead.transform.position):0.00} m {lead.State}");};
                 yield return Play(Slice(MotherRoute,"work clamp 1 round 1","work clamp 1 round 1"),20,()=>
                 {
                     if(Time.unscaledTime<sample)return;sample=Time.unscaledTime+.5f;var to=tender.transform.position-lead.transform.position;to.y=0;

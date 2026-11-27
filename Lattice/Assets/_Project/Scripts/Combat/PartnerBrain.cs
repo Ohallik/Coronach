@@ -601,6 +601,9 @@ namespace Lattice.Combat
         /// <summary>Her way round him as it was (D397), carried on after the hold has set the party down somewhere else, for a test's broken state (MooringBossReplayTests sets it by
         /// reflection and puts it back): nothing else sets it.</summary>
         static bool talkThroughMoves;
+        /// <summary>Her place as it was chosen before D442, never under a plate even with the plates down, for a test's broken state (PartnerInViewTests sets it by reflection and
+        /// puts it back): nothing else sets it.</summary>
+        static bool talkPlatesKept;
         /// <summary>A talk or a radio line in flight holds everybody where they are, as it opens. Teo's line opened with Sela beside the lead on his right, which flying east-north-east
         /// is down the screen, and held her there under its box (nov23-whole s17/248). Now, if where she is lies under the box, under a corner plate or off the frame, she first takes the
         /// place beside him that is clear of them (his other side, else round behind him, never ahead of his nose), going round him, in up to a second; then she is held.
@@ -634,23 +637,28 @@ namespace Lattice.Combat
             var way=Planar(lead.motor.Facing).normalized;if(way.sqrMagnitude<.01f)way=Vector3.forward;var right=Vector3.Cross(Vector3.up,way);
             int mine=Vector3.Dot(Planar(transform.position-lead.transform.position),right)<0?-1:1;
             var lift=Vector3.up*.8f;float hull=HeroCollision.HullRadius(actor.character),apart=Apart(lead);
-            foreach(float turn in new[]{90f,-90f,120f,-120f,150f,-150f,180f})
-            {
-                var p=lead.transform.position+Quaternion.Euler(0,mine*turn,0)*way*apart;p.y=transform.position.y;
-                if(ClearOfTheBox(camera,p)&&!CombatCover.Sweep(lead.transform.position+lift,p+lift,hull,out _))return p;
-            }
+            // The HUD's plates are down while a talk's box is up. Where every place clear of the box lies under one of them (a narrow frame, the quest's card up beside the
+            // objective: all seven did in the whole suite of November 26, and she stayed under the box), a place under a plate that isn't drawn is taken before one under the box
+            // that is (D442).
+            foreach(bool plates in new[]{true,false})
+                foreach(float turn in new[]{90f,-90f,120f,-120f,150f,-150f,180f})
+                {
+                    if(!plates&&talkPlatesKept)break;
+                    var p=lead.transform.position+Quaternion.Euler(0,mine*turn,0)*way*apart;p.y=transform.position.y;
+                    if(ClearOfTheBox(camera,p,plates)&&!CombatCover.Sweep(lead.transform.position+lift,p+lift,hull,out _))return p;
+                }
             return null;
         }
         /// <summary>Her hull at a place on the screen, clear of the frame's edges, of the talk's box (DialoguePanel: 1760 by 330 on the 1920 by 1080 it is laid out for, standing 40 over the
         /// screen's foot, scaled as its canvas is, halfway between width and height) and of the HUD's plates as last drawn.</summary>
-        bool ClearOfTheBox(Camera camera,Vector3 at)
+        bool ClearOfTheBox(Camera camera,Vector3 at,bool plates=true)
         {
             var middle=camera.WorldToScreenPoint(at);if(middle.z<=0)return false;
             float hull=Mathf.Abs(camera.WorldToScreenPoint(at+camera.transform.right*HeroCollision.HullRadius(actor.character)).x-middle.x),edge=FrameEdge*camera.pixelHeight;
             if(!Inside(camera,middle,hull+edge))return false;
             float w=camera.pixelWidth,h=camera.pixelHeight,scale=Mathf.Sqrt(w/1920f*(h/1080f)),gap=hull+PlateGap;
             if(Mathf.Abs(middle.x-w*.5f)<880*scale+gap&&middle.y>40*scale-gap&&middle.y<370*scale+gap)return false;
-            foreach(var r in HudKeepOut.Rects)if(middle.x>r.xMin-gap&&middle.x<r.xMax+gap&&middle.y>r.yMin-gap&&middle.y<r.yMax+gap)return false;
+            if(plates)foreach(var r in HudKeepOut.Rects)if(middle.x>r.xMin-gap&&middle.x<r.xMax+gap&&middle.y>r.yMin-gap&&middle.y<r.yMax+gap)return false;
             return true;
         }
         /// <summary>A point of her way round him from one place to another: the angle and the distance off him each eased between the two, the way round that passes behind him.</summary>

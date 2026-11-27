@@ -57,12 +57,18 @@ namespace Lattice.World
             // D421: but a hero hidden WHOLE by one broad piece, lead or partner, gets the window again. Their outline alone, lying wholly on a lit roof or the top of an arch,
             // read as a ghost walking ON it (nov25-r5-chain s51/218 Taren on Harrowgate's gate roof, s13/007 Sela on the Arch Market's arch, s26/195 on a pillar's ledge):
             // nothing of them showed past the edge to say they were behind it. In the window they stand in their own colours on the floor under it.
-            bool outlined=BossOcclusion.Outlined(hero);
-            var partner=active&&outlined?PartnerOf(hero):null;
+            // D432: but never for the partner. Behind scenery she is simply hidden, as anyone is, and nothing draws her through it (HeroThrough); her window of her own (D427,
+            // _OccFadeEllipse2) is never opened now but in a test's before (HeroThrough.AsItWas).
+            // D438: and none for the lead either. In his window he stood in his own colours in an oval lying on the roof's or the wall's flat top, and three reviewers told
+            // what it was still read him as walking on the roof inside a stain (nov26-r7-chain s51/218, s50/058, s58/151); opened in part it was a stippled smudge on the
+            // planks (s16/114, s25/012). A hero HeroThrough finds (the mark off a boss, the line by one) is simply hidden by scenery, as anyone is; what passes right under the
+            // lens still fades whole. A lead nothing draws through or marks keeps the chest rule, and a test's before (HeroThrough.AsThisMorning) the window.
+            bool outlined=BossOcclusion.Outlined(hero),holes=!HeroThrough.Finds(hero);
+            var partner=active&&outlined&&HeroThrough.AsItWas?PartnerOf(hero):null;
             var eye=camera.transform.position;
             See(camera,hero,ref leadSight);if(partner!=null)See(camera,partner,ref partnerSight);
             float step=Time.unscaledDeltaTime*FadeSpeed;
-            foreach(var scenery in all)scenery.Refresh(active,outlined,partner!=null,eye,step);
+            foreach(var scenery in all)scenery.Refresh(active,holes,outlined,partner!=null,eye,step);
         }
         /// <summary>The partner out beside the lead, on her feet and drawn through what hides her (HeroThrough); the window is for her too.</summary>
         static CombatActor PartnerOf(CombatActor lead)
@@ -79,7 +85,7 @@ namespace Lattice.World
             sight.ellipse=new Vector4(view.x,view.y,Mathf.Abs(camera.WorldToViewportPoint(center+right*.95f).x-view.x),Mathf.Abs(camera.WorldToViewportPoint(center+camera.transform.up*1.45f).y-view.y));
             for(int i=0;i<Round.Length;i++)sight.round[i]=feet+right*Round[i].x+Vector3.up*Round[i].y;
         }
-        void Refresh(bool active,bool outlined,bool partner,Vector3 eye,float step)
+        void Refresh(bool active,bool holes,bool outlined,bool partner,Vector3 eye,float step)
         {
             bool under=active&&bounds.max.y>eye.y-LensClearance&&bounds.SqrDistance(eye)<UnderLens*UnderLens;
             int now=0;
@@ -89,7 +95,7 @@ namespace Lattice.World
             // two ways (the gate roof at s50/071, which read right with both lines).
             // D427: but a partner hidden whole by a piece that holds the lead's window gets a window of her own in it, hero-sized, beside his: her line alone there, on
             // the Walking Canopy's root arch beside Taren in his window, read as her standing on top of the root (nov25-r6-chain s21/295).
-            if(active&&!under)
+            if(active&&holes&&!under)
             {
                 if(outlined?HidesWhole(eye,leadSight):HidesChest(eye,leadSight))now=ForLead;
                 if(partner&&(now==ForLead||!Behind(eye,leadSight.chest))&&HidesWhole(eye,partnerSight))now|=ForPartner;

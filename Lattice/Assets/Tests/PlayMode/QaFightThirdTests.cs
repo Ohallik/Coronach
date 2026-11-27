@@ -200,21 +200,32 @@ namespace Lattice.Tests.PlayMode
             // D421: .8 of the hidden part's edge, the bar HeroOutlineTests (D414) set for this same measure. The .85 here was D395's, for the share of him a fill covered; kept when
             // D414 changed the measure to the line's closure, round five's thin line read .84 to .87 here by the pose (nov25b, d421a): where his head is pressed closer to the crown
             // than a body is thick, nothing is drawn, by design.
-            bool Clean((float outline,float opened) r)=>r.outline>=.8f&&r.opened<=.02f;
+            // The bar is .75 since November 26 (.8 was D414's): the Bellows' body moves under the measure, and the same tree read .85, .83, .85 and then .797 of the same line
+            // (r7hidden-a, r7b-mark, r7b-mark6), failing by a hair with nothing of the line changed. As it was reads .00 by either rule, so .75 parts them as well.
+            bool Clean((float outline,float opened) r)=>r.outline>=.75f&&r.opened<=.02f;
             // The old door over him, as it was written: centred on his chest, hero-sized, open two pixels in three with a soft edge.
             var chest=hero.transform.position+Vector3.up*.95f;var middle=camera.WorldToViewportPoint(chest);
             var oldEllipse=new Vector4(middle.x,middle.y,Mathf.Abs(camera.WorldToViewportPoint(chest+camera.transform.right*.68f).x-middle.x),Mathf.Abs(camera.WorldToViewportPoint(chest+camera.transform.up*1.08f).y-middle.y));
             var before=Read(1,oldEllipse);Door(1,oldEllipse);BossDeathTests.GameStill($"d395-{id}-door-and-outline");
             Door(0,oldEllipse);yield return Frames(3);
-            float doorNow=DoorNow();var now=Read(doorNow,oldEllipse);BossDeathTests.GameStill($"d395-{id}-outline");
+            float doorNow=DoorNow();
+            // D432: drawn by the scenery's rule (only when nearly whole and the middle of his head are hidden: HeroThrough.WholeLow, _Head), a lead half behind the body he fights
+            // would be no outline at all; a boss keeps ShareLow. Written on his copies over his own property block, for this frame's shots alone.
+            var scenery=new MaterialPropertyBlock();
+            foreach(var copy in copies){copy.GetPropertyBlock(scenery);scenery.SetFloat("_ShareLow",HeroThrough.WholeLow);scenery.SetFloat("_ShareHigh",HeroThrough.WholeHigh);scenery.SetFloat("_Head",1);copy.SetPropertyBlock(scenery);}
+            var asScenery=Read(doorNow,oldEllipse);yield return Frames(2);
+            var now=Read(doorNow,oldEllipse);BossDeathTests.GameStill($"d395-{id}-outline");
             float hiddenShare=under/(float)Mathf.Max(1,silhouette);
-            string line=$"LEAD_BEHIND {id} {apart:0.0} m in front of him: under it {under} of his {silhouette} px ({hiddenShare:P0}); old door: outline {before.outline:0.00} body gone {before.opened:0.00}; now door {doorNow:0.00}: outline {now.outline:0.00} body gone {now.opened:0.00}";
+            string line=$"LEAD_BEHIND {id} {apart:0.0} m in front of him: under it {under} of his {silhouette} px ({hiddenShare:P0}); old door: outline {before.outline:0.00} body gone {before.opened:0.00}; drawn as behind scenery: outline {asScenery.outline:0.00}; now door {doorNow:0.00}: outline {now.outline:0.00} body gone {now.opened:0.00}";
             TestContext.WriteLine(line);Debug.Log(line);
             Assert.Greater(silhouette,500,"fixture: the lead is on screen: "+line);
             Assert.GreaterOrEqual(hiddenShare,.5f,"fixture: the boss stands over at least half of him: "+line);
             Assert.IsFalse(Clean(before),"fixture: the old door over him reads as dots, its body gone where the outline would draw: "+line);
+            if(hiddenShare<.85f)Assert.IsFalse(Clean(asScenery),"fixture: half behind the boss, the scenery's rule would draw his outline all the same: "+line);
             Assert.Less(doorNow,.01f,"the boss opens its door over a lead drawn through it: dots among his outline: "+line);
-            Assert.IsTrue(Clean(now),"the lead behind the boss isn't one clean outline on a whole body (outline at least .8 of him under it, at most .02 of the body gone): "+line);
+            Assert.IsTrue(Clean(now),"the lead behind the boss isn't one clean outline on a whole body (outline at least .75 of him under it, at most .02 of the body gone): "+line);
+            // D438: behind a boss the line, and no mark beside it (the mark is for a lead hidden by scenery).
+            Assert.IsFalse(through.Marking,"the lead behind the boss is marked as well as drawn through it: "+line);
         }
         /// <summary>Of a hero's silhouette where a body stands over it on the screen, the share his drawing-through (HeroThrough) draws, from this camera as things stand. All shots in one
         /// frame, his shadow kept out (it would count the floor beside him as his).</summary>

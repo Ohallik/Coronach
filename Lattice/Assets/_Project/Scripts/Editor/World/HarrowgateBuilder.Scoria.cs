@@ -725,7 +725,9 @@ namespace Lattice.EditorTools
             {
                 var pocket=new GameObject("Unsworn camp (safe)",typeof(BoxCollider),typeof(SafePocket));pocket.transform.position=kit.On(47,206,2);
                 var box=pocket.GetComponent<BoxCollider>();box.size=new Vector3(36,8,26);box.isTrigger=true;
-                kit.Sign("UNSWORN CAMP",33.5f,203,1.8f);kit.Sign("STALL",47.2f,198.2f,1.6f);kit.Sign("CAMP FORGE",56.5f,207.4f,1.6f);
+                // The camp's name lies west of the cradle and on the camera's side of its west lamp: at (33.5, 203) that lamp (CradleBay's bollard, at (33.3, 202)) stood in front of its R
+                // and N from the way in and from the cradle (nov25-whole s46 164, s47 159, 178; QaNov26PlaceLabelTests).
+                kit.Sign("UNSWORN CAMP",32.3f,201.3f,1.8f);kit.Sign("STALL",47.2f,198.2f,1.6f);kit.Sign("CAMP FORGE",56.5f,207.4f,1.6f);
                 var bay=kit.Prop("DeckConsole",new Vector3(CampCradle.x,0,CampCradle.y),1.4f,30).AddComponent<RepairBay>();bay.free=true;bay.saveSpawn="Camp";bay.prompt="Camp cradle — repair and save";
                 ChapterOneStaging.CradleBay("Camp cradle",bay.gameObject,kit.On(CampCradle.x,CampCradle.y),kit.Y(CampCradle.x,CampCradle.y)+.02f,false,true);
                 var anvil=kit.Prop("LatticeAnvil",new Vector3(CampBench.x,0,CampBench.y),1.8f,10).AddComponent<Bench>();anvil.prompt="Fabricate — Lattice Anvil";

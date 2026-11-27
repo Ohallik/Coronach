@@ -186,6 +186,10 @@ namespace Lattice.Combat
             guarding=held&&(!flight||Style.flightGuard); if(guarding){if(!rolling)State=ActorState.Guard;}else if(State==ActorState.Guard)State=ActorState.Idle;
         }
         public void Stagger(float seconds){if(!Health.Alive||Recovering||Armored||Committed)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
+        /// <summary>A roll pressed this frame would go: everything <see cref="Dodge"/> asks before it spends anything. The replay driver reads it (ContinuousReview.Meret.cs): a press
+        /// refused is a press spent, since the button is then down and no second press comes.</summary>
+        public bool RollReady=>!GameTime.Paused&&Health.Alive&&!Recovering&&!ChangingForm&&!Committed&&State!=ActorState.Dodge&&State!=ActorState.Down&&State!=ActorState.Stagger
+            &&GameTime.Now>=nextDodge&&(GameTime.Now-dodgeAt>=FlashRhythm||thrust>=MashPrice);
         public bool Dodge(Vector3 direction)
         {
             if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||Committed||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger||GameTime.Now<nextDodge)return false;

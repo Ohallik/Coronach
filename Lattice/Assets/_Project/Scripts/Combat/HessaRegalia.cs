@@ -10,7 +10,7 @@ namespace Lattice.Combat
     /// still the first renderer anything finds. It stands where her upper chest is each frame, turned as her body is, so it follows her own animation: the lance's lunge, the
     /// backstep, the sweeping turn. Drawn only: nothing here is a collider or a hurtbox, and what she hits and is hit by is her capsule, as it was.
     /// <para>When she yields, the fighter's body goes and the woman under guard, in her own plain body, takes its place in the same frame (<c>YieldedCaptain</c>). Her gear doesn't go
-    /// with the fighter: it stays where it was that frame and comes down in the next half second, the standard thrown down behind her, the yoke and mantle off her back to the
+    /// with the fighter: it comes off her where it was on the frame she gives up (November 26: not at the hand-over) and comes down in the next half second, the standard thrown down behind her, the yoke and mantle off her back to the
     /// floor, the two lanterns set down where they hung, still burning. It is done before her first word (she speaks .4 s after taking over), and lies there through her talk.</para>
     /// </summary>
     public sealed class HessaRegalia:MonoBehaviour
@@ -23,16 +23,30 @@ namespace Lattice.Combat
         /// <summary>Set once she has yielded and it lies on the floor: what a check reads.</summary>
         public bool Down{get;private set;}
         string owner;
-        void Start(){var brain=GetComponentInParent<EnemyBrain>();owner=brain!=null&&brain.definition!=null?brain.definition.id:null;}
-        void OnEnable()=>DefeatPresentation.Yielded+=Yield;
-        void OnDisable()=>DefeatPresentation.Yielded-=Yield;
+        /// <summary>Who throws hers down on the frame she gives up, not at the hand-over 1.1 s later (nov26-r7-chain s15/158 to 163, nov25-whole s15/158 to 163). Held on her through that
+        /// beat she was a dark lump at her yield: the camera closes in as the fight ends and she turns to Taren, her back to the lens, so what showed was the gear's back (the wool
+        /// mantle, the two iron shoulder plates, the pole across her), not the woman in red the fight had shown from the front. Not Meret's emergency frame (MeretWell, its own end).</summary>
+        static readonly HashSet<string> OffAsSheGivesUp=new(){"HessaKorl"};
+        /// <summary>For a test's broken state only (BossDeathTests): her gear held on her until the hand-over, as before.</summary>
+        static bool asBefore;
+        Health fighter;
+        void Start(){Own();}
+        void Own(){if(owner!=null)return;var brain=GetComponentInParent<EnemyBrain>();owner=brain!=null&&brain.definition!=null?brain.definition.id:null;}
+        void OnEnable(){DefeatPresentation.Yielded+=Yield;Hook(true);}
+        void OnDisable(){DefeatPresentation.Yielded-=Yield;Hook(false);}
+        void Hook(bool on){if(Down)return;if(fighter==null)fighter=GetComponentInParent<Health>();if(fighter==null)return;fighter.Died-=GivesUp;if(on)fighter.Died+=GivesUp;}
+        void GivesUp(Health body,DamagePacket _)
+        {
+            Own();if(asBefore||owner==null||!OffAsSheGivesUp.Contains(owner))return;
+            body.Died-=GivesUp;Yield(owner,body.transform.position,body.transform.rotation);
+        }
         void LateUpdate()=>Follow();
         /// <summary>Puts it where the bone is now, turned as her body is. Also called by an editor still, where nothing updates.</summary>
         public void Follow(){if(anchor!=null&&!Down)transform.SetPositionAndRotation(anchor.TransformPoint(offset),(basis!=null?basis.rotation:anchor.rotation)*turn);}
         void Yield(string id,Vector3 feet,Quaternion facing)
         {
             if(Down||owner==null||id!=owner)return;
-            // Off the fighter before it is destroyed at the end of this frame, where it stands now.
+            // Off the fighter where it stands now: on the frame she gives up (GivesUp), or before the fighter is destroyed at the end of the hand-over's frame.
             Down=true;anchor=null;basis=null;transform.SetParent(null,true);
             var back=facing*Vector3.back;back.y=0;back=back.sqrMagnitude>.01f?back.normalized:Vector3.back;
             StartCoroutine(Fall(feet.y,back));

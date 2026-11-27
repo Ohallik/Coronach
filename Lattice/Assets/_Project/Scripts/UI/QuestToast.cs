@@ -39,6 +39,13 @@ namespace Lattice.UI
         const float TextWidth=490;
         GameObject chapterCard;CanvasGroup chapterGroup;TMP_Text cardHeading,cardTitle,cardBody;bool chapterUp;float cardAge;
         GameObject titleCard;CanvasGroup titleGroup;TMP_Text titleHeading,titleName;bool titleOnly;
+        /// <summary>A chapter's card that a conversation cuts into is not picked up where it left off when the talk closes. Its seconds only stopped while the screen was taken, so the
+        /// card went away and came back for what was left of it: CHAPTER 3 stood four seconds as the party walked to Pell, vanished as her talk began and stood again for its last
+        /// half second when it closed, a card shown twice (nov25-whole s17 047 and 072). One that had stood long enough to be read is over when the screen is taken; one that had
+        /// barely come up starts again whole afterwards. <see cref="resumesAsItWas"/> is a test's before.</summary>
+        const float TitleRead=2.5f,WordsRead=6;
+        static bool resumesAsItWas;
+        bool wasBlocked,startOver;
         /// <summary>Under the objective panel, it steps aside as that does.</summary>
         public PanelFade Fade{get;private set;}
         public string Heading=>heading!=null?heading.text:"";
@@ -143,10 +150,24 @@ namespace Lattice.UI
                     if(ChapterCards.Begun(quest,state))opened.Add(quest.id);
                     if(ChapterCards.Ended(quest,state))closed.Add(quest.id);
                 }
-                frame.gameObject.SetActive(false);chapterCard.SetActive(false);titleCard.SetActive(false);chapterUp=false;titleOnly=false;CardUp=false;return;
+                frame.gameObject.SetActive(false);chapterCard.SetActive(false);titleCard.SetActive(false);chapterUp=false;titleOnly=false;CardUp=false;wasBlocked=false;startOver=false;return;
             }
             if(Time.unscaledTime>=next)Scan(state);
             bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked||ExtraCutIn.Up;
+            // A chapter's card the screen is taken from: read, it is over; barely up, it starts again whole when the screen is free.
+            if(blocked!=wasBlocked&&!resumesAsItWas)
+            {
+                if(blocked)
+                {
+                    if(showing>0&&chapterUp){if(cardAge>=(titleOnly?TitleRead:WordsRead))showing=0;else startOver=true;}
+                }
+                else if(startOver)
+                {
+                    startOver=false;
+                    if(showing>0&&chapterUp){showing=titleOnly?ChapterStartSeconds:ChapterEndSeconds;cardAge=0;}
+                }
+            }
+            wasBlocked=blocked;
             if(showing<=0&&pending.Count>0&&!blocked)
             {
                 // A quest's level-up queues the moment it pays and the quest itself only shows up in the scan: look first, so QUEST COMPLETE goes ahead of its own SYNC card.

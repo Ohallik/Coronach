@@ -154,6 +154,15 @@ namespace Lattice.Tests.PlayMode
             for(int i=0;i<8;i++){var v=camera.WorldToViewportPoint(new Vector3((i&1)==0?shape.min.x:shape.max.x,(i&2)==0?shape.min.y:shape.max.y,(i&4)==0?shape.min.z:shape.max.z));x0=Mathf.Min(x0,v.x);x1=Mathf.Max(x1,v.x);y0=Mathf.Min(y0,v.y);y1=Mathf.Max(y1,v.y);}
             return Mathf.Max((x1-x0)*1920,(y1-y0)*1080);
         }
+        /// <summary>D438: the pixels the mark over a hero draws (the frame against the same without it). Behind scenery a lead hidden almost whole is marked, not drawn through,
+        /// so that is how he is found there.</summary>
+        static int MarkPixels(Camera camera,CombatActor hero)
+        {
+            var mark=hero.TryGetComponent<HeroThrough>(out var through)&&through.Marking?through.Mark:null;if(mark==null)return 0;
+            var shown=Shot(camera);mark.forceRenderingOff=true;var gone=Shot(camera);mark.forceRenderingOff=false;
+            int n=0;for(int i=0;i<shown.Length;i++)if(Change(shown[i],gone[i])>.1f)n++;
+            return n;
+        }
         static void SetThrough(bool on){foreach(var hero in PartyController.Current.members){var through=hero.GetComponent<HeroThrough>();Assert.IsNotNull(through,"every hero out is drawn through what hides them");through.enabled=on;}}
         /// <summary>A still of the frame as it stands, for a person to look at: the mirror's Builds/quality/camera-frames.</summary>
         static void Keep(string name)
@@ -355,10 +364,11 @@ namespace Lattice.Tests.PlayMode
             {
                 Put(Lead,at);if(Partner!=null)Put(Partner,at+Vector3.right*1.6f);
                 yield return new WaitForSecondsRealtime(2.5f);
-                float seen=Graphics?Seen(camera,Lead):1;
-                TestContext.WriteLine($"FOUNDRY_IRON {fight}: {by} stands between the lens and a hero at ({at.x:0.0},{at.z:0.0}); {seen:P0} of him shows");
+                float seen=Graphics?Seen(camera,Lead):1;int marked=Graphics?MarkPixels(camera,Lead):0;
+                TestContext.WriteLine($"FOUNDRY_IRON {fight}: {by} stands between the lens and a hero at ({at.x:0.0},{at.z:0.0}); {seen:P0} of him shows, the mark {marked} px");
                 Keep($"foundry-{fight}-{by.Replace(' ','-').Replace("(","").Replace(")","")}");
-                if(seen<LeastSeen)faults.Add($"{fight}: behind {by} at ({at.x:0.0},{at.z:0.0}) only {seen:P0} of the lead shows");
+                // D438: hidden almost whole by scenery he is marked, not drawn through.
+                if(seen<LeastSeen&&marked<30)faults.Add($"{fight}: behind {by} at ({at.x:0.0},{at.z:0.0}) only {seen:P0} of the lead shows and he isn't marked");
             }
             Assert.IsEmpty(faults,string.Join("\n",faults));
         }
@@ -458,9 +468,10 @@ namespace Lattice.Tests.PlayMode
             Assert.GreaterOrEqual(rig.GroundCameraDistance,profile.distance-.01f,$"the camera comes in to {rig.GroundCameraDistance:0.0} m, nearer than its play distance");
             Assert.GreaterOrEqual(lens,profile.distance-1.5f,$"the lens stands {lens:0.0} m from the lead");
             Assert.IsFalse(inside,"the lens stands inside the zone's solid");
-            float seen=Graphics?Seen(camera,hero):1;
-            TestContext.WriteLine($"GALLERY_SEEN {seen:0.00}");
-            Assert.IsTrue(seenNow||seen>=LeastSeen,$"the lead is hidden by the test's own wall and not drawn through it ({seen:P0} of him shows)");
+            float seen=Graphics?Seen(camera,hero):1;int marked=Graphics?MarkPixels(camera,hero):0;
+            TestContext.WriteLine($"GALLERY_SEEN {seen:0.00} marked {marked} px");
+            // D438: hidden whole by scenery he is marked, not drawn through.
+            Assert.IsTrue(seenNow||seen>=LeastSeen||marked>=30,$"the lead is hidden by the test's own wall, not drawn through it and not marked ({seen:P0} of him shows)");
             Assert.Greater(rig.Lean,0,"the lens stays at the fixed angle with the test's own wall hiding him");
             Object.Destroy(built);
         }

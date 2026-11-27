@@ -575,9 +575,16 @@ namespace Lattice.Tests.PlayMode
             bool feetHidden=Behind(drawn,eye,foot+Vector3.up*.1f),chestHidden=Behind(drawn,eye,foot+Vector3.up*.95f);
             float inDome=Inside(drawn,lead);
             var door=bellows.GetComponent<BossOcclusion>();Assert.IsNotNull(door,"fixture: the Bellows has its see-through door");
+            // D438: off a live fight (its controller is off here, to hold it still) the line is drawn by a boss the play camera sees in front of him (BossOcclusion.Between),
+            // and the game's own camera here is nowhere near him (192 m off the lens), so the capture's lens is the play camera for the frames HeroThrough takes to judge it.
+            // Before, every lead was drawn through anything, wherever the camera stood.
+            var played=Camera.main;var held=(lens.transform.position,lens.transform.rotation);played.tag="Untagged";lens.tag="MainCamera";lens.enabled=true;
+            yield return null;lens.transform.SetPositionAndRotation(held.Item1,held.Item2);yield return null;
             // D395: he is drawn through the dome where it hides him (HeroThrough: his feet in the clean outline), and the door opens for no hero drawn through; it is what's left for
             // a lead nothing draws through, and with his drawing off it still opens over his feet.
-            var through=lead.GetComponent<HeroThrough>();bool drawnThrough=through!=null&&through.isActiveAndEnabled&&through.Drawn>0;
+            var through=lead.GetComponent<HeroThrough>();bool drawnThrough=through!=null&&through.isActiveAndEnabled&&through.Drawn>0,marked=through!=null&&through.Marking;
+            string judged=$"a boss between from the lens {BossOcclusion.Between(lens,lead)}";
+            lens.enabled=false;lens.tag="Untagged";played.tag="MainCamera";lens.transform.SetPositionAndRotation(held.Item1,held.Item2);
             door.RefreshView(lens,lead,1);
             var body=bellows.GetComponent<DefeatPresentation>().visual.GetComponentsInChildren<Renderer>().First(r=>r is MeshRenderer||r is SkinnedMeshRenderer);
             var block=new MaterialPropertyBlock();body.GetPropertyBlock(block);float outlined=block.GetFloat("_OccFade");
@@ -594,12 +601,14 @@ namespace Lattice.Tests.PlayMode
             door.RefreshView(lens,lead,1);body.GetPropertyBlock(block);float open=block.GetFloat("_OccFade");var ellipse=block.GetVector("_OccFadeEllipse");
             if(through!=null)through.enabled=true;
             LogAssert.ignoreFailingMessages=false;
-            string line=$"BODIES_APART Bellows far side: {Flat(foot,at):0.00} m from its middle, drawn in him {inDome:0.00} m, feet hidden={feetHidden} chest hidden={chestHidden} drawn through={drawnThrough} outline over the {under} of his {silhouette} px the dome stands over={overFeet:0.00} (drawing off {bare:0.00}) door with it={outlined:0.00} without={open:0.00} at ({ellipse.x:0.000},{ellipse.y:0.000}) feet ({feet.x:0.000},{feet.y:0.000}) chest ({chest.x:0.000},{chest.y:0.000})";
+            string line=$"BODIES_APART Bellows far side: {Flat(foot,at):0.00} m from its middle, drawn in him {inDome:0.00} m, feet hidden={feetHidden} chest hidden={chestHidden} drawn through={drawnThrough} outline over the {under} of his {silhouette} px the dome stands over={overFeet:0.00} (drawing off {bare:0.00}) door with it={outlined:0.00} without={open:0.00} at ({ellipse.x:0.000},{ellipse.y:0.000}) feet ({feet.x:0.000},{feet.y:0.000}) chest ({chest.x:0.000},{chest.y:0.000}); {judged}";
             TestContext.WriteLine(line);Debug.Log(line);
             Assert.AreEqual(0f,inDome,.02f,"fixture: where the capture had him, nothing of the dome is in him: "+line);
             Assert.IsTrue(feetHidden,"fixture: from the capture's lens the dome's crown hides his feet: "+line);
             Assert.IsFalse(chestHidden,"fixture: from the capture's lens his chest is in sight, so a door that opens for his chest alone stays shut: "+line);
             Assert.IsTrue(drawnThrough,"his feet hidden by the Bellows' dome, nothing draws him through it and he is drawn standing on its crown: "+line);
+            // D438: by a boss the line, as before, and no mark (the mark is for a lead hidden by scenery).
+            Assert.IsFalse(marked,"the lead by the Bellows is marked: "+line);
             Assert.Greater(under,40,"fixture: from the capture's lens the dome stands over his feet on the screen: "+line);
             Assert.Less(bare,.85f,"fixture: with his drawing off, the crown over his feet is the crown, nothing of him: "+line);
             // D421: his feet and shins are a fifth of him (the dome stands over 580 to 650 of his 3,300 px), and a hero hidden in so small a part is no longer drawn through:

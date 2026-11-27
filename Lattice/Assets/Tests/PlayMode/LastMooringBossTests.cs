@@ -1276,7 +1276,10 @@ namespace Lattice.Tests.PlayMode
             // Met at Sync 29.1 on the frame gantry, the dock's arrival its door's checkpoint (end.meretShip: MeretGantry heard).
             // .33 since D362 (November 22): today's scouts felled 104,000 in 71.0 s (nov22-recon-g s67, the 12:35 build) and 122,000 in 104.8 s (nov22-recon-h-67, the 14:52 build)
             // against 3,365 and 3,529 a second (d355-dome3, d355-lengths): .425 and .338, the lower. She is 122,000 (a quarter 145 of 150).
-            book.Boss(new ContentRegistry.BossSheet{id="MeretGantry",zone="StillwaterChamber",door="MeretGantry",doorFlags=new[]{"end.meretShip"},sync=29,driverShare=.33f,
+            // .30 since November 26 (D437): at 122,000 the chain's three fights took 96.6, 105.4 and 155.0 s (nov23-, nov24- and nov25-whole s67; the last with two holds pulled
+            // away) against the whole suites' 3,350 to 3,650 a second: .36, .33 and .22. With a held coupling pinning her arm the last kind of fight is gone, which leaves .33; set a
+            // tenth lower for room, as Drask Vaal's and the well's were.
+            book.Boss(new ContentRegistry.BossSheet{id="MeretGantry",zone="StillwaterChamber",door="MeretGantry",doorFlags=new[]{"end.meretShip"},sync=29,driverShare=.30f,
                 minSeconds=MeretMin,maxSeconds=MeretMax,
                 specials=new[]{("Slam",new Vector3(0,0,4)),("Weld",new Vector3(0,0,8)),("Coolant",new Vector3(0,0,8)),("Charge",new Vector3(0,0,8)),("Stomp",new Vector3(0,0,2.6f))},
                 // The weld always ends overreached; from her first coupling open the frame's charge always ends overextended.
@@ -1287,7 +1290,13 @@ namespace Lattice.Tests.PlayMode
             // Met at Sync 29.5 in the control well once the party has come in at the lift's foot (end.wellEntered).
             // .49 since D362 (November 22): today's scout of the 12:35 build felled 140,000 in 65.7 s (nov22-recon-g s67) against 4,311 and 4,387 a second (d355-dome3, d355-lengths),
             // which is .490. She is 190,000 since D362 (continued), the slow pair's 200 s (her 150 at four thirds) on her slowest reading (4,012) holding her there: about 89 s.
-            book.Boss(new ContentRegistry.BossSheet{id="MeretWell",zone="StillwaterChamber",door="MeretWell",doorFlags=new[]{"end.wellEntered"},sync=29,driverShare=.49f,
+            // .33 since November 26: .49 was her share at 140,000, and she has been 190,000 since that evening, where the player's share of the same yardstick is less. At 190,000 the
+            // chain's fights took 118.3 s (nov23-whole s67), 130.5 s (nov24-whole s67) and 125.0 s (nov25-whole s67) against the shared length test's 4,217 a second (BOSS_RATE in the
+            // whole suites nov23a to nov25c, 4,072 to 4,423; 4,311 and 4,387 when .49 was set, so the yardstick has not moved): .381, .345 and .360, and over the three together .362.
+            // Set a tenth under that for room, as Drask Vaal's was: the in-house replay with the chain's party (MeretReplayTests.AtTheWell), the driver rolling out of her clamp on the
+            // skill steps and no clamp laid inside an EXTRA, read 123.4 s at .361 (meretpad1, flat out 4,270) and 109.3 s at .458 (meretpad2, flat out 3,795), over its nine tenths
+            // (.297) by 22% at the least; before the hand, with the clamps, it read .348 and .307 (red1, red3). The shared test puts her at 133 s (4,343), the player's 118 to 131.
+            book.Boss(new ContentRegistry.BossSheet{id="MeretWell",zone="StillwaterChamber",door="MeretWell",doorFlags=new[]{"end.wellEntered"},sync=29,driverShare=.33f,
                 minSeconds=MeretMin,maxSeconds=MeretMax,
                 specials=new[]{("Thrust",new Vector3(0,0,4)),("Cut",new Vector3(0,0,2.4f)),("Traps",new Vector3(0,0,6)),("Lunge",new Vector3(0,0,8)),("Guard",new Vector3(0,0,4))},
                 // Her question and the quiet after it strike nobody: SheAsksHerQuestionAndListensInAQuietNothingIsSaidOver, in this class.
@@ -1713,6 +1722,48 @@ namespace Lattice.Tests.PlayMode
             }
             boss.GetComponent<EnemyBrain>().Passive=true;
             Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+        /// <summary>A hero holding a coupling's weight pins its arm: she can't draw it in from under him. The weld's stretch is 3.4 s and the weight and the ease take 2; a hero who reached
+        /// the seat with 1.7 s of the stretch left held it to a breath of open and had the arm pulled away (COUPLING_DROPPED welder withdrawn: twice a fight in nov24-whole and nov25-whole
+        /// s67, seven times in one fight through the pad, November 26). As it was first (<see cref="BossController.GantryDrawsInHeld"/>), then as it is: the arm stays out until it opens.</summary>
+        [UnityTest] public IEnumerator AnArmWhoseCouplingAHeroHoldsIsNotDrawnInFromUnderHim()
+        {
+            var told=new List<string>();
+            try
+            {
+                for(int pass=0;pass<2;pass++)
+                {
+                    BossController.GantryDrawsInHeld=pass==0;
+                    yield return Load("Arena_Ground");MeretFloor();MeretListen();
+                    var boss=Meret("MeretGantry",FrameAt,true,0);yield return Frames(3);var lead=Lead;var partner=Partner;Fresh(lead);Fresh(partner);
+                    Put(lead,FrameAt+Vector3.forward*8);Put(partner,FrameAt+Vector3.right*30);var body=boss.Health;
+                    // Her bar held at its first third, so an overreached arm's coupling is offered.
+                    boss.GetComponent<EnemyBrain>().Passive=false;
+                    for(int i=0;i<8;i++){body.Receive(new DamagePacket{source=lead.Health,amount=body.maximum*.2f,type=DamageType.Pulse});yield return null;}
+                    boss.GetComponent<EnemyBrain>().Passive=true;yield return Idle(boss);
+                    var seat=boss.GantryWelder;Assert.IsNotNull(seat,"fixture: her welding arm's coupling");
+                    Assert.IsTrue(boss.Perform("Weld"),"fixture: her weld");
+                    yield return Until(()=>seat.Offered,6,lead,partner);
+                    Assert.IsTrue(seat.Offered,"fixture: her weld ran out and the welding arm's coupling wasn't offered");
+                    // The seat reached late, as the pad reaches it: 1.7 s of the stretch left and two seconds of holding to do.
+                    yield return Until(()=>false,BossController.GantryTune.WeldStretch-1.7f,lead,partner);
+                    Assert.IsTrue(seat.Offered,"fixture: the arm went in before the hero reached the seat");
+                    boss.GetComponent<EnemyBrain>().Passive=false;
+                    Put(lead,seat.transform.position);Fresh(lead);yield return Frames(2);
+                    Assert.IsTrue(seat.Available,"fixture: the coupling can't be taken");seat.Interact();float took=Time.time;
+                    for(float end=Time.time+4;!seat.IsOpen&&seat.Holder!=null&&Time.time<end;){foreach(var hero in PartyController.Current.members)hero.motor.Move(Vector2.zero,false,false);yield return null;}
+                    told.Add($"{(pass==0?"as it was":"now")}: {(seat.IsOpen?"open":"dropped")} {Time.time-took:0.00} s after it was taken, her arm {boss.GantryFrame.Right}");
+                    if(pass==0)Assert.IsFalse(seat.IsOpen,"fixture: as it was, a coupling taken with 1.7 s of the stretch left opened all the same: the check below proves nothing");
+                    else
+                    {
+                        Assert.IsTrue(seat.IsOpen,"a hero took the coupling's weight with 1.7 s of her stretch left and held: she drew the arm in from under him ("+string.Join("; ",told)+")");
+                        Assert.Less(Time.time-took,MeretCoupling.TakeWeight+MeretCoupling.EaseHold+.3f,"the held coupling took longer to open than its weight and its ease");
+                    }
+                    boss.GetComponent<EnemyBrain>().Passive=true;
+                }
+            }
+            finally{BossController.GantryDrawsInHeld=false;}
+            TestContext.WriteLine("MERET_HELD_ARM "+string.Join("; ",told));
         }
         /// <summary>A slam that meets nobody leaves the press overreached and, with her bar held at its line, its coupling offered; one that meets a hero doesn't. Each machine is named as she
         /// first uses it, by her and then by the hero (manifest 7: the press, the welding line, the coolant, each its own line).</summary>

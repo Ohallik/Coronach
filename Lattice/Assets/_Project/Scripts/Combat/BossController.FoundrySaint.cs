@@ -86,6 +86,12 @@ namespace Lattice.Combat
             public const float ClimbHeight=1;
             /// <summary>The rig on its back: its foot over the floor, out behind its middle, drawn size; the bar across the back (its height and reach); its target with the rig bare.</summary>
             public const float RigFoot=2.55f,RigOut=2.95f,RigDrawn=2.1f,BarHeight=3.9f,BarReach=4.7f;
+            /// <summary>November 26: the bar reaches the outermost collar the override still holds on each side, and at least this far either side of the rig it runs through (its
+            /// drawn half-width); its width (a hand over the cables' .11, where at .22 it read as a neon tube laid along the arms, s59/020 to 039).</summary>
+            public const float BarRig=.6f,BarWidth=.14f;
+            /// <summary>November 26: what the rig keeps of its paint fully dark (BodyGoesDark.Deeper): white paint on a press of near-black iron, at the shut-down half it stood
+            /// 88 of 255 on the end's frame against the press's 59 at its lightest (nov26-r7-chain s59/041).</summary>
+            public const float RigDark=.15f;
             public static readonly Vector3 RigTarget=new(0,3.7f,-2.85f),RigTargetSize=new(9.6f,1.8f,1f);
             /// <summary>Its rest between moves, held and bare.</summary>
             public const float RestHeld=3,RestBare=2.3f;
@@ -186,8 +192,9 @@ namespace Lattice.Combat
             saintRig.transform.localScale*=SaintTune.RigDrawn/1.4f;
             var bar=new GameObject("Override bar");bar.transform.SetParent(transform,false);saintBar=bar.AddComponent<LineRenderer>();saintBar.useWorldSpace=false;saintBar.positionCount=2;
             saintBar.SetPosition(0,new Vector3(-SaintTune.BarReach,SaintTune.BarHeight,-SaintTune.RigOut));saintBar.SetPosition(1,new Vector3(SaintTune.BarReach,SaintTune.BarHeight,-SaintTune.RigOut));
-            saintBar.startWidth=saintBar.endWidth=.22f;saintBar.sharedMaterial=ActorFactory.Energy(SaintCyan);saintBar.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            saintBar.startWidth=saintBar.endWidth=saintAsBefore?.22f:SaintTune.BarWidth;saintBar.sharedMaterial=ActorFactory.Energy(SaintCyan);saintBar.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             foreach(var arm in saintArms){var local=transform.InverseTransformPoint(arm.transform.position);arm.Cable(transform.TransformPoint(new Vector3(Mathf.Clamp(local.x,-SaintTune.BarReach,SaintTune.BarReach),SaintTune.BarHeight,-SaintTune.RigOut)));}
+            SaintBarSpan();
             // What a blow from up on the arms strikes once the rig is bare: twice over, as any weak spot. Off until then, so nothing reaches it before.
             saintRigTarget=new GameObject("Override rig");saintRigTarget.transform.SetParent(transform,false);saintRigTarget.transform.localPosition=SaintTune.RigTarget;
             var shape=saintRigTarget.AddComponent<BoxCollider>();shape.isTrigger=true;shape.size=SaintTune.RigTargetSize;
@@ -265,7 +272,29 @@ namespace Lattice.Combat
                 Debug.Log($"SAINT_HOLDS {saintHold/health.maximum:0.00}");
             }
             if(released>=SaintTune.ArmsToBare)SaintBareNow();
+            SaintBarSpan();
         }
+        /// <summary>For a test's broken state only (BossDeathTests): the bar across the whole back whatever it still holds, and the rig darkened only as far as the press.</summary>
+        static bool saintAsBefore;
+        /// <summary>November 26: the override's bar is what joins the rig to the collars it still holds, so it reaches the outermost of them on each side and no further, and draws
+        /// in as the arms go. Across the whole back at .22 m whatever it held, its ends stood in the air past the last cable and it lay along the freed arms, a flat neon tube
+        /// (nov26-r7-chain s59/020 to 039). A released arm's slack cable hangs from where the bar ends on its side, not from the air where it was.</summary>
+        void SaintBarSpan()
+        {
+            if(saintBar==null)return;
+            float west=-SaintTune.BarReach,east=SaintTune.BarReach;
+            if(!saintAsBefore)
+            {
+                west=-SaintTune.BarRig;east=SaintTune.BarRig;
+                foreach(var arm in saintArms){if(arm==null||arm.IsReleased)continue;float x=SaintCableX(arm);west=Mathf.Min(west,x);east=Mathf.Max(east,x);}
+                foreach(var arm in saintArms)if(arm!=null&&arm.IsReleased&&!arm.PoweredDown)arm.Cable(transform.TransformPoint(new Vector3(Mathf.Clamp(SaintCableX(arm),west,east),SaintTune.BarHeight,-SaintTune.RigOut)));
+            }
+            saintBar.SetPosition(0,new Vector3(west,SaintTune.BarHeight,-SaintTune.RigOut));saintBar.SetPosition(1,new Vector3(east,SaintTune.BarHeight,-SaintTune.RigOut));
+        }
+        /// <summary>Where an arm's cable leaves the bar, across the back.</summary>
+        float SaintCableX(SaintArm arm)=>Mathf.Clamp(transform.InverseTransformPoint(arm.transform.position).x,-SaintTune.BarReach,SaintTune.BarReach);
+        /// <summary>The bar's two ends across the back now (its own x), for a check to read.</summary>
+        public Vector2 SaintBarEnds=>saintBar!=null?new Vector2(saintBar.GetPosition(0).x,saintBar.GetPosition(1).x):Vector2.zero;
         /// <summary>The rig bare: its target opens to blows from the arms, the arms still raised stop answering at their collars (they sweep now), and the bar and cables say so.</summary>
         void SaintBareNow()
         {
@@ -343,6 +372,9 @@ namespace Lattice.Combat
             foreach(var arm in saintArms)if(arm!=null){arm.Release(true);arm.LetGo-=SaintArmLetGo;}
             // D385: its cyan out and no warm lamps lit over the darkening (they lit it on the frame it settled): the override bar goes, and its body goes dark with its arms.
             if(saintBar!=null)saintBar.enabled=false;
+            // November 26: and the rig with it, deeper than the press's half: white paint on near-black iron, at the half it was the one bright thing on the dark press under the
+            // killing blow's number on the end's own frame (nov26-r7-chain s59/041). Its renderers are in the press's darkening (begun by its presentation before this, under its root).
+            if(!saintAsBefore&&saintRig!=null){var dark=GetComponent<BodyGoesDark>();if(dark!=null)dark.Deeper(saintRig.GetComponentsInChildren<Renderer>(true),SaintTune.RigDark);}
             // D385: released is powered down, the whole machine: the press and all six arms dark at once, their lamps out, the arms down and still. Its arms are the room's and not under
             // its root, so its own darkening never reached them: after the win they lay in full gold and cream through the loot lines and Orrin's call, the brightest thing in the hall
             // (nov23-whole s59/038, 043). They stay dark for the rest of the visit, as the press does.

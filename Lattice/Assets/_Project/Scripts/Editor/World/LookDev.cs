@@ -111,7 +111,10 @@ namespace Lattice.EditorTools
                 new View("lane-1300",XylosBuilder.Beside(1300,0),true),new View("lane-1560",XylosBuilder.Beside(1560,0),true),
                 new View("barge-1-wide",XylosBuilder.Beside(250,8),true,3f),new View("mirror-wide",XylosBuilder.Beside(930,-24),true,4.5f),new View("beacon-wide",XylosBuilder.Beside(1630,0),true,3f),
                 // Where the whole-game capture's mirror stills stood (nov20-whole s17 200 and 214).
-                new View("mirror-s17-200",new Vector3(224.5f,1,679.7f),true),new View("mirror-s17-214",new Vector3(319.5f,1,858.8f),true)}),
+                new View("mirror-s17-200",new Vector3(224.5f,1,679.7f),true),new View("mirror-s17-214",new Vector3(319.5f,1,858.8f),true),
+                // Where nov25-whole s17 123 and 298 looked (a loose shard of the mirror in the stream) and 211 and 203 (drawn back) at the second barge's loose panes.
+                new View("glass-s17-123",new Vector3(30.5f,1,196.2f),true),new View("glass-s17-211",new Vector3(323.6f,1,855.1f),true),
+                new View("glass-s17-203",new Vector3(327.6f,1,856.3f),true,2.09f),new View("glass-s17-298",new Vector3(934.6f,1,1167.8f),true),new View("mirror-r7-203",new Vector3(329.8f,1,855.2f),true,2.09f),new View("mirror-r7-211",new Vector3(339.7f,1,863.4f),true,2.29f),new View("mirror-r7-226",new Vector3(338.4f,1,872.7f),true,1.1f)}),
             ("Rootmarket",new[]{new View("arrival",new Vector3(0,0,17)),new View("mooring",new Vector3(29,0,19)),new View("landing-west",new Vector3(-8,0,24)),new View("ferry-stage",new Vector3(-25,0,46)),
                 new View("raft-crossing",new Vector3(0,0,44)),new View("ring-northwest",new Vector3(-18,0,60)),new View("seed-house",new Vector3(2,0,68)),new View("seed-house-door",new Vector3(0,0,72)),
                 new View("kitchen",new Vector3(25,0,65)),new View("press",new Vector3(37,0,45)),new View("river-gate",new Vector3(55,0,43)),new View("ring-southeast",new Vector3(22,0,31)),
@@ -152,7 +155,10 @@ namespace Lattice.EditorTools
                 new View("lane-1080",WendmireBuilder.VeilBeside(1080,0),true),new View("pocket-b",WendmireBuilder.VeilBeside(1150,48),true),new View("lane-1260",WendmireBuilder.VeilBeside(1260,0),true),
                 new View("dead-beacon",WendmireBuilder.VeilBeside(1380,-8),true),new View("lane-1460",WendmireBuilder.VeilBeside(1460,0),true),new View("gate",WendmireBuilder.VeilBeside(1552,0),true),
                 new View("lane-0100",WendmireBuilder.VeilBeside(100,0),true),new View("lane-0340",WendmireBuilder.VeilBeside(340,0),true),new View("lane-0660",WendmireBuilder.VeilBeside(660,20),true),
-                new View("field-wide",WendmireBuilder.VeilBeside(760,0),true,3.5f),new View("gate-wide",WendmireBuilder.VeilBeside(1540,0),true,3f)}),
+                new View("field-wide",WendmireBuilder.VeilBeside(760,0),true,3.5f),new View("gate-wide",WendmireBuilder.VeilBeside(1540,0),true,3f),
+                // Where nov25-whole s23 193, 196 and 202 (drawn back) looked, coming over the mire's edge, and 213 over the mire.
+                new View("mire-s23-193",new Vector3(63.8f,1,1266),true),new View("mire-s23-196",new Vector3(62.1f,1,1291.1f),true),new View("mire-s23-202",new Vector3(72.2f,1,1310.3f),true,1.92f),
+                new View("mire-s23-213",new Vector3(52,1,1327),true)}),
             ("Driftreed",new[]{new View("arrival",new Vector3(0,0,8.5f)),new View("stern-line",new Vector3(11,0,11)),new View("pad",new Vector3(-8,0,11)),new View("stage-walk",new Vector3(0,0,26)),
                 new View("market",new Vector3(0,0,46)),new View("market-west",new Vector3(-10,0,44)),new View("notice",new Vector3(-6,0,40)),new View("smokehouse",new Vector3(19,0,43)),
                 new View("pump-walk",new Vector3(-23,0,46)),new View("pump-raft",new Vector3(-37,0,45)),new View("press",new Vector3(-42,0,47)),new View("hall-walk",new Vector3(0,0,66)),
@@ -290,6 +296,10 @@ namespace Lattice.EditorTools
                         var profile=view.flight?flight:ground;var rotation=Quaternion.Euler(profile.pitch,profile.yaw,0);
                         camera.fieldOfView=profile.fov;
                         camera.transform.SetPositionAndRotation(view.point+Vector3.up*(view.flight?0:1)-rotation*Vector3.forward*profile.distance*Mathf.Max(1,view.zoom),rotation);
+                        // A SkyDrift in play turns the sky by where the view meets the flight plane (Lattice.World.SkyDrift, 0.06 degrees a metre; its slow turn with the clock left out):
+                        // unturned, a still showed a part of the sky the player never sees there.
+                        bool drifts=view.flight&&Object.FindAnyObjectByType<Lattice.World.SkyDrift>()!=null;
+                        Shader.SetGlobalVector("_SkyTurn",drifts?new Vector4(view.point.z*.06f,view.point.x*.06f,0,0):Vector4.zero);
                         Shot(camera,Path.Combine(folder,zone+"-"+view.name+".png"));count++;
                         foreach(var h in heroes)Object.DestroyImmediate(h);
                     }
@@ -297,7 +307,7 @@ namespace Lattice.EditorTools
                 }
                 Debug.Log($"LOOKDEV_OK count={count} folder={folder}");
             }
-            finally{GraphicsSettings.defaultRenderPipeline=before;QualitySettings.renderPipeline=beforeQuality;}
+            finally{GraphicsSettings.defaultRenderPipeline=before;QualitySettings.renderPipeline=beforeQuality;Shader.SetGlobalVector("_SkyTurn",Vector4.zero);}
         });
 
         static GameObject[] Heroes(View view)

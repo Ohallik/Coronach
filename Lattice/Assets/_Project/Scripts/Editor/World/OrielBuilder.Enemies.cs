@@ -124,7 +124,7 @@ namespace Lattice.EditorTools
             // QaPlanCombatTests measures it in the same parts. Its numbers past this are BossController.LastWarden.cs's own table. It stands down at the
             // fourth clamp (it yields: its body stays, staff lowered), and drops the region's rare, the Warden Key.
             // 245,000 since D384 (November 24), from 200,000: the player fought 200,000 down in 130 to 171 s, its bar alone about 105 s of that, under the shared 120 s floor.
-            ArenaBuilder.Asset<EnemyDef>("LastWarden",e=>{e.id="LastWarden";e.displayName="THE LAST WARDEN";e.prefab=Body("LastWarden","HostMarshal");e.integrity=245000;e.breakThreshold=800;e.speed=1.6f;e.attacks=new[]{wardenStaff};
+            ArenaBuilder.Asset<EnemyDef>("LastWarden",e=>{e.id="LastWarden";e.displayName="THE LAST WARDEN";e.prefab=Body("LastWarden","HostMarshal");e.integrity=260000;e.breakThreshold=800;e.speed=1.6f;e.attacks=new[]{wardenStaff};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1500;e.scrip=450;e.scrap=22;e.boss=true;
                 e.bossMusicId="Boss of the Ages";e.yieldsOnDefeat=true;
                 // A capsule can't stand shorter than it is wide: 3.6 m on its 1.5 m radius, the body's own height.
