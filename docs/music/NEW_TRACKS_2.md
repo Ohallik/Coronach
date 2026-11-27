@@ -1,5 +1,7 @@
 # New tracks, second batch: eight places that share a track (melody seeds, November 14, 2026)
 
+**Superseded on November 27, 2026.** Nathan generated tracks from these seeds and found the hooks too weak and the tracks too repetitive. All fourteen cues were written again as long seeds: use [NEW_TRACKS_3.md](NEW_TRACKS_3.md). This page is kept for what each cue is for and where it plays.
+
 A music audit found tracks stretched over too many different places. This batch gives eight of those places their own melody seed. They were made with the `game-melody-seeds` skill and saved beside the first batch in `C:\Users\natem\Projects\GameMusic\coronach\`, in folders 07 to 14, one folder per cue. Every seed has an audition page (Play/Stop, the notes bar by bar, the Suno prompt with a Copy button) and an upload WAV (melody only, 44.1 kHz mono, peak -3 dBFS, one full statement). To use one: open the page and listen, then in Suno upload the WAV, switch Instrumental on and paste the prompt.
 
 There is one seed per cue. Each is a different kind of tune: a riff, a long-note anthem, a bell figure, a creeping half-step line, a folk lament, a hammered chant, a fanfare and a running line. The skill compared each one with the fifteen first-batch seeds and with the rest of this batch, and found none that it resembles.

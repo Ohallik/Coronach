@@ -1,5 +1,7 @@
 # New tracks: the last six cues (melody seeds, November 11, 2026)
 
+**Superseded on November 27, 2026.** Nathan generated tracks from these seeds and found the hooks too weak and the tracks too repetitive. All fourteen cues were written again as long seeds: use [NEW_TRACKS_3.md](NEW_TRACKS_3.md). This page is kept for what each cue is for and where it plays.
+
 Six places in the finished story have no track. Each one now has melody seeds, made with the `game-melody-seeds` skill and saved in `C:\Users\natem\Projects\GameMusic\coronach\`, one folder per cue. Every seed has an audition page (Play/Stop, the notes bar by bar, the Suno prompt with a Copy button) and an upload WAV (melody only, 44.1 kHz mono, peak -3 dBFS, one full statement). To use one: open the page and pick, then in Suno upload the WAV, switch Instrumental on and paste the prompt.
 
 Five of the cues are one melody family built on the Coronach tune. Everything derived (cues 2, 5 and 6, the opening of Last Mooring, and the second strain of each Many Hands seed) comes from **coronach-walk-a**. If you pick a different Coronach, say which one and those get re-derived from it.
