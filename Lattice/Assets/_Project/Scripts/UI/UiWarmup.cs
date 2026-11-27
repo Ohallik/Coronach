@@ -41,10 +41,20 @@ namespace Lattice.UI
             yield return null;
             // A save row's date: the first local time and the first culture format of a run are slow to set up.
             DisplayNames.SavedAt(System.DateTime.UtcNow.ToString("o"));
+            yield return null;
+            if(!asBefore)
+            {
+                // The bench's and the stall's own first opening (QA-034, round ten): a consumable's or a material's mark is a line drawn into a texture the first time a row
+                // shows it, two of them 44 ms of the bench's first opening in a mirror. A mark a frame. (The pages' code, compiled on its first run, is built once as a zone
+                // comes in: PauseMenu.Warm, ShopUi.Warm. Asking the runtime to compile it here, RuntimeHelpers.PrepareMethod, changed nothing.)
+                foreach(ItemMarks.Kind kind in System.Enum.GetValues(typeof(ItemMarks.Kind)))if(ItemMarks.Drawn(kind)){ItemMarks.For(kind);yield return null;}
+            }
             for(int i=0;i<DrawnFor;i++)yield return null;
             Object.Destroy(canvas.gameObject);
             Done=true;
         }
+        /// <summary>For a test's before only (QaNov10MenuTests): the warm-up as ff99a7a left it, without the marks.</summary>
+        static bool asBefore;
         /// <summary>Off the screen to the left: still drawn, so its shaders and textures are ready, and never seen.</summary>
         static void Away(GameObject element)
         {

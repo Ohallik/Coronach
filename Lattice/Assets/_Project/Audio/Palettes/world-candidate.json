@@ -1,0 +1,98 @@
+{
+  "status": "Prepared candidates only; not staged in game; audition UNVERIFIED",
+  "sampleRate": 48000,
+  "channels": 1,
+  "targetSamplePeakDbfs": -1,
+  "processing": "Decode mono 48k; optional pitch-resample; normalize each layer to unit peak then weighted mix/delay; trim below -60 dB relative activity; 2 ms onset and 12 ms tail fades; normalize composite to -1 dBFS (the reference of tools/audio_reference.py since round ten; -10 before it); signed 16-bit PCM. Impact set: a layer may keep only its first seconds (take) or play backwards (reverse) before its gain; a clip longer than its limit is cut there with a 60 ms eased tail before the fades.",
+  "clips": [
+    {
+      "key": "pickup",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/r10-world-palette/pickup.wav",
+        "bytes": 13006,
+        "sha256": "973b73bad14753b239f866aa47b1133a54191166e89d0ea45592664cb03317c6"
+      },
+      "seconds": 0.13502083333333334,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "pluck_002.ogg",
+          "gain": 0.7,
+          "pitch": 1.1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "glass_002.ogg",
+          "gain": 0.3,
+          "pitch": 1.2,
+          "delay": 0.01
+        }
+      ]
+    },
+    {
+      "key": "saved",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/r10-world-palette/saved.wav",
+        "bytes": 47124,
+        "sha256": "40167c7edb25b9d870b8f282ab187788d3d59a8b849906867ba1fd7853ef2bab"
+      },
+      "seconds": 0.49041666666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "confirmation_004.ogg",
+          "gain": 0.65,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "bong_001.ogg",
+          "gain": 0.35,
+          "pitch": 1.5,
+          "delay": 0.06
+        }
+      ]
+    }
+  ],
+  "set": "world",
+  "limits": {
+    "pickup": 0.3,
+    "saved": 0.8
+  },
+  "sources": [
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/pluck_002.ogg",
+      "bytes": 6941,
+      "sha256": "c977fe249ff42d1c93a552b33abc13a8399df3879fa510475426e5c4bbac1da9"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/glass_002.ogg",
+      "bytes": 4917,
+      "sha256": "08e972c73e53c91d6d310e107e80db60edce78ae47225889a028e628a6f3da49"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/confirmation_004.ogg",
+      "bytes": 12391,
+      "sha256": "568967a3d9f8a8f6af54ea01729c4882284308f2a27d78c07ffd7ee0d6951661"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/bong_001.ogg",
+      "bytes": 4848,
+      "sha256": "d21d0f0b782445db579d11e2506b24cd1ac9d664ee33aeaf807761aa7b6fd710"
+    }
+  ],
+  "licenses": [
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/License.txt",
+      "bytes": 574,
+      "sha256": "f7966c773bbed0eca6a9c75081c44a178b38eae112724dbb5fdfbd4192d118a9"
+    }
+  ],
+  "tool": {
+    "path": "c:/Users/natem/Projects/SpaceRPG/tools/prepare_audio_palette.py",
+    "bytes": 9812,
+    "sha256": "fc018d65b2148e5858ccd7c65e89e3fa2149639004cc6cf96ba923bb522fc5ad"
+  }
+}

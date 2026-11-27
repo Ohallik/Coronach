@@ -197,6 +197,75 @@ namespace Lattice.Tests.PlayMode
             string focus=Selected().name;
             Assert.IsTrue(focus=="Continue"||focus=="New Game","the warm-up took the title's focus: "+focus);
         }
+        // ------------------------------------------------------------------ QA-034: the bench's and the shop's first opening (round ten)
+        /// <summary>What one opening cost: the whole frame it opened in, the call that built the page, and what was made in that frame.</summary>
+        struct Opening{public double frame,call,canvases;public int made,texts,assets,glyphs;public long garbage;
+            public override string ToString()=>$"frame {frame:0.0} ms (the call {call:0.0}, the canvases {canvases:0.0}), {made} objects, {texts} texts, {assets} new textures/sprites/materials, {glyphs} glyphs, {garbage/1024} KB";}
+        static int Objects()=>Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length;
+        static int Texts()=>Object.FindObjectsByType<TMP_Text>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length;
+        static int Assets()=>Resources.FindObjectsOfTypeAll<Texture>().Length+Resources.FindObjectsOfTypeAll<Sprite>().Length+Resources.FindObjectsOfTypeAll<Material>().Length;
+        static int Glyphs()=>Resources.FindObjectsOfTypeAll<TMP_FontAsset>().Sum(f=>f.characterTable!=null?f.characterTable.Count:0);
+        /// <summary>Opens and closes a page the given number of times, a frame apart, timing the frame each opening falls in from the moment before the call to the next frame.</summary>
+        static IEnumerator Openings(System.Action open,System.Action close,Opening[] into)
+        {
+            using var canvases=Unity.Profiling.ProfilerRecorder.StartNew(Unity.Profiling.ProfilerCategory.Internal,"PostLateUpdate.PlayerUpdateCanvases");
+            for(int i=0;i<into.Length;i++)
+            {
+                yield return null;yield return null;
+                int made=Objects(),texts=Texts(),assets=Assets(),glyphs=Glyphs();
+                long garbage=System.GC.GetAllocatedBytesForCurrentThread();var frame=Stopwatch.StartNew();
+                open();double call=frame.Elapsed.TotalMilliseconds;
+                yield return null;
+                double whole=frame.Elapsed.TotalMilliseconds;long spent=System.GC.GetAllocatedBytesForCurrentThread()-garbage;
+                into[i]=new Opening{frame=whole,call=call,canvases=canvases.Valid?canvases.LastValue/1e6:-1,made=Objects()-made,texts=Texts()-texts,assets=Assets()-assets,glyphs=Glyphs()-glyphs,garbage=spent};
+                close();
+            }
+            yield return null;yield return null;
+        }
+        /// <summary>QA-034, round ten. The capture of record (nov25-whole, recording on) opened the drill's bench in a 92 ms frame and a 90 ms one (s05 step 17, s07 step 13), Hal's
+        /// bench in 59 (s01 step 40) and Mira's stall in 59 (s01 step 26), each the first opening of its run; every press inside them after that, which builds the whole page again,
+        /// was 23 to 28 ms. Here, past the title's warm-up as a player is, the bench and the stall are each opened five times: the first against the fifth, and what the first made.
+        /// <para>Read before the change (r10b-before, the class alone in a mirror): the bench's first opening 154.4 ms (the call that builds the page 149.1) against 12.9, 10.7, 16.0
+        /// and 16.1 for the next four, and 4 textures and sprites made that the others didn't (two drawn marks); the stall after it 36.1 ms against 12.4 to 16.2, 17 made. The call
+        /// is the page compiled on its first run and the marks drawn. With the marks drawn at the title and RuntimeHelpers.PrepareMethod asked to compile the pages there
+        /// (r10b-after1), the first was still 47.2 ms against 11.2 to 11.5: asking compiled nothing. The pages are now built once a run as the zone comes in (PauseMenu.Warm,
+        /// ShopUi.Warm). The compiling can't be undone in a run, so this plays the warm-up as it is first, from a run where nothing has opened a page yet, and then the warm-up
+        /// as it was (UiWarmup's asBefore) with the marks forgotten, for the count. The bar is twice the fifth: the later openings read 10.7 to 16.2 ms in both runs.</para></summary>
+        [UnityTest] public IEnumerator ABenchOrAStallOpensInAFrameLikeItsFifth()
+        {
+            var menu=Menu;var shop=Object.FindFirstObjectByType<ShopUi>();Assert.IsNotNull(shop,"fixture: the stall's page is there");
+            // The pages built as the zone came in leave nothing behind them: no page up, the game running, the pad the party's.
+            Assert.IsTrue((bool?)typeof(PauseMenu).GetField("warmed",BindingFlags.NonPublic|BindingFlags.Static)?.GetValue(null)??false,"the bench's page wasn't built as the zone came in");
+            Assert.IsFalse(menu.IsOpen||shop.IsOpen,"a page built as the zone came in is still up");
+            Assert.IsFalse(GameTime.Paused,"building a page as the zone came in paused the game");Assert.IsFalse(GameServices.Current.Input.Blocked,"building a page as the zone came in took the pad");
+            var bench=new Opening[5];var stall=new Opening[5];var warm=new System.Collections.Generic.List<double>();
+            yield return Warm(false,warm);
+            yield return Openings(()=>menu.Open(PauseMenu.FabricatePage,true),()=>menu.Close(),bench);
+            yield return Openings(()=>shop.Open(ShopUi.For("Hub_Decks","Mira"),"Mira"),()=>shop.Close(),stall);
+            for(int i=0;i<5;i++)TestContext.WriteLine($"BENCH_OPEN {i+1}: {bench[i]}");
+            for(int i=0;i<5;i++)TestContext.WriteLine($"STALL_OPEN {i+1}: {stall[i]}");
+            TestContext.WriteLine($"WARM_STEPS {warm.Count} frames, the most {warm.Max():0.0} ms: {string.Join(" ",warm.Select(s=>s.ToString("0.0")))}");
+            // As it was: the warm-up without the marks, and the marks forgotten, as in a run that has drawn none.
+            var before=new Opening[1];
+            try{yield return Warm(true,new System.Collections.Generic.List<double>());yield return Openings(()=>menu.Open(PauseMenu.FabricatePage,true),()=>menu.Close(),before);}
+            finally{AsBefore(false);}
+            TestContext.WriteLine($"BENCH_OPEN as it was, marks forgotten: {before[0]}");
+            Assert.Greater(before[0].assets,0,"fixture, as it was: the bench's first opening draws its marks");
+            Assert.LessOrEqual(bench[0].assets,bench[4].assets,$"the bench's first opening made {bench[0].assets} textures, sprites or materials its fifth didn't");
+            Assert.LessOrEqual(bench[0].frame,bench[4].frame*2,$"the bench's first opening took {bench[0].frame:0.0} ms against its fifth's {bench[4].frame:0.0}");
+            // The stall's first opening is left on the record, not held: with its code built as the zone comes in it read 25.7, 27.6 and 32.9 ms against 16.3 (r10b-after2,
+            // after3, final), and what it still pays is the seller's portrait, loaded on that frame (its 17 textures and sprites), which nothing here warms.
+        }
+        static void AsBefore(bool on)=>typeof(UiWarmup).GetField("asBefore",BindingFlags.NonPublic|BindingFlags.Static)?.SetValue(null,on);
+        /// <summary>The title's warm-up run again, a frame at a time, each frame's share timed: as it is, or as it was with every drawn mark forgotten.</summary>
+        static IEnumerator Warm(bool asBefore,System.Collections.Generic.List<double> steps)
+        {
+            AsBefore(asBefore);UiWarmup.Forget();
+            if(asBefore)(typeof(ItemMarks).GetField("drawn",BindingFlags.NonPublic|BindingFlags.Static)?.GetValue(null) as System.Collections.IDictionary)?.Clear();
+            var host=new GameObject("QaWarmHost");var run=UiWarmup.Run(host.transform);var clock=new Stopwatch();
+            while(true){clock.Restart();bool more=run.MoveNext();steps.Add(clock.Elapsed.TotalMilliseconds);if(!more)break;yield return run.Current;}
+            Object.Destroy(host);
+        }
         /// <summary>The catalog keeps each kind it reads, and reads it from the kind's own folder: that only holds while every definition lives where Find looks.</summary>
         [Test] public void TheCatalogKeepsEveryKindWhereFindLooksAndHandsOutItsOwnArray()
         {

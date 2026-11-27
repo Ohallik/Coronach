@@ -97,7 +97,25 @@ namespace Lattice.UI
             else if(page==ChartPage&&chart.Back(out string stop))Rebuild(false,stop);
             else Close();
         }
-        void Start(){canvas=UiKit.CreateCanvas("Menus",30,transform);PromptService.Changed+=Restate;}
+        void Start(){canvas=UiKit.CreateCanvas("Menus",30,transform);PromptService.Changed+=Restate;StartCoroutine(Warm());}
+        /// <summary>QA-034, round ten: the bench's page built once a run, two frames into the first zone, under the load's fade, and thrown away unseen. In a mirror its first opening of a run
+        /// cost 154 ms (47 with its marks drawn at the title) against 11 to 16 for every one after (QaNov10MenuTests): the page's code compiled on its first run, which no warm-up
+        /// at the title reaches without a zone's party and bag. The whole page is one method, so building any of it compiles all of it; the bench's lists are what is built.</summary>
+        static bool warmed;
+        /// <summary>For a test's before only (QaNov10MenuTests): no page built as the zone comes in.</summary>
+        static bool warmAsBefore;
+        System.Collections.IEnumerator Warm()
+        {
+            yield return null;yield return null;
+            if(warmed||warmAsBefore||IsOpen||canvas==null||EventSystem.current==null||GameServices.Current==null||GameServices.Current.State==null)yield break;
+            warmed=true;
+            var kept=EventSystem.current.currentSelectedGameObject;
+            page=FabricatePage;offset=gearMode=0;skillSlot=-1;gearSlot=craftKind=-1;feedback="";salvageAsked=null;AtBench=true;skillsOf=GameServices.Current.State.activeMember;slotHolds.Clear();
+            Rebuild(false);
+            if(panel!=null){panel.SetActive(false);Destroy(panel);panel=null;}
+            AtBench=false;slotHolds.Clear();
+            EventSystem.current.SetSelectedGameObject(kept);
+        }
         // A rebind listens for the very key that flips the device; never redraw under it.
         void Restate()
         {

@@ -60,7 +60,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreNotEqual("computerNoise_000",bed.clip.name,zone+" hums like a server room: wind, water and a town all sound like the Decks");
             // Whether another place has the same air is EachNaturalPlaceHasItsOwnAirAcrossZones's to say.
             Assert.IsTrue(bed.isPlaying,zone+"'s bed isn't playing");
-            Assert.AreEqual(ZoneController.Current.definition.ambientVolume,bed.volume,.001f,zone+" ignores the level measured for its bed");
+            Assert.AreEqual(CueLevels.BedVolume(bed.clip,ZoneController.Current.definition.ambientVolume),bed.volume,.001f,zone+" ignores the level measured for its bed");
             Assert.Less(bed.volume,1.01f);
         }
         [UnityTest] public IEnumerator EachNaturalPlaceHasItsOwnAirAcrossZones()
@@ -79,9 +79,10 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator StationsAndSpaceKeepTheirHum()
         {
             yield return Zone("Hub_Decks");
-            Assert.AreEqual("computerNoise_000",Bed.clip.name,"the Decks lost their room tone");Assert.AreEqual(.055f,Bed.volume,.001f);
+            // Round ten: the room tone is shaped noise with nothing pitched or repeating in it, no longer Kenney's five seconds of computer beeps (AudioMixTests holds the rest).
+            Assert.AreEqual(CueLevels.RoomTone,Bed.clip.name,"the Decks lost their room tone");Assert.AreEqual(CueLevels.RoomToneVolume,Bed.volume,.001f);
             yield return Zone("Hub_CinderHalo","Outer");
-            Assert.AreEqual("spaceEngineLow_000",Bed.clip.name,"open space lost its engine hum");Assert.AreEqual(.055f,Bed.volume,.001f);
+            Assert.AreEqual(CueLevels.FlightDrone,Bed.clip.name,"open space lost its engine hum");Assert.AreEqual(CueLevels.FlightDroneVolume,Bed.volume,.001f);
         }
         [UnityTest] public IEnumerator TheGameSpeaksInItsOwnType()
         {

@@ -38,5 +38,27 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  learnable: []
   startingGear: []
   syncHue: {r: 0, g: 1, b: 1, a: 1}
+  extra: {fileID: 0}
+  style:
+    attack: 0
+    guardTakes: 0.35
+    guardCost: 250
+    flightGuard: 0
+    prowArc: 120
+    counter: 0
+    counterBreak: 0
+    counterReach: 0
+    hop: 3.3
+    hopSeconds: 0.25
+    hopSafe: 99
+    roll: 4
+    rollSeconds: 0.3
+    rollSafe: 99
+    chainWindow: 0.9
+    partnerGuards: 0
+    warm: 0
+    bodiesFrom: 
+    bodyTint: {r: 1, g: 1, b: 1, a: 1}

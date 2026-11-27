@@ -4,7 +4,7 @@ Original game: Nathan. Original generated art: LATTICE image generation and Mesh
 
 Original music supplied by Nathan: **Title Theme**, **Hub Town Groove**, **Moonbase Market**, **Adventure Awaits**, **Riverbed Stomp**, **Seed Shakers of Xylos**, and **Shop Theme**. The first four are integrated in the current slice; the remaining tracks are reserved in the full-game atlas. Original OGG files remain in `Music/`.
 
-Reusable code and tooling adapted from Nathan's FrostboundUnity project. No Frostbound character, portrait, environment or UI image art is included.
+Reusable code and tooling adapted from Nathan's FrostboundUnity project, written with Claude Code (Anthropic) and Codex (OpenAI); the roll's engineering line names both tools, as its art and music lines name theirs. No Frostbound character, portrait, environment or UI image art is included.
 
 - Unity Engine and Unity packages: Unity Technologies, applicable Unity package and engine licences.
 - TextMesh Pro essentials and Liberation Sans font: copied from Frostbound's installed TMP essentials. Font licence included at `Lattice/Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt` (SIL Open Font License).
@@ -27,4 +27,4 @@ No downloaded model, portrait, environment image, panel or inventory icon is fin
 
 - CoronachGpuClock: owned, opt-in D3D12 diagnostic. Compiled with Zig 0.17.0 and its MinGW Windows runtime; notices are in `tools/native_gpu/THIRD-PARTY-NOTICES.txt` and copied beside each rebuilt player as `CoronachGpuClock-NOTICES.txt`. Installed Unity plugin headers are consumed in place under their Unity Companion License.
 
-The credits roll at the end of chapter 10 (`Lattice/Assets/_Project/Scripts/UI/CreditsRoll.cs`) carries every line here: a line added here is added there.
+The credits roll at the end of chapter 10 (`Lattice/Assets/_Project/Scripts/UI/CreditsRoll.cs`) carries every line here: a line added here is added there. It lists two tracks by the titles that were meant, "Adventure at Dusk" and "Glass Ruins"; their files came named "Dventure at Dusk" and "Glass Ruans", and the game still asks for them by those names (`CreditsRoll.Shown`). Its last line, "The pears keep a schedule.", is Mira's from the first scene on the Decks, not a slip for piers.

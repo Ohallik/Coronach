@@ -20,7 +20,7 @@ namespace Lattice.Tests.PlayMode
             var music=MusicDirector.Current.ActiveSource;
             Assert.IsNotNull(music.outputAudioMixerGroup,"music bypasses its volume control");
             Assert.AreEqual("Music",music.outputAudioMixerGroup.name);
-            var ambient=GameServices.Current.GetComponents<AudioSource>().Single(s=>s.clip!=null&&s.clip.name=="computerNoise_000");
+            var ambient=GameServices.Current.GetComponents<AudioSource>().Single(s=>s.clip!=null&&s.clip.name==CueLevels.RoomTone);
             Assert.IsNotNull(ambient.outputAudioMixerGroup,"room tone bypasses its volume control");
             Assert.AreEqual("Ambience",ambient.outputAudioMixerGroup.name);
             Assert.AreSame(music.outputAudioMixerGroup.audioMixer,ambient.outputAudioMixerGroup.audioMixer);

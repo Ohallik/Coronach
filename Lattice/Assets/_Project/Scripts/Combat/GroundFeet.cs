@@ -332,7 +332,7 @@ namespace Lattice.Combat
             Vector3 sole=leg.contact==0?leg.foot.TransformPoint(leg.heelOffset):leg.toe.TransformPoint(leg.toeOffset);
             if(Mathf.Abs(Vector3.Dot(sole-leg.surfacePoint,leg.surfaceNormal))>.06f)return;
             leg.soundReady=false;
-            float gain=Mathf.Lerp(.14f,.23f,Mathf.InverseLerp(1,10,actor.motor.Velocity.magnitude));
+            float gain=Mathf.Lerp(.15f,.22f,Mathf.InverseLerp(1,10,actor.motor.Velocity.magnitude)); // a trim on CueLevels' step: -19.6 to -16.3 dBFS at the ears
             AudioManager.Family(AudioSurface.Family(leg.ground,SceneFlow.Current!=null?SceneFlow.Current.Zone:actor.gameObject.scene.name),
                 4,actor.transform,sole,gain,170,.08f);
         }

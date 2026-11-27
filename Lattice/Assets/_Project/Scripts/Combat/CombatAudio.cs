@@ -76,6 +76,18 @@ namespace Lattice.Combat
             AudioManager.PlayAt(count>1?family+"_"+turn%count:family,emitter,point,volume,AudioBus.SFX,priority,interval,pitch);
         }
 
+        // Round ten: things a player did that played nothing. Anything taken into the bag (a drop, a cache's spoils, a key, a quest's
+        // reward) plucks once, not while a menu holds the game (a purchase already confirms), and a run of them is a patter; a save by
+        // the player's hand chimes, an autosave doesn't (it comes with every key and every door).
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+        static void Listen()
+        {
+            Lattice.Rpg.Inventory.Gained-=Taken;Lattice.Rpg.Inventory.Gained+=Taken;
+            SaveSystem.Written-=Saved;SaveSystem.Written+=Saved;
+        }
+        static void Taken(string id,int amount)=>AudioManager.PlayAt("pickup",null,Vector3.zero,.3f,AudioBus.SFX,150,.12f);
+        static void Saved(string slot){if(slot!="autosave")AudioManager.PlayUi("saved",.3f);}
+
         public static void Deflect(CombatActor actor)=>
             AudioManager.Family("deflect",2,actor.transform,actor.transform.position+Vector3.up*1.1f,.26f,60,.1f);
     }

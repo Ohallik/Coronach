@@ -29,12 +29,17 @@ namespace Lattice.UI
             "Glass Ruans","Glitch Boss","Hub Town Groove","Jungle Planet Groove","March of the Frozen Host","Moon Caverns","Moonbase Market","Old Village","Regal Alien Town",
             "Riverbed Stomp","Seed Shakers of Xylos","Shop Theme","Starfield Frontier","Starfight","Starward Journey","Swamp Sprint","Title Theme","Village Circle",
         };
+        /// <summary>A track's title as the roll shows it. Two of the files came with a slip in their names ("Dventure at Dusk", "Glass Ruans"); the game still asks for each track by
+        /// its file's name (the zones' definitions, the tests and docs/music/tracks.json all use it), and the roll shows the title that was meant. Twelve looks read the two as typos.</summary>
+        public static string Shown(string track)=>track switch{"Dventure at Dusk"=>"Adventure at Dusk","Glass Ruans"=>"Glass Ruins",_=>track};
+        /// <summary>The tracks as the roll lists them, in <see cref="Tracks"/>' order.</summary>
+        public static readonly string[] Titles=Array.ConvertAll(Tracks,Shown);
         public static readonly Section[] Sections=
         {
             new(){heading="WHO DREW THE CHART",role="Direction and design",people=new[]{("Nathan","The original game")}},
             new(){heading="WHO PAINTED THE LINE",role="Art, portraits, animation and interface",people=new[]{("Nathan","Original generated art, from image generation and the Meshy pipeline")}},
-            new(){heading="WHO HUMMED",role="Music and sound",people=new[]{("Nathan","Original music, made with Suno")},titles=Tracks},
-            new(){heading="WHO KEPT THE LAMPS",role="Engineering and tools",people=new[]{("Nathan","Code and tools adapted from his Frostbound project")}},
+            new(){heading="WHO HUMMED",role="Music and sound",people=new[]{("Nathan","Original music, made with Suno")},titles=Titles},
+            new(){heading="WHO KEPT THE LAMPS",role="Engineering and tools",people=new[]{("Nathan","Code and tools adapted from his Frostbound project · written with Claude Code and Codex")}},
             new(){heading="WHAT WE BORROWED, WITH THANKS",role="Engines, libraries, licensed and third-party work",people=new[]
             {
                 ("Unity","Unity Technologies · the engine and its packages, under the Unity licences"),
@@ -46,7 +51,7 @@ namespace Lattice.UI
                 ("Sonniss","Ambience from the GDC game audio bundles · royalty-free"),
                 ("Staggart Creations","Stylized Water 3 and Stylized Grass Shader · Unity Asset Store licence"),
                 ("Real-ESRGAN","Xintao Wang and contributors · BSD 3-Clause License · used to make the portraits, skies and planets"),
-                ("Zig and mingw-w64","Zig contributors and the mingw-w64 project · MIT License and Zope Public License 2.1 · in the GPU clock diagnostic"),
+                ("Zig and mingw-w64","Zig contributors and the mingw-w64 project · MIT License and Zope Public License 2.1 · used to build a frame-timing diagnostic"),
             }},
         };
     }

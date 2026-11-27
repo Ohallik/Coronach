@@ -9,7 +9,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=Path,required=True)
 parser.add_argument('--owned-art-root',type=Path,default=Path('C:/Users/natem/Projects/FrostboundUnity/art-src'))
 parser.add_argument('--scifi-art-root',type=Path,default=root/'art-src/Kenney_SciFiSounds')
-parser.add_argument('--set',choices=['movement-combat-ui','lifecycle','impact'],default='movement-combat-ui')
+parser.add_argument('--set',choices=['movement-combat-ui','lifecycle','impact','world'],default='movement-combat-ui')
 args=parser.parse_args();out=args.output.resolve()
 if not out.is_relative_to(root/'Builds/quality'):raise ValueError('Candidates must stay under Builds/quality')
 out.mkdir(parents=True,exist_ok=False)
@@ -69,6 +69,12 @@ elif args.set=='impact':
   cut('swap_strike',.4,[layer(impact,'impactPunch_medium_003.ogg',.6),layer(scifi,'forceField_001.ogg',.4,1.6),layer(impact,'impactSoft_heavy_001.ogg',.3,.9,.004)])
   cut('level_up',.9,[layer(ui,'confirmation_003.ogg',.6),layer(impact,'impactBell_heavy_002.ogg',.35,1.5,.05),layer(impact,'impactBell_heavy_003.ogg',.3,2,.16)])
   cut('boss_down',1.2,[layer(scifi,'lowFrequency_explosion_000.ogg',.8),layer(scifi,'explosionCrunch_002.ogg',.5,.8,.02),layer(impact,'impactPlate_heavy_004.ogg',.35,.6)])
+elif args.set=='world':
+  # Round ten: what a player did that played nothing. Something taken into the bag (a drop, a cache's spoils, a key, a quest's
+  # reward), and the game saved by the player's hand. Cut short, so a run of pickups is a patter and not a pile-up.
+  def cut(name,seconds,specs):limits[name]=seconds;recipes.append((name,specs))
+  cut('pickup',.3,[layer(ui,'pluck_002.ogg',.7,1.1),layer(ui,'glass_002.ogg',.3,1.2,.01)])
+  cut('saved',.8,[layer(ui,'confirmation_004.ogg',.65),layer(ui,'bong_001.ogg',.35,1.5,.06)])
 else:
   # Lifecycle and defence: organic and mechanical deaths, hero down/revive,
   # a cloth dodge distinct from the ship thruster, and Refract interception.
@@ -80,7 +86,7 @@ else:
     recipes.append((f'deflect_{i}',[layer(impact,f'impactBell_heavy_{i:03d}.ogg',.55,1.1),layer(scifi,f'forceField_{i+1:03d}.ogg',.45)]))
   recipes += [('hero_down',[layer(impact,'impactSoft_heavy_003.ogg',.8,.85),layer(impact,'impactPlate_medium_003.ogg',.3,.9,.06)]),
               ('hero_revive',[layer(scifi,'forceField_003.ogg',.7,1.2),layer(ui,'confirmation_002.ogg',.3,1,.08)])]
-manifest={'status':'Prepared candidates only; not staged in game; audition UNVERIFIED','sampleRate':rate,'channels':1,'targetSamplePeakDbfs':-10,'processing':'Decode mono 48k; optional pitch-resample; normalize each layer to unit peak then weighted mix/delay; trim below -60 dB relative activity; 2 ms onset and 12 ms tail fades; normalize composite to -10 dBFS; signed 16-bit PCM.','clips':[]}
+manifest={'status':'Prepared candidates only; not staged in game; audition UNVERIFIED','sampleRate':rate,'channels':1,'targetSamplePeakDbfs':-1,'processing':'Decode mono 48k; optional pitch-resample; normalize each layer to unit peak then weighted mix/delay; trim below -60 dB relative activity; 2 ms onset and 12 ms tail fades; normalize composite to -1 dBFS (the reference of tools/audio_reference.py since round ten; -10 before it); signed 16-bit PCM.','clips':[]}
 if args.set!='movement-combat-ui':manifest['set']=args.set
 if limits:
     manifest['limits']=limits
@@ -94,7 +100,7 @@ for name,specs in recipes:
     if name in limits and len(mix)>round(limits[name]*rate):
         mix=mix[:round(limits[name]*rate)].copy();n=round(.06*rate);mix[-n:]*=np.cos(np.linspace(0,np.pi/2,n))**2
     n=min(96,len(mix)//2);mix[:n]*=np.linspace(0,1,n);n=min(576,len(mix)//2);mix[-n:]*=np.linspace(1,0,n)
-    mix*=10**(-10/20)/np.max(np.abs(mix));pcm=np.round(mix*32767).astype('<i2');path=out/(name+'.wav')
+    mix*=10**(-1/20)/np.max(np.abs(mix));pcm=np.round(mix*32767).astype('<i2');path=out/(name+'.wav')
     with wave.open(str(path),'wb') as w:w.setnchannels(1);w.setsampwidth(2);w.setframerate(rate);w.writeframes(pcm.tobytes())
     manifest['clips'].append({'key':name,'output':info(path),'seconds':len(mix)/rate,'layers':[{**s,'pack':s['pack'].as_posix()} for s in specs]})
 manifest['sources']=list(sources.values());manifest['licenses']=list(licenses.values());manifest['tool']=info(Path(__file__))

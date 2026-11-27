@@ -166,6 +166,8 @@ namespace Lattice.UI
         bool extraDue, itemForced;
         /// <summary>How near the lead stands to a fallen partner to raise them: inside the 2 m the game asks, with room for a shove.</summary>
         const float ReviveStand = 1.2f;
+        /// <summary>For a test's before only (ReplayHandsTests, QA-035): the walk to a fallen partner steered straight at them, as before ff99a7a.</summary>
+        static bool reviveStraight;
         /// <summary>A "stock" step: what it is filling the pouch with, to how many, and whether the last press bought nothing.</summary>
         ConsumableDef stockItem;
         int stockTarget, stockBefore, stockAtPress, stockPresses;
@@ -730,7 +732,7 @@ namespace Lattice.UI
                     raising = true; direction = Vector2.zero;
                     if (gap.magnitude > ReviveStand)
                     {
-                        var local = Quaternion.Euler(0, -ZoneController.Current.CameraProfile.yaw, 0) * ReviveHeading(actor, raise.transform.position, gap).normalized;
+                        var local = Quaternion.Euler(0, -ZoneController.Current.CameraProfile.yaw, 0) * (reviveStraight ? gap : ReviveHeading(actor, raise.transform.position, gap)).normalized;
                         direction = new Vector2(local.x, local.z);
                     }
                 }

@@ -406,8 +406,14 @@ namespace Lattice.Tests.PlayMode
             var tracks=System.Text.RegularExpressions.Regex.Matches(File.ReadAllText(Path.GetFullPath(Path.Combine(Application.dataPath,"../../docs/music/tracks.json"))),"\"title\":\\s*\"([^\"]+)\"").Select(m=>m.Groups[1].Value).ToArray();
             Assert.Greater(tracks.Length,20,"fixture: docs/music/tracks.json");
             var listed=roll.Words.Where(t=>t.name=="CreditsTrack").Select(t=>t.text).ToArray();
-            CollectionAssert.AreEquivalent(tracks,listed,"the roll's tracks aren't docs/music/tracks.json's");
-            foreach(var title in listed)Assert.IsNotNull(Resources.Load<AudioClip>("Audio/Music/"+title),title+" is on the roll and the game can't play it");
+            // Each as the roll shows it (CreditsRoll.Shown: two files came with a slip in their names).
+            CollectionAssert.AreEquivalent(tracks.Select(CreditsRoll.Shown).ToArray(),listed,"the roll's tracks aren't docs/music/tracks.json's");
+            // The game plays each by its file's name, which for two tracks is not the title the roll shows.
+            foreach(var title in listed)
+            {
+                string file=CreditsRoll.Tracks.FirstOrDefault(t=>CreditsRoll.Shown(t)==title);Assert.IsNotNull(file,title+" is on the roll and is no track of the game's");
+                Assert.IsNotNull(Resources.Load<AudioClip>("Audio/Music/"+file),title+" is on the roll and the game can't play it");
+            }
             Resources.UnloadUnusedAssets();
             // No id: no flag, scene, quest or speaker key anywhere in it.
             var ids=new[]{Credits.Flag,Credits.Rolled,Town,"TurnBack","LastSurvey","Homecomings","Survivor","Keeper"}.Concat(GameCatalog.All<ZoneDef>().Select(z=>z.name)).Where(i=>i.Length>5&&i!="Nathan").ToArray();
@@ -437,7 +443,12 @@ namespace Lattice.Tests.PlayMode
                 var read=laid.OrderBy(l=>l.x<0?0:1).ThenBy(l=>-l.y).Select(l=>l.title).ToArray();
                 return read.SequenceEqual(own)?null:"the tracks read down their columns as "+string.Join(", ",read.Take(6))+"…, not in order";
             }
-            var own=CreditsRoll.Tracks;
+            // The roll lists each track by the title that was meant: two files came with a slip in their names, which the game still asks for them by.
+            var own=CreditsRoll.Titles;
+            Assert.AreEqual(CreditsRoll.Tracks.Length,own.Length,"a track is missing from the roll's titles");
+            CollectionAssert.Contains(CreditsRoll.Tracks,"Dventure at Dusk","fixture: the file's own name is the track's id");CollectionAssert.Contains(CreditsRoll.Tracks,"Glass Ruans","fixture: the file's own name is the track's id");
+            CollectionAssert.Contains(own,"Adventure at Dusk");CollectionAssert.Contains(own,"Glass Ruins");
+            foreach(string slip in new[]{"Dventure at Dusk","Glass Ruans"})CollectionAssert.DoesNotContain(own,slip,"the roll shows a file's slip as a track's title");
             Assert.IsNotNull(Order(own.Select((title,i)=>(title,(i%2==0?-1f:1f)*290,-(float)(i/2)*40)),own),"fixture: the order check lets titles laid row by row through");
             Assert.IsNull(Order(roll.Words.Where(t=>t.name=="CreditsTrack").Select(t=>(t.text,t.rectTransform.anchoredPosition.x,t.rectTransform.anchoredPosition.y)),own));
             // A detail too wide for one line breaks at one of its dots, never wherever its width runs out: shown failing first on a long line with no break of its own.

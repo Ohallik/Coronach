@@ -242,6 +242,88 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(Flat(lead.transform.position,partner.transform.position),2.6f,"the partner got up with the lead somewhere else: not the walk this checks");
             Assert.IsTrue(log.Contains("REVIVE_OK"),"the partner got up some other way than the lead standing by them");
         }
+        /// <summary>The driver's walk to a fallen partner steered as it did before ff99a7a, straight at them (ContinuousReview's reviveStraight), for this check's before.</summary>
+        static void Straight(bool on)=>typeof(ContinuousReview).GetField("reviveStraight",BindingFlags.NonPublic|BindingFlags.Static)?.SetValue(null,on);
+        /// <summary>A place on the relay's floor: the baked floor under it, a little over, for the body to settle on.</summary>
+        static Vector3 Floor(float x,float z)
+        {
+            Assert.IsTrue(UnityEngine.AI.NavMesh.SamplePosition(new Vector3(x,4,z),out var hit,8,UnityEngine.AI.NavMesh.AllAreas),$"fixture: no floor at ({x}, {z})");
+            return hit.position+Vector3.up*.05f;
+        }
+        /// <summary>The lead at one place and the partner felled at another, and the driver's step that waits for both heroes up: the seconds until the partner is up, or -1.</summary>
+        IEnumerator RaiseAcross(Vector3 from,Vector3 to,float most,float[] took,int index,string what)
+        {
+            var lead=Lead;var partner=Partner;
+            if(!partner.Health.Alive){partner.Health.Heal(partner.Health.maximum);yield return null;}
+            Place(lead,from);Place(partner,to);yield return Frames(10);Fell(partner);yield return null;
+            Assert.IsFalse(partner.Health.Alive,"fixture: the partner is down");
+            Step(new QualityStep{name="both heroes ready",seconds=60,until="partyAlive"});
+            float start=Time.unscaledTime,said=start;log.Clear();
+            // Every two seconds, where the lead is and what holds him, for the record.
+            yield return Drive(most,()=>partner.Health.Alive,()=>
+            {
+                if(Time.unscaledTime-said<2)return;said=Time.unscaledTime;var at=lead.transform.position;
+                var touching=Physics.OverlapSphere(at+Vector3.up*.9f,1.4f,~0,QueryTriggerInteraction.Ignore).Where(c=>c.transform.root!=lead.transform.root).Select(c=>c.name);
+                TestContext.WriteLine($"REVIVE_STEP {what} {Time.unscaledTime-start:0.0} s: lead {at:F1}, ui {Call("ObserveUi")}, blocked {GameServices.Current.Input.Blocked}, prompt {(PromptService.Interaction!=null?PromptService.Interaction.name:"-")}, raise {(Get<CombatActor>("raise")!=null)}, near {string.Join("/",touching)}");
+            });
+            took[index]=partner.Health.Alive?Time.unscaledTime-start:-1;
+            TestContext.WriteLine($"REVIVE_WALK {what}: {(took[index]<0?"not raised":$"raised in {took[index]:0.00} s")}, the lead {Flat(lead.transform.position,to):0.00} m from them, {Flat(lead.transform.position,from):0.00} m from where he set off");
+        }
+        /// <summary>QA-035. In the Sunken Relay the driver steered straight at Taren, down across the Great Lantern's hall, and a column, a crew body or the yielded Hessa between
+        /// them stopped Idra: he was never raised, and Hessa's talk, which waits for that, never came (final/s15-rejected-revive-step, no longer on disk). Since ff99a7a the walk goes
+        /// along the baked floor's way and steps aside when it stops gaining. Here, in that hall: a fallen partner behind one of its four columns (straight first, which must fail
+        /// there), behind a scavenger standing in the way, and behind Hessa yielded where her fight ends.</summary>
+        [UnityTest] public IEnumerator TheLeadRaisesAFallenPartnerRoundAColumnABodyAndAYieldedCaptain()
+        {
+            foreach(string flag in new[]{"relay.hessaConfronted","bossdown.HessaKorl","clear.Relay_Hessa"})GameServices.Current.Flags.SetBool(flag,true);
+            SceneFlow.Current.LoadZone("SunkenRelay","Vault");float deadline=Time.unscaledTime+25;
+            while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading,"fixture: the relay never finished loading");
+            foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))Object.Destroy(enemy.gameObject);
+            foreach(var hero in PartyController.Current.members){hero.GetComponent<PartnerBrain>().enabled=false;hero.Health.InvulnerableUntil=0;}
+            yield return new WaitForSecondsRealtime(.7f);
+            State.consumables.Remove("RelinkSpike");
+            yield return Hands(Yard(heal:true));
+            var took=new float[4];
+            // The column at (10, 132), the hall's south-east one (LanternRoadBuilder.Relay): the lead south of it, the partner north, on the line through its middle.
+            var near=Physics.OverlapSphere(Floor(10,132)+Vector3.up*1.5f,4,~0,QueryTriggerInteraction.Ignore);
+            var column=near.Where(c=>c.attachedRigidbody==null&&!(c is CharacterController)&&c.bounds.size.y>2.5f&&Mathf.Max(c.bounds.size.x,c.bounds.size.z)<8).OrderBy(c=>Flat(c.bounds.center,new Vector3(10,0,132))).FirstOrDefault();
+            Assert.IsNotNull(column,$"fixture: no column near (10, 132), floor {Floor(10,132)}: {string.Join(", ",near.Select(c=>c.name+" "+c.bounds.center.ToString("F1")+" "+c.bounds.size.ToString("F1")))}");
+            var middle=column.bounds.center;float round=Mathf.Max(column.bounds.extents.x,column.bounds.extents.z);
+            Vector3 south=Floor(middle.x,middle.z-round-3.5f),north=Floor(middle.x,middle.z+round+3.5f);
+            TestContext.WriteLine($"REVIVE_COLUMN {column.name} at {middle:F2} size {column.bounds.size:F2}; lead {south:F2}, partner {north:F2}");
+            Assert.IsTrue(Physics.Linecast(south+Vector3.up*1.2f,north+Vector3.up*1.2f,out var between,~0,QueryTriggerInteraction.Ignore)&&between.collider==column,
+                "fixture: the column stands between them");
+            // Steered straight, the round column turns him: r10b-after2 read 5.08 s straight and 5.97 s by the floor's way, both raised. So a square one too, in the bake (carved),
+            // its flat face square across their line, as a wall's end or a crate stack stands: straight at it he stands still.
+            var pillar=GameObject.CreatePrimitive(PrimitiveType.Cube);pillar.name="QaSquarePillar";pillar.transform.position=Floor(-4,145)+Vector3.up*2;pillar.transform.localScale=new Vector3(3,4,1.2f);
+            var carve=pillar.AddComponent<UnityEngine.AI.NavMeshObstacle>();carve.shape=UnityEngine.AI.NavMeshObstacleShape.Box;carve.size=Vector3.one;carve.carving=true;carve.carveOnlyStationary=false;
+            yield return Frames(5);
+            var straight=new float[1];
+            try{Straight(true);yield return RaiseAcross(Floor(-4,139.5f),Floor(-4,150.5f),12,took,0,"straight, a square pillar between");yield return RaiseAcross(south,north,12,straight,0,"straight, the column between");}
+            finally{Straight(false);}
+            yield return RaiseAcross(Floor(-4,139.5f),Floor(-4,150.5f),20,took,1,"a square pillar between");
+            Object.Destroy(pillar);yield return Frames(3);
+            var roundTook=new float[1];yield return RaiseAcross(south,north,20,roundTook,0,"the column between");
+            // A scavenger standing in the open between them, on their line.
+            Vector3 from=Floor(-5,127),to=Floor(-5,139);var body=Dummy("MusterScav",Floor(-5,133));yield return Frames(5);
+            yield return RaiseAcross(from,to,20,took,2,"a body between");
+            Object.Destroy(body.gameObject);yield return null;
+            // Hessa yielded where her fight ends, between them: as the fight leaves her, beaten and standing.
+            from=Floor(2,126);to=Floor(2,140);
+            var hessa=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),Floor(2,133));hessa.Passive=true;yield return Frames(5);
+            hessa.Health.InvulnerableUntil=0;hessa.Health.Receive(new DamagePacket{amount=hessa.Health.maximum*100,type=DamageType.Pulse});yield return new WaitForSecondsRealtime(1);
+            Assert.IsFalse(hessa.Health.Alive,"fixture: Hessa has yielded");
+            // As it was (r10b-after2, r10b-after3): her prompt is up 2.8 m short of her, and the driver held the lead there for the press, raising nobody for 20 s.
+            var atHer=new float[1];var talkSwitch=typeof(ContinuousReview).GetField("raiseAtTalkAsBefore",BindingFlags.NonPublic|BindingFlags.Static);
+            try{talkSwitch?.SetValue(null,true);yield return RaiseAcross(from,to,10,atHer,0,"as it was, the yielded captain between");}
+            finally{talkSwitch?.SetValue(null,false);}
+            Assert.Less(atHer[0],0,"fixture, as it was: the lead stood at the yielded captain's prompt and never raised the partner");
+            yield return RaiseAcross(from,to,20,took,3,"the yielded captain between");
+            Assert.Less(took[0],0,"fixture, as it was: steered straight, the lead stood against the square pillar and never raised the partner");
+            Assert.That(roundTook[0]>=0&&roundTook[0]<=15,$"behind the hall's column the partner wasn't raised inside 15 s (took {roundTook[0]:0.0} s)");
+            for(int i=1;i<4;i++)Assert.That(took[i]>=0&&took[i]<=15,$"case {i}: the partner wasn't raised inside 15 s (took {took[i]:0.0} s)");
+        }
         [UnityTest] public IEnumerator AStepCanKeepTheDriverOffThePouchOrPressOneItemItself()
         {
             yield return Arena();var lead=Lead;float most=lead.Health.maximum;

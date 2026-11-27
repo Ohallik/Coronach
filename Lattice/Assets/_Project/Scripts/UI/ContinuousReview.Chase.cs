@@ -129,9 +129,15 @@ namespace Lattice.UI
             if (boundsOff || lead == null || fallen == null) return true;
             var gap = fallen.transform.position - lead.transform.position; gap.y = 0;
             if (gap.magnitude > ShortWalk) return false;
-            // At something offered (the seat's prompt is up) on a step that isn't a fight's: the press it is there for comes first.
-            return !(step != null && !step.approachTarget && PromptService.Interaction != null);
+            // At something offered (the seat's prompt is up) on a step that isn't a fight's: the press it is there for comes first. Not a talk's: a conversation waits for both
+            // heroes up, and with Taren down behind the yielded Hessa the lead stood at her prompt 2.8 m short of her for the rest of the step, raising nobody (QA-035,
+            // ReplayHandsTests in the Great Lantern's hall).
+            var offered = PromptService.Interaction;
+            bool talk = !raiseAtTalkAsBefore && (offered is Lattice.World.Npc || offered is Lattice.World.DiscoveryPoint);
+            return !(step != null && !step.approachTarget && offered != null && !talk);
         }
+        /// <summary>For a test's before only (ReplayHandsTests): a talk's prompt holds the lead from a fallen partner, as any offered press did.</summary>
+        static bool raiseAtTalkAsBefore;
 
         // ---------- a talk in the middle of a fight ----------
         /// <summary>A line of a conversation as a route's own read steps take it (lantern_routes.read): held this long, then A pressed for the rest of the beat.</summary>

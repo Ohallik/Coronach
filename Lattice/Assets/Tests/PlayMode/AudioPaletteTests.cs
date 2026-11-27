@@ -38,7 +38,8 @@ namespace Lattice.Tests.PlayMode
                 float peak = 0;
                 foreach (float sample in samples) peak = Mathf.Max(peak, Mathf.Abs(sample));
                 Debug.Log("AUDIO_IMPORTED_PEAK " + clip.name + " " + peak.ToString("R"));
-                Assert.That(peak, Is.InRange(.30f, .318f), clip.name + " prepared -10 dBFS peak changed on import");
+                // Made at -10 dBFS (.316), brought to the reference of -1 (.891) in round ten by tools/audio_reference.py.
+                Assert.That(peak, Is.InRange(.87f, .895f), clip.name + " is off the -1 dBFS reference on import");
             }
         }
     }

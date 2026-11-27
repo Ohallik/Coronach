@@ -148,7 +148,19 @@ namespace Lattice.Core
         /// <summary>The party panel and the objective card hang in the top corners: a hero in a side third of the screen is kept a body's depth under their foot (.715), in a fight's frame
         /// on foot (Combat's PartyController) and in flight. The Cantor's fight had Taren's ship under the party panel's corner.</summary>
         public const float PanelSide=.3f,PanelFoot=.69f;
-        bool shipAtSide,heroAtSide;
+        /// <summary>W9-picket-01: the foot of the HUD's left column as the HUD tells it each frame, a share of the frame's height up from its foot. It is <see cref="PanelFoot"/> unless
+        /// a zone's plate hangs lower under the party panel (the Picket's alarm plate, to about .605 at 1080), and a frame the HUD says nothing it is that again. A flight fight keeps a
+        /// ship in the left third under it: under .69 alone, the frame drawn back for the Flak Gate stood the lead's ship under the alarm plate's corner (nov26-r7-chain s45/179).
+        /// Core can't read the HUD, so the HUD says it.</summary>
+        public static float LeftFoot=>!footAsBefore&&Time.frameCount-leftFootFrame<=1?leftFoot:PanelFoot;
+        static float leftFoot=PanelFoot;static int leftFootFrame=-10;
+        /// <summary>For a test's before only (PicketPlateFootTests): a ship in either side third kept under <see cref="PanelFoot"/>, whatever the HUD says.</summary>
+        static bool footAsBefore;
+        /// <param name="foot">The column's real foot, as a share of the frame's height up from its foot: kept only where it is under <see cref="PanelFoot"/>.</param>
+        public static void TellLeftFoot(float foot){leftFoot=Mathf.Min(PanelFoot,foot);leftFootFrame=Time.frameCount;}
+        /// <summary>The column is gone (the HUD hidden or destroyed): the constant holds from this frame.</summary>
+        public static void ForgetLeftFoot()=>leftFootFrame=-10;
+        bool shipAtSide,heroAtSide,underColumn;
         /// <summary>The farthest a flight fight's frame stands back: a ship spans about 75 px of 1080 there. The Tollkeeper's carrier and its cage drew the view 140 to 300 m back,
         /// the ship a speck in its own fight (nov20 s65 010); a body bigger than this is shown as far as it reaches, the ship kept in the frame.</summary>
         public const float FlightFarthest=125;
@@ -348,9 +360,14 @@ namespace Lattice.Core
                 // Held a little past the third once in it, or the drawing back that brings the ship inward would let go and come in again by turns.
                 var seen=!sceneFraming&&Camera.main!=null?Camera.main.WorldToViewportPoint(target.position):Vector3.zero;
                 float side=shipAtSide?PanelSide+.05f:PanelSide;shipAtSide=!encounterComposed&&seen.z>0&&(seen.x<side||seen.x>1-side);
-                if(shipAtSide)
+                // Under a column that hangs lower than the corner panels (LeftFoot: the Picket's alarm plate) a ship counts once its wing is under it, not its middle only: at
+                // s45/179's place its middle stood at .31 of the width and its wing under the plate. Where nothing hangs lower, this is never asked and the rule is as it was.
+                float wing=!encounterComposed&&seen.z>0&&LeftFoot<PanelFoot?Camera.main.WorldToViewportPoint(target.position-Camera.main.transform.right*2.5f).x:1;
+                underColumn=wing<(underColumn?PanelSide+.05f:PanelSide);
+                if(shipAtSide||underColumn)
                 {
-                    float under=tan*(2*PanelFoot-1);
+                    // On the left under the column's real foot; on the right under the objective card's, as ever.
+                    float under=tan*(2*(underColumn?LeftFoot:PanelFoot)-1);
                     for(int corner=0;corner<8;corner++)
                     {
                         var sign=new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1);

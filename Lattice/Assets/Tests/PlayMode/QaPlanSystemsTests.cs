@@ -791,7 +791,7 @@ namespace Lattice.Tests.PlayMode
             void Cue(string key,Transform owner)
             {
                 foreach(var source in AudioManager.Current.GetComponentsInChildren<AudioSource>())
-                    if(source.clip!=null&&source.clip.name==key&&source.isPlaying&&source.volume>bar)failures.Add($"{playing}: {key} at {source.volume:0.00}");
+                    if(source.clip!=null&&source.clip.name==key&&source.isPlaying&&CueLevels.Trim(key,source.volume)>bar)failures.Add($"{playing}: {key} at {CueLevels.Trim(key,source.volume):0.00} (its call's trim)");
             }
             AudioManager.CueStarted+=Cue;
             try

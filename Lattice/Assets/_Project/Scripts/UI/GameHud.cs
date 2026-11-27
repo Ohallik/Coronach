@@ -355,6 +355,8 @@ namespace Lattice.UI
             AdvanceNumbers();
             var party=PartyController.Current;if(party==null||party.members==null)return;
             canvas.enabled=!GameInput.Current.Blocked;
+            // The left column's real foot, for the camera: a ship in a fight's left third stays under it (W9-picket-01). Read from the frames themselves, as the feed under it reads it.
+            if(canvas.enabled&&Screen.height>0)CameraRig.TellLeftFoot(1-ColumnFoot*canvas.scaleFactor/Screen.height);else CameraRig.ForgetLeftFoot();
             var a=party.Active;
             hp.rectTransform.sizeDelta=new Vector2(BarWidth*a.Health.integrity/a.Health.maximum,14);
             // The bar answers a hit as the screen's edge does, and under three tenths it is the colour of the warning.
@@ -930,6 +932,6 @@ namespace Lattice.UI
             }
             return point;
         }
-        void OnDestroy(){Health.Impacted-=Struck;Impact.LeadHurt-=OnLeadHurt;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
+        void OnDestroy(){CameraRig.ForgetLeftFoot();Health.Impacted-=Struck;Impact.LeadHurt-=OnLeadHurt;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
     }
 }

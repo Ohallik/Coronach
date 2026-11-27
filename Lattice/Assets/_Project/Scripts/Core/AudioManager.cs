@@ -9,7 +9,7 @@ namespace Lattice.Core
         internal sealed class Voice
         {
             public AudioSource source;public Transform emitter;public bool bound,active,paused,loop;
-            public int token;public float started;public AudioBus bus;
+            public int token;public float started;public AudioBus bus;public string key;public Vector3 point;
         }
         readonly struct CueKey:IEquatable<CueKey>
         {
@@ -26,7 +26,7 @@ namespace Lattice.Core
             internal Loop(Voice voice){this.voice=voice;token=voice.token;}
             public bool Active=>voice!=null&&voice.source!=null&&voice.active&&voice.token==token;
             public void Set(float gain,float pitch=1)
-            {if(Active){voice.source.volume=Mathf.Clamp01(gain);voice.source.pitch=Mathf.Clamp(pitch,.5f,2);}}
+            {if(Active){voice.source.volume=CueLevels.LoopVolume(voice.key,gain);voice.source.pitch=Mathf.Clamp(pitch,.5f,2);}}
             public void Dispose(){if(Active)Release(voice);}
         }
         public static AudioManager Current{get;private set;}
@@ -100,8 +100,9 @@ namespace Lattice.Core
                     if(voice==null||candidate.source.priority>voice.source.priority||candidate.source.priority==voice.source.priority&&candidate.started<voice.started)voice=candidate;
                 if(voice.source.priority<priority)return null;
             }
-            Release(voice);voice.token++;voice.active=true;voice.emitter=emitter;voice.bound=emitter!=null;voice.loop=loop;voice.bus=bus;voice.started=Time.unscaledTime;
-            var s=voice.source;s.transform.position=point;s.clip=clip;s.loop=loop;s.volume=Mathf.Clamp01(volume);s.pitch=pitch;s.priority=priority;
+            Release(voice);voice.token++;voice.active=true;voice.emitter=emitter;voice.bound=emitter!=null;voice.loop=loop;voice.bus=bus;voice.started=Time.unscaledTime;voice.key=key;
+            // The call's volume is a trim against its family's nominal; the family's level is CueLevels'.
+            voice.point=point;var s=voice.source;s.transform.position=emitter!=null?Heard(point):point;s.clip=clip;s.loop=loop;s.volume=loop?CueLevels.LoopVolume(key,volume):CueLevels.Volume(key,volume);s.pitch=pitch;s.priority=priority;
             s.outputAudioMixerGroup=AudioMix.Group(bus);s.spatialBlend=emitter!=null?.35f:0;s.minDistance=8;s.maxDistance=80;s.rolloffMode=AudioRolloffMode.Logarithmic;
             s.dopplerLevel=0;s.ignoreListenerPause=bus==AudioBus.UI;s.Play();
             if(GameTime.Paused&&bus!=AudioBus.UI){s.Pause();voice.paused=true;}
@@ -116,7 +117,7 @@ namespace Lattice.Core
             {
                 if(!voice.active)continue;
                 if(voice.bound&&voice.emitter==null||!voice.paused&&!voice.source.isPlaying){Release(voice);continue;}
-                if(voice.loop&&voice.bound)voice.source.transform.position=voice.emitter.position;
+                if(voice.loop&&voice.bound)voice.source.transform.position=Heard(voice.emitter.position);
                 if(!voice.paused&&voice.bus==AudioBus.SFX&&voice.source.priority<=48&&voice.source.volume>.005f&&AudioMix.Current.Level(AudioBus.SFX)>.005f)priorityCue=true;
             }
             if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(priorityCue);
@@ -134,17 +135,48 @@ namespace Lattice.Core
         }
         void Unloaded(Scene _)
         {foreach(var voice in voices)Release(voice);variations.Clear();if(ambient!=null){ambient.Stop();ambient.clip=null;}if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(false);}
-        const float HumVolume=.055f;
-        /// <summary>A place with its own air plays that; a station keeps its room tone and space its engines.</summary>
+        const float HumVolume=CueLevels.OldHumVolume;
+        /// <summary>A place with its own air plays that. A place with none plays a quiet room tone on foot and the ship's drive in flight,
+        /// shaped noise with nothing pitched or repeating in it (CueLevels.RoomTone). Until round ten it was Kenney's computerNoise_000, five
+        /// seconds of beeps and bloops on a loop under every deck and station, which Nathan heard as a constant beeping that makes no sense
+        /// for someone wandering there; that clip is now only ever a machine's one-shot.</summary>
         public static void Zone(bool flight,AudioClip bed=null,float bedVolume=HumVolume)
         {
-            if(Current==null)return;var clip=bed!=null?bed:Current.Clip(flight?"spaceEngineLow_000":"computerNoise_000");
-            Current.ambient.volume=bed!=null?bedVolume:HumVolume;
+            if(Current==null)return;var clip=bed!=null?bed:CueLevels.AsRoundNine?Current.Clip(flight?"spaceEngineLow_000":"computerNoise_000"):Current.Bed(flight);
+            Current.ambient.volume=bed!=null?CueLevels.BedVolume(bed,bedVolume):CueLevels.AsRoundNine?HumVolume:flight?CueLevels.FlightDroneVolume:CueLevels.RoomToneVolume;
             if(Current.ambient.clip==clip&&Current.ambient.isPlaying)return;Current.ambient.clip=clip;if(clip!=null)Current.ambient.Play();
         }
         /// <summary>The zone's bed at another level, its clip left playing where it is (a swap cuts it and starts it again): the anchor chamber's steel eased down once its load is gone.</summary>
-        public static void BedLevel(float volume){if(Current!=null&&Current.ambient!=null)Current.ambient.volume=Mathf.Clamp01(volume);}
+        public static void BedLevel(float volume){if(Current!=null&&Current.ambient!=null)Current.ambient.volume=CueLevels.BedVolume(Current.ambient.clip,volume);}
         public static float BedVolume=>Current!=null&&Current.ambient!=null?Current.ambient.volume:0;
+        readonly AudioClip[] beds=new AudioClip[2];
+        AudioClip Bed(bool flight)
+        {
+            int i=flight?1:0;if(beds[i]!=null)return beds[i];
+            var path="Audio/Beds/"+(flight?CueLevels.FlightDrone:CueLevels.RoomTone);beds[i]=Resources.Load<AudioClip>(path);
+            if(beds[i]==null)Debug.LogWarning("AUDIO_BED_MISSING "+path);return beds[i];
+        }
+        /// <summary>Where the game listens from: the party's lead (the camera rig's target), turned as the lens is turned so left on the
+        /// screen is left in the ear. Until round ten every voice was heard from the lens, 17 to 45 m from the fight and further in flight, so
+        /// each sound's spatial part fell away as the camera pulled back for a boss. The AudioListener stays on the lens (the quality capture
+        /// records the mix there, on the camera's own object), and each of these voices is placed where the lens hears it as the lead would:
+        /// its point moved by the lens's offset from the lead's head. The party's own blows sound the same at any framing, and a foe's or a
+        /// machine's fall away with their distance from the party. Sources placed in scenes by builders are heard from the lens as before.
+        /// <see cref="CueLevels.AsRoundNine"/> hears everything from the lens again.</summary>
+        CameraRig rig;Camera lens;Vector3 shift;
+        /// <summary>Where the game's ears are in the world: the lead's head, or the lens where there is no lead.</summary>
+        public Vector3 Ears=>lens!=null?lens.transform.position-shift:shift;
+        Vector3 Heard(Vector3 point)=>point+shift;
+        void LateUpdate()
+        {
+            var main=Camera.main;
+            if(main!=lens){lens=main;rig=lens!=null?lens.GetComponent<CameraRig>():null;}
+            if(lens!=null&&rig==null)rig=FindFirstObjectByType<CameraRig>();
+            var target=rig!=null&&rig.target!=null&&rig.target.gameObject.activeInHierarchy?rig.target:null;
+            shift=lens==null||target==null||CueLevels.AsRoundNine?Vector3.zero:lens.transform.position-(target.position+Vector3.up*1.2f);
+            foreach(var voice in voices)
+                if(voice.active&&voice.source.spatialBlend>0)voice.source.transform.position=Heard(voice.loop&&voice.bound&&voice.emitter!=null?voice.emitter.position:voice.point);
+        }
         void OnDestroy()
         {GameTime.PauseChanged-=Pause;SceneManager.sceneUnloaded-=Unloaded;foreach(var voice in voices)Release(voice);if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(false);if(Current==this)Current=null;}
     }

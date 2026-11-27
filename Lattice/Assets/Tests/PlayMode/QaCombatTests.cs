@@ -282,7 +282,8 @@ namespace Lattice.Tests.PlayMode
         {
             Arena();var taren=Taren;Place(taren,new Vector3(200,0,0));Place(Sela,new Vector3(260,0,0));Member("Taren").level=12;yield return Frames(2);
             float loudest=0;
-            void Cue(string key,Transform owner){foreach(var source in Object.FindObjectsByType<AudioSource>(FindObjectsSortMode.None))if(source.clip!=null&&source.clip.name==key)loudest=Mathf.Max(loudest,source.volume);}
+            // The call's volume, the trim against its clip's family (round ten put each family's level in CueLevels, so a source's volume is the trim times that).
+            void Cue(string key,Transform owner){foreach(var source in Object.FindObjectsByType<AudioSource>(FindObjectsSortMode.None))if(source.clip!=null&&source.clip.name==key)loudest=Mathf.Max(loudest,CueLevels.Trim(key,source.volume));}
             AudioManager.CueStarted+=Cue;
             Assert.IsTrue(SkillBook.Equip(Member("Taren"),0,Skill("Taren",SkillKind.AnchorSlam)));taren.charge=100;taren.cooldowns[0]=0;Assert.IsTrue(taren.Skill(0));
             yield return Drive(taren,1);AudioManager.CueStarted-=Cue;
