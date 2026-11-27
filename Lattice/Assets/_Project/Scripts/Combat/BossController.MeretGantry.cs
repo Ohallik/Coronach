@@ -85,6 +85,11 @@ namespace Lattice.Combat
         /// <summary>A test's switch for the arm as it was drawn in (its stretch run out, it was pulled back from under a hero holding its coupling, the weight dropped a breath before it
         /// opened): never set in a scene.</summary>
         public static bool GantryDrawsInHeld;
+        /// <summary>A test's switch for her choices as they were while her bar stood held at a line (weighted, a rest as likely the first time as any other, and any number of rests
+        /// running): never set in a scene.</summary>
+        public static bool GantryHeldRestsAsItWas;
+        /// <summary>Held at a line, her next choice has to be a reach (a slam or a weld): true at the hold's first choice and after each rest.</summary>
+        bool gantryMustReach=true;
         /// <summary>Her couplings open so far (of two), and whether each arm still answers.</summary>
         public int GantryCouplingsOpen=>(gantryPress!=null&&gantryPress.IsOpen?1:0)+(gantryWelder!=null&&gantryWelder.IsOpen?1:0);
         public bool GantryPressOn=>gantryPress!=null&&!gantryPress.IsOpen;
@@ -240,10 +245,14 @@ namespace Lattice.Combat
             float d=Flat(hero.transform.position-transform.position).magnitude;int phase=Mathf.Clamp(Phase,1,3);bool press=GantryPressOn,weld=GantryWelderOn;
             // Her bar held at a line, she reaches with an arm still coupled: the bar says to open a coupling, and one is offered only while an arm is overreached. Played through the pad
             // with the lead at her feet she went twenty-five seconds held without a weld (it waits on a lead three metres off) and nothing on screen said why.
-            bool held=GantryHoldFloor>0&&health.integrity<=GantryHoldFloor+1;
-            string move=held&&(press||weld)?Pick(("Slam",press?2.4f:0),("Weld",weld?2.4f:0),("Coolant",.6f),("Stomp",d<GantryTune.AtHerFeet?.6f:0)):
+            // And she reaches first, and never rests twice running: the choice was weighted (two in three for a reach with one arm left), so one hold in nine opened with two moves
+            // that offer nothing. Played through the pad in suite nov26b she flooded, stomped and flooded again at her second line: 24 s under OPEN A COUPLING with none to open.
+            bool held=GantryHoldFloor>0&&health.integrity<=GantryHoldFloor+1,reach=held&&(press||weld);
+            string move=reach&&gantryMustReach&&!GantryHeldRestsAsItWas?Pick(("Slam",press?2.4f:0),("Weld",weld?2.4f:0)):
+                reach?Pick(("Slam",press?2.4f:0),("Weld",weld?2.4f:0),("Coolant",.6f),("Stomp",d<GantryTune.AtHerFeet?.6f:0)):
                 Pick(("Slam",press?(d<9?1.8f:.7f):0),("Weld",weld?(d>3?1.6f:FullOffer):0),("Coolant",phase>=2?1.4f:1f),
                 ("Charge",phase>=2||!press||!weld?(d>4?1.6f:FullOffer):0),("Stomp",d<GantryTune.AtHerFeet?1.2f:0));
+            gantryMustReach=!reach||move!="Slam"&&move!="Weld";
             return move switch{"Weld"=>(move,GantryWeld()),"Coolant"=>(move,GantryCoolant()),"Charge"=>(move,GantryCharge()),"Stomp"=>(move,GantryStomp()),_=>(move,GantrySlam())};
         }
 

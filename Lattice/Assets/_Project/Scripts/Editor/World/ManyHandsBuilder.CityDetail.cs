@@ -73,9 +73,26 @@ namespace Lattice.EditorTools
                 }
                 Medallion(Crossing,3.4f,0);
                 foreach(float x in new[]{-26f,-14f,16f,30f,44f})Medallion(new Vector2(x,-2.6f),1.3f,(int)x);
-                // Brass inlay lines down both sides of the promenade and round the crossing.
-                foreach(float z in new[]{-6.8f,9.8f})for(float x=-35.5f;x<52;x+=2)s.Quad(At(x,z-.05f,.02f),At(x+2,z-.05f,.02f),At(x+2,z+.05f,.02f),At(x,z+.05f,.02f),Vector3.up,new Color(.86f,.7f,.4f),.5f);
-                foreach(float x in new[]{-7.6f,7.6f})s.Quad(At(x-.05f,-6.8f,.02f),At(x+.05f,-6.8f,.02f),At(x+.05f,9.8f,.02f),At(x-.05f,9.8f,.02f),Vector3.up,new Color(.86f,.7f,.4f),.5f);
+                // Brass inlay down both sides of the promenade and round the crossing: a pair of thin lines .3 m apart with the floor between them, and a bar across both where each
+                // run ends. It was one line .1 m wide whose vertex brass on the brass paint came out .79/.52/.17, a danger marking's orange (D217) that crossed the concourse from the
+                // frame's edge and stopped in the open (W8-many-hands-02, nov26-r7-chain s30/423). Now it is the paint's own brass a little dulled, paired, and ended (a pointed end
+                // read as an arrow on the floor).
+                // The paint's own brass a little dulled (.84/.84/.86 on it) still drew 250/174/65 in the player, as saturated as a danger marking: the concourse's warm light and
+                // the grade lift red and drop blue (the twelfth look, nov26-r8-chain s30/419). The inlay's tone is now a khaki on the paint, which they draw as a dull gold darker
+                // than the lit floor.
+                var inlay=new Color(.58f,.70f,1f);
+                void Inlay(Vector2 a,Vector2 b)
+                {
+                    var along=(b-a).normalized;var across=new Vector2(-along.y,along.x);float run=Vector2.Distance(a,b);
+                    for(float t=0;t<run-.01f;t+=2)
+                    {
+                        var p0=a+along*t;var p1=a+along*Mathf.Min(run,t+2);
+                        foreach(var (from,to) in new[]{(-.18f,-.12f),(.12f,.18f)})s.Quad(At(p0+across*from,.02f),At(p1+across*from,.02f),At(p1+across*to,.02f),At(p0+across*to,.02f),Vector3.up,inlay,.5f);
+                    }
+                    foreach(var (e0,e1) in new[]{(a-along*.1f,a+along*.04f),(b-along*.04f,b+along*.1f)})s.Quad(At(e0-across*.3f,.022f),At(e1-across*.3f,.022f),At(e1+across*.3f,.022f),At(e0+across*.3f,.022f),Vector3.up,inlay,.5f);
+                }
+                foreach(float z in new[]{-6.8f,9.8f})Inlay(new Vector2(-35.5f,z),new Vector2(52.5f,z));
+                foreach(float x in new[]{-7.6f,7.6f})Inlay(new Vector2(x,-6.8f),new Vector2(x,9.8f));
                 Shade(kit.Built("Floor detail the liner's medallions and inlay",s,Brass),false);
             }
 

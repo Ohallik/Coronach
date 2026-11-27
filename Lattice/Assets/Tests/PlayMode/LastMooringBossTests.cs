@@ -1365,6 +1365,71 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(failures,string.Join("\n",failures));
         }
 
+        // ------------------------------------------------------------------ her bar, as the player stands to it
+        /// <summary>Her bar, its word, her edge mark and the panel's fight line are the lead's only while he flies (round eight, W8-last-mooring-01: a party landed back in the launch bay
+        /// under her stood on foot with her bar up, 'HER SHIELD IS UP · SHOOT A RELAY' under it, the launch prompt on its name row and her craft nowhere in view, nov25-whole s66/150). On
+        /// a fight's shelf as the bay is, her craft awake 12 m off: on foot none of them; launched, her bar and her line. And the panel says what the bar says in the frame the bar says it:
+        /// looked at four times a second it said 'Shoot a shield relay' under 'HER SHIELD IS DOWN · STRIKE A PROJECTOR' as her dome fell (s66/154). Each is first shown as it was.</summary>
+        [UnityTest] public IEnumerator HerBarIsTheLeadsOnlyInFlightAndThePanelSaysWhatItSaysInTheSameFrame()
+        {
+            roomClamps=1;yield return Load("Arena_Flight");
+            var failures=new List<string>();
+            var hud=Object.FindFirstObjectByType<GameHud>();var panel=Object.FindFirstObjectByType<ObjectiveHud>();Assert.IsNotNull(hud,"fixture: the HUD");Assert.IsNotNull(panel,"fixture: the objective panel");
+            var bar=hud.GetComponentsInChildren<Transform>(true).First(t=>t.name=="BossBar").gameObject;
+            var word=hud.GetComponentsInChildren<TMPro.TMP_Text>(true).First(t=>t.name=="BossState");
+            var edge=Object.FindObjectsByType<UnityEngine.UI.Image>(FindObjectsInactive.Include,FindObjectsSortMode.None).FirstOrDefault(i=>i.name=="BossEdgeMark");
+            static bool Hers(string line)=>line.StartsWith("Shoot a shield relay")||line.StartsWith("Hold your fire")||line.StartsWith("Put out a shield projector");
+            // The bar's word and the panel's line for one state of hers, or null for a word the panel has no pair for (an opening, her shift, her dome coming back).
+            static string Pair(string said)=>said.Contains("SHOOT A RELAY")?"Shoot a shield relay":said.Contains("HOLD YOUR FIRE")?"Hold your fire":said.Contains("STRIKE A PROJECTOR")?"Put out a shield projector":null;
+            var berth=Berth.Find("Clamp1");Assert.IsNotNull(berth,"fixture: the shelf's berth");
+            Put(Lead,On(240,27,1));yield return Press(berth.pad);
+            Assert.IsTrue(Berth.Current==berth&&!Lead.flight,"fixture: the party is on the shelf on foot");
+            var ship=Meret("MeretShip",On(240,12,1),false,60);Fresh(Lead);Fresh(Partner);
+            yield return Until(()=>ship.ShipShieldUp,4,Lead);Assert.IsTrue(ship.ShipShieldUp&&ship.Fighting,"fixture: her craft fights with its shield up");
+            var looked=typeof(ObjectiveHud).GetField("next",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);Assert.IsNotNull(looked,"fixture: the panel's clock");
+            try
+            {
+                // On foot, as it was: her bar and her line, over a lead who cannot reach her.
+                BossController.ShownOnFootAsItWas=true;yield return new WaitForSecondsRealtime(.4f);
+                Assert.IsTrue(bar.activeSelf&&Hers(ObjectiveHud.CurrentLabel),$"fixture: as it was, on foot her bar is up ({bar.activeSelf}) and the panel says her line ('{ObjectiveHud.CurrentLabel}')");
+                BossController.ShownOnFootAsItWas=false;yield return new WaitForSecondsRealtime(.4f);
+                if(bar.activeSelf)failures.Add($"on foot on the shelf her bar is up, saying '{word.text}'");
+                if(Hers(ObjectiveHud.CurrentLabel))failures.Add($"on foot on the shelf the panel says her line '{ObjectiveHud.CurrentLabel}'");
+                if(edge!=null&&edge.enabled)failures.Add("on foot on the shelf her mark stands at the screen's edge");
+                if(!ship.Fighting)failures.Add("her craft stopped fighting while the lead stood on foot");
+                // Launched: hers again.
+                yield return Press(berth.launch);Assert.IsTrue(Lead.flight,"fixture: launched, the lead flies");Fresh(Lead);Fresh(Partner);
+                yield return new WaitForSecondsRealtime(.4f);
+                if(!bar.activeSelf)failures.Add("launched within her reach, her bar isn't up");
+                if(!Hers(ObjectiveHud.CurrentLabel))failures.Add($"launched within her reach, the panel doesn't say her line: '{ObjectiveHud.CurrentLabel}'");
+                // As it was: the panel had looked a moment before her relays were shot through, and her dome fell under it.
+                yield return Until(()=>ship.ShipShieldUp&&ship.ShipRelays.Any(r=>r!=null&&r.Lit)&&ObjectiveHud.CurrentLabel.StartsWith("Shoot a shield relay"),8,Lead,Partner);
+                Assert.IsTrue(ObjectiveHud.CurrentLabel.StartsWith("Shoot a shield relay"),$"fixture: with her shield up and a relay lit the panel says to shoot one ('{ObjectiveHud.CurrentLabel}')");
+                ObjectiveHud.FightLineAsItWas=true;looked.SetValue(panel,Time.unscaledTime+.25f);float shot=Time.unscaledTime;
+                foreach(var relay in ship.ShipRelays)if(relay!=null&&relay.Lit)relay.health.Receive(new DamagePacket{source=Lead.Health,amount=relay.health.maximum*10,type=relay.health.weakness});
+                yield return Frames(2);
+                Assert.IsTrue(word.text.Contains("STRIKE A PROJECTOR")&&ObjectiveHud.CurrentLabel.StartsWith("Shoot a shield relay"),
+                    $"fixture: as it was, {Time.unscaledTime-shot:0.00} s after her dome fell the panel lags the bar: '{word.text}' over '{ObjectiveHud.CurrentLabel}'");
+                // Now: from the frame the switch is off, every frame the bar's word and the panel's line name the same thing, through her dome coming back and what follows.
+                ObjectiveHud.FightLineAsItWas=false;
+                int frames=0,apart=0;string first=null;var seen=new HashSet<string>();
+                // Seven seconds, and on until her bar has said a second thing (twenty at most): her dome is down 3.4 to 4.2 s and what brings its next word depends on where her
+                // fight stood, so with the whole class run before it the seven read one state in 426 frames (r8-gantry) where the case run alone read two.
+                for(float start=Time.time;Time.time<start+7||seen.Count<2&&Time.time<start+20;)
+                {
+                    foreach(var hero in new[]{Lead,Partner})if(hero!=null&&hero.Health.Alive)hero.motor.Move(Vector2.zero,false,false);
+                    yield return null;if(!bar.activeSelf)continue;
+                    string pair=Pair(word.text);if(pair==null)continue;frames++;seen.Add(pair);
+                    if(!ObjectiveHud.CurrentLabel.StartsWith(pair)){apart++;first??=$"'{word.text.Replace('\n',' ')}' over '{ObjectiveHud.CurrentLabel}'";}
+                }
+                TestContext.WriteLine($"MERET_PANEL frames={frames} apart={apart} seen={string.Join(",",seen)}");
+                Assert.IsTrue(frames>60&&seen.Count>=2,$"fixture: her bar's word was read in {frames} frames and in {seen.Count} states ({string.Join(", ",seen)})");
+                if(apart>0)failures.Add($"in {apart} of {frames} frames the panel and the bar named different things, the first {first}");
+            }
+            finally{BossController.ShownOnFootAsItWas=false;ObjectiveHud.FightLineAsItWas=false;if(ship!=null){ship.GetComponent<EnemyBrain>().Passive=true;Object.Destroy(ship.gameObject);}}
+            Assert.IsEmpty(failures,string.Join("\n",failures));
+        }
+
         // ------------------------------------------------------------------ her definitions, her words
         /// <summary>Her three EnemyDefs came with their Kits, ids exactly the manifest's, and every word of hers on screen is the manifest's (section 5, section 6): her names and epithets, the
         /// ship's state line and the objective string while her shield is up, her music, how each phase ends (the craft and the frame leave; she yields standing), the builder's integrities

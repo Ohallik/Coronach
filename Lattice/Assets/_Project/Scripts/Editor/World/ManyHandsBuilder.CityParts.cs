@@ -207,6 +207,12 @@ namespace Lattice.EditorTools
                 foreach(float z in new[]{-47f,-40.6f,-26.6f,-20.2f})Stack(new Vector2(9.2f,z),0,z<-30?3:2);
                 kit.Scatter(rng,60,()=>new Vector2((float)rng.NextDouble()*120-76,(float)rng.NextDouble()*15-65.5f),p=>!KeepsOff(p)&&Clear(p)&&Height(p)<.05f&&p.x<50,KeepsOff,
                     ("DressCargoPallet",1.1f,true),("DressCableDrum",1.2f,true),("DeckCrate",1,true),("MusterCrate",1.1f,true),("DressFuelTank",1.6f,true),("DressPowerCell",1.2f,true),("HushwellCrates",1.1f,true),("DressCoreRack",1.6f,true),("DressWorkLamp",1.8f,true),("DressRailBuffer",1,true));
+                // The partner is set down two metres to the lead's right at the arrival, (-2, -60): the scatter stood a deck crate with its corner on that place and Idra was drawn
+                // into it after every travel to the ship (W5-many-hands-02, nov25-whole s54/111). What it stood within 1.6 m of the place goes 2 m on, south-east, onto open deck
+                // clear of the crates beside it; moved after the scatter, so nothing else it laid moves.
+                var setDown=Arrival+new Vector2(2,0);
+                foreach(var t in UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Where(t=>t.parent==null&&(t.name=="DeckCrate"||t.name=="MusterCrate"||t.name=="HushwellCrates"||t.name=="DressCargoPallet")&&Vector2.Distance(new Vector2(t.position.x,t.position.z),setDown)<1.6f).ToArray())
+                    t.position=new Vector3(setDown.x+1.6f,t.position.y,setDown.y-1.2f);
             }
 
             static void Spine(ZoneKit kit)

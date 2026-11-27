@@ -40,7 +40,7 @@ namespace Lattice.Combat
             var party=PartyController.Current;
             // Kept while she can't act on it (down, held by a talk): it is the way back once she can.
             if(party!=null&&party.Active!=null&&party.Active!=actor&&!GameTime.Paused)KeepLeadsWay(party.Active);
-            bool held=GameServices.Current.Input.Blocked;if(!held)talkSince=-1;
+            bool held=GameServices.Current.Input.Blocked;if(!held){if(talkSince>=0)TalkEnded(party);talkSince=-1;}
             if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.Recovering||actor.motor==null)return;
             // A talk holds everybody where they are, she first taking the place beside him its box leaves clear (ClearOfTheTalk).
             if(held){if(!asBefore)ClearOfTheTalk(party.Active);return;}
@@ -94,6 +94,8 @@ namespace Lattice.Combat
             // A gate is waiting for her: she comes through it and stops past the line, wherever the frame or the formation would rather have her.
             bool ushered=false;
             if(!fighting&&ComeThrough!=null){var through=ComeThrough(active,actor);if(through.HasValue){goal=through.Value;ushered=true;}}
+            // On foot, as a talk ends, she stays where it set her beside him for as long as he stands where it left him (KeepsHerPlace).
+            if(!fighting&&!ushered&&!actor.flight&&KeepsHerPlace(active))goal=transform.position;
             // Nothing of hers is solid to the lead (HeroCollision.ThroughParty, D354): he goes through her as if she were not there, so none of what follows decides whether he gets where
             // he is going. It is where she belongs: her place behind his nose, her own side of a body, and never resting inside him.
             float separation=(active.transform.position-transform.position).magnitude;
@@ -507,8 +509,7 @@ namespace Lattice.Combat
             // its place while the way out to it is open, else her place behind his nose, on his own line (Rock 8 beside the Picket's pocket 9; beside him down the Aurora Shear's
             // short lane she met a crystal his own line missed, braked for it to a crawl and was left fifteen metres behind).
             var lift=Vector3.up*.8f;float hull=HeroCollision.HullRadius(actor.character),ahead=Mathf.Max(3,travel.magnitude*LaneAhead);var from=lead.transform.position+lift;
-            Vector3 At(int side){var p=lead.transform.position-way*BesideBack+right*(side*Apart(lead));p.y=transform.position.y;return p;}
-            bool Out(Vector3 p)=>!CombatCover.Sweep(from,p+lift,hull,out _);
+            Vector3 At(int side){var p=lead.transform.position-way*BesideBack+right*(side*Apart(lead));p.y=transform.position.y;return p;}            bool Out(Vector3 p)=>!CombatCover.Sweep(from,p+lift,hull,out _);
             bool Lane(Vector3 p)=>!CombatCover.Sweep(p+lift,p+way*ahead+lift,hull,out _);
             // D425: a place over a hull that is drawn only (DrawnHulls: the passage's running convoy, the Last Mooring's moored one) is no place either: her tug was drawn lying in a
             // cargo canoe and on a ring hull beside him (nov25-r5-chain s68/023, s68/028, s64/017). Her side while it is off them; else the first place off them now and a moment on
@@ -593,6 +594,35 @@ namespace Lattice.Combat
         }
         // ---------- a talk in flight (D397) ----------
         /// <summary>When the talk that holds everybody began (-1: none), where she was then, the place she takes, and how long she takes over it.</summary>
+        // ---------- on foot, as a talk ends (round eight) ----------
+        /// <summary>Whether she keeps the place a talk left her beside the lead, and where that is and where he stood.</summary>
+        bool talkKept;Vector3 keptHim,keptAt;CombatActor keptFor;
+        /// <summary>How far apart across the screen she must stand from him to keep her place (the stage's own measure), how far off him at most, how far a hold may have moved him
+        /// and still be a talk (a talk's step aside is a pace), and how far either may move before she follows again.</summary>
+        const float KeptAcross=1.05f,KeptFarthest=3.4f,HoldMovedHim=1.5f,KeptMoved=.3f;
+        /// <summary>For a test's broken state only (TalkStagingTests sets it by reflection and puts it back): as a talk ends she goes straight to her place behind him, as before
+        /// round eight. Nothing else sets it.</summary>
+        static bool talkEndsAsBefore;
+        /// <summary>A talk on foot sets her beside the lead across the screen (ConversationStage). As it ended she walked from there to her place behind his nose, and with him facing
+        /// up the screen to whoever had spoken that place lay straight down the screen from him: she crossed in front of his legs and the two read as one shape (the Archive after Ishen,
+        /// nov25-whole s13/142). Now, as a hold ends on foot that left him within a pace of where it found him, a place beside him (a body's width across the screen, out of his hull,
+        /// whole in the open frame) is kept until he or she moves.</summary>
+        void TalkEnded(PartyController party)
+        {
+            talkKept=false;
+            var lead=party!=null?party.Active:null;var camera=Camera.main;
+            if(talkEndsAsBefore||lead==null||lead==actor||actor.flight||lead.flight||camera==null||actor.Health==null||!actor.Health.Alive)return;
+            var off=Planar(transform.position-lead.transform.position);var across=Planar(camera.transform.right);
+            if(Planar(lead.transform.position-talkHim).magnitude>HoldMovedHim||off.magnitude<HeroesApart||off.magnitude>KeptFarthest)return;
+            if(across.sqrMagnitude<.01f||Mathf.Abs(Vector3.Dot(off,across.normalized))<KeptAcross||!Fits(camera,transform.position))return;
+            talkKept=true;keptFor=lead;keptHim=lead.transform.position;keptAt=transform.position;
+        }
+        bool KeepsHerPlace(CombatActor lead)
+        {
+            if(!talkKept)return false;
+            if(lead!=keptFor||actor.flight||lead.flight||Planar(lead.transform.position-keptHim).magnitude>KeptMoved||Planar(transform.position-keptAt).magnitude>KeptMoved){talkKept=false;return false;}
+            return true;
+        }
         float talkSince=-1,talkFor;Vector3 talkFrom;Vector3? talkTo;
         /// <summary>The longest and shortest her one move takes, and the pace it is reckoned at.</summary>
         const float TalkMost=1,TalkLeast=.35f,TalkPace=9;

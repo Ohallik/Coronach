@@ -14,7 +14,9 @@ namespace Lattice.UI
     {
         /// <summary>What the panel asks of the player now, without its distance line: the quest log falls back on it.</summary>
         public static string CurrentLabel{get{var hud=FindFirstObjectByType<ObjectiveHud>();return hud!=null&&hud.text!=null?hud.text.text.Split('\n')[0]:"";}}
-        TMP_Text text;float next;Canvas canvas;bool inFight;
+        TMP_Text text;float next;Canvas canvas;bool inFight;string fightFrom,fightSaid;
+        /// <summary>A test's switch for the panel as it was (a fight's line looked at four times a second, behind the bar's word by up to a quarter second): never set in a scene.</summary>
+        public static bool FightLineAsItWas;
         Image arrow,alsoArrow;Vector3? goalAt,alsoAt;float hereAt=Here;
         /// <summary>The frame stands from here down, and is as tall as what it says: four lines' height round one line left a dark block over whatever the fight was doing, and hid half of the launch pad it named.</summary>
         public const float FrameTop=92.5f;
@@ -143,7 +145,10 @@ namespace Lattice.UI
             var party=PartyController.Current;if(party==null||party.members==null)return;
             var hero=party.Active.transform.position;
             // A bar going up or a boss falling changes what the panel should say now, not at its next look: it said 'Release the collar lock' over the rewards.
-            var fight=BossController.Focus(hero);if((fight!=null)!=inFight){inFight=fight!=null;next=0;}
+            var fight=BossController.Shown(party.Active);if((fight!=null)!=inFight){inFight=fight!=null;next=0;}
+            // The fight's line changes with the bar's word, in the same frame: looked at four times a second it said 'Shoot a shield relay' under 'HER SHIELD IS DOWN · STRIKE A
+            // PROJECTOR' as her dome fell (nov25-whole s66/154). A boss's line is cheap to ask; the rest of the panel keeps its quarter second.
+            if(fight!=null&&!FightLineAsItWas&&fightFrom!=null&&fight.FightGoal(fightFrom)!=fightSaid)next=0;
             Point(arrow,goalAt,hero,hereAt);Point(alsoArrow,alsoAt,hero,Here);
             if(Time.unscaledTime<next)return;next=Time.unscaledTime+.25f;
             var state=GameServices.Current.State;var flags=GameServices.Current.Flags;Vector3? goal=null;string label="";
@@ -275,7 +280,7 @@ namespace Lattice.UI
             // What the arrow points at is what a press beside it should answer (PromptService.Wanted): the plan at Many Hands' chart table stands on the very spot of the
             // table's own chart, and which of the two a press opened was down to the order the scene happened to hold them in.
             PromptService.Wanted=target;
-            if(fight!=null){label=FightGoal(fight,label);goal=null;}
+            if(fight!=null){fightFrom=label;label=FightGoal(fight,label);fightSaid=label;goal=null;}
             // Chapter 2's homecoming used to end every line here with 'Xylos's river towns are next, but their route isn't charted yet' and no arrow: true while chapter 2
             // was the last one built, and a dead end once chapter 3 stood behind Abri's next talk. Each zone's own line now leads home to her (Tallow Drift's above).
             // No 'Here' for them: the arrow holds until the revive has started, or it stops a step short of the reach and nothing happens.

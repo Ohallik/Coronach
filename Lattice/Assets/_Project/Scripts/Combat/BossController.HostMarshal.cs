@@ -37,7 +37,7 @@ namespace Lattice.Combat
             status=boss=>boss.MarshalStatus(),
             fightGoal=(boss,label)=>boss.MarshalGoal(label),
             // It kneels and the frost takes it, which IdraMarshalSleeps follows: the shared "boss" bark ("Done. Count heads.") would land on a thing being put to rest (manifest 8.9).
-            capsuleRadius=MarshalTune.Radius,occlusion=true,ending=Ending.ShutDown,downBark="",
+            capsuleRadius=MarshalTune.Radius,occlusion=true,ending=Ending.ShutDown,downBark="",numbersOverHead=true,
             start=boss=>boss.MarshalStart(),update=boss=>boss.MarshalUpdate(),down=boss=>boss.MarshalDown(),
         });
         /// <summary>The Host Marshal's numbers, all of them (its integrity is its EnemyDef's: HoarfellBuilder.Enemies). Damage is before the cold phase's +18%; a boss stays at threat 1.

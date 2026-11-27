@@ -76,7 +76,7 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {
-            HeroThrough.AsItWas=false;HeroThrough.AsThisMorning=false;
+            HeroThrough.AsItWas=false;HeroThrough.AsThisMorning=false;HeroThrough.AsRoundSeven=false;
             var rig=Object.FindFirstObjectByType<CameraRig>();if(rig!=null)rig.enabled=true;
             if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;
             if(Camera.main!=null)Camera.main.ResetAspect();
@@ -395,13 +395,14 @@ namespace Lattice.Tests.PlayMode
             Assert.That(after.off.y,Is.InRange(4f,32f),"the mark doesn't stand a hand over his head: "+line);
         }
 
-        /// <summary>D438: where scenery hid Taren in part (nov26-r7-chain frames.csv at the still's step): his head over a Driftreed roof's ridge (s25/012), and on
-        /// Lanternwick's deck (s16/114), where a window opened at part strength read as a stippled smudge on the planks. No window, no stipple, no mark: he is simply half
-        /// hidden, as anyone is. This morning's state is written beside it for the lead to compare.</summary>
+        /// <summary>D438: where scenery hid Taren in part (nov26-r7-chain frames.csv at the still's step): his head and shoulders over a Driftreed roof's ridge (s25/012). No
+        /// window, no stipple, no mark: he is simply half hidden, as anyone is. This morning's state is written beside it for the lead to compare.
+        /// Round eight: Lanternwick's deck (s16/114) is <see cref="ALeadHiddenButForHisHeadIsMarked"/>'s now. In its place, Harrowgate's gate roof where Taren stood at the end of
+        /// Pip's talk, seen from where the rig comes to rest here (not the capture's lens, s50/071): his head and shoulders over the roof's far edge, a fifth of him in sight.</summary>
         static readonly (string name,string zone,Vector3 lead,Vector3 partner)[] PartHidden=
         {
             ("s25-012-driftreed-ridge","Driftreed",new Vector3(45.298f,.082f,62.656f),new Vector3(44.7f,.082f,65.843f)),
-            ("s16-114-lanternwick-deck","Lanternwick",new Vector3(-9.03f,.209f,44.279f),new Vector3(-13.423f,.209f,44.237f)),
+            ("s50-071-gate-roof-at-rest","Harrowgate",new Vector3(7.996f,2.48f,28.272f),new Vector3(9.719f,2.48f,27.703f)),
         };
         public static IEnumerable<string> PartHiddenNames=>PartHidden.Select(p=>p.name);
 
@@ -416,10 +417,117 @@ namespace Lattice.Tests.PlayMode
             HeroThrough.AsThisMorning=false;
             yield return new WaitForSecondsRealtime(1);yield return null;
             var after=Around(Lead,"hidden-mark/"+name+"-now");
-            string line=$"HERO_PART_HIDDEN {name} {Lead.character}: this morning {Told(before)}; now {Told(after)}; the mark drawn from .8 of him {MarkWith(Lead,.8f,.85f,1)} px, from .8 with the head rule off {MarkWith(Lead,.8f,.85f,0)} px";
+            string line=$"HERO_PART_HIDDEN {name} {Lead.character}: this morning {Told(before)}; now {Told(after)}; the mark drawn from .8 of him {MarkWith(Lead,.8f,.85f,1)} px, from .8 with the head rule off {MarkWith(Lead,.8f,.85f,0)} px; {Points(Lead)}";
             TestContext.WriteLine(line);Debug.Log(line);
             Assert.Less(after.opened,30,"the piece is opened round the lead hidden in part, a window or a stipple: "+line);
             Assert.Less(after.marked,15,"the lead hidden only in part is marked: "+line);
+        }
+
+        /// <summary>Round eight: where scenery hid all of Taren but his head (frames.csv at the still's step). At the end of Pip's talk at Harrowgate's gate he stood behind the
+        /// gatehouse roof with the top of his hair over its far edge (nov26-r7c-chain s50/071, seen from the capture's lens), and under Lanternwick's deck with his head past
+        /// its far edge (s16/114, from where the rig comes to rest: a tenth of him in sight). Round seven (HeroThrough.AsRoundSeven) gave him no mark at either: the head's
+        /// point was in sight, and the points beside it saw the floor past the edge, so the 27 points' share was under the mark's. He is marked now that nothing of him under
+        /// his head's two rows is in sight (HeroThrough.MarkHeadless); a head and shoulders (<see cref="ALeadHiddenInPartIsNeitherWindowedNorMarked"/>) and a head over the
+        /// kiln (<see cref="TheLeadWithHisHeadInSightIsNotDrawnThrough"/>) are still not. Stills of both go to Builds/quality/look/hidden-mark.</summary>
+        static readonly (string name,string zone,Vector3 lead,Vector3 partner,Vector3 lens)[] HeadOnly=
+        {
+            ("s50-071-gate-talk","Harrowgate",new Vector3(7.996f,2.48f,28.272f),new Vector3(9.719f,2.48f,27.703f),new Vector3(2.888f,15f,13.835f)),
+            ("s16-114-lanternwick-deck","Lanternwick",new Vector3(-9.03f,.209f,44.279f),new Vector3(-13.423f,.209f,44.237f),Vector3.zero),
+        };
+        public static IEnumerable<string> HeadOnlyNames=>HeadOnly.Select(p=>p.name);
+        [UnityTest,Timeout(600000)] public IEnumerator ALeadHiddenButForHisHeadIsMarked([ValueSource(nameof(HeadOnlyNames))] string place)
+        {
+            if(!Graphics)Assert.Ignore("reads real pixels: run with the -Graphics runner");
+            var (name,zone,leadAt,partnerAt,lens)=HeadOnly.Single(p=>p.name==place);
+            HeroThrough.AsRoundSeven=true;
+            yield return Stage(zone,leadAt,partnerAt);
+            yield return new WaitForSecondsRealtime(1);yield return null;
+            // The capture's lens where it is given, for the shots alone (all in one frame); the mark reads the scene as that lens draws it.
+            var camera=Camera.main;var pose=camera.transform.position;bool moved=lens!=Vector3.zero;
+            if(moved)camera.transform.position=lens;
+            var before=Around(Lead,"hidden-mark/"+name+"-round-seven");
+            camera.transform.position=pose;
+            HeroThrough.AsRoundSeven=false;
+            yield return new WaitForSecondsRealtime(1);yield return null;
+            if(moved)camera.transform.position=lens;
+            var after=Around(Lead,"hidden-mark/"+name+"-now");
+            string line=$"HERO_MARK_HEAD {name} {Lead.character}: round seven {Told(before)}; now {Told(after)}; {Points(Lead)}";
+            camera.transform.position=pose;
+            TestContext.WriteLine(line);Debug.Log(line);
+            // His head is .10 to .15 of him, as his idle sways (the gate roof from where the rig rests, head and shoulders, is .21).
+            Assert.Less(before.shows,.18f,"fixture: more of him than his head shows here: "+line);
+            Assert.Less(before.marked,15,"fixture: round seven marked him here: "+line);
+            Assert.Greater(after.marked,300,"the lead hidden but for his head is not marked: "+line);
+            Assert.GreaterOrEqual(after.gold,.3f,"the mark isn't the lead's gold: "+line);
+            Assert.That(after.off.x,Is.InRange(-8f,8f),"the mark doesn't stand over him: "+line);
+            Assert.That(after.off.y,Is.InRange(4f,32f),"the mark doesn't stand a hand over his head: "+line);
+        }
+
+        /// <summary>Round eight: what the mark's measure reads at each of its 27 points where the hero stands now, for the lead to read. The shader's probe (_Probe) writes each
+        /// point in a cell of its own: H where something stands in front of it by more than the hero is thick, o where the surface there is his own body in sight, . where
+        /// the floor or a wall lies behind it; from the head's row down, left to right across the screen. Read from a shot with the camera's post-processing off.</summary>
+        static string Points(CombatActor hero)
+        {
+            var camera=Camera.main;var mark=hero.GetComponent<HeroThrough>().Mark;
+            if(mark==null||!mark.enabled)return "points: no mark";
+            var block=new MaterialPropertyBlock();mark.GetPropertyBlock(block);block.SetFloat("_Probe",1);mark.SetPropertyBlock(block);
+            var data=System.Type.GetType("UnityEngine.Rendering.Universal.UniversalAdditionalCameraData, Unity.RenderPipelines.Universal.Runtime");
+            var urp=data!=null?camera.GetComponent(data):null;var post=data?.GetProperty("renderPostProcessing");object was=urp!=null&&post!=null?post.GetValue(urp):null;
+            var rt=new RenderTexture(W,H,24,RenderTextureFormat.ARGBFloat,RenderTextureReadWrite.Linear);var image=new Texture2D(W,H,TextureFormat.RGBAFloat,false,true);
+            var active=RenderTexture.active;var target=camera.targetTexture;Color[] pixels;
+            try
+            {
+                if(was!=null)post.SetValue(urp,false);
+                Assert.IsTrue(rt.Create());camera.targetTexture=rt;camera.Render();RenderTexture.active=rt;image.ReadPixels(new Rect(0,0,W,H),0,0);image.Apply();pixels=image.GetPixels();
+            }
+            finally
+            {
+                if(was!=null)post.SetValue(urp,was);camera.targetTexture=target;RenderTexture.active=active;rt.Release();Object.DestroyImmediate(rt);Object.DestroyImmediate(image);
+                block.SetFloat("_Probe",0);mark.SetPropertyBlock(block);
+            }
+            // Where the shader stands the glyph's point: his feet and height as HeroThrough takes them, .16 m over his head; the probe's cells are four times the glyph's pixels.
+            var capsule=hero.GetComponent<CharacterController>();float scale=Mathf.Abs(hero.transform.lossyScale.y),tall=Mathf.Clamp(capsule.height*scale,1.4f,2.4f);
+            var feet=hero.transform.TransformPoint(capsule.center)-Vector3.up*(capsule.height*scale*.5f);
+            var tip=camera.WorldToViewportPoint(feet+Vector3.up*(tall+.16f));
+            var rows=new List<string>();int hiddenBelow=0,inSightBelow=0,bodyBelow=0;
+            for(int i=8;i>=0;i--)
+            {
+                var cells="";
+                for(int j=0;j<3;j++)
+                {
+                    int x=Mathf.RoundToInt(tip.x*W+4*(-25+(j+.5f)*50/3f)),y=Mathf.RoundToInt(tip.y*H+4*(-5+(i+.5f)*4));
+                    if(x<0||y<0||x>=W||y>=H){cells+="x";continue;}
+                    var c=pixels[y*W+x];char cell=c.r>c.g&&c.r>c.b?'H':c.g>c.b?'o':'.';cells+=cell;
+                    if(i<7){if(cell=='H')hiddenBelow++;else inSightBelow++;if(cell=='o')bodyBelow++;}
+                }
+                rows.Add(cells);
+            }
+            return $"points from the head down {string.Join(" ",rows)}, under the head's two rows {hiddenBelow} of {hiddenBelow+inSightBelow} hidden and {bodyBelow} of his body in sight";
+        }
+
+        /// <summary>Round eight: the mark stays off a lead in plain view whatever he does, read as the player sees it (the mark's own wait included): standing with the partner
+        /// beside him, just behind him and just in front of him from the lens, and through an attack's swing and two rolls, toward the lens and across it, on Harrowgate's
+        /// square before the gatehouse (s51's walk).</summary>
+        [UnityTest,Timeout(600000)] public IEnumerator TheMarkStaysOffALeadInPlainViewWhateverHeDoes()
+        {
+            if(!Graphics)Assert.Ignore("reads real pixels: run with the -Graphics runner");
+            var open=new Vector3(7.56f,.08f,12.85f);
+            yield return Stage("Harrowgate",open,open+Vector3.right*2);
+            var camera=Camera.main;var across=Vector3.ProjectOnPlane(camera.transform.right,Vector3.up).normalized;var toward=-Vector3.ProjectOnPlane(camera.transform.forward,Vector3.up).normalized;
+            var lines=new List<string>();var faults=new List<string>();
+            void Read(string what){var r=Around(Lead,null);lines.Add($"{what}: {Told(r)}, {Points(Lead)}");if(r.marked>=15)faults.Add(what);}
+            foreach(var (what,offset) in new[]{("the partner beside him",across*.9f),("the partner just behind him",-toward*.9f),("the partner just in front of him",toward*.9f)})
+            {Put(Partner,open+offset);yield return new WaitForSecondsRealtime(.8f);yield return null;Read(what);}
+            Put(Partner,open+across*2.5f);
+            foreach(var (what,start) in new (string,System.Func<bool>)[]{("attacking",()=>Lead.Attack()),("rolling toward the lens",()=>Lead.Dodge(toward)),("rolling across",()=>Lead.Dodge(across))})
+            {
+                Put(Lead,open);yield return new WaitForSecondsRealtime(.8f);yield return null;
+                Assert.IsTrue(start(),"fixture: the lead can't start "+what);
+                for(float t0=Time.unscaledTime,at=.1f;at<.75f;at+=.15f){while(Time.unscaledTime-t0<at)yield return null;Read($"{what}, {Time.unscaledTime-t0:0.00} s in");yield return null;}
+            }
+            string line="HERO_MARK_PLAIN "+Lead.character+": "+string.Join("; ",lines);
+            TestContext.WriteLine(line);Debug.Log(line);
+            Assert.IsEmpty(faults,"the lead in plain view is marked: "+string.Join(", ",faults)+"\n"+line);
         }
 
         static IEnumerator Walk(CombatActor hero,Vector3 from,Vector3 to,float seconds)

@@ -39,7 +39,7 @@ namespace Lattice.Combat
             status=boss=>boss.ShipStatus(),guarded=boss=>boss.ShipStatus(),
             fightGoal=(boss,label)=>boss.ShipGoal(label),
             // She leaves for the gantry, and MeretGantry follows by itself: nothing is said over it.
-            capsuleRadius=ShipTune.Radius,occlusion=false,ending=Ending.Leaves,downBark="",
+            capsuleRadius=ShipTune.Radius,occlusion=false,ending=Ending.Leaves,downBark="",flown=true,
             start=boss=>boss.ShipStart(),update=boss=>boss.ShipUpdate(),down=boss=>boss.ShipDown(),
         });
         /// <summary>Phase one's numbers, all of them (her integrity is her EnemyDef's: LastMooringBuilder.Meret). Every blow is authored at 192 to 198 and her phases add nothing to it: 12 to 16%

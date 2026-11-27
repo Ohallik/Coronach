@@ -107,6 +107,7 @@ Material:
     - _IceParams: {r: 2.6, g: 0.4, b: 0.5, a: 0.35}
     - _IceRimColor: {r: 0.7, g: 0.92, b: 1.05, a: 1}
     - _OccFadeEllipse: {r: 0.5, g: 0.5, b: 0.08, a: 0.14}
+    - _OccFadeEllipse2: {r: 0, g: 0, b: 0, a: 0}
     - _PanelParams: {r: 0.25, g: 0.5, b: 0, a: 0}
     - _RimColor: {r: 1, g: 0.86, b: 0.6, a: 1}
     - _ShadowTint: {r: 0.54999995, g: 0.54999995, b: 0.68, a: 1}

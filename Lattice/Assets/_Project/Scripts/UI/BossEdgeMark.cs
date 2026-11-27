@@ -37,7 +37,7 @@ namespace Lattice.UI
         {
             if(mark==null)return;
             var party=PartyController.Current;var camera=Camera.main;
-            var boss=party!=null&&party.Active!=null&&!party.Active.flight?BossController.Focus(party.Active.transform.position):null;
+            var boss=party!=null&&party.Active!=null&&!party.Active.flight?BossController.Shown(party.Active):null;
             bool show=false;
             if(boss!=null&&camera!=null)
             {

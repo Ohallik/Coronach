@@ -55,7 +55,37 @@ namespace Lattice.Combat
             /// measured from, and how much farther than an asker's range it reaches (<see cref="Focus"/>, <see cref="AnyFightUnderway"/>). Unset: its root, and no farther.</summary>
             public Func<BossController,Vector3> centre;
             public Func<BossController,float> reach;
+            /// <summary>Fought only in flight: while the lead is on foot, its bar, its state line, its mark at the screen's edge and the panel's fight line are not his (<see cref="Shown"/>).
+            /// Meret's craft wakes as the party flies into her lane after her hail, and a party that landed back in the launch bay under her stood on foot with her bar up, 'HER SHIELD IS
+            /// UP · SHOOT A RELAY' under it and the bay's launch prompt on its name row, her craft nowhere in view (nov25-whole s66/150).</summary>
+            public bool flown;
+            /// <summary>For a body drawn far taller than a hero: its damage numbers stand at its head, not at a hero's head height over its root (1.9 m), which on it is a hip
+            /// (<see cref="NumbersAt"/>).</summary>
+            public bool numbersOverHead;
         }
+        /// <summary>A test's switch for the HUD as it was (the bar and the lines of a boss fought only in flight up over a lead on foot): never set in a scene.</summary>
+        public static bool ShownOnFootAsItWas;
+        /// <summary>The boss whose bar, state line, edge mark and fight line the HUD gives this hero: <see cref="Focus"/>'s, less one fought only in flight while he is on foot
+        /// (<see cref="Kit.flown"/>). The fight itself is unchanged: she still fights, travel still waits on her, and <see cref="Focus"/> still finds her.</summary>
+        public static BossController Shown(CombatActor hero)
+        {
+            if(hero==null)return null;var boss=Focus(hero.transform.position);
+            return boss!=null&&!hero.flight&&!ShownOnFootAsItWas&&boss.health!=null&&boss.Own.flown?null:boss;
+        }
+        /// <summary>A test's switch for the numbers as they stood (every body's at 1.9 m over its root, a tall one's at its hip): never set in a scene.</summary>
+        public static bool NumbersAsTheyStood;
+        /// <summary>How high over its root this body's damage numbers stand, if its boss's kit says (<see cref="Kit.numbersOverHead"/>): a hand over its drawn head, as a hero's 1.9 m is
+        /// over his (the Host Marshal's head is 3.8 m up; its capsule's top, 4.8, stood a metre over it, under the vitals' corner), or its capsule's top for a body with no head
+        /// bone. 0 when its kit doesn't say.</summary>
+        public static float NumbersAt(Health body)
+        {
+            if(NumbersAsTheyStood||body==null||!body.TryGetComponent<BossController>(out var boss)||boss.health==null||!boss.Own.numbersOverHead)return 0;
+            if(!boss.headLooked){boss.headLooked=true;var rig=body.GetComponentInChildren<Animator>();boss.headBone=rig!=null&&rig.isHuman?rig.GetBoneTransform(HumanBodyBones.Head):null;}
+            if(boss.headBone!=null)return boss.headBone.position.y-body.transform.position.y+HandOverHead;
+            return body.TryGetComponent<CharacterController>(out var capsule)?capsule.center.y+capsule.height*.5f:0;
+        }
+        const float HandOverHead=.3f;
+        Transform headBone;bool headLooked;
         // No initializer: each boss's file registers from a static field of its own, and the order between files isn't fixed.
         static Dictionary<string,Kit> kits;
         static List<string> twice;

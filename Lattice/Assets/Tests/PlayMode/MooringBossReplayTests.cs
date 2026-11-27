@@ -596,7 +596,7 @@ namespace Lattice.Tests.PlayMode
                 var brain=partner.GetComponent<PartnerBrain>();var clear=typeof(PartnerBrain).GetMethod("ClearOfTheBox",Private);var going=typeof(PartnerBrain).GetField("talkTo",Private);
                 var since=typeof(PartnerBrain).GetField("talkSince",Private);var taking=typeof(PartnerBrain).GetField("talkFor",Private);
                 var talkPlace=typeof(PartnerBrain).GetMethod("TalkPlace",Private);
-                bool Clear(Vector3 p)=>(bool)clear.Invoke(brain,new object[]{Camera.main,p});
+                bool Clear(Vector3 p)=>(bool)clear.Invoke(brain,new object[]{Camera.main,p,true});
                 Vector3 pressedAt=default;bool hidden=false,ends=false,begun=false;var way=new List<string>();
                 void Begin()
                 {

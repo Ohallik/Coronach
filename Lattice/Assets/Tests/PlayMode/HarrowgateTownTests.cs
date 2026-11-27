@@ -44,7 +44,7 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ the town's places, on the plan (HarrowgateBuilder.Town's constants)
-        static readonly Vector2 Arrival=new(-40,8),GateHead=new(8,28),PipWaits=new(11.6f,30.6f),HessaGate=new(16.6f,14.6f),KitchenDoor=new(-25,40),OdrunAt=new(-21.8f,46.5f),BrekkAt=new(-24,53.4f),
+        static readonly Vector2 Arrival=new(-40,8),GateHead=new(8,28),PipWaits=new(11.6f,30.6f),PipFirstAt=new(8,31f),HessaGate=new(16.6f,14.6f),KitchenDoor=new(-25,40),OdrunAt=new(-21.8f,46.5f),BrekkAt=new(-24,53.4f),
             F=new(0,87),DuelMiddle=new(0,85),GuardPost=new(14,95),PipThirdFile=new(-20.2f,80),FieldSpawn=new(0,64),VerdictSpawn=new(-4,80),DraskAt=new(0,109.4f),CellAt=new(56,110.6f),CellFront=new(56,107.4f),
             ArmouryGate=new(47.6f,80.25f),StairMid=new(50.8f,88.5f),Lookout=new(54,121),PipAfterAt=new(-21.8f,38.6f);
         const float FieldHalfX=17.5f,FieldSouth=72.5f,FieldNorth=97.5f,Upper=4.8f;
@@ -134,7 +134,7 @@ namespace Lattice.Tests.PlayMode
             InTown();yield return Zone();
             var pip=All<KeepsPace>().Single(k=>k.name=="Pip");yield return Frames(3);
             Assert.AreEqual(0,pip.Current,"Pip isn't waiting inside the gate before his first word");Assert.Less(Flat(pip.transform.position,PipWaits),1.5f,"Pip isn't waiting at the gate's head");
-            var first=Point("vask.pipMet");Assert.AreEqual("PipFirst",first.dialogueNode);Assert.AreEqual("vask.parley",first.requiredFlag);Assert.Less(Flat(first.transform.position,GateHead),2.5f,"Pip's first word isn't just inside the gate");
+            var first=Point("vask.pipMet");Assert.AreEqual("PipFirst",first.dialogueNode);Assert.AreEqual("vask.parley",first.requiredFlag);Assert.Less(Flat(first.transform.position,PipFirstAt),.05f,"Pip's first word isn't just inside the gate, three metres past its head");
             // His places are offered only while he is with the party.
             var places=All<DiscoveryPoint>().Where(p=>p.dialogueSpeaker=="Pip"&&!p.startsOnCrossing).ToArray();Assert.AreEqual(7,places.Length,"Pip doesn't stop at his seven places");
             foreach(var place in places)Assert.IsFalse(place.Wanted,$"\"{place.prompt}\" is offered before Pip has attached himself");
@@ -146,6 +146,47 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(All<KeepsPace>().Single(k=>k.name=="Pip").gameObject.activeInHierarchy,"Pip still follows the party after the verdict");
             var after=Here("Pip");Assert.AreEqual(1,after.Length,"Pip isn't at Odrun's door after the verdict");Assert.Less(Flat(after[0].transform.position,PipAfterAt),1);
             Assert.AreEqual("pip.oathLeft",after[0].postFlag);Assert.AreEqual("PipPost",after[0].postNode);
+        }
+
+        /// <summary>Round seven's chain, nov26-r7c-chain s50/063 (W9-harrowgate-02): Pip's first word opened with the lead at z 28.27, in the shadow of the gate's arch (its cap 7.35 m
+        /// up at z 23.8) and towers, and neither Pip nor Idra in view. Its crossing (9 m by 2.4) is moved 1.4 m north, to (8, 31): walked north up the route's line from the ramp's
+        /// head the talk opens with the lead at or past z 29.6, where he is seen whole; and walked at Pip from the ramp's head, or from due south of him, it still opens before he is
+        /// within 0.9 m of the boy (at 31.4 or more it doesn't). As it was: the built scene can't be switched, so the first pass moves the crossing's object back to z 29.6, where the
+        /// talk opens at about z 28.3. Walked at sixty frames a second, as the player runs, with physics at its own fifty.</summary>
+        [UnityTest] public IEnumerator PipsFirstWordOpensWithTheLeadPastTheGatesArchAndBeforeHeReachesPip()
+        {
+            const float Was=29.6f;var head=new Vector2(8,27);var opened=new Vector2[4];var pips=new Vector2[4];
+            for(int pass=0;pass<4;pass++)
+            {
+                Flag("vask.pipMet",false);Flag("met.Pip",false);InTown();yield return Zone();
+                var first=Point("vask.pipMet");var line=first.transform.position;
+                if(pass==0){first.transform.position=new Vector3(line.x,line.y,Was);Physics.SyncTransforms();}
+                else Assert.Less(Flat(line,PipFirstAt),.05f,"Pip's first word isn't where the builder puts it");
+                var at=All<KeepsPace>().Single(k=>k.name=="Pip").transform.position;pips[pass]=new Vector2(at.x,at.z);
+                var from=pass==3?new Vector2(pips[pass].x,27.6f):head;var to=pass<2?new Vector2(8,34):pips[pass];
+                Assert.Less(Flat(Floor(from),from),.3f,$"fixture: no floor at ({from.x}, {from.y}) to walk from");
+                heard.Clear();opened[pass]=new Vector2(float.NaN,float.NaN);
+                Put(Lead,Floor(from));yield return Frames(2);Time.captureDeltaTime=1/60f;
+                try
+                {
+                    for(int frame=0;frame<360;frame++)
+                    {
+                        if(heard.Contains("PipFirst")||DialogueSystem.Current.Running){var p=Lead.transform.position;opened[pass]=new Vector2(p.x,p.z);break;}
+                        var go=to-new Vector2(Lead.transform.position.x,Lead.transform.position.z);Lead.motor.Move(go.magnitude<.05f?Vector2.zero:go.normalized,false,false);yield return null;
+                    }
+                }
+                finally{Time.captureDeltaTime=0;Lead.motor.Move(Vector2.zero,false,false);}
+                if(DialogueSystem.Current.Running){DialogueSystem.Current.Cancel();yield return Frames(2);}
+            }
+            float Near(int pass)=>Vector2.Distance(opened[pass],pips[pass]);
+            Debug.Log($"PIP_FIRST_WALKS as it was (z {Was}): opened at z {opened[0].y:0.00}; at (8, {PipFirstAt.y}): up the line z {opened[1].y:0.00}, at Pip from the ramp's head {Near(2):0.00} m "
+                +$"(z {opened[2].y:0.00}), from due south {Near(3):0.00} m (z {opened[3].y:0.00}); Pip at ({pips[1].x:0.00}, {pips[1].y:0.00})");
+            Assert.IsFalse(float.IsNaN(opened[0].y),"as it was, the talk never opened up the route's line");
+            Assert.That(opened[0].y,Is.InRange(28.0f,28.6f),"as it was, the talk didn't open in the gate's shadow at about z 28.3: the test isn't measuring what the still showed");
+            for(int pass=1;pass<4;pass++)Assert.IsFalse(float.IsNaN(opened[pass].y),$"walk {pass}: the lead reached his goal and Pip's first word never opened");
+            Assert.GreaterOrEqual(opened[1].y,29.6f,"up the route's line Pip's first word opens with the lead still under the gate's arch and towers");
+            Assert.GreaterOrEqual(Near(2),.9f,"walked straight at Pip from the ramp's head, the lead is beside him before he speaks");
+            Assert.GreaterOrEqual(Near(3),.9f,"walked at Pip from due south, the lead is beside him before he speaks");
         }
 
         [UnityTest] public IEnumerator OdrunsKitchenHasNoSignItsQuarterIsBehindItAndHerThingsAreOfferedOnlyForHerQuest()

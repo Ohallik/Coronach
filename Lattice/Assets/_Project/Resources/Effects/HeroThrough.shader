@@ -32,6 +32,8 @@ Shader "Lattice/HeroThrough"
         _ShareHigh ("Share hidden from which all is drawn", Range(0,1)) = 0.5
         _Head ("Nothing drawn while the middle of the head is in sight (1)", Float) = 0
         _Mark ("The mark over a hidden hero (1), not a body", Float) = 0
+        _HeadGives ("The mark: share hidden from which the head rule gives way (over 1: never)", Float) = 2
+        _Probe ("The mark: a test's read of its points (1), not the glyph", Float) = 0
     }
     SubShader
     {
@@ -67,6 +69,8 @@ Shader "Lattice/HeroThrough"
                 float _ShareHigh;
                 float _Head;
                 float _Mark;
+                float _HeadGives;
+                float _Probe;
             CBUFFER_END
             // D438: where the hero's feet stood, newest first, .045 s apart (HeroThrough.cs, by the property block); w is 0 where nothing is known yet.
             float4 _Trail[8];
@@ -98,7 +102,10 @@ Shader "Lattice/HeroThrough"
                     float2 right = (sideways.xy / sideways.w - here) * _ScaledScreenParams.xy;
                     up *= rsqrt(max(dot(up, up), 1e-10));
                     right *= rsqrt(max(dot(right, right), 1e-10));
-                    float2 pixels = (right * input.positionOS.x + up * (input.positionOS.y + MarkBob * sin(_Time.y * 5.0))) * (_ScaledScreenParams.y / 1080.0);
+                    // A test's probe (_Probe) reads the points in cells four times the glyph's size, standing still.
+                    float probe = _Probe > 0.5 ? 4.0 : 1.0;
+                    float bob = _Probe > 0.5 ? 0.0 : MarkBob * sin(_Time.y * 5.0);
+                    float2 pixels = (right * input.positionOS.x + up * (input.positionOS.y + bob)) * probe * (_ScaledScreenParams.y / 1080.0);
                     at.xy += pixels * 2.0 / _ScaledScreenParams.xy * at.w;
                     // Nothing to point at behind the lens, or for a ship.
                     if (at.w <= 0.0 || _Hero.w <= 0.0) at = float4(2, 2, 2, 1);
@@ -137,13 +144,16 @@ Shader "Lattice/HeroThrough"
             // mislead it: flip is -1 where the screen's rows run against the projection's.
             // D432: head is whether the top row's middle point (the middle of the head) is hidden; a point off the screen counts as hidden.
             // D438: feet is where the body stands (_Hero's own, or for the mark one of the places he stood: _Trail).
-            float ShareHidden(float3 feet, float2 uv, float4 own, float flip, out float head)
+            // Round eight: below is the same share over the 21 points under the head's two rows (the mark's, Marked), or nought where any of those points shows his own
+            // body (the scene's surface there within _Thickness of it: his shoulders over a ridge, his chest or his legs in plain view).
+            float ShareHidden(float3 feet, float2 uv, float4 own, float flip, out float head, out float below)
             {
                 head = 1.0;
+                below = 0.0;
                 if (_Hero.w <= 0.0) return 1.0;
                 float2 mine = Projected(own);
                 float3 side = UNITY_MATRIX_V[0].xyz * _HeroWidth;
-                float hidden = 0, counted = 0;
+                float hidden = 0, counted = 0, hiddenBelow = 0, countedBelow = 0, showsBelow = 0;
                 [unroll] for (int i = 0; i < 9; i++)
                 {
                     [unroll] for (int j = -1; j <= 1; j++)
@@ -152,36 +162,57 @@ Shader "Lattice/HeroThrough"
                         float2 offset = Projected(there) - mine;
                         float2 at = uv + float2(offset.x, offset.y * flip);
                         float inside = (there.w > 0 && at.x > 0 && at.y > 0 && at.x < 1 && at.y < 1) ? 1.0 : 0.0;
-                        float behind = there.w - SceneDepthAt(at) > _Thickness ? 1.0 : 0.0;
+                        float gap = there.w - SceneDepthAt(at);
+                        float behind = gap > _Thickness ? 1.0 : 0.0;
                         counted += inside;
                         hidden += inside * behind;
+                        if (i < 7) { countedBelow += inside; hiddenBelow += inside * behind; showsBelow += inside * (abs(gap) <= _Thickness ? 1.0 : 0.0); }
                         if (i == 8 && j == 0) head = inside > 0.5 ? behind : 1.0;
                     }
                 }
+                below = countedBelow > 0 && showsBelow < 0.5 ? hiddenBelow / countedBelow : 0.0;
                 return counted > 0 ? hidden / counted : 1.0;
             }
             // How much of the drawing shows: none below _ShareLow of the body hidden, all from _ShareHigh; with _Head (D432: scenery, and the partner behind a boss), none
             // while the middle of the head is in sight, however much of the rest is hidden (nov25-whole s22/061: a head in colour over the kiln, the body a line on its crown).
             half Shown(float2 uv, float4 own, float flip)
             {
-                float head;
-                float share = ShareHidden(_Hero.xyz, uv, own, flip, head);
+                float head, below;
+                float share = ShareHidden(_Hero.xyz, uv, own, flip, head, below);
                 return smoothstep(_ShareLow, _ShareHigh, share) * lerp(1.0, head, saturate(_Head));
             }
             // D438: how much of the mark shows. Each of the eight places he stood over the last third of a second (_Trail, newest first, .045 s apart) is read by the same
             // share and head rule as the line, against the scene as it is now; he counts as lost at a moment when he is lost there and at the moments .09 and .18 s before,
             // and the mark is the mean of that over the newest four moments. So it comes about a fifth of a second after he is lost, eases in over .135 s, and eases out as fast
             // once he shows. A place not known yet (w 0: just arrived, or set down from afar) is not lost, so the wait is a real one.
+            // Round eight: or nothing of his body in sight under his head's two rows and the share of those 21 points from _HeadGives (HeroThrough.MarkHeadless), whatever
+            // the head and the 27 points' share: Taren behind Harrowgate's gate roof with the top of his hair over its far edge (nov26-r7c-chain s50/071) and under
+            // Lanternwick's deck with his head past its far edge (s16/114) got no mark; there the head's point was in sight, and the points either side of it, which see the
+            // floor past the edge, kept the 27 points' share under the mark's. A head and shoulders over a ridge (s25/012) show the shoulders' point and stay unmarked.
             half Marked(float2 uv, float4 own, float flip)
             {
                 float lost[8];
                 [loop] for (int k = 0; k < 8; k++)
                 {
-                    float head;
-                    float share = ShareHidden(_Trail[k].xyz, uv, own, flip, head);
-                    lost[k] = _Trail[k].w > 0.5 ? smoothstep(_ShareLow, _ShareHigh, share) * lerp(1.0, head, saturate(_Head)) : 0.0;
+                    float head, below;
+                    float share = ShareHidden(_Trail[k].xyz, uv, own, flip, head, below);
+                    float whole = smoothstep(_ShareLow, _ShareHigh, share) * lerp(1.0, head, saturate(_Head));
+                    lost[k] = _Trail[k].w > 0.5 ? max(whole, below >= _HeadGives ? 1.0 : 0.0) : 0.0;
                 }
                 return 0.25 * (lost[0] * lost[2] * lost[4] + lost[1] * lost[3] * lost[5] + lost[2] * lost[4] * lost[6] + lost[3] * lost[5] * lost[7]);
+            }
+            // Round eight, a test's read of the measure point by point (_Probe, HeroOutlineTests): the probe's quad in nine rows by three, each cell one of ShareHidden's
+            // points at the hero's feet now (_Hero), red where something stands in front of it by more than _Thickness (hidden), green where the surface there is within
+            // _Thickness of it (his own body, in sight), blue where it lies further behind (the floor or a wall past him). Pure colours, written whole: a zone's grade
+            // bends their values but not which is the strongest.
+            half4 Probe(float2 p, float2 uv, float4 own, float flip)
+            {
+                float column = clamp(floor((p.x + 25.0) * 3.0 / 50.0), 0.0, 2.0) - 1.0;
+                float row = clamp(floor((p.y + 5.0) / 4.0), 0.0, 8.0);
+                float4 there = TransformWorldToHClip(_Hero.xyz + float3(0, (row + 0.5) / 9.0 * _Hero.w, 0) + UNITY_MATRIX_V[0].xyz * _HeroWidth * column);
+                float2 offset = Projected(there) - Projected(own);
+                float gap = there.w - SceneDepthAt(uv + float2(offset.x, offset.y * flip));
+                return half4(gap > _Thickness ? 1 : 0, abs(gap) <= _Thickness ? 1 : 0, gap < -_Thickness ? 1 : 0, 1);
             }
             half4 Frag(Varyings input):SV_Target
             {
@@ -193,6 +224,7 @@ Shader "Lattice/HeroThrough"
                     // D438: the mark, a downward arrowhead whose point is the glyph's origin, gold inside a thin dark edge (it holds on pale thatch and on dark slate),
                     // its edge smoothed over one pixel of this target. Measured in pixels of 1080 (the quad's own corners).
                     float2 p = input.glyph;
+                    if (_Probe > 0.5) return Probe(p, uv, input.clipPos, flip);
                     float d = max(p.y - MarkTall, (MarkTall * abs(p.x) - MarkHalf * p.y) * rsqrt(MarkTall * MarkTall + MarkHalf * MarkHalf));
                     float aa = 1080.0 / _ScaledScreenParams.y;
                     half cover = saturate(0.5 - d / aa);

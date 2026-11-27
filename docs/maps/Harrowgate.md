@@ -141,7 +141,7 @@ Plan x, z, from `HarrowgateBuilder.Town`'s constants (logged by the build as `HA
 | The sisters (crossing across the quay) | x -14..-10, z -6..22 (the quay's whole depth) | `HessaSisters`, `vask.sistersHeard` (needs `vask.roadSaid`) |
 | Vessa, Hessa at the gate | Vessa (19.2, 15.8), into the east tower's door (13, 18.9); Hessa (16.6, 14.6) | `Hessa` (first `HessaParley`, repeat `HessaGateRepeat`); `vask.parley` |
 | Harbour gate ramp | (8, 13) y 0 -> (8, 27) y 2.4; leaves at z 22.4 | shut until `vask.parley` |
-| Pip waiting; his first word | Pip (11.6, 30.6); crossing (8, 29.6), 9 m across | `PipFirst`, `vask.pipMet` (needs `vask.parley`) |
+| Pip waiting; his first word | Pip (11.6, 30.6); crossing (8, 31), 9 m across | `PipFirst`, `vask.pipMet` (needs `vask.parley`) |
 | Lower terrace walk | (-50, 35) -> (44, 35) | |
 | Washing lines (Pip) | (-11, 42.6) | `Look up at the washing`, `pip.washingSeen` |
 | Family stair: Pip at its foot, the stair | (-38.5, 49.6); stair (-38.5, 56) y 2.4 -> (-38.5, 66) y 4.8 | `Watch the stair game`, `pip.gameSeen` |

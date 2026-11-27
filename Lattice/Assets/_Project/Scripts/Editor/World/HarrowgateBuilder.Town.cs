@@ -39,7 +39,7 @@ namespace Lattice.EditorTools
 
             // ---------------------------------------------------------------- who and what stands where (plan coordinates; routes, tests and LookDev read these)
             internal static readonly Vector2 Arrival=new(-40,8),Pad=new(-26,3.5f),RoadArch=new(-52.6f,9),GateFoot=new(8,13),GateHead=new(8,28),HessaGate=new(16.6f,14.6f),VessaGate=new(19.2f,15.8f),
-                PipWaits=new(11.6f,30.6f),PipFirstAt=new(8,29.6f),Scales=new(34,10.6f),FlourAt=new(31.4f,12.2f),
+                PipWaits=new(11.6f,30.6f),PipFirstAt=new(8,31f),Scales=new(34,10.6f),FlourAt=new(31.4f,12.2f),
                 WashingAt=new(-11,42.6f),KitchenDoor=new(-25,40),OdrunAt=new(-21.8f,46.5f),TableAt=new(-27.2f,43.4f),TovraAt=new(-30.3f,43.4f),BrekkAt=new(-24,53.4f),
                 StairFoot=new(-38.5f,52),StairGameAt=new(-38.5f,49.6f),ForgesAt=new(23,41),MenderAt=new(16,44.2f),ArmourersSpawn=new(19,39),KettleAt=new(29.5f,44.2f),AnvilAt=new(35.5f,44.2f),
                 SaltAt=new(45.4f,49.6f),FieldSpawn=new(0,64),VerdictSpawn=new(-4,80),FieldCradle=new(7,62.6f),LaunchPad=new(-11,62.4f),PipFieldAt=new(-8,70.2f),

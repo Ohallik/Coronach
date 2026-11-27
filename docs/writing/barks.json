@@ -319,7 +319,7 @@
   "Idra": {
     "swap": "Out. I'm in.|Behind me.|My shift.",
     "low": "Plating's thin. Noted.|That got through. It won't twice.|I've had worse. Not often.",
-    "kill": "Down.|Clear.|Counted.|Stays down.",
+    "kill": "That's one.|Clear.|Counted.|Stays down.",
     "flash": "Slow.",
     "teach.flash": "Watch the mark fill. Move just before it lands and you get time. Spend it.",
     "teach.swap": "When it's too much, call me in. I arrive braced. You rest.",

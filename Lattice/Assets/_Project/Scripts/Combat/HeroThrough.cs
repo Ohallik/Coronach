@@ -44,19 +44,29 @@ namespace Lattice.Combat
         public const float WholeLow=.9f,WholeHigh=.95f;
         /// <summary>The mark's own share (the lead's ruling, November 26): at the Separation Works' gallery wall a gap between two blocks shows a twentieth of him, the measure reads
         /// .8 to .9, and by <see cref="WholeLow"/> he stood unmarked with nothing of him to find (nov26-r7-chain s58/151). A lead four fifths hidden with his head hidden is lost to
-        /// the player; where his head shows (s16/114, s25/012) the head rule keeps the mark off whatever the share.</summary>
+        /// the player; where his head and shoulders show (s25/012) the head rule keeps the mark off whatever the share (round eight: and his head alone, <see cref="MarkHeadless"/>).</summary>
         public const float MarkLow=.8f,MarkHigh=.85f;
+        /// <summary>Round eight: the lead is marked, whatever his head and the 27 points' share, once nothing of his body shows at the 21 points under the head's two rows (the
+        /// scene within the measure's thickness of none of them) and this share of them is hidden (18 of 21; what is neither shows the floor or a wall past him). At the end
+        /// of Pip's talk at Harrowgate's gate Taren stood behind the gatehouse roof with the top of his hair over its far edge (nov26-r7c-chain s50/071), and under
+        /// Lanternwick's deck with his head past its far edge (s16/114), and got no mark: the head's point was in sight, and the points beside it saw the floor past the edge,
+        /// so the 27 points read under .8 there (the deck hides all the rest of him by far more than the measure's thickness; that was not the fault). A head and shoulders
+        /// over a ridge show the shoulders' point (s25/012, and the gate roof from where the rig comes to rest) and stay unmarked, as a lead in plain view does with the
+        /// partner beside him or in front of him, attacking or rolling (HeroOutlineTests).</summary>
+        public const float MarkHeadless=.85f;
         /// <summary>For a test's before: every hero on foot drawn through whatever hides them from <see cref="ShareLow"/>, and the partner given windows of her own
         /// (SceneryOcclusion), as until D432.</summary>
         public static bool AsItWas;
         /// <summary>D438: for a test's before, the rule of D432 (the morning of November 26): behind scenery the lead drawn through from <see cref="WholeLow"/> and stood in the
         /// window of a piece that hides him whole (SceneryOcclusion), and no mark.</summary>
         public static bool AsThisMorning;
+        /// <summary>Round eight: for a test's before, the mark as round seven left it (D441): by the 27 points' share and the head rule alone.</summary>
+        public static bool AsRoundSeven;
         /// <summary>D438: the places the mark reads (the shader's _Trail), how far apart in time, and how far a hero may move in one frame before what he stood on before is
         /// forgotten (set down from afar). A downed partner lies low: her share is read over this height.</summary>
         const int TrailLength=8;const float TrailStep=.045f,Jump=3,DownHeight=.7f;
         static readonly int HeroId=Shader.PropertyToID("_Hero"),LowId=Shader.PropertyToID("_ShareLow"),HighId=Shader.PropertyToID("_ShareHigh"),HeadId=Shader.PropertyToID("_Head"),
-            TrailId=Shader.PropertyToID("_Trail");
+            TrailId=Shader.PropertyToID("_Trail"),HeadGivesId=Shader.PropertyToID("_HeadGives");
         static MaterialPropertyBlock block;
         static Material[] looks;
         static Mesh markMesh;
@@ -96,7 +106,7 @@ namespace Lattice.Combat
                     var material=new Material(shader){name=$"Hero mark ({(i==8?"lead":"partner")})"};
                     material.SetColor("_BaseColor",i==8?LeadLine:PartnerLine);material.SetFloat("_Line",.95f);material.SetFloat("_Mark",1);material.SetFloat("_Push",0);
                     material.SetFloat("_Thickness",Thickness);material.SetFloat("_Cull",(float)CullMode.Off);material.SetFloat("_HeroWidth",HalfWidth);
-                    material.SetFloat("_ShareLow",MarkLow);material.SetFloat("_ShareHigh",MarkHigh);material.SetFloat("_Head",1);
+                    material.SetFloat("_ShareLow",MarkLow);material.SetFloat("_ShareHigh",MarkHigh);material.SetFloat("_Head",1);material.SetFloat("_HeadGives",MarkHeadless);
                     material.renderQueue=(int)RenderQueue.Transparent+42;
                     looks[i]=material;
                 }
@@ -235,7 +245,7 @@ namespace Lattice.Combat
             if(!on)return;
             if(mark.sharedMaterial!=look)mark.sharedMaterial=look;
             // The mark's own share and head rule, over the body copies' (the block is theirs first).
-            block.SetFloat(LowId,MarkLow);block.SetFloat(HighId,MarkHigh);block.SetFloat(HeadId,1);
+            block.SetFloat(LowId,MarkLow);block.SetFloat(HighId,MarkHigh);block.SetFloat(HeadId,1);block.SetFloat(HeadGivesId,AsRoundSeven?2:MarkHeadless);
             mark.SetPropertyBlock(block);
         }
         static Mesh MarkMesh()

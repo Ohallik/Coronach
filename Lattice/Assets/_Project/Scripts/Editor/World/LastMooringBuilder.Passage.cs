@@ -374,12 +374,15 @@ namespace Lattice.EditorTools
                 var lip=new ZoneKit.Shape();
                 {
                     ConvoyFlow.At(Line,MouthS,0,out var ahead);var side=Vector3.Cross(Vector3.up,ahead);var mid=On(MouthS+8);
-                    for(int k=0;k<36;k++)
+                    // The fold as two smooth tubes, each from a tip at 170 or 20 degrees down to the bottom, lit at the tip and darker below. Drawn as 21 straight tubes, each tinted
+                    // light to dark along itself and its texture begun again, it was a row of pleats, a stage curtain hanging in space under the ring at the rendezvous
+                    // (W6-passage-01, nov25-whole s68/123). Same place, same size, same tissue.
+                    Vector3 Ring(float t,float r)=>mid+side*Mathf.Cos(t)*r+Vector3.up*(Mathf.Sin(t)*r*.55f-r*.55f-6);
+                    foreach(var (first,last) in new[]{(34,54),(76,54)})
                     {
-                        float a=k/36f*Mathf.PI*2,b=(k+1)/36f*Mathf.PI*2;
-                        Vector3 Ring(float t,float r)=>mid+side*Mathf.Cos(t)*r+Vector3.up*(Mathf.Sin(t)*r*.55f-r*.55f-6);
-                        if(Mathf.Sin(a)>.25f)continue;
-                        lip.Slot(0).Tube(new[]{Ring(a,24),Ring(b,24)},new[]{3.6f,3.6f},10,L(.62f,.36f,.4f),L(.42f,.24f,.32f),1,.2f,false);
+                        var fold=new List<Vector3>();var thick=new List<float>();
+                        for(int k=first;k!=last+System.Math.Sign(last-first);k+=System.Math.Sign(last-first)){fold.Add(Ring(k/72f*Mathf.PI*2,24));thick.Add(3.6f);}
+                        lip.Slot(0).Tube(fold,thick,10,L(.62f,.36f,.4f),L(.42f,.24f,.32f),1,.2f,false);
                     }
                 }
                 var lipDrawn=kit.Built("The far mouth's lip",lip,stuff.tissue);lipDrawn.transform.SetParent(root.transform,true);lipDrawn.isStatic=true;

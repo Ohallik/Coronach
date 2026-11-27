@@ -690,8 +690,26 @@ namespace Lattice.Tests.PlayMode
         /// each other, and how far apart round him (the least bearing between two within three metres of him, on average).</summary>
         sealed class PackRun
         {
-            public int marks,held,bites;public float inHero,inEachOther,apart,round;public string at="";public readonly List<string> heldAt=new();
-            public override string ToString()=>$"{bites}/{marks}/{held} in him {inHero:0.00} in each other {inEachOther:0.00}{(at!=""?" ("+at+")":"")} apart {apart:0} round {round:0.0} s{(heldAt.Count>0?" held "+string.Join(";",heldAt.Take(4)):"")}";
+            public int marks,held,bites,frames,overHead,lensSide;public float inHero,inEachOther,apart,round;public string at="";public readonly List<string> heldAt=new();
+            public override string ToString()=>$"{bites}/{marks}/{held} in him {inHero:0.00} in each other {inEachOther:0.00}{(at!=""?" ("+at+")":"")} apart {apart:0} round {round:0.0} s over his head {overHead}/{frames} lens side {lensSide}{(heldAt.Count>0?" held "+string.Join(";",heldAt.Take(2)):"")}";
+        }
+        /// <summary>Where the hero's head is drawn: his rig's head bone, or 1.6 m over his feet.</summary>
+        static Vector3 HeadOf(CombatActor hero){var rig=hero.GetComponentInChildren<Animator>();var bone=rig!=null&&rig.isHuman?rig.GetBoneTransform(HumanBodyBones.Head):null;return bone!=null?bone.position:hero.transform.position+Vector3.up*1.6f;}
+        /// <summary>His head and shoulders as the screen has them: a ring this wide (in metres at his head, as the lens draws them) round a point this far under his head bone.</summary>
+        const float HeadAndShoulders=.35f,UnderHead=.15f;
+        /// <summary>Whether what one of a pack draws covers the hero's head and shoulders from the game's camera: a point of it nearer the lens than his head, inside the ring the lens
+        /// draws round them. Logged with every pack run, beside the frames in which one of the pack stands within 3 m of him toward the lens. Round eight (W5-gorge-01) read three grazers
+        /// in the relay come at him from the lens's side: one there in every frame, and none drawn over his head and shoulders in any (r8d-fights2): what s15/053 shows is not that side.</summary>
+        static bool OverHisHead(Camera lens,Vector3 head,List<Vector3> drawn)
+        {
+            var middle=head+Vector3.down*UnderHead;var at=lens.WorldToScreenPoint(middle);
+            float r=((Vector2)lens.WorldToScreenPoint(middle+lens.transform.right*HeadAndShoulders)-(Vector2)at).magnitude,far=Vector3.Distance(lens.transform.position,head);
+            foreach(var p in drawn)
+            {
+                var s=lens.WorldToScreenPoint(p);if(s.z<=0||Vector3.Distance(lens.transform.position,p)>=far)continue;
+                if(((Vector2)s-(Vector2)at).sqrMagnitude<r*r)return true;
+            }
+            return false;
         }
         static readonly FieldInfo RoundSince=typeof(EnemyBrain).GetField("roundSince",BindingFlags.Instance|BindingFlags.NonPublic);
         /// <summary>A pack of <paramref name="id"/> woken at <paramref name="starts"/>, facing <paramref name="facing"/>, against the lead standing at <paramref name="stand"/>, for
@@ -717,6 +735,14 @@ namespace Lattice.Tests.PlayMode
                 var drawn=pack.Select(b=>DrawnPoints(b,3000)).ToList();
                 foreach(var p in drawn)run.inHero=Mathf.Max(run.inHero,Inside(p,lead));
                 if(Time.unscaledTime-began<1)continue;
+                var lens=Camera.main;
+                if(lens!=null)
+                {
+                    run.frames++;var head=HeadOf(lead);if(drawn.Any(p=>OverHisHead(lens,head,p)))run.overHead++;
+                    // And the cause on the floor plan: one of them within three metres of him, within sixty degrees of straight toward the lens.
+                    var toLens=-lens.transform.forward;toLens.y=0;
+                    if(pack.Any(b=>{var o=b.transform.position-lead.transform.position;o.y=0;return o.magnitude<3&&Vector3.Angle(o,toLens)<60;}))run.lensSide++;
+                }
                 var covers=pack.Select((b,i)=>Covers(drawn[i],b.transform.position.y)).ToList();
                 for(int i=0;i<pack.Count;i++)for(int j=i+1;j<pack.Count;j++)
                 {

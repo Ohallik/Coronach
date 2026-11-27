@@ -589,6 +589,42 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(body.Broken,"its heat failed and it isn't open");Assert.That(body.BrokenUntil-Time.time,Is.InRange(1.6f,2.05f),"down on one knee it is open 2 s");
             Assert.AreEqual(150,Hit(body,hero),1,"a hit on it down on its knee isn't an opening's half as much again");
         }
+        /// <summary>Its numbers stand at its head (round eight, W8-frozen-host-02). At a hero's head height over its root (1.9 m) they stood at the hip of its 4.8 m body, between its
+        /// elbow and the thaw coupling's cap beside it, and two looks took '2155' and '2703' for the coupling's (nov26-r7-chain s36/055 to 059: '1507', '2155', '2703' grew with its bar's
+        /// losses while the locked coupling's plate stood full). Measured on the screen between its feet and its drawn head: as they stood, under six tenths of the way up (first shown);
+        /// now at its head or over it.</summary>
+        [UnityTest] public IEnumerator TheMarshalsNumbersStandAtItsHeadNotAtItsHipBesideWhatStandsNextToIt()
+        {
+            // The lead six metres to its side, so its head stands in the middle of the screen's height, clear of the panels a number is put off (the first run, from six metres
+            // south, read its head under the top panels: 0.59 of the way up with the anchor a metre over its head).
+            yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(6,.05f,0));
+            var marshal=Enemy("HostMarshal",At(0,.1f,0));yield return Frames(3);var body=marshal.Health;
+            var drawn=marshal.GetComponent<DefeatPresentation>().visual;Assert.IsNotNull(drawn,"fixture: it has a drawn body");
+            var head=drawn.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="Head");Assert.IsNotNull(head,"fixture: its drawn body's rig has a head");
+            var hud=Object.FindFirstObjectByType<GameHud>();var camera=Camera.main;Assert.IsNotNull(hud,"fixture: the HUD");Assert.IsNotNull(camera,"fixture: the game's camera");
+            yield return Wait(.5f,hero);
+            // How far up its body, on the screen, the newest number's middle stands: 0 at its feet, 1 at its drawn head.
+            float Up()
+            {
+                var number=hud.GetComponentsInChildren<TMPro.TMP_Text>(true).LastOrDefault(t=>t.name=="Damage"&&t.isActiveAndEnabled&&t.text!="");if(number==null)return float.NaN;
+                var canvas=number.canvas;var lens=canvas.renderMode==RenderMode.ScreenSpaceOverlay?null:canvas.worldCamera;
+                float at=RectTransformUtility.WorldToScreenPoint(lens,number.rectTransform.position).y;
+                float feet=camera.WorldToScreenPoint(marshal.transform.position).y,top=camera.WorldToScreenPoint(head.position).y;
+                return (at-feet)/Mathf.Max(1,top-feet);
+            }
+            float stood,now;
+            try
+            {
+                BossController.NumbersAsTheyStood=true;Hit(body,hero,100);yield return Frames(2);stood=Up();
+                yield return Wait(1.4f,hero);
+                BossController.NumbersAsTheyStood=false;Hit(body,hero,100);yield return Frames(2);now=Up();
+            }
+            finally{BossController.NumbersAsTheyStood=false;}
+            TestContext.WriteLine($"HOARFELL_NUMBERS its head {head.position.y-marshal.transform.position.y:0.00} m over its root; a number {stood:0.00} of the way up its body as they stood, {now:0.00} now");
+            Assert.IsFalse(float.IsNaN(stood)||float.IsNaN(now),"fixture: a blow on it shows a number");
+            Assert.Less(stood,.6f,"fixture: as they stood, its number stood at its hip");
+            Assert.GreaterOrEqual(now,.9f,"its number stands under its head, at its hip or chest, where what stands beside it can claim it");
+        }
         [UnityTest] public IEnumerator PutToSleepTheMarshalKneelsAsIceWithNoWordOverItAndWhatItWokeSleepsWithIt()
         {
             yield return Zone("Arena_Ground");Floor();var (hero,partner)=Party();Put(partner,At(-50,.05f,-50));Put(hero,At(0,.05f,-8));

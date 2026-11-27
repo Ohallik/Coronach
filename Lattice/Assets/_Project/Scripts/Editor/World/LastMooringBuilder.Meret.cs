@@ -62,7 +62,10 @@ namespace Lattice.EditorTools
                     // line through, D281). Hard to break (900 broke her nine times in 92 s, a third of the fight standing stunned): she is the frame that out-builds you, and fights.
                     // Through the pad, a third in blows on the plated frame, a held line, a collar, and again: 110,000 lasted 118 to 148 s on five runs (.20 to .27 of flat out). 104,000 is 112 to
                     // 140 s on those, and 125 s at a quarter of the lowest flat out read for her (3,338 to 3,786 a second).
-                    e.integrity=122000;e.breakThreshold=2000;e.speed=2.2f;e.attacks=new[]{frameShove};
+                    // 134,000 since November 26 (122,000): held at a line she now reaches first and never rests twice running, so the fight lost the time her bar stood held with no
+                    // coupling to open (19 s a fight on seven runs through the pad, 76 to 125 s in all; the first run after read 76 s against her floor of 80). The tenth of her bar is
+                    // that time given back as blows.
+                    e.integrity=134000;e.breakThreshold=2000;e.speed=2.2f;e.attacks=new[]{frameShove};
                     e.weakness=DamageType.Pulse;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=1300;e.scrip=480;e.scrap=24;e.boss=true;
                     e.bossMusicId="Final Stand";e.yieldsOnDefeat=false;e.heavyDeath=true;e.drawnScale=1;
                     e.capsuleRadius=0;e.capsuleHeight=3.2f;

@@ -221,7 +221,7 @@ namespace Lattice.UI
         }
         bool RefreshBossBar(CombatActor active)
         {
-            var boss=BossController.Focus(active.transform.position);bool show=boss!=null;
+            var boss=BossController.Shown(active);bool show=boss!=null;
             if(bossRoot.activeSelf!=show)bossRoot.SetActive(show);
             if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.fontSize=CardSizeFor(boss.DisplayName);bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;}
             AdvanceBossCard();
@@ -751,7 +751,10 @@ namespace Lattice.UI
             var floater=new Floater{text=t,rect=rect,from=health,by=by,kind=kind,style=t.fontStyle,amount=amount,popped=now,crit=crit,killing=killed,partner=byPartner,lead=byLead,boss=health.TryGetComponent<EnemyBrain>(out var brain)&&brain.definition!=null&&brain.definition.boss,world=Head(health)};
             Dress(floater);Seat(floater);floaters.Add(floater);floater.rect.anchoredPosition=FanAnchor(floater.world)+floater.offset;
         }
-        static Vector3 Head(Health body)=>body.transform.position+Vector3.up*1.9f;
+        /// <summary>Where a body's numbers stand: over a hero's head, 1.9 m over its root, or where its boss's kit says for a body drawn far taller (BossController.NumbersAt). At 1.9 the
+        /// Host Marshal's (4.8 m) stood at its hip, between its elbow and the thaw coupling beside it, and read as the coupling's (nov26-r7-chain s36/055 to 059: '1507', '2155', '2703'
+        /// grew with its bar's losses, the coupling's bar standing full).</summary>
+        static Vector3 Head(Health body){float at=BossController.NumbersAt(body);return body.transform.position+Vector3.up*(at>0?at:1.9f);}
         /// <summary>How a number reads: its sum, the latest hit's colour and mark, and once a critical has landed in it a crit's lean, weight and size, kept. Its rect is its ink, and
         /// its room is the ink with the air round it, at the size a pop takes it to.</summary>
         void Dress(Floater f)

@@ -748,6 +748,40 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(after,max*2/3f,"the coupling opened at her held line and the bar didn't go through it");
             Assert.Greater(after,max*2/3f-max*.02f,$"the coupling opened at her held line and took the bar to {after/max:P0}: it lets the line through and takes nothing more");
         }
+        /// <summary>Her bar held at a line, the first thing she chooses is a reach with an arm still coupled, and she never rests twice running: a coupling is offered only at an overreach,
+        /// so every move that is not a slam or a weld is a stretch in which the bar says OPEN A COUPLING and none can be. Played through the pad in suite nov26b she flooded, stomped and
+        /// flooded again at her second line, 24 s held (the choice was weighted: two in three for a reach with one arm left). Built first as it was (<c>GantryHeldRestsAsItWas</c>).</summary>
+        [UnityTest,Timeout(300000)] public IEnumerator HeldAtALineSheReachesFirstAndNeverRestsTwiceRunning()
+        {
+            int firstRests=0,longest=0;
+            IEnumerator Once(bool asItWas)
+            {
+                yield return Yard(false);
+                var at=new Vector3(200,.1f,0);var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("MeretGantry"),at);enemy.Passive=true;yield return Frames(3);
+                var boss=enemy.GetComponent<BossController>();var body=enemy.Health;var lead=Lead;Place(lead,at+Vector3.forward*2);yield return Frames(2);
+                var choose=typeof(BossController).GetMethod("ChooseGantry",BindingFlags.Instance|BindingFlags.NonPublic);
+                string Choose()=>(((string,IEnumerator))choose.Invoke(boss,new object[]{lead})).Item1;
+                bool Rest(string move)=>move!="Slam"&&move!="Weld";
+                BossController.GantryHeldRestsAsItWas=asItWas;firstRests=0;longest=0;
+                try
+                {
+                    // The hold's first choice, two hundred holds: over her line she chooses as she likes, then her bar comes to the line.
+                    for(int i=0;i<200;i++){body.integrity=body.maximum*.9f;Choose();body.integrity=body.maximum*2/3f;if(Rest(Choose()))firstRests++;}
+                    // And one long hold: the longest run of rests in six hundred choices.
+                    body.integrity=body.maximum*2/3f;int run=0;
+                    for(int i=0;i<600;i++){if(Rest(Choose())){run++;longest=Mathf.Max(longest,run);}else run=0;}
+                }
+                finally{BossController.GantryHeldRestsAsItWas=false;}
+                TestContext.WriteLine($"MERET_HELD_CHOICES asItWas={asItWas} firstRests={firstRests} of 200 longestRunOfRests={longest} of 600");
+                enemy.Passive=true;Object.Destroy(enemy.gameObject);yield return Frames(2);
+            }
+            yield return Once(true);
+            Assert.Greater(firstRests,0,"fixture: built as it was, a hold never opened with a rest: the check below proves nothing");
+            Assert.Greater(longest,1,"fixture: built as it was, she never rested twice running: the check below proves nothing");
+            yield return Once(false);
+            Assert.AreEqual(0,firstRests,$"her bar came to its line and {firstRests} holds of 200 opened with a move that offers no coupling");
+            Assert.LessOrEqual(longest,1,$"held at her line she chose {longest} moves running that offer no coupling");
+        }
 
         /// <summary>Her frame beaten, the lift's cage goes down the shaft with her and comes back up empty fourteen seconds later. A party at the lift's head is told so (the prompt says the cage
         /// is on its way back, and a press is refused), and offered the ride once it is back. Built first as it was (<c>silentWhileAway</c>: nothing offered while it was away).</summary>
