@@ -126,6 +126,13 @@ namespace Lattice.World
             foreach(var point in hero.round)if(!Behind(eye,point))return false;
             return true;
         }
+        /// <summary>Round nine: whether a piece stands between the eye and this point by more than a body is thick, by the rule D421's points round a hero use. Asked of the feet and
+        /// the knees of a partner coming to rest for a talk (ConversationStage.Mark).</summary>
+        public static bool Hides(Vector3 eye,Vector3 point)
+        {
+            foreach(var piece in all)if(piece!=null&&piece.Behind(eye,point))return true;
+            return false;
+        }
         bool Behind(Vector3 eye,Vector3 point)
         {
             var ray=new Ray(eye,point-eye);float distance=Vector3.Distance(eye,point),near=distance-HeroThrough.Thickness;

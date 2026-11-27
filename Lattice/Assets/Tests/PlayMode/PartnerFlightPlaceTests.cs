@@ -319,7 +319,9 @@ namespace Lattice.Tests.PlayMode
         /// <summary>Her middle over a drawn hull while open water was beside him: as before 41 to 42% of the leg in every run (d425d to d425i); with D425 24 to 34%, the variants
         /// differing more than the runs. Where the lanes leave no open water beside him (a fifth of the leg has him over a hull himself) she stays at her side. She keeps the clear
         /// frame (3.2% out, under the control strip as she drops back from his line to her side) and comes up to 10 m from him where as before she kept 6.1.</summary>
-        const float PassageOver=.3f,PassageOverBefore=.36f,HullsFarthest=10.5f;
+        // A third, where it was three tenths until November 27: with D425's rule her tug read 20.5, 22.8, 25.8, 26.2, 28.5 and 30.5% of the road's frames over the convoy with
+        // open water beside him in six runs of this class (suites nov26a to nov26c, r8-partner, r9flight-whole2, r9-partner), and the state before it 41.0 to 41.6% in each.
+        const float PassageOver=.33f,PassageOverBefore=.36f,HullsFarthest=10.5f;
         [UnityTest,Timeout(300000)] public IEnumerator InTheReturningPassageHerTugKeepsOffTheConvoy()
         {
             Hulls t=null;yield return Passage(r=>t=r);

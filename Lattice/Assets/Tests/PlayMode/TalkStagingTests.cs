@@ -26,7 +26,8 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {
-            Switch(typeof(PartnerBrain),"talkEndsAsBefore",false);Switch(typeof(ConversationStage),"stagedAsBefore",false);
+            Switch(typeof(PartnerBrain),"talkEndsAsBefore",false);Switch(typeof(ConversationStage),"stagedAsBefore",false);Switch(typeof(ConversationStage),"asRoundEight",false);
+            Time.captureDeltaTime=0;var dialogue=DialogueSystem.Current;if(dialogue!=null&&dialogue.Running){dialogue.Cancel();yield return null;yield return null;}
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.3f);
         }
         static T[] All<T>()where T:Object=>Object.FindObjectsByType<T>(FindObjectsInactive.Include,FindObjectsSortMode.None);
@@ -85,6 +86,10 @@ namespace Lattice.Tests.PlayMode
                 }
             return Rect.MinMaxRect(x0,y0,x1,y1);
         }
+        static Vector3 Floor(float x,float z,float y)
+        {Assert.IsTrue(NavMesh.SamplePosition(new Vector3(x,y,z),out var hit,1.5f,NavMesh.AllAreas),$"fixture: no floor at ({x}, {z})");return hit.position;}
+        static readonly FieldInfo StageMark=typeof(ConversationStage).GetField("mark",BindingFlags.NonPublic|BindingFlags.Instance);
+        static Vector3 MarkSet=>(Vector3)StageMark.GetValue(Object.FindFirstObjectByType<ConversationStage>());
         /// <summary>The share of the farther body's box on the screen that the nearer one's box covers.</summary>
         static float Under(Transform front,Transform behind)
         {
@@ -170,40 +175,93 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Rootmarket");ClearFights();
             var senn=Person("Senn");var stand=new Vector3(-44.49f,.09f,13.81f);
-            foreach(bool before in new[]{true,false})
+            // As before round eight (his back to the lens), as round eight left him (20 degrees past profile: side-on, nov26-r8-chain s19/156), and now (three-quarter, 45).
+            foreach(int state in new[]{0,1,2})
             {
-                Switch(typeof(ConversationStage),"stagedAsBefore",before);
+                bool before=state==0;
+                Switch(typeof(ConversationStage),"stagedAsBefore",before);Switch(typeof(ConversationStage),"asRoundEight",state==1);
                 Put(Lead,stand);Put(Partner,stand+Right*2);yield return new WaitForSecondsRealtime(.4f);
                 yield return Talk(senn);
                 yield return new WaitForSecondsRealtime(2.5f);
                 var facing=Flat(senn.transform.forward).normalized;var lens=Flat(Camera.main.transform.forward).normalized;
                 float away=Vector3.Dot(facing,lens),side=Vector3.Dot(facing,Right)*Mathf.Sign(Vector3.Dot(Lead.transform.position-senn.transform.position,Right));
                 float moved=Flat(Lead.transform.position-stand).magnitude;
-                string seen=$"{(before?"as it was":"now")}: Senn faces {away:0.00} along the lens's way (1 is his back to it), {side:0.00} toward Taren's side; Taren moved {moved:0.00} m";
+                string seen=$"{(before?"as it was":state==1?"as round eight left it":"now")}: Senn faces {away:0.00} along the lens's way (1 is his back to it), {side:0.00} toward Taren's side; Taren moved {moved:0.00} m";
                 Debug.Log("TALK_STAGING senn "+seen);
                 Assert.Less(moved,.05f,"nobody covers anybody at Senn's: the lead must not move, "+seen);
                 if(before)Assert.Greater(away,0,"fixture: as it was Old Senn shows the camera his back (s19/156), "+seen);
-                else{Assert.LessOrEqual(away,-.3f,"Old Senn speaks with his back to the camera: "+seen);Assert.Greater(side,.5f,"Old Senn doesn't face Taren's side of the screen: "+seen);}
+                else if(state==1)Assert.Greater(away,-.45f,"fixture: as round eight left it Old Senn stands side-on to the lens (nov26-r8-chain s19/156), "+seen);
+                // Round nine: three-quarter to the lens (sin 45 degrees).
+                else{Assert.LessOrEqual(away,-.6f,"Old Senn speaks side-on or with his back to the camera: "+seen);Assert.Greater(side,.5f,"Old Senn doesn't face Taren's side of the screen: "+seen);}
                 yield return EndTalk();yield return new WaitForSecondsRealtime(1.5f);
             }
         }
 
-        /// <summary>Talks where nobody was hidden: the lead doesn't move at all, and the person he talks to still turns to him as before (up the screen they face the lens already).</summary>
+        /// <summary>Talks where nobody was hidden: the lead doesn't move at all, and the person he talks to still turns to him as before (up the screen they face the lens already).
+        /// Round nine: and where the lens sees her where she would stand, the partner's mark is the one round eight gave her (each talk had as it was, then as it is).</summary>
         [UnityTest] public IEnumerator AtOrdinaryTalksTheLeadDoesNotMove()
         {
             yield return Zone("Lanternwick");
             foreach(var (speaker,stand) in new[]{("Ishen",new Vector3(2.94f,.19f,89.29f)),("Pell",new Vector3(7.5f,.3f,36)),("Corra",new Vector3(-4,.3f,17)),("Aumi",new Vector3(19.7f,3.2f,52.5f))})
             {
-                var person=Person(speaker);
-                Put(Lead,stand);Put(Partner,stand+new Vector3(0,0,-4));yield return new WaitForSecondsRealtime(.4f);
-                var at=Lead.transform.position;
-                yield return Talk(person);
-                yield return new WaitForSecondsRealtime(2.5f);
-                float covered=ConversationStage.Covered(Camera.main,Lead.transform,person.transform,out float across),moved=Flat(Lead.transform.position-at).magnitude;
-                string seen=$"with {speaker}: covered {covered:0.00}, {Mathf.Abs(across):0.00} m across, the lead moved {moved:0.00} m";
-                Debug.Log("TALK_STAGING ordinary "+seen);
-                Assert.Less(moved,.05f,"a talk where nobody was hidden moves the lead: "+seen);
-                yield return EndTalk();yield return new WaitForSecondsRealtime(.6f);
+                var person=Person(speaker);var marks=new Vector3[2];
+                for(int pass=0;pass<2;pass++)
+                {
+                    Switch(typeof(ConversationStage),"asRoundEight",pass==0);
+                    Put(Lead,stand);Put(Partner,stand+new Vector3(0,0,-4));yield return new WaitForSecondsRealtime(.4f);
+                    var at=Lead.transform.position;
+                    yield return Talk(person);
+                    marks[pass]=MarkSet;
+                    yield return new WaitForSecondsRealtime(2.5f);
+                    float covered=ConversationStage.Covered(Camera.main,Lead.transform,person.transform,out float across),moved=Flat(Lead.transform.position-at).magnitude;
+                    bool seenThere=ConversationStage.Seen(Camera.main.transform.position,marks[pass]);
+                    string seen=$"with {speaker} {(pass==0?"as round eight left it":"now")}: covered {covered:0.00}, {Mathf.Abs(across):0.00} m across, the lead moved {moved:0.00} m; her mark ({marks[pass].x:0.00}, {marks[pass].z:0.00}), the lens sees her feet and knees there: {seenThere}";
+                    Debug.Log("TALK_STAGING ordinary "+seen);
+                    Assert.Less(moved,.05f,"a talk where nobody was hidden moves the lead: "+seen);
+                    if(pass==1)Assert.Less(Flat(marks[1]-marks[0]).magnitude,.05f,$"at an ordinary talk her mark moved {Flat(marks[1]-marks[0]).magnitude:0.00} m from round eight's: "+seen);
+                    yield return EndTalk();yield return new WaitForSecondsRealtime(.6f);
+                }
+            }
+        }
+
+        /// <summary>W12-harrowgate-01 (nov26-r8-chain s50/063): Pip's first word is a crossing on Harrowgate's gate landing, and as it opened Idra, coming up the ramp behind Taren,
+        /// took the first place beside him, on his right, where the gatehouse roof's near edge cut her at the waist. Walked up the route's line as the replay walks it, she coming up
+        /// behind him from where the capture had her. As it was the lens doesn't see her feet and knees where she comes to rest; now it does, and she stands a body's width beside him,
+        /// in the 16:9 frame and above the dialogue box. She walks there.</summary>
+        [UnityTest] public IEnumerator AtPipsFirstWordIdraComesToRestWhereTheLensSeesHerFeet()
+        {
+            DevLoadout.Apply("chapter8");
+            foreach(bool before in new[]{true,false})
+            {
+                foreach(string f in new[]{"vask.lockAdmitted","vask.picketCrossed","vask.lockRemoved","vask.unswornMet","vask.vessaBeaten","bossdown.SlagColossus","vask.juvenileFreed","vask.roadSaid","vask.sistersHeard","vask.parley","met.Hessa"})Flag(f);
+                GameServices.Current.Flags.SetBool("vask.pipMet",false);GameServices.Current.Flags.SetBool("met.Pip",false);
+                yield return Zone("Harrowgate");ClearFights();
+                Switch(typeof(ConversationStage),"asRoundEight",before);
+                Assert.AreEqual("Idra",Partner.character,"fixture: Idra is out beside him, as in route 50");
+                var from=Partner.transform.position;
+                Put(Lead,Floor(8,27,3));Put(Partner,Floor(9.99f,25.95f,3));yield return new WaitForSecondsRealtime(.3f);from=Partner.transform.position;
+                DialogueSystem.Current.AutoAdvance=false;Time.captureDeltaTime=1/60f;
+                try{for(int frame=0;frame<360&&!DialogueSystem.Current.Running;frame++){Lead.motor.Move(Vector2.up,false,false);yield return null;}}
+                finally{Time.captureDeltaTime=0;Lead.motor.Move(Vector2.zero,false,false);}
+                Assert.IsTrue(DialogueSystem.Current.Running,"fixture: Pip's first word opens as the lead walks up the landing");
+                var mark=MarkSet;
+                yield return new WaitForSecondsRealtime(4.6f);
+                var camera=Camera.main;var eye=camera.transform.position;var her=Partner.transform.position;var him=Lead.transform.position;
+                bool feet=!SceneryOcclusion.Hides(eye,her+Vector3.up*.15f),knees=!SceneryOcclusion.Hides(eye,her+Vector3.up*.5f),waist=!SceneryOcclusion.Hides(eye,her+Vector3.up*1);
+                bool Ray(float h){var p=her+Vector3.up*h;return !Physics.Linecast(eye,p+(eye-p).normalized*.45f,~0,QueryTriggerInteraction.Ignore);}
+                var view=camera.WorldToViewportPoint(her);float across=Across(her,him),walked=Flat(her-from).magnitude;
+                string seen=$"{(before?"as it was":"now")}: Taren at ({him.x:0.00}, {him.z:0.00}), Idra at ({her.x:0.00}, {her.y:0.00}, {her.z:0.00}) (mark ({mark.x:0.00}, {mark.z:0.00})), {across:0.00} m across from him, walked {walked:0.00} m; "
+                    +$"the lens sees her feet {feet}, knees {knees}, waist {waist} (a ray to the colliders: feet {Ray(.15f)}, knees {Ray(.5f)}); her feet at ({view.x:0.00}, {view.y:0.00}) of the 16:9 frame";
+                Debug.Log("TALK_STAGING pip-landing "+seen);
+                if(before)Assert.IsFalse(feet&&knees,"fixture: as it was the gatehouse roof hides her feet and knees where she comes to rest (s50/063), "+seen);
+                else
+                {
+                    Assert.IsTrue(feet&&knees,"at Pip's first word the partner comes to rest where scenery hides her legs: "+seen);
+                    Assert.GreaterOrEqual(across,1.05f,"she no longer stands a body's width beside him across the screen: "+seen);
+                    Assert.IsTrue(view.x>.05f&&view.x<.95f&&view.y>.34f&&view.y<.95f,"she stands out of the frame or under the dialogue box: "+seen);
+                    Assert.Greater(walked,.5f,"fixture: she walks to her place: "+seen);
+                }
+                yield return EndTalk();
             }
         }
     }

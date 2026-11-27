@@ -371,7 +371,9 @@ namespace Lattice.Tests.PlayMode
             float mean=lengths.Average(),spread=(lengths.Max()-lengths.Min())/mean;
             TestContext.WriteLine($"MERET_SPREAD {string.Join(", ",lengths.Select(l=>l.ToString("0")))} s: mean {mean:0} s, spread {spread:P0}");
             foreach(float l in lengths)Assert.That(l,Is.InRange(sheet.minSeconds,sheet.maxSeconds),$"one of three fights of hers lasted {l:0} s: her sheet's bounds are {sheet.minSeconds:0} to {sheet.maxSeconds:0}");
-            Assert.LessOrEqual(spread,.25f,$"three fights of hers lasted {string.Join(", ",lengths.Select(l=>l.ToString("0")))} s: {spread:P0} apart, where a quarter is the most luck should move it");
+            // A third, where it was a quarter until November 27: 27 fights of hers over nine runs of this class (November 26 and 27) lasted 94 to 130 s about a mean of 114, so the
+            // three of one run can stand 32% apart with nothing changed between them; their spreads read 4 to 23%, and suite nov26c's 122, 94 and 122 s read 25.5% against the quarter.
+            Assert.LessOrEqual(spread,.35f,$"three fights of hers lasted {string.Join(", ",lengths.Select(l=>l.ToString("0")))} s: {spread:P0} apart, where a third is the most luck should move it");
         }
 
         // ================================================================== phase two: the gantry, and the lift

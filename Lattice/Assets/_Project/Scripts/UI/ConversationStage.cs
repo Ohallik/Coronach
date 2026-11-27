@@ -22,11 +22,18 @@ namespace Lattice.UI
         /// <summary>How far apart across the screen the lead and the person he talks to stand at the least, middle to middle (two bodies' width and a little); the shortest and the
         /// longest step that buys it; how much of one body's height the other may cover on the screen; and how long his step may take.</summary>
         const float ClearAcross=1,PaceLeast=.6f,PaceMost=1.2f,MostCovered=.5f,StepFor=1.5f;
-        /// <summary>How far past profile toward the lens a speaker turned to the lead faces at the least, in degrees: three-quarter, never the back of the head.</summary>
-        const float TowardTheLens=20;
+        /// <summary>How far past profile toward the lens a speaker turned to the lead faces at the least, in degrees: three-quarter, never the back of the head. Round eight had
+        /// it at 20, a profile with a little of the face: Old Senn stood side-on to the lens (-.34 along it, nov26-r8-chain s19/156); three-quarter, half way between profile
+        /// and full face, is -.71. A speaker up the screen from the lead turns straight to him and is past it already (Teo Marrow at Marrow-3, s20/401: -.94 in TalkStagingTests' r9foot-a).</summary>
+        const float TowardTheLens=45,TowardTheLensRoundEight=20;
         /// <summary>For a test's broken state only (TalkStagingTests sets it by reflection and puts it back): the lead never steps aside and the speaker turns straight to him,
         /// as before round eight. Nothing else sets it.</summary>
         static bool stagedAsBefore;
+        /// <summary>For a test's broken state only, as <see cref="stagedAsBefore"/>: the stage as round eight left it, the speaker turned no further than
+        /// <see cref="TowardTheLensRoundEight"/> and the partner's mark the first floor beside him, seen or not.</summary>
+        static bool asRoundEight;
+        /// <summary>Round nine: the heights over the floor at which the lens must see her where she comes to rest for a talk, her feet and her knees.</summary>
+        const float FeetAt=.15f,KneesAt=.5f;
         Vector3 aside;bool stepping;float stepUntil;
         /// <summary>How far apart she and the hero stand across the screen: a body's width. And how far she keeps across the screen from the speaker, should the free side be theirs.</summary>
         const float ClearOfHero=1.15f,ClearOfSpeaker=.9f,HeldReach=26;
@@ -148,10 +155,10 @@ namespace Lattice.UI
         {
             var look=Flat(lead-from);var camera=Camera.main;if(stagedAsBefore||look.sqrMagnitude<.01f)return lead;
             var ahead=Flat(camera!=null?camera.transform.forward:Quaternion.Euler(0,SightlineAudit.Yaw,0)*Vector3.forward).normalized;var right=Right(camera);
-            float most=-Mathf.Sin(TowardTheLens*Mathf.Deg2Rad);
+            float least=(asRoundEight?TowardTheLensRoundEight:TowardTheLens)*Mathf.Deg2Rad,most=-Mathf.Sin(least);
             if(Vector3.Dot(look.normalized,ahead)<=most)return lead;
             float side=Vector3.Dot(look,right)>=0?1:-1;
-            return from+(right*side*Mathf.Cos(TowardTheLens*Mathf.Deg2Rad)+ahead*most)*look.magnitude;
+            return from+(right*side*Mathf.Cos(least)+ahead*most)*look.magnitude;
         }
         /// <summary>A boss standing there for her own confrontation, by her id (Hessa, HessaKorl).</summary>
         static Transform Held(string who,Vector3 near)
@@ -177,11 +184,15 @@ namespace Lattice.UI
             return best;
         }
         /// <summary>Beside the hero on the screen, not beside him as he faces: a mark at his side when he faces east lies straight behind him from this camera, one figure with two heads.
-        /// So it's measured along the camera's own right, a body's width off, on the side away from whoever he's talking to, a little up the screen so she's above the dialogue box, and on floor she can reach.</summary>
+        /// So it's measured along the camera's own right, a body's width off, on the side away from whoever he's talking to, a little up the screen so she's above the dialogue box, and on floor she can reach.
+        /// <para>Round nine: and where the lens sees her feet and her knees. At Pip's first word on Harrowgate's gate landing Idra took the first place on Taren's right, and the
+        /// gatehouse roof's near edge cut her at the waist (nov26-r8-chain s50/063). Of the places she tries, in the order she tries them, she takes the first the lens sees her
+        /// standing in (<see cref="SceneryOcclusion.Hides"/>, from where the lens will be once he has taken his step); if it sees her in none, the first, as before.</para></summary>
         bool Mark(Vector3 at,out Vector3 spot)
         {
-            spot=default;
+            spot=default;bool found=false;
             var view=Quaternion.Euler(0,SightlineAudit.Yaw,0);Vector3 across=view*Vector3.right,up=view*Vector3.forward;
+            var camera=Camera.main;bool look=camera!=null&&!asRoundEight;var eye=look?camera.transform.position+Flat(at-hero.transform.position):default;
             float free=Vector3.Dot(focus.position-at,across)>=0?-1:1;
             foreach(float side in new[]{free,-free})
                 foreach(var (reach,lift) in Marks)
@@ -189,10 +200,13 @@ namespace Lattice.UI
                     if(!NavMesh.SamplePosition(at+across*side*reach+up*lift,out var hit,.8f,NavMesh.AllAreas))continue;
                     if(Mathf.Abs(Vector3.Dot(hit.position-at,across))<ClearOfHero)continue;
                     if(Mathf.Abs(Vector3.Dot(hit.position-focus.position,across))<ClearOfSpeaker&&Flat(hit.position-focus.position).magnitude<4)continue;
-                    spot=hit.position;return true;
+                    if(!found){spot=hit.position;found=true;if(!look)return true;}
+                    if(Seen(eye,hit.position)){spot=hit.position;return true;}
                 }
-            return false;
+            return found;
         }
+        /// <summary>The lens sees someone standing here: nothing of the scenery stands between it and her feet or her knees.</summary>
+        public static bool Seen(Vector3 eye,Vector3 floor)=>!SceneryOcclusion.Hides(eye,floor+Vector3.up*FeetAt)&&!SceneryOcclusion.Hides(eye,floor+Vector3.up*KneesAt);
         void Update()
         {
             if(returning)

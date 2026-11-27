@@ -325,6 +325,53 @@ namespace Lattice.Tests.PlayMode
             Assert.LessOrEqual(lying,.03f,$"a Gloomgrazer killed fighting him lay {lying:0.00} m inside a quarter metre round him");
         }
 
+        /// <summary>Round nine, W5-gorge-01 (nov25-whole s15/053, Relay_1): the locked Gloomgrazer was read as drawn over Taren's head and shoulders. The same pack where the capture's
+        /// fought, at the game's camera in a 16:9 frame, for twelve seconds: how high a grazer stands over his floor, how far from him on the plan it holds between bites, and in how many
+        /// frames what a living one draws lies on the screen inside a disc round his head (0.2 m), and in how many any of that is nearer the lens than his head. A measure for a ruling:
+        /// a grazer on his floor up the screen from him frames his head from behind and is drawn behind it; one drawn over it would have to stand nearer the lens than his head.</summary>
+        [UnityTest,Timeout(150000)] public IEnumerator APackOfGloomgrazersFramesTheHerosHeadFromBehindAndIsNeverDrawnOverIt()
+        {
+            LogAssert.ignoreFailingMessages=true;
+            yield return Zone("chapter2","SunkenRelay","Taren");
+            var lead=Lead;var stand=new Vector3(.07f,.1f,54.5f);Place(lead,stand,Vector3.forward);Place(Partner,stand+new Vector3(14,0,-12),Vector3.forward);Hold(lead);
+            var from=SpawnerOf("Relay_1","Gloomgrazer");var pack=new List<EnemyBrain>();
+            for(int i=0;i<3;i++){var b=Body("Gloomgrazer",from+Quaternion.Euler(0,i*120,0)*Vector3.forward*1.6f,(stand-from).normalized,false);pack.Add(b);}
+            int bites=0;lead.Health.Damaged+=(_,packet,amount)=>{if(pack.Any(b=>b!=null&&packet.source==b.Health))bites++;};
+            var lens=Camera.main;var rig=lead.GetComponentInChildren<Animator>();var headBone=rig!=null&&rig.isHuman?rig.GetBoneTransform(HumanBodyBones.Head):null;
+            int frames=0,framed=0,over=0,heldFrames=0,frame=0;float highest=float.MinValue,topmost=float.MinValue,held=0,began=Time.unscaledTime;string worst="none",framing="none";
+            while(Time.unscaledTime-began<12)
+            {
+                yield return null;if(++frame%3!=0)continue;
+                lens.aspect=16f/9;frames++;
+                var feet=lead.transform.position;var head=headBone!=null?headBone.position+Vector3.up*.08f:feet+Vector3.up*1.7f;
+                Vector3 at=lens.WorldToScreenPoint(head);float radius=Mathf.Abs(lens.WorldToScreenPoint(head+lens.transform.right*.2f).x-at.x);
+                var right=lens.transform.right;right.y=0;right.Normalize();var up=lens.transform.forward;up.y=0;up.Normalize();
+                bool anyFramed=false,anyOver=false;
+                foreach(var b in pack)
+                {
+                    if(b==null||!b.Health.Alive)continue;
+                    var off=b.transform.position-feet;highest=Mathf.Max(highest,off.y);
+                    if(!b.Telegraphing){held+=Flat(b.transform.position,feet);heldFrames++;}
+                    string where=$"{Vector3.Dot(off,right):0.00} m across, {Vector3.Dot(off,up):0.00} m up the screen, {off.y:0.00} m over his floor, telling={b.Telegraphing}";
+                    foreach(var p in DrawnPoints(b,1500))
+                    {
+                        topmost=Mathf.Max(topmost,p.y-feet.y);
+                        var s=lens.WorldToScreenPoint(p);if(s.z<=0||Vector2.Distance(s,at)>radius)continue;
+                        if(!anyFramed)framing=where;anyFramed=true;
+                        if(s.z<at.z-.05f){if(!anyOver)worst=$"{where}, its point {at.z-s.z:0.00} m nearer the lens than his head";anyOver=true;}
+                    }
+                }
+                if(anyFramed)framed++;if(anyOver)over++;
+            }
+            LogAssert.ignoreFailingMessages=false;
+            string line=$"BODIES_APART pack over the head Gloomgrazer x3 at 16:9: {frames} frames, a grazer's drawn body inside the disc round his head in {framed}, nearer the lens than his head there in {over}; "
+                +$"highest a grazer stood over his floor {highest:0.00} m, top of what it draws {topmost:0.00} m; held {(heldFrames>0?held/heldFrames:0):0.00} m from him middle to middle between bites; bites={bites}; "
+                +$"first framing: {framing}; first over: {worst}";
+            TestContext.WriteLine(line);Debug.Log(line);
+            Assert.Greater(bites,2,"fixture: the pack fought him: "+line);
+            Assert.AreEqual(0,over,"a living Gloomgrazer is drawn over the hero's head: "+line);
+        }
+
         /// <summary>Hessa Korl fighting Taren in her arena, where the capture's stood (nov22-whole s15/149): her lance, chain, sidearm and sweep for twenty seconds against a hero who stands,
         /// and none of what she draws (her body, her lance) comes inside his capsule. The still showed her a metre and a half to two behind him, drawn above him by the camera's angle.
         /// Her moves are played through BossController.Perform, as the shared boss tests play them: on her own she waits for her encounter to wake her.</summary>

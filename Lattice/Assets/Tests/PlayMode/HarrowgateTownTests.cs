@@ -184,7 +184,9 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(float.IsNaN(opened[0].y),"as it was, the talk never opened up the route's line");
             Assert.That(opened[0].y,Is.InRange(28.0f,28.6f),"as it was, the talk didn't open in the gate's shadow at about z 28.3: the test isn't measuring what the still showed");
             for(int pass=1;pass<4;pass++)Assert.IsFalse(float.IsNaN(opened[pass].y),$"walk {pass}: the lead reached his goal and Pip's first word never opened");
-            Assert.GreaterOrEqual(opened[1].y,29.6f,"up the route's line Pip's first word opens with the lead still under the gate's arch and towers");
+            // He is seen whole from about z 29.4 (D444). The frame the crossing fires on moves his place by a frame's run, about .1 m: it read 29.72 alone (r8f-pip) and 29.596
+            // in the whole suite (nov26c) against a bar of 29.6 that was the round's target, not the arch's shadow. The bar is 29.5.
+            Assert.GreaterOrEqual(opened[1].y,29.5f,"up the route's line Pip's first word opens with the lead still under the gate's arch and towers");
             Assert.GreaterOrEqual(Near(2),.9f,"walked straight at Pip from the ramp's head, the lead is beside him before he speaks");
             Assert.GreaterOrEqual(Near(3),.9f,"walked at Pip from due south, the lead is beside him before he speaks");
         }
