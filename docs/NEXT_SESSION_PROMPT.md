@@ -65,6 +65,8 @@ All ten chapters are built and have been played end to end six times. Committed:
 
 How to run in the player while nobody is at the machine: `nov28-chain.ps1` in the session's scratchpad (D462 describes it; if the scratchpad is gone, it is `scripts/quality-chain.ps1 -Reconnaissance` a route at a time, resumed from `Builds/quality/nov25-whole`, behind three guards: no start within 30 minutes of keyboard or mouse input, stop on any input, nothing started after 06:00). To measure a route's sound, capture it twice, once with `-audio-settings-path` at a folder holding `audio-settings.json` with the music at 0, then `python tools/audio_capture_levels.py <music-0 folder> <music-1 folder>`, which ends `AUDIO_CAPTURE_LEVELS_OK`.
 
+How Nathan playtests from the middle of the game: `.\scripts\playtest.ps1 -List` names the 69 checkpoints and `.\scripts\playtest.ps1 -At <n>` starts `Builds/Windows` where stretch n begins, on a copy of `Builds/quality/nov25-whole/s<n-1>/saves` under `Builds/playtest` (so his real saves and the capture are never touched; do not trim those `saves` folders in a clean-up). His last play of his own was November 4, in `Builds/WindowsDev`; only the dev build takes `-scene`, `-spawn` and `-loadout chapter2` to `chapter10`.
+
 Nathan's standing words on sound: no computer noise in the background; a background must make sense for the place and not wear on a player; if a background makes the music seem muffled it is too loud. Seeds for Suno are long by default, with a bold hook first.
 
 What is left, in order:
