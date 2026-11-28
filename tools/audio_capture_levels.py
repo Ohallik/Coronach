@@ -8,11 +8,12 @@ the beds and the menus alone; the music is what the second adds (its RMS taken a
 the music does not correlate with the rest, and a replayed route plays the same fight twice). Printed against Lattice.Core.CueLevels'
 bands at the listener, every slider at 1:
 
-  effects   the peaks of the transients (50 ms windows standing 6 dB over the 400 ms around them): impacts -9 to -5 dBFS, motion -14 to -10,
+  effects   the peaks of the transients (50 ms windows standing 6 dB over the 400 ms around them): impacts -9 dBFS to the ceiling, motion -14 to -10,
             steps -20 to -16; the loudest transients are the impacts, so the top tenth's median is read against the impacts' band
   bed       the quietest tenth of 400 ms windows of the music-0 capture: the place's air, -50 to -36 RMS since round eleven (D453's -32 to -28 came down 8 dB, the fallback hum 16; a fight's steps lift it)
   music     -26 to -23 RMS a channel (CueLevels.MusicLowDb/HighDb: the brief's -24 to -21 was read through a downmix, 2.2 dB hot)
   a hit over the music: the top tenth's median over the music's RMS, 10 dB or more
+  ceiling   no sample of either capture over -1 dBFS: the master limiter's ceiling (round twelve, D460; the first captures peaked at +2.7)
 
 Listening remains its own gate: these are levels, not whether anything sounds right. Needs numpy. Ends with AUDIO_CAPTURE_LEVELS_OK
 or AUDIO_CAPTURE_LEVELS_OUTSIDE.
@@ -22,7 +23,12 @@ from pathlib import Path
 
 import numpy as np
 
-IMPACT, MOTION, STEP, BED, MUSIC, OVER = (-9, -5), (-14, -10), (-20, -16), (-50, -36), (-26, -23), 10
+CEILING = -1.0
+# The loudest tenth's top is the limiter's ceiling, not one blow's level (D460, by D452's rule: five readings on November 28 before the
+# bar was set). One blow lands at -8; blows that land together stack, and the loudest tenth read -5.2 in the Wick Reach, -4.8 in the freight
+# hall, -4.0 against the Host Marshal, -1.4 against the Last Warden and -1.0 against the Tollkeeper. What the bar still holds is the floor:
+# the effects are not under the music again.
+IMPACT, MOTION, STEP, BED, MUSIC, OVER = (-9, CEILING), (-14, -10), (-20, -16), (-50, -36), (-26, -23), 10
 
 
 def read(path):
@@ -106,6 +112,12 @@ def main():
     print(f"music 1: {len(full) / rate:.1f} s, RMS {db(np.sqrt((full ** 2).mean())):.1f}; the music alone about {music_db:.1f} RMS ({verdict(music_db, MUSIC)} {MUSIC})")
     if verdict(music_db, MUSIC) != "inside":
         outside.append("music")
+    # The sum never leaves full scale (D460): Lattice.Core.MasterLimiter holds it at CEILING where it is heard, ahead of the capture's tap.
+    highest = max(db(np.abs(quiet).max()), db(np.abs(full).max()))
+    count = int((np.abs(quiet) > 10 ** (CEILING / 20) * 1.006).sum() + (np.abs(full) > 10 ** (CEILING / 20) * 1.006).sum())
+    print(f"ceiling: the two captures' highest sample {highest:.2f} dBFS, {count} samples over the limiter's {CEILING} ({'inside' if count == 0 else 'OUTSIDE'})")
+    if count:
+        outside.append("over the ceiling")
     if len(peaks):
         over = float(np.median(np.sort(peaks)[-max(1, len(peaks) // 10):])) - music_db
         print(f"the loudest tenth of the effects stand {over:.1f} dB over the music's RMS (bar {OVER})")

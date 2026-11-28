@@ -20,6 +20,20 @@ namespace Lattice.Core
         string location, locationTrack, fightTrack, shopTrack = MarketTrack;
         int target;
         const float Level = .52f, FadeSeconds = 1.1f;
+        /// <summary>How long a place's own track waits to come back after a boss's, a story moment's or a fight's cue has ended (D461). The first
+        /// replays with the story tracks (November 28) logged the Decks' groove cutting in for half a second between the Coronach and the
+        /// launch, again for the load at the launch's cut to the Broken Ring, and the anchor chamber's theme for the load into the Returning
+        /// Passage, whose own track was the one already playing. So <see cref="Track"/> says what was asked for at once, as it always has, and
+        /// the cue's track goes on sounding for this long: a cue or a place that asks meanwhile takes over from it directly, and the place's
+        /// track never sounds. While a zone is being left the wait lasts until the next place is set.</summary>
+        public const float HandBackSeconds = 1.2f;
+        /// <summary>Tests: a place's track comes back the frame its cue ends, as it did until round eleven.</summary>
+        public static bool AsRoundEleven;
+        /// <summary>The track that is sounding or coming up; <see cref="Track"/> can be ahead of it by a hand-back's wait.</summary>
+        public string Sounding { get; private set; }
+        bool cueSounding;
+        float handBackAt = -1;
+        static bool Leaving => SceneFlow.Current != null && SceneFlow.Current.Loading;
         /// <summary>What plays where nothing names anything else: with a shop open, and through a boss.</summary>
         public const string MarketTrack = "Moonbase Market", BossTrack = "Alien Boss Battle";
 
@@ -55,7 +69,7 @@ namespace Lattice.Core
             }
             Current.fightTrack = definition != null ? Named(definition.fightMusicId) : null;
             Current.shopTrack = definition != null ? Named(definition.shopMusicId) ?? MarketTrack : MarketTrack;
-            Current.Refresh();
+            Current.Refresh(true);
         }
 
         static string Named(string track) => string.IsNullOrWhiteSpace(track) ? null : track;
@@ -116,15 +130,30 @@ namespace Lattice.Core
             Current.Refresh();
         }
 
-        void Refresh()
+        void Refresh(bool arrived = false)
         {
             shops.RemoveWhere(owner => owner == null);
             encounters.RemoveAll(e => e.owner == null);
             fights.RemoveWhere(owner => owner == null);
+            bool cue = encounters.Count > 0 || fights.Count > 0 && fightTrack != null;
             string wanted = shops.Count > 0 ? shopTrack : encounters.Count > 0 ? encounters[encounters.Count - 1].track :
                 fights.Count > 0 && fightTrack != null ? fightTrack : locationTrack;
-            if (Track == wanted) return;
             Track = wanted;
+            // The place's own track, back after a cue: it waits (HandBackSeconds), and a newly set place never does.
+            if (!AsRoundEleven && !arrived && !cue && shops.Count == 0 && cueSounding && wanted != Sounding)
+            {
+                if (handBackAt < 0) handBackAt = Time.unscaledTime + HandBackSeconds;
+                return;
+            }
+            handBackAt = -1;
+            Sound(wanted, cue);
+        }
+
+        void Sound(string wanted, bool cue)
+        {
+            cueSounding = cue;
+            if (Sounding == wanted) return;
+            Sounding = wanted;
             if (wanted == null) return;
             if (!clips.TryGetValue(wanted, out var clip))
             {
@@ -155,10 +184,11 @@ namespace Lattice.Core
             // An encounter owner destroyed without ending (retry, unload) releases its cue.
             if (encounters.Exists(e => e.owner == null)) Refresh();
             else if (fights.Count > 0) foreach (var owner in fights) if (owner == null) { Refresh(); break; }
+            if (handBackAt >= 0 && Time.unscaledTime >= handBackAt && !Leaving) { handBackAt = -1; Sound(Track, false); }
             for (int i = 0; i < sources.Length; i++)
             {
                 var source = sources[i];
-                float wanted = Track != null && i == target ? Level : 0;
+                float wanted = Sounding != null && i == target ? Level : 0;
                 source.volume = Mathf.MoveTowards(source.volume, wanted, Level / FadeSeconds * Time.unscaledDeltaTime);
                 if (wanted == 0 && source.volume == 0 && source.isPlaying) { Remember(source); source.Stop(); }
             }

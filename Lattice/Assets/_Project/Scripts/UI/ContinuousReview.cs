@@ -317,6 +317,7 @@ namespace Lattice.UI
             }
             if (DevArgs.Has("-quality-ffmpeg"))
             {
+                MasterLimiter.On(Camera.main.gameObject); // ahead of the capture, which records what the ears get
                 capture = Camera.main.gameObject.AddComponent<QualityCapture>();
                 capture.Begin(folder, DevArgs.Value("-quality-ffmpeg"));
                 damageCapture=new QualityDamageCapture(folder,()=>clock.Elapsed.TotalSeconds,()=>stepIndex);

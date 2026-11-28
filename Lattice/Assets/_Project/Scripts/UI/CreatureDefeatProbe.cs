@@ -68,7 +68,7 @@ namespace Lattice.UI
             GameServices.Current.Input.Blocked=true;
             foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))canvas.gameObject.SetActive(false);
             Application.targetFrameRate=60;QualitySettings.vSyncCount=0;
-            if(DevArgs.Has("-quality-ffmpeg")){capture=camera.gameObject.AddComponent<QualityCapture>();capture.Begin(folder,DevArgs.Value("-quality-ffmpeg"));}
+            if(DevArgs.Has("-quality-ffmpeg")){MasterLimiter.On(camera.gameObject);capture=camera.gameObject.AddComponent<QualityCapture>();capture.Begin(folder,DevArgs.Value("-quality-ffmpeg"));}
             string[] bodies={"Ridgehound","Scrapmite","Burrower","ChoristerDart","ChoristerDrifter","Shellmine","Cantor"};
             string only=DevArgs.Value("-creature-only");
             if(!string.IsNullOrWhiteSpace(only))

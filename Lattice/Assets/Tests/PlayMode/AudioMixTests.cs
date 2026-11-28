@@ -379,5 +379,104 @@ namespace Lattice.Tests.PlayMode
             var vessa=File.ReadAllText(Path.Combine(Application.dataPath,"_Project","Scripts","Combat","BossController.VessaKorl.cs"));
             Assert.IsTrue(Regex.IsMatch(vessa,@"outSound=""doorOpen_000"""),"Vessa Korl walks out with no sound of her going");
         }
+
+        // ------------------------------------------------------------------ the sum under full scale (D460)
+        /// <summary>A stereo wave at 48 kHz: a low tone at <paramref name="quiet"/> throughout, and from <paramref name="from"/> for
+        /// <paramref name="lasting"/> seconds a 180 Hz stack on top of it, the two together peaking near <paramref name="loud"/>.</summary>
+        static float[] Stack(float seconds,float quiet,float loud,float from,float lasting)
+        {
+            const int rate=48000;var x=new float[(int)(seconds*rate)*2];
+            for(int i=0;i<x.Length/2;i++)
+            {
+                float t=i/(float)rate,v=quiet*Mathf.Sin(2*Mathf.PI*97*t);
+                if(t>=from&&t<from+lasting)v+=(loud-quiet)*Mathf.Sin(2*Mathf.PI*180*(t-from));
+                x[2*i]=v;x[2*i+1]=v*.8f;
+            }
+            return x;
+        }
+        /// <summary>Through the limiter in blocks of 1,024 frames, as the engine hands the mix over.</summary>
+        static float[] Through(MasterLimiter.Line line,float[] x)
+        {
+            var y=new float[x.Length];
+            for(int at=0;at<x.Length;at+=2048)
+            {
+                var block=new float[Mathf.Min(2048,x.Length-at)];Array.Copy(x,at,block,0,block.Length);
+                line.Run(block,2);Array.Copy(block,0,y,at,block.Length);
+            }
+            return y;
+        }
+        static float Loudest(float[] x){float peak=0;foreach(float v in x)peak=Mathf.Max(peak,Mathf.Abs(v));return peak;}
+
+        /// <summary>November 28: the first captures with round ten's levels read the summed mix over full scale 17 to 23 times in a boss
+        /// fight (+2.7 dBFS at the worst), where blows stacked over the music. A stack harder than any captured comes out under the ceiling,
+        /// as loud as the ceiling allows, and with its shape: held down, not clipped flat.</summary>
+        [Test] public void AStackOfBlowsStaysUnderFullScale()
+        {
+            var x=Stack(1f,.2f,2f,.3f,.04f);var line=new MasterLimiter.Line(48000);var y=Through(line,x);
+            Assert.Greater(Loudest(x),1.5f,"fixture: the stack isn't over full scale as it was mixed");
+            int over=x.Count(v=>Mathf.Abs(v)>MasterLimiter.Ceiling),flat=y.Count(v=>Mathf.Abs(v)>=MasterLimiter.Ceiling-1e-5f);
+            Debug.Log($"AUDIO_LIMITER stack: {Db(Loudest(x)):0.0} dBFS in, {Db(Loudest(y)):0.00} out; {over} samples over the ceiling going in, {flat} flat on it coming out");
+            Assert.LessOrEqual(Loudest(y),MasterLimiter.Ceiling+1e-6f,"the sum left the limiter over its ceiling");
+            Assert.GreaterOrEqual(Loudest(y),MasterLimiter.Ceiling*.9f,"the stack was cut further than the ceiling asks");
+            Assert.Less(flat,over/20+1,"the limiter clips: the wave sits flat on the ceiling where a clipper would leave it");
+        }
+
+        /// <summary>A mix that never reaches the ceiling is not the limiter's business: it comes out sample for sample, 1.5 ms late.</summary>
+        [Test] public void AMixUnderTheCeilingPassesSampleForSample()
+        {
+            var x=Stack(1f,.3f,.85f,.3f,.2f);var line=new MasterLimiter.Line(48000);var y=Through(line,x);int late=line.Delay*2;
+            Assert.Less(Loudest(x),MasterLimiter.Ceiling,"fixture: this mix is over the ceiling");
+            Assert.Greater(Loudest(x),.6f,"fixture: this mix is nowhere near the ceiling");
+            Assert.AreEqual(MasterLimiter.LookMs,line.Delay/48f,.05f,"the mix is held back for longer than the limiter says");
+            for(int i=late;i<y.Length;i++)if(y[i]!=x[i-late])Assert.Fail($"sample {i} was changed: {x[i-late]} in, {y[i]} out");
+        }
+
+        /// <summary>The cut is for the stack and not for what follows it: under a second later the mix is its own again, to the sample,
+        /// and on the way back nothing is ever turned up.</summary>
+        [Test] public void TheCutLetsGoOnceTheStackHasPassed()
+        {
+            var x=Stack(1.6f,.3f,2f,.2f,.04f);var line=new MasterLimiter.Line(48000);var y=Through(line,x);int late=line.Delay*2;
+            int after=(int)((.2f+.04f+.7f)*48000)*2;
+            Assert.AreEqual(1f,line.Gain,"the limiter never let go");
+            for(int i=late;i<y.Length;i++)
+            {
+                if(Mathf.Abs(y[i])>Mathf.Abs(x[i-late])+1e-7f)Assert.Fail($"sample {i} was turned up: {x[i-late]} in, {y[i]} out");
+                if(i>=after&&y[i]!=x[i-late])Assert.Fail($"sample {i}, {(i-after)/96f:0} ms past the 0.7 s after the stack, is still cut: {x[i-late]} in, {y[i]} out");
+            }
+        }
+
+        /// <summary>In the player's own scene: the listener's object carries the limiter, and four of one blow started on the same sample
+        /// (what a crowd does to the sum, made certain) reach a tap put after it under the ceiling. As round eleven left it they pass full
+        /// scale.</summary>
+        [UnityTest] public IEnumerator TheEnginesSumReachesTheEarsUnderTheCeiling()
+        {
+            var ears=UnityEngine.Object.FindFirstObjectByType<AudioListener>();Assert.IsNotNull(ears,"no listener in the scene");
+            Assert.IsNotNull(ears.GetComponent<MasterLimiter>(),"nothing holds the sum under full scale where it is heard");
+            foreach(var bus in new[]{AudioBus.Music,AudioBus.Ambience,AudioBus.UI})AudioMix.Current.SetLevel(bus,0,false);
+            var clip=Resources.Load<AudioClip>("Audio/Palette/hit_soft_0");yield return Load(clip);
+            var tap=ears.gameObject.AddComponent<MixTap>();var holder=new GameObject("A stack of blows");var read=new List<string>();
+            holder.transform.position=ears.transform.position;
+            try
+            {
+                foreach(bool before in new[]{true,false})
+                {
+                    MasterLimiter.AsRoundEleven=before;yield return new WaitForSecondsRealtime(.3f);
+                    double when=AudioSettings.dspTime+.25;tap.Arm();
+                    for(int i=0;i<4;i++)
+                    {
+                        var voice=holder.AddComponent<AudioSource>();voice.clip=clip;voice.playOnAwake=false;voice.spatialBlend=0;voice.volume=1;
+                        voice.outputAudioMixerGroup=AudioMix.Group(AudioBus.SFX);voice.PlayScheduled(when);
+                    }
+                    yield return new WaitForSecondsRealtime(1.2f);var (peak,blocks)=tap.Disarm();
+                    foreach(var voice in holder.GetComponents<AudioSource>())UnityEngine.Object.Destroy(voice);
+                    if(blocks==0)Assert.Inconclusive("the listener's filter never ran: no audio output in this run, so the engine's sum stands unchecked");
+                    read.Add($"{(before?"as round eleven":"limited")}: four blows on one sample heard at {Db(peak):0.0} dBFS over {blocks} blocks");
+                    Debug.Log("AUDIO_LIMITER_WITNESS "+read[^1]);
+                    if(before)Assert.Greater(peak,1f,"fixture: four blows on one sample don't pass full scale: "+string.Join("; ",read));
+                    else Assert.LessOrEqual(peak,MasterLimiter.Ceiling+1e-4f,"the engine's sum reached the ears over the ceiling: "+string.Join("; ",read));
+                }
+            }
+            finally{MasterLimiter.AsRoundEleven=false;UnityEngine.Object.Destroy(tap);UnityEngine.Object.Destroy(holder);}
+        }
     }
 }

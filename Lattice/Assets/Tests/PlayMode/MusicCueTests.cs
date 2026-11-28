@@ -222,5 +222,56 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(back,string.Join("\n",back));
             TestContext.WriteLine("STORY_MUSIC "+string.Join("; ",played.Select(p=>$"{p.Key.moment} {(p.Key.before?"round ten":"round eleven")}: {p.Value}")));
         }
+
+        /// <summary>D461. The first replays with the story tracks (November 28) logged the Decks' groove cutting in for the half second
+        /// between the Coronach and the launch, and for the load at the launch's cut; and the anchor chamber's theme for the load into the
+        /// Returning Passage. A place's own track waits a moment before it comes back after a cue: the next cue takes over directly, a zone
+        /// left under a cue hands straight to the next place, and with nothing following the place's track does come back. What was asked
+        /// for (Track) is still said at once. As round eleven left it the place's track is logged in between, both times.</summary>
+        [UnityTest] public IEnumerator APlacesTrackNeverCutsInBetweenTwoCuesOrOnTheWayOut()
+        {
+            var heard=new List<string>();
+            void Log(string text,string trace,LogType type){if(text.StartsWith("MUSIC_CUE "))heard.Add(text.Substring(10));}
+            Application.logMessageReceived+=Log;
+            try
+            {
+                foreach(bool before in new[]{true,false})
+                {
+                    MusicDirector.AsRoundEleven=before;string when=before?"as round eleven":"now";
+                    yield return Load("Hub_Decks");string home=MusicDirector.Current.Track;Assert.AreEqual("Hub Town Groove",home,"fixture: the Decks' own");
+                    // One story cue ends and the next begins half a second later, as the walk's close and the launch do.
+                    var first=new GameObject("The walk's cue");var second=new GameObject("The launch's cue");heard.Clear();
+                    MusicDirector.Encounter(first,CoronachWalk.Track,true);yield return null;
+                    MusicDirector.Encounter(first,null,false);
+                    Assert.AreEqual(home,MusicDirector.Current.Track,"the director no longer says at once what was asked for");
+                    yield return new WaitForSecondsRealtime(.5f);
+                    MusicDirector.Encounter(second,CoronachLaunch.Track,true);yield return null;
+                    string between=when+": "+string.Join(" > ",heard);Debug.Log("MUSIC_HAND_BACK between two cues, "+between);
+                    if(before)CollectionAssert.Contains(heard,home,"fixture: the Decks' track didn't cut in between two cues, "+between);
+                    else
+                    {
+                        CollectionAssert.AreEqual(new[]{CoronachWalk.Track,CoronachLaunch.Track},heard,"between two cues, "+between);
+                        Assert.AreEqual(CoronachLaunch.Track,MusicDirector.Current.Sounding);
+                    }
+                    // The second cue's owner goes with its zone (both objects are the zone's): the next place's track follows the cue's directly.
+                    heard.Clear();yield return Load("Gullet_Tunnel");
+                    string leaving=when+": "+string.Join(" > ",heard);Debug.Log("MUSIC_HAND_BACK leaving a zone under a cue, "+leaving);
+                    Assert.AreEqual("Starfight",MusicDirector.Current.Track,"fixture: the Gullet's own");
+                    if(before)CollectionAssert.Contains(heard,home,"fixture: the Decks' track didn't cut in on the way out, "+leaving);
+                    else CollectionAssert.AreEqual(new[]{"Starfight"},heard,"leaving a zone under a cue, "+leaving);
+                    Assert.AreEqual("Starfight",MusicDirector.Current.Sounding,"the new place's track isn't the one sounding");
+                    if(before)continue;
+                    // And with nothing following, the place's track comes back, after the wait and not before.
+                    var third=new GameObject("A boss's cue");MusicDirector.Encounter(third,MusicDirector.BossTrack,true);yield return null;
+                    MusicDirector.Encounter(third,null,false);yield return null;
+                    Assert.AreEqual("Starfight",MusicDirector.Current.Track);
+                    Assert.AreEqual(MusicDirector.BossTrack,MusicDirector.Current.Sounding,"the cue's track didn't play on through the wait");
+                    yield return new WaitForSecondsRealtime(MusicDirector.HandBackSeconds+.3f);
+                    Assert.AreEqual("Starfight",MusicDirector.Current.Sounding,"the place's track never came back after the cue");
+                    Object.Destroy(third);
+                }
+            }
+            finally{MusicDirector.AsRoundEleven=false;Application.logMessageReceived-=Log;}
+        }
     }
 }

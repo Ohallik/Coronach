@@ -196,7 +196,13 @@ namespace Lattice.Core
         void LateUpdate()
         {
             var main=Camera.main;
-            if(main!=lens){lens=main;rig=lens!=null?lens.GetComponent<CameraRig>():null;}
+            if(main!=lens)
+            {
+                lens=main;rig=lens!=null?lens.GetComponent<CameraRig>():null;
+                // The sum of every voice is held under full scale where it is heard (D460).
+                var ears=lens!=null?lens.GetComponent<AudioListener>():null;if(ears==null)ears=FindFirstObjectByType<AudioListener>();
+                if(ears!=null)MasterLimiter.On(ears.gameObject);
+            }
             if(lens!=null&&rig==null)rig=FindFirstObjectByType<CameraRig>();
             var target=rig!=null&&rig.target!=null&&rig.target.gameObject.activeInHierarchy?rig.target:null;
             shift=lens==null||target==null||CueLevels.AsRoundNine?Vector3.zero:lens.transform.position-(target.position+Vector3.up*1.2f);

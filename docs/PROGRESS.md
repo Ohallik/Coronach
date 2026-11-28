@@ -1,6 +1,22 @@
 # CORONACH slice progress
 
-## Round eleven: fourteen tracks, quieter backgrounds, an empty register - November 27, night (latest)
+## Round twelve: rounds ten and eleven heard in the player, a limiter and a hand-over - November 28, before dawn (latest)
+
+Rounds ten and eleven have now been **seen and heard in the player**, and what that found is fixed. Round twelve is D460 to D463; its commit reads `r12` here until the hash is known. `Builds/Windows` was built from this tree at 04:58 on November 28. [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) has what is left.
+- **The suite on round eleven's commit** (`nov27c`, `f729b0c4`): PlayMode 4,119 of 4,134 with no failure and the usual 15 skipped, EditMode 270 of 270 (`e6906442`).
+- **How it ran (D462).** The machine had had no keyboard or mouse input since 23:24, so the owed checks ran in the night under a chain that will not start within 30 minutes of any input, stops on any input, and starts nothing after 06:00. 33 replays on round eleven's build (nine captured with sound), then 7 on round twelve's. Every one passed its scout with no exception, no missing track and no frame out of focus.
+- **The music is where D458 says.** Each of the fourteen tracks starts in its place in the player's own log, on 24 routes.
+- **Seen in stills:** the four portraits (the captain's white coat and the Warden's slot whole, Orrin with two expressions), the lead's ship clear of the Picket's alarm plate, the Tollkeeper's hull evenly lit, the credits with all 41 titles.
+- **The mix, measured.** The music reads -24.4 to -25.3 RMS, the backgrounds -38 to -47, and the loudest effects stand 20 to 23 dB over the music: the effects are no longer under it, and nothing beeps.
+- **Found and fixed: the sum passed full scale (D460, `QA-038`).** In every boss fight the summed mix went over full scale some twenty times, +2.7 dBFS at the worst, and was clipped. A limiter on the listener (`MasterLimiter`) now holds the sum at -1 dBFS and leaves anything under it alone. Five captures on the new build peak at -1.00 with no sample over.
+- **Found and fixed: a place's tune cutting in (D461, `QA-039`).** The Decks' groove sounded for half a second between the Coronach and the launch and again at the launch's cut, and the anchor chamber's theme at the load into the Returning Passage. A place's track now waits 1.2 s to come back after a cue, and through a zone load. Route 60 plays Coronach, The House That Can Leave, Broken Ring with nothing between.
+- **Menu frames, with no window:** none over 25 ms on the bench's route; the longest anywhere is 39 ms as the Burrower's excavation opens, which D459 judged.
+- **Tests:** `r12-limiter` 13 of 13, `r12-music` 23 of 23, `r12-all` 280 of 281 (seven classes that touch the music and the mix, each whole; the one red a bar inside its scatter on Meret's well, D463). The whole suite on round twelve's commit is `nov28a`.
+- **The register:** 959 findings; nothing open, and no row is waiting on the player any more.
+- **Still owed:** a seventh whole capture as the evidence of record (five hours and a round of reviewers: Nathan's word first).
+- **For Nathan's ear:** whether blows 20 dB over the music wear in a long fight (the effects' slider is the quick answer); the background level, from the second audition page; the fourteen tracks in the game.
+
+## Round eleven: fourteen tracks, quieter backgrounds, an empty register - November 27, night
 
 **Not yet seen or heard in the player**, like round ten before it: Nathan was at the machine all day. `f729b0c4` is round eleven (D457 to D459); `Builds/Windows` was built from it at 23:26. [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) lists what to run in the player.
 - **The music seeds, made again, became tracks.** Nathan found the first seeds' hooks weak and their tracks repetitive; all fourteen cues were written again as long seeds ([music/NEW_TRACKS_3.md](music/NEW_TRACKS_3.md)), and he made the fourteen tracks from them the same evening.
