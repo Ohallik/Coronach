@@ -24,7 +24,15 @@ namespace Lattice.UI
         const float SellerListAt=225,SellerListWide=1150,PlainListWide=1180;
         Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="",sellAsked,seller;FirstPress first;
         public bool IsOpen=>panel!=null;
-        void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);PromptService.Changed+=Restate;StartCoroutine(Warm());}
+        void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);PromptService.Changed+=Restate;Lattice.World.Npc.TalkRequested+=Ready;Lattice.World.Npc.FollowRequested+=Ready;StartCoroutine(Warm());}
+        /// <summary>QA-034, round eleven: the face a stall shows beside its counter is the speaker's of the talk that opens it (WorldUiBridge.Request), so it is loaded as that talk
+        /// starts, seconds before any stall can open. Loaded on the stall's own frame it was 17 textures and sprites, most of the first opening's extra in a mirror. A talk whose
+        /// lines are the speaker's own has loaded it already for the dialogue box (LinePresenter), and then this costs a lookup.</summary>
+        void Ready(string node,string speaker,Action<bool> done){if(!readyAsBefore&&!string.IsNullOrEmpty(speaker))readied=PortraitLookup.Get(speaker,BodyForm.Natural,PortraitEmotion.Happy);}
+        /// <summary>Held until the next talk, so nothing unloads it between the talk and the stall.</summary>
+        Sprite readied;
+        /// <summary>For a test's before only (QaNov10MenuTests).</summary>
+        static bool readyAsBefore;
         /// <summary>QA-034, round ten: the outfitter's page built once a run as the first zone comes in, under the load's fade, and thrown away unseen: its code compiles on its first
         /// run, as the bench's does (PauseMenu.Warm). Nothing is sold, no music changes and the focus is put back.</summary>
         static bool warmed;
@@ -42,7 +50,7 @@ namespace Lattice.UI
             inventory=null;
             EventSystem.current.SetSelectedGameObject(kept);
         }
-        void OnDestroy(){PromptService.Changed-=Restate;}
+        void OnDestroy(){PromptService.Changed-=Restate;Lattice.World.Npc.TalkRequested-=Ready;Lattice.World.Npc.FollowRequested-=Ready;}
         void Restate(){if(IsOpen)Rebuild();}
         /// <param name="from">Who's selling, the speaker of the conversation that opened it: their stock with their face on it, as the dialogue box draws them. It was a list on a black screen headed only 'Arch Market'.</param>
         public void Open(ShopInventory source,string from=null)

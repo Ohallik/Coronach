@@ -8,7 +8,7 @@ namespace Lattice.Core
     {
         internal sealed class Voice
         {
-            public AudioSource source;public Transform emitter;public bool bound,active,paused,loop;
+            public AudioSource source;public Transform emitter;public bool bound,active,paused,loop,through;
             public int token;public float started;public AudioBus bus;public string key;public Vector3 point;
         }
         readonly struct CueKey:IEquatable<CueKey>
@@ -109,7 +109,7 @@ namespace Lattice.Core
             CueStarted?.Invoke(key,emitter);return voice;
         }
         static void Release(Voice voice)
-        {if(voice.source!=null){voice.source.Stop();voice.source.clip=null;}voice.active=voice.paused=voice.loop=voice.bound=false;voice.emitter=null;}
+        {if(voice.source!=null){voice.source.Stop();voice.source.clip=null;}voice.active=voice.paused=voice.loop=voice.bound=voice.through=false;voice.emitter=null;}
         void Update()
         {
             bool priorityCue=false;
@@ -130,11 +130,14 @@ namespace Lattice.Core
         }
         void Pause(bool paused)
         {
-            foreach(var voice in voices)if(voice.active&&voice.bus!=AudioBus.UI)
+            foreach(var voice in voices)if(voice.active&&voice.bus!=AudioBus.UI&&!voice.through)
             {if(paused){voice.source.Pause();voice.paused=true;}else if(voice.paused){voice.source.UnPause();voice.paused=false;}}
         }
         void Unloaded(Scene _)
-        {foreach(var voice in voices)Release(voice);variations.Clear();if(ambient!=null){ambient.Stop();ambient.clip=null;}if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(false);}
+        {
+            foreach(var voice in voices)if(!(voice.through&&voice.active))Release(voice);
+            variations.Clear();placed.Clear();if(ambient!=null){ambient.Stop();ambient.clip=null;}if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(false);
+        }
         const float HumVolume=CueLevels.OldHumVolume;
         /// <summary>A place with its own air plays that. A place with none plays a quiet room tone on foot and the ship's drive in flight,
         /// shaped noise with nothing pitched or repeating in it (CueLevels.RoomTone). Until round ten it was Kenney's computerNoise_000, five
@@ -144,7 +147,30 @@ namespace Lattice.Core
         {
             if(Current==null)return;var clip=bed!=null?bed:CueLevels.AsRoundNine?Current.Clip(flight?"spaceEngineLow_000":"computerNoise_000"):Current.Bed(flight);
             Current.ambient.volume=bed!=null?CueLevels.BedVolume(bed,bedVolume):CueLevels.AsRoundNine?HumVolume:flight?CueLevels.FlightDroneVolume:CueLevels.RoomToneVolume;
+            Current.TrimPlaced();
             if(Current.ambient.clip==clip&&Current.ambient.isPlaying)return;Current.ambient.clip=clip;if(clip!=null)Current.ambient.Play();
+        }
+        /// <summary>Round eleven: the beds a builder placed in a scene (a looping source on the ambience bus that plays on its own: the Many
+        /// Hands forge's hammering and its herd) come down with the zone's bed, by CueLevels.PlacedVolume, at the volume their builder gave
+        /// them, when the zone starts; one not yet come aboard (inactive) is trimmed too. Nothing is rebuilt.</summary>
+        readonly Dictionary<AudioSource,float> placed=new();
+        void TrimPlaced()
+        {
+            foreach(var source in FindObjectsByType<AudioSource>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+            {
+                if(source==null||source==ambient||source.transform.IsChildOf(transform)||!source.loop||!source.playOnAwake)continue;
+                if(source.outputAudioMixerGroup==null||source.outputAudioMixerGroup.name!="Ambience")continue;
+                if(!placed.TryGetValue(source,out float made)){made=source.volume;placed[source]=made;}
+                source.volume=CueLevels.PlacedVolume(source.clip,made);
+            }
+        }
+        /// <summary>A cue that outlives the zone's load (a warp's crossing): flat, on the effects bus, not cut when the scene it was started in
+        /// unloads, and not held by a pause.</summary>
+        public static void PlayThrough(string key,float volume=.3f)
+        {
+            if(Current==null||CueLevels.CuesAsRoundTen)return;
+            var voice=Current.Emit(key,null,Vector3.zero,volume,1,AudioBus.SFX,32,false);if(voice==null)return;
+            voice.through=true;if(voice.paused){voice.source.UnPause();voice.paused=false;}
         }
         /// <summary>The zone's bed at another level, its clip left playing where it is (a swap cuts it and starts it again): the anchor chamber's steel eased down once its load is gone.</summary>
         public static void BedLevel(float volume){if(Current!=null&&Current.ambient!=null)Current.ambient.volume=CueLevels.BedVolume(Current.ambient.clip,volume);}

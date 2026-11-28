@@ -38,7 +38,7 @@ MonoBehaviour:
   scrip: 320
   scrap: 16
   displayName: THE FLOODCROWN
-  bossMusicId: 
+  bossMusicId: Creature Boss
   capsuleRadius: 0
   capsuleHeight: 4
   motion: 0

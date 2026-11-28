@@ -38,7 +38,7 @@ MonoBehaviour:
   scrip: 180
   scrap: 10
   displayName: THE SEEDTHANE
-  bossMusicId: 
+  bossMusicId: Creature Boss
   capsuleRadius: 0
   capsuleHeight: 3.2
   motion: 0

@@ -116,8 +116,9 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheChapterIsDefinedAsItsScriptAsks()
         {
             yield return null;
-            var zones=new Dictionary<string,(ZoneKind kind,string music)>{["NacreGrave"]=(ZoneKind.SpaceCombat,"Endless Flight"),["MeridianCrawl"]=(ZoneKind.GroundSafe,"Dventure at Dusk"),
-                ["Terminator"]=(ZoneKind.GroundCombat,"Dventure at Dusk"),["DecksLeaving"]=(ZoneKind.GroundSafe,"Hub Town Groove"),["SeparationWorks"]=(ZoneKind.GroundCombat,"Moon Caverns"),["BrokenRing"]=(ZoneKind.SpaceCombat,"Starfight")};
+            // Round eleven (November 27): Nacre Grave, the Works and the Ring play Nathan's tracks written for them (Endless Flight, Moon Caverns and Starfight stood in).
+            var zones=new Dictionary<string,(ZoneKind kind,string music)>{["NacreGrave"]=(ZoneKind.SpaceCombat,"Nacre Grave"),["MeridianCrawl"]=(ZoneKind.GroundSafe,"Dventure at Dusk"),
+                ["Terminator"]=(ZoneKind.GroundCombat,"Dventure at Dusk"),["DecksLeaving"]=(ZoneKind.GroundSafe,"Hub Town Groove"),["SeparationWorks"]=(ZoneKind.GroundCombat,"Separation Works"),["BrokenRing"]=(ZoneKind.SpaceCombat,"Broken Ring")};
             foreach(var (id,(kind,music)) in zones)
             {
                 var zone=GameCatalog.Find<ZoneDef>(id);Assert.IsNotNull(zone,id+" has no ZoneDef");Assert.AreEqual(id,zone.id);Assert.AreEqual(id,zone.scene);Assert.AreEqual(9,zone.chapter,id);

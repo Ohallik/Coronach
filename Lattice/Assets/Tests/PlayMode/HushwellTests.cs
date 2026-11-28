@@ -138,7 +138,7 @@ namespace Lattice.Tests.PlayMode
             fixture=new GameObject("Bellows fixture");var hero=PartyController.Current.Active;
             var bellows=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("BellowsBelow"),hero.transform.position+Vector3.forward*12);
             bellows.transform.SetParent(fixture.transform);bellows.Passive=true;yield return null;yield return null;
-            Assert.AreEqual("Alien Boss Battle",MusicDirector.Current.Track);
+            Assert.AreEqual("Creature Boss",MusicDirector.Current.Track,"the Bellows fights to the wild creatures' track (round eleven; Alien Boss Battle before)");
             DamagePacket Hit()=>new DamagePacket{source=hero.Health,amount=100,type=DamageType.Beam};
             float braced=bellows.Health.Receive(Hit());
             foreach(var organ in organs)organ.Health.Receive(new DamagePacket{source=hero.Health,amount=organ.Health.maximum*10,type=DamageType.Kinetic});

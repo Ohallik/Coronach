@@ -143,3 +143,23 @@ The boss theme for the wild creatures of chapters 1 to 4. A gallop in 12/8: the 
 - The WAVs are the melody alone, which is what the skill recommends uploading. Each page's Download WAV button gives a version with the chords.
 - A long seed is under a minute so that it fits Suno's upload limit for every plan.
 - Once the tracks exist, the same things need updating as before: `tracks.json`, the zones' `musicId` and `fightMusicId`, the six creatures' `bossMusicId`, the chapter briefs' Music sections and the credits' track list (`CreditsRoll.cs`).
+
+## Done: the fourteen tracks are in the game (November 27, round eleven)
+
+Nathan made all fourteen the same evening. Each MP3 is kept as `Music/<title>.mp3` (not committed, as the earlier downloads) and converted as the first 27 were: a plain transcode to Vorbis at 48 kHz stereo, quality 5, with no gain. The first 27 were measured against their MP3s to find that out (27 pairs, integrated loudness within 0.2 LU, so no loudness step was ever applied). The OGGs measure -14.8 to -16.7 LUFS integrated with true peaks of -2.2 to -6.1 dBFS, inside the first 27's -15.0 to -17.0 and -1.9 to -6.2. Each one's hash, length and loudness are in `tracks.json`.
+
+| Track | Where it plays |
+|---|---|
+| Coronach | The Coronach walk on the Decks, from Orrin's call to his close (`CoronachWalk.Track`) |
+| The House That Can Leave | The launch, until the load into the Broken Ring (`CoronachLaunch.Track`) |
+| Many Hands | The Many Hands interior; the hull keeps Starward Journey |
+| Last Mooring | Last Mooring and the Continuance, where Meret hails the party; the Anchor Chamber keeps Regal Alien Town, Meret's own, and her fights keep Final Stand |
+| Room To Turn Back | The anchor's release (`AnchorRelease.Track`), under `MeretSeesItOpen`, and the Returning Passage, Bryn's turn back included |
+| Neighborhood Afloat | The epilogue town, to the last line; the credits keep Title Theme |
+| Sword Skirmish | The fight cue on foot in the Terminator (the dawn pursuit) and the Continuance; no other ground zone was given one |
+| Aurora Shear, Orrery Nine Moons, Picket of Teeth, Nacre Grave | Their zones; their fights keep Starfight |
+| Separation Works | The Works; the Foundry Saint keeps Glitch Boss |
+| Broken Ring | The Ring; the Debris Cutter keeps Alien Boss Battle |
+| Creature Boss | The Burrower, the Bellows Below, the Cantor, the Seedthane, the Floodcrown and the Rotbloom |
+
+Endless Flight would have played nowhere, so it is now the Wick Reach's own music, and Starfight plays there only in fights. Every staged track is asked for by something in the game, and the credits list all 41 (`MusicCueTests`, `CreditsTests`). Like the first 27, each track loops whole, its Suno ending included; nobody has listened to the loops yet.

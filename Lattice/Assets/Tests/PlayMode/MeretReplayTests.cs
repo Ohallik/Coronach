@@ -836,7 +836,7 @@ namespace Lattice.Tests.PlayMode
                 foreach(string flag in new[]{"end.collarTaken","end.anchorReleased","end.custody"})GameServices.Current.Flags.SetBool(flag,false);
                 yield return Zone("StillwaterChamber","Well",flags,29);
                 var anchor=AnchorRelease.Current;Assert.IsNotNull(anchor,"fixture: the chamber has its anchor");Assert.AreEqual(AnchorRelease.Stage.Holding,anchor.Now,"fixture: the anchor is held");
-                var bed=BedSource;level=ZoneController.Current.definition.ambientVolume;
+                var bed=BedSource;level=CueLevels.BedVolume(bed.clip,ZoneController.Current.definition.ambientVolume); // round eleven: every bed under CueLevels' trim
                 Assert.IsNotNull(bed.clip,"fixture: the chamber has its bed");Assert.AreEqual(level,bed.volume,.001f,"held, the bed isn't at the zone's own level");
                 if(broken)anchor.bedAfter=1;
                 var clip=bed.clip;float last=bed.time;restarted=false;

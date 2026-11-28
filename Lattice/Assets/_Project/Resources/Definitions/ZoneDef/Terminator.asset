@@ -28,7 +28,7 @@ MonoBehaviour:
   skybox: {fileID: 2100000, guid: 9b6383348d9ccd841a00e6f2e9bf8297, type: 2}
   displayName: The Terminator
   brightFloor: 0
-  fightMusicId: Starfight
+  fightMusicId: Sword Skirmish
   pocketMusicId: 
   shopMusicId: 
   chapter: 9

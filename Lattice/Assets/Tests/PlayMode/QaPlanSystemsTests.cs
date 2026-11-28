@@ -38,6 +38,8 @@ namespace Lattice.Tests.PlayMode
         static readonly string[] Tabs={"Party","Skills","Gear","Fabricate","Items","Quests","Settings"};
         static readonly AudioBus[] Buses={AudioBus.Master,AudioBus.Music,AudioBus.SFX,AudioBus.Ambience,AudioBus.UI};
         const string BossTrack="Alien Boss Battle";
+        /// <summary>The wild creatures' bosses' track since round eleven (the Burrower, the Bellows, the Cantor, and chapters 3 and 4's): Alien Boss Battle before.</summary>
+        const string CreatureTrack="Creature Boss";
 
         void Listen(string node,string speaker,System.Action<bool> done)=>heard=node;
         void Logged(string text,string stack,LogType type){if(text.StartsWith("MUSIC_CUE")||text.StartsWith("NEW_GAME_OK")||text.StartsWith("ZONE_ENTER"))logged.Add(text);}
@@ -607,7 +609,8 @@ namespace Lattice.Tests.PlayMode
         static readonly (string zone,string track)[] PlannedTracks=
         {
             ("Hub_Decks","Hub Town Groove"),("Hub_CinderHalo","Hub Town Groove"),("TallowDrift","Hub Town Groove"),("Lanternwick","Old Village"),
-            ("LanternGorge","Adventure Awaits"),("Hushwell","Moon Caverns"),("SunkenRelay","Moon Caverns"),("Gullet_Tunnel","Starfight"),("WickReach","Starfight"),
+            // The Wick Reach flies to Endless Flight since round eleven, and keeps Starfight for its fights (MusicCueTests).
+            ("LanternGorge","Adventure Awaits"),("Hushwell","Moon Caverns"),("SunkenRelay","Moon Caverns"),("Gullet_Tunnel","Starfight"),("WickReach","Endless Flight"),
         };
         /// <summary>The nine the plan names, Sorrel, then every zone built since chapter 2, in the order the single case walked them. One case each: a zone whose track
         /// isn't staged logs MUSIC_MISSING as it loads, and that used to end the walk for every zone after it (ZoneWalk).</summary>
@@ -644,8 +647,9 @@ namespace Lattice.Tests.PlayMode
             Plays(home,zone+" before the fight");
             foreach(var hero in PartyController.Current.members)hero.Health.InvulnerableUntil=GameTime.Now+60;
             Encounter(encounter).Begin();yield return Frames(3);
-            // The first four play the boss track, pinned. A boss since may name its own (EnemyDef.bossMusicId).
-            string named=System.Array.IndexOf(ContentRegistry.FirstBosses,boss)>=0?null:GameCatalog.Find<EnemyDef>(boss).bossMusicId;
+            // Each plays what its definition names (EnemyDef.bossMusicId), or the boss track. The first four were pinned to the boss track until round eleven gave the
+            // Bellows, the Cantor and the Burrower the wild creatures' track (ContentScaffold.BossTracks; MusicCueTests holds who plays what); Hessa Korl names none.
+            string named=GameCatalog.Find<EnemyDef>(boss).bossMusicId;
             Plays(string.IsNullOrWhiteSpace(named)?BossTrack:named,boss+"'s fight");
             DialogueSystem.Current.AutoAdvance=true;
             Fell(All<EnemyBrain>().First(e=>e.definition.id==boss));yield return Frames(2);
@@ -691,7 +695,7 @@ namespace Lattice.Tests.PlayMode
                     foreach(var hero in PartyController.Current.members)hero.Health.InvulnerableUntil=GameTime.Now+60;
                     Put(Hero,new Vector3(0,.2f,164));Put(Partner,new Vector3(2,.2f,164));
                     Encounter("Sorrel_Burrower").Begin();yield return Frames(3);
-                    Plays(BossTrack,"the Burrower's fight");
+                    Plays(CreatureTrack,"the Burrower's fight");
                     Fell(All<EnemyBrain>().First(e=>e.definition.id=="Burrower"));yield return Frames(2);
                     Assert.AreEqual("Adventure Awaits",MusicDirector.Current.Track,"the Burrower is down and the boss track plays on");
                     yield break;
@@ -775,7 +779,7 @@ namespace Lattice.Tests.PlayMode
             yield return WatchTheFade("Moon Caverns","closing a shop",()=>shop.Close());
             foreach(var hero in PartyController.Current.members)hero.Health.InvulnerableUntil=GameTime.Now+30;
             EnemyBrain boss=null;
-            yield return WatchTheFade(BossTrack,"a boss waking",()=>{boss=Spawn("BellowsBelow",Hero.transform.position+Vector3.forward*30);});
+            yield return WatchTheFade(CreatureTrack,"a boss waking",()=>{boss=Spawn("BellowsBelow",Hero.transform.position+Vector3.forward*30);});
             yield return WatchTheFade("Moon Caverns","a boss falling",()=>Defeat(boss));
         }
 

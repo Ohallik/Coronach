@@ -91,6 +91,8 @@ The station coming apart around the party: districts lifting away one by one on 
 
 ## Music
 
-Nacre Grave: Endless Flight. The Meridian Crawl: Dventure at Dusk; the Terminator run: Dventure at Dusk at the start, then Starfight as the dawn closes. The Decks on separation day: Hub Town Groove, thinned. The Works: Moon Caverns. Foundry Saint: Glitch Boss. The Broken Ring and the Debris Cutter: Starfight, then Alien Boss Battle.
+Nacre Grave: Nacre Grave (fights: Starfight). The Meridian Crawl: Dventure at Dusk; the Terminator run: Dventure at Dusk at the start, then Sword Skirmish as the dawn closes. The Decks on separation day: Hub Town Groove, thinned; the Coronach walk, from Orrin's call to his close: Coronach; the launch, until the load into the Ring: The House That Can Leave. The Works: Separation Works. Foundry Saint: Glitch Boss. The Broken Ring and the Debris Cutter: Broken Ring, then Alien Boss Battle.
+
+Since November 27 every cue here is Nathan's own: Nacre Grave, Sword Skirmish, Coronach, The House That Can Leave, Separation Works and Broken Ring came in for Endless Flight, Starfight, Old Village, Title Theme, Moon Caverns and Starfight, which stood in (docs/music/NEW_TRACKS_3.md).
 
 **New music needed (melody seeds):** the **Coronach** itself, the leave-taking walk and the piece the game is named for (slow, plain, communal, a tune a town could hum; it should be able to return, transformed, in the epilogue), and the **launch** (the districts lifting: the Coronach's tune opening out into motion).

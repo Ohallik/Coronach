@@ -75,12 +75,15 @@ namespace Lattice.UI
             GameServices.Current.Input.Blocked=true;GameTime.Paused=true;
             // The bench opens from a conversation on a row that spends materials, and the A that ended the talk is often pressed twice.
             if(bench)first.Begin();
+            // Round eleven: the bench was the one place a player opens without a sound; it opens and closes as a hatch does (CueLevels: a menu's confirm).
+            if(bench&&!CueLevels.CuesAsRoundTen)AudioManager.PlayUi("doorOpen_001",.3f);
             Rebuild(false);
         }
         public void Close()
         {
             // Disposing a listen raises neither of its callbacks: it has to be cancelled, or its action stays dead.
             closing=true;rebind?.Cancel();closing=false;
+            if(AtBench&&panel!=null&&!CueLevels.CuesAsRoundTen)AudioManager.PlayUi("doorClose_001",.3f);
             first.End();Navigation(true);
             if(AudioMix.Current!=null)AudioMix.Current.Flush();if(panel!=null)Destroy(panel);panel=null;if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;GameTime.Paused=false;
         }

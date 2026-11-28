@@ -154,17 +154,17 @@ namespace Lattice.EditorTools
             var halo=ZoneKit.WorldMaterial("halo-sky");
             // Enemy damage is authored at its real weight (HomeBuilder.Enemies.cs, HomeBuilder.Bosses.cs), so every zone's threat is 1.
             ArenaBuilder.Asset<ZoneDef>(NacreZone,z=>{z.id=z.scene=NacreZone;z.displayName="Nacre Grave";z.chapter=9;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=nacre;z.skybox=nacreSky;
-                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Endless Flight";z.fightMusicId="Starfight";NacreDefinition(z);});
+                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Nacre Grave";z.fightMusicId="Starfight";NacreDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(CrawlZone,z=>{z.id=z.scene=CrawlZone;z.displayName="The Meridian Crawl";z.chapter=9;z.kind=ZoneKind.GroundSafe;z.cameraProfile=ground;z.hd2dProfile=dusk;z.skybox=duskSky;
                 z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Dventure at Dusk";z.shopMusicId="Shop Theme";CrawlDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(TerminatorZone,z=>{z.id=z.scene=TerminatorZone;z.displayName="The Terminator";z.chapter=9;z.kind=ZoneKind.GroundCombat;z.cameraProfile=ground;z.hd2dProfile=dusk;z.skybox=duskSky;
-                z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Dventure at Dusk";z.fightMusicId="Starfight";TerminatorDefinition(z);});
+                z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Dventure at Dusk";z.fightMusicId="Sword Skirmish";TerminatorDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(DecksZone,z=>{z.id=z.scene=DecksZone;z.displayName="The Decks";z.chapter=9;z.kind=ZoneKind.GroundSafe;z.cameraProfile=ground;z.hd2dProfile=decks;z.skybox=halo;
-                z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId="Hub Town Groove";DecksDefinition(z);});
+                z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId="Hub Town Groove";z.cueMusicIds=new[]{Coronach.WalkMusic,Coronach.LaunchMusic};DecksDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(WorksZone,z=>{z.id=z.scene=WorksZone;z.displayName="The Separation Works";z.chapter=9;z.kind=ZoneKind.GroundCombat;z.cameraProfile=ground;z.hd2dProfile=cave;z.skybox=null;
-                z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Moon Caverns";WorksDefinition(z);});
+                z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Separation Works";WorksDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(RingZone,z=>{z.id=z.scene=RingZone;z.displayName="The Broken Ring";z.chapter=9;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=ring;z.skybox=ringSky;
-                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Starfight";RingDefinition(z);});
+                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Broken Ring";RingDefinition(z);});
 
             Enemies.Define();
             Bosses.Define();

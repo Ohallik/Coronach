@@ -151,11 +151,11 @@ Nathan asked for more space areas, each distinctive, and more planets and towns:
 | **40 Driftreed** | Swamp raft village, 240 × 200 m, 30–40 min | Woven-reed raft districts on rope bridges: stilt market, smokehouse, weaving halls and a floating school. High and low tide re-pair which rafts connect, giving two authored layouts that are both coherent. | Raft-folk negotiate their own terms. **Despano Lopo**; shops **Shop Theme**. |
 | **41 Mirefen** | Swamp wilds, 700 × 550 m, 30–40 min | Mangrove giants and peat islands. Three moons' tides, visible in the sky, flood and drain channels on a readable cycle. Fog banks and glow-fungus trails; knee-deep water slows footwork. | Ground combat on shifting footing. **Swamp Sprint**. |
 | **42 The Drowned Waystation** | Ruin dungeon, 450 m / 2 levels, 25–35 min | A half-sunk Ancelane route station. Restarting old pumps drains halls in stages and opens shortcuts. | **B19 Rotbloom**. |
-| **43 Aurora Shear** | Space, 2.4 km, 15–20 min | Hoarfell's magnetic storms form visible aurora currents: ride with them for speed, cross them against drag and shield drain. A shattered ice ring surrounds the planet. **Rule: current-riding lanes.** | Approach through a storm the herders read like weather. **Starfield Frontier**. |
+| **43 Aurora Shear** | Space, 2.4 km, 15–20 min | Hoarfell's magnetic storms form visible aurora currents: ride with them for speed, cross them against drag and shield drain. A shattered ice ring surrounds the planet. **Rule: current-riding lanes.** | Approach through a storm the herders read like weather. **Aurora Shear** (its fights: Starfight). |
 | **44 Lastlight** | Ice village, 200 × 160 m, 25–35 min | Built inside the ribcage of a frozen adult Choir; vents beneath keep the rib-halls warm. Longhouses, a vent bath-house, carving yard, beast pens and a lamp shrine. The streets follow the skeleton, with warm and cold zones. | Herders' dispute about leaving their dead Choir. **Village Circle**. |
 | **45 The White Reach** | Glacier wilds, 750 × 500 m, 30–40 min | Crevasse fields, wind-carved seracs and migrating rime-beast herds. Wind telegraphs each whiteout; shelter at vent pockets. | Muster excavation crews and ice predators. |
 | **46 The Frozen Host** | Glacier dungeon, 550 m / 3 levels, 30–40 min | An Ancelane army of Bridle-guard constructs frozen in blue ice, with Muster thaw-rigs waking them rank by rank. The thaw spreads as the player descends. | **B20 Host Marshal**. **March of the Frozen Host**. |
-| **47 The Orrery** | Space, 2.6 km, 20–25 min | Oriel's broken moons still ride ancient light-rails around the planet like clockwork, and rings open and close in sequence. **Rule: the whole region is one readable machine.** | Arrival at a world that looks impossible. **Starfield Frontier**. |
+| **47 The Orrery** | Space, 2.6 km, 20–25 min | Oriel's broken moons still ride ancient light-rails around the planet like clockwork, and rings open and close in sequence. **Rule: the whole region is one readable machine.** | Arrival at a world that looks impossible. **Orrery Nine Moons** (its fights: Starfight). |
 | **48 Oriel Skyfields** | Near-magical planet, 700 × 600 m, 30–40 min | Islands float along still-live route fibres, rivers run upward along light-threads, and glass forests ring under pressure. Gardener automatons tend empty gardens. **Visible rule: where a severed route fibre still runs, weight and light follow it.** Fibres are glowing lines; only islands on them float, and their lift carries the party between islands at marked nodes. | The ruin of a world that tried to hold a route still. **Glass Ruans**. |
 | **49 The Glass Choir** | Ruin dungeon, 500 m, 30–40 min | A cathedral built around an adult Choir the Ancelane bridled, its body turned to glass around the original Bridle engine. | **B21 The Last Warden**. |
 | **50 The Picket of Teeth** | Space, 2.8 km, 20–25 min | The Muster border: flak-curtain gates, sensor buoys and carrier patrol loops. Tumbling asteroids cast sensor shadows. **Rule: detection escalates in visible stages (warning, hunter wing, carrier)**, so the player can go quietly or fight. | Crossing into Vaskar space. **Galactic Conquest**; fights **Starfight**. |
@@ -202,29 +202,33 @@ Nathan asked for more space areas, each distinctive, and more planets and towns:
 
 ### Music map
 
-Nathan's supplied tracks (27 unique, listed with hashes in [docs/music/tracks.json](music/tracks.json)) cover almost every region:
+Nathan's tracks (41: the first 27, and since November 27 the fourteen written for the places below from the seeds of [NEW_TRACKS_3.md](music/NEW_TRACKS_3.md); each listed with its hash and where it plays in [docs/music/tracks.json](music/tracks.json)):
 
 | Cue | Track |
 |---|---|
-| Title / home town / shops / Sorrel combat (current) | Title Theme / Hub Town Groove / Moonbase Market / Adventure Awaits |
-| Space combat (current: Gullet, flight arena) | Starfight |
-| Boss encounters (current: Burrower, Cantor) | Alien Boss Battle |
-| Hushwell | Moon Caverns |
+| Title and credits / home town / shops / Sorrel combat | Title Theme / Hub Town Groove / Moonbase Market / Adventure Awaits |
+| Space combat: the Gullet, the Proving Berth, and every flight zone's fights | Starfight |
+| Fights on foot that change the music: the Terminator's dawn pursuit, the Continuance | Sword Skirmish |
+| Wild creatures' bosses: Burrower, Bellows Below, Cantor, Seedthane, Floodcrown, Rotbloom | Creature Boss |
+| The Muster's and the Compact's bosses: Hessa and Vessa Korl, Drask, the Debris Cutter | Alien Boss Battle |
+| Hushwell and the Sunken Relay | Moon Caverns |
 | Xylos | Jungle Planet Groove, Riverbed Stomp, Seed Shakers of Xylos |
-| Merrow, the Gilded Steps | Regal Alien Town |
-| Lanternwick | Old Village |
+| The Anchor Chamber (Meret's own) | Regal Alien Town |
+| Lanternwick / the Wick Reach | Old Village / Endless Flight |
 | Driftreed / Mirefen | Despano Lopo / Swamp Sprint |
-| Lastlight / The Frozen Host | Village Circle / March of the Frozen Host |
-| Oriel | Glass Ruans |
-| Scoria / Harrowgate and the Picket | Alien Pulse / Galactic Conquest |
+| Lastlight / The Frozen Host / Aurora Shear | Village Circle / March of the Frozen Host / Aurora Shear |
+| Oriel / the Orrery | Glass Ruans / Orrery Nine Moons |
+| Scoria / Harrowgate and its harbour / the Picket | Alien Pulse / Galactic Conquest / Picket of Teeth |
 | Duskline | Dventure at Dusk |
-| New-region space exploration | Starfield Frontier |
-| Travel between regions; Many Hands exterior | Starward Journey |
-| Quiet long lanes (Nacre Grave, Returning Passage) | Endless Flight |
-| Machine bosses / ancient bosses / finale | Glitch Boss / Boss of the Ages / Final Stand |
+| Xylos Nearspace and the Spore Veil | Starfield Frontier |
+| Many Hands inside / its hull | Many Hands / Starward Journey |
+| Nacre Grave / the Separation Works / the Broken Ring | Nacre Grave / Separation Works / Broken Ring |
+| The Coronach walk / the launch | Coronach / The House That Can Leave |
+| Last Mooring and the Continuance / the anchor's release and the Returning Passage / the epilogue | Last Mooring / Room To Turn Back / Neighborhood Afloat |
+| Machine bosses / ancient bosses / Meret | Glitch Boss / Boss of the Ages / Final Stand |
 | Merchant variant | Shop Theme |
 
-Still uncovered: Veyr (Kiln Oath, Whitebreak), Pale Exchange, Many Hands interior, the Cinder separation walk, Updraft and a dedicated finale-flight cue.
+Still uncovered: Veyr (Kiln Oath, Whitebreak), Pale Exchange and Updraft, none of which is built.
 
 ### Production reality
 
@@ -268,7 +272,7 @@ Add roughly eight elite encounters by remixing enemy squads and terrain, not by 
 | Veyr | Basalt/snow cliffs, bridges, rescue equipment, furnace blocks | Walking forge, avalanche galleries, civilian rescue yards | Percussive ascent and martial-town cues to compose later. |
 | Merrow | Pale terraces, stairs, lifts, garden modules, survey screens | Open theatre, dense service city and survey court | Formal melody with audible working-district variation. **Shop Theme** reserved for a future merchant variant. |
 | Comet / wrecks | Ice ribs, insulated tents, hull fragments, transfer machines | Warm water quay, unoccupied arrival lounge, spiralling grave harbour | Quiet late-game travel and pressure-combat cues later. |
-| Anchor fleet | Heavy clamps, chains, gantries, frame platforms | Continuance silhouette and staged final arenas | **Final Stand** for Meret and the Continuance; **Endless Flight** for the Returning Passage. |
+| Anchor fleet | Heavy clamps, chains, gantries, frame platforms | Continuance silhouette and staged final arenas | **Last Mooring** for the fleet and the Continuance, **Final Stand** for Meret's fights; **Room To Turn Back** for the anchor's release and the Returning Passage. |
 | Ancelane (Lanternwick, Oriel) | Carved terraces, lantern-towers, glass ruin modules, fibre lines | Relay towers that pivot, floating islands only along visible fibres, the glass-turned Choir | **Old Village**, **Glass Ruans**, **Boss of the Ages**. |
 | Wendmire | Reed rafts, rope bridges, mangrove trunks, peat islands, pumps | Tide-paired raft districts, three-moon tide sky, spore nebula beacons | **Despano Lopo**, **Swamp Sprint**, **Shop Theme**. |
 | Hoarfell | Ice cliffs, seracs, vent pockets, longhouses, rib arches | A village inside a frozen Choir skeleton; the frozen army in blue ice | **Village Circle**, **March of the Frozen Host**. |

@@ -38,7 +38,7 @@ MonoBehaviour:
   scrip: 380
   scrap: 18
   displayName: THE ROTBLOOM
-  bossMusicId: 
+  bossMusicId: Creature Boss
   capsuleRadius: 0
   capsuleHeight: 6.8
   motion: 0

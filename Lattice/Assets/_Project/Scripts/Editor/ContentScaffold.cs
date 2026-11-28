@@ -28,9 +28,13 @@ namespace Lattice.EditorTools
             ("Gullet_Tunnel","The Gullet","Starfight",null,false,1),("TallowApproach","Tallow Approach","Hub Town Groove",null,false,1),("TallowDrift","Tallow Drift","Hub Town Groove",null,false,1),
             // The yards belong to no chapter.
             ("Arena_Ground","Proving Yard","Adventure Awaits",null,false,0),("Arena_Flight","Proving Berth","Starfight",null,false,0),
-            ("WickReach","The Wick Reach","Starfight",null,false,2),("Lanternwick","Lanternwick","Old Village",null,true,2),
+            ("WickReach","The Wick Reach","Endless Flight",null,false,2),("Lanternwick","Lanternwick","Old Village",null,true,2),
             ("LanternGorge","Lantern Gorge","Adventure Awaits",null,true,2),("SunkenRelay","The Sunken Relay","Moon Caverns",null,false,2),
         };
+        /// <summary>Round eleven's music (November 27, docs/music/NEW_TRACKS_3.md): the Wick Reach flies to Endless Flight and keeps Starfight, the flight-fight track it played as its
+        /// own, for its fights; the wild creatures of chapter 1 fight to Nathan's "Creature Boss", as chapters 3 and 4's do (their builders name it). Empty before: they fell back to
+        /// Alien Boss Battle (MusicDirector.BossTrack), which the Muster's people and the Compact keep.</summary>
+        internal static readonly (string id,string track)[] FightCues={("WickReach","Starfight")},BossTracks={("Burrower","Creature Boss"),("Cantor","Creature Boss"),("BellowsBelow","Creature Boss")};
         static readonly (string id,string name,float drawn,EnemyMotion motion,bool heavy)[] Enemies=
         {
             ("MusterScav","Muster Scavenger",1,EnemyMotion.None,false),("ChoristerDart",null,1.5f,EnemyMotion.Hover,false),("ChoristerDrifter",null,1,EnemyMotion.Hover,false),
@@ -64,6 +68,8 @@ namespace Lattice.EditorTools
                 Set(zone,ref zone.displayName,row.name);Set(zone,ref zone.musicId,row.music);Set(zone,ref zone.brightFloor,row.bright);Set(zone,ref zone.chapter,row.chapter);
                 if(row.pocket!=null)Set(zone,ref zone.pocketMusicId,row.pocket);
             }
+            foreach(var row in FightCues){var zone=Load<ZoneDef>(row.id);if(zone!=null)Set(zone,ref zone.fightMusicId,row.track);}
+            foreach(var row in BossTracks){var enemy=Load<EnemyDef>(row.id);if(enemy!=null)Set(enemy,ref enemy.bossMusicId,row.track);}
             foreach(var row in Enemies)
             {
                 var enemy=Load<EnemyDef>(row.id);if(enemy==null)continue;

@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 2627ba59c38ca7048b5b90a870d2463b, type: 2}
   ambientAudio: {fileID: 8300000, guid: 27ac11bb64978f4418f775fc28134122, type: 3}
   ambientVolume: 0.315
-  musicId: Regal Alien Town
+  musicId: Last Mooring
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
@@ -28,7 +28,7 @@ MonoBehaviour:
   skybox: {fileID: 2100000, guid: 53aae1b85409712428bf265b644a89d5, type: 2}
   displayName: The Continuance
   brightFloor: 0
-  fightMusicId: Starfight
+  fightMusicId: Sword Skirmish
   pocketMusicId: 
   shopMusicId: 
   chapter: 10

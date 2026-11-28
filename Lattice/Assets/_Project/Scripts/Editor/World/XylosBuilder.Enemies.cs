@@ -97,12 +97,12 @@ namespace Lattice.EditorTools
             // at 44,000 a quarter of that was 145.04 s against its 145 s ceiling; the next run read 1,148, and 42,000 was 146 s. 39,000 holds the ceiling down to 1,076 a second.
             // In the player 44,000 fell in 82 to 89 s, so this is about 75: a minute to a minute and a half, as its sheet asks.
             ArenaBuilder.Asset<EnemyDef>("Seedthane",e=>{e.id="Seedthane";e.displayName="THE SEEDTHANE";e.prefab=Body("Seedthane","SentinelHusk");e.integrity=50000;e.breakThreshold=650;e.speed=3.4f;e.attacks=new[]{thaneStab};
-                e.weakness=DamageType.Plasma;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=240;e.scrip=180;e.scrap=10;e.boss=true;
+                e.weakness=DamageType.Plasma;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=240;e.scrip=180;e.scrap=10;e.boss=true;e.bossMusicId="Creature Boss";
                 // A capsule can't stand shorter than it is wide: on the boss's default 3 m its 1.6 m radius (its Kit's) held it a tenth of a metre off the floor.
                 e.capsuleHeight=3.2f;
                 e.lootTable=Loot("Seedthane",Drop("Rootfibre",6,1),Drop("AmberSap",4,1),ProgressionBuilder.AnyPart(3,1));});
             ArenaBuilder.Asset<EnemyDef>("Floodcrown",e=>{e.id="Floodcrown";e.displayName="THE FLOODCROWN";e.prefab=Body("Floodcrown","Burrower");e.integrity=112000;e.breakThreshold=850;e.speed=3.2f;e.attacks=new[]{crownGore};
-                e.weakness=DamageType.Beam;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=380;e.scrip=320;e.scrap=16;e.boss=true;
+                e.weakness=DamageType.Beam;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=380;e.scrip=320;e.scrap=16;e.boss=true;e.bossMusicId="Creature Boss";
                 // On the boss's default 3 m its 2 m radius made Unity stretch the capsule round its middle, and it waded half a metre over the basin's floor.
                 e.capsuleHeight=4;
                 e.lootTable=Loot("Floodcrown",Drop("HeartwoodNode",1,1),Drop("AmberSap",6,1),Drop("Rootfibre",6,1),Drop("RepairGel",2,1),ProgressionBuilder.AnyPart(3,1));});

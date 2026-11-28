@@ -95,7 +95,7 @@ namespace Lattice.EditorTools
             var day=ZoneKit.Sky("hoarfell-day-sky",source,new Color(.7f,.8f,.9f,.5f),250,1.8f);
             // Enemy damage is authored at its real weight (HoarfellBuilder.Enemies.cs), so every zone's threat is 1.
             ArenaBuilder.Asset<ZoneDef>(Shear,z=>{z.id=z.scene=Shear;z.displayName="The Aurora Shear";z.chapter=6;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=aurora;z.skybox=space;
-                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Starfield Frontier";z.fightMusicId="Starfight";
+                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Aurora Shear";z.fightMusicId="Starfight";
                 var bed=AssetDatabase.LoadAssetAtPath<AudioClip>(ShearBed);if(bed!=null){z.ambientAudio=bed;z.ambientVolume=ShearLevel;}});
             ArenaBuilder.Asset<ZoneDef>(Town,z=>{z.id=z.scene=Town;z.displayName="Lastlight";z.chapter=6;z.kind=ZoneKind.GroundSafe;z.cameraProfile=ground;z.hd2dProfile=rime;z.skybox=day;
                 z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Village Circle";z.shopMusicId="Moonbase Market";z.brightFloor=true;

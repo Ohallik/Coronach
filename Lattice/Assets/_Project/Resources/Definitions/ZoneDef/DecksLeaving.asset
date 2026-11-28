@@ -34,8 +34,8 @@ MonoBehaviour:
   chapter: 9
   quietArrival: 0
   cueMusicIds:
-  - Old Village
-  - Title Theme
+  - Coronach
+  - The House That Can Leave
   standsFor: Hub_Decks
   standsFrom: home.treadRecovered
   standsUntil: home.launched

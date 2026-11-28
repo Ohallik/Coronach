@@ -125,7 +125,7 @@ namespace Lattice.EditorTools
             // 78 s (nov23-recon-c-26, -d-26). It is held by the slow pair's 400 s: at 112,000 the shared measure read 1,138 a second (1,114 and 1,162) and its quarter 394 s; this is 380 s.
             // It drops the region's rare, the Lure Bulb, which is the key to the Lurelight Drive.
             ArenaBuilder.Asset<EnemyDef>("Rotbloom",e=>{e.id="Rotbloom";e.displayName="THE ROTBLOOM";e.prefab=Body("Rotbloom","Floodcrown");e.integrity=108000;e.breakThreshold=900;e.speed=1.4f;e.attacks=new[]{rotSnap};
-                e.weakness=DamageType.Plasma;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=520;e.scrip=380;e.scrap=18;e.boss=true;
+                e.weakness=DamageType.Plasma;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Sentinel;e.behaviour=EnemyBehaviourKind.None;e.xp=520;e.scrip=380;e.scrap=18;e.boss=true;e.bossMusicId="Creature Boss";
                 // A capsule can't stand shorter than it is wide: at 3.2 m tall on its 3.4 m radius Unity stretched it and the bloom hung 1.8 m over the floor.
                 e.capsuleHeight=6.8f;
                 e.lootTable=Loot("Rotbloom",Drop("LureBulb",1,1),Drop("Glowspore",6,1),Drop("ReedWeave",6,1),Drop("RepairSalve",2,1),ProgressionBuilder.AnyPart(3,1));});

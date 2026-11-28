@@ -21,7 +21,7 @@
       "integratedLufs": -16.4,
       "truePeakDbfs": -5.2,
       "status": "slice",
-      "cue": "Boss encounters (Burrower, Cantor now); later creature and Muster bosses"
+      "cue": "Boss fights of the Muster's people and the Compact: Hessa Korl, Vessa Korl, Drask in both his fights, the Debris Cutter (and any boss that names no track)"
     },
     {
       "title": "Alien Pulse",
@@ -35,6 +35,17 @@
       "cue": "Scoria volcanic forge world"
     },
     {
+      "title": "Aurora Shear",
+      "file": "Music/Aurora Shear.ogg",
+      "bytes": 3354092,
+      "sha256": "598c603a98d84384f549e3f1daa65329ed50305927be48edfad703b251686601",
+      "seconds": 184.4,
+      "integratedLufs": -15.2,
+      "truePeakDbfs": -2.6,
+      "status": "planned",
+      "cue": "Chapter 6: Aurora Shear (its fights: Starfight)"
+    },
+    {
       "title": "Boss of the Ages",
       "file": "Music/Boss of the Ages.ogg",
       "bytes": 2595164,
@@ -44,6 +55,39 @@
       "truePeakDbfs": -5.7,
       "status": "planned",
       "cue": "Ancient bosses: The Last Warden (Oriel), Host Marshal (Hoarfell)"
+    },
+    {
+      "title": "Broken Ring",
+      "file": "Music/Broken Ring.ogg",
+      "bytes": 1887639,
+      "sha256": "79984396b5bcbe36e805b70cd25298c336e33203b6236ef38b78c6a8b71879a3",
+      "seconds": 101.5,
+      "integratedLufs": -16.3,
+      "truePeakDbfs": -4.6,
+      "status": "planned",
+      "cue": "Chapter 9: the Broken Ring, after the launch (the Debris Cutter: Alien Boss Battle)"
+    },
+    {
+      "title": "Coronach",
+      "file": "Music/Coronach.ogg",
+      "bytes": 3311317,
+      "sha256": "cf2da80259ddc50fd22c90b4eb7fc86ae3f57cd6a4584d5a4553450ff6c545d9",
+      "seconds": 184.8,
+      "integratedLufs": -15.5,
+      "truePeakDbfs": -3.0,
+      "status": "planned",
+      "cue": "Chapter 9: the Coronach walk on the Decks on separation day, from OrrinCallsCoronach to OrrinGiveItRoom, under the door lines (CoronachWalk)"
+    },
+    {
+      "title": "Creature Boss",
+      "file": "Music/Creature Boss.ogg",
+      "bytes": 2388593,
+      "sha256": "26d3e0d183fe66958972f0153be495df9a4cc20794d233f98cf96d3b7e45838a",
+      "seconds": 132.0,
+      "integratedLufs": -15.8,
+      "truePeakDbfs": -5.1,
+      "status": "planned",
+      "cue": "Boss fights of the wild creatures, chapters 1 to 4: the Burrower, the Bellows Below, the Cantor, the Seedthane, the Floodcrown, the Rotbloom"
     },
     {
       "title": "Despano Lopo",
@@ -76,7 +120,7 @@
       "integratedLufs": -15.2,
       "truePeakDbfs": -4.1,
       "status": "planned",
-      "cue": "Quiet long lanes: Nacre Grave and the Returning Passage"
+      "cue": "Chapter 2: the Wick Reach (its fights: Starfight)"
     },
     {
       "title": "Final Stand",
@@ -87,7 +131,7 @@
       "integratedLufs": -15.9,
       "truePeakDbfs": -4.7,
       "status": "planned",
-      "cue": "Finale: Meret and the Continuance"
+      "cue": "Chapter 10: Meret's three fights"
     },
     {
       "title": "Galactic Conquest",
@@ -98,7 +142,7 @@
       "integratedLufs": -15.3,
       "truePeakDbfs": -4.0,
       "status": "planned",
-      "cue": "The Vaskar Muster: Harrowgate and the Picket of Teeth"
+      "cue": "The Vaskar Muster: Harrowgate and its harbour"
     },
     {
       "title": "Glass Ruans",
@@ -131,7 +175,7 @@
       "integratedLufs": -16.2,
       "truePeakDbfs": -4.9,
       "status": "slice",
-      "cue": "The Decks, Cinder Halo exterior and Tallow (civil areas)"
+      "cue": "The Decks (separation day included), Cinder Halo exterior and Tallow (civil areas)"
     },
     {
       "title": "Jungle Planet Groove",
@@ -143,6 +187,28 @@
       "truePeakDbfs": -3.4,
       "status": "planned",
       "cue": "Xylos wilds (09 Braided River, 10 Seedfall Reach)"
+    },
+    {
+      "title": "Last Mooring",
+      "file": "Music/Last Mooring.ogg",
+      "bytes": 2969208,
+      "sha256": "4cb1ffa62df8473d39c954a507a8a8685738b4280e2d4fb7ab199f8299a65db3",
+      "seconds": 163.2,
+      "integratedLufs": -15.2,
+      "truePeakDbfs": -2.2,
+      "status": "planned",
+      "cue": "Chapter 10: Last Mooring and the Continuance, the Compact's fleet, where Meret hails the party (MeretShipToShip)"
+    },
+    {
+      "title": "Many Hands",
+      "file": "Music/Many Hands.ogg",
+      "bytes": 2783966,
+      "sha256": "ec1f054f3bdd5dc7e2a91d1a33bb751f03e4bf07f83d1f3d9752b8428f655932",
+      "seconds": 146.3,
+      "integratedLufs": -16.2,
+      "truePeakDbfs": -3.6,
+      "status": "planned",
+      "cue": "Many Hands, the hub ship's interior (chapter 5 on)"
     },
     {
       "title": "March of the Frozen Host",
@@ -164,7 +230,7 @@
       "integratedLufs": -15.2,
       "truePeakDbfs": -3.2,
       "status": "slice",
-      "cue": "04 Hushwell moon cave (exploration and combat; the Bellows Below uses Alien Boss Battle)"
+      "cue": "04 Hushwell moon cave and the Sunken Relay (the Bellows Below: Creature Boss)"
     },
     {
       "title": "Moonbase Market",
@@ -178,6 +244,28 @@
       "cue": "Any open shop"
     },
     {
+      "title": "Nacre Grave",
+      "file": "Music/Nacre Grave.ogg",
+      "bytes": 2773985,
+      "sha256": "e808e201878a4eb3e467a0a466d5c920bb2396cc89bec1ad64d9b42b49a46e9d",
+      "seconds": 167.9,
+      "integratedLufs": -15.7,
+      "truePeakDbfs": -3.9,
+      "status": "planned",
+      "cue": "Chapter 9: Nacre Grave (its fights: Starfight)"
+    },
+    {
+      "title": "Neighborhood Afloat",
+      "file": "Music/Neighborhood Afloat.ogg",
+      "bytes": 3383204,
+      "sha256": "a00e3fd1f499568c785c9f8fb806c078fcf73c579858d91ab2ecc48ec797756a",
+      "seconds": 182.8,
+      "integratedLufs": -15.0,
+      "truePeakDbfs": -3.9,
+      "status": "planned",
+      "cue": "Chapter 10 epilogue: Neighbourhood Afloat, to the game's last line (JunLastLine)"
+    },
+    {
       "title": "Old Village",
       "file": "Music/Old Village.ogg",
       "bytes": 2140829,
@@ -189,6 +277,28 @@
       "cue": "37 Lanternwick ancient town"
     },
     {
+      "title": "Orrery Nine Moons",
+      "file": "Music/Orrery Nine Moons.ogg",
+      "bytes": 2808779,
+      "sha256": "4ca34f64102f267010b46359f2b64e1967612e8c9c6165d80d655398315ac352",
+      "seconds": 152.0,
+      "integratedLufs": -15.5,
+      "truePeakDbfs": -2.6,
+      "status": "planned",
+      "cue": "Chapter 7: the Orrery (its fights: Starfight)"
+    },
+    {
+      "title": "Picket of Teeth",
+      "file": "Music/Picket of Teeth.ogg",
+      "bytes": 2401810,
+      "sha256": "0fc1b9a2017e93922dc35ccc0c006f94f0c09bd8e6ef79d1a43bff349c7d6a67",
+      "seconds": 134.4,
+      "integratedLufs": -16.1,
+      "truePeakDbfs": -3.5,
+      "status": "planned",
+      "cue": "Chapter 8: the Picket of Teeth (its fights: Starfight)"
+    },
+    {
       "title": "Regal Alien Town",
       "file": "Music/Regal Alien Town.ogg",
       "bytes": 2642958,
@@ -197,7 +307,7 @@
       "integratedLufs": -16.8,
       "truePeakDbfs": -5.4,
       "status": "planned",
-      "cue": "18 The Gilded Steps (Merrow)"
+      "cue": "Chapter 10: the Anchor Chamber, Meret's own, between her fights"
     },
     {
       "title": "Riverbed Stomp",
@@ -211,6 +321,17 @@
       "cue": "Xylos river traversal"
     },
     {
+      "title": "Room To Turn Back",
+      "file": "Music/Room To Turn Back.ogg",
+      "bytes": 3176240,
+      "sha256": "600b11437e4fa8ce24bc83cb19ecfa844e29028ef9a00936fd88a088db71efbc",
+      "seconds": 168.0,
+      "integratedLufs": -15.5,
+      "truePeakDbfs": -4.0,
+      "status": "planned",
+      "cue": "Chapter 10: the anchor's release in the Anchor Chamber, under MeretSeesItOpen (AnchorRelease), and the Returning Passage, Bryn's turn back included"
+    },
+    {
       "title": "Seed Shakers of Xylos",
       "file": "Music/Seed Shakers of Xylos.ogg",
       "bytes": 2259363,
@@ -220,6 +341,17 @@
       "truePeakDbfs": -3.5,
       "status": "planned",
       "cue": "08 Rootmarket and canopy exploration"
+    },
+    {
+      "title": "Separation Works",
+      "file": "Music/Separation Works.ogg",
+      "bytes": 2427147,
+      "sha256": "a53a614833778c9ad5f33f17dc4ce9f16135d677ea768a986a8b965d99edb466",
+      "seconds": 139.9,
+      "integratedLufs": -14.8,
+      "truePeakDbfs": -2.7,
+      "status": "planned",
+      "cue": "Chapter 9: the Separation Works (the Foundry Saint: Glitch Boss)"
     },
     {
       "title": "Shop Theme",
@@ -241,7 +373,7 @@
       "integratedLufs": -16.2,
       "truePeakDbfs": -5.7,
       "status": "planned",
-      "cue": "New-region space exploration (Aurora Shear, Spore Veil, The Orrery, Xylos nearspace)"
+      "cue": "Space exploration: Xylos Nearspace and the Spore Veil (chapters 3 and 4)"
     },
     {
       "title": "Starfight",
@@ -252,7 +384,7 @@
       "integratedLufs": -16.9,
       "truePeakDbfs": -5.0,
       "status": "slice",
-      "cue": "Space combat: the Gullet and flight arena; later Picket of Teeth and Corona Line fights"
+      "cue": "Space combat: the Gullet and the Proving Berth, and the fights of every flight zone that names a fight cue (the Wick Reach, Aurora Shear, the Orrery, the Picket, Nacre Grave, the Returning Passage and others)"
     },
     {
       "title": "Starward Journey",
@@ -263,7 +395,7 @@
       "integratedLufs": -17.0,
       "truePeakDbfs": -5.8,
       "status": "planned",
-      "cue": "Route-chart travel between regions and Many Hands exterior"
+      "cue": "Many Hands' hull, outside the ship"
     },
     {
       "title": "Swamp Sprint",
@@ -277,6 +409,28 @@
       "cue": "41 Mirefen swamp wilds"
     },
     {
+      "title": "Sword Skirmish",
+      "file": "Music/Sword Skirmish.ogg",
+      "bytes": 1899909,
+      "sha256": "8c3f2c0093b9e0da06feca3952d26c60952350c380ca8f9432a61ad186a9ac71",
+      "seconds": 108.0,
+      "integratedLufs": -16.7,
+      "truePeakDbfs": -6.1,
+      "status": "planned",
+      "cue": "Fights on foot (fightMusicId): the Terminator's dawn pursuit and the Continuance"
+    },
+    {
+      "title": "The House That Can Leave",
+      "file": "Music/The House That Can Leave.ogg",
+      "bytes": 2662786,
+      "sha256": "1aa06d1a3f312a0a0e7b6c8c90398392c5094b25b74f28e27d996b23ce48b2ef",
+      "seconds": 147.1,
+      "integratedLufs": -16.1,
+      "truePeakDbfs": -5.3,
+      "status": "planned",
+      "cue": "Chapter 9: the launch, the market district lifting away under NeveFirstOut (CoronachLaunch), until the load into the Broken Ring"
+    },
+    {
       "title": "Title Theme",
       "file": "Music/Title Theme.ogg",
       "bytes": 2934360,
@@ -285,7 +439,7 @@
       "integratedLufs": -15.5,
       "truePeakDbfs": -5.5,
       "status": "slice",
-      "cue": "Title screen"
+      "cue": "Title screen and the credits"
     },
     {
       "title": "Village Circle",

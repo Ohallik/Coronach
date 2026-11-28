@@ -82,7 +82,7 @@ namespace Lattice.Combat
         void VessaStart()
         {
             // D419: a person beaten, not a machine: she walks out in her own colours, as her sister yields in hers (Hessa, s15/158).
-            var leaving=gameObject.AddComponent<BossDeparture>();leaving.sound="";leaving.speed=6;leaving.keepsColours=true;
+            var leaving=gameObject.AddComponent<BossDeparture>();leaving.sound="";leaving.outSound="doorOpen_000";leaving.speed=6;leaving.keepsColours=true;
             DrawLance();
         }
         /// <summary>At nought: the floor she laid goes with her (nothing of hers burns on behind her into the fight with her squad); and the gallery is taken now, not at her fall

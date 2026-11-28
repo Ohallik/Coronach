@@ -25,9 +25,11 @@ namespace Lattice.UI
         /// <summary>Every track the game plays, by the title its maker gave it (docs/music/tracks.json; all of them are staged in Resources/Audio/Music).</summary>
         public static readonly string[] Tracks=
         {
-            "Adventure Awaits","Alien Boss Battle","Alien Pulse","Boss of the Ages","Despano Lopo","Dventure at Dusk","Endless Flight","Final Stand","Galactic Conquest",
-            "Glass Ruans","Glitch Boss","Hub Town Groove","Jungle Planet Groove","March of the Frozen Host","Moon Caverns","Moonbase Market","Old Village","Regal Alien Town",
-            "Riverbed Stomp","Seed Shakers of Xylos","Shop Theme","Starfield Frontier","Starfight","Starward Journey","Swamp Sprint","Title Theme","Village Circle",
+            "Adventure Awaits","Alien Boss Battle","Alien Pulse","Aurora Shear","Boss of the Ages","Broken Ring","Coronach","Creature Boss","Despano Lopo","Dventure at Dusk",
+            "Endless Flight","Final Stand","Galactic Conquest","Glass Ruans","Glitch Boss","Hub Town Groove","Jungle Planet Groove","Last Mooring","Many Hands",
+            "March of the Frozen Host","Moon Caverns","Moonbase Market","Nacre Grave","Neighborhood Afloat","Old Village","Orrery Nine Moons","Picket of Teeth","Regal Alien Town",
+            "Riverbed Stomp","Room To Turn Back","Seed Shakers of Xylos","Separation Works","Shop Theme","Starfield Frontier","Starfight","Starward Journey","Swamp Sprint",
+            "Sword Skirmish","The House That Can Leave","Title Theme","Village Circle",
         };
         /// <summary>A track's title as the roll shows it. Two of the files came with a slip in their names ("Dventure at Dusk", "Glass Ruans"); the game still asks for each track by
         /// its file's name (the zones' definitions, the tests and docs/music/tracks.json all use it), and the roll shows the title that was meant. Twelve looks read the two as typos.</summary>

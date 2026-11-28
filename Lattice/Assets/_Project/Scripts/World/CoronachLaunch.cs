@@ -12,7 +12,8 @@ namespace Lattice.World
     /// brighten in turn, farthest first, and the walkway's lets go under the yellow line (a deep release, a short hold of the clock, the view's tremor, the pad's low motor); then
     /// <see cref="node"/> plays, and a beat into it the market district lifts away on its own clock (<see cref="district"/> drawn up and along by <see cref="lift"/>), its cut edge and
     /// engines lit, space showing where it stood, with the view drawn back above the dialogue box to take it in. When the talk has set <see cref="launchedFlag"/>, Orrin's first radio line,
-    /// a moment more of the district going, and the load into the Broken Ring, whose arrival saves. Its own music plays from the close (<see cref="music"/>, one of the zone's cueMusicIds).
+    /// a moment more of the district going, and the load into the Broken Ring, whose arrival saves. Its own music plays from the close (<see cref="Music"/>, one of the zone's cueMusicIds)
+    /// until the load, and the Ring's own takes over there.
     /// A save made before the talk's end replays it from the start on loading (the party set at its marks behind the load's black); the zone entered with <see cref="launchedFlag"/> already set
     /// goes straight on to the Ring. Logs <c>LAUNCH_BEGIN</c>, <c>LAUNCH_JOINT</c>, <c>LAUNCH_LIFT</c>, <c>LAUNCH_CUT</c>.
     /// </summary>
@@ -21,8 +22,12 @@ namespace Lattice.World
         public enum Stage{Waiting,Stepping,Opening,Talking,Going,Gone}
         public string walkedFlag="home.coronachWalked",launchedFlag="home.launched";
         public string node="NeveFirstOut",speaker="Neve";
-        /// <summary>The launch's own track, by title from docs/music/tracks.json.</summary>
-        public string music;
+        /// <summary>The launch's own track, by title from docs/music/tracks.json: Nathan's "The House That Can Leave", written for it (docs/music/NEW_TRACKS_3.md, 2; it ends open on E,
+        /// and the Broken Ring's track starts in A). The launch names it, not its scene: DecksLeaving was built with a stand-in (Title Theme) in a field this replaced.</summary>
+        public const string Track="The House That Can Leave",StandIn="Title Theme";
+        /// <summary>Round ten's state, for the test that shows it: the launch played the stand-in its scene was built with.</summary>
+        public static bool AsRoundTen;
+        public static string Music=>AsRoundTen?StandIn:Track;
         public string ring="BrokenRing",ringSpawn="Arrival";
         /// <summary>The radio line after the talk: the first of a pool the Ring goes on with.</summary>
         public string hailBy="Orrin",hail="hail.section";
@@ -108,7 +113,7 @@ namespace Lattice.World
         void Begin()
         {
             Now=Stage.Stepping;clock=0;Debug.Log("LAUNCH_BEGIN");
-            if(!string.IsNullOrEmpty(music)){MusicDirector.Encounter(this,music,true);cued=true;}
+            MusicDirector.Encounter(this,Music,true);cued=true;
             GameServices.Current.Input.Blocked=true;
         }
         /// <summary>The party is held through the launch: no step, no menu, no swap. The talk holds it itself, and lets go as it ends, so this asks again each frame outside it.</summary>

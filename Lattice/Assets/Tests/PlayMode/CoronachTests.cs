@@ -127,9 +127,10 @@ namespace Lattice.Tests.PlayMode
             holder.SetActive(true);return door;
         }
         static GameObject Thing(string name){var thing=GameObject.CreatePrimitive(PrimitiveType.Sphere);thing.name=name;Object.Destroy(thing.GetComponent<Collider>());return thing;}
-        static CoronachWalk Walk(string music,params string[] doors)
+        /// <summary>The walk plays its own track (CoronachWalk.Track, Nathan's "Coronach" since round eleven; Old Village stood in before).</summary>
+        static CoronachWalk Walk(params string[] doors)
         {
-            var walk=new GameObject("Coronach walk fixture").AddComponent<CoronachWalk>();walk.music=music;walk.doors=doors;
+            var walk=new GameObject("Coronach walk fixture").AddComponent<CoronachWalk>();walk.doors=doors;
             var all=walk.gameObject.AddComponent<FlagAll>();all.flags=doors;all.result=DoorsHeard;return walk;
         }
 
@@ -293,20 +294,20 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheWalksOwnMusicPlaysAndNothingBarksFromTheCallToTheLaunch()
         {
             yield return Yard();
-            var walk=Walk("Old Village","coronach.mira");yield return Frames(3);
-            string before=MusicDirector.Current.Track;Assert.AreNotEqual("Old Village",before,"fixture: the yard plays the walk's music already");
+            var walk=Walk("coronach.mira");yield return Frames(3);
+            string before=MusicDirector.Current.Track;Assert.AreNotEqual(CoronachWalk.Track,before,"fixture: the yard plays the walk's music already");
             BarkService.Play("Taren","swap",true);Assert.IsNotEmpty(barks,"fixture: a swap's bark isn't heard before the walk");barks.Clear();
             Flag(Called);yield return Frames(3);
-            Assert.AreEqual("Old Village",MusicDirector.Current.Track,"the walk doesn't play its own music");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk doesn't play its own music");
             Assert.IsTrue(BarkService.Hushed,"barks aren't hushed for the walk");
             BarkService.Play("Taren","swap",true);BarkService.Play("Idra","low",true);
             Assert.IsEmpty(barks,"something barked during the Coronach: "+string.Join("; ",barks));
             var shop=new GameObject("A shop someone opens");MusicDirector.Shop(shop,true);yield return Frames(2);
             Assert.AreEqual(MusicDirector.MarketTrack,MusicDirector.Current.Track,"fixture: a shop's counter outranks every cue");
             MusicDirector.Shop(shop,false);yield return Frames(2);
-            Assert.AreEqual("Old Village",MusicDirector.Current.Track,"the walk's music didn't come back after the counter shut");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk's music didn't come back after the counter shut");
             Flag(Walked);yield return Frames(3);
-            Assert.AreNotEqual("Old Village",MusicDirector.Current.Track,"the walk's music plays on after the close");
+            Assert.AreNotEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk's music plays on after the close");
             Assert.IsTrue(BarkService.Hushed,"barks came back between the close and the launch's talk");
             Flag(Launched);yield return Frames(3);
             Assert.IsFalse(BarkService.Hushed,"barks stay hushed after the launch");
@@ -317,7 +318,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator NothingInTheWalkMovesOnByItselfForTenMinutes()
         {
             yield return Yard();
-            var walk=Walk("Old Village","coronach.mira","coronach.hal");
+            var walk=Walk("coronach.mira","coronach.hal");
             var mira=Place("Mira, at pitch nine",At(-3,0),At(-3,1.4f),"coronach.mira","MiraStallDoor","Mira");
             var hal=Place("Hal, at the bolt holes",At(4,0),At(4,1.4f),"coronach.hal","HalBenchDoor","Hal");
             Flag(Called);yield return Seconds(CoronachDoor.LampSeconds+.3f);Put(Lead,At(.5f,-2));yield return Frames(3);
@@ -329,7 +330,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(lines,DialogueSystem.Current.LinesPresented,"somebody said something to a player who stopped for nobody");
             foreach(var door in new[]{mira,hal})Assert.IsTrue(door.body.activeSelf&&door.Lit,$"{door.name} gave up waiting");
             Put(Lead,At(-3,-1.3f));yield return Frames(3);Assert.IsTrue(mira.Offered,"Mira's door is no longer offered after ten minutes");
-            Assert.AreEqual("Old Village",MusicDirector.Current.Track,"the walk's music stopped");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk's music stopped");
             Assert.IsFalse(log.Any(l=>l.StartsWith("CORONACH_ABOARD")||l.StartsWith("CORONACH_HEARD")),"somebody was taken as heard or went aboard with nobody stopping");
             Object.Destroy(walk.gameObject);
         }
@@ -337,12 +338,12 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheLaunchHoldsThePartyOpensTheJointLiftsTheDistrictAndLoadsTheNextZone()
         {
             yield return Yard();
-            var walk=Walk("Old Village","coronach.mira");Flag(Called);Flag("coronach.mira");Flag(DoorsHeard);Flag(LastHeard);
+            var walk=Walk("coronach.mira");Flag(Called);Flag("coronach.mira");Flag(DoorsHeard);Flag(LastHeard);
             var district=GameObject.CreatePrimitive(PrimitiveType.Cube);district.name="Market district";district.transform.position=At(8,0)+Vector3.down*.4f;district.transform.localScale=new Vector3(12,.8f,10);
             var edge=new GameObject("The market's edge and engines");edge.transform.SetParent(district.transform,true);edge.SetActive(false);
             var chalk=GameObject.CreatePrimitive(PrimitiveType.Quad);chalk.name="Chalked joint 1";chalk.transform.position=At(-6,3)+Vector3.up*.02f;chalk.GetComponent<Renderer>().sharedMaterial=Glow();
             var launch=new GameObject("The launch").AddComponent<CoronachLaunch>();
-            launch.music="Title Theme";launch.ring="Arena_Flight";launch.ringSpawn="Arrival";launch.district=new[]{district.transform};launch.lineA=At(2,-5);launch.lineB=At(2,5);launch.stays=At(-3,0);
+            launch.ring="Arena_Flight";launch.ringSpawn="Arrival";launch.district=new[]{district.transform};launch.lineA=At(2,-5);launch.lineB=At(2,5);launch.stays=At(-3,0);
             launch.watch=new[]{At(-1.8f,-.8f),At(-2.2f,1.4f)};launch.lookAt=At(8,0);launch.chalk=new[]{chalk.GetComponent<Renderer>()};launch.vents=new[]{At(2,-2),At(2,2)};launch.released=new[]{edge};
             launch.shows=new Bounds(At(4,0)+Vector3.up*3,new Vector3(16,8,14));launch.liftDelay=.6f;
             // The lead on the market side of the line, as a player could be standing when the walk closes.
@@ -352,7 +353,7 @@ namespace Lattice.Tests.PlayMode
             while(launch.Now==CoronachLaunch.Stage.Waiting&&Time.unscaledTime<deadline)yield return null;
             Assert.AreNotEqual(CoronachLaunch.Stage.Waiting,launch.Now,"the launch never began after the close");
             Assert.IsTrue(GameServices.Current.Input.Blocked,"the party isn't held for the launch");
-            Assert.AreEqual("Title Theme",MusicDirector.Current.Track,"the launch doesn't play its own music");
+            Assert.AreEqual(CoronachLaunch.Track,MusicDirector.Current.Track,"the launch doesn't play its own music");
             deadline=Time.unscaledTime+launch.stepSeconds+1;while(launch.Now==CoronachLaunch.Stage.Stepping&&Time.unscaledTime<deadline)yield return null;
             Assert.GreaterOrEqual(launch.Side(Lead.transform.position),1.5f,"the lead was left standing on the district's side of the line");
             deadline=Time.unscaledTime+launch.openSeconds+2;while(launch.Now==CoronachLaunch.Stage.Opening&&Time.unscaledTime<deadline)yield return null;
@@ -632,16 +633,16 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator NothingBarksAndOnlyTheWalksOwnMusicPlaysThroughTheWalk()
         {
             yield return Town(true);
-            var walk=Object.FindFirstObjectByType<CoronachWalk>();
-            CollectionAssert.Contains(ZoneController.Current.definition.cueMusicIds,walk.music,"the walk's music isn't named on the zone, so nothing stages it");
-            Assert.IsNotNull(Resources.Load<AudioClip>("Audio/Music/"+walk.music),$"the walk's music, {walk.music}, isn't staged");
-            Assert.AreEqual(walk.music,MusicDirector.Current.Track,"the walk doesn't play its own music");
+            Assert.IsNotNull(Object.FindFirstObjectByType<CoronachWalk>(),"fixture: the walk");
+            CollectionAssert.Contains(ZoneController.Current.definition.cueMusicIds,CoronachWalk.Music,"the walk's music isn't named on the zone, so nothing stages it");
+            Assert.IsNotNull(Resources.Load<AudioClip>("Audio/Music/"+CoronachWalk.Music),$"the walk's music, {CoronachWalk.Music}, isn't staged");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk doesn't play its own music");
             Assert.IsEmpty(barks,"something barked as the zone loaded into the walk: "+string.Join("; ",barks));
             PartyController.Current.Swap();yield return Seconds(1);PartyController.Current.Swap();
             yield return Hear(At("coronach.ilo"),Beside(At("coronach.ilo")));
             yield return Seconds(4);
             Assert.IsEmpty(barks,"something barked during the walk: "+string.Join("; ",barks));
-            Assert.AreEqual(walk.music,MusicDirector.Current.Track,"the walk's music gave way to something");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk's music gave way to something");
             Assert.IsFalse(cues.Any(c=>c.StartsWith("shop")||c.StartsWith("ui_buy")),"a counter's sound played in the walk");
         }
 
@@ -661,7 +662,7 @@ namespace Lattice.Tests.PlayMode
                 foreach(var shut in door.shuts)Assert.IsTrue(shut.activeSelf,$"what {door.name} faced isn't shut after the load");
             }
             foreach(var flag in new[]{"coronach.orrin","coronach.neve","coronach.oda","coronach.ilo"})Assert.IsTrue(At(flag).Lit,$"{At(flag).name} lost their lantern in the load");
-            Assert.AreEqual(Object.FindFirstObjectByType<CoronachWalk>().music,MusicDirector.Current.Track,"the walk's music didn't come back with the load");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk's music didn't come back with the load");
             Assert.IsTrue(BarkService.Hushed,"the walk isn't quiet after the load");
         }
 
@@ -675,7 +676,7 @@ namespace Lattice.Tests.PlayMode
             CollectionAssert.AreEquivalent(flags,State.flags,"the walk moved on by itself while the player stood still");
             Assert.AreEqual(lines,DialogueSystem.Current.LinesPresented,"somebody spoke to a player who stopped for nobody");
             foreach(var door in waiting)Assert.IsTrue(door.Live&&door.Lit,$"{door.name} gave up waiting");
-            Assert.AreEqual(Object.FindFirstObjectByType<CoronachWalk>().music,MusicDirector.Current.Track,"the walk's music stopped");
+            Assert.AreEqual(CoronachWalk.Track,MusicDirector.Current.Track,"the walk's music stopped");
             Assert.IsEmpty(barks,"something barked at a player standing still: "+string.Join("; ",barks));
             var mira=At("coronach.mira");yield return Hear(mira,Beside(mira));Assert.IsTrue(Has("coronach.mira"),"a door can't be heard after ten minutes");
         }

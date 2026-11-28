@@ -30,6 +30,8 @@ namespace Lattice.World
             if(!string.IsNullOrEmpty(requiredFlag)&&!GameServices.Current.Flags.GetBool(requiredFlag)){prompt=lockedPrompt;return;}
             if(scene=="Gullet_Tunnel"&&!ChapterProgress.CanEnterGullet(GameServices.Current.State))
             {prompt="Route incomplete — explore Hushwell beneath Sorrel's drill";return;}
+            // Round eleven: a warp's crossing, heard through the load's fade (the unload cuts every other sound): AudioManager.PlayThrough.
+            if(!SceneFlow.Current.Loading)AudioManager.PlayThrough("forceField_003",.3f);
             SceneFlow.Current.LoadZone(scene,spawn);
         }
     }

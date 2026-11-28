@@ -95,6 +95,8 @@ Familiar modules arranged into new streets under a different sky: the Halo's mar
 
 ## Music
 
-Sorrel's second sky: Adventure Awaits, then Boss of the Ages for Mother of Doors. Last Mooring: Starfight; Tollkeeper: Glitch Boss. Meret, all three phases: Final Stand. The Returning Passage: Endless Flight. Credits: Title Theme.
+Sorrel's second sky: Adventure Awaits, then Boss of the Ages for Mother of Doors. Last Mooring and the Continuance, where Meret hails the party: Last Mooring (the Continuance's fights on foot: Sword Skirmish); Tollkeeper: Glitch Boss. The Anchor Chamber: Regal Alien Town, Meret's own. Meret, all three phases: Final Stand. The anchor's release (from the collar ringing, under MeretSeesItOpen) and the Returning Passage, Bryn's turn back included: Room To Turn Back. Neighbourhood Afloat, to the last line: Neighborhood Afloat. Credits: Title Theme.
+
+Since November 27 the three cues below are Nathan's tracks (docs/music/NEW_TRACKS_3.md), in for Starfight and Regal Alien Town, Endless Flight, and Hub Town Groove.
 
 **New music needed (melody seeds):** **Last Mooring / the Continuance** (the Compact's theme: orderly, grave, well-made, not villainous), the **anchor release and the convoy run** (the Coronach's tune as a departure), and **Neighbourhood Afloat** (home's theme re-harmonised for a new sky; warm, unfinished). With chapter 9's two (the Coronach and the launch) that makes five, and they should share one melody family: the Coronach's tune.

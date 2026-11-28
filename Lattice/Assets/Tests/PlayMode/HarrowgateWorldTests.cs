@@ -218,7 +218,7 @@ namespace Lattice.Tests.PlayMode
         {
             ToThePicket();yield return Zone("PicketOfTeeth");
             var zone=ZoneController.Current.definition;Assert.AreEqual(ZoneKind.SpaceCombat,zone.kind);Assert.AreEqual(8,zone.chapter);Assert.AreEqual(1,zone.enemyThreat,"the Picket's threat isn't 1");
-            Assert.AreEqual("Galactic Conquest",zone.musicId);Assert.AreEqual("Starfight",zone.fightMusicId);
+            Assert.AreEqual("Picket of Teeth",zone.musicId,"the Picket plays Nathan's own track for it (round eleven; Galactic Conquest before)");Assert.AreEqual("Starfight",zone.fightMusicId);
             Assert.IsNotNull(PicketAlarm.Current,"the Picket has no alarm");
             Assert.AreEqual(Buoys.Length,SensorSweep.All.Count,"the Picket hasn't four buoys");
             foreach(var b in Buoys)

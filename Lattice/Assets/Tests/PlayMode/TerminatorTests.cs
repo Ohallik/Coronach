@@ -259,8 +259,9 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(arrow.HasValue&&Vector3.Distance(arrow.Value,Coupling(1).transform.position)<1,"the panel's arrow isn't on the next coupling");
             dawn.At=dawn.Along(lead.transform.position)-7;yield return Wait(.6f);
             Assert.IsTrue(dawn.Pursuing,"the line came within 7 m and the pursuit didn't come in");Assert.IsTrue(Said("DAWN_PURSUIT"));
-            Assert.AreEqual("Starfight",MusicDirector.Current.Track,"the pursuit track isn't playing as the line closes");
-            dawn.At=dawn.Along(lead.transform.position)-11;yield return Wait(.6f);Assert.AreEqual("Starfight",MusicDirector.Current.Track,"the pursuit flapped back to the dusk track");
+            // The pursuit is the zone's fight cue: Sword Skirmish on foot since round eleven (Starfight, the sky's, before).
+            Assert.AreEqual("Sword Skirmish",MusicDirector.Current.Track,"the pursuit track isn't playing as the line closes");
+            dawn.At=dawn.Along(lead.transform.position)-11;yield return Wait(.6f);Assert.AreEqual("Sword Skirmish",MusicDirector.Current.Track,"the pursuit flapped back to the dusk track");
         }
     }
 }

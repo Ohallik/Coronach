@@ -88,7 +88,7 @@ namespace Lattice.EditorTools
             var day=ZoneKit.Sky("oriel-day-sky",source,new Color(.78f,.8f,.84f,.5f),35,1.8f);
             // Enemy damage is authored at its real weight (OrielBuilder.Enemies.cs), so every zone's threat is 1.
             ArenaBuilder.Asset<ZoneDef>(OrreryZone,z=>{z.id=z.scene=OrreryZone;z.displayName="The Orrery";z.chapter=7;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=rails;z.skybox=space;
-                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Starfield Frontier";z.fightMusicId="Starfight";
+                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Orrery Nine Moons";z.fightMusicId="Starfight";
                 var bed=AssetDatabase.LoadAssetAtPath<AudioClip>(OrreryBed);if(bed!=null){z.ambientAudio=bed;z.ambientVolume=OrreryLevel;}});
             ArenaBuilder.Asset<ZoneDef>(SkyfieldsZone,z=>{z.id=z.scene=SkyfieldsZone;z.displayName="The Skyfields";z.chapter=7;z.kind=ZoneKind.GroundCombat;z.cameraProfile=ground;z.hd2dProfile=gold;z.skybox=day;
                 z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Glass Ruans";

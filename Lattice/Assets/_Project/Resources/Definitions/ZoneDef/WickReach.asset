@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: a2360d045852b864db338e4b91cd320d, type: 2}
   ambientAudio: {fileID: 0}
   ambientVolume: 0.055
-  musicId: Starfight
+  musicId: Endless Flight
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
@@ -28,7 +28,7 @@ MonoBehaviour:
   skybox: {fileID: 2100000, guid: 6c20ec4b3647a9d47afef21da7c59fa2, type: 2}
   displayName: The Wick Reach
   brightFloor: 0
-  fightMusicId: 
+  fightMusicId: Starfight
   pocketMusicId: 
   shopMusicId: 
   chapter: 2

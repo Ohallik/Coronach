@@ -81,4 +81,4 @@ The outside of the ship: the mismatched hulls from above, lit windows, the garde
 
 ## Music
 
-The ship: Starward Journey (shops: Moonbase Market). Hulljack, both parts: Glitch Boss. Meret's dinner: Regal Alien Town, then silence under the last lines, then Starward Journey.
+The ship: Many Hands, Nathan's track for it (since November 27; Starward Journey before), shops: Moonbase Market. The hull outside: Starward Journey (fights: Starfight). Hulljack, both parts: Glitch Boss. Meret's dinner: Regal Alien Town, then silence under the last lines, then Starward Journey.

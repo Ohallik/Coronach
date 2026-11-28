@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 7acc9a5d78527f34d87928dcf221db51, type: 2}
   ambientAudio: {fileID: 8300000, guid: 8e11f7f37f5d0f042897d86141ff34cf, type: 3}
   ambientVolume: 0.298
-  musicId: Galactic Conquest
+  musicId: Picket of Teeth
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []

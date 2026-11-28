@@ -20,9 +20,9 @@ namespace Lattice.EditorTools
     {
         internal static class Coronach
         {
-            /// <summary>The walk's music and the launch's (docs/music/NEW_TRACKS.md, cues 1 and 2). Stand-ins until the composer's pieces are in docs/music/tracks.json: <b>the swap is this line</b>.
-            /// Old Village is the sparest track the game has (docs/maps/DecksLeaving.md, "Music"); Title Theme is the game's own, for the moment it is named for.</summary>
-            internal const string WalkMusic="Old Village",LaunchMusic="Title Theme";
+            /// <summary>The walk's music and the launch's (docs/music/NEW_TRACKS_3.md, cues 1 and 2: Nathan's "Coronach" and "The House That Can Leave", in since November 27). Each
+            /// moment names its own (<see cref="CoronachWalk.Track"/>, <see cref="CoronachLaunch.Track"/>); the zone's cueMusicIds name them so MusicIntake stages them.</summary>
+            internal const string WalkMusic=CoronachWalk.Track,LaunchMusic=CoronachLaunch.Track;
             internal const string Root="The Coronach",LaunchRoot="The launch";
             internal const string Called="home.coronachCalled",Walked="home.coronachWalked",Launched="home.launched",DoorsHeard="coronach.doorsHeard",LastHeard="coronach.lastHeard";
             /// <summary>The seven needed doors (Dace's is not one).</summary>
@@ -119,7 +119,7 @@ namespace Lattice.EditorTools
                 Materials();Lantern(kit);
                 var root=new GameObject(Root);
                 var walk=new GameObject("The Coronach walk",typeof(CoronachWalk)).GetComponent<CoronachWalk>();walk.transform.SetParent(root.transform,false);
-                walk.music=WalkMusic;walk.doors=Needed;
+                walk.doors=Needed;
                 // Nothing that leaves the walk or belongs to a story already over is pressable during it: the Halo's three docks (gate six's was nearer than Sela's last word and a press
                 // launched for the Halo mid-walk) and the still things Tam is shown (Tam is aboard).
                 // Hal's folding bench and his crated console go with him at the call, and only out of sight: switched off at once, they are never pressed beside him at his bolt holes.
@@ -702,7 +702,7 @@ namespace Lattice.EditorTools
                 var collar=named!=null?new[]{lineA,lineB}:Lines("ChalkedJoints").Where(j=>Vector2.Dot((j[0]+j[^1])*.5f-mid,across)>0).OrderBy(j=>Vector2.Distance((j[0]+j[^1])*.5f,mid)).FirstOrDefault()??new[]{lineA,lineB};
                 var a=On(kit,collar[0]);var b=On(kit,collar[^1]);var parting=(collar[0]+collar[^1])*.5f;
                 var launch=new GameObject(LaunchRoot,typeof(CoronachLaunch)).GetComponent<CoronachLaunch>();launch.transform.SetParent(root.transform,false);
-                launch.music=LaunchMusic;launch.ring=RingZone;launch.ringSpawn="Arrival";launch.lineA=a;launch.lineB=b;launch.stays=On(kit,parting+across*4);
+                launch.ring=RingZone;launch.ringSpawn="Arrival";launch.lineA=a;launch.lineB=b;launch.stays=On(kit,parting+across*4);
                 var watchA=Watch(kit,"the lead watching",parting+across*3.2f-along*.9f);var watchB=Watch(kit,"the partner watching",parting+across*3.4f+along*1.3f);
                 launch.watch=new[]{On(kit,watchA),On(kit,watchB)};launch.lookAt=On(kit,parting-across*7);
                 launch.shows=new Bounds(kit.On(parting.x,parting.y,3)-new Vector3(across.x,0,across.y)*4.5f,new Vector3(19,8,17));

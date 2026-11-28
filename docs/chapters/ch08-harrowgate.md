@@ -93,4 +93,4 @@ Basalt terraces around a war harbour: muster fields, the oath hall, armourers' s
 
 ## Music
 
-The Picket: Galactic Conquest (fights: Starfight). Scoria and the Foundry: Alien Pulse. Slag Colossus: Glitch Boss. Harrowgate: Galactic Conquest. Drask: Alien Boss Battle.
+The Picket: Picket of Teeth, Nathan's track for it (since November 27; Galactic Conquest before), fights: Starfight. Scoria and the Foundry: Alien Pulse. Slag Colossus: Glitch Boss. Harrowgate: Galactic Conquest. Drask: Alien Boss Battle.

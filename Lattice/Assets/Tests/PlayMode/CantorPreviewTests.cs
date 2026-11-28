@@ -99,7 +99,7 @@ namespace Lattice.Tests.PlayMode
             var enemy=Preview();var collar=enemy.GetComponent<CantorCollar>();var links=collar.Links.ToArray();
             encounter.Begin();encounter.Begin();yield return null;yield return null;
             Assert.AreSame(enemy,Preview());Assert.AreEqual(1,encounter.Remaining);Assert.IsFalse(enemy.Health.Targetable);
-            Assert.IsTrue(enemy.enabled);Assert.IsTrue(enemy.GetComponent<BossController>().enabled);Assert.AreEqual("Alien Boss Battle",MusicDirector.Current.Track);
+            Assert.IsTrue(enemy.enabled);Assert.IsTrue(enemy.GetComponent<BossController>().enabled);Assert.AreEqual("Creature Boss",MusicDirector.Current.Track);
             int rewards=GameServices.Current.State.scrip,deaths=0;enemy.Health.Died+=(_,__)=>deaths++;
             foreach(var link in links)
             {

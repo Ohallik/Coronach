@@ -91,7 +91,7 @@ namespace Lattice.EditorTools
             // The panorama turned to a part of the sky the convoy hasn't been seen against, cooled toward slate: the ship's windows and the open freight dock look out on it.
             var space=ZoneKit.Sky("manyhands-sky",source,new Color(.5f,.52f,.62f,.5f),212,1.05f);
             ArenaBuilder.Asset<ZoneDef>(City,z=>{z.id=z.scene=City;z.displayName="Many Hands";z.chapter=5;z.kind=ZoneKind.GroundSafe;z.cameraProfile=ground;z.hd2dProfile=hands;z.skybox=space;
-                z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId="Starward Journey";z.shopMusicId="Moonbase Market";z.brightFloor=false;
+                z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId="Many Hands";z.shopMusicId="Moonbase Market";z.brightFloor=false;
                 var bed=AssetDatabase.LoadAssetAtPath<AudioClip>(CityBed);if(bed!=null){z.ambientAudio=bed;z.ambientVolume=CityLevel;}});
             ArenaBuilder.Asset<ZoneDef>(Hull,z=>{z.id=z.scene=Hull;z.displayName="The Hull of Many Hands";z.chapter=5;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=cold;z.skybox=space;
                 z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Starward Journey";z.fightMusicId="Starfight";});

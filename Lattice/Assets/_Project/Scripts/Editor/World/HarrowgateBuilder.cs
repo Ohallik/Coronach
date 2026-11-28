@@ -109,7 +109,7 @@ namespace Lattice.EditorTools
             var ash=ZoneKit.Sky("vaskar-ash-sky",source,new Color(.66f,.5f,.42f,.5f),252,1.5f);
             // Enemy damage is authored at its real weight (HarrowgateBuilder.Enemies.cs), so every zone's threat is 1.
             ArenaBuilder.Asset<ZoneDef>(PicketZone,z=>{z.id=z.scene=PicketZone;z.displayName="The Picket of Teeth";z.chapter=8;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=picket;z.skybox=space;
-                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Galactic Conquest";z.fightMusicId="Starfight";
+                z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId="Picket of Teeth";z.fightMusicId="Starfight";
                 var bed=AssetDatabase.LoadAssetAtPath<AudioClip>(PicketBed);if(bed!=null){z.ambientAudio=bed;z.ambientVolume=PicketLevel;}});
             ArenaBuilder.Asset<ZoneDef>(ScoriaZone,z=>{z.id=z.scene=ScoriaZone;z.displayName="The Scoria Flows";z.chapter=8;z.kind=ZoneKind.GroundCombat;z.cameraProfile=ground;z.hd2dProfile=scoria;z.skybox=ash;
                 z.enemyThreat=1;z.cameraClearsScenery=true;z.musicId="Alien Pulse";z.shopMusicId="Shop Theme";

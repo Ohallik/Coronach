@@ -96,9 +96,10 @@ namespace Lattice.Tests.PlayMode
             yield return null;
             var zones=new Dictionary<string,(ZoneKind kind,string name,string music)>
             {
-                [Sorrel]=(ZoneKind.SpaceCombat,"Sorrel's Second Sky","Adventure Awaits"),[Mooring]=(ZoneKind.SpaceCombat,"Last Mooring","Starfight"),
-                [Continuance]=(ZoneKind.GroundCombat,"The Continuance","Regal Alien Town"),[Chamber]=(ZoneKind.GroundCombat,"The Anchor Chamber","Regal Alien Town"),
-                [Passage]=(ZoneKind.SpaceCombat,"The Returning Passage","Endless Flight"),[Afloat]=(ZoneKind.GroundSafe,"Neighbourhood Afloat","Hub Town Groove"),
+                // Round eleven (November 27): Nathan's three cues for the chapter, in for the stand-ins (Starfight, Regal Alien Town, Endless Flight, Hub Town Groove). The chamber keeps Meret's own.
+                [Sorrel]=(ZoneKind.SpaceCombat,"Sorrel's Second Sky","Adventure Awaits"),[Mooring]=(ZoneKind.SpaceCombat,"Last Mooring","Last Mooring"),
+                [Continuance]=(ZoneKind.GroundCombat,"The Continuance","Last Mooring"),[Chamber]=(ZoneKind.GroundCombat,"The Anchor Chamber","Regal Alien Town"),
+                [Passage]=(ZoneKind.SpaceCombat,"The Returning Passage","Room To Turn Back"),[Afloat]=(ZoneKind.GroundSafe,"Neighbourhood Afloat","Neighborhood Afloat"),
             };
             var built=Enumerable.Range(0,SceneManager.sceneCountInBuildSettings).Select(i=>Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(i))).ToArray();
             foreach(var (id,(kind,name,music)) in zones)

@@ -38,9 +38,37 @@ MonoBehaviour:
   scrip: 150
   scrap: 12
   displayName: 
-  bossMusicId: 
+  bossMusicId: Creature Boss
   capsuleRadius: 0
   capsuleHeight: 0
   motion: 0
   drawnScale: 1
   heavyDeath: 0
+  behaviour: 0
+  tune:
+    reach: 0
+    width: 0
+    speed: 0
+    recover: 0
+    linger: 0
+    area: 0
+    pace: 0
+    effect: 0
+    tick: 0
+    count: 0
+    arc: 0
+    guard: 0
+    wake: 0
+    tellSound: 
+    tellPitch: 0
+    tint: {r: 0, g: 0, b: 0, a: 0}
+    disguised: 0
+    sweep: 0
+    reflects: 0
+    bark: 
+    pair: 0
+    heavy: 0
+    tow: 0
+    tethered: 0
+    givesGround: 0
+    standsDown: 0

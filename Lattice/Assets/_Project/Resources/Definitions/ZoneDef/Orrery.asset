@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 67e9b55b846f6a14a8e377cc9f06f614, type: 2}
   ambientAudio: {fileID: 8300000, guid: 5d4f5aa7f206f8e4c8df7bbf19cdcc8d, type: 3}
   ambientVolume: 0.331
-  musicId: Starfield Frontier
+  musicId: Orrery Nine Moons
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []

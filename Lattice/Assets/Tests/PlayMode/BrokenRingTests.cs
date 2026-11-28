@@ -103,7 +103,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheRingOpensInTheMarketsLeeWithItsWaysItsDistrictsItsChannelAndTheCuttersDoor()
         {
             ToTheRing();yield return Zone("BrokenRing");
-            var zone=ZoneController.Current.definition;Assert.AreEqual(ZoneKind.SpaceCombat,zone.kind);Assert.AreEqual(1,zone.flightPlane);Assert.AreEqual(9,zone.chapter);Assert.AreEqual("Starfight",zone.musicId);
+            var zone=ZoneController.Current.definition;Assert.AreEqual(ZoneKind.SpaceCombat,zone.kind);Assert.AreEqual(1,zone.flightPlane);Assert.AreEqual(9,zone.chapter);Assert.AreEqual("Broken Ring",zone.musicId,"the Ring plays Nathan's own track for it (round eleven; Starfight before)");
             Assert.IsTrue(zone.quietArrival,"a hero's arrival line plays over Bryn's radio at the launch");
             Assert.Less(Flat(Lead.transform.position,Arrival),4,"the party isn't at the arrival");
             // The way home waits on Bryn's tow, and says what it waits for.

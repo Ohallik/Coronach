@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: e21fa6f33da433c4e8020ac6fa0c99e2, type: 2}
   ambientAudio: {fileID: 8300000, guid: b2c143d5a27b3554b9def9cf87f61a5e, type: 3}
   ambientVolume: 0.263
-  musicId: Starward Journey
+  musicId: Many Hands
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []

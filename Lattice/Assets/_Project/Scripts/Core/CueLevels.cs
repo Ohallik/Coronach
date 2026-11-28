@@ -10,7 +10,7 @@ namespace Lattice.Core
     /// against that nominal (a .24 armoured hit is .8 dB over a .22 soft one), so the whole mix is changed here. Bands, by kind, at the
     /// listener, a channel: an impact that tells the player something -9 to -5 dBFS peak, a motion -14 to -10, a step -20 to -16, a menu's move about
     /// -16 and its confirm, cancel and error about -12, a boss's or the world's cue by what it is (-16 to -6); the music's RMS -26 to -23; a
-    /// zone's bed RMS -32 to -28. AudioMixTests holds them.</summary>
+    /// zone's bed RMS -40 to -36 since round eleven (-32 to -28 in round ten masked the music), the fallback beds -46. AudioMixTests holds them.</summary>
     public static class CueLevels
     {
         public enum Kind{Impact,Motion,Step,UiMove,UiConfirm,Cue}
@@ -54,6 +54,10 @@ namespace Lattice.Core
             new("ui_confirm",Kind.UiConfirm,.38f,-12,Palette),new("ui_cancel",Kind.UiConfirm,.38f,-12,Palette),new("ui_error",Kind.UiConfirm,.4f,-12,Palette),
             // Round ten's two new ones (tools/prepare_audio_palette.py --set world): something taken into the bag, and a save by hand.
             new("pickup",Kind.UiMove,.3f,-16,ReferencePeakDb),new("saved",Kind.UiConfirm,.3f,-12,ReferencePeakDb),
+            // Round eleven's three (Kenney's Sci-Fi Sounds, staged at the reference): the fabrication bench opening and closing, at a menu's
+            // confirm; a warp's crossing, heard through the load, at a world cue's level.
+            new("doorOpen_001",Kind.UiConfirm,.3f,-12,ReferencePeakDb),new("doorClose_001",Kind.UiConfirm,.3f,-12,ReferencePeakDb),
+            new("forceField_003",Kind.Cue,.3f,-10,ReferencePeakDb),
             // The rest: a boss's own cues, the world's machines, a skill's body, a level gained. Each of these clips is played by many
             // callers at their own trims (forceField_000 by ninety); the nominal is the commonest of them.
             new("hero_revive",Kind.Cue,.26f,-9,Palette),new("level_up",Kind.Cue,.22f,-9,Palette),
@@ -94,13 +98,46 @@ namespace Lattice.Core
             if(!TryFamily(key,out var family))return Mathf.Clamp01(call);
             return Mathf.Clamp01(call*Mathf.Pow(10,(family.oldPeakDb-ReferencePeakDb)/20));
         }
-        /// <summary>The bed a place plays when its ZoneDef names none, and its level: shaped noise with nothing pitched or repeating in it
-        /// (tools/room_tone_ambience.py), at about -30 dBFS RMS a channel. Before round ten this was Kenney's computerNoise_000, five seconds
-        /// of beeps on a loop, and spaceEngineLow_000, at .055.</summary>
+        /// <summary>The bed a place plays when its ZoneDef names none, and its level. Before round ten this was Kenney's computerNoise_000,
+        /// five seconds of beeps on a loop, and spaceEngineLow_000, at .055. Round ten made them shaped noise at about -30 dBFS RMS a channel,
+        /// with a duct's hiss and a faint air in them; Nathan heard "constant background kind of air noise" that made the music seem muffled.
+        /// Round eleven (tools/room_tone_ambience.py): a hull's low hum and a far drive, nothing over about 800 Hz, at about -46 dBFS RMS a
+        /// channel (the files at -20.4 and -18.4): sixteen decibels under round ten, felt more than heard.</summary>
         public const string RoomTone="AMB_RoomTone",FlightDrone="AMB_FlightDrone";
-        public const float RoomToneVolume=.33f,FlightDroneVolume=.29f,OldHumVolume=.055f;
-        /// <summary>A zone's bed, by its RMS a channel: under the music by six to eight dB and over nothing else.</summary>
-        public const float BedLowDb=-32,BedHighDb=-28;
+        public const float OldHumVolume=.055f;
+        public static float RoomToneVolume=>BedsAsRoundTen?.33f:.053f;
+        public static float FlightDroneVolume=>BedsAsRoundTen?.29f:.042f;
+        /// <summary>The fallback beds' level, RMS a channel at the ears, and the frequency nothing of theirs reaches over.</summary>
+        public const float FallbackBedDb=-46,FallbackTopHz=800;
+        /// <summary>A zone's bed, by its RMS a channel before its own cut (<see cref="BedCutDb"/>): round ten put them at -32 to -28, six
+        /// decibels under the music, and they masked it; round eleven brings every one down eight, to -40 to -36.</summary>
+        public const float BedLowDb=-40,BedHighDb=-36;
+        /// <summary>Round eleven's one trim for every bed AudioManager plays and every bed a builder placed in a scene (the Many Hands
+        /// forge's hammering and its herd): eight decibels down. Turn the whole of the background here.</summary>
+        public const float BedTrimDb=-8;
+        /// <summary>The music's presence, where a bed must not cover it: 1 to 6 kHz. The music's own 1-6 kHz part reaches the ears at
+        /// -36.9 to -30.3 dBFS RMS a channel (27 tracks, median -32.5). No bed puts more than <see cref="BedPresenceShare"/> of its energy
+        /// there at more than <see cref="BedPresenceDb"/> (11 dB under the quietest track's, 15 under the median), and no bed peaks at the
+        /// ears over <see cref="BedPeakDb"/>, the quietest thing the player does (a step, -20 to -16).</summary>
+        public const float PresenceLowHz=1000,PresenceHighHz=6000,BedPresenceShare=.1f,BedPresenceDb=-48,BedPeakDb=-20;
+        /// <summary>The few beds whose energy is in the music's band (AudioMixTests' sheet; the round's sheet in its decision), cut further
+        /// than the rest, in dB: Hushwell's drips put 40% of their energy at 1-6 kHz and peaked at -1.3 dBFS at the ears, over every effect;
+        /// the Oriel skyfields' 16%, the Continuance's 21%, the Frozen Host's 17% and the Braided River's 14% stood at -36.9 to -38.7 there.
+        /// The Many Hands forge's hammering (placed at the anvil, 45% at 1-6 kHz) comes down with them. The Spore Veil's, the Glass Choir's
+        /// and the Separation Works' tones are narrow and under 1% of their energy at 1-6 kHz (-56 to -73 there after the trim): no cut.</summary>
+        static readonly Dictionary<string,float> BedCutsDb=new()
+        {{"AMB_Drips",-11.5f},{"AMB_OrielSkyfields",-4f},{"AMB_Continuance",-3.5f},{"AMB_FrozenHost",-3f},{"AMB_BraidedRiver",-2f},{"AMB_HandsForge",-6.5f}};
+        public static float BedCutDb(string bed)=>!string.IsNullOrEmpty(bed)&&BedCutsDb.TryGetValue(bed,out float cut)?cut:0;
+        /// <summary>The beds as round ten left them (this morning's levels, before the trim and the cuts), for the tests that show them failing.
+        /// The fallback beds' files are round eleven's either way: round ten's are kept outside the tree.</summary>
+        public static bool BedsAsRoundTen;
+        /// <summary>For a test's before only: the three places round ten left silent (the bench opening and closing, a warp, a boss walking
+        /// out) play nothing, as they did.</summary>
+        public static bool CuesAsRoundTen;
+        static float Round11(string bed)=>BedsAsRoundTen?1:Mathf.Pow(10,(BedTrimDb+BedCutDb(bed))/20);
+        /// <summary>A source a builder placed in a scene on the ambience bus (a looping bed at a spot), at the volume its builder gave it:
+        /// AudioManager trims it as it trims a zone's bed, when the zone starts, with no rebuild.</summary>
+        public static float PlacedVolume(AudioClip clip,float made)=>AsRoundNine?made:Mathf.Clamp01(made*Round11(clip!=null?clip.name:null));
         /// <summary>Thirty-nine of the 45 places' beds reached the listener at -31.6 to -28.9 dBFS RMS a channel (each set in its builder at
         /// about -33 for the clip mixed to one channel); six sat under the band, and their ZoneDefs are chapter 1's and 2's, built by builders
         /// nobody reruns. Each plays at its ZoneDef's volume times this: the Braided River's water -34.2 and the Walking Canopy's root hall
@@ -108,8 +145,12 @@ namespace Lattice.Core
         /// drips -33.4 at .9, lengthened and raised 4 dB in the file by tools/drip_bed.py, with no trim.</summary>
         static readonly Dictionary<string,float> BedTrims=new()
         {{"AMB_BraidedRiver",1.62f},{"AMB_RootHall",1.68f},{"AMB_DesertWind",1.43f},{"AMB_AshWind",1.32f},{"AMB_City",1.3f}};
-        public static float BedVolume(AudioClip bed,float zoneVolume)=>
-            AsRoundNine||bed==null||!BedTrims.TryGetValue(bed.name,out float trim)?Mathf.Clamp01(zoneVolume):Mathf.Clamp01(zoneVolume*trim);
+        public static float BedVolume(AudioClip bed,float zoneVolume)
+        {
+            if(AsRoundNine||bed==null)return Mathf.Clamp01(zoneVolume);
+            float raised=BedTrims.TryGetValue(bed.name,out float trim)?zoneVolume*trim:zoneVolume;
+            return Mathf.Clamp01(raised*Round11(bed.name));
+        }
         /// <summary>The music's RMS a channel on disk, the median of its 27 tracks (-16.8 to -21.3; streamed, so measured by
         /// `tools/audio_reference.py --music`, not read back here), and its band at the listener. The brief's -24 to -21 (about -22) was read
         /// through a downmix to one channel, 2.2 dB hot on this music: a channel of it reaches the listener at -24.3, and that is left as

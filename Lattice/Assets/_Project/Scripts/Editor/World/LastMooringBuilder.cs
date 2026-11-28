@@ -35,12 +35,13 @@ namespace Lattice.EditorTools
         internal const string City="ManyHands",Hull="ManyHandsHull";
         public static readonly string[] Zones={SorrelZone,MooringZone,ContinuanceZone,ChamberZone,PassageZone,AfloatZone};
 
-        /// <summary>The chapter's tracks (brief, "Music"). Three of its cues wait on the creator (docs/music/NEW_TRACKS.md cues 4 to 6, one melody family with the Coronach): until each
-        /// lands, an existing track stands in, and the swap is the one line here. The Compact's theme ("Last Mooring", cue 4) stands in as Regal Alien Town, Meret's own since chapter 5;
-        /// the anchor's release and the convoy run ("Room To Turn Back", cue 5) as Endless Flight, the brief's; the epilogue ("Neighbourhood Afloat", cue 6) as Hub Town Groove, home's.
-        /// Last Mooring keeps the brief's Starfight until cue 4 lands. The bosses' tracks are on their definitions (Mother of Doors: Boss of the Ages; the Tollkeeper: Glitch Boss;
-        /// Meret, all three phases: Final Stand); the credits' Title Theme is the credits' own.</summary>
-        internal const string SecondSkyTheme="Adventure Awaits",MooringTheme="Starfight",CompactTheme="Regal Alien Town",DepartureTheme="Endless Flight",AfloatTheme="Hub Town Groove",FightTheme="Starfight";
+        /// <summary>The chapter's tracks (brief, "Music"). Nathan's three cues for it landed on November 27 (docs/music/NEW_TRACKS_3.md 4 to 6, one melody family with the Coronach):
+        /// the Compact's theme, "Last Mooring", for Last Mooring and the Continuance, where Meret hails the party (MeretShipToShip); "Room To Turn Back" for the anchor's release
+        /// (<see cref="Lattice.World.AnchorRelease.Track"/>) and the Returning Passage, Bryn's turn back included; "Neighborhood Afloat" (Nathan's spelling) for the epilogue. The Anchor
+        /// Chamber keeps Regal Alien Town, Meret's own since chapter 5, between her fights. The fights on foot aboard the Continuance play "Sword Skirmish"; those in flight keep Starfight.
+        /// The bosses' tracks are on their definitions (Mother of Doors: Boss of the Ages; the Tollkeeper: Glitch Boss; Meret, all three phases: Final Stand); the credits' Title Theme is
+        /// the credits' own.</summary>
+        internal const string SecondSkyTheme="Adventure Awaits",MooringTheme="Last Mooring",CompactTheme="Regal Alien Town",DepartureTheme="Room To Turn Back",AfloatTheme="Neighborhood Afloat",FightTheme="Starfight",GroundFightTheme="Sword Skirmish";
 
         public static void Definitions()=>BatchTools.Run(()=>{Define();AssetDatabase.SaveAssets();Debug.Log("MOORING_DEFS_OK");});
         public static void BuildZones()=>BatchTools.Run(()=>
@@ -162,7 +163,7 @@ namespace Lattice.EditorTools
             ArenaBuilder.Asset<ZoneDef>(MooringZone,z=>{z.id=z.scene=MooringZone;z.displayName="Last Mooring";z.chapter=10;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=mooring;
                 z.skybox=mooringSky;z.enemyThreat=1;z.flightPlane=1;z.cameraClearsScenery=false;z.musicId=MooringTheme;MooringDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(ContinuanceZone,z=>{z.id=z.scene=ContinuanceZone;z.displayName="The Continuance";z.chapter=10;z.kind=ZoneKind.GroundCombat;z.cameraProfile=ground;z.hd2dProfile=compact;
-                z.skybox=continuanceSky;z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId=CompactTheme;z.fightMusicId=FightTheme;ContinuanceDefinition(z);});
+                z.skybox=continuanceSky;z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId=MooringTheme;z.fightMusicId=GroundFightTheme;ContinuanceDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(ChamberZone,z=>{z.id=z.scene=ChamberZone;z.displayName="The Anchor Chamber";z.chapter=10;z.kind=ZoneKind.GroundCombat;z.cameraProfile=ground;z.hd2dProfile=compact;
                 z.skybox=continuanceSky;z.enemyThreat=1;z.cameraClearsScenery=false;z.musicId=CompactTheme;ChamberDefinition(z);});
             ArenaBuilder.Asset<ZoneDef>(PassageZone,z=>{z.id=z.scene=PassageZone;z.displayName="The Returning Passage";z.chapter=10;z.kind=ZoneKind.SpaceCombat;z.cameraProfile=flight;z.hd2dProfile=passage;

@@ -241,6 +241,13 @@ namespace Lattice.Tests.PlayMode
             var bench=new Opening[5];var stall=new Opening[5];var warm=new System.Collections.Generic.List<double>();
             yield return Warm(false,warm);
             yield return Openings(()=>menu.Open(PauseMenu.FabricatePage,true),()=>menu.Close(),bench);
+            // The talk that opens the stall starts seconds before it (Mira's own line comes first in Decks.yarn): her face is loaded then, on that talk's frame (ShopUi.Ready).
+            {
+                var talk=Stopwatch.StartNew();int had=Assets();
+                typeof(ShopUi).GetMethod("Ready",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(shop,new object[]{"MiraRepeat","Mira",null});
+                TestContext.WriteLine($"STALL_TALK the talk's start {talk.Elapsed.TotalMilliseconds:0.0} ms, {Assets()-had} textures/sprites/materials made");
+                yield return null;yield return null;
+            }
             yield return Openings(()=>shop.Open(ShopUi.For("Hub_Decks","Mira"),"Mira"),()=>shop.Close(),stall);
             for(int i=0;i<5;i++)TestContext.WriteLine($"BENCH_OPEN {i+1}: {bench[i]}");
             for(int i=0;i<5;i++)TestContext.WriteLine($"STALL_OPEN {i+1}: {stall[i]}");
@@ -253,8 +260,13 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(before[0].assets,0,"fixture, as it was: the bench's first opening draws its marks");
             Assert.LessOrEqual(bench[0].assets,bench[4].assets,$"the bench's first opening made {bench[0].assets} textures, sprites or materials its fifth didn't");
             Assert.LessOrEqual(bench[0].frame,bench[4].frame*2,$"the bench's first opening took {bench[0].frame:0.0} ms against its fifth's {bench[4].frame:0.0}");
-            // The stall's first opening is left on the record, not held: with its code built as the zone comes in it read 25.7, 27.6 and 32.9 ms against 16.3 (r10b-after2,
-            // after3, final), and what it still pays is the seller's portrait, loaded on that frame (its 17 textures and sprites), which nothing here warms.
+            // Round eleven. As round ten left it the stall's first opening read 25.7, 27.6, 32.9, 24.4 and 36.7 ms (the call 18.7 to 28.8) against 16.3 to 16.5 for its fifth
+            // (calls 4.3 to 6.9), 17 textures and sprites made: the seller's face. With the face loaded first, as the talk before a stall loads it, the first still read 33.6 ms
+            // (the call 26.7 against 5.7, one asset made: r11c-menu-diag). The face is loaded as the talk starts now (ShopUi.Ready: 6.0 ms, 16 made, r11c-final). Building the
+            // page beside a seller once as the zone came in changed nothing (30.8 ms, the call 22.4 against 7.7, r11c-final) and was taken out: what the rest is, is not yet
+            // known, so the clock is left on the record. Held: the face isn't loaded on the stall's frame (17 made as round ten left it, 1 since; the count doesn't scatter).
+            TestContext.WriteLine($"STALL_OPEN the first call against the fifth's: {stall[0].call/System.Math.Max(.1,stall[4].call):0.00}");
+            Assert.LessOrEqual(stall[0].assets,1,$"the stall's first opening made {stall[0].assets} textures, sprites or materials: the seller's face loaded on its frame, not the talk's");
         }
         static void AsBefore(bool on)=>typeof(UiWarmup).GetField("asBefore",BindingFlags.NonPublic|BindingFlags.Static)?.SetValue(null,on);
         /// <summary>The title's warm-up run again, a frame at a time, each frame's share timed: as it is, or as it was with every drawn mark forgotten.</summary>

@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 0f9ad9786b7a86147909caeefe1775e9, type: 2}
   ambientAudio: {fileID: 0}
   ambientVolume: 0.055
-  musicId: Hub Town Groove
+  musicId: Neighborhood Afloat
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []

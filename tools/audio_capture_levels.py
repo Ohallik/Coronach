@@ -10,7 +10,7 @@ bands at the listener, every slider at 1:
 
   effects   the peaks of the transients (50 ms windows standing 6 dB over the 400 ms around them): impacts -9 to -5 dBFS, motion -14 to -10,
             steps -20 to -16; the loudest transients are the impacts, so the top tenth's median is read against the impacts' band
-  bed       the quietest tenth of 400 ms windows of the music-0 capture: the place's air, -32 to -28 RMS (a fight's steps lift it)
+  bed       the quietest tenth of 400 ms windows of the music-0 capture: the place's air, -50 to -36 RMS since round eleven (D453's -32 to -28 came down 8 dB, the fallback hum 16; a fight's steps lift it)
   music     -26 to -23 RMS a channel (CueLevels.MusicLowDb/HighDb: the brief's -24 to -21 was read through a downmix, 2.2 dB hot)
   a hit over the music: the top tenth's median over the music's RMS, 10 dB or more
 
@@ -22,7 +22,7 @@ from pathlib import Path
 
 import numpy as np
 
-IMPACT, MOTION, STEP, BED, MUSIC, OVER = (-9, -5), (-14, -10), (-20, -16), (-32, -28), (-26, -23), 10
+IMPACT, MOTION, STEP, BED, MUSIC, OVER = (-9, -5), (-14, -10), (-20, -16), (-50, -36), (-26, -23), 10
 
 
 def read(path):

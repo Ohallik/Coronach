@@ -17,6 +17,10 @@ namespace Lattice.Combat
         public float speed=8;
         /// <summary>What it sounds like as it goes (water down a drain, a body through brush); empty for none.</summary>
         public string sound="water_rush";
+        /// <summary>Round eleven: what is heard as it goes out of sight (a door it walks out through), played once where it is then; empty for none. Vessa Korl walked
+        /// out with no sound at all.</summary>
+        public string outSound="";
+        bool outPlayed;
         /// <summary>D419: a person who walks out on her own feet (Vessa Korl) keeps her colours, as one who yields does (D412): beaten, not powered down. Gone dark she walked out a
         /// black figure (nov25-r5-chain s48/227 to 244) where her sister, yielding, stood in her own colours (s15/158). Set by her own fight.</summary>
         public bool keepsColours;
@@ -53,6 +57,7 @@ namespace Lattice.Combat
             var zone=ZoneController.Current;if(zone==null||!zone.Flight){var ground=CombatCover.Ground(at+Vector3.up*3);if(Mathf.Abs(ground.y-at.y)<2.5f)at.y=ground.y;}
             transform.SetPositionAndRotation(at,Quaternion.Slerp(facing,Quaternion.LookRotation(heading),Mathf.Clamp01((elapsed-reel*.5f)/.45f)));
             visual.localPosition=rest+Vector3.down*(sag+(upright&&!sinks?0:depth*gone));
+            if(gone>0&&!outPlayed&&!string.IsNullOrEmpty(outSound)&&!CueLevels.CuesAsRoundTen){outPlayed=true;AudioManager.PlayAt(outSound,null,at,.3f,AudioBus.SFX,50,.2f);Debug.Log("BOSS_GOES_OUT "+outSound);}
             // What walks out of sight is small when it gets there; what goes down a drain is simply under.
             if(!sinks)transform.localScale=scale*(1-.85f*gone);
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Lattice.World
 {
     /// <summary>
-    /// Chapter 9's Coronach as a whole, one to the zone (docs/maps/DecksLeaving.md, "The Coronach"). From the call to the close its own music plays over the zone's (<see cref="music"/>, one of the
+    /// Chapter 9's Coronach as a whole, one to the zone (docs/maps/DecksLeaving.md, "The Coronach"). From the call to the close its own music plays over the zone's (<see cref="Music"/>, one of the
     /// zone's <c>cueMusicIds</c>, asked of <see cref="MusicDirector"/> as an encounter's track is, so it outranks the zone and a fight and only a shop's counter could take it, and none is open);
     /// from the call until the party leaves for the Ring nothing barks (<see cref="BarkService.Hush"/>). It counts the needed doors heard, and the town thins in step with them: the first of
     /// <see cref="town"/> go aboard as the first doors are heard, each only once the party is away and it is out of the camera's view, all of them at once on a load. Nothing in it runs on a
@@ -15,8 +15,13 @@ namespace Lattice.World
     public sealed class CoronachWalk:MonoBehaviour
     {
         public string calledFlag="home.coronachCalled",walkedFlag="home.coronachWalked",launchedFlag="home.launched";
-        /// <summary>The walk's own track, by title from docs/music/tracks.json.</summary>
-        public string music;
+        /// <summary>The walk's own track, by title from docs/music/tracks.json: Nathan's "Coronach", written for it (docs/music/NEW_TRACKS_3.md, 1). The walk names it, not its scene:
+        /// DecksLeaving was built with a stand-in (Old Village) in a field this replaced, and no zone is rebuilt for a track. It loops (MusicDirector's sources do) from
+        /// <c>OrrinCallsCoronach</c>'s last line to <c>OrrinGiveItRoom</c>'s, under every door line.</summary>
+        public const string Track="Coronach",StandIn="Old Village";
+        /// <summary>Round ten's state, for the test that shows it: the walk played the stand-in its scene was built with.</summary>
+        public static bool AsRoundTen;
+        public static string Music=>AsRoundTen?StandIn:Track;
         /// <summary>The needed doors' flags.</summary>
         public string[] doors=Array.Empty<string>();
         /// <summary>The town carrying things to the airlocks, in the order they go aboard.</summary>
@@ -50,7 +55,7 @@ namespace Lattice.World
             bool walking=Walking;
             if(walking!=on){on=walking;Debug.Log(on?"CORONACH_ON":"CORONACH_OFF");}
             // The zone's own music comes back to nobody: from the close the launch asks for its own.
-            if(walking&&!string.IsNullOrEmpty(music)){if(MusicDirector.Current!=null&&MusicDirector.Current.Track!=music){MusicDirector.Encounter(this,music,true);cued=true;}}
+            if(walking){if(MusicDirector.Current!=null&&MusicDirector.Current.Track!=Music){MusicDirector.Encounter(this,Music,true);cued=true;}}
             else if(cued){MusicDirector.Encounter(this,null,false);cued=false;}
             bool hush=Flag(calledFlag)&&!Flag(launchedFlag);
             if(hush!=hushed){BarkService.Hush(this,hush);hushed=hush;}

@@ -80,4 +80,4 @@ A cathedral built around the adult Choir the Ancelane bridled: its body turned t
 
 ## Music
 
-The Orrery: Starfield Frontier. The Skyfields and the Glass Choir: Glass Ruans. The Last Warden: Boss of the Ages.
+The Orrery: Orrery Nine Moons, Nathan's track for it (since November 27; Starfield Frontier before), fights: Starfight. The Skyfields and the Glass Choir: Glass Ruans. The Last Warden: Boss of the Ages.

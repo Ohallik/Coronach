@@ -417,7 +417,13 @@ namespace Lattice.Tests.PlayMode
             Resources.UnloadUnusedAssets();
             // No id: no flag, scene, quest or speaker key anywhere in it.
             var ids=new[]{Credits.Flag,Credits.Rolled,Town,"TurnBack","LastSurvey","Homecomings","Survivor","Keeper"}.Concat(GameCatalog.All<ZoneDef>().Select(z=>z.name)).Where(i=>i.Length>5&&i!="Nathan").ToArray();
-            foreach(var id in ids)Assert.IsFalse(System.Text.RegularExpressions.Regex.IsMatch(text,"\\b"+System.Text.RegularExpressions.Regex.Escape(id)+"\\b"),"the roll prints an id: "+id);
+            // One of Nathan's titles names its place by the word that is also the place's id ("Orrery Nine Moons", round eleven: the Orrery's id is its name), and that word,
+            // in that title, is the one an id may stand in. Shown first: the check sees it in the roll.
+            static bool Prints(string within,string id)=>System.Text.RegularExpressions.Regex.IsMatch(within,"\\b"+System.Text.RegularExpressions.Regex.Escape(id)+"\\b");
+            var ownName=new[]{(title:"Orrery Nine Moons",id:"Orrery")};
+            Assert.IsTrue(ownName.All(o=>listed.Contains(o.title)&&ids.Contains(o.id)&&Prints(text,o.id)),"fixture: the id check doesn't see a place's id where its track's title names it");
+            string apart=string.Join("\n",roll.Words.Select(t=>ownName.Aggregate(t.text,(s,o)=>t.name=="CreditsTrack"&&s==o.title?"":s)));
+            foreach(var id in ids)Assert.IsFalse(Prints(apart,id),"the roll prints an id: "+id);
         }
 
         /// <summary>Every screen of the roll, kept as a still (chapter 10's look pass, November 21: the whole-game capture took none while the credits ran, its route holding them in one

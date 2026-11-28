@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 907cc3437d2d8b24987f194d6eb4defb, type: 2}
   ambientAudio: {fileID: 8300000, guid: 29ae518a436da1f4e9c02ded312122bd, type: 3}
   ambientVolume: 0.329
-  musicId: Starfield Frontier
+  musicId: Aurora Shear
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []

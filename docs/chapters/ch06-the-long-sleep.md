@@ -100,4 +100,4 @@ Built inside the ribcage of a frozen adult Choir: the ribs arch overhead at the 
 
 ## Music
 
-Aurora Shear: Starfield Frontier (fights: Starfight). Lastlight: Village Circle. The White Reach and the dig: March of the Frozen Host. Host Marshal: Boss of the Ages.
+Aurora Shear: Aurora Shear, Nathan's track for it (since November 27; Starfield Frontier before), fights: Starfight. Lastlight: Village Circle. The White Reach and the dig: March of the Frozen Host. Host Marshal: Boss of the Ages.

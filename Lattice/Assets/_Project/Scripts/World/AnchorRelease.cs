@@ -24,8 +24,14 @@ namespace Lattice.World
         public enum Stage{Holding,Opening,Talking,After}
         public string sequenceFlag="end.sequenceRead",releasedFlag="end.collarTaken",heardFlag="end.anchorReleased",custodyFlag="end.custody";
         public string node="MeretSeesItOpen",speaker="Meret";
-        /// <summary>The moment's own track (a title the zone's cueMusicIds stage).</summary>
-        public string music;
+        /// <summary>The moment's own track (a title the zone's cueMusicIds stage): Nathan's "Room To Turn Back", written for it (docs/music/NEW_TRACKS_3.md, 5). It comes in as the
+        /// collar rings, plays under <c>MeretSeesItOpen</c> and on in the chamber until the party leaves, and the Returning Passage, whose own it is too, picks it up again (MusicDirector keeps a
+        /// track's place). Named here, not in the
+        /// scene: StillwaterChamber was built with a stand-in (Endless Flight) in a field this replaced.</summary>
+        public const string Track="Room To Turn Back",StandIn="Endless Flight";
+        /// <summary>Round ten's state, for the test that shows it: the release played the stand-in its scene was built with.</summary>
+        public static bool AsRoundTen;
+        public static string Music=>AsRoundTen?StandIn:Track;
         public float pull=12,ease=3;
         /// <summary>Each clamp's jaw, on a pivot at its hinge, the axis (world) it opens about, and how far it opens at its own release and then thrown back with the rest.</summary>
         /// <summary>(Thrown back to 92 degrees, the first time anyone saw it on November 14, each jaw folded down on its pillar and the four clamps stood as stone arches round an empty
@@ -139,7 +145,7 @@ namespace Lattice.World
         void Begin()
         {
             Now=Stage.Opening;clock=0;Released=0;together=false;opened=true;Debug.Log("ANCHOR_RELEASE_BEGIN");
-            if(!string.IsNullOrEmpty(music)){MusicDirector.Encounter(this,music,true);cued=true;}
+            MusicDirector.Encounter(this,Music,true);cued=true;
             Hush(true);
             GameServices.Current.Input.Blocked=true;
             AudioManager.PlayAt("impactMetal_000",null,collar+Vector3.up,.34f,AudioBus.SFX,30,.05f,.5f);

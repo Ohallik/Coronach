@@ -19,7 +19,7 @@ MonoBehaviour:
   hd2dProfile: {fileID: 11400000, guid: 7cf42a2a701f6534091cc0e9398a1d2b, type: 2}
   ambientAudio: {fileID: 0}
   ambientVolume: 0.055
-  musicId: Starfight
+  musicId: Last Mooring
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []

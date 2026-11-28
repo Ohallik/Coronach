@@ -39,7 +39,8 @@ namespace Lattice.Tests.PlayMode
     {
         [UnitySetUp] public IEnumerator Boot()
         {
-            CueLevels.AsRoundNine=false;GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;
+            CueLevels.AsRoundNine=CueLevels.BedsAsRoundTen=CueLevels.CuesAsRoundTen=false;GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;
+            AudioManager.CueStarted-=Started;AudioManager.CueStarted+=Started;started.Clear();
             yield return new WaitForSecondsRealtime(.5f);DevLoadout.Apply("starter");
             SceneFlow.Current.LoadZone("Arena_Ground");float deadline=Time.unscaledTime+8;
             while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
@@ -52,7 +53,8 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {
-            CueLevels.AsRoundNine=false;GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;
+            CueLevels.AsRoundNine=CueLevels.BedsAsRoundTen=CueLevels.CuesAsRoundTen=false;AudioManager.CueStarted-=Started;
+            GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;
             yield return new WaitForSecondsRealtime(.3f);
         }
 
@@ -117,7 +119,7 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ one table
-        static readonly Regex Call=new(@"(AudioManager\.(?:Play|PlayUi|PlayAt|Family|StartLoop|Sample)|CombatAudio\.Accent)\(");
+        static readonly Regex Call=new(@"(AudioManager\.(?:Play|PlayUi|PlayAt|PlayThrough|Family|StartLoop|Sample)|CombatAudio\.Accent)\(");
         static string FirstArgument(string text,int open)
         {
             int depth=0;bool quoted=false;
@@ -231,9 +233,40 @@ namespace Lattice.Tests.PlayMode
 
         // ------------------------------------------------------------------ every place's air
         static readonly string[] Metronomes={"computerNoise_000"};
-        IEnumerator Air(bool before,List<string> faults,StringBuilder sheet)
+        /// <summary>One RBJ biquad (Butterworth, Q .7071), in place: tools' measure (r11sound/measure.py) splits the bands with the same two
+        /// stages a band edge (scipy's lfilter), so the sheet here and the one in the round's decision read alike.</summary>
+        static void Biquad(double[] x,bool high,float hz,int rate)
         {
-            CueLevels.AsRoundNine=before;
+            double w=2*Math.PI*hz/rate,c=Math.Cos(w),q=Math.Sin(w)/(2*.70710678),a0=1+q;
+            double b0=(high?(1+c)/2:(1-c)/2)/a0,b1=(high?-(1+c):1-c)/a0,b2=b0,a1=-2*c/a0,a2=(1-q)/a0,x1=0,x2=0,y1=0,y2=0;
+            for(int i=0;i<x.Length;i++){double y=b0*x[i]+b1*x1+b2*x2-a1*y1-a2*y2;x2=x1;x1=x[i];y2=y1;y1=y;x[i]=y;}
+        }
+        /// <summary>The share of a clip's energy (both channels) that a cascade of edges keeps: each (high-pass?, Hz) applied twice.</summary>
+        static float Share(AudioClip clip,params (bool high,float hz)[] edges)
+        {
+            var s=Samples(clip);int c=clip.channels,n=s.Length/c;double kept=0,total=0;
+            for(int ch=0;ch<c;ch++)
+            {
+                var x=new double[n];for(int i=0;i<n;i++){x[i]=s[i*c+ch];total+=x[i]*x[i];}
+                foreach(var (high,hz) in edges){Biquad(x,high,hz,clip.frequency);Biquad(x,high,hz,clip.frequency);}
+                foreach(double v in x)kept+=v*v;
+            }
+            return (float)(kept/Math.Max(total,1e-20));
+        }
+        static readonly Dictionary<string,(float presence,float top)> shares=new();
+        static (float presence,float top) Shares(AudioClip clip)
+        {
+            if(!shares.TryGetValue(clip.name,out var read))
+                shares[clip.name]=read=(Share(clip,(true,CueLevels.PresenceLowHz),(false,CueLevels.PresenceHighHz)),Share(clip,(true,CueLevels.FallbackTopHz)));
+            return read;
+        }
+        static bool Fallback(AudioClip clip)=>clip.name==CueLevels.RoomTone||clip.name==CueLevels.FlightDrone;
+        /// <summary>Every zone's bed as AudioManager.Zone plays it: round nine (<paramref name="before"/>), round ten (<paramref name="morning"/>:
+        /// CueLevels.BedsAsRoundTen) or as it is. A bed's RMS a channel at the ears, less its own cut, lies in CueLevels' band, a fallback bed at
+        /// -46; it puts no more than a tenth of its energy into the music's presence (1-6 kHz) at more than -48 there; it never peaks over -20.</summary>
+        IEnumerator Air(bool before,bool morning,List<string> faults,StringBuilder sheet)
+        {
+            CueLevels.AsRoundNine=before;CueLevels.BedsAsRoundTen=morning;
             foreach(var zone in Resources.LoadAll<ZoneDef>("Definitions/ZoneDef").OrderBy(z=>z.name))
             {
                 bool flight=zone.kind==ZoneKind.SpaceCombat||zone.kind==ZoneKind.SpaceSafe;
@@ -242,22 +275,109 @@ namespace Lattice.Tests.PlayMode
                 var bed=GameServices.Current.GetComponents<AudioSource>().Single(s=>s.loop&&s.outputAudioMixerGroup!=null&&s.outputAudioMixerGroup.name=="Ambience");
                 if(bed.clip==null){faults.Add(zone.name+" is silent");continue;}
                 yield return Load(bed.clip);
-                float level=Db(ChannelRms(bed.clip)*bed.volume*Pan(bed.clip));int events=Events(bed.clip);float length=bed.clip.length;
-                sheet.AppendLine($"  {zone.name,-20} {(flight?"flight":"ground"),-6} {bed.clip.name,-26} {length,5:0.0} s  volume {bed.volume:0.000}  RMS a channel {level,6:0.0}  events {events}");
+                float level=Db(ChannelRms(bed.clip)*bed.volume*Pan(bed.clip)),peak=Db(Peak(bed.clip)*bed.volume*Pan(bed.clip));int events=Events(bed.clip);float length=bed.clip.length;
+                var (share,top)=before?(0,0):Shares(bed.clip);float presence=level+10*Mathf.Log10(Mathf.Max(share,1e-12f)),cut=CueLevels.BedCutDb(bed.clip.name);
+                sheet.AppendLine($"  {zone.name,-20} {(flight?"flight":"ground"),-6} {bed.clip.name,-26} {length,5:0.0} s  volume {bed.volume:0.000}  RMS a channel {level,6:0.0} (own cut {cut,5:0.0})  1-6 kHz {share,4:0.00} of it, {presence,6:0.0}  peak {peak,6:0.0}  over 800 Hz {top:0.000}  events {events}");
                 if(Metronomes.Contains(bed.clip.name))faults.Add(zone.name+" loops "+bed.clip.name);
                 if(length<20)faults.Add($"{zone.name}: {bed.clip.name} loops every {length:0.0} s");
                 if(events>0&&length<30)faults.Add($"{zone.name}: {bed.clip.name} brings its {events} events round every {length:0.0} s");
-                if(level<CueLevels.BedLowDb-.05f||level>CueLevels.BedHighDb+.05f)faults.Add($"{zone.name}: {bed.clip.name} at {level:0.0}");
+                if(before)continue;
+                if(Fallback(bed.clip)?Mathf.Abs(level-CueLevels.FallbackBedDb)>1:level-cut<CueLevels.BedLowDb-.05f||level-cut>CueLevels.BedHighDb+.05f)
+                    faults.Add($"{zone.name}: {bed.clip.name} at {level:0.0}{(cut!=0?$" (its own cut {cut})":"")}");
+                if(share>CueLevels.BedPresenceShare&&presence>CueLevels.BedPresenceDb)faults.Add($"{zone.name}: {bed.clip.name} puts {share:0.00} of itself at 1-6 kHz, {presence:0.0} there");
+                if(peak>CueLevels.BedPeakDb)faults.Add($"{zone.name}: {bed.clip.name} peaks at {peak:0.0}");
+                if(Fallback(bed.clip)&&top>.01f)faults.Add($"{zone.name}: {bed.clip.name} has {top:0.000} of its energy over {CueLevels.FallbackTopHz} Hz");
             }
         }
         [UnityTest] public IEnumerator EveryPlaceHasAirAndNoneIsAMetronome()
         {
             var faults=new List<string>();var sheet=new StringBuilder("AUDIO_BED_SHEET as round nine left it\n");
-            yield return Air(true,faults,sheet);Debug.Log(sheet);
+            yield return Air(true,false,faults,sheet);Debug.Log(sheet);
             Assert.IsTrue(faults.Any(f=>f.Contains("computerNoise_000")),"fixture: round nine's beeping hum isn't found: "+string.Join("; ",faults));
-            faults.Clear();sheet=new StringBuilder("AUDIO_BED_SHEET round ten\n");
-            yield return Air(false,faults,sheet);Debug.Log(sheet);TestContext.WriteLine(sheet.ToString());
+            faults.Clear();sheet=new StringBuilder("AUDIO_BED_SHEET as it is\n");
+            yield return Air(false,false,faults,sheet);Debug.Log(sheet);TestContext.WriteLine(sheet.ToString());
             Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+        /// <summary>Round eleven (November 27, night): Nathan heard round ten's beds as "constant background kind of air noise" that made the music
+        /// seem muffled. As round ten left them every bed stood at -32 to -28 RMS a channel, six decibels under the music; Hushwell's drips put 40%
+        /// of their energy at 1-6 kHz and peaked at -1.3 at the ears, over every effect. The measure first plays round ten's levels and requires the
+        /// faults it was built for (every bed over the band, the drips over the presence bar and the peak), then the beds as they are.</summary>
+        [UnityTest] public IEnumerator NoBedCoversTheMusic()
+        {
+            var faults=new List<string>();var sheet=new StringBuilder("AUDIO_BED_SHEET as round ten left it\n");
+            yield return Air(false,true,faults,sheet);Debug.Log(sheet);TestContext.WriteLine(sheet.ToString());
+            Assert.Greater(faults.Count(f=>f.Contains(" at -")),40,"fixture: round ten's beds already sit in the new band: "+string.Join("; ",faults));
+            Assert.IsTrue(faults.Any(f=>f.Contains("AMB_Drips puts")),"fixture: round ten's drips aren't found over the music's presence: "+string.Join("; ",faults));
+            Assert.IsTrue(faults.Any(f=>f.Contains("AMB_Drips peaks")),"fixture: round ten's drips aren't found peaking over a step: "+string.Join("; ",faults));
+            // The fallback beds' top: the measure can tell a bed with one (the drips, most of whose energy is over 800 Hz) from one without.
+            var drips=Resources.LoadAll<ZoneDef>("Definitions/ZoneDef").Single(z=>z.name=="Hushwell").ambientAudio;yield return Load(drips);
+            Assert.Greater(Shares(drips).top,.1f,"fixture: the drips read as having nothing over 800 Hz, so the top's measure can't tell");
+            faults.Clear();sheet=new StringBuilder("AUDIO_BED_SHEET round eleven\n");
+            yield return Air(false,false,faults,sheet);Debug.Log(sheet);TestContext.WriteLine(sheet.ToString());
+            Assert.IsEmpty(faults,string.Join("\n",faults));
+        }
+
+        // ------------------------------------------------------------------ round eleven: what round ten left silent
+        static readonly List<string> started=new();
+        static void Started(string key,Transform _)=>started.Add(key);
+        static List<string> Heard(){started.Clear();return started;}
+        /// <summary>A warp: the zone's load cut every sound playing when its scene unloaded, so a warp's crossing was never heard. It is now a cue
+        /// that outlives the unload (AudioManager.PlayThrough), heard as the old zone goes. As it was (CueLevels.CuesAsRoundTen) nothing plays.</summary>
+        [UnityTest] public IEnumerator AWarpsCrossingIsHeardThroughTheLoad()
+        {
+            foreach(bool before in new[]{true,false})
+            {
+                CueLevels.CuesAsRoundTen=before;
+                var beacon=new GameObject("A warp for the test").AddComponent<Lattice.World.WarpBeacon>();beacon.requiredFlag="";beacon.scene="Arena_Ground";
+                bool heardAtUnload=false;
+                void Unloaded(Scene _)=>heardAtUnload|=AudioManager.Current.GetComponentsInChildren<AudioSource>().Any(s=>s.isPlaying&&s.clip!=null&&s.clip.name=="forceField_003");
+                SceneManager.sceneUnloaded+=Unloaded;
+                try
+                {
+                    beacon.Interact();yield return null;float deadline=Time.unscaledTime+20;
+                    while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+                }
+                finally{SceneManager.sceneUnloaded-=Unloaded;}
+                Assert.IsFalse(SceneFlow.Current.Loading,"fixture: the warp's load never finished");
+                Debug.Log($"AUDIO_WARP {(before?"as round ten":"round eleven")}: the crossing heard as the old zone unloaded: {heardAtUnload}");
+                if(before)Assert.IsFalse(heardAtUnload,"fixture: as round ten left it, something of the warp was heard through the load");
+                else Assert.IsTrue(heardAtUnload,"a warp's crossing is cut by the load: nothing is heard as the old zone goes");
+                yield return new WaitForSecondsRealtime(.3f);
+            }
+        }
+        /// <summary>The fabrication bench opened and closed in silence (D453). It opens and closes as a hatch does, at a menu's confirm.</summary>
+        [UnityTest] public IEnumerator TheBenchOpensAndClosesWithASound()
+        {
+            var menu=UnityEngine.Object.FindFirstObjectByType<PauseMenu>();Assert.IsNotNull(menu,"fixture: no pause menu");
+            foreach(bool before in new[]{true,false})
+            {
+                CueLevels.CuesAsRoundTen=before;var keys=Heard();
+                menu.Open(PauseMenu.FabricatePage,true);yield return null;yield return null;menu.Close();yield return null;
+                bool opened=keys.Contains("doorOpen_001"),closed=keys.Contains("doorClose_001");
+                Debug.Log($"AUDIO_BENCH {(before?"as round ten":"round eleven")}: opened {opened}, closed {closed}: {string.Join(", ",keys)}");
+                if(before)Assert.IsFalse(opened||closed,"fixture: as round ten left it, the bench made a sound");
+                else{Assert.IsTrue(opened,"the bench opens in silence");Assert.IsTrue(closed,"the bench closes in silence");}
+            }
+        }
+        /// <summary>A boss who walks out (Vessa Korl, BossDeparture with no sound of her own) went in silence. She is heard going out of sight,
+        /// through the door she leaves by, once, at a world cue's level.</summary>
+        [UnityTest] public IEnumerator ABossWhoWalksOutIsHeardGoing()
+        {
+            foreach(bool before in new[]{true,false})
+            {
+                CueLevels.CuesAsRoundTen=before;var keys=Heard();
+                var body=new GameObject("A boss leaving");body.transform.position=PartyController.Current.Active.transform.position+new Vector3(0,0,6);
+                body.AddComponent<Health>().id="TestLeaver";var visual=new GameObject("Body").transform;visual.SetParent(body.transform,false);
+                var leaving=body.AddComponent<BossDeparture>();leaving.sound="";leaving.outSound="doorOpen_000";leaving.keepsColours=true;leaving.speed=6;
+                leaving.Begin(visual,default);
+                for(float t=0;t<=leaving.Duration;t+=.1f){leaving.Advance(t);yield return null;}
+                int count=keys.Count(k=>k=="doorOpen_000");UnityEngine.Object.Destroy(body);
+                Debug.Log($"AUDIO_BOSS_OUT {(before?"as round ten":"round eleven")}: heard going {count} time(s)");
+                if(before)Assert.AreEqual(0,count,"fixture: as round ten left it, a boss walking out was heard");
+                else Assert.AreEqual(1,count,"a boss walking out is heard going once");
+            }
+            var vessa=File.ReadAllText(Path.Combine(Application.dataPath,"_Project","Scripts","Combat","BossController.VessaKorl.cs"));
+            Assert.IsTrue(Regex.IsMatch(vessa,@"outSound=""doorOpen_000"""),"Vessa Korl walks out with no sound of her going");
         }
     }
 }

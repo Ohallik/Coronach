@@ -52,7 +52,7 @@ namespace Lattice.EditorTools
             // ---------------------------------------------------------------- the numbers (docs/maps/StillwaterChamber.md reads these; so do the tests and the fights)
             /// <summary>Levels: the gantry's deck, the hull's back under it, the well and the collar, the pit and the bow's drop.</summary>
             internal const float Deck=0,HullBack=-9,Well=-16,Void=-70;
-            internal const string GantrySpawn="Gantry",WellSpawn="Well",GantryDoor="MeretGantry",WellDoor="MeretWell",ReleaseMusic=DepartureTheme;
+            internal const string GantrySpawn="Gantry",WellSpawn="Well",GantryDoor="MeretGantry",WellDoor="MeretWell",ReleaseMusic=Lattice.World.AnchorRelease.Track;
             internal const string LiftWords="Ride down — The Control Well",LiftLocked="The lift won't run while her frame is still up",LaunchWords="Launch — The Returning Passage";
             /// <summary>The zone's bed and the ZoneDef volume tools/stillwater_ambience.py measured for it.</summary>
             internal const string Bed="Assets/_Project/Audio/Ambience/AMB_StillwaterChamber.ogg";internal const float BedLevel=.337f;
@@ -703,7 +703,7 @@ namespace Lattice.EditorTools
 
                 // ---- the anchor itself
                 var anchor=new GameObject("Stillwater's last anchor",typeof(AnchorRelease)).GetComponent<AnchorRelease>();anchor.transform.position=A;
-                anchor.music=ReleaseMusic;anchor.collar=A+Vector3.up*.6f;anchor.shows=ReleaseShows;anchor.farthest=50;
+                anchor.collar=A+Vector3.up*.6f;anchor.shows=ReleaseShows;anchor.farthest=50;
                 // As it lets go the view takes in the seat, the four clamps, the chain's head over them and the bow with the road through it, and not the well behind the party.
                 anchor.opening=new Bounds(A+new Vector3(0,5.5f,2.5f),new Vector3(22,13,20));
                 // The chain: links hanging down the pit from just over the collar, far into the dark (drawn only).
