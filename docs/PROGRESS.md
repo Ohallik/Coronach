@@ -2,7 +2,7 @@
 
 ## Round twelve: rounds ten and eleven heard in the player, a limiter and a hand-over - November 28, before dawn (latest)
 
-Rounds ten and eleven have now been **seen and heard in the player**, and what that found is fixed. Round twelve is D460 to D463; its commit reads `r12` here until the hash is known. `Builds/Windows` was built from this tree at 04:58 on November 28. [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) has what is left.
+Rounds ten and eleven have now been **seen and heard in the player**, and what that found is fixed. `e4956913` is round twelve (D460 to D463). `Builds/Windows` was built from this tree at 04:58 on November 28. [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) has what is left.
 - **The suite on round eleven's commit** (`nov27c`, `f729b0c4`): PlayMode 4,119 of 4,134 with no failure and the usual 15 skipped, EditMode 270 of 270 (`e6906442`).
 - **How it ran (D462).** The machine had had no keyboard or mouse input since 23:24, so the owed checks ran in the night under a chain that will not start within 30 minutes of any input, stops on any input, and starts nothing after 06:00. 33 replays on round eleven's build (nine captured with sound), then 7 on round twelve's. Every one passed its scout with no exception, no missing track and no frame out of focus.
 - **The music is where D458 says.** Each of the fourteen tracks starts in its place in the player's own log, on 24 routes.
@@ -11,7 +11,8 @@ Rounds ten and eleven have now been **seen and heard in the player**, and what t
 - **Found and fixed: the sum passed full scale (D460, `QA-038`).** In every boss fight the summed mix went over full scale some twenty times, +2.7 dBFS at the worst, and was clipped. A limiter on the listener (`MasterLimiter`) now holds the sum at -1 dBFS and leaves anything under it alone. Five captures on the new build peak at -1.00 with no sample over.
 - **Found and fixed: a place's tune cutting in (D461, `QA-039`).** The Decks' groove sounded for half a second between the Coronach and the launch and again at the launch's cut, and the anchor chamber's theme at the load into the Returning Passage. A place's track now waits 1.2 s to come back after a cue, and through a zone load. Route 60 plays Coronach, The House That Can Leave, Broken Ring with nothing between.
 - **Menu frames, with no window:** none over 25 ms on the bench's route; the longest anywhere is 39 ms as the Burrower's excavation opens, which D459 judged.
-- **Tests:** `r12-limiter` 13 of 13, `r12-music` 23 of 23, `r12-all` 280 of 281 (seven classes that touch the music and the mix, each whole; the one red a bar inside its scatter on Meret's well, D463). The whole suite on round twelve's commit is `nov28a`.
+- **Tests:** `r12-limiter` 13 of 13, `r12-music` 23 of 23, `r12-all` 280 of 281 (seven classes that touch the music and the mix, each whole; the one red a bar inside its scatter on Meret's well, D463).
+- **The suite on round twelve's commit** (`nov28a`, `e4956913`, November 28, 06:28 to 09:15): PlayMode 4,124 of 4,139 with no failure and the same 15 skipped as `nov27c`, EditMode 270 of 270. The five cases more than `nov27c` are the limiter's four and the hand-over's one. Meret's well, the one red of the night's focused run, passed.
 - **The register:** 959 findings; nothing open, and no row is waiting on the player any more.
 - **Still owed:** a seventh whole capture as the evidence of record (five hours and a round of reviewers: Nathan's word first).
 - **For Nathan's ear:** whether blows 20 dB over the music wear in a long fight (the effects' slider is the quick answer); the background level, from the second audition page; the fourteen tracks in the game.
